@@ -6,8 +6,12 @@ extends PanelContainer
 ## por defecto, y comparar trazos sinteticos (cortos, largos, lentos, rapidos, rectos, curvos, irregulares).
 
 signal compare_requested
+## Medicion de rendimiento por momento (PerfSession): empezar/terminar y copiar el informe.
+signal perf_toggle_requested
+signal perf_copy_requested
 
 var _metrics: Label
+var perf_button: Button
 var _sliders: VBoxContainer
 var _value_labels: Dictionary = {}
 
@@ -55,6 +59,23 @@ func _ready() -> void:
 		btn.custom_minimum_size = Vector2(0, 44)
 		btn.pressed.connect(b[1])
 		row.add_child(btn)
+	var row2 := HBoxContainer.new()
+	row2.add_theme_constant_override("separation", 6)
+	vb.add_child(row2)
+	perf_button = Button.new()
+	perf_button.text = "Medir rendimiento"
+	perf_button.focus_mode = Control.FOCUS_NONE
+	perf_button.add_theme_font_size_override("font_size", 15)
+	perf_button.custom_minimum_size = Vector2(0, 44)
+	perf_button.pressed.connect(func() -> void: perf_toggle_requested.emit())
+	row2.add_child(perf_button)
+	var copy := Button.new()
+	copy.text = "Copiar informe"
+	copy.focus_mode = Control.FOCUS_NONE
+	copy.add_theme_font_size_override("font_size", 15)
+	copy.custom_minimum_size = Vector2(0, 44)
+	copy.pressed.connect(func() -> void: perf_copy_requested.emit())
+	row2.add_child(copy)
 	var sub := Label.new()
 	sub.text = "Coeficientes (se aplican al próximo trazo):"
 	sub.add_theme_font_size_override("font_size", 15)

@@ -60,6 +60,7 @@ var gesture: ShotGesture
 var preview: TrajectoryPreview
 var diag: GestureDiagnostics
 var perf: DiagnosticsOverlay
+var perf_session: PerfSession
 ## Ultimos parametros del tiro (diagnostico y pruebas) y velocidad real de salida medida despues del contacto.
 var last_params: ShotParams = null
 var last_features: Dictionary = {}
@@ -91,6 +92,8 @@ var _settle_t: float = -1.0
 var _result_t: float = 0.0
 ## Penal: instante del resultado en que empezo la reaccion del arquero (-1: todavia no).
 var _keeper_react_at: float = -1.0
+## El arquero ya solto o saco la pelota que tenia en las manos en esta jugada.
+var _keeper_ball_done: bool = false
 var _committed: bool = false
 var _runup_t: float = 0.0
 var _keeper_zone := Vector3.INF
@@ -158,6 +161,14 @@ func _ready() -> void:
 	hud.diag_pressed.connect(func() -> void:
 		diag.visible = not diag.visible
 		perf.visible = diag.visible)
+	# Medicion por momento de la jugada (para el telefono): «Medir rendimiento» y «Copiar informe» en el panel.
+	perf_session = PerfSession.new()
+	perf_session.name = "PerfSession"
+	add_child(perf_session)
+	perf_session.moment_source = perf_moment
+	ball.net_hit.connect(perf_session.on_net_hit)
+	diag.perf_toggle_requested.connect(_toggle_perf_session)
+	diag.perf_copy_requested.connect(_copy_perf_report)
 	if is_inside_tree():
 		Sfx.watch_ball(ball)
 		Sfx.crowd(true)
@@ -464,6 +475,7 @@ func _reset_play() -> void:
 	_settle_t = -1.0
 	_committed = false
 	chaser = null
+	_keeper_ball_done = false
 	if loose != null:
 		loose.stop()
 	last_shot = {}
@@ -577,6 +589,9 @@ func _physics_process(delta: float) -> void:
 				cur_shooter.force_contact()
 		Phase.FLIGHT:
 			_flight_tick(delta)
+		Phase.RESULT, Phase.OVER:
+			_keeper_with_ball()
+	match phase:
 		Phase.RESULT:
 			_result_t += delta
 			var wait: float = 0.2 if fast else 3.6
@@ -691,6 +706,11 @@ func _finish(why: String) -> void:
 		Sfx.play(&"cheer", 0.9)
 	else:
 		Sfx.play(&"ooh", 0.8)
+	# Penal: el arquero festeja la atajada (o lamenta el gol) siempre; si la pelota quedo suelta en su area va a buscarla
+	# DESPUES de festejar.
+	if mode == Mode.PENALTY:
+		cur_keeper.react(not goal_ok)
+	_keeper_ball_done = false
 	# Pelota suelta en el area o cerca: el arquero va a recogerla o un defensor la despeja (ese no reacciona: juega).
 	chaser = null
 	if not goal_ok and not ball.is_held():
@@ -698,11 +718,11 @@ func _finish(why: String) -> void:
 		if mode == Mode.FREE_KICK:
 			defs.append_array(field.defenders)
 			defs.append_array(wall.players)
-		chaser = loose.start(cur_keeper, defs)
+		chaser = loose.start(cur_keeper, defs, mode == Mode.PENALTY)
 	# Reacciones: el tirador festeja o se enoja; el arquero al reves; barrera, sueltos y banco tambien. Si alguno todavia
 	# termina su golpeo o su estirada, la reaccion sale al terminar.
 	cur_shooter.react(goal_ok)
-	if chaser != cur_keeper.actor:
+	if mode == Mode.FREE_KICK and chaser != cur_keeper.actor:
 		cur_keeper.react(not goal_ok)
 	if wall != null:
 		wall.react(goal_ok, chaser)
@@ -730,6 +750,58 @@ func _finish(why: String) -> void:
 		if goal_ok:
 			fk_goals += 1
 		hud.set_score_text("Goles %d / %d" % [fk_goals, fk_shots])
+
+## Con la jugada terminada y el arquero de pie con la pelota en las manos: en el penal la suelta a un costado y festeja;
+## en el tiro libre la suelta y la saca lejos con el pie (SpLooseBall: golpeo del banco, impulso solo si el pie llega).
+func _keeper_with_ball() -> void:
+	if _keeper_ball_done or cur_keeper == null or not cur_keeper.ready_with_ball:
+		return
+	if not (ball.is_held() and ball.holder == cur_keeper.actor):
+		return
+	_keeper_ball_done = true
+	var f: Vector3 = cur_keeper.actor.facing()
+	if mode == Mode.PENALTY:
+		cur_keeper.drop_ball(f * 1.2 + SpClips.right_of(f) * 0.9 + Vector3.UP * 1.2)
+		cur_keeper.react(true)
+	else:
+		cur_keeper.drop_ball(f * 0.9 + Vector3.UP * 1.6)
+		loose.keeper_kick(cur_keeper)
+
+## Momento de la jugada para la medicion de rendimiento (PerfSession.MOMENTS).
+func perf_moment() -> StringName:
+	match phase:
+		Phase.PLACE, Phase.AIM, Phase.KEEPER_PICK:
+			return &"apuntando"
+		Phase.RUNUP:
+			return &"carrera"
+		Phase.FLIGHT:
+			if cur_keeper != null and cur_keeper.state in [SpKeeper.State.WAIT_DIVE, SpKeeper.State.DIVE]:
+				return &"estirada"
+			return &"vuelo"
+		Phase.RESULT, Phase.OVER:
+			if loose != null and loose.active():
+				return &"despeje"
+			if cur_keeper != null and cur_keeper.state == SpKeeper.State.DIVE:
+				return &"estirada"
+			return &"festejo" if phase == Phase.RESULT else &"otro"
+	return &"otro"
+
+func _toggle_perf_session() -> void:
+	if perf_session.recording:
+		perf_session.stop()
+		perf.prof_external = false
+		var path: String = perf_session.save_report()
+		diag.perf_button.text = "Medir rendimiento"
+		diag.show_text(perf_session.report() + ("\n\nGuardado en %s. Tocá «Copiar informe» y pegalo en el chat." % path))
+	else:
+		perf.prof_external = true
+		perf_session.start()
+		diag.perf_button.text = "Terminar medición"
+		diag.show_text("Midiendo… jugá normalmente (apuntar, patear, gol o atajada, festejo) y después tocá «Terminar medición».")
+
+func _copy_perf_report() -> void:
+	DisplayServer.clipboard_set(perf_session.report())
+	diag.show_text("Informe copiado al portapapeles.\n\n" + perf_session.report())
 
 func _after_result() -> void:
 	if phase != Phase.RESULT:

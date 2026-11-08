@@ -85,6 +85,8 @@ var _pending_react: int = -1
 var _collect_wanted: bool = false
 var _collecting: bool = false
 var _collect_t: float = 0.0
+## De pie con la pelota en las manos, listo para festejar o sacar (lo lee el juego).
+var ready_with_ball: bool = false
 ## Otro sistema maneja al actor (SpLooseBall: el arquero despeja con el pie): no decide ni choca la pelota mientras tanto.
 var paused: bool = false:
 	set(v):
@@ -120,9 +122,13 @@ func reset(home_pos: Vector3) -> void:
 	_zone = Vector3.INF
 	_commit_point = Vector3.INF
 	_watching = false
+	_plan_v = Vector3.ZERO
+	cancelled_dives = 0
+	picked_up = 0
 	_pending_react = -1
 	_collect_wanted = false
 	_collecting = false
+	ready_with_ball = false
 	paused = false
 	_prev_parts.clear()
 	actor.stop_moving()
@@ -154,12 +160,19 @@ func _yaw() -> float:
 ## jugadores) lee la trayectoria nueva. No conoce el resultado: si lee mal o no llega, no la toca.
 ## Cada cuanto vuelve a leer la pelota (s): el plan cuesta varios ms en un telefono.
 const READ_EVERY := 0.1
+## Radio de contacto que pide el plan del tiro libre (lectura de la pelota real) respecto del partido.
+var watch_radius_scale: float = 1.0
 var _watching: bool = false
 var _watch_t: float = 0.0
 var _read_t: float = 0.0
 var _err_yaw: float = 0.0
 var _err_pitch: float = 0.0
 var _spin_seen: float = 0.85
+## Velocidad de la pelota cuando se agendo la estirada (para notar un desvio) y estiradas canceladas (diagnostico).
+var _plan_v := Vector3.ZERO
+var cancelled_dives: int = 0
+## Pelotas sueltas recogidas en esta jugada (diagnostico y pruebas).
+var picked_up: int = 0
 
 func read_shot(_ball_pos: Vector3, _velocity: Vector3, _spin: Vector3) -> void:
 	if state != State.IDLE:
@@ -173,11 +186,16 @@ func read_shot(_ball_pos: Vector3, _velocity: Vector3, _spin: Vector3) -> void:
 	_spin_seen = rng.randf_range(0.7, 1.0)
 
 func _watch_step(delta: float) -> void:
-	if not _watching or state != State.IDLE:
+	if not _watching or not (state == State.IDLE or state == State.WAIT_DIVE):
 		return
 	_watch_t -= delta
 	if _watch_t > 0.0:
 		return
+	# Esperando para tirarse: si la pelota cambia de golpe (la desvio la barrera o un jugador), la vuelve a leer ya.
+	if state == State.WAIT_DIVE and _plan_v != Vector3.ZERO:
+		var bv_now: Vector3 = ball.linear_velocity
+		if bv_now.length() < _plan_v.length() * 0.75 or bv_now.normalized().dot(_plan_v.normalized()) < cos(deg_to_rad(15.0)):
+			_read_t = 0.0
 	_read_t -= delta
 	if _read_t > 0.0:
 		return
@@ -188,6 +206,9 @@ func _watch_step(delta: float) -> void:
 	var bp: Vector3 = ball.global_position
 	var bv: Vector3 = ball.linear_velocity
 	if bv.x < 0.5 or bp.x > goal_x:
+		if state == State.WAIT_DIVE:
+			# Ya no viene al arco (desviada hacia atras): no se tira a la nada.
+			_cancel_dive()
 		return
 	# El error se achica con la distancia que le queda a la pelota.
 	var k: float = clampf((goal_x - bp.x) / 25.0, 0.15, 1.0)
@@ -196,11 +217,24 @@ func _watch_step(delta: float) -> void:
 	var v_seen: Vector3 = bv.rotated(Vector3.UP, _err_yaw * k).rotated(side, -_err_pitch * k)
 	var traj: PackedVector3Array = BallPredictor.trajectory(bp, v_seen, 2.0, 1.0 / 30.0, ball.angular_velocity * _spin_seen, true)
 	var cross: Vector3 = ShotSolver.crossing(traj, goal_x - 0.2)
-	if cross != Vector3.INF and (absf(cross.z) > half_goal + 1.0 or cross.y > goal_height + 0.6):
-		actor.face_towards(Vector3(bp.x, 0, bp.z) - actor.global_position)
-		return
+	if cross == Vector3.INF or absf(cross.z) > half_goal + 1.0 or cross.y > goal_height + 0.6:
+		if state == State.WAIT_DIVE:
+			# La lectura nueva dice que ya no va al arco (desviada, se frena o se va): cancela la estirada.
+			_cancel_dive()
+		if cross != Vector3.INF:
+			actor.face_towards(Vector3(bp.x, 0, bp.z) - actor.global_position)
+			return
 	var human := Vector2(Tuning.keeper.hand_latency, Tuning.keeper.hand_speed) if Tuning.keeper != null else Vector2.ZERO
-	var pl: Dictionary = KeeperPlanner.plan_save(actor.global_position, _yaw(), traj, 1.0 / 30.0, 0.0, bv.length(), false, [1.0, 1.25], human)
+	var pl: Dictionary = KeeperPlanner.plan_save(actor.global_position, _yaw(), traj, 1.0 / 30.0, 0.0, bv.length(), false, [1.0, 1.25], human, watch_radius_scale)
+	if state == State.WAIT_DIVE:
+		# Lectura mas cercana (menos error): si el plan nuevo llega, reemplaza al agendado.
+		if not pl.is_empty() and float(pl["dist"]) <= float(pl["radius"]):
+			plan = pl
+			_plan_v = bv
+			_dive_in = float(pl["delay"])
+			if _dive_in <= 0.0:
+				_start_dive()
+		return
 	if pl.is_empty() or float(pl.get("dist", 0.0)) > float(pl.get("radius", 0.5)):
 		# Todavia no llega con ningun clip: se acomoda caminando de costado hacia donde va la pelota (pelotas lentas).
 		if cross != Vector3.INF:
@@ -211,12 +245,21 @@ func _watch_step(delta: float) -> void:
 	plan = pl
 	# Espera mientras pueda: se tira cuando la estirada tiene que empezar ya (o si ya no llega de ninguna forma, al final).
 	if float(pl["delay"]) <= READ_EVERY * 1.5:
-		# El plan dice cuando arrancar: ni antes (las manos pasarian antes que la pelota) ni despues.
-		_watching = false
+		# El plan dice cuando arrancar: ni antes (las manos pasarian antes que la pelota) ni despues. Sigue mirando la
+		# pelota hasta arrancar (si la desvian, cancela; si la lectura mas cercana cambia el plan, lo ajusta).
 		state = State.WAIT_DIVE
+		_plan_v = bv
 		_dive_in = float(pl["delay"])
 		if _dive_in <= 0.0:
 			_start_dive()
+
+## Estirada agendada que ya no tiene sentido (la pelota no viene): vuelve a la espera mirando la pelota.
+func _cancel_dive() -> void:
+	state = State.IDLE
+	plan = {}
+	_dive_in = -1.0
+	_plan_v = Vector3.ZERO
+	cancelled_dives += 1
 
 ## Penal: el arquero se juega ANTES del golpe a una zona del arco (la elige el usuario o la IA con lo que lee del tirador):
 ## lead = segundos que faltan para el contacto y speed_guess = la velocidad que espera por la carrera y el impulso del
@@ -321,6 +364,7 @@ func _adopt(pl: Dictionary) -> void:
 
 func _start_dive() -> void:
 	_dive_in = -1.0
+	_watching = false
 	state = State.DIVE
 	actor.stop_moving()
 	actor.play_clip(plan["clip"], actor.global_position, facing, 0.08, float(plan["speed"]), 0.0)
@@ -478,6 +522,7 @@ func _pick_up() -> void:
 	ball.hold(_anchor, actor)
 	_anchor.global_position = actor.hands_mid() + facing * 0.08
 	state = State.HOLD
+	picked_up += 1
 	_collecting = false
 	last_contact = {"part": "hands", "pickup": true}
 	touched_ball.emit(&"catch")
@@ -505,10 +550,13 @@ func _on_clip_finished(_id: StringName) -> void:
 		State.HOLD:
 			if actor.bone_world(SpActor.HIPS).y < 0.55:
 				_getup()
+			else:
+				ready_with_ball = true
 		State.GETUP:
 			if ball.is_held() and ball.holder == actor:
 				state = State.HOLD
 				actor.play_loop(_idle_clip, 0.3)
+				ready_with_ball = true
 			else:
 				_back_to_idle(0.3)
 		State.REACT:
@@ -528,7 +576,8 @@ func _back_to_idle(blend: float) -> void:
 		if _collect_t < 4.5 and not ball.is_held():
 			state = State.COLLECT
 			return
-	if _pending_react >= 0 and not _collect_wanted:
+	if _pending_react >= 0:
+		# Primero la reaccion (festejo de la atajada); si despues tiene que ir por la pelota, va al terminar.
 		var happy: bool = _pending_react == 1
 		_pending_react = -1
 		react(happy)
@@ -569,15 +618,33 @@ func react(happy: bool) -> void:
 
 ## Va a buscar la pelota suelta (rebote, tiro flojo que se frena) y la recoge con las manos: arranca en cuanto esta de pie
 ## (despues de la estirada y la levantada). Con la pelota en las manos se queda con ella (no festeja).
-func collect() -> void:
-	_pending_react = -1
+## keep_reaction: festeja primero (penal: la atajada se festeja y despues va por la pelota); sin el, va enseguida (tiro
+## libre: la jugada sigue).
+func collect(keep_reaction: bool = false) -> void:
+	if not keep_reaction:
+		_pending_react = -1
 	if ball.is_held():
+		return
+	if keep_reaction and (state == State.REACT or _pending_react >= 0):
+		_collect_wanted = true
 		return
 	if state == State.IDLE:
 		state = State.COLLECT
 		_collect_t = 0.0
 	elif state != State.COLLECT:
 		_collect_wanted = true
+
+## De pie con la pelota en las manos (despues de atraparla o recogerla): la suelta delante con velocidad v (cae de las
+## manos) y vuelve a la espera. Lo usa el juego para el festejo (penal) o el saque (tiro libre).
+func drop_ball(v: Vector3) -> void:
+	if not (ball.is_held() and ball.holder == actor):
+		return
+	ready_with_ball = false
+	ball.release(actor, v)
+	_prev_ball = ball.global_position
+	_last_contact_ms = Time.get_ticks_msec()
+	state = State.IDLE
+	actor.play_loop(_idle_clip, 0.3)
 
 func is_collecting() -> bool:
 	return state == State.COLLECT or _collect_wanted or _collecting

@@ -45,12 +45,62 @@ const FPS_CAPS: Array[int] = [60, 30]
 var fps_cap: int = 60
 ## Sombras (boton «Sombras»): -1 = las del perfil, 0 = no, 1 = si.
 var shadows_mode: int = -1
+## Automatico: arranca con el perfil detectado y, solo en el telefono, baja un escalon si los cuadros no llegan
+## (media de AUTO_WINDOW s por encima de AUTO_SLOW_MS), como mucho uno cada AUTO_COOLDOWN s. No sube solo (evita que
+## oscile). Heuristica a validar con las mediciones del telefono (docs/ANDROID_MEDICION.md).
+var auto_mode: bool = true
+const AUTO_WINDOW := 3.0
+const AUTO_SLOW_MS := 22.0
+const AUTO_COOLDOWN := 8.0
+var _auto_acc: float = 0.0
+var _auto_n: int = 0
+var _auto_t: float = 0.0
+var _auto_cool: float = 2.0
 
 func _ready() -> void:
 	load_settings()
-	if not _has_saved_settings():
+	if not _has_saved_settings() or auto_mode:
 		profile = detect_default_profile()
 	apply()
+
+func _process(delta: float) -> void:
+	if not auto_mode or not OS.has_feature("mobile"):
+		return
+	_auto_cool -= delta
+	if _auto_cool > 0.0:
+		return
+	_auto_acc += delta * 1000.0
+	_auto_n += 1
+	_auto_t += delta
+	if _auto_t < AUTO_WINDOW:
+		return
+	var avg: float = _auto_acc / maxf(float(_auto_n), 1.0)
+	_auto_acc = 0.0
+	_auto_n = 0
+	_auto_t = 0.0
+	if avg > AUTO_SLOW_MS and profile > Profile.VERY_LOW:
+		profile -= 1
+		apply()
+		profile_changed.emit(profile)
+		_auto_cool = AUTO_COOLDOWN
+
+## Opciones del boton «Graficos» del menu: automatico y los perfiles fijos.
+func menu_choice_name() -> String:
+	return "Auto (%s)" % profile_name() if auto_mode else profile_name()
+
+## Automatico -> Muy bajo -> Bajo -> Medio -> Alto -> Automatico.
+func cycle_menu_choice() -> void:
+	if auto_mode:
+		auto_mode = false
+		profile = Profile.VERY_LOW
+	elif profile >= Profile.HIGH:
+		auto_mode = true
+		profile = detect_default_profile()
+	else:
+		profile += 1
+	apply()
+	save_settings()
+	profile_changed.emit(profile)
 
 ## Heuristica de perfil inicial segun la plataforma y el hardware. No sustituye a medir.
 func detect_default_profile() -> int:
@@ -63,6 +113,7 @@ func detect_default_profile() -> int:
 	return Profile.HIGH
 
 func set_profile(new_profile: int) -> void:
+	auto_mode = false
 	profile = clampi(new_profile, Profile.VERY_LOW, Profile.HIGH)
 	apply()
 	save_settings()
@@ -126,6 +177,7 @@ func save_settings() -> void:
 	cfg.set_value("graphics", "resolution_override", resolution_override)
 	cfg.set_value("graphics", "fps_cap", fps_cap)
 	cfg.set_value("graphics", "shadows_mode", shadows_mode)
+	cfg.set_value("graphics", "auto", auto_mode)
 	var err: int = cfg.save(SETTINGS_PATH)
 	if err != OK:
 		push_warning("No se pudo guardar %s (error %d)" % [SETTINGS_PATH, err])
@@ -140,6 +192,8 @@ func load_settings() -> void:
 	if not FPS_CAPS.has(fps_cap):
 		fps_cap = 60
 	shadows_mode = clampi(int(cfg.get_value("graphics", "shadows_mode", -1)), -1, 1)
+	# Configuraciones guardadas antes del modo automatico: el perfil que eligio la persona se respeta.
+	auto_mode = bool(cfg.get_value("graphics", "auto", false))
 
 func _has_saved_settings() -> bool:
 	return FileAccess.file_exists(SETTINGS_PATH)

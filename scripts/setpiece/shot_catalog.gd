@@ -22,6 +22,8 @@ enum Kind { POWER, NORMAL, PLACED, CHIP, MISS }
 const APPROACH_DEG := 15.0
 
 static var _clips: Array = []
+## Desvio de angulo (grados) que admite la rotacion entre golpeos casi iguales respecto del mejor.
+const POOL_ANGLE_SLACK := 8.0
 static var _turn: int = 0
 
 static func clips() -> Array:
@@ -137,14 +139,17 @@ static func choose(foot: int, shot_rel_deg: float, kind: int, set_piece: bool, r
 		# hacia fuera); si no hay golpeo de esa superficie con ese angulo, otro (no bloquea el tiro).
 		if surface != "" and surface_of(c) != surface:
 			cost += 0.9
-		scored.append([cost, c])
+		scored.append([cost, c, absf(rel - shot_rel_deg)])
 	if scored.is_empty():
 		return {}
 	scored.sort_custom(func(a: Array, b: Array) -> bool: return float(a[0]) < float(b[0]))
 	var best: float = float(scored[0][0])
+	# Rotacion entre los casi mejores, pero sin alejarse del angulo del mejor: antes, con un tiro potente muy cruzado, entraba
+	# un golpeo potente 19 grados desviado (el pie salia hacia otro lado que la pelota).
+	var best_err: float = float(scored[0][2])
 	var pool: Array = []
 	for s in scored:
-		if float(s[0]) <= best + 0.45 and pool.size() < 6:
+		if float(s[0]) <= best + 0.45 and float(s[2]) <= maxf(best_err + POOL_ANGLE_SLACK, POOL_ANGLE_SLACK) and pool.size() < 6:
 			pool.append(s[1])
 	_turn += 1
 	var pick: int = (rng.randi() if rng != null else _turn) % pool.size()

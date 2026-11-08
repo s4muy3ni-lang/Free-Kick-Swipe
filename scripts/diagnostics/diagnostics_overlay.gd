@@ -53,11 +53,17 @@ var _prof_owned: bool = false
 var _prof_frame0: int = 0
 var _prof_lines: PackedStringArray = []
 
+## Otro medidor (PerfSession) es el dueño de Prof mientras mide: este no lo vacia ni lo informa.
+var prof_external: bool = false
+
 func _process(delta: float) -> void:
 	_frame_times.append(delta * 1000.0)
 	if _frame_times.size() > 120:
 		_frame_times.pop_front()
-	if visible and not Prof.enabled:
+	if prof_external:
+		_prof_owned = false
+		_prof_lines = []
+	elif visible and not Prof.enabled:
 		Prof.enabled = true
 		Prof.reset()
 		_prof_owned = true

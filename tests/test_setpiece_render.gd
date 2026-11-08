@@ -219,3 +219,91 @@ func test_shooter_and_keeper_react_after_finishing_their_move() -> void:
 	check(shooter_reacted, "el tirador festeja o se lamenta")
 	check(keeper_reacted, "el arquero reacciona (o va por la pelota / la tiene)")
 	cleanup()
+
+## Tiro libre (semillas fijas, de los 16 de test_fk_balance_measure): el arquero no se tira a una pelota que freno la
+## barrera, ataja el tiro flojo al centro y no es invencible en los angulos. Medido: de 16 tiros, 3 atajadas, 5 goles,
+## 6 en la barrera (docs/AAA_ROADMAP.md, segunda entrega).
+func test_free_kick_keeper_reads_deflections_and_is_beatable() -> void:
+	if _needs_render():
+		return
+	# [indice en los 16, punto de la pelota, altura, z, potencia, curva, que se espera]
+	var cases := [[4, Vector3(-22, 0, 0), 1.2, 0.5, 1.0, 0.0, "barrera"], [14, Vector3(-28, 0, 6), 1.0, 0.0, 0.6, 0.0, "atajada"],
+		[5, Vector3(-22, 0, 0), 0.6, 2.5, 0.5, 0.1, "atajada"], [0, Vector3(-22, 0, 0), 1.9, -2.9, 0.75, -0.12, "angulo"],
+		[10, Vector3(-24, 0, -10), 2.1, -3.0, 0.7, -0.12, "angulo"]]
+	var corner_goals: int = 0
+	for c in cases:
+		var game: SetPieceGame = await _game(SetPieceGame.Mode.FREE_KICK)
+		var i: int = c[0]
+		game.rng.seed = 700 + i
+		game.cpu_keeper.rng.seed = 300 + i
+		game.wall.rng.seed = 50 + i
+		game.field.rng.seed = 90 + i
+		game.ball_spot = game.clamp_free_kick_spot(Vector3(game.gx, 0, 0) + c[1])
+		game._setup_free_kick()
+		await physics_frames(10)
+		game.shoot(Vector3(game.gx, c[2], c[3]), c[4], c[5])
+		var k: SpKeeper = game.cpu_keeper
+		var dove: bool = false
+		var n: int = 0
+		while game.phase in [SetPieceGame.Phase.RUNUP, SetPieceGame.Phase.FLIGHT] and n < 900:
+			await tree.physics_frame
+			n += 1
+			dove = dove or k.state == SpKeeper.State.DIVE
+		note("tiro %d (%s): resultado %s, toque «%s», se tiro %s, estiradas canceladas %d" % [i + 1, c[6], game.outcome, k.touch_kind, str(dove), k.cancelled_dives])
+		match String(c[6]):
+			"barrera":
+				check(game.outcome == "wall" and not dove, "tiro %d: la barrera la frena y el arquero no se tira a la nada" % (i + 1))
+			"atajada":
+				check(game.outcome == "save", "tiro %d: lo ataja" % (i + 1))
+			"angulo":
+				if game.outcome == "goal":
+					corner_goals += 1
+		cleanup()
+	check(corner_goals >= 1, "no es invencible: algun tiro al angulo entra (%d de 2)" % corner_goals)
+
+## Despues de atrapar: en el penal la suelta y festeja; en el tiro libre la suelta y la saca lejos con el pie (golpeo del
+## banco, impulso solo si el pie llega).
+func test_keeper_with_the_ball_celebrates_or_kicks_it_out() -> void:
+	if _needs_render():
+		return
+	# Penal: la pelota en las manos del arquero de la IA, resultado atajada.
+	SetPieceGame.next_mode = SetPieceGame.Mode.PENALTY
+	var g1: SetPieceGame = (load(SetPieceGame.SCENE) as PackedScene).instantiate()
+	spawn(g1)
+	await physics_frames(10)
+	var k1: SpKeeper = g1.cpu_keeper
+	g1.ball.hold(k1._anchor, k1.actor)
+	k1.state = SpKeeper.State.HOLD
+	k1.ready_with_ball = true
+	g1.phase = SetPieceGame.Phase.FLIGHT
+	g1._finish("save")
+	var reacted: bool = false
+	for i in 120:
+		await tree.physics_frame
+		reacted = reacted or k1.state == SpKeeper.State.REACT
+	note("penal: suelta la pelota %s, festeja %s" % [str(not g1.ball.is_held()), str(reacted)])
+	check(not g1.ball.is_held(), "penal: suelta la pelota")
+	check(reacted, "penal: festeja la atajada")
+	cleanup()
+	# Tiro libre: atrapada, la saca.
+	var g2: SetPieceGame = await _game(SetPieceGame.Mode.FREE_KICK)
+	g2.ball_spot = g2.clamp_free_kick_spot(Vector3(30.0, 0, 0.0))
+	g2._setup_free_kick()
+	await physics_frames(10)
+	var k2: SpKeeper = g2.cpu_keeper
+	g2.ball.hold(k2._anchor, k2.actor)
+	k2.state = SpKeeper.State.HOLD
+	k2.ready_with_ball = true
+	g2.phase = SetPieceGame.Phase.FLIGHT
+	g2._finish("save")
+	var max_dist: float = 0.0
+	for i in 480:
+		await tree.physics_frame
+		max_dist = maxf(max_dist, g2.ball.global_position.distance_to(k2.actor.global_position))
+		if g2.loose.cleared:
+			break
+	await physics_frames(30)
+	note("tiro libre: %s; la pelota se aleja %.1f m del arquero" % [str(g2.loose.log_steps), g2.ball.global_position.distance_to(k2.actor.global_position)])
+	check(g2.loose.log_steps.has("arquero saca"), "tiro libre: el arquero saca")
+	check(g2.loose.cleared and g2.ball.global_position.distance_to(k2.actor.global_position) > 5.0, "tiro libre: la pelota sale lejos con el golpe")
+	cleanup()

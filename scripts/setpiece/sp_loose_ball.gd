@@ -48,6 +48,7 @@ var _old_role: StringName = &""
 var _defs: Array = []
 var _failed: Dictionary = {}
 var _rounds: int = 0
+var _keeper_reacts_first: bool = false
 
 func setup(b: Ball, gx: float) -> void:
 	ball = b
@@ -55,8 +56,10 @@ func setup(b: Ball, gx: float) -> void:
 
 ## Pone en marcha la busqueda. k: arquero; defenders: actores que pueden despejar (vacio en los penales). Devuelve el actor
 ## elegido o null (la pelota esta en manos del arquero, en el arco, fuera de la cancha o lejos).
-func start(k: SpKeeper, defenders: Array) -> SpActor:
+## keeper_reacts_first: el arquero festeja antes de ir por la pelota (penal).
+func start(k: SpKeeper, defenders: Array, keeper_reacts_first: bool = false) -> SpActor:
 	stop()
+	_keeper_reacts_first = keeper_reacts_first
 	keeper = k
 	_defs = defenders.duplicate()
 	_failed.clear()
@@ -108,7 +111,7 @@ func _assign() -> SpActor:
 	responder = pick[0]
 	log_steps.append(("arquero " if keeper != null and responder == keeper.actor else "defensor ") + String(pick[1]))
 	if String(pick[1]) == "manos":
-		keeper.collect()
+		keeper.collect(_keeper_reacts_first)
 		state = State.KEEPER
 		return responder
 	_start_kicker(responder, keeper != null and responder == keeper.actor, rest)
@@ -136,6 +139,23 @@ func _start_kicker(a: SpActor, is_keeper: bool, rest: Vector3) -> void:
 	_kicker.missed.connect(_on_missed)
 	_kicker.contact.connect(_on_contact)
 	state = State.CHASE
+
+## Saque del arquero (tiro libre, despues de atraparla): suelta la pelota y la patea lejos del arco con un golpeo del banco
+## (el impulso solo sale si el pie llega a la pelota, como cualquier despeje).
+func keeper_kick(k: SpKeeper) -> SpActor:
+	stop()
+	keeper = k
+	cleared = false
+	log_steps.clear()
+	log_steps.append("arquero saca")
+	_rounds = 0
+	_failed.clear()
+	_t = 0.0
+	responder = k.actor
+	_start_kicker(k.actor, true, ball.global_position)
+	# Lejos del arco, hacia el medio de la cancha (con azar).
+	_clear_dir = Vector3(-1.0, 0.0, rng.randf_range(-0.5, 0.5)).normalized()
+	return responder
 
 ## Donde se va a frenar la pelota (o donde estara en 3 s).
 func rest_point() -> Vector3:
