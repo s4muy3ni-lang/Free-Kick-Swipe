@@ -7,7 +7,7 @@ extends Node3D
 ## (SpFieldPlayers) y reacciones de todos al resultado. Horizontal 16:9 (otras proporciones sin deformar).
 
 enum Mode { PENALTY, FREE_KICK, CHALLENGE }
-enum Phase { PLACE, AIM, KEEPER_PICK, RUNUP, FLIGHT, RESULT, OVER }
+enum Phase { PLACE, AIM, KEEPER_PICK, RUNUP, FLIGHT, RESULT, OVER, REPLAY }
 
 const SCENE := "res://scenes/setpiece/setpiece_game.tscn"
 const MENU_SCENE := "res://scenes/setpiece/main_menu.tscn"
@@ -56,6 +56,13 @@ var bench: Array[SpActor] = []
 var loose: SpLooseBall
 ## Ejercicio o desafio en curso (modo CHALLENGE).
 var runner: ChallengeRunner = null
+## Repeticion de la ultima jugada (registro por estados) y su reproduccion.
+var recording: PlayRecording
+var replay_f: float = -1.0
+var replay_slowmo: bool = true
+var replay_angle: int = 0
+const REPLAY_ANGLES := ["TV", "Detrás", "Arco"]
+var _pre_replay: Dictionary = {}
 
 var shootout := PenaltyShootout.new()
 var fk_goals: int = 0
@@ -145,6 +152,14 @@ func _ready() -> void:
 	loose.name = "LooseBall"
 	add_child(loose)
 	loose.setup(ball, gx)
+	recording = PlayRecording.new()
+	recording.name = "PlayRecording"
+	add_child(recording)
+	var everyone: Array[SpActor] = []
+	for n in get_children():
+		if n is SpActor:
+			everyone.append(n)
+	recording.setup(ball, everyone)
 	# Precalculo al cargar (antes costaba ~0,65 s en PC la primera atajada, en el golpe: en el telefono se trababa el tiro).
 	KeeperPlanner.warm_cache()
 	ShotCatalog.clips()
@@ -546,6 +561,7 @@ func _take_shot(shooter: SpShooter, p: ShotParams, error_deg: float) -> void:
 		"target": p.target, "cross": cross, "dir": dir, "params": p, "surface": surface}
 	last_params = p
 	shooter.execute(e, ball_spot, dir, v, p.spin, flotado)
+	recording.start()
 	phase = Phase.RUNUP
 	_runup_t = 0.0
 	preview.hide_path()
@@ -566,6 +582,7 @@ func _on_contact(_entry: Dictionary) -> void:
 	_launch_measure = 2
 	# La zona elegida para atajar ya no se muestra: la pelota salio.
 	_zone_marker.visible = false
+	recording.mark(&"contacto")
 	if mode == Mode.CHALLENGE:
 		if cur_keeper.actor.visible:
 			if _penalty_like():
@@ -629,6 +646,9 @@ func _physics_process(delta: float) -> void:
 			_flight_tick(delta)
 		Phase.RESULT, Phase.OVER:
 			_keeper_with_ball()
+		Phase.REPLAY:
+			_replay_step()
+			return
 	match phase:
 		Phase.RESULT:
 			_result_t += delta
@@ -722,6 +742,7 @@ func _finish(why: String) -> void:
 	phase = Phase.RESULT
 	_result_t = 0.0
 	_keeper_react_at = -1.0
+	recording.mark(&"resultado")
 	if mode == Mode.CHALLENGE:
 		_finish_challenge(why)
 		return
@@ -783,6 +804,7 @@ func _finish(why: String) -> void:
 			var g: Vector3 = cur_keeper.actor.global_position
 			cam.frame(g + Vector3(-5.0, 1.8, 1.5), g + Vector3.UP * 0.9, 45.0, false, 0.6)
 	if mode == Mode.PENALTY:
+		hud.set_actions([[&"replay", "Repetición"]])
 		shootout.record(PenaltyShootout.USER if user_shooting else PenaltyShootout.CPU, goal_ok)
 		hud.set_shootout(shootout.results[0], shootout.results[1], PenaltyShootout.REGULAR)
 		hud.set_score_text("%d - %d" % [shootout.goals(0), shootout.goals(1)])
@@ -825,6 +847,99 @@ func crowd_target() -> float:
 			base = 0.5
 	return clampf(base + _cheer * 0.5, 0.0, 1.0)
 
+# --- Repeticion -------------------------------------------------------------------------------------------------------------
+
+## Controladores del juego que se pausan durante la repeticion (los jugadores los mueve el registro).
+func _controllers() -> Array:
+	var out: Array = []
+	for n in [user_shooter, cpu_shooter, user_keeper, cpu_keeper, wall, field, loose, runner]:
+		if n != null:
+			out.append(n)
+	return out
+
+## Repite la ultima jugada: todo vuelve a estar donde estuvo, paso por paso (camara lenta alrededor del golpe y del
+## resultado). Pausa el juego; al terminar lo deja como estaba.
+func start_replay() -> void:
+	if recording.frames() < 10 or phase == Phase.REPLAY or phase in [Phase.RUNUP, Phase.FLIGHT]:
+		return
+	recording.stop()
+	_pre_replay = {"phase": phase, "result_t": _result_t, "xform": ball.global_transform, "freeze": ball.freeze,
+		"freeze_mode": ball.freeze_mode, "v": ball.linear_velocity, "w": ball.angular_velocity, "held": ball.is_held(),
+		"actors": recording.actors.map(func(a: SpActor) -> Array: return [a.global_position, a.rotation.y, a.visible, a.anim_player.current_animation, a.anim_player.current_animation_position])}
+	for c in _controllers():
+		c.process_mode = Node.PROCESS_MODE_DISABLED
+	for a in recording.actors:
+		a.set_physics_process(false)
+	ball.freeze_mode = RigidBody3D.FREEZE_MODE_KINEMATIC
+	ball.freeze = true
+	phase = Phase.REPLAY
+	replay_f = 0.0
+	cam.follow = null
+	hud.show_banner("REPETICIÓN", Color(1.0, 0.84, 0.28), "")
+	_replay_actions()
+
+func _replay_actions() -> void:
+	hud.set_actions([[&"replay_cam", "Cámara: %s" % REPLAY_ANGLES[replay_angle]], [&"replay_skip", "Saltar"]])
+
+func _replay_step() -> void:
+	var n: int = recording.frames()
+	var c: int = int(recording.marks.get(&"contacto", 0))
+	var r: int = int(recording.marks.get(&"resultado", n - 1))
+	# Camara lenta desde un poco antes del golpe hasta un poco despues del resultado.
+	var slow: bool = replay_slowmo and replay_f >= float(c - 12) and replay_f <= float(r + 30)
+	recording.apply(replay_f)
+	_replay_camera()
+	replay_f += 0.4 if slow else 1.0
+	if replay_f > float(n - 1):
+		end_replay()
+
+func _replay_camera() -> void:
+	var b: Vector3 = ball.global_position
+	match replay_angle:
+		0:
+			# Television: de costado, siguiendo la pelota.
+			var mid: Vector3 = b.lerp(Vector3(gx, 0.0, 0.0), 0.35)
+			cam.frame(mid + Vector3(-3.0, 4.5, -16.0), b, 38.0, false, 0.12)
+		1:
+			var f: Array = SpCamera.behind_ball(ball_spot, goal_center(), 1.0, _penalty_like())
+			cam.frame(f[0], b.lerp(goal_center(), 0.3), f[2], false, 0.12)
+		_:
+			cam.frame(Vector3(gx + 7.0, 2.6, -2.0), b, 44.0, false, 0.12)
+
+## Termina la repeticion: jugadores, pelota y fase como estaban antes.
+func end_replay() -> void:
+	if phase != Phase.REPLAY:
+		return
+	var st: Dictionary = _pre_replay
+	for i in recording.actors.size():
+		var a: SpActor = recording.actors[i]
+		var s: Array = st["actors"][i]
+		a.global_position = s[0]
+		a.rotation.y = s[1]
+		a.visible = s[2]
+		if String(s[3]) != "":
+			a.anim_player.play(StringName(s[3]), 0.0)
+			a.anim_player.seek(float(s[4]), true)
+		a.set_physics_process(true)
+	ball.global_transform = st["xform"]
+	ball.freeze_mode = st["freeze_mode"]
+	ball.freeze = st["freeze"]
+	if not bool(st["held"]):
+		ball.linear_velocity = st["v"]
+		ball.angular_velocity = st["w"]
+	for c in _controllers():
+		c.process_mode = Node.PROCESS_MODE_INHERIT
+	phase = st["phase"]
+	_result_t = float(st["result_t"])
+	replay_f = -1.0
+	hud.hide_banner()
+	if phase == Phase.OVER and mode == Mode.FREE_KICK:
+		hud.set_actions([[&"again", "Otra vez"], [&"move", "Mover balón"], [&"replay", "Repetición"]])
+	elif phase == Phase.RESULT:
+		hud.set_actions([[&"replay", "Repetición"]])
+	else:
+		hud.set_actions([])
+
 ## Momento de la jugada para la medicion de rendimiento (PerfSession.MOMENTS).
 func perf_moment() -> StringName:
 	match phase:
@@ -864,6 +979,7 @@ func _copy_perf_report() -> void:
 func _after_result() -> void:
 	if phase != Phase.RESULT:
 		return
+	recording.stop()
 	if mode == Mode.PENALTY:
 		_start_penalty_turn()
 	elif mode == Mode.CHALLENGE:
@@ -874,7 +990,7 @@ func _after_result() -> void:
 			_setup_challenge_attempt()
 	else:
 		phase = Phase.OVER
-		hud.set_actions([[&"again", "Otra vez"], [&"move", "Mover balón"]])
+		hud.set_actions([[&"again", "Otra vez"], [&"move", "Mover balón"], [&"replay", "Repetición"]])
 		hud.set_hint("")
 
 # --- Academia y Arena (modo CHALLENGE) ----------------------------------------------------------------------------------
@@ -1230,6 +1346,13 @@ func _on_action(id: StringName) -> void:
 		&"rematch":
 			shootout.reset()
 			_start_penalty_turn()
+		&"replay":
+			start_replay()
+		&"replay_cam":
+			replay_angle = (replay_angle + 1) % REPLAY_ANGLES.size()
+			_replay_actions()
+		&"replay_skip":
+			end_replay()
 		&"retry":
 			if mode == Mode.CHALLENGE:
 				next_challenge = runner.def
