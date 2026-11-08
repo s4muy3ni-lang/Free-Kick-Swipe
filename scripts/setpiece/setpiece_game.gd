@@ -604,6 +604,7 @@ func _commit_keeper(lead: float) -> void:
 func _physics_process(delta: float) -> void:
 	_cheer = maxf(_cheer - delta * 0.25, 0.0)
 	stadium.set_cheer(_cheer)
+	Sfx.set_crowd_level(crowd_target())
 	if _launch_measure > 0:
 		_launch_measure -= 1
 		if _launch_measure == 0:
@@ -806,6 +807,23 @@ func _keeper_with_ball() -> void:
 	else:
 		cur_keeper.drop_ball(f * 0.9 + Vector3.UP * 1.6)
 		loose.keeper_kick(cur_keeper)
+
+## Intensidad del publico segun la jugada (0..1): silencio antes del penal, tension en la carrera y el vuelo, estallido
+## con el gol (se apaga con _cheer), murmullo despues de una atajada o un fallo.
+func crowd_target() -> float:
+	var base: float = 0.45
+	match phase:
+		Phase.AIM, Phase.KEEPER_PICK:
+			base = 0.12 if _penalty_like() else 0.35
+		Phase.PLACE:
+			base = 0.4
+		Phase.RUNUP:
+			base = 0.08 if _penalty_like() else 0.3
+		Phase.FLIGHT:
+			base = 0.35 + clampf(_flight_t * 0.6, 0.0, 0.3)
+		Phase.RESULT, Phase.OVER:
+			base = 0.5
+	return clampf(base + _cheer * 0.5, 0.0, 1.0)
 
 ## Momento de la jugada para la medicion de rendimiento (PerfSession.MOMENTS).
 func perf_moment() -> StringName:

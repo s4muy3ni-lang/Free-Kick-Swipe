@@ -54,6 +54,22 @@ func play(name: StringName, volume: float = 1.0, pitch: float = 1.0) -> void:
 	p.pitch_scale = clampf(pitch, 0.5, 2.0)
 	p.play()
 
+## Intensidad del publico (0 silencio .. 1 estallido): el bucle sube y baja suave hacia ella (CROWD_DB_MIN..MAX).
+const CROWD_DB_MIN := -38.0
+const CROWD_DB_MAX := -9.0
+const CROWD_FADE_DB_S := 18.0
+var crowd_level: float = 0.5
+
+func set_crowd_level(level: float) -> void:
+	crowd_level = clampf(level, 0.0, 1.0)
+
+static func crowd_db(level: float) -> float:
+	return lerpf(CROWD_DB_MIN, CROWD_DB_MAX, clampf(level, 0.0, 1.0))
+
+func _process(delta: float) -> void:
+	if _crowd != null and _crowd.playing:
+		_crowd.volume_db = move_toward(_crowd.volume_db, crowd_db(crowd_level), CROWD_FADE_DB_S * delta)
+
 ## Ambiente de publico (bucle) mientras hay partido.
 func crowd(on: bool) -> void:
 	_crowd_wanted = on
@@ -86,9 +102,14 @@ func watch_ball(ball: Ball) -> void:
 
 ## Golpe a la pelota: toque de conduccion, pase o tiro segun el cambio de velocidad (m/s) que le dio el impulso.
 func _on_impulse(actor: Node, dv: float, speed: float) -> void:
-	var s: Array = impulse_sound(actor is Goalkeeper, dv, speed)
+	var s: Array = impulse_sound(is_keeper(actor), dv, speed)
 	if not s.is_empty():
 		play(s[0], s[1], randf_range(0.94, 1.06) * float(s[2]))
+
+## El que toco la pelota es un arquero: el del partido (Goalkeeper) o el de penales y tiros libres (SpActor con rol
+## «keeper»; antes sus atajadas sonaban como una patada).
+static func is_keeper(actor: Node) -> bool:
+	return actor is Goalkeeper or (actor is SpActor and (actor as SpActor).role == &"keeper")
 
 ## Sonido de un golpe: [nombre, volumen, tono] o [] si no suena (un apoyo de la suela, un roce). Guantes del arquero;
 ## toque de conduccion (cambio de velocidad < 4.5 m/s); pase o tiro flojo (sale a < 15 m/s); tiro fuerte.
