@@ -1,9 +1,9 @@
 name: Android APK
 
 # APK de PRUEBA (arm64, sin Gradle, sin permisos). Modo de juego predeterminado: modo 4 (Json), con las 2 022 animaciones
-# JSON convertidas (assets/animations/json_clips.res, json_scenes.res, json_keeper.res); el pack de Mixamo
-# (pack_clips.res y pack_keeper.res) y Tripo quedan como respaldo. La suite headless corre en el modo 4 (las pruebas del
-# pack heredado fijan su modo con TestCase.gameplay_mode()). Firmada con un keystore de DEPURACION estandar de Android
+# JSON convertidas (assets/animations/json_clips.res, json_scenes.res, json_keeper.res), el UNICO banco del juego: Mixamo y
+# Mocap se borraron (2026-11-08, pedido del usuario); Tripo queda como respaldo del codigo heredado. La suite headless corre
+# en el modo 4. Firmada con un keystore de DEPURACION estandar de Android
 # (alias androiddebugkey, contrasena android) creado en cada ejecucion: no hay secretos ni clave permanente.
 # Consecuencia: cada APK tiene una firma distinta, asi que hay que desinstalar la anterior antes de instalar la nueva.
 # APK de prueba disponible exclusivamente como artefacto descargable; no publica Releases.
@@ -14,10 +14,6 @@ on:
     paths-ignore: ["docs/**", "**.md"]
   workflow_dispatch:
     inputs:
-      allow_without_pack:
-        description: "Permitir compilar SIN las animaciones del pack (cae a Tripo; no es la APK completa)"
-        type: boolean
-        default: false
       skip_tests:
         description: "Saltar las pruebas headless (solo para compilar rapido)"
         type: boolean
@@ -45,20 +41,14 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Animaciones del pack y licencia
-        env:
-          ALLOW_NO_PACK: ${{ inputs.allow_without_pack }}
+      - name: Banco de animaciones JSON (unico banco)
         run: |
-          if [ -f assets/animations/pack_clips.res ]; then
-            [ -f assets/animations/pack_keeper.res ] || { echo "::error::Falta assets/animations/pack_keeper.res (animaciones del arquero)."; exit 1; }
-            echo "PACK_INCLUDED=true" >> "$GITHUB_ENV"
-          elif [ "$ALLOW_NO_PACK" = "true" ]; then
-            echo "PACK_INCLUDED=false" >> "$GITHUB_ENV"
-            echo "::warning::Compilacion SIN el pack: el juego usara los clips de Tripo y la patada procedural."
-          else
-            echo "::error::Falta assets/animations/pack_clips.res. Generarla con tools/animation_pack/build_pack_library.tscn a partir del pack de Mixamo (ver docs/technical-index/SYSTEMS/ANIMATION_PACK.md) y versionarla en el repositorio, o lanzar a mano con allow_without_pack."
-            exit 1
-          fi
+          for f in assets/animations/json_clips.res assets/animations/json_keeper.res assets/animations/json_scenes.res resources/setpiece/shot_clips.json; do
+            [ -f "$f" ] || { echo "::error::Falta $f (banco JSON / catalogo de golpeos)."; exit 1; }
+          done
+          for f in assets/animations/pack_clips.res assets/animations/pack_keeper.res assets/animations/mocap_clips.res assets/animations/touch_clips.res; do
+            [ ! -e "$f" ] || { echo "::error::$f es de un banco borrado (Mixamo/Mocap): no debe volver."; exit 1; }
+          done
 
       - uses: actions/setup-java@v4
         with:
@@ -215,19 +205,8 @@ jobs:
           echo "$BADGING" | grep -q "native-code: 'arm64-v8a'"
           if echo "$BADGING" | grep -q "uses-permission"; then echo "::error::la APK declara permisos"; exit 1; fi
 
-          # Contenido: las dos librerias del pack (campo y arquero) y los clips integrados estan dentro; los FBX fuente no.
-          if [ "$PACK_INCLUDED" = true ]; then
-            unzip -l "$APK" | grep -q "animations/pack_clips.res" || { echo "::error::pack_clips.res no esta en la APK"; exit 1; }
-            unzip -p "$APK" "assets/assets/animations/pack_clips.res" > "$RUNNER_TEMP/pack_in_apk.res"
-            missing=""
-            for c in offensive_idle Walking_7_inplace jog_forward_inplace Sprint_inplace Soccer_Pass Soccer_Pass_mirror strike_foward_jog_inplace strike_foward_jog_inplace_mirror Receive Fist_Pump_3 Cheering_2 Fist_Pump Standing_Fist_Pump Defeat_Idle_2 Sad_Idle_3 Disappointed; do
-              grep -a -q -F -- "$c" "$RUNNER_TEMP/pack_in_apk.res" || missing="$missing $c"
-            done
-            [ -z "$missing" ] || { echo "::error::Faltan clips en la APK:$missing"; exit 1; }
-            cmp -s "$RUNNER_TEMP/pack_in_apk.res" assets/animations/pack_clips.res || { echo "::error::la libreria de la APK difiere de la del repositorio"; exit 1; }
-            unzip -l "$APK" | grep -q "animations/pack_keeper.res" || { echo "::error::pack_keeper.res no esta en la APK"; exit 1; }
-            unzip -p "$APK" "assets/assets/animations/pack_keeper.res" | cmp -s - assets/animations/pack_keeper.res || { echo "::error::la libreria del arquero de la APK difiere de la del repositorio"; exit 1; }
-          fi
+          # Los bancos borrados (Mixamo y Mocap) no estan en la APK.
+          if unzip -l "$APK" | grep -E -q "animations/(pack_clips|pack_keeper|mocap_clips|touch_clips)\.res|characters/mocap/"; then echo "::error::la APK contiene un banco borrado (Mixamo/Mocap)"; exit 1; fi
           # Modo 4 (Json): librerias de clips (identicas a las del repositorio) y el humanoide dentro de la APK.
           for f in animations/json_clips.res animations/json_scenes.res animations/json_keeper.res; do
             unzip -l "$APK" | grep -q "$f" || { echo "::error::$f no esta en la APK"; exit 1; }
@@ -262,7 +241,7 @@ jobs:
             echo "### Futbol 5 APK ${VERSION_NAME} (versionCode ${VERSION_CODE})"
             echo "- Tamano: $(du -h "build/$NAME" | cut -f1) · arm64-v8a · sin permisos"
             echo "- Firma de DEPURACION verificada (v2), SHA-256 del certificado: \`${FPR}\` (clave de depuracion de esta ejecucion)"
-            echo "- Animaciones: $( [ "$PACK_INCLUDED" = true ] && echo 'pack de Mixamo (133 clips de campo y arquero, librerias verificadas dentro de la APK) + respaldo Tripo' || echo 'SIN el pack: Tripo + patada procedural')"
+            echo "- Animaciones: banco JSON original (unico; Mixamo y Mocap borrados) + respaldo Tripo del codigo heredado"
             echo "- Modo 4 (Json): librerias y humanoide incluidos; invocacion y muestreo de poses por clip en el artefacto animation-audit. La inclusion no certifica conexion situacional ni verificacion visual individual."
             echo "- Commit: \`${GITHUB_SHA::7}\`"
             echo "- SHA-256 de la APK: \`$(cut -d' ' -f1 "build/$NAME.sha256")\` · zip integro y alineado · libgodot_android.so ELF aarch64"

@@ -26,6 +26,9 @@ var knuckle: bool = false
 ## Distancia entre el pie y la pelota en el contacto (m): medida en vivo (diagnostico y pruebas).
 var contact_gap: float = -1.0
 var _idle_clip: StringName = &""
+## Velocidad del trote de aproximacion (m/s) y destino, para estimar cuanto falta para el contacto.
+var _approach_speed: float = 3.0
+var _approach_target := Vector3.ZERO
 
 const IDLE_ROLES: Array = [&"idle_ready", &"idle"]
 
@@ -35,16 +38,18 @@ func setup(a: SpActor, b: Ball) -> void:
 	actor.role = &"shooter"
 	actor.clip_finished.connect(_on_clip_finished)
 
-## Se para detras de la pelota con la carrera habitual de su pie, mirando al tiro.
-func stance(ball_pos: Vector3, aim: Vector3, dist: float) -> void:
+## Se para AL COSTADO de la pelota, del lado del pie que no patea (el diestro a la izquierda, el zurdo a la derecha) y un
+## poco atras, como en los videos de referencia, mirando hacia la pelota y el arco. back/side: metros detras y al costado.
+func stance(ball_pos: Vector3, aim: Vector3, back: float, side: float) -> void:
 	state = State.IDLE
 	kicked = false
 	entry = {}
 	contact_gap = -1.0
-	var app: Vector3 = ShotCatalog.approach_dir(aim, foot)
+	var a := Vector3(aim.x, 0.0, aim.z).normalized()
+	var b := Vector3(ball_pos.x, 0.0, ball_pos.z)
 	actor.stop_moving()
-	actor.global_position = Vector3(ball_pos.x, 0.0, ball_pos.z) - app * dist
-	actor.set_facing(app)
+	actor.global_position = b - a * back - SpClips.right_of(a) * side * float(foot)
+	actor.set_facing((b + a * 3.0) - actor.global_position)
 	var pool: Array[StringName] = []
 	for r in IDLE_ROLES:
 		for id in SpClips.by_role(r, false):
@@ -54,14 +59,16 @@ func stance(ball_pos: Vector3, aim: Vector3, dist: float) -> void:
 	actor.play_loop(_idle_clip, 0.25)
 
 ## Ejecuta el tiro: e = golpeo elegido, shot_dir = direccion horizontal del tiro, v y w = salida de la pelota.
-func execute(e: Dictionary, ball_pos: Vector3, shot_dir: Vector3, v: Vector3, w: Vector3, stance_dist: float, flotado: bool = false) -> void:
+## La carrera sale desde donde espera: el clip entra en el punto de su carrera mas cercano al tirador (trota hasta ahi si
+## hace falta, en curva desde el costado).
+func execute(e: Dictionary, ball_pos: Vector3, shot_dir: Vector3, v: Vector3, w: Vector3, flotado: bool = false) -> void:
 	entry = e
 	shot_velocity = v
 	shot_spin = w
 	knuckle = flotado
 	kicked = false
 	frame = ShotCatalog.frame_for_shot(e, ball_pos, shot_dir)
-	start_at = ShotCatalog.start_time(e, stance_dist)
+	start_at = ShotCatalog.start_time_near(e, frame, actor.global_position)
 	var start_body: Array = SpActor.body_at(StringName(e["id"]), start_at, frame[0], frame[1])
 	var p: Vector3 = start_body[0]
 	var gap: float = Vector3(p.x - actor.global_position.x, 0.0, p.z - actor.global_position.z).length()
@@ -69,7 +76,9 @@ func execute(e: Dictionary, ball_pos: Vector3, shot_dir: Vector3, v: Vector3, w:
 		state = State.APPROACH
 		var spd: float = _root_speed(e, start_at)
 		var loop: StringName = _loop_for(spd)
-		actor.move_to(p, clampf(spd, 1.6, 5.0), loop)
+		_approach_speed = clampf(spd, 1.6, 5.0)
+		_approach_target = p
+		actor.move_to(p, _approach_speed, loop)
 	else:
 		_start_kick()
 
@@ -109,7 +118,9 @@ func _physics_process(_delta: float) -> void:
 			if not actor.is_moving():
 				_start_kick()
 		State.KICK:
-			if not kicked and actor.is_playing_clip(StringName(entry["id"])) and actor.clip_time() >= float(entry["tc"]):
+			# Seguro: si el clip llego al contacto o ya termino (cuadros perdidos en un telefono lento), el golpe sale igual;
+			# nunca queda el tiro esperando.
+			if not kicked and (actor.clip_time() >= float(entry["tc"]) or not actor.is_playing_clip(StringName(entry["id"]))):
 				_do_contact()
 
 func _do_contact() -> void:
@@ -121,9 +132,29 @@ func _do_contact() -> void:
 		ball.set_knuckle(rng.randf_range(2.0, 4.0), rng.randf_range(1.2, 2.2), rng.randf_range(0.0, TAU))
 	contact.emit(entry)
 
+## Segundos que faltan para el contacto del pie (estimacion exacta: el trote es a velocidad fija y el clip a velocidad 1).
+func time_to_contact() -> float:
+	if entry.is_empty():
+		return -1.0
+	var tc: float = float(entry["tc"])
+	match state:
+		State.APPROACH:
+			var d: float = Vector3(_approach_target.x - actor.global_position.x, 0.0, _approach_target.z - actor.global_position.z).length()
+			return d / maxf(_approach_speed, 0.1) + (tc - start_at)
+		State.KICK:
+			return maxf(tc - actor.clip_time(), 0.0)
+	return 0.0
+
+## El golpe tiene que salir (seguro del juego si algo lo demoro demasiado).
+func force_contact() -> void:
+	if not kicked and not entry.is_empty():
+		_do_contact()
+
 func _on_clip_finished(_id: StringName) -> void:
 	match state:
 		State.KICK:
+			if not kicked:
+				_do_contact()
 			state = State.AFTER
 			actor.play_loop(_idle_clip, 0.3)
 		State.REACT:

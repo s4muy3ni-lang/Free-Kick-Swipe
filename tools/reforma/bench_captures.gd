@@ -6,12 +6,7 @@ extends Node
 ##     res://tools/reforma/bench_captures.tscn -- --out <directorio>
 ## (Es una escena y no un --script: los scripts del juego usan el autoload Tuning, que con --script no existe al compilar.)
 const CASES := [
-	["json", "st_setpiece", false], ["mixamo", "st_setpiece", false], ["mocap", "st_setpiece", false],
-	["mixamo", "st_setpiece", true], ["mocap", "st_setpiece", true],
-	["json", "gk_dive_left", false], ["mixamo", "gk_dive_left", false], ["mocap", "gk_dive_left", false],
-	["mixamo", "gk_dive_left", true], ["mocap", "gk_dive_left", true],
-	["json", "wa_jump", false], ["mixamo", "wa_jump", false], ["mocap", "wa_jump", false],
-	["json", "st_penalty", false], ["mixamo", "st_penalty", true], ["mocap", "st_penalty", true],
+	["json", "st_setpiece", false], ["json", "st_penalty", false], ["json", "gk_dive_left", false], ["json", "wa_jump", false],
 ]
 var out_dir: String = "user://capturas"
 ## Cantidad maxima de casos (--max N): para revisar rapido otras resoluciones.

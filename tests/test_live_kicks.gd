@@ -22,9 +22,6 @@ func _needs_render() -> bool:
 ## Ejecuta un golpeo y devuelve las medidas. setup: Callable(ctx, player, src) que coloca pelota y jugador;
 ## action: &"pass" / &"shot"; charge_frames: fotogramas con el boton pulsado; stick: Vector2 de la persona.
 func _kick(setup: Callable, action: StringName, charge_frames: int, stick: Vector2, move_frames: int = 0) -> Dictionary:
-	# LIVE_KICKS_MODE=2 mide los mismos golpeos con el modo 2 de jugabilidad (clips del mocap de futbol).
-	if OS.get_environment("LIVE_KICKS_MODE") != "":
-		Tuning.gameplay_mode = int(OS.get_environment("LIVE_KICKS_MODE"))
 	var ctx: MatchContext = await make_match(START + Vector3(0.5, 0.11, 0.0))
 	var src := ScriptedInput.new()
 	var p: Footballer = add_player(ctx, 0, START, 60, src, true)

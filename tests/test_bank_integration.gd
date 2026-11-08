@@ -10,7 +10,7 @@ func _mode4() -> void:
 	PackLibrary.reload()
 
 func _restore() -> void:
-	Tuning.gameplay_mode = 1
+	Tuning.gameplay_mode = Tuning.DEFAULT_GAMEPLAY_MODE
 	PackLibrary.reload()
 
 func _skip_if_missing() -> bool:

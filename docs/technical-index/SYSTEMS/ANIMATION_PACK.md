@@ -1,10 +1,14 @@
 # ANIMATION_PACK — Pack de 133 animaciones de fútbol (Mixamo / Y Bot): evaluación e integración
 
+> **BORRADO el 2026-11-08** por pedido del usuario junto con el banco Mocap: el juego usa solo el banco JSON original.
+> Lista de lo quitado y cómo recuperarlo: [`docs/reforma/MIXAMO_MOCAP_QUITADOS.md`](../../reforma/MIXAMO_MOCAP_QUITADOS.md).
+> El resto de esta ficha es historia (describe archivos que ya no están).
+
 ## Identificación
 
 - **Qué es:** el pack propio (`futbol.zip`: `README.md`, `indice_futbol.json`, 133 FBX de animación y `personaje/ybot_tpose.fbx`) evaluado frente a los 13 clips de Tripo y **integrado parcialmente** en un único sistema de animación sobre el futbolista de Tripo (23 huesos, ~7 640 triángulos, sin cambios). Son FBX 7.7 a 30 fps, solo esqueleto `mixamorig` (sin malla) sobre el Y Bot; 63 clips son del Soccer Game Pack y 70 son sueltos/complementos.
 - **Estado (2026-10-27):** **integrado por completo.** Los 133 clips están convertidos (134 en `pack_clips.res` con sus espejos, 37 en `pack_keeper.res`) y **los 133 tienen disparador en el juego**. Los 40 que antes solo estaban en la galería se conectaron así: marcha (`Jogging_inplace` en la marcha; `Running_inplace` y `Two_Cycle_Sprint_inplace` en la marcha con pelota; `Strafe_3_inplace` en la mezcla direccional), transiciones (`Idle_To_Sprint`, `Sprint_Turn`, parada agotado con `Running_Tired`), balón parado con raíz real (`throw_in`, `Chip`, `strike_foward_jog`, `soccer_penalty_kick`), arquero (`goalkeeper_idle_2`, `goalkeeper_miss`, `goalkeeper_directing(_2)`, `goalkeeper_placing_ball(_2)`), defensa y contacto (`Defender`, `Defender_2`, `Jogging_Stumble`, `Sprint_To_Backslide(_inplace)`, `fallen_idle`), recepción (`receive_soccerball`) y el árbitro, que se mueve con el desplazamiento de raíz medido de los **gemelos con raíz** (`Walking_7`, `Jogging`, `Running`, `Sprint`, `Two_Cycle_Sprint`, `Strafe_3`, `jog_*`). La prueba *test_pes_mechanics::test_every_former_gallery_clip_is_wired_into_gameplay (eliminada en la reforma)* lo comprueba. Detalle clip a clip: columna «Estado» y «Uso» de [ANIMATION_PACK_CLIPS.md](../ANIMATION_PACK_CLIPS.md).
-- **Dónde están:** las animaciones van **dentro del juego** ya convertidas (`assets/animations/pack_clips.res` y `pack_keeper.res`, versionadas, y dentro de la APK). Los FBX originales (`pack/`) son solo la fuente para regenerar las librerías: están en `.gitignore` (no se suben al repositorio; cada copia local los pone en `pack/` si quiere reconvertir). Sin las librerías el juego funciona con Tripo + patada procedural y las pruebas del pack se **omiten** (no se dan por buenas).
+- **Dónde están:** las animaciones van **dentro del juego** ya convertidas (assets/animations/pack_clips.res (borrado: Mixamo/Mocap) y `pack_keeper.res`, versionadas, y dentro de la APK). Los FBX originales (`pack/`) son solo la fuente para regenerar las librerías: están en `.gitignore` (no se suben al repositorio; cada copia local los pone en `pack/` si quiere reconvertir). Sin las librerías el juego funciona con Tripo + patada procedural y las pruebas del pack se **omiten** (no se dan por buenas).
 - **Última verificación:** <!-- AUTO:verified -->
 2026-11-08
 <!-- /AUTO -->
@@ -38,18 +42,18 @@ tarjetas; versiones Rokoko, UE5 e iClone) y declaró tener autorización para us
 tomas llegaron dañadas en el `.rar` (Rokoko `05_Juggling_02`, UE5 `12_Goal_Celebration_01`) y se usa la versión Rokoko de
 las otras 20.
 
-- **Conversión** (`tools/animation_pack/build_mocap_library.tscn`, hereda de `build_pack_library.gd`): esqueleto Rokoko
+- **Conversión** (tools/animation_pack/build_mocap_library.tscn (borrado: Mixamo/Mocap), hereda de `build_pack_library.gd`): esqueleto Rokoko
   de 76 huesos (+Z adelante, pose T, cadera a 0.94 m) → futbolista, con `PackRetarget.bone_map` (`ROKOKO_MAP`: Hips,
   Spine1/3/4, Neck, Head, brazos, Thigh/Shin/Foot/Toe). Las tomas de golpeo traen la carrera previa y la vuelta: se mide el
   contacto en la toma completa, se gira para que el pie salga hacia adelante y se recorta alrededor del golpeo (pase
   1.33 s, tiro 1.43 s, penal 2.40 s con su carrera); los pases y tiros guardan la trayectoria de los pies sin la raíz
   (`paths_root = false`): durante el apoyo el cuerpo sigue al pie plantado. Espejo para la otra pierna. Salida
-  `assets/animations/mocap_clips.res` (24 clips `mc_*`, 2.6 MB, versionada); `PackLibrary` la suma a la librería de
+  assets/animations/mocap_clips.res (borrado: Mixamo/Mocap) (24 clips `mc_*`, 2.6 MB, versionada); `PackLibrary` la suma a la librería de
   campo. Los FBX quedan en `pack/mocap05/` (fuera del repositorio).
 - **Contactos medidos**: pase de interior, pie derecho a 4.5 m/s, 0.33 m delante y 0.17 m al costado; tiro potente, pie
   izquierdo a 10.1 m/s (0.34 m delante, 0.32 m al costado); penales, pie derecho a 8.5–9.0 m/s.
 - **Qué cambia en el modo 2** (`Tuning.gameplay_mode` = 2, botón «Modo de juego» del menú de pausa;
-  `AnimationCatalog.mocap_mode`): pase, pase filtrado → `mc_side_foot_pass`; tiro, vaselina, centro → `mc_power_kick`
+  AnimationCatalog.mocap_mode (borrado: Mixamo/Mocap)): pase, pase filtrado → `mc_side_foot_pass`; tiro, vaselina, centro → `mc_power_kick`
   (los dos con espejo), con `MOCAP_EXTRA_LATENCY` 0.08 s más para que se vea el balanceo; penal y tiro libre directo →
   `mc_penalty_kick` con su carrera (`SetPiece._kick_clip`); festejos del gol y victoria → `mc_celebration_1..3`. La IA
   usa los mismos clips. Saque de banda → `mc_throw_in` (parado; empieza a los 5.4 s con la pelota arriba y la suelta a
@@ -58,11 +62,11 @@ las otras 20.
   están en la galería de la sala de práctica («Mocap fútbol (modo 2)») sin disparador en partido: las conducciones son
   tomas lentas (0.2–1.7 m/s) con giros propios de la raíz que no siguen al joystick, el pack no trae conducción en
   carrera, y las atajadas se desplazan hasta 1.4 m sin coincidir con la trayectoria de la pelota.
-- **Modelo propio del modo 2** (Newton, el personaje del pack): `tools/animation_pack/build_mocap_character.tscn` lo
+- **Modelo propio del modo 2** (Newton, el personaje del pack): tools/animation_pack/build_mocap_character.tscn (borrado: Mixamo/Mocap) lo
   baja de ~33 000 a 6 778 triángulos (LOD de `ImporterMesh`) con su esqueleto Rokoko de 76 huesos y hornea en `COLOR.r`
   la zona del kit de cada vértice según el hueso que más lo mueve (camiseta, short hasta media pierna, medias desde la
-  rodilla, botines, piel, pelo) → `assets/characters/mocap/mocap_player.scn` + `mocap_kit.gdshader` (colores del
-  equipo). En el juego `MocapRig` (`scripts/animation/mocap_rig.gd`) cuelga del visual de cada jugador, arquero y árbitro:
+  rodilla, botines, piel, pelo) → assets/characters/mocap/mocap_player.scn (borrado: Mixamo/Mocap) + `mocap_kit.gdshader` (colores del
+  equipo). En el juego `MocapRig` (scripts/animation/mocap_rig.gd (borrado: Mixamo/Mocap)) cuelga del visual de cada jugador, arquero y árbitro:
   el esqueleto del futbolista sigue haciendo todo (clips, toques, IK, contacto) pero no se dibuja; en cada
   `skeleton_updated` su pose se copia a Newton con el retarget inverso
   (`G_R = A⁻¹·(G_T·Reposo_T⁻¹)·A·Reposo_R`, cadera escalada por la altura de cadera) y piernas y brazos se cierran con
@@ -86,7 +90,7 @@ las otras 20.
 
 ## Cómo funciona (un solo sistema)
 
-1. **Offline:** `tools/animation_pack/build_pack_library.tscn` convierte los clips de `selection.json` con `PackRetarget` (retarget respecto al reposo, no copia de rotaciones locales) a `assets/animations/pack_clips.res` (campo) y `pack_keeper.res` (arquero). Mide por clip: velocidad natural, raíz acumulada (**separada** de la cadera, que queda centrada), altura del tobillo, y en patadas el **contacto** (instante, pie, posición) y la **trayectoria de la punta del pie** en la ventana del golpeo.
+1. **Offline:** tools/animation_pack/build_pack_library.tscn (borrado: Mixamo/Mocap) convierte los clips de `selection.json` con `PackRetarget` (retarget respecto al reposo, no copia de rotaciones locales) a assets/animations/pack_clips.res (borrado: Mixamo/Mocap) (campo) y `pack_keeper.res` (arquero). Mide por clip: velocidad natural, raíz acumulada (**separada** de la cadera, que queda centrada), altura del tobillo, y en patadas el **contacto** (instante, pie, posición) y la **trayectoria de la punta del pie** en la ventana del golpeo.
 2. **Catálogo único** (`AnimationCatalog`): situación → clip del pack si la librería existe, si no clip de Tripo; nadie más elige clips.
 3. **Visual** (`FootballerVisual`): marcha por mezcla de velocidad con escala de tiempo = velocidad / velocidad natural interpolada; **una sola** acción puntual a la vez (`play_pack_clip` y `play_action` cancelan la anterior con fundido); acciones recortables (`play_for`).
 4. **Contacto pie–pelota** (`BallHandler`): el impulso se aplica **cuando el pie del clip llega a la pelota**, no a un tiempo fijo. Ver [PLAYER](PLAYER.md).
@@ -105,7 +109,7 @@ res://tools/animation_pack/pack_clip_sheet.tscn`.
 
 ## Regenerar las librerías desde los FBX
 
-Las librerías ya están generadas y versionadas. Solo hace falta regenerar si se cambia `tools/animation_pack/selection.json` o el conversor, y entonces los FBX originales deben estar en `pack/` (copia local, no versionada):
+Las librerías ya están generadas y versionadas. Solo hace falta regenerar si se cambia tools/animation_pack/selection.json (borrado: Mixamo/Mocap) o el conversor, y entonces los FBX originales deben estar en `pack/` (copia local, no versionada):
 
 1. `godot --headless --path . --import` (importa también los FBX de `pack/`, necesarios para el conversor).
 2. `python3 tools/animation_pack/make_selection.py` (regenera `selection.json`: 133 clips, roles, trayectorias a medir y estado) y `godot --headless --path . res://tools/animation_pack/build_pack_library.tscn` genera `pack_clips.res` y `pack_keeper.res`. Los mensajes `ERROR: ... still in use at exit` del conversor son avisos del cierre en headless, no del resultado (`error=0` en la línea «CONVERSOR guardado»).
@@ -115,37 +119,26 @@ Las librerías ya están generadas y versionadas. Solo hace falta regenerar si s
 
 | Ruta | Función |
 |---|---|
-| `tools/animation_pack/pack_retarget.gd` | `PackRetarget`: retarget Y Bot → Tripo respecto al reposo (con espejo izquierdo, calibración de cadera y raíz); lo usa el conversor |
-| `tools/animation_pack/build_pack_library.gd` / `.tscn` | **Conversor offline** `selection.json` → `pack_clips.res` / `pack_keeper.res` con metadatos medidos (`Animation.get_meta("pack")`) |
-| `tools/animation_pack/selection.json` / `make_selection.py` | Generado por `make_selection.py`: los 133 clips, bucle/espejo/contacto, trayectorias a medir (`paths`), `role` y `state` (`integrated` = citado por el código de juego / `gallery`) |
+| tools/animation_pack/pack_retarget.gd (borrado: Mixamo/Mocap) | `PackRetarget`: retarget Y Bot → Tripo respecto al reposo (con espejo izquierdo, calibración de cadera y raíz); lo usa el conversor |
+| tools/animation_pack/build_pack_library.gd (borrado: Mixamo/Mocap) / `.tscn` | **Conversor offline** `selection.json` → `pack_clips.res` / `pack_keeper.res` con metadatos medidos (`Animation.get_meta("pack")`) |
+| tools/animation_pack/selection.json (borrado: Mixamo/Mocap) / `make_selection.py` | Generado por `make_selection.py`: los 133 clips, bucle/espejo/contacto, trayectorias a medir (`paths`), `role` y `state` (`integrated` = citado por el código de juego / `gallery`) |
 | `scripts/animation/pack_library.gd` | `PackLibrary`: carga (opcional) de las librerías locales y acceso a clips y metadatos |
 | `scripts/animation/animation_catalog.gd` | `AnimationCatalog`: situación → clip (pack o Tripo), candidatos de patada, mapa del arquero, `step_interval` |
 | `scripts/player/footballer_visual.gd` | Marcha por mezcla, acción única, `play_pack_clip`, `play_situation`, tabla de marcha estática |
-| `tests/test_pack_retarget.gd`, `test_pack_locomotion.gd`, `test_pack_kick.gd`, *test_pack_dribble_metrics.gd (eliminada en la reforma)*, *test_pack_reactions.gd (eliminada en la reforma)*, `test_pack_motion.gd` | Pruebas del pack (se omiten sin la librería local; `test_pack_motion` además necesita render) |
-| `tools/animation_pack/pack_metrics.gd` | Métricas de cada clip (pistas, huesos, duración, raíz, cierre de ciclo) del pack y de la biblioteca de Tripo |
-| `tools/animation_pack/pack_checks.gd` | Compatibilidad: reposo idéntico al del Y Bot, cobertura de los 22 huesos, gemelos `_inplace` |
-| `tools/animation_pack/pack_rest.gd` | Compara reposo, proporciones y orientación de los dos esqueletos |
-| `tools/animation_pack/pack_sheet.gd` | Hojas de contacto del clip (pack retargeteado o Tripo) sobre nuestro futbolista (requiere render) |
-| `tools/animation_pack/pack_foot.gd` | Velocidad, alcance y toques bajos del pie en pases, tiros y conducción (requiere render) |
-| `tools/animation_pack/pack_library_probe.gd` | Genera librerías de prueba (en un directorio temporal) para medir su tamaño |
-| `tools/animation_pack/fbx_times.py`, `analyze_metrics.py`, `make_report.py` | Duración leída del FBX en bruto; resumen de métricas; genera la tabla de 133 clips |
-| `tools/animation_pack/evaluation_notes.json` | **Curado a mano:** recomendación, ola y verificación visual de cada clip |
-| `tools/animation_pack/README.md` | Cómo reproducir (el pack está en `pack/`) |
+| tests/test_pack_retarget.gd (borrado: Mixamo/Mocap), test_pack_locomotion.gd (borrado: Mixamo/Mocap), test_pack_kick.gd (borrado: Mixamo/Mocap), *test_pack_dribble_metrics.gd (eliminada en la reforma)*, *test_pack_reactions.gd (eliminada en la reforma)*, `test_pack_motion.gd` | Pruebas del pack (se omiten sin la librería local; `test_pack_motion` además necesita render) |
+| tools/animation_pack/pack_metrics.gd (borrado: Mixamo/Mocap) | Métricas de cada clip (pistas, huesos, duración, raíz, cierre de ciclo) del pack y de la biblioteca de Tripo |
+| tools/animation_pack/pack_checks.gd (borrado: Mixamo/Mocap) | Compatibilidad: reposo idéntico al del Y Bot, cobertura de los 22 huesos, gemelos `_inplace` |
+| tools/animation_pack/pack_rest.gd (borrado: Mixamo/Mocap) | Compara reposo, proporciones y orientación de los dos esqueletos |
+| tools/animation_pack/pack_sheet.gd (borrado: Mixamo/Mocap) | Hojas de contacto del clip (pack retargeteado o Tripo) sobre nuestro futbolista (requiere render) |
+| tools/animation_pack/pack_foot.gd (borrado: Mixamo/Mocap) | Velocidad, alcance y toques bajos del pie en pases, tiros y conducción (requiere render) |
+| tools/animation_pack/pack_library_probe.gd (borrado: Mixamo/Mocap) | Genera librerías de prueba (en un directorio temporal) para medir su tamaño |
+| tools/animation_pack/fbx_times.py (borrado: Mixamo/Mocap), `analyze_metrics.py`, `make_report.py` | Duración leída del FBX en bruto; resumen de métricas; genera la tabla de 133 clips |
+| tools/animation_pack/evaluation_notes.json (borrado: Mixamo/Mocap) | **Curado a mano:** recomendación, ola y verificación visual de cada clip |
+| tools/animation_pack/README.md (borrado: Mixamo/Mocap) | Cómo reproducir (el pack está en `pack/`) |
 
 ## Funciones del retarget
 
-<!-- AUTO:funcs:tools/animation_pack/pack_retarget.gd -->
-| Función | Línea | Qué hace |
-|---|---|---|
-| `PackRetarget._src(t_name: String)` | 33 |  |
-| `PackRetarget._global_rest(sk: Skeleton3D, b: int)` | 36 |  |
-| `PackRetarget._order(sk: Skeleton3D)` | 47 |  |
-| `PackRetarget.setup(y_skel: Skeleton3D, t_skel: Skeleton3D)` | 63 |  |
-| `PackRetarget.bind(anim: Animation)` | 89 | track_of: nombre de hueso (sin prefijo) -> indice de pista de rotacion; hips_track: pista de posicion de la cadera. |
-| `PackRetarget.pose(b: Dictionary, t: float, strip_xz: bool = true)` | 108 | Aplica el instante t del clip al esqueleto de Tripo. strip_xz: elimina el movimiento raiz horizontal. |
-| `PackRetarget.ankle_min_height()` | 151 |  |
-| `PackRetarget.root_offset(b: Dictionary, t: float)` | 159 | Desplazamiento raiz acumulado (adelante, derecha) en metros de juego en el instante t, respecto al primer fotograma. |
-<!-- /AUTO -->
+tools/animation_pack/pack_retarget.gd (borrado: Mixamo/Mocap): bloque generado quitado.
 
 ## Hallazgos verificados (2026-10-26, Godot 4.7.2 en Linux; nada se probó en Android)
 
@@ -268,7 +261,7 @@ Cada fase es independiente, se cierra con pruebas en verde y no cambia la físic
 
 | Fase | Contenido | Criterio de aceptación |
 |---|---|---|
-| 0 (hecha) | Evaluación, herramientas y esta documentación | Hallazgos reproducibles con `tools/animation_pack/` |
+| 0 (hecha) | Evaluación, herramientas y esta documentación | Hallazgos reproducibles con tools/animation_pack/ (borrado: Mixamo/Mocap) |
 | 1 | **Conversor offline** `tools/…/retarget_pack.gd` (a partir de `PackRetarget`): genera una librería nueva en `assets/animations/` (nombre propuesto `pack_clips.res`, aún inexistente) con solo los clips elegidos (núcleo, 22 huesos), cadera calibrada y raíz **separada** (curva de avance guardada aparte, no en la cadera). Decidir la licencia antes de versionar la librería | La librería carga; prueba nueva de pistas y duraciones; tamaño ≤ 3.5 MB |
 | 2 | **Locomoción** detrás de un interruptor: `BlendSpace` con idle / caminar / trote / sprint del pack y los laterales; velocidades naturales medidas por clip; los clips de Tripo quedan como respaldo | Error de deslizamiento de pies medido y menor que el de Tripo; cadencia ≤ × 1.7; pruebas `player_model`/`locomotion` en verde |
 | 3 | **Balón** (primero física): ver abajo; después `Dribble_2` como capa de conducción con toques en los puntos de apoyo del clip | Criterios de conducción de abajo |
@@ -304,7 +297,7 @@ python3 tools/animation_pack/fbx_times.py pack <salida>/fbx_times.json
 python3 tools/animation_pack/analyze_metrics.py <salida>
 python3 tools/animation_pack/make_report.py <salida>
 ```
-Las hojas de contacto y las mediciones del pie necesitan render: ver `tools/animation_pack/README.md`.
+Las hojas de contacto y las mediciones del pie necesitan render: ver tools/animation_pack/README.md (borrado: Mixamo/Mocap).
 
 ## Historial
 

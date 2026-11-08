@@ -9,7 +9,7 @@ const START := Vector3(-18.0, 0.0, 0.0)
 func _skip_if_missing() -> bool:
 	PackLibrary.reload()
 	if not PackLibrary.available():
-		skip("faltan assets/animations/pack_clips.res")
+		skip("faltan las bibliotecas del banco JSON (assets/animations/json_clips.res, json_keeper.res)")
 		return true
 	return false
 

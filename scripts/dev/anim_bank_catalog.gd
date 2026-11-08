@@ -6,7 +6,8 @@ extends RefCounted
 ## de un solo banco y una categoria vacia en ese banco devuelve una lista vacia («sin clip en este banco»).
 
 const PATH := "res://resources/animation/catalogo_bancos.json"
-const BANKS: Array[String] = ["json", "mixamo", "mocap"]
+## Solo el banco JSON original: Mixamo y Mocap se borraron (2026-11-08, pedido del usuario).
+const BANKS: Array[String] = ["json"]
 ## Cuerpo comun de la comparacion (decision del usuario): el humano del modo JSON.
 const COMMON_BODY := "res://assets/characters/json/json_human.scn"
 const JSON_KIT_SHADER := "res://assets/characters/json/json_kit.gdshader"

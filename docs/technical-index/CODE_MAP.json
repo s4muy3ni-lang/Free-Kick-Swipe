@@ -604,31 +604,31 @@
         {
           "file": "scripts/pitch/goal.gd",
           "name": "Goal._build_frame",
-          "line": 45,
+          "line": 47,
           "kind": "func"
         },
         {
           "file": "scripts/pitch/goal.gd",
           "name": "Goal._build_net",
-          "line": 83,
+          "line": 85,
           "kind": "func"
         },
         {
           "file": "scripts/pitch/goal.gd",
           "name": "Goal._physics_process",
-          "line": 150,
+          "line": 152,
           "kind": "func"
         },
         {
           "file": "scripts/pitch/goal.gd",
           "name": "Goal.is_ball_in_goal",
-          "line": 170,
+          "line": 195,
           "kind": "func"
         },
         {
           "file": "scripts/pitch/goal.gd",
           "name": "Goal.aim_point",
-          "line": 183,
+          "line": 208,
           "kind": "func"
         },
         {
@@ -1804,55 +1804,55 @@
         {
           "file": "scripts/player/footballer_visual.gd",
           "name": "FootballerVisual.build",
-          "line": 176,
+          "line": 174,
           "kind": "func"
         },
         {
           "file": "scripts/player/footballer_visual.gd",
           "name": "FootballerVisual._setup_animation_tree",
-          "line": 286,
+          "line": 269,
           "kind": "func"
         },
         {
           "file": "scripts/player/footballer_visual.gd",
           "name": "FootballerVisual.play_action",
-          "line": 451,
+          "line": 434,
           "kind": "func"
         },
         {
           "file": "scripts/player/footballer_visual.gd",
           "name": "FootballerVisual.stop_action",
-          "line": 606,
+          "line": 589,
           "kind": "func"
         },
         {
           "file": "scripts/player/footballer_visual.gd",
           "name": "FootballerVisual.update_motion",
-          "line": 643,
+          "line": 626,
           "kind": "func"
         },
         {
           "file": "scripts/player/footballer_visual.gd",
           "name": "FootballerVisual.start_kick",
-          "line": 615,
+          "line": 598,
           "kind": "func"
         },
         {
           "file": "scripts/player/footballer_visual.gd",
           "name": "FootballerVisual.set_kit",
-          "line": 252,
+          "line": 237,
           "kind": "func"
         },
         {
           "file": "scripts/player/footballer_visual.gd",
           "name": "FootballerVisual.default_kit",
-          "line": 160,
+          "line": 158,
           "kind": "func"
         },
         {
           "file": "scripts/player/footballer_visual.gd",
           "name": "FootballerVisual.keeper_kit",
-          "line": 171,
+          "line": 169,
           "kind": "func"
         },
         {
@@ -1996,7 +1996,8 @@
         "herramienta de poses"
       ],
       "files": [
-        "scripts/animation/pose_sampler.gd"
+        "scripts/animation/pose_sampler.gd",
+        "scripts/animation/foot_trajectory.gd"
       ],
       "symbols": [
         {
@@ -3097,25 +3098,25 @@
         {
           "file": "scripts/gameplay/tuning.gd",
           "name": "Tuning.reload",
-          "line": 54,
+          "line": 52,
           "kind": "func"
         },
         {
           "file": "scripts/gameplay/tuning.gd",
           "name": "Tuning.load_user_settings",
-          "line": 63,
+          "line": 61,
           "kind": "func"
         },
         {
           "file": "scripts/gameplay/tuning.gd",
           "name": "Tuning.save_user_settings",
-          "line": 82,
+          "line": 80,
           "kind": "func"
         },
         {
           "file": "scripts/gameplay/tuning.gd",
           "name": "Tuning._load_or_default",
-          "line": 98,
+          "line": 96,
           "kind": "func"
         },
         {
@@ -3371,113 +3372,9 @@
       "last_verified": "2026-11-08"
     },
     {
-      "id": "anim.pack_eval",
-      "system": "ANIMATION_PACK",
-      "description": "Evaluación e integración parcial del pack de 133 animaciones de Mixamo/Y Bot sobre el futbolista de Tripo: conversor offline a librerías locales restringidas (retarget respecto al reposo, raíz separada, contacto y trayectoria del pie medidos), estado integrado/preparado por clip, métricas antes/después.",
-      "keywords": [
-        "pack",
-        "pack de animaciones",
-        "mixamo",
-        "fbx",
-        "y bot",
-        "ybot",
-        "soccer game pack",
-        "retarget",
-        "retargeting",
-        "animaciones externas",
-        "biblioteca de animaciones",
-        "sprint",
-        "strafe",
-        "lateral",
-        "desplazamiento lateral",
-        "dribble",
-        "conducción",
-        "conduccion",
-        "pase",
-        "recepción",
-        "recepcion",
-        "tiro",
-        "arquero",
-        "portero",
-        "licencia",
-        "root motion",
-        "movimiento raíz",
-        "migración",
-        "migracion",
-        "in place",
-        "trayectoria del pie",
-        "foot trajectory",
-        "inventario de animaciones",
-        "animation inventory",
-        "conduccion integrada",
-        "dribble clip",
-        "toques de conduccion",
-        "empuje del pie",
-        "tripo api",
-        "tripo3d",
-        "retarget de presets",
-        "creditos",
-        "ledger"
-      ],
-      "files": [
-        "tools/animation_pack/pack_retarget.gd",
-        "tools/animation_pack/pack_metrics.gd",
-        "tools/animation_pack/pack_checks.gd",
-        "tools/animation_pack/pack_rest.gd",
-        "tools/animation_pack/pack_sheet.gd",
-        "tools/animation_pack/pack_foot.gd",
-        "tools/animation_pack/pack_library_probe.gd",
-        "tools/animation_pack/fbx_times.py",
-        "tools/animation_pack/analyze_metrics.py",
-        "tools/animation_pack/make_report.py",
-        "tools/animation_pack/evaluation_notes.json",
-        "tools/animation_pack/build_pack_library.gd",
-        "tools/animation_pack/build_pack_library.tscn",
-        "tools/animation_pack/selection.json",
-        "scripts/animation/foot_trajectory.gd",
-        "tests/test_animation_inventory.gd",
-        "tools/animation_pack/pack_clip_sheet.gd",
-        "tools/tripo/tripo_api.py"
-      ],
-      "symbols": [
-        {
-          "file": "tools/animation_pack/pack_retarget.gd",
-          "name": "PackRetarget.setup",
-          "line": 63,
-          "kind": "func"
-        },
-        {
-          "file": "tools/animation_pack/pack_retarget.gd",
-          "name": "PackRetarget.bind",
-          "line": 89,
-          "kind": "func"
-        },
-        {
-          "file": "tools/animation_pack/pack_retarget.gd",
-          "name": "PackRetarget.pose",
-          "line": 108,
-          "kind": "func"
-        },
-        {
-          "file": "tools/animation_pack/pack_retarget.gd",
-          "name": "PackRetarget.ankle_min_height",
-          "line": 151,
-          "kind": "func"
-        }
-      ],
-      "parameters": [],
-      "dependencies": [
-        "ANIMATIONS",
-        "PLAYER",
-        "TOOLS"
-      ],
-      "documentation": "docs/technical-index/SYSTEMS/ANIMATION_PACK.md",
-      "last_verified": "2026-11-08"
-    },
-    {
       "id": "anim.pack_integration",
       "system": "ANIMATION_PACK",
-      "description": "Sistema único de animación con el pack de Mixamo y respaldo de Tripo: catálogo situación → clip, carga opcional de la librería local restringida, marcha por mezcla de velocidad natural, acción única, reacciones de gol y recepción, paso de apoyo para la cadencia de toques.",
+      "description": "(Banco de Mixamo BORRADO el 2026-11-08 por pedido del usuario: docs/reforma/MIXAMO_MOCAP_QUITADOS.md.) Sistema único de animación con el pack de Mixamo y respaldo de Tripo: catálogo situación → clip, carga opcional de la librería local restringida, marcha por mezcla de velocidad natural, acción única, reacciones de gol y recepción, paso de apoyo para la cadencia de toques.",
       "keywords": [
         "catalogo de animaciones",
         "animation catalog",
@@ -3513,75 +3410,73 @@
         "scripts/animation/pack_library.gd",
         "scripts/player/footballer_visual.gd",
         "scripts/player/footballer.gd",
-        "tests/test_pack_locomotion.gd",
-        "tests/test_pack_motion.gd",
-        "tests/test_pack_retarget.gd"
+        "tests/test_pack_motion.gd"
       ],
       "symbols": [
         {
           "file": "scripts/animation/animation_catalog.gd",
           "name": "AnimationCatalog.resolve",
-          "line": 88,
+          "line": 67,
           "kind": "func"
         },
         {
           "file": "scripts/animation/animation_catalog.gd",
           "name": "AnimationCatalog.kick_candidates",
-          "line": 115,
+          "line": 90,
           "kind": "func"
         },
         {
           "file": "scripts/animation/animation_catalog.gd",
           "name": "AnimationCatalog.step_interval",
-          "line": 131,
+          "line": 105,
           "kind": "func"
         },
         {
           "file": "scripts/animation/pack_library.gd",
           "name": "PackLibrary.available",
-          "line": 157,
+          "line": 139,
           "kind": "func"
         },
         {
           "file": "scripts/animation/pack_library.gd",
           "name": "PackLibrary.clip",
-          "line": 171,
+          "line": 153,
           "kind": "func"
         },
         {
           "file": "scripts/animation/pack_library.gd",
           "name": "PackLibrary.meta",
-          "line": 198,
+          "line": 180,
           "kind": "func"
         },
         {
           "file": "scripts/player/footballer_visual.gd",
           "name": "FootballerVisual.play_pack_clip",
-          "line": 559,
+          "line": 542,
           "kind": "func"
         },
         {
           "file": "scripts/player/footballer_visual.gd",
           "name": "FootballerVisual.play_situation",
-          "line": 583,
+          "line": 566,
           "kind": "func"
         },
         {
           "file": "scripts/player/footballer_visual.gd",
           "name": "FootballerVisual.stop_current_action",
-          "line": 594,
+          "line": 577,
           "kind": "func"
         },
         {
           "file": "scripts/player/footballer_visual.gd",
           "name": "FootballerVisual.gait_scale_for",
-          "line": 484,
+          "line": 467,
           "kind": "func"
         },
         {
           "file": "scripts/player/footballer_visual.gd",
           "name": "FootballerVisual.step_interval_for",
-          "line": 535,
+          "line": 518,
           "kind": "func"
         },
         {
@@ -3632,7 +3527,6 @@
         "scripts/player/footballer.gd",
         "scripts/player/locomotion.gd",
         "scripts/player/player_tuning.gd",
-        "tests/test_pack_kick.gd",
         "tests/test_kick_timing.gd"
       ],
       "symbols": [
@@ -4358,25 +4252,25 @@
         {
           "file": "scripts/gameplay/practice_scene.gd",
           "name": "PracticeScene.clip_ids",
-          "line": 102,
+          "line": 101,
           "kind": "func"
         },
         {
           "file": "scripts/gameplay/practice_scene.gd",
           "name": "PracticeScene.grouped",
-          "line": 114,
+          "line": 113,
           "kind": "func"
         },
         {
           "file": "scripts/gameplay/practice_scene.gd",
           "name": "PracticeScene.play",
-          "line": 219,
+          "line": 218,
           "kind": "func"
         },
         {
           "file": "scripts/gameplay/practice_scene.gd",
           "name": "PracticeScene.toggle_juggle",
-          "line": 240,
+          "line": 239,
           "kind": "func"
         },
         {
@@ -4440,19 +4334,19 @@
         {
           "file": "scripts/gameplay/set_piece.gd",
           "name": "SetPiece.execute",
-          "line": 273,
+          "line": 266,
           "kind": "func"
         },
         {
           "file": "scripts/gameplay/set_piece.gd",
           "name": "SetPiece.ai_execute",
-          "line": 220,
+          "line": 213,
           "kind": "func"
         },
         {
           "file": "scripts/gameplay/set_piece.gd",
           "name": "SetPiece.force",
-          "line": 346,
+          "line": 338,
           "kind": "func"
         },
         {
@@ -4785,10 +4679,6 @@
         "scripts/animation/touch_foot_ik.gd",
         "scripts/player/footballer_visual.gd",
         "scripts/player/footballer.gd",
-        "tools/animation_pack/touch_clip_builder.gd",
-        "tools/animation_pack/build_touch_clips.gd",
-        "tools/animation_pack/build_touch_clips.tscn",
-        "assets/animations/touch_clips.res",
         "scripts/animation/pack_library.gd",
         "tools/dribble_demo/dribble_demo.gd",
         "tests/run_tests.gd"
@@ -4875,19 +4765,13 @@
         {
           "file": "scripts/player/footballer_visual.gd",
           "name": "FootballerVisual.play_touch",
-          "line": 417,
+          "line": 400,
           "kind": "func"
         },
         {
           "file": "scripts/player/footballer_visual.gd",
           "name": "FootballerVisual.carry_phase",
-          "line": 427,
-          "kind": "func"
-        },
-        {
-          "file": "tools/animation_pack/touch_clip_builder.gd",
-          "name": "TouchClipBuilder.build",
-          "line": 38,
+          "line": 410,
           "kind": "func"
         }
       ],
@@ -5319,132 +5203,6 @@
       "last_verified": "2026-11-08"
     },
     {
-      "id": "animation.mocap_mode",
-      "system": "ANIMATION_PACK",
-      "description": "Modo 2 de jugabilidad: el «Mocap Pack 05 Soccer» (captura de movimiento de fútbol aportada por la persona) convertido al futbolista (mocap_clips.res, clips mc_*); en modo 2 el pase, el tiro, el centro, el penal y los festejos usan sus clips con el contacto del pie medido. Se elige en el menú de pausa (Modo de juego).",
-      "keywords": [
-        "modo 2",
-        "modo de juego",
-        "mocap",
-        "captura de movimiento",
-        "motion capture",
-        "mocap pack",
-        "rokoko",
-        "pase de interior",
-        "tiro potente",
-        "penal",
-        "festejo",
-        "animaciones nuevas",
-        "segunda jugabilidad",
-        "gameplay mode",
-        "modelo mocap",
-        "Newton",
-        "modo 3",
-        "solo Tripo",
-        "mocap model",
-        "saque de banda",
-        "tarjeta"
-      ],
-      "files": [
-        "tools/animation_pack/build_mocap_library.gd",
-        "tools/animation_pack/build_mocap_library.tscn",
-        "tools/animation_pack/pack_retarget.gd",
-        "scripts/animation/animation_catalog.gd",
-        "scripts/animation/pack_library.gd",
-        "scripts/gameplay/set_piece.gd",
-        "scripts/gameplay/tuning.gd",
-        "scripts/ui/hud.gd",
-        "scripts/player/ball_handler.gd",
-        "scripts/animation/mocap_rig.gd",
-        "tools/animation_pack/build_mocap_character.gd",
-        "scripts/player/footballer_visual.gd",
-        "scripts/gameplay/referee.gd"
-      ],
-      "symbols": [
-        {
-          "file": "scripts/animation/animation_catalog.gd",
-          "name": "AnimationCatalog.mocap_mode",
-          "line": 69,
-          "kind": "func"
-        },
-        {
-          "file": "scripts/animation/animation_catalog.gd",
-          "name": "AnimationCatalog.MOCAP_KICKS",
-          "line": 53,
-          "kind": "const"
-        },
-        {
-          "file": "scripts/animation/animation_catalog.gd",
-          "name": "AnimationCatalog.kick_candidates",
-          "line": 115,
-          "kind": "func"
-        },
-        {
-          "file": "scripts/animation/animation_catalog.gd",
-          "name": "AnimationCatalog.resolve",
-          "line": 88,
-          "kind": "func"
-        },
-        {
-          "file": "scripts/animation/pack_library.gd",
-          "name": "PackLibrary.MOCAP_PATH",
-          "line": 19,
-          "kind": "const"
-        },
-        {
-          "file": "scripts/player/ball_handler.gd",
-          "name": "BallHandler.clip_timing",
-          "line": 625,
-          "kind": "func"
-        },
-        {
-          "file": "scripts/gameplay/set_piece.gd",
-          "name": "SetPiece._kick_clip",
-          "line": 401,
-          "kind": "func"
-        },
-        {
-          "file": "scripts/gameplay/tuning.gd",
-          "name": "Tuning.gameplay_mode",
-          "line": 45,
-          "kind": "var"
-        },
-        {
-          "file": "scripts/ui/hud.gd",
-          "name": "Hud._cycle_gameplay_mode",
-          "line": 246,
-          "kind": "func"
-        },
-        {
-          "file": "scripts/animation/mocap_rig.gd",
-          "name": "MocapRig.setup",
-          "line": 47,
-          "kind": "func"
-        },
-        {
-          "file": "scripts/animation/mocap_rig.gd",
-          "name": "MocapRig._copy_pose",
-          "line": 109,
-          "kind": "func"
-        },
-        {
-          "file": "scripts/gameplay/set_piece.gd",
-          "name": "SetPiece.MOCAP_THROW_RELEASE",
-          "line": 30,
-          "kind": "const"
-        }
-      ],
-      "parameters": [],
-      "dependencies": [
-        "ANIMATIONS",
-        "PLAYER",
-        "MATCH",
-        "UI_HUD"
-      ],
-      "documentation": "docs/technical-index/SYSTEMS/ANIMATION_PACK.md",
-      "last_verified": "2026-11-08"
-    },
-    {
       "id": "animation.json_mode",
       "system": "JSON_MODE",
       "description": "Modo 4 «Json» de jugabilidad: las 2 022 animaciones de animaciones_futbol5_JSON (posiciones de 19 articulaciones) convertidas a rotaciones sobre un esqueleto canónico (JsonRig, retarget por marcos con IK de dos huesos) y conectadas por rol (3 223 clips con espejos) sobre el humanoide propio (el GLB de Tripo adaptado se descartó). Marcha con ciclos de tiempo común, conducción con toques dados con el pie (IK al toque, toques de rumbo en diagonal), giros con pelota / vuelta pisando la pelota / regates / frenadas con los clips y sus toques (JsonBallMove), golpeo girando hacia un destino a un costado o detrás (no patea de espaldas), giros sin pelota con raíz y rumbo del clip, pases/tiros/cabezazos/voleas, barridas, caídas con levantarse en la misma postura, festejos y escenas por rol, barrera, arquero (estiradas y levantarse), técnicos, mascota y público.",
@@ -5590,31 +5348,31 @@
         {
           "file": "scripts/animation/pack_library.gd",
           "name": "PackLibrary.json_mode",
-          "line": 37,
+          "line": 31,
           "kind": "func"
         },
         {
           "file": "scripts/animation/pack_library.gd",
           "name": "PackLibrary.resolve",
-          "line": 128,
+          "line": 110,
           "kind": "func"
         },
         {
           "file": "scripts/animation/pack_library.gd",
           "name": "PackLibrary.by_role",
-          "line": 203,
+          "line": 185,
           "kind": "func"
         },
         {
           "file": "scripts/player/footballer_visual.gd",
           "name": "FootballerVisual._json_cycle_node",
-          "line": 272,
+          "line": 255,
           "kind": "func"
         },
         {
           "file": "scripts/gameplay/tuning.gd",
           "name": "Tuning.GAMEPLAY_MODES",
-          "line": 40,
+          "line": 38,
           "kind": "const"
         },
         {
@@ -5686,7 +5444,7 @@
         {
           "file": "scripts/animation/pack_library.gd",
           "name": "PackLibrary.vary_aliases",
-          "line": 220,
+          "line": 202,
           "kind": "func"
         },
         {
@@ -5875,25 +5633,25 @@
         {
           "file": "scripts/dev/anim_bank_bench.gd",
           "name": "AnimBankBench.select_bank",
-          "line": 127,
+          "line": 125,
           "kind": "func"
         },
         {
           "file": "scripts/dev/anim_bank_bench.gd",
           "name": "AnimBankBench.play_current",
-          "line": 206,
+          "line": 204,
           "kind": "func"
         },
         {
           "file": "scripts/dev/anim_bank_bench.gd",
           "name": "AnimBankBench._kick",
-          "line": 383,
+          "line": 381,
           "kind": "func"
         },
         {
           "file": "scripts/dev/anim_bank_catalog.gd",
           "name": "AnimBankCatalog.clips",
-          "line": 53,
+          "line": 54,
           "kind": "func"
         },
         {
@@ -5966,25 +5724,25 @@
         {
           "file": "scripts/setpiece/setpiece_game.gd",
           "name": "SetPieceGame._take_shot",
-          "line": 424,
+          "line": 455,
           "kind": "func"
         },
         {
           "file": "scripts/setpiece/setpiece_game.gd",
           "name": "SetPieceGame.shoot_params",
-          "line": 777,
+          "line": 814,
           "kind": "func"
         },
         {
           "file": "scripts/setpiece/setpiece_game.gd",
           "name": "SetPieceGame._finish",
-          "line": 559,
+          "line": 596,
           "kind": "func"
         },
         {
           "file": "scripts/setpiece/setpiece_game.gd",
           "name": "SetPieceGame.clamp_free_kick_spot",
-          "line": 348,
+          "line": 360,
           "kind": "func"
         },
         {
@@ -6058,19 +5816,19 @@
         {
           "file": "scripts/setpiece/shot_catalog.gd",
           "name": "ShotCatalog.choose",
-          "line": 84,
+          "line": 105,
           "kind": "func"
         },
         {
           "file": "scripts/setpiece/shot_catalog.gd",
           "name": "ShotCatalog.frame_for_shot",
-          "line": 140,
+          "line": 165,
           "kind": "func"
         },
         {
           "file": "scripts/setpiece/sp_shooter.gd",
           "name": "SpShooter.execute",
-          "line": 57,
+          "line": 64,
           "kind": "func"
         },
         {
@@ -6239,19 +5997,19 @@
         {
           "file": "scripts/setpiece/sp_keeper.gd",
           "name": "SpKeeper.read_shot",
-          "line": 109,
+          "line": 114,
           "kind": "func"
         },
         {
           "file": "scripts/setpiece/sp_keeper.gd",
           "name": "SpKeeper.commit_to",
-          "line": 167,
+          "line": 177,
           "kind": "func"
         },
         {
           "file": "scripts/setpiece/sp_keeper.gd",
           "name": "SpKeeper._resolve",
-          "line": 275,
+          "line": 298,
           "kind": "func"
         },
         {

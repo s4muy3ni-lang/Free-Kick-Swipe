@@ -1,4 +1,4 @@
-# Auditoría de animaciones con pelota (generada por `tests/test_animation_contact_audit.gd`)
+# Auditoría de animaciones con pelota (generada por tests/test_animation_contact_audit.gd (borrado: Mixamo/Mocap))
 
 Datos medidos sobre el esqueleto al convertir el pack (`PackLibrary.meta`). Posición de la punta del pie en el
 contacto: adelante / arriba / derecha (m) respecto al origen del jugador. «Usado por»: dónde aparece el nombre del

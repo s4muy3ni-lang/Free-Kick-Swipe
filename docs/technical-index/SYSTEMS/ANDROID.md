@@ -30,7 +30,7 @@
 
 ## Animaciones en la APK
 
-`assets/animations/pack_clips.res` y `pack_keeper.res` (las 133 animaciones ya convertidas al formato del juego) van dentro de la APK; los FBX originales **no** (`pack/` está en `.gitignore` y fuera del filtro de exportación: solo hacen falta para regenerar las librerías, ver [ANIMATION_PACK](ANIMATION_PACK.md)). El workflow se detiene si falta alguna de las dos librerías (salvo ejecución manual con `allow_without_pack`, que cae a los clips de Tripo).
+assets/animations/pack_clips.res (borrado: Mixamo/Mocap) y `pack_keeper.res` (las 133 animaciones ya convertidas al formato del juego) van dentro de la APK; los FBX originales **no** (`pack/` está en `.gitignore` y fuera del filtro de exportación: solo hacen falta para regenerar las librerías, ver [ANIMATION_PACK](ANIMATION_PACK.md)). El workflow se detiene si falta alguna de las dos librerías (salvo ejecución manual con `allow_without_pack`, que cae a los clips de Tripo).
 
 ## Lo que existe (verificado)
 

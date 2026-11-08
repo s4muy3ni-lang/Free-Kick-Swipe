@@ -62,7 +62,7 @@ con valores o lógica encima de una carrera que no puede representar el toque.
 
 Medido con `FootTrajectory` sobre el esqueleto del jugador (coordenadas comprobadas: el contacto de `Soccer_Pass`
 medido coincide con el del conversor a 0.000 m). Las 171 animaciones (133 FBX + 38 espejos) enlazan sus 24 pistas con el
-esqueleto de 23 huesos (`mixamorig_*`). Archivo de todas: `assets/animations/pack_clips.res` (campo) y
+esqueleto de 23 huesos (`mixamorig_*`). Archivo de todas: assets/animations/pack_clips.res (borrado: Mixamo/Mocap) (campo) y
 `pack_keeper.res` (arquero), nombre `pack/<clip>`; FBX de origen en la segunda columna.
 
 | Acción necesaria | Animación encontrada | Archivo y nombre exactos | Compatibilidad con el jugador | Contacto con la pelota (medido) | Estado |
@@ -131,13 +131,13 @@ Cartwheel, Rokoko) o animación a mano (Cascadeur/Blender). Texto sugerido para 
 `DRIBBLE_CANDIDATE=<clip> INVENTORY_OUT=docs/technical-index/ANIMATION_INVENTORY.md tools/run_tests.sh animation_inventory`
 aplica los criterios medibles de `FootTrajectory.dribble_verdict` (punta baja a ≥ 0.40 m por delante, ≥ 1.5 m/s más
 rápida que el cuerpo, un toque cada 0.35–1.0 s, ≤ 0.20 m al costado, bucle, cuerpo que avanza) y
-`tools/animation_pack/pack_clip_sheet.tscn` dibuja el clip sobre nuestro jugador con la trayectoria de los pies. Si
+tools/animation_pack/pack_clip_sheet.tscn (borrado: Mixamo/Mocap) dibuja el clip sobre nuestro jugador con la trayectoria de los pies. Si
 cumple, la integración usa los instantes de toque medidos del propio clip (en vez de las pisadas) y el impulso sale de la
 velocidad del pie en ese instante; los rescates sin pie se eliminan entonces.
 
 ## Fase D — Pases y tiros
 
-Secuencia actual (verificada en el código y con render, `test_live_kicks`, `test_pack_kick`): evaluar la pelota
+Secuencia actual (verificada en el código y con render, `test_live_kicks`, test_pack_kick (borrado: Mixamo/Mocap)): evaluar la pelota
 predicha → elegir clip, pierna e instante de contacto de la trayectoria real del pie (`plan_clip_kick`) → ajuste de
 zancada acotado antes de plantar el pie de apoyo (`_steer_clip_kick`) → latencia cuantizada para que la pose de contacto y
 el impulso caigan en el mismo paso → validar la distancia pie-pelota en ese paso (`_finish_clip_kick`; si no, patada al
@@ -227,7 +227,7 @@ Lo que la quinta ronda dejó pendiente (el clip de conducción en carrera) se re
 falta un clip nuevo de carrera entera, sino un **toque del pie dentro del ciclo de marcha** que llegue a la pelota. Se
 construyó desde los clips que ya hay (`TouchClipBuilder`: la pierna del balanceo real de `Dribble_2`, `Running_inplace` y
 `Two_Cycle_Sprint_inplace` con IK de dos huesos hasta un punto de contacto con el empeine; 33 clips en
-`assets/animations/touch_clips.res`) y se integró en el juego: disparo en fase con el ciclo, plan sobre el recorrido
+assets/animations/touch_clips.res (borrado: Mixamo/Mocap)) y se integró en el juego: disparo en fase con el ciclo, plan sobre el recorrido
 medido de la punta y el cuerpo previsto, contacto por evento con el pie vivo, IK del pie en tiempo real
 (`TouchFootIK`) e impulso que deja la pelota para el siguiente balanceo con velocidad relativa ~0. Diseño y parámetros:
 [PLAYER](SYSTEMS/PLAYER.md#toques-de-clip-conducción-con-animación-de-toque-e-ik-del-pie-2026-10-28-quinta-ronda).

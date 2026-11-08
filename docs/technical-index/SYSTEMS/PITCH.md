@@ -29,17 +29,17 @@
 |---|---|---|---|---|---|
 | `length` | `50.0` | float | `scripts/pitch/pitch_config.gd:11` | `scripts/ai/ai_input.gd:663`, `scripts/ai/ai_input.gd:666`, `scripts/setpiece/stadium11.gd:79`, `scripts/setpiece/stadium11.gd:87` (+9) |  (Dimensiones) |
 | `width` | `30.0` | float | `scripts/pitch/pitch_config.gd:12` | `scripts/ai/ai_input.gd:668`, `scripts/gameplay/match_scene.gd:92`, `scripts/setpiece/stadium11.gd:79`, `scripts/setpiece/stadium11.gd:87` (+10) |  (Dimensiones) |
-| `goal_width` | `5.0` | float | `scripts/pitch/pitch_config.gd:15` | `scripts/pitch/goal.gd:52`, `scripts/pitch/goal.gd:102`, `scripts/pitch/goal.gd:105`, `scripts/pitch/pitch_config.gd:95` |  (Arco) |
-| `goal_height` | `2.0` | float | `scripts/pitch/pitch_config.gd:16` | `scripts/assistance/shot_assist.gd:229`, `scripts/gameplay/match_manager.gd:200`, `scripts/goalkeeper/goalkeeper.gd:367`, `scripts/pitch/goal.gd:47` (+5) |  (Arco) |
-| `goal_depth` | `1.0` | float | `scripts/pitch/pitch_config.gd:17` | `scripts/pitch/goal.gd:84`, `scripts/pitch/pitch.gd:259`, `scripts/pitch/pitch.gd:260` |  (Arco) |
-| `goal_top_depth` | `-1.0` | float | `scripts/pitch/pitch_config.gd:20` | `scripts/pitch/goal.gd:93`, `scripts/pitch/goal.gd:94`, `scripts/pitch/goal.gd:95` | Profundidad del techo de la red (m). < 0: red en forma de caja (fondo vertical a goal_depth). Entre 0 y goal_depth: red de futbol 11 (fondo inclinado desde el techo hasta el piso, con soportes detras del arco). (Arco) |
-| `goal_net_sag` | `0.0` | float | `scripts/pitch/pitch_config.gd:22` | `scripts/pitch/goal.gd:93` | Caida de reposo de la red (0 = tensa, la de siempre; 1 = cuelga como una red real de futbol 11). (Arco) |
-| `goal_supports` | `0` | int | `scripts/pitch/pitch_config.gd:25` | `scripts/pitch/goal.gd:94`, `scripts/pitch/goal.gd:96` | Estructura detras del arco: 0 ninguna, 1 soportes de la red inclinada (barra superior y tirantes), 2 caños en el piso (red de caja, como la de los estadios). (Arco) |
-| `post_radius` | `0.04` | float | `scripts/pitch/pitch_config.gd:26` | `scripts/gameplay/match_manager.gd:200`, `scripts/pitch/goal.gd:46`, `scripts/pitch/goal.gd:122`, `scripts/pitch/pitch.gd:242` (+2) |  (Arco) |
+| `goal_width` | `5.0` | float | `scripts/pitch/pitch_config.gd:15` | `scripts/pitch/goal.gd:54`, `scripts/pitch/goal.gd:104`, `scripts/pitch/goal.gd:107`, `scripts/pitch/pitch_config.gd:95` |  (Arco) |
+| `goal_height` | `2.0` | float | `scripts/pitch/pitch_config.gd:16` | `scripts/assistance/shot_assist.gd:229`, `scripts/gameplay/match_manager.gd:200`, `scripts/goalkeeper/goalkeeper.gd:367`, `scripts/pitch/goal.gd:49` (+6) |  (Arco) |
+| `goal_depth` | `1.0` | float | `scripts/pitch/pitch_config.gd:17` | `scripts/pitch/goal.gd:86`, `scripts/pitch/pitch.gd:259`, `scripts/pitch/pitch.gd:260` |  (Arco) |
+| `goal_top_depth` | `-1.0` | float | `scripts/pitch/pitch_config.gd:20` | `scripts/pitch/goal.gd:95`, `scripts/pitch/goal.gd:96`, `scripts/pitch/goal.gd:97` | Profundidad del techo de la red (m). < 0: red en forma de caja (fondo vertical a goal_depth). Entre 0 y goal_depth: red de futbol 11 (fondo inclinado desde el techo hasta el piso, con soportes detras del arco). (Arco) |
+| `goal_net_sag` | `0.0` | float | `scripts/pitch/pitch_config.gd:22` | `scripts/pitch/goal.gd:95` | Caida de reposo de la red (0 = tensa, la de siempre; 1 = cuelga como una red real de futbol 11). (Arco) |
+| `goal_supports` | `0` | int | `scripts/pitch/pitch_config.gd:25` | `scripts/pitch/goal.gd:96`, `scripts/pitch/goal.gd:98` | Estructura detras del arco: 0 ninguna, 1 soportes de la red inclinada (barra superior y tirantes), 2 caños en el piso (red de caja, como la de los estadios). (Arco) |
+| `post_radius` | `0.04` | float | `scripts/pitch/pitch_config.gd:26` | `scripts/gameplay/match_manager.gd:200`, `scripts/pitch/goal.gd:48`, `scripts/pitch/goal.gd:124`, `scripts/pitch/pitch.gd:242` (+2) |  (Arco) |
 | `line_width` | `0.08` | float | `scripts/pitch/pitch_config.gd:29` | `scripts/setpiece/stadium11.gd:112`, `scripts/pitch/pitch.gd:172`, `scripts/pitch/pitch.gd:173`, `scripts/pitch/pitch.gd:174` (+6) |  (Marcas) |
 | `center_circle_radius` | `6.0` | float | `scripts/pitch/pitch_config.gd:30` | `scripts/pitch/pitch.gd:182` |  (Marcas) |
 | `penalty_area_radius` | `8.0` | float | `scripts/pitch/pitch_config.gd:32` | `scripts/ai/ai_input.gd:387`, `scripts/gameplay/match_manager.gd:228`, `scripts/gameplay/match_scene.gd:410`, `scripts/goalkeeper/goalkeeper.gd:563` (+1) | Radio de los cuartos de circulo del area de penal (desde cada poste). (Marcas) |
-| `penalty_mark_distance` | `8.0` | float | `scripts/pitch/pitch_config.gd:33` | `scripts/dev/anim_bank_bench.gd:252`, `scripts/assistance/cross_assist.gd:30`, `scripts/gameplay/match_manager.gd:219`, `scripts/gameplay/match_scene.gd:398` (+1) |  (Marcas) |
+| `penalty_mark_distance` | `8.0` | float | `scripts/pitch/pitch_config.gd:33` | `scripts/dev/anim_bank_bench.gd:250`, `scripts/assistance/cross_assist.gd:30`, `scripts/gameplay/match_manager.gd:219`, `scripts/gameplay/match_scene.gd:398` (+1) |  (Marcas) |
 | `second_penalty_mark_distance` | `12.0` | float | `scripts/pitch/pitch_config.gd:35` | `scripts/pitch/pitch.gd:199` | Segundo punto penal (reglamento futsal, falta acumulada; en la cancha de futbol 7 solo se dibuja). (Marcas) |
 | `corner_arc_radius` | `0.25` | float | `scripts/pitch/pitch_config.gd:36` | `scripts/pitch/pitch.gd:205` |  (Marcas) |
 | `substitution_zone_length` | `5.0` | float | `scripts/pitch/pitch_config.gd:37` | `scripts/pitch/pitch.gd:203` |  (Marcas) |
@@ -98,17 +98,19 @@ Quedan **fijos en el código** (no derivan del tamaño): `MatchScene.kickoff_pos
 | `Goal.setup(cfg: PitchConfig, goal_side: int)` | 22 |  |
 | `Goal.set_ball(b: Ball)` | 32 |  |
 | `Goal.reset_latch()` | 40 |  |
-| `Goal._build_frame()` | 45 |  |
-| `Goal._add_frame_piece(pos: Vector3, shape: CylinderShape3D, r: float, h: float, horizontal: bool)` | 54 |  |
-| `Goal._build_net()` | 83 |  |
-| `Goal._build_net_supports(d: float, top: float, h: float, hw: float)` | 110 | Soportes de la red de futbol 11 (solo visuales): barra superior trasera, brazos desde el travesano y tirantes inclinados hasta el piso, en g |
-| `Goal._build_ground_frame(d: float, hw: float)` | 121 | Arco de caja (como los de estadio): caños blancos en el piso a los costados y al fondo, donde se ata la red. |
-| `Goal._support_bar(a: Vector3, b: Vector3, r: float, mat: Material)` | 127 |  |
-| `Goal._physics_process(_delta: float)` | 150 |  |
-| `Goal._goal_step(_delta: float)` | 155 |  |
-| `Goal.is_ball_in_goal(local_ball_pos: Vector3)` | 170 | La pelota cuenta como gol cuando su centro esta al menos un radio detras de la linea (cruzo completamente) y dentro del marco (entre postes  |
-| `Goal.goal_center_world()` | 178 |  |
-| `Goal.aim_point(lateral: float, height_ratio: float, margin: float)` | 183 | Punto objetivo dentro del arco. lateral: -1..1 (a lo largo de la linea, en el eje mundial Z), height: 0..1 de la altura util. |
+| `Goal._build_frame()` | 47 |  |
+| `Goal._add_frame_piece(pos: Vector3, shape: CylinderShape3D, r: float, h: float, horizontal: bool)` | 56 |  |
+| `Goal._build_net()` | 85 |  |
+| `Goal._build_net_supports(d: float, top: float, h: float, hw: float)` | 112 | Soportes de la red de futbol 11 (solo visuales): barra superior trasera, brazos desde el travesano y tirantes inclinados hasta el piso, en g |
+| `Goal._build_ground_frame(d: float, hw: float)` | 123 | Arco de caja (como los de estadio): caños blancos en el piso a los costados y al fondo, donde se ata la red. |
+| `Goal._support_bar(a: Vector3, b: Vector3, r: float, mat: Material)` | 129 |  |
+| `Goal._physics_process(_delta: float)` | 152 |  |
+| `Goal._goal_step(_delta: float)` | 157 |  |
+| `Goal._track_mouth(lp: Vector3)` | 176 |  |
+| `Goal.is_goal_now()` | 187 | Gol ahora mismo: la pelota esta dentro del arco y entro por la boca del arco. |
+| `Goal.is_ball_in_goal(local_ball_pos: Vector3)` | 195 | La pelota cuenta como gol cuando su centro esta al menos un radio detras de la linea (cruzo completamente) y dentro del marco (entre postes  |
+| `Goal.goal_center_world()` | 203 |  |
+| `Goal.aim_point(lateral: float, height_ratio: float, margin: float)` | 208 | Punto objetivo dentro del arco. lateral: -1..1 (a lo largo de la linea, en el eje mundial Z), height: 0..1 de la altura util. |
 <!-- /AUTO -->
 
 <!-- AUTO:signals:scripts/pitch/pitch.gd -->

@@ -19,7 +19,7 @@
 | `scripts/dev/anim_bank_catalog.gd` | `AnimBankCatalog`: lectura del catálogo por procedencia y material del uniforme de cada cuerpo. |
 | `resources/animation/catalogo_bancos.json` | Catálogo generado (entra en la APK). |
 | `tools/reforma/build_bank_catalog.gd` | Genera el catálogo y los CSV por banco (`docs/reforma/fase1/catalogo_*.csv`) sin tocar las bibliotecas. |
-| `tools/reforma/bank_compat.gd` | Mide la compatibilidad de los bancos con los dos cuerpos (reposo, pies, desvío de la pose, error de contacto, saltos de pose). |
+| tools/reforma/bank_compat.gd (borrado: Mixamo/Mocap) | Mide la compatibilidad de los bancos con los dos cuerpos (reposo, pies, desvío de la pose, error de contacto, saltos de pose). |
 | `tools/reforma/bench_captures.gd`, `tools/reforma/bench_captures.tscn` | Capturas y mediciones del banco con render. |
 | `tests/test_anim_bank_bench.gd` | Pruebas del banco (procedencia, selector, categoría vacía, pistas, golpe en el contacto con render, menú). |
 

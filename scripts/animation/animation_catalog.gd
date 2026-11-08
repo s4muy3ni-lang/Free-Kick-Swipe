@@ -4,7 +4,7 @@ extends RefCounted
 ## cada situacion lista primero los clips del pack de Mixamo (si la libreria local existe) y despues los de Tripo
 ## (respaldo). Nadie mas elige clips: Footballer / BallHandler piden la situacion, no el nombre del clip.
 ##
-## "pack" -> clips de assets/animations/pack_clips.res (restringido, no versionado; ver PackLibrary)
+## "pack" -> clips de la libreria activa de PackLibrary (en el modo 4, el banco JSON resuelto por alias)
 ## "tripo" -> clips de assets/animations/footballer_clips.res (siempre disponibles)
 
 ## Situaciones de campo. max_seconds: duracion util maxima (el resto se recorta con un fundido).
@@ -47,29 +47,8 @@ const KICKS := {
 }
 const ROOT_MAX := 0.30
 
-## Modo 2 de jugabilidad (Tuning.gameplay_mode = 2): golpeos y festejos del «Mocap Pack 05 Soccer» (mocap_clips.res).
-## Los golpeos de mocap traen su carrera recortada alrededor del contacto con las trayectorias de los pies SIN la raiz
-## (meta paths_root = false): el cuerpo sigue al pie de apoyo, por eso no se filtran por ROOT_MAX.
-const MOCAP_KICKS := {
-	&"pass": [&"mc_side_foot_pass"],
-	&"through": [&"mc_side_foot_pass"],
-	&"shot": [&"mc_power_kick"],
-	&"lob": [&"mc_power_kick"],
-	&"cross": [&"mc_power_kick", &"mc_side_foot_pass"],
-}
-const MOCAP_FIELD := {
-	&"celebrate": [&"mc_celebration_2", &"mc_celebration_3"],
-	&"celebrate_scorer": [&"mc_celebration_1", &"mc_celebration_2", &"mc_celebration_3"],
-	&"celebrate_team": [&"mc_celebration_2", &"mc_celebration_3"],
-	&"victory_end": [&"mc_celebration_1", &"mc_celebration_3"],
-	&"referee_foul": [&"mc_yellow_card"],
-}
-
-## true si se juega con las animaciones de mocap (modo 2 elegido y la libreria convertida presente).
-static func mocap_mode() -> bool:
-	return Tuning.gameplay_mode == 2 and PackLibrary.has_clip(&"mc_side_foot_pass")
-
-## Arquero (libreria pack_keeper.res): nombres de situacion de los clips del arquero (Goalkeeper elige entre ellos).
+## Arquero: nombres de situacion de los clips del arquero (Goalkeeper elige entre ellos; en el modo 4 se resuelven a clips
+## JSON por su alias).
 const KEEPER := {
 	&"keeper_idle": [&"goalkeeper_idle"], &"keeper_idle_ball": [&"goalkeeper_idle_2"],
 	&"keeper_dive_left": [&"goalkeeper_diving_save"], &"keeper_dive_right": [&"goalkeeper_diving_save_2"],
@@ -89,10 +68,6 @@ static func resolve(situation: StringName, use_pack: bool, pick: int = 0) -> Dic
 	if not FIELD.has(situation):
 		return {}
 	var entry: Dictionary = FIELD[situation]
-	if use_pack and mocap_mode() and MOCAP_FIELD.has(situation):
-		var mc: Array = (MOCAP_FIELD[situation] as Array).filter(func(c: StringName) -> bool: return PackLibrary.has_clip(c))
-		if mc.size() > 0:
-			return {"source": &"pack", "clip": mc[absi(pick) % mc.size()]}
 	if use_pack and PackLibrary.json_mode():
 		# Modo 4: entre todos los clips JSON del rol de la situacion (festejos, lamentos, gestos...).
 		var jc: StringName = JsonCatalog.situation_clip(situation, pick)
@@ -116,8 +91,7 @@ static func kick_candidates(kind: StringName, charge: float = 0.5) -> Array:
 	if PackLibrary.json_mode():
 		return JsonCatalog.kick_candidates(kind, charge)
 	var out: Array = []
-	var mocap: bool = mocap_mode() and MOCAP_KICKS.has(kind)
-	for c in (MOCAP_KICKS if mocap else KICKS).get(kind, []):
+	for c in KICKS.get(kind, []):
 		for id in [c, StringName(String(c) + "_mirror")]:
 			var m: Dictionary = PackLibrary.meta(id)
 			if m.is_empty() or not m.has("contact"):

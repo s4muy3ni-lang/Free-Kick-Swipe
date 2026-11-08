@@ -34,6 +34,10 @@ var goal_height: float = 2.44
 var home := Vector3.ZERO
 var facing := Vector3(-1, 0, 0)
 var state: int = State.IDLE
+## Arquero de la IA (false: lo maneja el usuario y respeta su eleccion de zona).
+var ai: bool = true
+## Tiro «flojo» (m/s): la IA no se juega antes del golpe y, si ya eligio lado pero todavia no se tiro, lee la pelota real.
+const SLOW_SHOT := 17.0
 var rng := RandomNumberGenerator.new()
 ## Ultimo plan de atajada (diagnostico y pruebas).
 var plan: Dictionary = {}
@@ -82,12 +86,12 @@ func reset(home_pos: Vector3) -> void:
 		_prev_ball = ball.global_position
 
 ## Paso lateral hacia una posicion (antes del tiro): sigue a la pelota sin dejar el arco.
-func shuffle_to(p: Vector3) -> void:
+func shuffle_to(p: Vector3, speed: float = 1.4) -> void:
 	if state != State.IDLE:
 		return
 	var side_loop: StringName = &"jn_gk_sidestep_0184" if SpClips.has(&"jn_gk_sidestep_0184") else &""
 	if Vector3(p.x - actor.global_position.x, 0.0, p.z - actor.global_position.z).length() > 0.08:
-		actor.move_to(p, 1.4, side_loop, facing)
+		actor.move_to(p, speed, side_loop, facing)
 
 # --- Decisiones ----------------------------------------------------------------------------------------------------------
 
@@ -98,7 +102,8 @@ func _yaw() -> float:
 ## (posicion, velocidad y parte del giro) con un error de percepcion fijo para esta jugada que se achica a medida que la
 ## pelota se acerca, replanifica, y se tira en el ultimo instante que le permite llegar. Si la pelota se desvia (barrera,
 ## jugadores) lee la trayectoria nueva. No conoce el resultado: si lee mal o no llega, no la toca.
-const READ_EVERY := 0.05
+## Cada cuanto vuelve a leer la pelota (s): el plan cuesta varios ms en un telefono.
+const READ_EVERY := 0.1
 var _watching: bool = false
 var _watch_t: float = 0.0
 var _read_t: float = 0.0
@@ -145,9 +150,14 @@ func _watch_step(delta: float) -> void:
 		actor.face_towards(Vector3(bp.x, 0, bp.z) - actor.global_position)
 		return
 	var human := Vector2(Tuning.keeper.hand_latency, Tuning.keeper.hand_speed) if Tuning.keeper != null else Vector2.ZERO
-	var pl: Dictionary = KeeperPlanner.plan_save(actor.global_position, _yaw(), traj, 1.0 / 30.0, 0.0, bv.length(), false, [1.0, 1.2, 1.4], human)
-	if pl.is_empty():
-		return
+	var pl: Dictionary = KeeperPlanner.plan_save(actor.global_position, _yaw(), traj, 1.0 / 30.0, 0.0, bv.length(), false, [1.0, 1.25], human)
+	if pl.is_empty() or float(pl.get("dist", 0.0)) > float(pl.get("radius", 0.5)):
+		# Todavia no llega con ningun clip: se acomoda caminando de costado hacia donde va la pelota (pelotas lentas).
+		if cross != Vector3.INF:
+			var z: float = clampf(cross.z, -half_goal + 0.4, half_goal - 0.4)
+			shuffle_to(Vector3(actor.global_position.x, 0.0, z), 2.6)
+		if pl.is_empty():
+			return
 	plan = pl
 	# Espera mientras pueda: se tira cuando la estirada tiene que empezar ya (o si ya no llega de ninguna forma, al final).
 	if float(pl["delay"]) <= READ_EVERY * 1.5:
@@ -175,6 +185,16 @@ func commit_to(point: Vector3, ball_pos: Vector3, lead: float, speed_guess: floa
 
 ## La pelota salio y ya habia elegido zona sin anticipar: planifica hacia esa zona con la velocidad que ve.
 func on_kick(ball_pos: Vector3, velocity: Vector3) -> void:
+	if ai and velocity.length() < SLOW_SHOT:
+		# Tiro flojo: si todavia no se tiro, tiene tiempo de verlo y cambiar (no se queda mirando como entra).
+		if state == State.WAIT_DIVE and _dive_in > SpSettings.keeper_reaction() * 0.5:
+			state = State.IDLE
+			plan = {}
+			_dive_in = -1.0
+		if state == State.IDLE:
+			_zone = Vector3.INF
+			read_shot(ball_pos, velocity, Vector3.ZERO)
+			return
 	if _zone == Vector3.INF or state != State.IDLE:
 		return
 	var speed_seen: float = maxf(velocity.length() * rng.randf_range(0.92, 1.08), 8.0)
@@ -201,6 +221,9 @@ static func _line_traj(ball_pos: Vector3, point: Vector3, speed: float, wait: fl
 ## la cadera del tirador (no es el resultado: el tiro puede ir a otro lado si el tirador corrige o falla).
 func guess_penalty(cue_point: Vector3, ball_pos: Vector3, lead: float, speed_guess: float = 22.0) -> Vector3:
 	var p := Vector3(goal_x, 0.0, 0.0)
+	if speed_guess < SLOW_SHOT:
+		# La carrera y el impulso anuncian un tiro suave: espera y reacciona a la pelota (on_kick).
+		return p
 	var r: float = rng.randf()
 	if r < SpSettings.keeper_read_probability():
 		p.z = cue_point.z + rng.randfn(0.0, 0.6)

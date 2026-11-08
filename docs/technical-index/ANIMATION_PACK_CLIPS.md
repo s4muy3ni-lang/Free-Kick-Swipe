@@ -1,6 +1,6 @@
 # Pack de animaciones de fútbol — tabla de los 133 clips
 
-> Generado por `tools/animation_pack/make_report.py` el 2026-10-26 (no editar a mano: editar `tools/animation_pack/evaluation_notes.json` y regenerar).
+> Generado por tools/animation_pack/make_report.py (borrado: Mixamo/Mocap) el 2026-10-26 (no editar a mano: editar tools/animation_pack/evaluation_notes.json (borrado: Mixamo/Mocap) y regenerar).
 > Resumen, comparativa con Tripo, incompatibilidades y plan de migración: [SYSTEMS/ANIMATION_PACK.md](SYSTEMS/ANIMATION_PACK.md).
 
 **Cómo leer la tabla**

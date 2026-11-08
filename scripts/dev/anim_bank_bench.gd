@@ -1,9 +1,8 @@
 class_name AnimBankBench
 extends Node3D
-## Reforma, Fase 1: banco de pruebas para COMPARAR los tres bancos de animacion (JSON original, Mixamo, Mocap) bajo las
-## mismas condiciones: mismo jugador (el humano del modo JSON), misma cancha, misma pelota en el mismo punto, mismas
-## posiciones y mismas camaras. Solo carga el banco elegido; nunca mezcla bancos ni rellena una categoria vacia con clips
-## de otro banco («sin clip en este banco»). No es el juego: no elige ganador ni integra nada.
+## Banco de pruebas de las animaciones del banco JSON original (el unico del juego desde 2026-11-08: Mixamo y Mocap se
+## borraron por pedido del usuario, docs/reforma/MIXAMO_MOCAP_QUITADOS.md). Muestra cada clip por categoria de tirador,
+## barrera y arquero sobre el humano JSON, con la pelota, el golpe en el contacto del clip y mediciones en vivo.
 ##
 ## - Golpeos: el jugador se coloca para que el contacto medido del clip caiga sobre la pelota y la pelota recibe un golpe
 ##   de referencia en el instante de contacto del clip; se mide la distancia real punta del pie - pelota en ese instante.
@@ -28,7 +27,7 @@ enum View { BEHIND, SIDE, FRONT }
 ## Camaras fijas, iguales para los tres bancos: desde el lado del tirador (mirando al arco), lateral y opuesta (desde el arco).
 const VIEW_NAMES := ["Desde el tirador", "Lateral", "Opuesta"]
 
-## Banco elegido ("json", "mixamo" o "mocap").
+## Banco ("json": el unico).
 var bank: String = "json"
 ## false: cuerpo comun (humano JSON). true: cuerpo original del banco (diagnostico).
 var original_body: bool = false
@@ -74,7 +73,6 @@ var _skip_measure: int = 0
 
 var _ui: CanvasLayer
 var _bank_buttons: Dictionary = {}
-var _body_button: Button
 var _cat_box: VBoxContainer
 var _cat_buttons: Dictionary = {}
 var _info: Label
@@ -454,12 +452,10 @@ func _build_ui() -> void:
 	_style_label(lab, 18)
 	top.add_child(lab)
 	for b in AnimBankCatalog.BANKS:
-		var btn := _button(AnimBankCatalog.label(b), select_bank.bind(b))
+		var btn := _button("%s (%d clips)" % [AnimBankCatalog.label(b), AnimBankCatalog.all_clips(b).size()], select_bank.bind(b))
 		btn.toggle_mode = true
 		_bank_buttons[b] = btn
 		top.add_child(btn)
-	_body_button = _button("", func() -> void: set_original_body(not original_body))
-	top.add_child(_body_button)
 	# Izquierda: categorias.
 	var left := PanelContainer.new()
 	left.anchor_top = 0.0
@@ -564,7 +560,6 @@ func _refresh_ui() -> void:
 		return
 	for b in _bank_buttons:
 		(_bank_buttons[b] as Button).button_pressed = b == bank
-	_body_button.text = "Cuerpo: original del banco (diagnóstico)" if original_body else "Cuerpo: humano JSON (común)"
 	for c in _cat_buttons:
 		var n: int = AnimBankCatalog.count(bank, c)
 		var cb: Button = _cat_buttons[c]
@@ -589,8 +584,6 @@ func info_text() -> String:
 	var lines: PackedStringArray = []
 	lines.append("BANCO: %s" % AnimBankCatalog.label(bank))
 	lines.append("Cuerpo: %s" % ("humano JSON (común)" if body_path == AnimBankCatalog.COMMON_BODY else "futbolista (cuerpo original de Mixamo y Mocap)"))
-	if body_path == AnimBankCatalog.COMMON_BODY and bank != "json":
-		lines.append("Atención: este banco se convirtió para otro esqueleto de reposo; sobre el humano JSON la pose se deforma (informe de la Fase 1).")
 	if current.is_empty():
 		lines.append("")
 		lines.append("Sin clip en este banco para esta acción.")

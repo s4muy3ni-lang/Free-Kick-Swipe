@@ -31,14 +31,12 @@ const CAMERA_ZOOM_NAMES := ["Muy cerca", "Cerca", "Media", "Lejos"]
 var camera_zoom: float = 0.7
 ## Sonido del partido (Sfx) encendido.
 var sound_on: bool = true
-## Modo de jugabilidad: 1 = animaciones del pack actual; 2 = «Mocap Pack 05 Soccer» (capturas de movimiento de futbol:
-## pase de interior, tiro potente, penal y festejos; ver AnimationCatalog.mocap_mode); 3 = solo Tripo3D (el modelo y sus
-## animaciones prefijadas, patada procedural; FootballerVisual.build); 4 = Json (las animaciones de animaciones_futbol5_JSON
-## sobre el esqueleto canonico JsonRig, con el humanoide propio json_human.scn). Solo el 4 se conserva en la version final:
-## el juego arranca en el 4 y el menu de pausa no ofrece los descartados (1-3 siguen en el codigo para las pruebas y los
-## sistemas compartidos hasta que se autorice quitarlos).
-const GAMEPLAY_MODES := [1, 2, 3, 4]
-const GAMEPLAY_MODE_NAMES := {1: "1 · Pack actual", 2: "2 · Mocap fútbol", 3: "3 · Tripo", 4: "4 · Json"}
+## Modo de jugabilidad: 4 = Json (las animaciones de animaciones_futbol5_JSON sobre el esqueleto canonico JsonRig, con el
+## humanoide propio json_human.scn), el del juego; 3 = solo Tripo3D (el modelo y sus animaciones prefijadas, patada
+## procedural), respaldo del codigo heredado. Los modos 1 (pack de Mixamo) y 2 (Mocap) se borraron con sus bancos
+## (2026-11-08, pedido del usuario: docs/reforma/MIXAMO_MOCAP_QUITADOS.md).
+const GAMEPLAY_MODES := [3, 4]
+const GAMEPLAY_MODE_NAMES := {3: "3 · Tripo", 4: "4 · Json"}
 ## Modos que se ofrecen en el menu y que se aceptan de las preferencias guardadas, y el de una instalacion nueva.
 const PLAYABLE_MODES := [4]
 const DEFAULT_GAMEPLAY_MODE := 4
@@ -75,8 +73,8 @@ func load_user_settings(path: String = USER_SETTINGS_PATH) -> void:
 	camera_zoom = clampf(float(cfg.get_value("ui", "camera_zoom", 0.7)), 0.4, 1.2)
 	sound_on = bool(cfg.get_value("ui", "sound_on", true))
 	var gm: int = int(cfg.get_value("match", "gameplay_mode", DEFAULT_GAMEPLAY_MODE))
-	# Preferencias de versiones anteriores con un modo descartado (1-3; el 1 era el predeterminado y se guardaba con cualquier
-	# ajuste): pasan al 4 y el resto de la configuracion se conserva.
+	# Preferencias de versiones anteriores con un modo descartado o borrado (1-3): pasan al 4 y el resto de la configuracion
+	# se conserva.
 	gameplay_mode = gm if PLAYABLE_MODES.has(gm) else DEFAULT_GAMEPLAY_MODE
 
 func save_user_settings() -> void:

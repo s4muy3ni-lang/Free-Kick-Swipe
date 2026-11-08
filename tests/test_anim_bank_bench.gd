@@ -1,10 +1,9 @@
 extends TestCase
-## Reforma, Fase 1 — banco de pruebas de animaciones (JSON original / Mixamo / Mocap). Comprueba lo que la fase promete:
-## catalogo separado por procedencia (ningun clip de un banco aparece en otro), el selector carga SOLO las bibliotecas del
-## banco elegido, una categoria vacia muestra «sin clip en este banco» (sin rellenar con otro banco), todos los clips del
-## catalogo se reproducen sobre el cuerpo comun sin pistas huerfanas, el golpe de referencia sale en el instante de contacto
-## del clip (con render: la punta del pie esta en la pelota sobre el cuerpo original de cada banco) y el menu de desarrollo
-## abre el banco (el modo de futbol 5 ya no existe en esta rama). No compara calidad ni elige banco: eso lo decide el usuario.
+## Banco de pruebas de animaciones: solo el banco JSON original (Mixamo y Mocap se borraron el 2026-11-08 por pedido del
+## usuario). Comprueba: el catalogo tiene solo el banco JSON y sus clips vienen de sus bibliotecas, las bibliotecas de
+## Mixamo y Mocap ya no existen, el banco carga solo las bibliotecas JSON, todos los clips del catalogo se reproducen sobre
+## el humano JSON sin pistas huerfanas, el golpe de referencia sale en el instante de contacto del clip (con render: la
+## punta del pie esta en la pelota) y el menu principal abre el banco (el modo de futbol 5 ya no existe).
 
 func _bench() -> AnimBankBench:
 	use_game_pitch()
@@ -15,7 +14,11 @@ func _bench() -> AnimBankBench:
 
 func test_catalog_is_separated_by_provenance() -> void:
 	check(AnimBankCatalog.available(), "existe el catalogo (resources/animation/catalogo_bancos.json)")
-	check(AnimBankCatalog.BANKS == ["json", "mixamo", "mocap"], "tres bancos y ninguna cuarta opcion combinada")
+	check(AnimBankCatalog.BANKS == ["json"], "solo el banco JSON original")
+	check((AnimBankCatalog.data().get("bancos", {}) as Dictionary).keys() == ["json"], "el catalogo no tiene Mixamo ni Mocap")
+	for gone in ["res://assets/animations/pack_clips.res", "res://assets/animations/pack_keeper.res", "res://assets/animations/mocap_clips.res",
+			"res://assets/animations/touch_clips.res", "res://assets/characters/mocap/mocap_player.scn"]:
+		check(not ResourceLoader.exists(gone), "borrado: %s" % gone)
 	var seen: Dictionary = {}
 	for bank in AnimBankCatalog.BANKS:
 		var libs: Array = AnimBankCatalog.libraries(bank)
@@ -37,8 +40,6 @@ func test_catalog_is_separated_by_provenance() -> void:
 		check(missing.is_empty(), "%s: todos sus clips existen en sus bibliotecas %s" % [bank, str(missing.slice(0, 5))])
 	var dup: Array = seen.keys().filter(func(k: String) -> bool: return int(seen[k]) > 1)
 	check(dup.is_empty(), "ningun clip aparece en dos bancos %s" % str(dup.slice(0, 5)))
-	# Huecos conocidos (inventario de la Fase 0): ni Mixamo ni Mocap tienen salto de barrera.
-	check(AnimBankCatalog.count("mixamo", "wa_jump") == 0 and AnimBankCatalog.count("mocap", "wa_jump") == 0, "salto de barrera: solo JSON")
 	check(AnimBankCatalog.count("json", "wa_jump") > 0, "JSON tiene salto de barrera")
 
 func test_every_catalog_clip_binds_to_the_common_body() -> void:
@@ -59,7 +60,7 @@ func test_every_catalog_clip_binds_to_the_common_body() -> void:
 
 func test_selector_loads_only_the_chosen_bank() -> void:
 	var b: AnimBankBench = await _bench()
-	for bank in ["mixamo", "mocap", "json"]:
+	for bank in AnimBankCatalog.BANKS:
 		b.select_bank(bank)
 		await physics_frames(2)
 		var want: Array = AnimBankCatalog.libraries(bank)
@@ -71,17 +72,15 @@ func test_selector_loads_only_the_chosen_bank() -> void:
 		check(b.info_text().begins_with("BANCO: %s" % AnimBankCatalog.label(bank)), "%s: el panel nombra el banco" % bank)
 	cleanup()
 
-func test_empty_category_shows_no_clip_and_never_borrows() -> void:
+## Las 25 acciones del catalogo tienen clip en el banco JSON (no queda ninguna «sin clip»).
+func test_every_category_has_a_json_clip() -> void:
 	var b: AnimBankBench = await _bench()
-	b.select_bank("mocap")
-	b.select_category("wa_jump")
-	await physics_frames(2)
-	check(b.current.is_empty(), "Mocap sin salto de barrera: no hay clip elegido")
-	check(b.info_text().contains("Sin clip en este banco"), "el panel dice «sin clip en este banco»")
-	check(b._empty.visible, "aviso visible en pantalla")
 	b.select_bank("json")
-	await physics_frames(2)
-	check(not b.current.is_empty() and AnimBankCatalog.entry("json", String(b.current["id"])).size() > 0, "JSON en la misma categoria: clip propio")
+	for c in AnimBankCatalog.categories():
+		b.select_category(String(c["id"]))
+		await physics_frames(1)
+		check(not b.current.is_empty(), "%s: hay clip JSON" % c["id"])
+	check(not b._empty.visible, "sin aviso de categoria vacia")
 	cleanup()
 
 func test_every_category_plays_in_every_bank_without_errors() -> void:
@@ -98,17 +97,14 @@ func test_every_category_plays_in_every_bank_without_errors() -> void:
 	note("categorias con clip reproducidas: %d" % played)
 	cleanup()
 
-## Con render: en el instante de contacto del clip la pelota recibe el golpe y, sobre el cuerpo ORIGINAL de cada banco,
-## la punta del pie esta en la pelota (lo que mide la sincronizacion; sobre el cuerpo comun Mixamo y Mocap se deforman y
-## esa distancia se informa, no se exige).
+## Con render: en el instante de contacto del clip la pelota recibe el golpe y la punta del pie esta en la pelota.
 func test_reference_kick_happens_at_the_clip_contact() -> void:
 	if DisplayServer.get_name() == "headless":
 		skip("el esqueleto no se anima en headless: ejecutar con xvfb-run --rendering-driver opengl3")
 		return
 	var b: AnimBankBench = await _bench()
 	b.repeat = false
-	for body_original in [true, false]:
-		b.set_original_body(body_original)
+	for body_original in [false]:
 		for bank in AnimBankCatalog.BANKS:
 			b.select_bank(bank)
 			b.select_category("st_penalty")
@@ -125,9 +121,7 @@ func test_reference_kick_happens_at_the_clip_contact() -> void:
 				"original" if body_original else "comun", b.current["id"], d, t_contact, b.ball.linear_velocity.length()])
 			check(b.metrics.has("pie_pelota_m"), "%s: el golpe ocurre en el instante de contacto del clip" % bank)
 			check(b.ball.linear_velocity.length() > 3.0, "%s: la pelota sale golpeada" % bank)
-			var native: bool = body_original or bank == "json"
-			if native:
-				check(d <= 0.25, "%s sobre su cuerpo original: punta del pie a %.3f m del centro de la pelota (<= 0,25)" % [bank, d])
+			check(d <= 0.25, "%s: punta del pie a %.3f m del centro de la pelota (<= 0,25)" % [bank, d])
 	cleanup()
 
 ## Entrada del juego (decision del usuario 2026-11-08): el menu principal con los dos modos (penales y tiro libre) y un acceso

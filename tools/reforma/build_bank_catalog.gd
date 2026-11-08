@@ -1,5 +1,6 @@
 extends SceneTree
-## Reforma, Fase 1: catalogo de los tres bancos de animacion SEPARADO POR PROCEDENCIA (JSON original, Mixamo, Mocap),
+## Reforma, Fase 1: catalogo del banco de animacion JSON original (Mixamo y Mocap se borraron el 2026-11-08 por pedido del
+## usuario; docs/reforma/MIXAMO_MOCAP_QUITADOS.md),
 ## clasificado en las acciones que se comparan para tiros libres y penales (tirador, barrera, arquero). Solo lee las
 ## bibliotecas: no las modifica ni mezcla bancos. Un clip puede estar en varias categorias; una categoria vacia en un
 ## banco se muestra como «sin clip en este banco».
@@ -29,9 +30,6 @@ const LOW_HAND_M := 0.6
 const BANKS := {
 	"json": {"label": "JSON original", "libs": ["res://assets/animations/json_clips.res", "res://assets/animations/json_keeper.res", "res://assets/animations/json_scenes.res"],
 		"body": "res://assets/characters/json/json_human.scn"},
-	"mixamo": {"label": "Mixamo", "libs": ["res://assets/animations/pack_clips.res", "res://assets/animations/pack_keeper.res"],
-		"body": "res://assets/characters/player/player_base.glb"},
-	"mocap": {"label": "Mocap", "libs": ["res://assets/animations/mocap_clips.res"], "body": "res://assets/characters/player/player_base.glb"},
 }
 
 ## [id, grupo, etiqueta]

@@ -45,6 +45,25 @@ static func entry(id: StringName) -> Dictionary:
 static func rel_angle(c: Dictionary) -> float:
 	return wrapf(float(c["swing"]) - float(c["approach"]), -180.0, 180.0)
 
+## Superficie del pie con que golpea: "interior", "empeine" o "exterior".
+static func surface_of(c: Dictionary) -> String:
+	return String(c.get("surface", "empeine"))
+
+## Superficie que corresponde a un tiro: colocar = interior; potente = empeine; normal = interior al lado abierto y empeine
+## al cruzado; con efecto = interior si la pelota se cierra hacia el lado contrario al pie (comba natural) y exterior si se
+## abre hacia el lado del pie (trivela). lateral_spin + = la pelota se cierra hacia la izquierda.
+static func surface_for(kind: int, foot: int, open_side: bool, curled: bool, lateral_spin: float) -> String:
+	if kind == Kind.CHIP or kind == Kind.MISS:
+		return ""
+	if curled and absf(lateral_spin) > 1.0:
+		return "interior" if lateral_spin * float(foot) > 0.0 else "exterior"
+	match kind:
+		Kind.PLACED:
+			return "interior"
+		Kind.POWER:
+			return "empeine"
+	return "interior" if open_side else "empeine"
+
 static func is_desperate(c: Dictionary) -> bool:
 	return String(c.get("source", "")).contains("desperate") or (c.get("tags", []) as Array).has("KICKDESPERATE")
 
@@ -81,8 +100,10 @@ static func _kind_cost(want: int, have: int) -> float:
 ## Elige el golpeo. foot: 1 derecho, -1 izquierdo. shot_rel_deg: angulo (+ derecha) del tiro respecto de la carrera
 ## habitual del pie (ver approach_dir). set_piece: preferir golpeos de balon parado (carrera desde parado).
 ## Devuelve la entrada del catalogo o {}.
+## surface: superficie del pie pedida ("interior", "empeine", "exterior" o "" sin preferencia), medida en cada golpeo con
+## la orientacion del pie en el contacto (tools/setpiece/build_shot_catalog.gd).
 static func choose(foot: int, shot_rel_deg: float, kind: int, set_piece: bool, rng: RandomNumberGenerator = null,
-		ball_speed: float = -1.0, prefer_short: bool = false, curled: bool = false) -> Dictionary:
+		ball_speed: float = -1.0, prefer_short: bool = false, curled: bool = false, surface: String = "") -> Dictionary:
 	var scored: Array = []
 	for c in clips():
 		if int(c["foot"]) != foot:
@@ -109,9 +130,13 @@ static func choose(foot: int, shot_rel_deg: float, kind: int, set_piece: bool, r
 		# Tiro rapido de corta distancia: golpeo seco, casi sin carrera.
 		if prefer_short:
 			cost += clampf((float(c["run"]) - 0.8) * 0.35, 0.0, 1.0)
-		# Con efecto: los golpeos de tiro libre «curled» y los de interior que abren el pie.
-		if curled and not (c.get("tags", []) as Array).has("CURLED") and kind_of(c) != Kind.PLACED:
-			cost += 0.25
+		# Con efecto: los golpeos de tiro libre «curled».
+		if curled and not (c.get("tags", []) as Array).has("CURLED"):
+			cost += 0.2
+		# Superficie del pie: la que pide el tiro (interior para colocar, empeine para pegarle fuerte, exterior para la comba
+		# hacia fuera); si no hay golpeo de esa superficie con ese angulo, otro (no bloquea el tiro).
+		if surface != "" and surface_of(c) != surface:
+			cost += 0.9
 		scored.append([cost, c])
 	if scored.is_empty():
 		return {}
@@ -146,19 +171,22 @@ static func frame_for_shot(c: Dictionary, ball: Vector3, shot: Vector3) -> Array
 	var o: Vector3 = Vector3(ball.x, 0.0, ball.z) - f * float(c["cx"]) - r * float(c["cz"])
 	return [o, f]
 
-## Instante desde el que conviene empezar el clip para que la carrera arranque a `stance_dist` de la pelota (o antes del
-## contacto lo minimo para que se vea el golpeo): salta la parte de la carrera que quedaria por detras.
-static func start_time(c: Dictionary, stance_dist: float, min_lead: float = 0.55) -> float:
+## Instante del clip (antes del contacto, con al menos min_lead s de carrera) en que la raiz pasa mas cerca de `pos` (donde
+## espera el tirador): el tirador trota desde su lugar hasta ese punto y entra al clip ahi. frame = frame_for_shot.
+static func start_time_near(c: Dictionary, frame: Array, pos: Vector3, min_lead: float = 0.55) -> float:
 	var tc: float = float(c["tc"])
-	var cx: float = float(c["cx"])
-	var cz: float = float(c["cz"])
-	var best: float = 0.0
-	for r in c.get("roots", []):
-		var t: float = float(r[0])
+	var o: Vector3 = frame[0]
+	var f: Vector3 = frame[1]
+	var r: Vector3 = SpClips.right_of(f)
+	var best_t: float = 0.0
+	var best_d: float = INF
+	for row in c.get("roots", []):
+		var t: float = float(row[0])
 		if t > tc - min_lead:
 			break
-		var d: float = Vector2(cx - float(r[1]), cz - float(r[2])).length()
-		if d <= stance_dist + 0.25:
-			return t
-		best = t
-	return minf(best, maxf(tc - min_lead, 0.0))
+		var w: Vector3 = o + f * float(row[1]) + r * float(row[2])
+		var d: float = Vector2(w.x - pos.x, w.z - pos.z).length()
+		if d < best_d:
+			best_d = d
+			best_t = t
+	return best_t

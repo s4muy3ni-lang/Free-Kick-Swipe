@@ -145,8 +145,6 @@ const LEAN_BRAKE_MAX := 0.1
 const CARRY_CROUCH := 0.13
 ## Encorvado extra (rad) que pide una accion con la pelota (BallTurn: rodeando la pelota con toques).
 var turn_crouch: float = 0.0
-## Modelo propio del modo 2 (MocapRig) o null.
-var mocap_rig: MocapRig = null
 ## Modo 4 (Json): modelo sobre el esqueleto JsonRig con la libreria de clips JSON (ver JsonCatalog). json_human: el humanoide
 ## propio (colores de equipo por zonas en COLOR.r); si no, el Tripo adaptado (misma textura y mascaras que el original).
 var json_mode: bool = false
@@ -220,19 +218,6 @@ func build(kit: Dictionary) -> bool:
 		touch_ik = TouchFootIK.new()
 		touch_ik.name = "TouchFootIK"
 		skeleton.add_child(touch_ik)
-	# Modo 2 de jugabilidad: se ve el modelo propio del mocap (Newton con sus huesos), que copia la pose final de este
-	# esqueleto; el del futbolista sigue haciendo todo el trabajo pero no se dibuja.
-	if uses_pack and Tuning.gameplay_mode == 2 and MocapRig.available():
-		mocap_rig = MocapRig.new()
-		mocap_rig.name = "MocapRig"
-		skeleton.get_parent().add_child(mocap_rig)
-		if mocap_rig.setup(skeleton):
-			for mi in mesh_instances:
-				mi.visible = false
-			mocap_rig.set_kit(_kit)
-		else:
-			mocap_rig.queue_free()
-			mocap_rig = null
 	return true
 
 func _apply_kit(kit: Dictionary) -> void:
@@ -251,8 +236,6 @@ func _apply_kit(kit: Dictionary) -> void:
 
 func set_kit(kit: Dictionary) -> void:
 	_kit.merge(kit, true)
-	if mocap_rig != null:
-		mocap_rig.set_kit(kit)
 	if kit_material == null:
 		return
 	for key in ["jersey", "shorts", "socks", "boots", "skin", "hair"]:

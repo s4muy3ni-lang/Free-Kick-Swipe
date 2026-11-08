@@ -21,7 +21,7 @@ func _player() -> Footballer:
 	return p
 
 func _restore() -> void:
-	Tuning.gameplay_mode = 1
+	Tuning.gameplay_mode = Tuning.DEFAULT_GAMEPLAY_MODE
 	PackLibrary.reload()
 
 ## Un clip de gesto en el sitio (forcejeo) que el arbitro acepte con el jugador quieto.

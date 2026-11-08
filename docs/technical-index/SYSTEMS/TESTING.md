@@ -27,7 +27,7 @@
   *test_ai_match::test_ai_match_on_the_game_pitch (eliminada en la reforma)*).
 - Las lambdas de GDScript capturan las variables **por valor**: para que una señal escriba en una variable local se usa un `Dictionary`/`Array`.
 - Una prueba que ejecuta **0 comprobaciones se considera FALLIDA** (`run_tests.gd`).
-- Un error de script **a mitad** de una prueba aborta su cuerpo pero el ejecutor la cuenta como correcta si ya hizo ≥ 1 comprobación. Por eso `tools/run_tests.sh` busca `SCRIPT ERROR` en la salida y devuelve 1. **Si se ejecuta Godot directamente (sin el script), esa protección no existe.** (Corrección del 2026-10-26: `test_animation_tree_responds_to_speed` lanzaba un `SCRIPT ERROR` por leer `parameters/TimeScale/scale` — el nodo real se llama `LocoScale` — y figuraba como correcta con 1 comprobación.)
+- Un error de script **a mitad** de una prueba aborta su cuerpo pero el ejecutor la cuenta como correcta si ya hizo ≥ 1 comprobación. Por eso `tools/run_tests.sh` busca `SCRIPT ERROR` en la salida y devuelve 1. **Si se ejecuta Godot directamente (sin el script), esa protección no existe.** (Corrección del 2026-10-26: test_animation_tree_responds_to_speed (borrado: Mixamo/Mocap) lanzaba un `SCRIPT ERROR` por leer `parameters/TimeScale/scale` — el nodo real se llama `LocoScale` — y figuraba como correcta con 1 comprobación.)
 - La ventana de pruebas se fija en 1280×720 (los controles táctiles se posicionan respecto a ella).
 - Determinismo: `BallHandler.rng.seed` se fija en `TestCase.add_player` (`12345 + id`); la física de Jolt corre a 60 Hz con `--fixed-fps 60`.
 - `TestCase.make_match` crea cancha + pelota + `MatchContext` **sin cámara ni `MatchManager`**; `add_player(..., with_visual=false)` crea el futbolista sin modelo.
@@ -47,10 +47,10 @@
 | *tests/test_press.gd (eliminada en la reforma; en el historial de git)* | 5 | 14 | Presión y robo | [ASSISTANCE](ASSISTANCE.md) |
 | *tests/test_match_flow.gd (eliminada en la reforma; en el historial de git)* | 7 | 31 | Reglas del partido (saque, gol, gol en contra, reinicio, pausa, fin) | [MATCH](MATCH.md) |
 | *tests/test_touch_controls.gd (eliminada en la reforma; en el historial de git)* | 4 | 20 | Controles táctiles | [INPUTS](INPUTS.md), [UI_HUD](UI_HUD.md) |
-| `tests/test_player_model.gd` | 4 | 36 | Modelo, esqueleto, clips, kit | [ANIMATIONS](ANIMATIONS.md) |
-| `tests/test_pack_retarget.gd` | 6 | 100 | Retarget del pack: pistas limpias, orientación, pies en el suelo, velocidades naturales, contactos medidos | [ANIMATION_PACK](ANIMATION_PACK.md) |
-| `tests/test_pack_locomotion.gd` | 4 | 71 | Marcha del pack, respaldo de Tripo, catálogo único, acciones sin solaparse | [ANIMATION_PACK](ANIMATION_PACK.md) |
-| `tests/test_pack_kick.gd` | 8 | 105 | Contacto pie–pelota con clips: sincronía, fuera de alcance, patada en falso, ajuste de zancada, instante por trayectoria | [PLAYER](PLAYER.md) |
+| tests/test_player_model.gd (borrado: Mixamo/Mocap) | 4 | 36 | Modelo, esqueleto, clips, kit | [ANIMATIONS](ANIMATIONS.md) |
+| tests/test_pack_retarget.gd (borrado: Mixamo/Mocap) | 6 | 100 | Retarget del pack: pistas limpias, orientación, pies en el suelo, velocidades naturales, contactos medidos | [ANIMATION_PACK](ANIMATION_PACK.md) |
+| tests/test_pack_locomotion.gd (borrado: Mixamo/Mocap) | 4 | 71 | Marcha del pack, respaldo de Tripo, catálogo único, acciones sin solaparse | [ANIMATION_PACK](ANIMATION_PACK.md) |
+| tests/test_pack_kick.gd (borrado: Mixamo/Mocap) | 8 | 105 | Contacto pie–pelota con clips: sincronía, fuera de alcance, patada en falso, ajuste de zancada, instante por trayectoria | [PLAYER](PLAYER.md) |
 | *tests/test_pack_dribble_metrics.gd (eliminada en la reforma; en el historial de git)* | 2 | 23 | Métricas de conducción y ejecución de pase/tiro a trote/carrera/sprint (procedural vs clip) | [PLAYER](PLAYER.md) |
 | *tests/test_pack_reactions.gd (eliminada en la reforma; en el historial de git)* | 6 | 18 | Celebrar/lamentarse en un gol y recepción, con respaldo de Tripo | [ANIMATION_PACK](ANIMATION_PACK.md) |
 | `tests/test_pack_motion.gd` | 2 (render) | 24 (render) | Deslizamiento del pie de apoyo y punta del pie viva en el impulso (**solo con render**) | [ANIMATION_PACK](ANIMATION_PACK.md) |
@@ -61,7 +61,7 @@
 | *tests/test_gameplay_feel.gd (eliminada en la reforma; en el historial de git)* | 10 | 33 | Sensación de juego medida: conducción lenta, sprint, frenar con la pelota, giros de 90°/180°, control lateral, pase pulsado en carrera, recepción sin frenar, acciones que no bloquean | [PLAYER](PLAYER.md) |
 | *tests/test_control_and_keeper.gd (eliminada en la reforma; en el historial de git)* | 7 | 26 | Cedida recibida con el pie vs disparo atajado, arquero manejado por la persona (joystick, atrapar, sacar), indicadores de jugador, cambio al arquero, saque inicial | [GOALKEEPER](GOALKEEPER.md), [UI_HUD](UI_HUD.md), [MATCH](MATCH.md) |
 | *tests/test_pass_receiver_control.gd (eliminada en la reforma; en el historial de git)* | 4 | 16 | Control de la persona en los pases: receptor controlado al pasar (con y sin destinatario), sin cambio durante el vuelo de un pase largo, control al compañero que se queda con la pelota, la IA del equipo de la persona no pasa ni patea, la IA sigue jugando sin persona | [MATCH](MATCH.md) |
-| `tests/test_animation_inventory.gd` | 2 | 5 | Inventario medido de las 171 animaciones (trayectoria de los pies, empujes, veredicto de conducción); `INVENTORY_OUT` escribe el informe, `DRIBBLE_CANDIDATE` valida un clip nuevo | [ANIMATION_PACK](ANIMATION_PACK.md) |
+| tests/test_animation_inventory.gd (borrado: Mixamo/Mocap) | 2 | 5 | Inventario medido de las 171 animaciones (trayectoria de los pies, empujes, veredicto de conducción); `INVENTORY_OUT` escribe el informe, `DRIBBLE_CANDIDATE` valida un clip nuevo | [ANIMATION_PACK](ANIMATION_PACK.md) |
 | `tests/test_kick_reach.gd` | 2 | 17 (render) / 10 | Golpeo pedido con la pelota propia fuera del alcance: el jugador ajusta la carrera y golpea con contacto o cancela con aviso | [PLAYER](PLAYER.md) |
 | *tests/test_shared_ball_mechanics.gd (eliminada en la reforma; en el historial de git)* | 2 | 8 | La IA usa la misma mecánica de pelota que la persona (sin atajos) | [PLAYER](PLAYER.md) |
 | *tests/test_dribble_reference.gd (eliminada en la reforma; en el historial de git)* | 1 (render) | 6 (render) | Conducción recta medida contra el video de referencia (intervalo, pie, alternancia, distancia, deriva) | [PLAYER](PLAYER.md) |
@@ -106,8 +106,8 @@ Ver [CHANGELOG.md](../CHANGELOG.md): evolución 9/24 → 40/113 → 44/140 → 5
 
 - `TestCase.gameplay_mode()` (0 = el predeterminado, `TEST_GAMEPLAY_MODE` o `Tuning.DEFAULT_GAMEPLAY_MODE` = 4): el
   ejecutor (`run_tests.gd`) pone ese modo y recarga `PackLibrary` antes de cada prueba. Las pruebas del pack de Mixamo
-  heredado fijan el modo 1 (`test_animation_contact_audit`, `test_animation_inventory`, `test_pack_kick`,
-  `test_pack_locomotion`, *test_pack_reactions (eliminada en la reforma)*, `test_pack_retarget`, `test_player_model`, *test_pack_dribble_metrics (eliminada en la reforma)*,
+  heredado fijan el modo 1 (test_animation_contact_audit (borrado: Mixamo/Mocap), test_animation_inventory (borrado: Mixamo/Mocap), test_pack_kick (borrado: Mixamo/Mocap),
+  test_pack_locomotion (borrado: Mixamo/Mocap), *test_pack_reactions (eliminada en la reforma)*, test_pack_retarget (borrado: Mixamo/Mocap), test_player_model (borrado: Mixamo/Mocap), *test_pack_dribble_metrics (eliminada en la reforma)*,
   *test_drag_back (eliminada en la reforma)*).
 - Nuevas: `test_bank_integration`, *test_mode4_dribble (eliminada en la reforma)*, `test_ball_prediction`, *test_falls_direction (eliminada en la reforma)*.
 - Goles fantasma en `test_shot_keeper` y *test_shooting (eliminada en la reforma)*: `Ball.reset_at` se aplica en el paso físico siguiente y, con el

@@ -1757,7 +1757,7 @@ func _body_partner(b: Ball, radius: float) -> Footballer:
 
 # --- Toques con clip (animacion de toque: el pie sale a buscar la pelota) ------------------------------------------
 ##
-## Con el esqueleto vivo y la libreria de toques (assets/animations/touch_clips.res, TouchClipBuilder) la conduccion en
+## Con el esqueleto vivo y una libreria de toques (la de Mixamo se borro el 2026-11-08) la conduccion en
 ## carrera se hace con TOQUES DE CLIP, un clip por balanceo de cada pie del ciclo de marcha con pelota:
 ## 1. Disparo EN FASE: cuando la fase del ciclo base que se esta reproduciendo (FootballerVisual.carry_phase) llega al
 ##    inicio del clip, el toque se reproduce en la capa de esa pierna; asi coincide con el balanceo para el que se hizo

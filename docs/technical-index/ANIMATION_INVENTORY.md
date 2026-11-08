@@ -1,6 +1,6 @@
-# Inventario medido de animaciones (generado por `tests/test_animation_inventory.gd`)
+# Inventario medido de animaciones (generado por tests/test_animation_inventory.gd (borrado: Mixamo/Mocap))
 
-Cada fila es una animación convertida (`assets/animations/pack_clips.res` / `pack_keeper.res`, 133 FBX de origen +
+Cada fila es una animación convertida (assets/animations/pack_clips.res (borrado: Mixamo/Mocap) / `pack_keeper.res`, 133 FBX de origen +
 38 espejos `_mirror`). Medido sobre el esqueleto del futbolista a 60 Hz con `FootTrajectory`; posiciones en metros de
 juego respecto al jugador. **Empuje** = punta del pie a menos de 0.15 m del suelo, más de 0.15 m por delante del
 cuerpo y avanzando sobre el suelo 0.5 m/s más rápido que el cuerpo (puede impulsar la pelota hacia delante).

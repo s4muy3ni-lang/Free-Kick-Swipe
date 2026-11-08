@@ -23,13 +23,6 @@ const THROW_HANDS := Vector3(0.6, 1.45, 0.0)
 ## Metros de raiz del clip de saque que se reproducen antes de lanzar (el resto de la carrerilla se omite: el jugador
 ## saca desde la linea).
 const THROW_RUNUP := 0.9
-## Modo 2: saque de banda parado de la captura (mc_throw_in, 8 s con la preparacion). Las manos, por detras de la cabeza a
-## los 6.4 s, lanzan hacia delante; a los 6.68 s estan a 0.45 m por delante y 1.52 m de altura. Se empieza a los 5.4 s,
-## con la pelota ya arriba.
-const MOCAP_THROW_CLIP := &"mc_throw_in"
-const MOCAP_THROW_RELEASE := 6.68
-const MOCAP_THROW_START := 5.4
-const MOCAP_THROW_HANDS := Vector3(0.45, 1.52, 0.0)
 const KICK_SPEED := 1.0
 ## Carrerilla maxima (m de raiz del clip) antes del golpe.
 const RUNUP_MAX := 2.6
@@ -285,14 +278,13 @@ func execute(act: StringName, ch: float, lb: bool, dir: Vector3, cu: float = 0.0
 	var yaw: float = Locomotion.yaw_from_dir(aim_dir)
 	stage = &"run"
 	if kind == Kind.THROW_IN:
-		var mocap: bool = AnimationCatalog.mocap_mode() and PackLibrary.has_clip(MOCAP_THROW_CLIP)
-		clip = MOCAP_THROW_CLIP if mocap else THROW_CLIP
-		contact_t = MOCAP_THROW_RELEASE if mocap else THROW_RELEASE
+		clip = THROW_CLIP
+		contact_t = THROW_RELEASE
 		if _json_throw():
 			# Modo 4: el instante y la posicion de las manos al lanzar se midieron en el propio clip (meta release).
 			contact_t = float(PackLibrary.meta(THROW_CLIP)["release"]["time"])
 		# Se empieza tarde en el clip: solo los ultimos THROW_RUNUP m de carrerilla, para lanzar desde la linea.
-		var start_at: float = MOCAP_THROW_START if mocap else _start_for_runup(clip, contact_t, THROW_RUNUP)
+		var start_at: float = _start_for_runup(clip, contact_t, THROW_RUNUP)
 		var root_left: Vector2 = ActionMotion.offset_between(clip, start_at, contact_t)
 		var f: Vector3 = Locomotion.dir_from_yaw(yaw)
 		var r := Vector3(-f.z, 0.0, f.x)
@@ -378,7 +370,7 @@ func _resolve_without_clip() -> void:
 func _throw_hands() -> Vector3:
 	if _json_throw():
 		return PackLibrary.meta(THROW_CLIP)["release"]["hands"]
-	return MOCAP_THROW_HANDS if clip == MOCAP_THROW_CLIP else THROW_HANDS
+	return THROW_HANDS
 
 ## Modo 4: el saque de banda usa el clip JSON con su suelta medida.
 func _json_throw() -> bool:
@@ -401,8 +393,7 @@ func _toe_at(id: StringName, key: String, t: float) -> Vector3:
 func _kick_clip(act: StringName, lb: bool) -> StringName:
 	var base: StringName = &"strike_foward_jog"
 	if act == &"shot":
-		# Modo 2: el penal (y el tiro libre directo) de la captura de movimiento de futbol, con su carrera.
-		base = &"mc_penalty_kick" if AnimationCatalog.mocap_mode() else &"soccer_penalty_kick"
+		base = &"soccer_penalty_kick"
 	elif (act == &"cross" and not lb) or (act == &"pass" and lb):
 		base = &"Chip"
 	var id: StringName = base if taker.dominant_right else StringName(String(base) + "_mirror")

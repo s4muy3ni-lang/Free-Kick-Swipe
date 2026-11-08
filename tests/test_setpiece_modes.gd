@@ -200,3 +200,94 @@ func test_penalty_turn_flow() -> void:
 	await wait_seconds(0.5)
 	check(game.phase == SetPieceGame.Phase.KEEPER_PICK and not game.user_shooting, "despues ataja el usuario")
 	cleanup()
+
+## Un tiro a la red lateral desde AFUERA hunde la red pero no es gol (la pelota tiene que cruzar la linea entre los palos y
+## debajo del travesano). Los dos tipos de arco.
+func test_side_netting_from_outside_is_not_a_goal() -> void:
+	for style in [PitchConfig.GoalStyle.BOX, PitchConfig.GoalStyle.SLANTED]:
+		var st := Stadium11.new()
+		spawn(st)
+		st.build(PitchConfig.football11(style))
+		var ball: Ball = (load("res://scenes/ball/ball.tscn") as PackedScene).instantiate()
+		spawn(ball)
+		st.set_ball(ball)
+		var goals := [0]
+		st.goal_scored.connect(func(_g: Goal, _p: Vector3) -> void: goals[0] += 1)
+		# Desde el costado, por fuera del palo, hacia la red lateral (z = 3,66 + algo, detras de la linea).
+		ball.reset_at(Vector3(47.0, 0.5, 8.0))
+		await physics_frames(5)
+		var target := Vector3(53.3, 0.9, 3.9)
+		ball.kick((target - Vector3(47.0, 0.5, 8.0)).normalized() * 24.0 + Vector3.UP * 1.0, Vector3.ZERO, null)
+		var min_abs_z: float = INF
+		var g: Goal = st.get_goal(1)
+		var peak: float = 0.0
+		for i in 120:
+			await tree.physics_frame
+			var lp: Vector3 = g.to_local(ball.global_position)
+			if lp.x > 0.1:
+				min_abs_z = minf(min_abs_z, absf(lp.z))
+			peak = maxf(peak, g.net.bulge)
+		note("arco %s, red lateral desde afuera: goles %d, red abombada %.2f m, pelota hasta |z| = %.2f m dentro del plano del arco" % [SpSettings.GOAL_STYLE_NAMES[style], goals[0], peak, min_abs_z])
+		check(goals[0] == 0, "%s: la red lateral desde afuera no es gol" % SpSettings.GOAL_STYLE_NAMES[style])
+		check(not g.is_goal_now(), "%s: el juego tampoco lo cuenta como gol" % SpSettings.GOAL_STYLE_NAMES[style])
+		cleanup()
+
+## Seguro del golpe: si el clip termina sin que se haya disparado el contacto (cuadros perdidos), la pelota sale igual y el
+## juego sigue (antes el tiro quedaba trabado esperando).
+func test_a_kick_never_gets_stuck() -> void:
+	SetPieceGame.next_mode = SetPieceGame.Mode.PENALTY
+	var game: SetPieceGame = (load(SetPieceGame.SCENE) as PackedScene).instantiate()
+	game.fast = true
+	spawn(game)
+	await physics_frames(10)
+	game.shoot(Vector3(52.5, 0.6, -2.5), 0.6, 0.0)
+	var sh: SpShooter = game.user_shooter
+	check(game.phase == SetPieceGame.Phase.RUNUP, "arranca la carrera")
+	check(sh.time_to_contact() > 0.2, "se sabe cuanto falta para el contacto (%.2f s)" % sh.time_to_contact())
+	# Simula que el clip termino antes de disparar el contacto.
+	sh.state = SpShooter.State.KICK
+	sh._on_clip_finished(StringName(sh.entry["id"]))
+	await physics_frames(2)
+	check(sh.kicked, "el golpe sale igual")
+	check(game.phase == SetPieceGame.Phase.FLIGHT, "el juego sigue con la pelota en vuelo")
+	cleanup()
+
+## El tirador espera AL COSTADO de la pelota (como en los videos): el diestro a la izquierda, el zurdo a la derecha.
+func test_shooters_wait_beside_the_ball_on_their_side() -> void:
+	SetPieceGame.next_mode = SetPieceGame.Mode.PENALTY
+	var game: SetPieceGame = (load(SetPieceGame.SCENE) as PackedScene).instantiate()
+	game.fast = true
+	spawn(game)
+	await physics_frames(10)
+	var saved: int = SpSettings.foot
+	for foot in [1, -1]:
+		SpSettings.foot = -foot
+		game.toggle_foot()
+		await physics_frames(2)
+		var a: SpActor = game.user_shooter.actor
+		var rel: Vector3 = a.global_position - game.ball_spot
+		var side: float = rel.dot(SpClips.right_of(Vector3(1, 0, 0)))
+		note("pie %s: espera a %.1f m atras y %.1f m al costado (%s)" % ["derecho" if foot > 0 else "izquierdo", -rel.x, side, "izquierda" if side < 0 else "derecha"])
+		check(game.user_shooter.foot == foot, "el boton cambia el pie")
+		check(side * float(foot) < -1.5, "espera del lado del pie que no patea, al costado (%.1f m)" % side)
+		check_range(-rel.x, 1.5, 3.5, "un poco atras de la pelota")
+	SpSettings.foot = saved
+	SpSettings.save_settings()
+	cleanup()
+
+## Superficie del pie medida en cada golpeo y regla de eleccion: colocar = interior, potente = empeine, comba que se
+## cierra = interior, comba hacia afuera = exterior (con cada pie).
+func test_foot_surface_follows_the_shot() -> void:
+	var counts := {}
+	for c in ShotCatalog.clips():
+		counts[ShotCatalog.surface_of(c)] = int(counts.get(ShotCatalog.surface_of(c), 0)) + 1
+	note("golpeos por superficie medida: %s" % str(counts))
+	for s in ["interior", "empeine", "exterior"]:
+		check(int(counts.get(s, 0)) >= 10, "hay golpeos de %s" % s)
+	for foot in [1, -1]:
+		check(ShotCatalog.surface_for(ShotCatalog.Kind.PLACED, foot, true, false, 0.0) == "interior", "pie %d: colocar = interior" % foot)
+		check(ShotCatalog.surface_for(ShotCatalog.Kind.POWER, foot, false, false, 0.0) == "empeine", "pie %d: potente = empeine" % foot)
+		check(ShotCatalog.surface_for(ShotCatalog.Kind.NORMAL, foot, false, true, 30.0 * float(foot)) == "interior", "pie %d: comba que se cierra = interior" % foot)
+		check(ShotCatalog.surface_for(ShotCatalog.Kind.NORMAL, foot, false, true, -30.0 * float(foot)) == "exterior", "pie %d: comba hacia afuera = exterior" % foot)
+		var e: Dictionary = ShotCatalog.choose(foot, 0.0, ShotCatalog.Kind.PLACED, false, null, 16.0, false, false, "interior")
+		check(ShotCatalog.surface_of(e) == "interior" and int(e["foot"]) == foot, "pie %d: colocada al lado abierto con el interior de ese pie (%s)" % [foot, e.get("id", "-")])

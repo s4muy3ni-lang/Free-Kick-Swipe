@@ -39,6 +39,8 @@ func set_ball(b: Ball) -> void:
 
 func reset_latch() -> void:
 	_latched = false
+	entered_through_mouth = false
+	_prev_local = Vector3(-10, 0, 0)
 
 # --- Construccion ----------------------------------------------------------
 
@@ -156,13 +158,36 @@ func _goal_step(_delta: float) -> void:
 	if ball == null or not is_instance_valid(ball):
 		return
 	var lp: Vector3 = to_local(ball.global_position)
+	_track_mouth(lp)
 	if _latched:
 		if lp.x < -0.5:
 			_latched = false
 		return
-	if is_ball_in_goal(lp):
+	if is_ball_in_goal(lp) and entered_through_mouth:
 		_latched = true
 		goal_scored.emit(self, ball.global_position)
+
+## Como entro la pelota al arco: al cruzar el plano de la linea de gol (desde la cancha) se mira por DONDE cruzo (punto
+## interpolado entre dos pasos: a 30 m/s avanza 0,5 m por paso). Solo es gol si cruzo entre los palos y debajo del
+## travesano; una pelota que hunde la red lateral o el techo desde afuera y queda «dentro» no es gol.
+var entered_through_mouth: bool = false
+var _prev_local := Vector3(-10, 0, 0)
+
+func _track_mouth(lp: Vector3) -> void:
+	var r: float = ball.radius if ball != null else 0.1
+	if _prev_local.x < 0.0 and lp.x >= 0.0:
+		var u: float = (0.0 - _prev_local.x) / maxf(lp.x - _prev_local.x, 1e-5)
+		var c: Vector3 = _prev_local.lerp(lp, clampf(u, 0.0, 1.0))
+		entered_through_mouth = absf(c.z) <= config.half_goal() and c.y <= config.goal_height - r * 0.5
+	elif lp.x < -0.3:
+		entered_through_mouth = false
+	_prev_local = lp
+
+## Gol ahora mismo: la pelota esta dentro del arco y entro por la boca del arco.
+func is_goal_now() -> bool:
+	if ball == null:
+		return false
+	return entered_through_mouth and is_ball_in_goal(to_local(ball.global_position))
 
 ## La pelota cuenta como gol cuando su centro esta al menos un radio detras de la linea
 ## (cruzo completamente) y dentro del marco (entre postes y entera bajo el travesano: una pelota sobre el techo de la

@@ -13,8 +13,9 @@ const SCENE := "res://scenes/setpiece/setpiece_game.tscn"
 const MENU_SCENE := "res://scenes/setpiece/main_menu.tscn"
 const BALL_SCENE := preload("res://scenes/ball/ball.tscn")
 
-const PEN_STANCE := 3.3
-const FK_STANCE := 3.9
+## Donde espera el tirador (m detras y al costado de la pelota, del lado del pie que no patea), como en los videos.
+const PEN_STANCE := Vector2(2.6, 2.9)
+const FK_STANCE := Vector2(2.4, 2.3)
 ## Velocidad de salida (m/s) con potencia minima y maxima.
 const PEN_SPEED := Vector2(15.0, 29.0)
 const FK_SPEED := Vector2(17.0, 33.0)
@@ -83,6 +84,7 @@ var _flight_t: float = 0.0
 var _settle_t: float = -1.0
 var _result_t: float = 0.0
 var _committed: bool = false
+var _runup_t: float = 0.0
 var _keeper_zone := Vector3.INF
 var _pick_t: float = 0.0
 var _zone_marker: MeshInstance3D
@@ -121,6 +123,11 @@ func _ready() -> void:
 	hud.zoom_changed.connect(func(d: float) -> void: set_zoom(zoom * (1.15 if d > 0.0 else 1.0 / 1.15)))
 	_build_markers()
 	_build_people()
+	# Precalculo al cargar (antes costaba ~0,65 s en PC la primera atajada, en el golpe: en el telefono se trababa el tiro).
+	KeeperPlanner.warm_cache()
+	ShotCatalog.clips()
+	for roles in [SpReactions.GOAL_SCORER, SpReactions.MISS_SHOOTER, SpReactions.GOAL_TEAM, SpReactions.SAD, SpReactions.HAPPY_DEFENDER]:
+		SpReactions.pick(roles, rng, 1.5, 1.0)
 	gesture = ShotGesture.new(GestureTuning.current(), 720.0)
 	preview = TrajectoryPreview.new()
 	preview.name = "TrajectoryPreview"
@@ -179,6 +186,7 @@ func _build_people() -> void:
 		user_keeper.name = "UserKeeper"
 		add_child(user_keeper)
 		user_keeper.setup(_actor(SpSettings.USER_KEEPER_KIT, 0, "UserKeeperBody"), ball, gx, half_goal, goal_h)
+		user_keeper.ai = false
 		user_keeper.touched_ball.connect(_on_keeper_touch)
 		# Los demas jugadores esperan en el circulo central (como en una tanda real) y reaccionan a cada penal.
 		for i in 6:
@@ -266,8 +274,11 @@ func _start_penalty_turn() -> void:
 	for k in [user_keeper, cpu_keeper]:
 		k.actor.visible = k == cur_keeper
 	if not user_shooting:
+		# La CPU tiene tiradores diestros y zurdos.
 		cpu_shooter.foot = 1 if rng.randf() < 0.78 else -1
-	cur_shooter.stance(ball_spot, Vector3(1, 0, 0), PEN_STANCE)
+	else:
+		user_shooter.foot = SpSettings.foot
+	cur_shooter.stance(ball_spot, Vector3(1, 0, 0), PEN_STANCE.x, PEN_STANCE.y)
 	cur_keeper.reset(Vector3(gx - 0.12, 0.0, 0.0))
 	for b in bench:
 		var idles: Array[StringName] = SpClips.by_role(&"idle_ready", false)
@@ -278,6 +289,7 @@ func _start_penalty_turn() -> void:
 		var f: Array = SpCamera.behind_ball(ball_spot, goal_center(), 1.0, true)
 		cam.frame(f[0], f[1], f[2], true, 0.45)
 		phase = Phase.AIM
+		_aim_actions()
 		hud.set_hint("%s · Tirás vos: deslizá el dedo desde la pelota hacia donde querés que vaya" % round_txt)
 	else:
 		var g: Array = SpCamera.behind_goal(Vector3(gx, 0.0, 0.0), ball_spot)
@@ -381,13 +393,32 @@ func _setup_free_kick() -> void:
 	user_shooter.actor.visible = true
 	user_shooter.foot = SpSettings.foot
 	var aim: Vector3 = Vector3(gx - ball_spot.x, 0.0, -ball_spot.z).normalized()
-	user_shooter.stance(ball_spot, aim, FK_STANCE)
+	user_shooter.stance(ball_spot, aim, FK_STANCE.x, FK_STANCE.y)
 	user_shooting = true
 	phase = Phase.AIM
 	_aim_camera()
 	hud.set_zoom_visible(true)
-	hud.set_actions([[&"move", "Mover balón"]])
+	_aim_actions()
 	hud.set_hint("Dibujá el tiro con el dedo: el final marca a dónde va, la curva da efecto, la rapidez es la potencia")
+
+## Botones mientras se apunta: cambiar de pie (diestro / zurdo) y, en el tiro libre, mover la pelota.
+func _aim_actions() -> void:
+	var list: Array = [[&"foot", "Pie: %s" % SpSettings.foot_name()]]
+	if mode == Mode.FREE_KICK:
+		list.push_front([&"move", "Mover balón"])
+	hud.set_actions(list)
+
+## Cambia el pie habil del tirador del usuario y lo vuelve a parar del lado que corresponde.
+func toggle_foot() -> void:
+	if phase != Phase.AIM or not user_shooting:
+		return
+	SpSettings.foot = -SpSettings.foot
+	SpSettings.save_settings()
+	user_shooter.foot = SpSettings.foot
+	var aim: Vector3 = Vector3(1, 0, 0) if mode == Mode.PENALTY else Vector3(gx - ball_spot.x, 0.0, -ball_spot.z).normalized()
+	var st: Vector2 = PEN_STANCE if mode == Mode.PENALTY else FK_STANCE
+	user_shooter.stance(ball_spot, aim, st.x, st.y)
+	_aim_actions()
 
 func set_zoom(z: float) -> void:
 	zoom = clampf(z, 0.6, 1.7)
@@ -441,15 +472,17 @@ func _take_shot(shooter: SpShooter, p: ShotParams, error_deg: float) -> void:
 	elif kind == ShotCatalog.Kind.NORMAL and side > 2.0 and p.power < 0.6:
 		# Hacia su lado abierto (diestro a su derecha) sin mucha potencia: interior del pie, colocada.
 		kind = ShotCatalog.Kind.PLACED
-	var e: Dictionary = ShotCatalog.choose(shooter.foot, rel, kind, mode == Mode.FREE_KICK, rng, v.length(), p.prefer_short, p.curled)
+	var surface: String = ShotCatalog.surface_for(kind, shooter.foot, side > 2.0, p.curled, p.lateral_spin)
+	var e: Dictionary = ShotCatalog.choose(shooter.foot, rel, kind, mode == Mode.FREE_KICK, rng, v.length(), p.prefer_short, p.curled, surface)
 	if e.is_empty():
 		e = ShotCatalog.choose(shooter.foot, rel, ShotCatalog.Kind.NORMAL, false, rng)
 	var flotado: bool = p.power > 0.82 and absf(p.lateral_spin) < 6.0 and kind != ShotCatalog.Kind.CHIP
 	last_shot = {"velocity": v, "spin": p.spin, "traj": traj, "class": cls, "power": p.power, "kind": kind, "entry": e,
-		"target": p.target, "cross": cross, "dir": dir, "params": p}
+		"target": p.target, "cross": cross, "dir": dir, "params": p, "surface": surface}
 	last_params = p
-	shooter.execute(e, ball_spot, dir, v, p.spin, PEN_STANCE if mode == Mode.PENALTY else FK_STANCE, flotado)
+	shooter.execute(e, ball_spot, dir, v, p.spin, flotado)
 	phase = Phase.RUNUP
+	_runup_t = 0.0
 	preview.hide_path()
 	hud.hide_gesture()
 	hud.set_hint("")
@@ -457,6 +490,10 @@ func _take_shot(shooter: SpShooter, p: ShotParams, error_deg: float) -> void:
 	hud.set_zoom_visible(false)
 	_committed = false
 	_launch_measure = -1
+	# Penal: el arquero se juega YA (lo pesado se calcula al soltar el trazo, no en el golpe), con el tiempo exacto que
+	# falta para el contacto.
+	if mode == Mode.PENALTY:
+		_commit_keeper(maxf(shooter.time_to_contact(), 0.0))
 
 func _on_contact(_entry: Dictionary) -> void:
 	phase = Phase.FLIGHT
@@ -506,10 +543,10 @@ func _physics_process(delta: float) -> void:
 					_keeper_zone = Vector3(gx, 1.0, 0.0)
 				_cpu_penalty()
 		Phase.RUNUP:
-			if mode == Mode.PENALTY and not _committed and cur_shooter.state == SpShooter.State.KICK and not cur_shooter.entry.is_empty():
-				var remaining: float = float(cur_shooter.entry["tc"]) - cur_shooter.actor.clip_time()
-				if remaining <= 0.16:
-					_commit_keeper(maxf(remaining, 0.0))
+			# Seguro: ningun tiro puede quedar trabado en la carrera.
+			_runup_t += delta
+			if _runup_t > 6.0:
+				cur_shooter.force_contact()
 		Phase.FLIGHT:
 			_flight_tick(delta)
 		Phase.RESULT:
@@ -526,7 +563,7 @@ func _flight_tick(delta: float) -> void:
 		var look: Vector3 = (f[1] as Vector3).lerp(ball.global_position, 0.35)
 		cam.frame(f[0], look, f[2], false, 0.6)
 	var p: Vector3 = ball.global_position
-	if _goal_scored or goal.is_ball_in_goal(goal.to_local(p)):
+	if _goal_scored or goal.is_goal_now():
 		_finish("goal")
 		return
 	var done: bool = false
@@ -829,6 +866,8 @@ func _on_action(id: StringName) -> void:
 		&"confirm":
 			if phase == Phase.PLACE:
 				_setup_free_kick()
+		&"foot":
+			toggle_foot()
 		&"move":
 			if mode == Mode.FREE_KICK and phase in [Phase.AIM, Phase.OVER]:
 				_enter_place()

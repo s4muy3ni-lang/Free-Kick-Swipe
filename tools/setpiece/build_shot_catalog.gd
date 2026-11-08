@@ -25,6 +25,19 @@ func _ready() -> void:
 	skeleton = inst.find_child("Skeleton3D", true, false) as Skeleton3D
 	_run.call_deferred()
 
+## Superficie del pie con que golpea: angulo entre hacia donde apunta el pie (tobillo -> punta) y hacia donde se mueve en
+## el contacto. Con el pie girado hacia fuera golpea con el INTERIOR; alineado, con el EMPEINE; girado hacia dentro, con
+## el EXTERIOR. Umbrales en grados (con el signo del pie: + = punta hacia el lado del pie que patea).
+const INSIDE_MIN := 35.0
+const OUTSIDE_MAX := -25.0
+## Punta del pie por debajo de este angulo (grados): golpea con el empeine (cordones).
+const LACES_PITCH := -40.0
+
+func _foot_dir(id: StringName, anim: Animation, bind: Dictionary, t: float, ankle: int, toe: int) -> Vector3:
+	var a: Vector3 = _toe(id, anim, bind, t, ankle)
+	var b: Vector3 = (skeleton.global_transform * skeleton.get_bone_global_pose(toe)).origin
+	return b - a
+
 func _toe(id: StringName, anim: Animation, bind: Dictionary, t: float, bone: int) -> Vector3:
 	var r: Array = SpActor.body_at(id, t, Vector3.ZERO, Vector3(1, 0, 0))
 	body.global_position = r[0]
@@ -38,6 +51,8 @@ func _run() -> void:
 	var skipped := {}
 	var bl: int = skeleton.find_bone(SpActor.TOE_L)
 	var br: int = skeleton.find_bone(SpActor.TOE_R)
+	var al: int = skeleton.find_bone("mixamorig_LeftFoot")
+	var ar: int = skeleton.find_bone("mixamorig_RightFoot")
 	for role in ROLES:
 		for id in SpClips.by_role(role):
 			if seen.has(id):
@@ -62,6 +77,23 @@ func _run() -> void:
 				skipped[id] = "pie lento o alto (%.1f m/s, %.2f m)" % [vh.length(), p.y]
 				continue
 			var d: Vector3 = vh.normalized()
+			var fd: Vector3 = _foot_dir(id, anim, bind, tc, ar if foot > 0 else al, bone).normalized()
+			# Pie en 3D en el contacto: inclinacion de la punta (+ arriba) y giro hacia fuera respecto del movimiento del pie
+			# (+ = punta hacia el lado del pie que patea). Empeine: punta hacia abajo; interior: pie casi horizontal y girado
+			# hacia fuera; exterior: girado hacia dentro.
+			var pitch: float = rad_to_deg(asin(clampf(fd.y, -1.0, 1.0)))
+			var fh := Vector3(fd.x, 0.0, fd.z)
+			var foot_ang: float = rad_to_deg(atan2(d.x * fh.z - d.z * fh.x, d.x * fh.x + d.z * fh.z)) if fh.length() > 0.05 else 0.0
+			var turn_out: float = foot_ang * float(foot)
+			var surface: String
+			if turn_out <= OUTSIDE_MAX:
+				surface = "exterior"
+			elif pitch <= LACES_PITCH:
+				surface = "empeine"
+			elif turn_out >= INSIDE_MIN:
+				surface = "interior"
+			else:
+				surface = "empeine"
 			var c: Vector3 = Vector3(p.x, 0.0, p.z) + d * 0.10
 			var rc: Vector2 = SpClips.root_at(m, tc)
 			var ra: Vector2 = SpClips.root_at(m, maxf(tc - 0.35, 0.0))
@@ -86,6 +118,7 @@ func _run() -> void:
 				"swing": snappedf(rad_to_deg(atan2(d.z, d.x)), 0.1), "elev": snappedf(rad_to_deg(atan2(v.y, vh.length())), 0.1),
 				"foot_speed": snappedf(v.length(), 0.01), "approach": snappedf(rad_to_deg(approach_yaw), 0.1),
 				"run": snappedf(Vector2(c.x, c.z).length(), 0.01), "clean": bool(ct.get("clean", true)),
+				"surface": surface, "foot_turn": snappedf(turn_out, 0.1), "foot_pitch": snappedf(pitch, 0.1),
 				"power": String(m.get("power", "")), "tags": tags, "source": String(m.get("source", "")), "roots": roots,
 			})
 	rows.sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return String(a["id"]) < String(b["id"]))

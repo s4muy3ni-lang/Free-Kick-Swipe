@@ -60,7 +60,7 @@ func _on_event(e: GameEvent) -> void:
 				_queue(&"referee_point", 0.1, 1.6)
 		GameEvent.Type.FOUL:
 			# Modo 2: muestra la tarjeta amarilla de la captura; si no, senala.
-			_queue(&"referee_foul", 0.4, 2.8 if AnimationCatalog.mocap_mode() else 1.8)
+			_queue(&"referee_foul", 0.4, 1.8)
 		GameEvent.Type.GOAL, GameEvent.Type.OUT_OF_PLAY:
 			_queue(&"referee_point", 0.4, 1.8)
 		GameEvent.Type.MATCH_END:

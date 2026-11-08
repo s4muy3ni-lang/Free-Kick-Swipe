@@ -364,18 +364,7 @@ Ver la tabla «Valores fijos» de [ARCHITECTURE.md](../ARCHITECTURE.md) (carga d
 | `test_pose_curves_are_continuous_and_peak_at_contact` | 71 |
 <!-- /AUTO -->
 
-<!-- AUTO:tests:tests/test_pack_kick.gd -->
-| Prueba | Línea |
-|---|---|
-| `test_only_in_place_clips_are_connected_to_kicks` | 39 |
-| `test_pass_contact_is_synchronised_with_the_foot_arrival` | 52 |
-| `test_each_candidate_foot_hits_when_the_ball_is_on_it` | 95 |
-| `test_ball_out_of_reach_gives_no_kick_and_no_teleport` | 119 |
-| `test_ball_leaving_during_the_swing_is_a_real_whiff` | 140 |
-| `test_reach_is_limited_by_the_leg_not_a_fixed_radius` | 163 |
-| `test_stride_adjustment_reaches_a_ball_slightly_off_the_foot` | 198 |
-| `test_contact_instant_comes_from_the_foot_trajectory` | 227 |
-<!-- /AUTO -->
+tests/test_pack_kick.gd (borrado: Mixamo/Mocap): bloque generado quitado.
 
 *Pruebas de test_pack_dribble_metrics: eliminadas en la reforma (modo de fútbol 5 quitado; en el historial de git).*
 
@@ -733,7 +722,7 @@ Diagnóstico, antes/después y evidencia visual: [DRIBBLE_DIAGNOSIS](../DRIBBLE_
 Con el esqueleto vivo (render) la conducción en carrera ya no es «un toque por pisada sin animación»: cada toque es una
 animación de toque del pie que llega a la pelota, y el impulso solo se aplica en ese contacto.
 
-- **Clips** (`assets/animations/touch_clips.res`, 0 créditos, mismo esqueleto): `TouchClipBuilder` lleva la pierna del
+- **Clips** (assets/animations/touch_clips.res (borrado: Mixamo/Mocap), 0 créditos, mismo esqueleto): `TouchClipBuilder` lleva la pierna del
   balanceo real de `Dribble_2`, `Running_inplace` y `Two_Cycle_Sprint_inplace` con IK de dos huesos hasta un punto de
   contacto (empeine abajo, acompañamiento 0.04 m). Un clip por **balanceo** (Dribble_2 y el sprint adelantan cada pie dos
   veces por ciclo, con cadera distinta) y variantes de alcance `_Close` / `_Near` / `_Far` (las que la pierna no alcanza
@@ -911,7 +900,7 @@ Al soltar el joystick corriendo, el toque de parada (modo `settle`) dejaba la pe
 amortigua para que se **detenga** en el punto donde se va a parar el cuerpo más `settle_gap` (`Ball.roll_speed_to_stop`,
 en `_try_dribble_touch`); si la pelota ya lo pasó, la frena. (Hacer que el jugador camine
 hasta una pelota quieta se probó y se descartó: también iba a por la pelota que quedaba detrás y golpeaba sin alcance,
-`test_reach_is_limited_by_the_leg_not_a_fixed_radius`.)
+test_reach_is_limited_by_the_leg_not_a_fixed_radius (borrado: Mixamo/Mocap).)
 
 ### Control cerrado (menos de 3.2 m/s)
 

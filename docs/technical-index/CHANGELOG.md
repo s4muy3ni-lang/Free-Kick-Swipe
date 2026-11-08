@@ -11,6 +11,31 @@ Formato de entrada: **fecha — título** · commit · qué cambió · archivos 
 
 ---
 
+## 2026-11-08 — Jugable en el teléfono: tiro trabado, gol por la red lateral, arquero ante tiros flojos; solo banco JSON
+
+Pedido del usuario tras probar la APK: «se traban algunos tiros», «si pega en la red del costado dice gol», «el arquero deja
+entrar los tiros despacio»; y antes: tiradores diestros y zurdos, esperar al costado de la pelota (videos), qué superficie
+del pie usa cada tiro, y borrar Mixamo y Mocap.
+
+- **Tiro trabado:** la primera planificación del arquero tardaba ~0,65 s en PC (armaba su tabla de clips) en el instante del
+  golpe, y en el tiro libre replanificaba 20 veces por segundo. Ahora la tabla se precalcula al cargar
+  (`KeeperPlanner.warm_cache` en `SetPieceGame._ready`), el arquero del penal decide al soltar el trazo con el tiempo exacto
+  al contacto (`SpShooter.time_to_contact`) y el de tiro libre relee la pelota cada 0,1 s. Seguro: si el clip termina sin
+  disparar el contacto, el golpe sale igual (`SpShooter.force_contact`) y la carrera tiene un límite de 6 s.
+- **Gol por la red lateral:** la red lateral, hundida desde afuera, dejaba la pelota «dentro» del arco (medido: hasta
+  |z| = 3,47 m). `Goal` registra por dónde cruza la pelota el plano de la línea de gol y solo es gol si cruzó entre los palos
+  y bajo el travesaño (`Goal.is_goal_now`).
+- **Arquero y tiros flojos:** la IA no se juega antes del golpe si la carrera anuncia un tiro suave (< 17 m/s) y, si ya había
+  elegido lado sin tirarse, lee la pelota real; en el tiro libre camina de costado hacia la pelota lenta hasta poder atajarla.
+- **Tirador:** espera al costado de la pelota del lado del pie que no patea (diestro a la izquierda, zurdo a la derecha) y
+  entra al clip en el punto de su carrera más cercano (carrera en curva); botón «Pie» para cambiar de pie en el juego.
+- **Superficie del pie medida** en cada golpeo (orientación 3D del pie en el contacto): 321 interior, 201 empeine,
+  38 exterior. Colocar = interior; potente = empeine; comba que se cierra = interior; comba hacia afuera = exterior.
+- **Mixamo y Mocap borrados** (bibliotecas, personaje de Mocap, conversores, pruebas de esos modos):
+  `docs/reforma/MIXAMO_MOCAP_QUITADOS.md`. Las citas de este índice a lo borrado quedan como texto con «(borrado: Mixamo/Mocap)».
+- Verificación: suite headless 128 / 1334 / 0 fallos (15 omitidas por render); `test_setpiece_render` 2/0 con xvfb;
+  `test_anim_bank_bench` 7/0 con render; `docs_index.py check` 0 errores.
+
 ## 2026-11-08 — Arquero del tiro libre: lee la pelota real y se tira en el último instante útil
 
 - `SpKeeper.read_shot` ya no planifica una sola vez con el error de percepción completo (a 30 m, 2,6° eran más de un metro):
@@ -71,7 +96,7 @@ Rama `reforma-tiros-penales` (desde `integracion-openai` en `9c6f82a`).
   solo el banco elegido, cuerpo común (humano JSON) o cuerpo original del banco (diagnóstico), 25 acciones de tirador,
   barrera y arquero, «sin clip en este banco», golpe de referencia en el contacto del clip, mediciones en vivo, secuencia
   con transiciones, tres cámaras fijas. Catálogo por procedencia (`resources/animation/catalogo_bancos.json`,
-  `tools/reforma/build_bank_catalog.gd`) y medición de compatibilidad (`tools/reforma/bank_compat.gd`).
+  `tools/reforma/build_bank_catalog.gd`) y medición de compatibilidad (tools/reforma/bank_compat.gd (borrado: Mixamo/Mocap)).
 - Hallazgo medido y documentado (sin corregir, a decidir por el usuario): Mixamo y Mocap se convirtieron para el futbolista
   y sus reposos de hueso difieren hasta 177° de los del humano JSON; sobre él los pies flotan ~27 cm y el contacto queda a
   1,2 m. Informe: `docs/reforma/FASE1_INFORME.md`.
@@ -302,7 +327,7 @@ lag, dame más opciones de optimización» y «la pelota se acomoda al jugador e
   en 90 s; *test_training_mode::test_teammates_do_not_crowd_the_dribbler (eliminada en la reforma)*), 32 omitidas, 1 691 comprobaciones, 0 SCRIPT
   ERROR; repetidas 3 veces cada una, pasan 3 de 3. Tiros por partido IA de 90 s: media 2.0 (7 corridas) con el código
   nuevo y 3.0 (6) con el anterior, con mucha variación (0-5): no concluyente, a vigilar.
-- Pruebas ajustadas (dicho, no ocultado): `test_pack_kick` coloca la pelota al final de la espera inicial, justo antes del
+- Pruebas ajustadas (dicho, no ocultado): test_pack_kick (borrado: Mixamo/Mocap) coloca la pelota al final de la espera inicial, justo antes del
   pedido (con el joystick suelto el jugador ahora se acomoda a una pelota al alcance que no tiene delante, y la pelota
   «detrás» o «algo lejos del pie» ya no estaba ahí); el acomodo no actúa con un golpeo pedido o cargándose.
 - Pendiente: picos de la IA al preparar pases (hasta 13-20 ms), peor caso del arquero (16-20 ms), imágenes ocasionales de
@@ -362,7 +387,7 @@ Rama `respaldo-f3` (corrección del trabajo pedida por el usuario; continúa el 
 - Pisada pedida con REGATE (`DragBack.REQUEST_HOLD`) 0.3 → 0.6 s: a la carrera la pelota va ~1 m por delante.
 - Pruebas ajustadas por el cambio de mecánica (dicho, no ocultado): *test_live_feet (eliminada en la reforma)* a sprint pide ≥ 40 % de toques con la
   punta medida (medido 4–7 de 9–10; antes 8 de 9: sin toques a distancia el cuerpo alcanza la pelota empujada);
-  `test_pack_kick` (pelota a 1.3 m: el jugador camina hasta ella en vez del toque a distancia);
+  test_pack_kick (borrado: Mixamo/Mocap) (pelota a 1.3 m: el jugador camina hasta ella en vez del toque a distancia);
   *test_pack_dribble_metrics (eliminada en la reforma)* (pegada < 5 % al trote); nuevas *test_physical_dribble (eliminada en la reforma)* (render) y
   *test_ai_match::test_ai_match_on_the_game_pitch (eliminada en la reforma)*.
 - Archivos: `scripts/player/ball_handler.gd`, `footballer.gd`, `player_tuning.gd`, `drag_back.gd`,
@@ -370,7 +395,7 @@ Rama `respaldo-f3` (corrección del trabajo pedida por el usuario; continúa el 
   `scripts/ui/hud.gd`, `tests/*` (arriba), `.github/workflows/android.yml` (render: `physical_dribble`).
 - Verificación (con render, modo 4): `live_feet` 7/0, `live_kicks` 4/0 (50 de 50 golpeos con contacto), `json_mode` 10/0
   (1 omitida), `pack_motion` 2/0, `physical_dribble` 4/0, `directional_kicks` 3/0, `ball_turn` 4/0, `drag_back` 4/0;
-  headless *test_mode4_dribble (eliminada en la reforma)* 8/0, *test_ai_match (eliminada en la reforma)* (incluida la cancha de fútbol 7), `test_pack_kick` 8/0 y *test_receive (eliminada en la reforma)*
+  headless *test_mode4_dribble (eliminada en la reforma)* 8/0, *test_ai_match (eliminada en la reforma)* (incluida la cancha de fútbol 7), test_pack_kick (borrado: Mixamo/Mocap) 8/0 y *test_receive (eliminada en la reforma)*
   30/0 (2 omitidas). Suite headless completa con el primer commit (`6d483ea`): 288 pruebas, 1 fallo
   (*test_receive::test_reception_then_pass (eliminada en la reforma)*, corregido arriba); GitHub Actions #44 falló por la misma prueba.
   Suite completa tras la corrección (`481ded7`): **288 pruebas, 0 fallos**, 31 omitidas, 1 690 comprobaciones (local).
@@ -626,7 +651,7 @@ Detalle: [ANIMATION_PACK](SYSTEMS/ANIMATION_PACK.md#modo-2-de-jugabilidad-mocap-
 [ANIMATIONS](SYSTEMS/ANIMATIONS.md).
 
 - **Modelo del modo 2**: Newton, el personaje del pack, a 6 778 triángulos con su esqueleto Rokoko y los colores del
-  equipo (`tools/animation_pack/build_mocap_character.tscn` → `assets/characters/mocap/mocap_player.scn`,
+  equipo (tools/animation_pack/build_mocap_character.tscn (borrado: Mixamo/Mocap) → assets/characters/mocap/mocap_player.scn (borrado: Mixamo/Mocap),
   `mocap_kit.gdshader`). `MocapRig` copia la pose final del futbolista (retarget inverso + IK de dos huesos en piernas y
   brazos) en jugadores, arqueros y árbitro; el esqueleto del futbolista sigue midiendo el contacto y no se dibuja.
 - **Modo 2**: saque de banda con `mc_throw_in` (`SetPiece.MOCAP_THROW_*`), tarjeta amarilla del árbitro en las faltas
@@ -636,9 +661,9 @@ Detalle: [ANIMATION_PACK](SYSTEMS/ANIMATION_PACK.md#modo-2-de-jugabilidad-mocap-
   animaciones a medida (su API solo ofrece rigging y presets); cambiar de modo recarga el partido.
 - **Rodilla en la pisada**: `TouchFootIK.ik_toe` inclina el polo de la rodilla hacia el frente del cuerpo en el modo de
   objetivo absoluto; antes la pierna se doblaba en Z al pisar la pelota en el giro.
-- Archivos: `scripts/animation/mocap_rig.gd` (nuevo), `touch_foot_ik.gd`, `animation_catalog.gd`,
+- Archivos: scripts/animation/mocap_rig.gd (borrado: Mixamo/Mocap) (nuevo), `touch_foot_ik.gd`, `animation_catalog.gd`,
   `scripts/player/footballer_visual.gd`, `scripts/gameplay/set_piece.gd`, `referee.gd`, `tuning.gd`, `match_scene.gd`,
-  `scripts/ui/hud.gd`, `tools/animation_pack/build_mocap_character.gd`/`.tscn` (nuevos), `tools/drag_back_view.gd`
+  `scripts/ui/hud.gd`, tools/animation_pack/build_mocap_character.gd (borrado: Mixamo/Mocap)/`.tscn` (nuevos), `tools/drag_back_view.gd`
   (`DRAG_MODE`), *tests/test_mocap_mode.gd (eliminada en la reforma; en el historial de git)* (+3 pruebas).
 - Verificación: *test_mocap_mode (eliminada en la reforma)* 7/79/0 headless y con render (pies y manos de Newton a ≤ 0.066 m de los del
   futbolista, saque sale a 1.55 m, árbitro con `mc_yellow_card`); con render *test_drag_back (eliminada en la reforma)* 4/52/0 y
@@ -654,25 +679,25 @@ Detalle: [ANIMATION_PACK](SYSTEMS/ANIMATION_PACK.md#modo-2-de-jugabilidad-mocap-
 
 - **Modo 2** (botón «Modo de juego» del menú de pausa, `Tuning.gameplay_mode`): pase, pase filtrado, tiro, vaselina,
   centro, penal y festejos con el pack de captura de movimiento de fútbol que aportó la persona (con su autorización),
-  convertido al futbolista (`tools/animation_pack/build_mocap_library.tscn` → `assets/animations/mocap_clips.res`, 24
+  convertido al futbolista (tools/animation_pack/build_mocap_library.tscn (borrado: Mixamo/Mocap) → assets/animations/mocap_clips.res (borrado: Mixamo/Mocap), 24
   clips `mc_*`). Los 20 clips restantes (conducción, malabares, saque de banda, atajadas, defensa, tarjetas) están en la
   galería de la sala de práctica, todavía sin disparador en partido. El modo 1 no cambia.
 - **Tripo3D** (autorizado por la persona, 50 créditos, saldo 770 → 720, anotado en `docs/tripo/ledger.jsonl`): los
   presets `dribble`, `crossover_dribble`, `front_kick_01`, `front_kick_02` y `shoot` resultaron de básquet, artes
   marciales y disparo con arma (medido sobre el futbolista); quedan guardados sin usar en
   `assets/animations/source/v1_ball.glb`. Después la persona pidió no usar ninguna animación de Tripo.
-- Archivos: `tools/animation_pack/build_mocap_library.gd`/`.tscn` (nuevos), `pack_retarget.gd` (`bone_map`),
+- Archivos: tools/animation_pack/build_mocap_library.gd (borrado: Mixamo/Mocap)/`.tscn` (nuevos), `pack_retarget.gd` (`bone_map`),
   `build_pack_library.gd` (`paths_root`), `scripts/animation/animation_catalog.gd` (`mocap_mode`, `MOCAP_KICKS`,
   `MOCAP_FIELD`), `pack_library.gd` (`MOCAP_PATH`), `scripts/player/ball_handler.gd` (`MOCAP_EXTRA_LATENCY`),
   `scripts/gameplay/set_piece.gd`, `tuning.gd`, `practice_scene.gd`, `scripts/ui/hud.gd`; prueba nueva
   *tests/test_mocap_mode.gd (eliminada en la reforma; en el historial de git)*; `tests/test_live_kicks.gd` admite `LIVE_KICKS_MODE=2`.
 - La primera imagen de cada toma de Rokoko es la pose de referencia de la captura: se descarta al convertir (los clips
-  saltaban 80–177° entre la imagen 0 y la 1; `test_pack_retarget` lo detectó en `mc_celebration_1`).
+  saltaban 80–177° entre la imagen 0 y la 1; test_pack_retarget (borrado: Mixamo/Mocap) lo detectó en `mc_celebration_1`).
 - Verificación: suite headless 202 pruebas / 1129 comprobaciones: 2 fallos, ambos revisados (el salto de la imagen de
-  referencia, corregido: `test_pack_retarget` 6/100/0; y *test_full_match (eliminada en la reforma)* con 1 tiro en el partido de 3 min, que al
+  referencia, corregido: test_pack_retarget (borrado: Mixamo/Mocap) 6/100/0; y *test_full_match (eliminada en la reforma)* con 1 tiro en el partido de 3 min, que al
   repetirlo tuvo 12 — en las cuatro últimas ejecuciones 9, 5, 1 y 12 tiros: el partido simulado no es determinista y el
   umbral de 2 tiros puede fallar por azar). *test_mocap_mode (eliminada en la reforma)* 4/58/0 (12 de 12 pases y tiros con el clip de la captura,
-  pie a 0.008–0.057 m). Con render, modo 1: `test_live_kicks` 4/46/0, `test_pack_kick` 8/107/0, *test_practice (eliminada en la reforma)* 4/39/0;
+  pie a 0.008–0.057 m). Con render, modo 1: `test_live_kicks` 4/46/0, test_pack_kick (borrado: Mixamo/Mocap) 8/107/0, *test_practice (eliminada en la reforma)* 4/39/0;
   modo 2 (`LIVE_KICKS_MODE=2`): `test_live_kicks` 3 de 4, 48 de 50 golpeos con contacto; **falla** el pase de primera
   por el pie de apoyo (patina 1.69 m/s, límite 1.6): pendiente.
 
@@ -822,14 +847,14 @@ Detalle: [PLAYER](SYSTEMS/PLAYER.md#toques-de-clip-conducción-con-animación-de
 [DRIBBLE_DIAGNOSIS](DRIBBLE_DIAGNOSIS.md#sexta-ronda-2026-10-28-toques-de-clip-curvas-a-velocidad-e-ik-del-pie).
 
 - Toques de conducción con animación (0 créditos): 33 clips de toque por balanceo (`TouchClipBuilder`,
-  `assets/animations/touch_clips.res`), disparo en fase con el ciclo de marcha, plan sobre la punta medida y el cuerpo
+  assets/animations/touch_clips.res (borrado: Mixamo/Mocap)), disparo en fase con el ciclo de marcha, plan sobre la punta medida y el cuerpo
   previsto, contacto por evento con el pie vivo, IK del pie en tiempo real (`TouchFootIK`), impulso con llegada a
   velocidad relativa ~0. Arrancada con los toques largos de siempre; giros de más de 50° con la conducción de giro.
 - Curvas a velocidad: el cuerpo no se adelanta más de 8° al rumbo de la pelota hasta el siguiente toque (antes giraba
   hasta 360°/s y la dejaba a 0.8 m al costado). Pelota al costado p95: arco 0.64 → 0.09 m, cambio de carril 0.76 →
   0.13 m, eslalon 0.49 → 0.33 m (carrera) y 0.74 → 0.38 m (sprint).
 - Archivos: `scripts/player/ball_handler.gd`, `scripts/animation/touch_foot_ik.gd` (nuevo),
-  `scripts/player/footballer_visual.gd`, `scripts/player/footballer.gd`, `tools/animation_pack/*touch*`; pruebas
+  `scripts/player/footballer_visual.gd`, `scripts/player/footballer.gd`, tools/animation_pack/*touch* (borrado: Mixamo/Mocap); pruebas
   *test_dribble_reference (eliminada en la reforma)* (casos de ritmo, arrancada, curvas, varias semillas) y *test_live_feet (eliminada en la reforma)* (zigzag en 4 pasadas,
   arrancada hasta 0.75 m, justificado en la prueba).
 - Verificación (ejecutada, versión final): suite headless 180 / 928 / 0 fallos; con render `live_feet` 7/7,
@@ -873,8 +898,8 @@ Detalle y evidencia: [DRIBBLE_DIAGNOSIS.md](DRIBBLE_DIAGNOSIS.md) · inventario:
 - **Una misma base persona/IA:** comprobado (*test_shared_ball_mechanics (eliminada en la reforma)*): la IA no toca la pelota fuera de su
   `BallHandler`.
 - Archivos: `scripts/animation/foot_trajectory.gd` (nuevo), `scripts/player/ball_handler.gd`,
-  `scripts/player/footballer.gd`; pruebas nuevas `test_animation_inventory`, `test_kick_reach`,
-  *test_shared_ball_mechanics (eliminada en la reforma)*, *test_dribble_reference (eliminada en la reforma)*; herramientas `tools/animation_pack/pack_clip_sheet.tscn` y
+  `scripts/player/footballer.gd`; pruebas nuevas test_animation_inventory (borrado: Mixamo/Mocap), `test_kick_reach`,
+  *test_shared_ball_mechanics (eliminada en la reforma)*, *test_dribble_reference (eliminada en la reforma)*; herramientas tools/animation_pack/pack_clip_sheet.tscn (borrado: Mixamo/Mocap) y
   `tools/dribble_demo/dribble_demo.tscn` (demo grabable).
 - Verificación (ejecutada, versión final): suite headless 176 pruebas / 893 comprobaciones / 0 fallos (14 omitidas:
   necesitan render); con render `live_feet` 7/7, `live_kicks` 4/4 (48/50 golpeos con contacto, 2 anulados porque el
@@ -915,7 +940,7 @@ que la IA decida si pasa o tira». Detalle en [SYSTEMS/MATCH.md](SYSTEMS/MATCH.m
   por el propio pasador.
 - **Reloj de simulación:** las reglas «no tocar/perseguir el propio envío» (0.7 s) y «no controlar la pelota recién
   tocada» (450 ms) usaban el reloj del sistema; ahora pasos de física (`BallHandler.seconds_since_kick`). Era la causa
-  del fallo de `test_pack_kick` (el jugador perseguía su propio pase a 0.96 m/s con el joystick suelto). Las pruebas
+  del fallo de test_pack_kick (borrado: Mixamo/Mocap) (el jugador perseguía su propio pase a 0.96 m/s con el joystick suelto). Las pruebas
   simulan a ~2× tiempo real (medido: 602 pasos en 5.0 s con render): los 450 ms valían 0.9 s de juego en las pruebas y
   0.45 s en el móvil. Con 0.45 s la curva con render bajó a 10/18 toques con el pie; se fija
   `OWN_TOUCH_NO_CONTROL_SECONDS` = 0.9 s (el valor medido) y vuelve a 11/18 (zigzag 10/14).
@@ -935,7 +960,7 @@ y [ANIMATION_CONTACT_AUDIT.md](ANIMATION_CONTACT_AUDIT.md).
   (`carry_turn_scale`); media vuelta por el costado; el cuerpo no frena su propia pelota; `lateral_max_stick` 0.5;
   contacto con todo el pie; compañeros que no se pegan al portador (`TeamBrain` pasillo, `AIInput._make_way`).
 - Verificación (ejecutada, render): `live_feet` 7/7, `live_kicks` 4/4 (48/50 golpes con contacto, 2 anulados por
-  toque rival, 0 inválidos). Suite headless de esa ronda: 164 pruebas, 2 fallos (`test_pack_kick` ajuste de zancada y
+  toque rival, 0 inválidos). Suite headless de esa ronda: 164 pruebas, 2 fallos (test_pack_kick (borrado: Mixamo/Mocap) ajuste de zancada y
   *test_pes_mechanics (eliminada en la reforma)* receptor), corregidos en la entrada de arriba.
 - Limitación: en curvas cerradas continuas 39 % de toques de rescate; el pack no tiene clips de pisada ni de empuje.
 
@@ -1127,7 +1152,7 @@ contra personas.
 
 **Commits:** `26857a6` (preset y workflow), `a610139` (pack dentro de la APK, publicación segura). **No hay APK publicada todavía.**
 
-- Repositorio comprobado como **privado** (API de GitHub). `assets/animations/pack_clips.res` (1.9 MB) se versiona por ello; el workflow se detiene si el repositorio deja de ser privado o si falta la librería.
+- Repositorio comprobado como **privado** (API de GitHub). assets/animations/pack_clips.res (borrado: Mixamo/Mocap) (1.9 MB) se versiona por ello; el workflow se detiene si el repositorio deja de ser privado o si falta la librería.
 - Run nº 1 (`26857a6`, flujo anterior): Godot, SDK, importación, pruebas headless, exportación y verificación de firma **pasaron en el runner**; se detuvo por falta de secretos.
 - Run nº 2 (`a610139`, run 40325812455): **falló en el primer paso a propósito: faltan los tres secretos** `ANDROID_KEYSTORE_BASE64`, `ANDROID_KEYSTORE_PASSWORD` y `ANDROID_KEY_ALIAS`. No se firmó ni publicó nada. Los pasos de pruebas con el pack, exportación con el pack, verificación de contenido y publicación **no se han ejecutado en el runner**; se probaron en local (APK de 29.5 MB, librería idéntica, 16 clips presentes, sin FBX).
 - Pendiente: crear los secretos con `tools/android/make_keystore.sh` y relanzar; prueba en un teléfono físico.
@@ -1139,13 +1164,13 @@ contra personas.
 **Commit:** el de este cambio (ver `git log`). **Integra 14 clips del pack con disparador real y prueba; corrige la conducción a carrera y sprint; no gasta créditos de Tripo (saldo 770); no elimina ningún clip de Tripo ni archivo del pack. Nada se probó en Android.**
 
 **Añadido**
-- `tools/animation_pack/build_pack_library.gd`, `build_pack_library.tscn` y `selection.json`: conversor offline (38 clips de campo y 23 de arquero) a `assets/animations/pack_clips.res` y `pack_keeper.res` con metadatos medidos (velocidad natural, raíz separada, contacto y trayectoria de la punta del pie). **Las librerías y los FBX no se versionan** (`.gitignore`; licencia de Mixamo).
+- tools/animation_pack/build_pack_library.gd (borrado: Mixamo/Mocap), `build_pack_library.tscn` y `selection.json`: conversor offline (38 clips de campo y 23 de arquero) a assets/animations/pack_clips.res (borrado: Mixamo/Mocap) y `pack_keeper.res` con metadatos medidos (velocidad natural, raíz separada, contacto y trayectoria de la punta del pie). **Las librerías y los FBX no se versionan** (`.gitignore`; licencia de Mixamo).
 - `scripts/animation/pack_library.gd` (`PackLibrary`) y `animation_catalog.gd` (`AnimationCatalog`): catálogo único situación → clip (pack, y Tripo de respaldo).
 - `FootballerVisual`: marcha del pack por mezcla de velocidad natural medida (sin patinar), una sola acción a la vez, `play_pack_clip`/`play_situation` recortables, `step_interval_for`.
 - `BallHandler`: patada con clip (`plan_clip_kick`, `_start_clip_kick`, `_finish_clip_kick`): contacto cuando el **pie del clip** llega a la pelota; instante elegido sobre la trayectoria del pie; ajuste de zancada (`Footballer.nudge_velocity`, `Locomotion.turn_scale`); **sin pie que llegue no hay patada; patada en falso sin impulso ni teletransporte**; `kick_stats`/`kick_log`; eventos `KICK_WHIFF` con `reason`.
 - `Footballer`: celebrar/lamentarse al `GOAL` y gesto de recepción al `FIRST_TOUCH` lento.
 - `PlayerTuning`: grupo «Patada con animacion del pack» (`kick_*`).
-- Pruebas: `test_pack_retarget`, `test_pack_locomotion`, `test_pack_kick`, *test_pack_dribble_metrics (eliminada en la reforma)*, *test_pack_reactions (eliminada en la reforma)*, `test_pack_motion` (render); soporte de `skip` en `TestCase`/`run_tests.gd`.
+- Pruebas: test_pack_retarget (borrado: Mixamo/Mocap), test_pack_locomotion (borrado: Mixamo/Mocap), test_pack_kick (borrado: Mixamo/Mocap), *test_pack_dribble_metrics (eliminada en la reforma)*, *test_pack_reactions (eliminada en la reforma)*, `test_pack_motion` (render); soporte de `skip` en `TestCase`/`run_tests.gd`.
 
 **Cambiado**
 - Conducción (`BallHandler._try_dribble_touch`): error del toque sobre la velocidad **relativa** al jugador; hueco planificado acotado al alcance del siguiente toque; umbral de re-toque según ese hueco; con el pack, cadencia = apoyos de la animación. Valores de `PlayerTuning` de conducción **sin tocar**.
@@ -1174,9 +1199,9 @@ contra personas.
 **Commit:** el de este cambio (ver `git log`). **No integra ningún clip, no cambia animaciones, mecánicas ni la física de la pelota, y no gasta créditos de Tripo (saldo 770).**
 
 **Añadido**
-- `tools/animation_pack/`: herramientas de evaluación de solo lectura (compatibilidad de esqueleto, métricas por clip, duración real leída del FBX en bruto, hojas de contacto, alcance del pie, tamaño de librería) y `PackRetarget`, un retarget **experimental** Y Bot → Tripo respecto al reposo (no lo usa el juego). Ver `tools/animation_pack/README.md`.
+- tools/animation_pack/ (borrado: Mixamo/Mocap): herramientas de evaluación de solo lectura (compatibilidad de esqueleto, métricas por clip, duración real leída del FBX en bruto, hojas de contacto, alcance del pie, tamaño de librería) y `PackRetarget`, un retarget **experimental** Y Bot → Tripo respecto al reposo (no lo usa el juego). Ver tools/animation_pack/README.md (borrado: Mixamo/Mocap).
 - [SYSTEMS/ANIMATION_PACK.md](SYSTEMS/ANIMATION_PACK.md): comparativa de los 13 clips de Tripo con el pack, cobertura de necesidades, incompatibilidades, línea base de la conducción y plan de migración en fases.
-- [ANIMATION_PACK_CLIPS.md](ANIMATION_PACK_CLIPS.md): una fila por cada uno de los 133 clips (duración real, raíz, ciclo, verificación visual, recomendación). Generada con `tools/animation_pack/make_report.py` y `evaluation_notes.json`.
+- [ANIMATION_PACK_CLIPS.md](ANIMATION_PACK_CLIPS.md): una fila por cada uno de los 133 clips (duración real, raíz, ciclo, verificación visual, recomendación). Generada con tools/animation_pack/make_report.py (borrado: Mixamo/Mocap) y `evaluation_notes.json`.
 - `.gitignore`: `/pack/` (los FBX de Mixamo no se pueden redistribuir sueltos).
 - Entrada `anim.pack_eval` en `CODE_MAP.json`, fila en `INDEX.md`.
 
@@ -1204,7 +1229,7 @@ contra personas.
 - `CLAUDE.md` (raíz): obliga a consultar el índice primero y a actualizarlo con cada cambio.
 
 **Corregido (solo pruebas y script de pruebas; sin efecto en el juego)**
-- `tests/test_player_model.gd`: `test_animation_tree_responds_to_speed` leía `parameters/TimeScale/scale`, un nodo que no existe (se llama `LocoScale`). Lanzaba un `SCRIPT ERROR` a mitad de la prueba y el ejecutor la daba por buena con 1 comprobación. Ahora lee `parameters/LocoScale/scale` y hace 4 comprobaciones.
+- tests/test_player_model.gd (borrado: Mixamo/Mocap): test_animation_tree_responds_to_speed (borrado: Mixamo/Mocap) leía `parameters/TimeScale/scale`, un nodo que no existe (se llama `LocoScale`). Lanzaba un `SCRIPT ERROR` a mitad de la prueba y el ejecutor la daba por buena con 1 comprobación. Ahora lee `parameters/LocoScale/scale` y hace 4 comprobaciones.
 - `tools/run_tests.sh`: ahora termina con error si la salida contiene `SCRIPT ERROR` (el ejecutor `tests/run_tests.gd` por sí solo no lo detecta si la prueba ya había hecho alguna comprobación).
 
 **Verificación real (2026-10-26)**

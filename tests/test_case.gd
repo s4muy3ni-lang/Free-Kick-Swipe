@@ -14,7 +14,8 @@ var skipped: bool = false
 var skip_reason: String = ""
 
 ## Modo de juego en que corre la prueba: 0 = el del juego (Tuning.DEFAULT_GAMEPLAY_MODE, el 4, o TEST_GAMEPLAY_MODE). Las
-## pruebas de los sistemas de los modos descartados (pack de Mixamo, Tripo, mocap), que siguen en el codigo, devuelven su modo.
+## pruebas de un modo distinto (3 = solo Tripo, respaldo del codigo heredado) devuelven su modo. Los modos 1 (Mixamo) y 2
+## (Mocap) se borraron con sus bancos.
 func gameplay_mode() -> int:
 	return 0
 

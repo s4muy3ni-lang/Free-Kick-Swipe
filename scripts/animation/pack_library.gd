@@ -1,8 +1,9 @@
 class_name PackLibrary
 extends RefCounted
-## Acceso a las librerias de animacion derivadas del pack de Mixamo (ver tools/animation_pack/build_pack_library.gd).
-## Se generan con el conversor y SE VERSIONAN junto con el pack (uso personal dentro del juego); el juego funciona sin ellas
-## (usa los clips de Tripo y la patada procedural). Cada Animation lleva set_meta("pack", {...}) medido al convertir.
+## Acceso a las librerias de animacion del banco JSON original (unico banco del juego desde 2026-11-08: los bancos de
+## Mixamo y Mocap se borraron por pedido del usuario, ver docs/reforma/MIXAMO_MOCAP_QUITADOS.md). Cada Animation lleva
+## set_meta("pack", {...}) medido al convertir. Sin el modo 4 (modo 3, solo Tripo) no carga nada y el juego usa los clips de
+## Tripo y la patada procedural.
 ##
 ## Modo 4 (Json, Tuning.gameplay_mode): las librerias son las de las animaciones JSON (json_clips.res y json_keeper.res,
 ## tools/json_anim/build_json_library.gd) sobre el esqueleto JsonRig. El resto del juego sigue pidiendo clips por los nombres
@@ -10,13 +11,6 @@ extends RefCounted
 ## sustituye, y has_clip / clip / meta / anim_path los resuelven (también las versiones «_mirror»). Los clips que no
 ## tienen sustituto simplemente no existen en este modo y el juego los omite (todo uso va tras has_clip).
 
-const FIELD_PATH := "res://assets/animations/pack_clips.res"
-const KEEPER_PATH := "res://assets/animations/pack_keeper.res"
-## Toques de conduccion fusionados (tools/animation_pack/build_touch_clips.tscn): se suman a la libreria de campo.
-const TOUCH_PATH := "res://assets/animations/touch_clips.res"
-## Mocap Pack 05 Soccer (tools/animation_pack/build_mocap_library.tscn, ids "mc_*"): el modo 2 de jugabilidad. Tambien
-## se suma a la libreria de campo.
-const MOCAP_PATH := "res://assets/animations/mocap_clips.res"
 ## Modo 4 (Json).
 const JSON_FIELD_PATH := "res://assets/animations/json_clips.res"
 const JSON_KEEPER_PATH := "res://assets/animations/json_keeper.res"
@@ -102,18 +96,6 @@ static func _ensure() -> void:
 			if not _alias.has(a) and _field != null and _field.has_animation(ClipRolesOverlay.ALIAS[a]):
 				_alias[a] = ClipRolesOverlay.ALIAS[a]
 		return
-	if ResourceLoader.exists(FIELD_PATH):
-		_field = load(FIELD_PATH) as AnimationLibrary
-		for extra in [TOUCH_PATH, MOCAP_PATH]:
-			if _field == null or not ResourceLoader.exists(extra):
-				continue
-			var lib: AnimationLibrary = load(extra) as AnimationLibrary
-			if lib != null:
-				for id in lib.get_animation_list():
-					if not _field.has_animation(id):
-						_field.add_animation(id, lib.get_animation(id))
-	if ResourceLoader.exists(KEEPER_PATH):
-		_keeper = load(KEEPER_PATH) as AnimationLibrary
 
 ## Los caches de otras clases que dependen de los clips cargados (cambian al cambiar de modo).
 static func _reset_caches() -> void:
