@@ -11,6 +11,44 @@ Formato de entrada: **fecha — título** · commit · qué cambió · archivos 
 
 ---
 
+## 2026-11-08 — Plan AAA 2.0, primera entrega: arquero sin adelantarse, contacto físico real, pelota suelta, detección de gol probada
+
+- **Errores que vio el usuario:** (1) el arquero de los penales se tiraba antes del golpe: medido, la estirada arrancaba
+  0,2–0,7 s antes (hasta 1,3 s); ahora nunca más de `SpKeeper.PENALTY_ANTICIPATION` (0,12 s) y, al ver salir la pelota,
+  ajusta el momento (no el lado). (2) El círculo de la zona elegida seguía visible: se borra al salir la pelota y al
+  empezar cada turno. (3) Los jugadores quedaban en bucle esperando el resultado: la reacción que llegaba mientras el
+  tirador terminaba el golpeo o el arquero la estirada se perdía; ahora queda pendiente y sale al terminar, el tirador mira
+  la pelota mientras viaja y el resultado sale apenas ya no puede ser gol (`SetPieceGame._goal_impossible`, con
+  `BallPredictor`; nunca mientras la pelota todavía va al arco). (4) Pelota suelta en el área: nueva `SpLooseBall`; va el
+  que llega antes; el arquero la recoge en su área (o la despeja con el pie), un defensor corre y la despeja con un golpeo
+  del banco (`SpShooter.require_touch`: el impulso solo sale si el pie llega); si uno falla, va otro; el tiro ya cuenta
+  como fallido.
+- **«La toca pero igual es gol» (diagnóstico medido):** la normal del choque salía del punto del recorrido más cercano a la
+  esfera, perpendicular al recorrido: todo toque era un roce (la pelota seguía con el 80 %). Ahora `SpKeeper.contact_along`
+  da el instante y la normal reales (y mira el paso que viene, sin atravesar la mano), `SpKeeper.rebound` y el guante con
+  palma (`glove_normal`, `GLOVE_GRIP`); el plan pide un radio acorde al contacto físico (`KeeperPlanner.plan_save`
+  con `radius_scale`, `SpKeeper.PLAN_RADIUS_SCALE` 0,6; el partido no cambia). Medido en 18 penales a la zona exacta:
+  atajadas 4 → 6, toques que terminan en gol 4 → 2; la IA ataja 3 de 18; del lado equivocado nunca la toca.
+- **Errores latentes encontrados:** gol fantasma en el primer paso después de `Goal.reset_latch` (el centinela fabricaba
+  un cruce de línea; ahora el primer paso solo registra la posición). `KeeperPlanner.PICKUP_CLIPS` tenía nombres del banco
+  viejo: con el banco JSON ningún clip era de recogida (0 candidatos); ahora cuentan los roles `gk_scoop` y `gk_catch`
+  (130). Afecta también al arquero del partido (ahora puede recoger).
+- **Medidor de rendimiento** (`DiagnosticsOverlay`, el del partido) en el botón «Diag.» de penales y tiro libre, con
+  etiquetas de `Prof` nuevas (contacto del arquero, pelota suelta, predicción del resultado). Sin mediciones de teléfono.
+- Documento nuevo [`docs/AAA_ROADMAP.md`](../AAA_ROADMAP.md): auditoría, inventario de animaciones, clasificación,
+  diagnósticos, plan de calibración del trazo, análisis de rendimiento, diseño de carga selectiva, estilos de tiro y hoja
+  de ruta.
+- Archivos: `scripts/setpiece/sp_keeper.gd`, `sp_shooter.gd`, `sp_loose_ball.gd` (nuevo), `setpiece_game.gd`,
+  `sp_wall.gd`, `sp_field_players.gd`, `scripts/goalkeeper/keeper_planner.gd`, `scripts/pitch/goal.gd`; pruebas
+  `tests/test_goal_detection.gd` (nueva: línea entera/a medias, palo y travesaño adentro/afuera, por detrás o por encima,
+  desvío del arquero, la que entra y sale), `test_setpiece_modes` (contacto, decisión anticipada) y
+  `test_setpiece_render` (no se adelanta, pelota suelta, reacciones; la de toques ahora pide 2 de 6 a 18 m/s: medido 3).
+- Verificación: suite headless 140 pruebas / 0 fallos (18 omitidas por necesitar render); con xvfb: `live_kicks` 6/0,
+  `pack_motion` 2/0, `json_mode` 8/0, `directional_kicks` 3/0, `test_anim_bank_bench` 7/0, `test_setpiece_render` 5/0
+  (37 comprobaciones; estirada más temprana 0,18 s antes del golpe, límite 0,22 s).
+- Pendiente: medir en el teléfono (tacto y rendimiento); arquero del tiro libre con el radio de plan nuevo; rodadura con
+  deslizamiento inicial en `BallPredictor`.
+
 ## 2026-11-08 — Arreglo: el juego se trababa al entrar a un modo (y antes, en el primer tiro)
 
 - Causa medida: `PackLibrary` sumaba las ~1.000 escenas del banco JSON a la biblioteca compartida `json_clips.res` mientras

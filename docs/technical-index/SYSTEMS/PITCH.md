@@ -107,11 +107,11 @@ Quedan **fijos en el código** (no derivan del tamaño): `MatchScene.kickoff_pos
 | `Goal._support_bar(a: Vector3, b: Vector3, r: float, mat: Material)` | 138 |  |
 | `Goal._physics_process(_delta: float)` | 161 |  |
 | `Goal._goal_step(_delta: float)` | 166 |  |
-| `Goal._track_mouth(lp: Vector3)` | 185 |  |
-| `Goal.is_goal_now()` | 196 | Gol ahora mismo: la pelota esta dentro del arco y entro por la boca del arco. |
-| `Goal.is_ball_in_goal(local_ball_pos: Vector3)` | 204 | La pelota cuenta como gol cuando su centro esta al menos un radio detras de la linea (cruzo completamente) y dentro del marco (entre postes  |
-| `Goal.goal_center_world()` | 212 |  |
-| `Goal.aim_point(lateral: float, height_ratio: float, margin: float)` | 217 | Punto objetivo dentro del arco. lateral: -1..1 (a lo largo de la linea, en el eje mundial Z), height: 0..1 de la altura util. |
+| `Goal._track_mouth(lp: Vector3)` | 189 |  |
+| `Goal.is_goal_now()` | 204 | Gol ahora mismo: la pelota esta dentro del arco y entro por la boca del arco. |
+| `Goal.is_ball_in_goal(local_ball_pos: Vector3)` | 212 | La pelota cuenta como gol cuando su centro esta al menos un radio detras de la linea (cruzo completamente) y dentro del marco (entre postes  |
+| `Goal.goal_center_world()` | 220 |  |
+| `Goal.aim_point(lateral: float, height_ratio: float, margin: float)` | 225 | Punto objetivo dentro del arco. lateral: -1..1 (a lo largo de la linea, en el eje mundial Z), height: 0..1 de la altura util. |
 <!-- /AUTO -->
 
 <!-- AUTO:signals:scripts/pitch/pitch.gd -->

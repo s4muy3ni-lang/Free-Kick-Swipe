@@ -622,13 +622,13 @@
         {
           "file": "scripts/pitch/goal.gd",
           "name": "Goal.is_ball_in_goal",
-          "line": 204,
+          "line": 212,
           "kind": "func"
         },
         {
           "file": "scripts/pitch/goal.gd",
           "name": "Goal.aim_point",
-          "line": 217,
+          "line": 225,
           "kind": "func"
         },
         {
@@ -695,7 +695,12 @@
         "nodos",
         "verlet",
         "red real",
-        "fisica de la red"
+        "fisica de la red",
+        "deteccion de gol",
+        "palo",
+        "travesano",
+        "linea de gol",
+        "gol fantasma"
       ],
       "files": [
         "scripts/pitch/goal_net.gd",
@@ -706,7 +711,8 @@
         "tests/test_goal_net.gd",
         "tools/net_view.gd",
         "tools/net_view.tscn",
-        "scripts/pitch/cloth_net.gd"
+        "scripts/pitch/cloth_net.gd",
+        "tests/test_goal_detection.gd"
       ],
       "symbols": [
         {
@@ -3712,25 +3718,25 @@
         {
           "file": "scripts/goalkeeper/keeper_planner.gd",
           "name": "KeeperPlanner.path_world",
-          "line": 55,
+          "line": 58,
           "kind": "func"
         },
         {
           "file": "scripts/goalkeeper/keeper_planner.gd",
           "name": "KeeperPlanner.path_world_at_body",
-          "line": 66,
+          "line": 69,
           "kind": "func"
         },
         {
           "file": "scripts/goalkeeper/keeper_planner.gd",
           "name": "KeeperPlanner.peak_speed_time",
-          "line": 80,
+          "line": 83,
           "kind": "func"
         },
         {
           "file": "scripts/goalkeeper/keeper_planner.gd",
           "name": "KeeperPlanner.hands_world",
-          "line": 93,
+          "line": 96,
           "kind": "func"
         }
       ],
@@ -5410,7 +5416,7 @@
         {
           "file": "scripts/goalkeeper/keeper_planner.gd",
           "name": "KeeperPlanner.JSON_ROLE_RADIUS",
-          "line": 20,
+          "line": 23,
           "kind": "const"
         },
         {
@@ -5744,25 +5750,25 @@
         {
           "file": "scripts/setpiece/setpiece_game.gd",
           "name": "SetPieceGame._take_shot",
-          "line": 455,
+          "line": 479,
           "kind": "func"
         },
         {
           "file": "scripts/setpiece/setpiece_game.gd",
           "name": "SetPieceGame.shoot_params",
-          "line": 814,
+          "line": 884,
           "kind": "func"
         },
         {
           "file": "scripts/setpiece/setpiece_game.gd",
           "name": "SetPieceGame._finish",
-          "line": 596,
+          "line": 656,
           "kind": "func"
         },
         {
           "file": "scripts/setpiece/setpiece_game.gd",
           "name": "SetPieceGame.clamp_free_kick_spot",
-          "line": 360,
+          "line": 380,
           "kind": "func"
         },
         {
@@ -5848,7 +5854,7 @@
         {
           "file": "scripts/setpiece/sp_shooter.gd",
           "name": "SpShooter.execute",
-          "line": 64,
+          "line": 74,
           "kind": "func"
         },
         {
@@ -5989,7 +5995,7 @@
     {
       "id": "setpiece.keeper_wall",
       "system": "SETPIECE",
-      "description": "Arquero, barrera y jugadores sueltos de penales y tiros libres: el arquero planifica la atajada con la trayectoria de manos de cada clip (KeeperPlanner), lee el tiro con tiempo de reaccion y error (tiro libre) o se juega a una zona antes del golpe (penal), y la pelota rebota o queda atrapada por contacto fisico con esferas en sus huesos; barrera a 9,15 m con colision y salto sincronizado; sueltos que se mueven al rebote y despejan si llegan.",
+      "description": "Arquero, barrera, jugadores sueltos y pelota suelta de penales y tiros libres: el arquero planifica la atajada con la trayectoria de manos de cada clip (KeeperPlanner, con radio de plan ajustado al contacto real), lee el tiro con tiempo de reaccion y error (tiro libre) o se juega a una zona antes del golpe sin anticiparse mas de 0,12 s (penal); el contacto se resuelve con el instante y la normal reales del choque contra esferas en sus huesos (guante con palma); barrera a 9,15 m con colision y salto sincronizado; sueltos que se mueven al rebote y despejan de cabeza; la pelota suelta en el area la recoge el arquero o la despeja un defensor (SpLooseBall), nunca queda muerta.",
       "keywords": [
         "arquero",
         "portero",
@@ -6006,30 +6012,39 @@
         "despeje",
         "cabezazo",
         "rebote",
-        "colision"
+        "colision",
+        "pelota suelta",
+        "recoger",
+        "recogida",
+        "anticipacion",
+        "se tira antes",
+        "normal del choque",
+        "guante",
+        "toca pero es gol"
       ],
       "files": [
         "scripts/setpiece/sp_keeper.gd",
         "scripts/setpiece/sp_wall.gd",
-        "scripts/setpiece/sp_field_players.gd"
+        "scripts/setpiece/sp_field_players.gd",
+        "scripts/setpiece/sp_loose_ball.gd"
       ],
       "symbols": [
         {
           "file": "scripts/setpiece/sp_keeper.gd",
           "name": "SpKeeper.read_shot",
-          "line": 114,
+          "line": 164,
           "kind": "func"
         },
         {
           "file": "scripts/setpiece/sp_keeper.gd",
           "name": "SpKeeper.commit_to",
-          "line": 177,
+          "line": 230,
           "kind": "func"
         },
         {
           "file": "scripts/setpiece/sp_keeper.gd",
           "name": "SpKeeper._resolve",
-          "line": 298,
+          "line": 421,
           "kind": "func"
         },
         {

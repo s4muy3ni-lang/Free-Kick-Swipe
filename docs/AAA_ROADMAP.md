@@ -1,0 +1,255 @@
+# Free Kick Swipe — Plan maestro AAA 2.0: primera entrega
+
+Fecha: 2026-11-08. Rama `claude/init-repo-reforma-tiros-c7vapt`. Responde a la sección 19 del «Plan maestro AAA 2.0»
+(primera entrega) y a los errores que el usuario vio jugando (arquero que se tira antes, círculo de la zona que no se
+borra, jugadores trabados esperando el resultado, pelota suelta sin despejar).
+
+**Regla de esta entrega:** todo lo que dice «medido» se midió en esta sesión (PC Linux, Godot 4.7.2, render por software
+llvmpipe para las pruebas con esqueleto animado). **Nada de lo que sigue se probó en un teléfono.** Los números de
+Android que faltan están marcados como *pendiente de medir en el dispositivo*, con el procedimiento para medirlos.
+
+Índice:
+1. Auditoría de los sistemas actuales
+2. Inventario de animaciones de tiro libre y penal
+3. Clasificación de técnicas y variantes
+4. Diagnóstico: el arquero toca la pelota pero no evita el gol
+5. Plan de calibración del disparo táctil
+6. Análisis de rendimiento en Android
+7. Diseño de carga selectiva de animaciones (compatible con PackLibrary)
+8. Propuesta de personalización de estilos de tiro
+9. Hoja de ruta (prioridades y dependencias)
+10. Primera mejora segura: qué se implementó y cómo se probó
+
+---
+
+## 1. Auditoría de los sistemas actuales
+
+| Sistema | Archivos | Estado | Evidencia | Riesgos / pendientes |
+|---|---|---|---|---|
+| Flujo de modos (penales, tiro libre) | `scripts/setpiece/setpiece_game.gd` | Funciona | `test_penalty_turn_flow`, `test_entering_a_mode_does_not_freeze` | Archivo grande (≈950 líneas): conviene separar el flujo de penales y el de tiro libre cuando crezca |
+| Disparo por trazo | `shot_gesture.gd`, `gesture_shot_model.gd`, `gesture_tuning.gd`, `shot_solver.gd` | Funciona; coeficientes de PC | `tests/test_shot_gesture.gd` (9 pruebas; predicción vs pelota real ≤ 0,45 m) | Calibración en teléfono pendiente (§5) |
+| Elección del golpeo | `shot_catalog.gd`, `resources/setpiece/shot_clips.json` | Funciona: 560 golpeos medidos | `test_kick_choice_follows_the_direction_of_the_shot`, `test_foot_surface_follows_the_shot`, `test_the_foot_reaches_the_ball_at_the_impulse` (peor pie-pelota 0,27 m) | Pocos golpeos de «exterior» (38 de 560) |
+| Tirador | `sp_shooter.gd` | Funciona | `test_a_kick_never_gets_stuck`, `test_shooters_wait_beside_the_ball_on_their_side` | — |
+| Arquero (tiros libres y penales) | `sp_keeper.gd` + `scripts/goalkeeper/keeper_planner.gd` | Corregido en esta entrega (§4) | `test_keeper_contact_uses_the_real_impact_normal`, `test_keeper_deflection_decides_by_physics`, pruebas de render | El tiro libre todavía usa el radio de plan del partido (§9, fase 1) |
+| Barrera y jugadores sueltos | `sp_wall.gd`, `sp_field_players.gd` | Funciona | `test_the_wall_really_blocks_the_ball` | — |
+| Pelota suelta | `sp_loose_ball.gd` (nuevo) | Nuevo en esta entrega | `test_a_loose_ball_never_stays_dead_in_the_box` | Sin festejo del arquero cuando la recoge |
+| Detección de gol | `scripts/pitch/goal.gd` | Correcta; un error latente corregido | `tests/test_goal_detection.gd` (6 pruebas nuevas), `test_side_netting_from_outside_is_not_a_goal` | — |
+| Red física | `scripts/pitch/cloth_net.gd` (tela Verlet) + `goal_net.gd` (frenado medido) | Funciona (híbrido) | `test_both_goal_types_keep_the_ball_in_the_net` | Costo en teléfono sin medir (§6) |
+| Pelota y predicción | `scripts/ball/ball.gd`, `BallPredictor` | Funciona | `test_shot_gesture` (vuelo) | **Nuevo hallazgo:** la predicción sobrestima cuánto rueda una pelota pateada SIN efecto (6,0 m previstos, 3,9 m reales): no modela el deslizamiento inicial (§9, fase 1) |
+| Banco de animaciones JSON | `scripts/animation/pack_library.gd`, `sp_clips.gd`, `assets/animations/json_*.res` | Funciona (único banco) | `test_bank_integration`, `test_entering_a_mode_does_not_freeze` | Se carga entero: 25 + 6,6 + 7,4 MB (§7) |
+| Diagnóstico y rendimiento | `scripts/diagnostics/prof.gd`, `diagnostics_overlay.gd` | Ahora también en penales y tiros libres (botón «Diag.») | — | Faltan las mediciones en el teléfono (§6) |
+
+## 2. Inventario de animaciones de tiro libre y penal
+
+Fuente: `resources/setpiece/shot_clips.json` (golpeos medidos por `tools/setpiece/build_shot_catalog.gd`) y
+`resources/animation/catalogo_bancos.json` (1.248 clips con rol del banco JSON, de las 3.223 variantes que salen de
+los 2.022 archivos fuente; ver `docs/reforma/FASE1_INFORME.md`). Ningún clip se borró ni se modificó.
+
+**Golpeos medidos (560 = 280 originales + 280 espejos; 280 de pie derecho y 280 de pie izquierdo):**
+
+| Rol | Total | Originales | Velocidad del pie (mediana) | Carrera medida (mediana) | Ángulo de salida (rango) |
+|---|---|---|---|---|---|
+| `kick_shot` | 140 | 70 | 13,9 m/s | 1,19 m | ±28° |
+| `kick_pass` | 126 | 63 | 9,5 m/s | 1,04 m | ±45° |
+| `kick_pass_soft` | 106 | 53 | 6,4 m/s | 0,68 m | ±70° |
+| `kick_shot_hard` | 86 | 43 | 16,3 m/s | 1,26 m | ±25° |
+| `setpiece_shot` | 54 | 27 | 16,8 m/s | 5,01 m | ±38° |
+| `setpiece_pass` | 18 | 9 | 11,8 m/s | 1,34 m | ±34° |
+| `kick_lob` | 16 | 8 | 9,3 m/s | 0,54 m | ±31° |
+| `setpiece_miss` | 10 | 5 | 15,4 m/s | 4,95 m | ±28° |
+| `setpiece_lob` | 4 | 2 | 10,3 m/s | 5,09 m | ±5° |
+
+Superficie del pie (medida en 3D en el contacto): interior 321, empeine 201, exterior 38. Golpeo «limpio» (pie en la
+pelota sin rozar el piso): 280 de 560.
+
+**Arquero (`catalogo_bancos.json`, originales + espejos):** estiradas `gk_dive` 216, atajadas `gk_catch` 94, recogidas
+`gk_scoop` 36, levantadas `gk_getup` 21, bloqueos `gk_block` 14, espera `gk_idle` 3 + `gk_idle_var` 3, desplazamiento
+`gk_loco` 6, paso lateral `gk_sidestep` 2, fallo `gk_miss` 2.
+
+**Reacciones y resto:** lamentos `dejected` 95, festejos `celebrate` 64, festejo de equipo `celebrate_team` 43, festejo del
+goleador `celebrate_scorer` 20, barrera `wall` 18, reposo `idle_ready` 8 + `idle` 4, marcha (`jog`, `loco_jog`, `run`,
+`sprint`, `loco_sprint`) 16.
+
+## 3. Clasificación de técnicas y variantes
+
+El golpeo se describe con cuatro ejes, todos medidos en el clip (no por el nombre):
+
+1. **Familia** (rol): tiro (`kick_shot`, `kick_shot_hard`), pelota parada (`setpiece_*`, con carrera larga de ~5 m),
+   pase (`kick_pass`, `kick_pass_soft`), globo (`kick_lob`, `setpiece_lob`) y error (`setpiece_miss`).
+2. **Superficie:** interior (colocada, curva hacia adentro), empeine (potencia, sin efecto o con efecto liftado), exterior
+   (curva hacia afuera).
+3. **Potencia:** velocidad del pie en el contacto (6–17 m/s), que se compara con la velocidad pedida por el trazo.
+4. **Dirección:** ángulo entre la carrera y la salida de la pelota («swing»), con signo según el pie.
+
+El tipo de tiro del gesto (`ShotCatalog.Kind`: POWER, NORMAL, PLACED, CHIP, MISS) elige la familia y la superficie; la
+dirección y la potencia eligen el clip concreto dentro de la familia (`ShotCatalog.choose`: costo por ángulo, tipo,
+superficie, velocidad del pie y largo de carrera, con rotación entre los mejores para no repetir). Ejemplo pedido por el
+usuario: diestro, a su derecha, despacio → PLACED + interior → `setpiece_shot` o `kick_shot` de interior cuyo swing
+coincide con el ángulo pedido.
+
+Variantes del arquero: estirada (alta/baja según la altura de las manos en el contacto), atajada de frente, bloqueo con
+el cuerpo, recogida baja, paso lateral; el plan (`KeeperPlanner.plan_save`) elige por la trayectoria medida de las
+manos, no por el nombre.
+
+## 4. Diagnóstico: el arquero toca la pelota pero no evita el gol
+
+Medido con pruebas de render de 18 penales (6 zonas × 3 velocidades) con el arquero del usuario jugado a la zona
+correcta y 18 con la IA:
+
+| Causa | Evidencia (medida) | Arreglo | Resultado (medido) |
+|---|---|---|---|
+| **Normal del choque mal calculada.** Se tomaba el punto del recorrido de la pelota más cercano al centro de la esfera de la mano: ese punto es perpendicular al recorrido, así que TODO toque era un roce y la pelota seguía con el 80 % de su velocidad hacia el arco | Toques con 18,6 → 14,6 m/s, 23,1 → 18,4 m/s (siempre ×0,8), y gol | `SpKeeper.contact_along`: instante real del choque en el movimiento relativo pelota-esfera, normal de la esfera a la pelota en ese instante | Tiro al pecho: vuelve a −8,6 m/s (`test_keeper_deflection_decides_by_physics`) |
+| **La pelota atravesaba la mano entre dos pasos** (a 25 m/s avanza 0,42 m por paso) | Contactos detectados ya pasada la mano | Se mira también el paso que viene: el impulso sale antes de atravesarla | — |
+| **Guante modelado como esfera chica** | Toque lateral cerca de la línea: 18,3 → 13,2 m/s, sigue adentro | Palma orientada hacia la pelota que llega de frente (`glove_normal`, `PALM_BIAS` 0,8) y más agarre del guante (`GLOVE_GRIP` 0,6) | Toques que terminan en gol: de 4 a 2 de 18 |
+| **El plan «llegaba» a 0,42 m de la pelota** (radio del partido) **pero el contacto físico pide ~0,24 m** | Mano a 0,39–0,48 m de la pelota con un plan «válido» | `KeeperPlanner.plan_save(..., radius_scale)`; los penales piden `PLAN_RADIUS_SCALE` 0,6 (el partido no cambia) | Toques con la zona correcta: de 7–8 a 10 de 18 |
+| **Se tiraba antes** (pedido del usuario) | La estirada arrancaba 0,2–0,7 s antes del golpe (hasta 1,3 s) | `PENALTY_ANTICIPATION` 0,12 s como máximo; al ver salir la pelota ajusta el momento (no el lado) | Lo más temprano: 0,12 y 0,18 s antes del golpe en dos corridas (el tiempo de la carrera es una estimación); la prueba admite 0,22 s (`test_the_penalty_keeper_does_not_dive_before_the_kick`) |
+
+Balance resultante (medido en PC, no en teléfono): el arquero del usuario jugado a la zona exacta ataja 6 de 18 (los
+ángulos altos a 26 m/s son imposibles, como en la realidad); la IA, que adivina el lado, ataja 3 de 18 (≈17 %). El
+arquero que se tira al otro lado nunca la toca. **No es invencible:** solo cambió cómo se resuelve un contacto que ocurre
+de verdad.
+
+Otros hallazgos de esta auditoría:
+- **Gol fantasma al reiniciar** (`goal.gd`): después de `reset_latch` el arco tomaba la posición vieja de la pelota como
+  si acabara de cruzar la línea desde un punto ficticio y emitía un gol en ese primer paso. No afectaba al resultado
+  (el juego lo ignora fuera del vuelo), pero sí a cualquier otro oyente. Ahora el primer paso solo registra la posición.
+- **El arquero nunca recogía una pelota suelta en el banco JSON:** `KeeperPlanner.PICKUP_CLIPS` tenía los nombres del
+  banco viejo (Mixamo). Ahora los roles `gk_scoop` y `gk_catch` cuentan como recogida: 130 candidatos (antes 0). Afecta
+  también al arquero del partido (ahora puede recoger).
+
+## 5. Plan de calibración del disparo táctil
+
+Los coeficientes de `GestureTuning` (`user://gesture_tuning.tres`) están ajustados en PC con trazos sintéticos. En el
+teléfono cambian la resolución, la frecuencia de muestreo del táctil y el tamaño del dedo. Procedimiento (lo hace el
+usuario en su teléfono, con el panel «Diag.»):
+
+1. **Muestreo:** abrir «Diag.», hacer 10 trazos rápidos y anotar las muestras por trazo y la velocidad pico que muestra el
+   panel. Si hay menos de ~12 muestras en un trazo rápido, bajar `min_step`.
+2. **Potencia:** 10 trazos «suaves» y 10 «fuertes». Ajustar `speed_slow` y `speed_fast` para que los suaves den
+   potencia 0,2–0,4 y los fuertes 0,85–1,0 (deslizadores del panel; se guardan solos).
+3. **Curva:** 10 trazos rectos (la curvatura medida debe quedar bajo `curve_deadzone`) y 10 curvos (efecto lateral
+   visible). Ajustar `curve_deadzone` y `spin_gain`.
+4. **Altura:** trazos que terminan bajando (deben dar tiro raso con efecto liftado) y subiendo (tiro alto): ajustar
+   `descend_drop` y `ascend_lift`.
+5. **Precisión:** con el comparador del panel, comprobar que un trazo prolijo cae a menos de 0,5 m del objetivo y uno
+   tembloroso se abre más (`error_rough`).
+
+Criterios de aceptación (a verificar en el teléfono, no verificados todavía): 9 de cada 10 trazos fuertes clasificados
+como potentes; ningún trazo recto con efecto visible; la vista previa coincide con la pelota real a menos de 0,45 m (ya
+medido en PC).
+
+## 6. Análisis de rendimiento en Android
+
+**Lo que está medido (PC, no vale como medición de teléfono):**
+- Entrar a un modo: la carga de PackLibrary con 12 jugadores conectados costaba 6,5 s; con la copia `duplicate(false)`,
+  22–40 ms.
+- Red de tela: 457 nodos y 657 hilos (arco de caja), 0,8 ms por paso de física mientras simula (solo con la pelota cerca).
+- Primer plan de atajada: 652 ms (incluía la inicialización); ahora se calcula al cargar (`KeeperPlanner.warm_cache`).
+- Bancos de animación cargados enteros: `json_clips.res` 25 MB, `json_keeper.res` 6,6 MB, `json_scenes.res` 7,4 MB.
+
+**Lo que no está medido (pendiente de medir en el dispositivo):** FPS sostenidos, tiempo de física por paso, costo de la
+tela, de los AnimationPlayer (hasta 12 en penales: 2 tiradores, 2 arqueros, 6 del banco y más en el tiro libre), memoria
+y tiempo de carga del modo.
+
+**Cómo medirlo ahora:** en penales o tiro libre, tocar «Diag.»: además del panel del trazo aparece el medidor del
+juego (`DiagnosticsOverlay`): FPS, tiempo de cuadro medio y pico, tiempo de proceso y de física, llamadas de dibujo,
+nodos, memoria y **el costo por sistema en ms por paso de física** (red de tela, arco, plan del arquero, contacto del
+arquero, pelota suelta, predicción del resultado). Pedido al usuario: una captura del medidor en tres momentos (apuntando,
+durante el vuelo con la pelota en la red, y en el festejo) en penales y en tiro libre.
+
+**Presupuesto propuesto (a validar con esas capturas):** 16,6 ms por cuadro a 60 FPS (o 33 ms con tope de 30): física
+total ≤ 4 ms por paso; red de tela ≤ 1,5 ms; arquero ≤ 1 ms; animación ≤ 4 ms.
+
+**Riesgos y palancas si no llega:** menos iteraciones de la tela (`ClothNet.ITERATIONS` 3 → 2) o separación mayor; los
+jugadores del banco con un `AnimationPlayer` que avanza a 30 Hz o detenido cuando no están en cámara; carga selectiva de
+animaciones (§7); sombras y resolución 3D por perfil gráfico (`GraphicsSettings`).
+
+## 7. Diseño de carga selectiva de animaciones (compatible con PackLibrary)
+
+**Restricciones:** no borrar ni modificar los 2.022 JSON originales ni los clips del catálogo; no deshacer la corrección
+de PackLibrary (copia `duplicate(false)` de la biblioteca compartida); no crear sistemas duplicados.
+
+**Prioridades:**
+- **P0 (siempre, al entrar al modo):** reposo, espera del arquero, el golpeo del usuario según su pie, las estiradas
+  (`gk_dive`, `gk_catch`, `gk_block`), levantadas y la marcha.
+- **P1 (en segundo plano después de entrar):** el resto de los golpeos medidos (`shot_clips.json`), barrera, recogidas.
+- **P2 (al terminar la primera jugada):** festejos, lamentos y reacciones.
+- **P3 (bajo demanda):** banco de pruebas, escenas y clips sin rol en los modos.
+
+**Metadatos por clip** (se agregan a `catalogo_bancos.json` sin tocar los existentes): `prioridad` (P0–P3), `estado`
+(`medido` / `asignado` / `sin_revisar`), `evidencia` (prueba o herramienta que lo midió, p. ej.
+`build_shot_catalog.gd`), `confianza` (0–1, p. ej. golpeo limpio con contacto medido = 1).
+
+**Módulos pedidos y dónde viven (sin duplicar):**
+
+| Pedido | Se implementa en | Por qué ahí |
+|---|---|---|
+| AnimationCatalog | `catalogo_bancos.json` + `SpClips` / `ShotCatalog` | Ya son el catálogo; se agregan los campos de prioridad y estado |
+| AnimationLoadPlanner | función nueva en `SpClips` que arma la lista P0–P3 del modo | `SpClips` ya arma las bibliotecas de los actores |
+| AnimationCacheManager | `PackLibrary` | Ya guarda la copia `duplicate(false)`; agregaría bibliotecas por prioridad |
+| AnimationProfile | una lista de roles por modo en `SpClips` | Penales y tiro libre usan roles distintos (barrera solo en tiro libre) |
+| AnimationPerformanceMonitor | `Prof` + `DiagnosticsOverlay` | Ya miden; se agrega el costo de carga |
+
+**Paso técnico necesario:** hoy cada biblioteca es un único `.res` con todos sus clips; para cargar por prioridad hay que
+generar bibliotecas derivadas por prioridad (herramienta de construcción, como `tools/build_animation_library.gd`)
+**además** de las actuales, que quedan como fuente y respaldo. Agregar clips a una biblioteca ya conectada reconstruye la
+caché de cada AnimationPlayer (la causa del congelamiento de 6,5 s): las bibliotecas P1/P2 se agregan como bibliotecas
+nuevas (`add_animation_library`) antes de conectar o en un cuadro sin jugada, y se mide con `test_entering_a_mode_does_not_freeze`.
+No se implementa en esta entrega: primero hay que medir en el teléfono si la carga entera es un problema (§6).
+
+## 8. Propuesta de personalización de estilos de tiro
+
+Un «estilo» es una preferencia sobre el catálogo medido, no una animación nueva: así la física no cambia (la pelota sale
+del modelo del trazo y el impulso se da en el contacto medido de cada clip).
+
+- **Familias de fases:** aproximación (carrera corta/larga, recta/en curva), golpeo (superficie, velocidad del pie),
+  seguimiento (largo del seguimiento de la pierna) y recuperación (vuelta al reposo o salida corriendo). Todas se leen de
+  los metadatos ya medidos (`run`, `foot_speed`, `surface`, `len`, `roots`).
+- **Estilo = pesos en `ShotCatalog.choose`:** p. ej. «carrera larga de tiro libre» suma costo a los clips con `run` < 3 m;
+  «potente» prefiere empeine con `foot_speed` alto. Se guarda en `SpSettings` como un perfil del jugador.
+- **Compatibilidad física garantizada por prueba:** cada estilo pasa `test_the_foot_reaches_the_ball_at_the_impulse`
+  (pie a menos de 0,4 m de la pelota en el impulso) y `test_kick_choice_follows_the_direction_of_the_shot`.
+- **Sin compras reales:** si más adelante hay estilos desbloqueables, se desbloquean jugando; nada de tienda sin
+  aprobación.
+
+## 9. Hoja de ruta (prioridades y dependencias)
+
+| Fase | Contenido | Depende de | Prioridad |
+|---|---|---|---|
+| 0 | **Jugabilidad inmediata** (esta entrega): arquero que no se adelanta, contacto físico corregido, pelota suelta, reacciones, detección de gol probada, medidor en «Diag.» | — | Hecha (falta la prueba en el teléfono) |
+| 1 | Arquero del tiro libre con el mismo radio de plan que el penal (`PLAN_RADIUS_SCALE`), midiendo el balance de 16 tiros; predicción de rodadura con deslizamiento inicial en `BallPredictor` | 0 | Alta |
+| 2 | Calibración del trazo en el teléfono (§5) | Capturas del usuario | Alta |
+| 3 | Rendimiento medido en el teléfono (§6) y ajustes por perfil gráfico | Capturas del usuario | Alta |
+| 4 | Carga selectiva de animaciones (§7) | 3 (solo si la carga o la memoria son un problema) | Media |
+| 5 | Metadatos de evidencia y confianza en el catálogo (estado, evidencia, confianza) | — | Media |
+| 6 | Estilos de tiro personalizables (§8) | 5 | Media |
+| 7 | Arquero que festeja con la pelota en las manos; despeje del arquero con saque largo | 0 | Baja |
+| 8 | Presentación: repeticiones del gol, cámaras de festejo, sonido del público por jugada | 3 | Baja |
+| 9 | Contenido y progresión (desafíos de tiro libre, minijuegos) | 2, 3, 6 | Baja |
+| 10 | En línea y tienda | **Aprobación expresa del usuario**; nada de compras reales ni jugadores reales sin derechos | No empezar |
+
+## 10. Primera mejora segura: qué se implementó y cómo se probó
+
+Cambios (todos con prueba):
+- **El arquero ya no se tira antes** en los penales (`SpKeeper.PENALTY_ANTICIPATION`) y ajusta el momento al ver salir la
+  pelota. Prueba de render `test_the_penalty_keeper_does_not_dive_before_the_kick`: lo más temprano, 0,18 s antes del golpe
+  (límite de la prueba 0,22 s; antes, hasta 1,3 s).
+- **El círculo de la zona elegida se borra** al salir la pelota y al empezar cada turno (misma prueba).
+- **Contacto del arquero con física real** (normal del choque, sin atravesar la mano, guante): `test_keeper_contact_uses_the_real_impact_normal`,
+  `test_keeper_deflection_decides_by_physics`, `test_the_keeper_touches_what_he_reaches_and_not_what_he_does_not`
+  (con la zona correcta toca 3 de 6 tiros a 18 m/s; del otro lado, 0).
+- **Nadie se queda en bucle esperando el resultado:** el resultado sale apenas ya no puede ser gol
+  (`_goal_impossible`, `test_the_result_is_decided_only_when_a_goal_is_impossible`), el tirador mira la pelota mientras
+  viaja, y la reacción que llega mientras todavía patea o se tira queda pendiente y sale al terminar
+  (`test_shooter_and_keeper_react_after_finishing_their_move`).
+- **La pelota nunca queda muerta en el área** (`SpLooseBall`): el defensor más cercano corre, se acomoda y la despeja con
+  un golpeo del banco (el impulso solo sale si el pie llega de verdad a la pelota); el arquero la recoge con las manos
+  dentro de su área o la despeja con el pie; si uno no llega, va otro. El tiro ya cuenta como fallido (barrera, palo,
+  atajada o despeje): `test_a_loose_ball_never_stays_dead_in_the_box` (despejes en 1,1–2,0 s; recogida del arquero en 2,0 s).
+- **Detección de gol** con la pelota y el arco reales: entera sobre la línea sí / a medias no, palo-adentro y palo-afuera,
+  travesaño-adentro y travesaño-afuera, desde atrás o por encima no, desviada por el arquero, la que entra y vuelve a
+  salir es un solo gol (`tests/test_goal_detection.gd`).
+- **Medidor de rendimiento** en «Diag.» de penales y tiro libre (§6).
+
+Lo que NO se hizo en esta entrega (a propósito): carga selectiva, estilos de tiro, cambios del arquero del tiro libre,
+cambios de balance del trazo, nada en línea ni de tienda.
