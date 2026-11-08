@@ -11,6 +11,21 @@ Formato de entrada: **fecha — título** · commit · qué cambió · archivos 
 
 ---
 
+## 2026-11-08 — Segunda entrega, fases 3 a 5: Academia de tiros, Arena de desafíos y puntuación
+
+- Una sola arquitectura: `SetPieceGame` en modo `CHALLENGE` + definición de datos (`resources/challenges/challenges.json`):
+  `ChallengeCatalog`, `ChallengeTargets`, `ChallengeRunner`, `ChallengeScore`, `PlayerProgress`, `ChallengeMenu`.
+- Academia: 8 niveles, 37 ejercicios; Arena: 17 desafíos en 5 dificultades (Fácil a Extremo; `SpSettings` suma
+  Profesional y Extremo solo para desafíos con `override_difficulty`).
+- Detección con la pelota real (cruce entero de la línea dentro del recuadro, aro, señal del marco, gol, objetos con
+  física). Arreglo durante las pruebas: el arco detecta el gol en el mismo paso que el cruce y el juego cerraba el intento
+  antes de que los blancos procesaran ese tramo (los aciertos no contaban): `ChallengeTargets.flush` antes de evaluar.
+- Menú con ACADEMIA y DESAFÍOS; la ayuda del HUD va abajo a la izquierda, sin pisar los botones (pasaba también en el tiro
+  libre).
+- Verificación: `test_challenges` (6 pruebas); suite headless 153 / 0 fallos.
+
+---
+
 ## 2026-11-08 — Segunda entrega, fases 1 y 2: rodadura real en la predicción, arquero del tiro libre, después de la atajada, medición en el teléfono
 
 - **Predicción de rodadura** (`BallPredictor.trajectory`, `spin_is_state`): modela el deslizamiento inicial (fricción

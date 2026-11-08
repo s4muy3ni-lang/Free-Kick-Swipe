@@ -5769,25 +5769,25 @@
         {
           "file": "scripts/setpiece/setpiece_game.gd",
           "name": "SetPieceGame._take_shot",
-          "line": 493,
+          "line": 520,
           "kind": "func"
         },
         {
           "file": "scripts/setpiece/setpiece_game.gd",
           "name": "SetPieceGame.shoot_params",
-          "line": 966,
+          "line": 1147,
           "kind": "func"
         },
         {
           "file": "scripts/setpiece/setpiece_game.gd",
           "name": "SetPieceGame._finish",
-          "line": 680,
+          "line": 717,
           "kind": "func"
         },
         {
           "file": "scripts/setpiece/setpiece_game.gd",
           "name": "SetPieceGame.clamp_free_kick_spot",
-          "line": 393,
+          "line": 418,
           "kind": "func"
         },
         {
@@ -5805,7 +5805,7 @@
         {
           "file": "scripts/setpiece/main_menu.gd",
           "name": "MainMenu._start",
-          "line": 197,
+          "line": 205,
           "kind": "func"
         }
       ],
@@ -6096,6 +6096,60 @@
         "GOALKEEPER",
         "BALL",
         "SETPIECE"
+      ],
+      "documentation": "docs/technical-index/SYSTEMS/SETPIECE.md",
+      "last_verified": "2026-11-08"
+    },
+    {
+      "id": "setpiece.challenges",
+      "system": "SETPIECE",
+      "description": "Academia de tiros (8 niveles, 37 ejercicios) y Arena de desafios (17, en 5 dificultades) sobre los mismos sistemas del juego: SetPieceGame en modo CHALLENGE con una definicion de datos; blancos (recuadro, aro, postes, travesano, gol), objetos con fisica (conos, botellas, bloques, torre) y obstaculos detectados con la pelota real; puntuacion que premia precision, distancia, potencia, racha y dificultad; medallas, records, experiencia, niveles, desbloqueos y practica libre.",
+      "keywords": [
+        "academia",
+        "arena",
+        "desafios",
+        "desafio",
+        "ejercicio",
+        "niveles",
+        "entrenamiento",
+        "blanco",
+        "recuadro",
+        "aro",
+        "poste",
+        "travesano",
+        "conos",
+        "botellas",
+        "torre",
+        "bloques",
+        "puntuacion",
+        "puntos",
+        "medalla",
+        "record",
+        "experiencia",
+        "progreso",
+        "desbloqueo",
+        "practica libre",
+        "dificultad",
+        "challenge",
+        "targets",
+        "score"
+      ],
+      "files": [
+        "scripts/challenges/challenge_catalog.gd",
+        "scripts/challenges/challenge_targets.gd",
+        "scripts/challenges/challenge_runner.gd",
+        "scripts/challenges/challenge_score.gd",
+        "scripts/challenges/player_progress.gd",
+        "scripts/challenges/challenge_menu.gd",
+        "scenes/challenges/challenge_menu.tscn",
+        "resources/challenges/challenges.json",
+        "tests/test_challenges.gd"
+      ],
+      "symbols": [],
+      "parameters": [],
+      "dependencies": [
+        "SETPIECE",
+        "BALL"
       ],
       "documentation": "docs/technical-index/SYSTEMS/SETPIECE.md",
       "last_verified": "2026-11-08"

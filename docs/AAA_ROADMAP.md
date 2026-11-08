@@ -341,3 +341,73 @@ semillas fijas (`tests/test_fk_balance_measure.gd`, a pedido con el argumento `m
 
 **Pendiente del usuario:** el informe del teléfono (guía, §2). Con eso: comparación PC/Android y optimizaciones
 justificadas (fase 2.1). Sin datos no se optimiza nada a ciegas.
+
+## Fases 3–5 — Academia, Arena y puntuación (hechas, primera versión)
+
+Una sola arquitectura configurable (ver `docs/technical-index/SYSTEMS/SETPIECE.md`, «Academia de tiros y Arena de
+desafíos»): cada ejercicio o desafío es una definición de datos (punto de la pelota, arquero y su dificultad, barrera,
+intentos, aciertos pedidos, velocidad mínima, racha, blancos, objetos, obstáculos, medallas, recompensa) que juega el
+juego de siempre. No hay un sistema por desafío.
+
+**Academia de tiros (8 niveles, 37 ejercicios):** 1 Fundamentos (apuntar, disparo recto, potencia, altura, objetivo
+grande) · 2 Precisión (esquinas, ángulos, racha) · 3 Potencia (velocidad mínima, 25 y 30 m, potencia con blanco) ·
+4 Efecto (curva adentro y afuera alrededor de un poste, comba sobre la barrera, efecto con colocación) · 5 Técnicas
+avanzadas (vaselina por un aro alto, disparo seco, interior colocado, empeine potente, exterior, cruzado) · 6 Tiros libres
+profesionales (barrera y arquero, 30 m, ángulo difícil, arquero difícil, solo ángulos) · 7 Penales (esquinas, alturas,
+racha, potencia contra arquero difícil) · 8 Élite (arquero extremo, 3 intentos, ventana de 70 cm, 35 m). Cada uno con
+objetivo, explicación, intentos, puntuación, medallas, récord, recompensa (experiencia; cosmético con el oro, definido
+por ejercicio) y desbloqueo del nivel siguiente (bronce en la mitad de los ejercicios del anterior: no obliga a repetir
+uno). **Práctica libre:** todo abierto, sin tocar el progreso.
+
+**Arena de desafíos (17, en 5 dificultades):** Precisión (poste izquierdo y derecho, travesaño, aro, ventana chica, blanco
+que se mueve, secuencia) · Objetos (conos, botellas, bloques, torre: cuerpos con física que la pelota voltea) · Distancia
+(40 m, aro suspendido, por encima de una fila de maniquíes) · Especiales (blancos que desaparecen, solo con rebote, tres
+blancos en orden). Dificultad Fácil → Extremo: blancos 1,3× → 0,55×, intentos +2 → −2, arquero desde Difícil (Normal,
+Difícil, Profesional según el nivel), movimiento más rápido; cada dificultad se abre con bronce en la anterior.
+
+**Puntuación (habilidad, no azar):** por acierto 100 + precisión (hasta 60, medida donde cruzó la pelota) + distancia
+(3 por metro desde 16 m, hasta 60) + potencia si el desafío la pide (6 por m/s sobre el mínimo, hasta 60) + racha (25 por
+acierto seguido, hasta 100) + especiales (palo, travesaño, rebote: 50); todo por la dificultad (×1 a ×2); intentos de
+sobra al completarlo: 40 cada uno. Un fallo suma 0. Medallas por umbral (escalan con la dificultad). Se muestran puntos,
+récord, medalla, comparación con la marca anterior y experiencia ganada.
+
+**Pruebas:** `tests/test_challenges.gd` (catálogo válido en todas las dificultades, puntuación, progreso y desbloqueos,
+blancos detectados con la pelota real, ejercicio jugado de punta a punta, pantalla de selección).
+
+**Límites de esta primera versión:** no hay «dos arqueros», «arquero impredecible» ni «barrera móvil» (necesitan un
+segundo arquero o mover la barrera con física: siguiente iteración); la «torre» es una pila de 3×3 bloques; los
+cosméticos se registran pero todavía no se pueden usar (fase 7).
+
+## Fases 6–12 — Diseño (sin implementar en esta entrega)
+
+**6. Presentación:** cámaras ya existentes (preparación, detrás de la pelota con zoom, seguimiento en el tiro libre,
+festejo, atajada); faltan: cámara lenta en el gol especial (escala de tiempo solo de la presentación, la física se repite
+desde el registro de la jugada, ver 9), sonido de guantes y pasos, silencio previo al penal (bajar `Sfx.crowd` al apuntar)
+y reacción del público según el resultado (ya: `Stadium11.set_cheer`). Efectos sin tapar la pelota: polvo de césped en el
+apoyo (partículas chicas, solo en el contacto).
+
+**7. Personalización:** estilos de golpeo como preferencias sobre el catálogo medido (ver §8 de la primera entrega);
+pierna, carrera, seguimiento y celebración elegidos de los clips existentes con su contacto medido; botines, camiseta y
+número por `SpSettings` y `kit_material` (ya usado para los colores); los cosméticos ganados en la Academia
+(`PlayerProgress.cosmetics`) se aplican ahí. Compatibilidad: cada estilo pasa la prueba del pie en la pelota.
+
+**8. Contenido y recompensas:** ya hay experiencia, niveles, récords y medallas; faltan logros (contadores sobre
+`PlayerProgress`), desafíos diarios y semanales (un desafío de la Arena elegido por fecha con una semilla, sin servidor),
+celebraciones desbloqueables. Sin tienda ni pagos reales.
+
+**9. Repeticiones:** registro por estados: cada paso guarda posición, rotación y velocidad de la pelota (`Ball.capture_state`
+ya existe) y, de cada actor, clip, instante y marco (`SpActor.clip_id`, `clip_time`, `frame_origin`, `frame_facing`).
+Una jugada de 5 s a 60 Hz son ~300 estados de pelota + ~10 actores × 300 (clip y tiempo): decenas de KB, no un video.
+Reproducción: los actores reproducen sus clips en el instante guardado y la pelota se coloca desde el registro (en la
+repetición la pelota no tiene física). Cámara lenta y otros ángulos, favoritos y estadísticas sobre el mismo registro.
+
+**10. Modos futuros (solo diseño):** 1 penales por eliminación, 2 torneo de tiros libres, 3 duelo de precisión,
+4 batalla de potencia, 5 dos arqueros, 6 competencia de poste y travesaño, 12 muerte súbita: todos son configuraciones
+de las definiciones de desafío (mismo juego, reglas y puntuación distintas). 7 último en pie sobre plataformas, 8 caída
+al agua, 9 batalla de obstáculos, 10 golpear al rival con la pelota, 11 cooperativo: necesitan reglas y física propias
+(plataformas, empujones, contrajuego), separadas de los modos de tiro y fuera de la clasificación. En línea,
+emparejamiento, tienda y monetización: fase posterior con aprobación expresa.
+
+**11. Documentación y pruebas:** cada fase con su prueba (`test_ball_roll_prediction`, `test_fk_balance_measure`,
+`test_perf_session`, `test_challenges`, render de `test_setpiece_render`); ningún umbral se bajó sin medición (los que
+cambiaron están en el CHANGELOG con la razón física).
