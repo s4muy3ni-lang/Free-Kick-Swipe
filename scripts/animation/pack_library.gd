@@ -72,8 +72,12 @@ static func _ensure() -> void:
 				var m: Dictionary = lib.get_animation(id).get_meta("pack", {})
 				# Reasignaciones de la auditoria del banco (ClipRolesOverlay, generado): el clip (y su espejo) entra en otro rol.
 				var base_id: StringName = StringName(String(id).trim_suffix("_mirror"))
-				var role_before: StringName = StringName(String(m.get("role", "")))
+				# El meta es del recurso compartido: si la biblioteca sigue en memoria (otra escena la usa) ya trae el rol
+				# reasignado de una carga anterior; el rol original se guarda la primera vez y se lee siempre de ahi.
+				var role_before: StringName = StringName(String(m.get("role_orig", m.get("role", ""))))
 				if ClipRolesOverlay.ROLE.has(base_id):
+					if not m.has("role_orig"):
+						m["role_orig"] = String(m.get("role", ""))
 					m["role"] = String(ClipRolesOverlay.ROLE[base_id])
 					if m["role"] == "setpiece_miss" and not String(id).ends_with("_mirror"):
 						for a in m.get("alias", []):

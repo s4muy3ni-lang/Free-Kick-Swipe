@@ -10,7 +10,7 @@ name: Android APK
 
 on:
   push:
-    branches: [main, master, ccr-f4fb4f85-olnklr, ccr-a6c53cd2-uoxpk0, integracion-openai, reforma-tiros-penales]
+    branches: [main, master, ccr-f4fb4f85-olnklr, ccr-a6c53cd2-uoxpk0, integracion-openai, reforma-tiros-penales, "claude/**"]
     paths-ignore: ["docs/**", "**.md"]
   workflow_dispatch:
     inputs:
@@ -162,7 +162,7 @@ jobs:
           sudo apt-get update -q > /dev/null && sudo apt-get install -y -q xvfb libgl1-mesa-dri > /dev/null
           # Reforma (tiros libres y penales): sin las baterias del futbol 5 (conduccion y recepcion), que se quitaron de esta
           # rama; test_anim_bank_bench mide el golpe en el contacto del clip con el esqueleto animado.
-          for f in live_kicks pack_motion json_mode directional_kicks test_anim_bank_bench; do
+          for f in live_kicks pack_motion json_mode directional_kicks test_anim_bank_bench test_setpiece_render; do
             xvfb-run -a godot --display-driver x11 --rendering-driver opengl3 --fixed-fps 60 --path . res://tests/run_tests.tscn -- --filter "$f" 2>&1 \
               | sed 's/\x1b\[[0-9;]*m//g' | tee "$RUNNER_TEMP/render_$f.txt"
             if grep -q "SCRIPT ERROR\|\[FAIL\]" "$RUNNER_TEMP/render_$f.txt"; then exit 1; fi
@@ -237,6 +237,9 @@ jobs:
             unzip -l "$APK" | grep -q "$f" || echo "::warning::$f no aparece en la APK (modo Json): revisar la lista del paquete"
           done
           unzip -l "$APK" | grep -q "animations/footballer_clips.res" || { echo "::error::faltan los clips de Tripo (respaldo)"; exit 1; }
+          # Modos de tiros libres y penales: catalogo de golpeos medidos (sin el no hay golpeos) y catalogo de bancos.
+          unzip -p "$APK" "assets/resources/setpiece/shot_clips.json" | cmp -s - resources/setpiece/shot_clips.json || { echo "::error::resources/setpiece/shot_clips.json no esta en la APK o difiere"; exit 1; }
+          unzip -l "$APK" | grep -q "resources/animation/catalogo_bancos.json" || { echo "::error::falta el catalogo de bancos en la APK"; exit 1; }
           if unzip -l "$APK" | grep -E -q "\.fbx"; then echo "::error::la APK contiene FBX fuente"; exit 1; fi
 
           # Integridad y arquitectura reales del binario (no solo lo que declara el manifiesto).

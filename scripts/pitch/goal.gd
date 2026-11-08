@@ -90,7 +90,11 @@ func _build_net() -> void:
 	net = GoalNet.new()
 	net.name = "Net"
 	add_child(net)
-	net.setup(d, h, hw, mat)
+	net.setup(d, h, hw, mat, config.goal_top_depth, config.goal_net_sag)
+	if config.goal_supports == 1 and config.goal_top_depth > 0.0 and config.goal_top_depth < d:
+		_build_net_supports(d, config.goal_top_depth, h, hw)
+	elif config.goal_supports == 2:
+		_build_ground_frame(d, hw)
 
 	# Colisiones simples de la red para los jugadores y el arquero (la pelota no las ve: la frena la tela).
 	var t: float = 0.06
@@ -100,6 +104,46 @@ func _build_net() -> void:
 		MeshUtil.add_box_body(self, Vector3(d, h, t), Vector3(d * 0.5, h * 0.5, hw + t * 0.5), Ball.LAYER_WORLD, &"net_surface"),
 		MeshUtil.add_box_body(self, Vector3(d, t, config.goal_width + 2.0 * t), Vector3(d * 0.5, h + t * 0.5, 0), Ball.LAYER_WORLD, &"net_surface"),
 	]
+
+## Soportes de la red de futbol 11 (solo visuales): barra superior trasera, brazos desde el travesano y tirantes inclinados
+## hasta el piso, en gris para no confundirse con el marco.
+func _build_net_supports(d: float, top: float, h: float, hw: float) -> void:
+	var mat := MeshUtil.flat_material(Color(0.62, 0.64, 0.66), 0.5)
+	var r: float = 0.022
+	_support_bar(Vector3(top, h, -hw), Vector3(top, h, hw), r, mat)
+	for z in [-hw, hw]:
+		_support_bar(Vector3(0.0, h, z), Vector3(top, h, z), r, mat)
+		_support_bar(Vector3(top, h, z), Vector3(d, 0.0, z), r, mat)
+		_support_bar(Vector3(0.0, 0.01, z), Vector3(d, 0.01, z), r, mat)
+	_support_bar(Vector3(d, 0.01, -hw), Vector3(d, 0.01, hw), r, mat)
+
+## Arco de caja (como los de estadio): caños blancos en el piso a los costados y al fondo, donde se ata la red.
+func _build_ground_frame(d: float, hw: float) -> void:
+	var r: float = config.post_radius * 0.6
+	for z in [-hw, hw]:
+		_support_bar(Vector3(0.0, r, z), Vector3(d, r, z), r, _frame_material)
+	_support_bar(Vector3(d, r, -hw), Vector3(d, r, hw), r, _frame_material)
+
+func _support_bar(a: Vector3, b: Vector3, r: float, mat: Material) -> void:
+	var mi := MeshInstance3D.new()
+	var cm := CylinderMesh.new()
+	cm.top_radius = r
+	cm.bottom_radius = r
+	cm.height = a.distance_to(b)
+	cm.radial_segments = 6
+	cm.rings = 1
+	mi.mesh = cm
+	mi.material_override = mat
+	mi.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	add_child(mi)
+	var dir: Vector3 = (b - a).normalized()
+	var axis: Vector3 = Vector3.UP.cross(dir)
+	var basis := Basis.IDENTITY
+	if axis.length() > 1e-5:
+		basis = Basis(axis.normalized(), Vector3.UP.angle_to(dir))
+	elif dir.y < 0.0:
+		basis = Basis(Vector3.RIGHT, PI)
+	mi.transform = Transform3D(basis, (a + b) * 0.5)
 
 # --- Deteccion de gol ------------------------------------------------------
 

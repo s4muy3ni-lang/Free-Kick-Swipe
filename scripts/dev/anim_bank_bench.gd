@@ -556,8 +556,8 @@ func _style_label(l: Label, size: int) -> void:
 	l.add_theme_constant_override("outline_size", 4)
 
 func _go_menu() -> void:
-	if get_tree() != null and ResourceLoader.exists(DevMenu.SCENE):
-		get_tree().change_scene_to_file(DevMenu.SCENE)
+	if get_tree() != null and ResourceLoader.exists(MainMenu.SCENE):
+		get_tree().change_scene_to_file(MainMenu.SCENE)
 
 func _refresh_ui() -> void:
 	if _info == null:

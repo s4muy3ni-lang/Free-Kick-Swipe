@@ -1,0 +1,164 @@
+class_name ShotCatalog
+extends RefCounted
+## Elige el golpeo (clip del banco JSON) que corresponde a un tiro, con los datos MEDIDOS de cada golpeo sobre el humano
+## JSON (resources/setpiece/shot_clips.json, tools/setpiece/build_shot_catalog.gd): pie, instante de contacto, punto del
+## pie en el contacto, direccion del pie al golpear respecto de la carrera, velocidad del pie y recorrido previo.
+##
+## La regla es la del futbol real: el tirador llega con su carrera (ángulo de aproximacion habitual para su pie) y la
+## direccion del tiro respecto de esa carrera decide la tecnica. Un diestro que tira a SU DERECHA abre el cuerpo y coloca
+## con el interior (o con el exterior si es potente); hacia su izquierda cruza el empeine; al centro, empeine potente. Para
+## cada tiro se busca el golpeo cuyo pie sale con ese mismo angulo respecto de su carrera; despues el clip se gira para que
+## el pie salga exactamente hacia el tiro y la carrera queda donde la pone el clip. Familias:
+##   potente (kick_shot_hard / balon parado fuerte), normal (kick_shot / balon parado), colocado (pases de interior y
+##   balon parado colocado), vaselina (kick_lob / setpiece_lob) y error (golpeos «desesperados» y fallados del banco
+##   para cuando el tiro se va fuera: el pie no le da limpio).
+## Entre los que encajan se reparte: cada pedido rota entre los mejores para que se vean TODOS los golpeos.
+
+const PATH := "res://resources/setpiece/shot_clips.json"
+
+enum Kind { POWER, NORMAL, PLACED, CHIP, MISS }
+
+## Angulo (grados, + derecha) de la carrera habitual respecto del tiro al centro: el diestro llega desde su izquierda.
+const APPROACH_DEG := 15.0
+
+static var _clips: Array = []
+static var _turn: int = 0
+
+static func clips() -> Array:
+	if _clips.is_empty():
+		var f := FileAccess.open(PATH, FileAccess.READ)
+		if f == null:
+			push_error("ShotCatalog: falta %s (generarlo con tools/setpiece/build_shot_catalog.tscn)" % PATH)
+			return []
+		var d: Variant = JSON.parse_string(f.get_as_text())
+		if d is Dictionary:
+			_clips = (d as Dictionary).get("clips", [])
+	return _clips
+
+static func entry(id: StringName) -> Dictionary:
+	for c in clips():
+		if String(c["id"]) == String(id):
+			return c
+	return {}
+
+## Angulo (grados, + derecha) entre la carrera y el pie al golpear.
+static func rel_angle(c: Dictionary) -> float:
+	return wrapf(float(c["swing"]) - float(c["approach"]), -180.0, 180.0)
+
+static func is_desperate(c: Dictionary) -> bool:
+	return String(c.get("source", "")).contains("desperate") or (c.get("tags", []) as Array).has("KICKDESPERATE")
+
+## Familia a la que pertenece un golpeo medido.
+static func kind_of(c: Dictionary) -> int:
+	var role: String = String(c["role"])
+	if role == "setpiece_miss" or is_desperate(c):
+		return Kind.MISS
+	if role in ["kick_lob", "setpiece_lob"]:
+		return Kind.CHIP
+	if role in ["kick_pass", "kick_pass_soft", "setpiece_pass"]:
+		return Kind.PLACED
+	if role == "kick_shot_hard" or String(c.get("power", "")) == "hard":
+		return Kind.POWER
+	return Kind.NORMAL
+
+## Familias aceptables para un tipo de tiro (la primera es la ideal) y su costo extra.
+static func _kind_cost(want: int, have: int) -> float:
+	if want == have:
+		return 0.0
+	match want:
+		Kind.POWER:
+			return 0.95 if have == Kind.NORMAL else INF
+		Kind.NORMAL:
+			return 0.5 if have in [Kind.POWER, Kind.PLACED] else INF
+		Kind.PLACED:
+			return 0.6 if have == Kind.NORMAL else INF
+		Kind.CHIP:
+			return 1.2 if have == Kind.PLACED else INF
+		Kind.MISS:
+			return 0.9 if have in [Kind.POWER, Kind.NORMAL] else INF
+	return INF
+
+## Elige el golpeo. foot: 1 derecho, -1 izquierdo. shot_rel_deg: angulo (+ derecha) del tiro respecto de la carrera
+## habitual del pie (ver approach_dir). set_piece: preferir golpeos de balon parado (carrera desde parado).
+## Devuelve la entrada del catalogo o {}.
+static func choose(foot: int, shot_rel_deg: float, kind: int, set_piece: bool, rng: RandomNumberGenerator = null,
+		ball_speed: float = -1.0, prefer_short: bool = false, curled: bool = false) -> Dictionary:
+	var scored: Array = []
+	for c in clips():
+		if int(c["foot"]) != foot:
+			continue
+		var kc: float = _kind_cost(kind, kind_of(c))
+		if kc == INF:
+			continue
+		var rel: float = rel_angle(c)
+		var cost: float = absf(rel - shot_rel_deg) / 12.0 + kc
+		var role: String = String(c["role"])
+		var sp: bool = role.begins_with("setpiece")
+		if set_piece and not sp:
+			cost += 0.35
+		if not bool(c.get("clean", true)):
+			cost += 0.25 if kind != Kind.MISS else 0.0
+		# Golpeos con poca carrera previa obligan a trotar mas antes de llegar: un poco menos naturales en balon parado.
+		if set_piece and float(c["run"]) < 0.6 and not prefer_short:
+			cost += 0.3
+		# El pie tiene que ir a la velocidad que pide el tiro (la pelota sale a ~1,25-1,6 veces la velocidad del pie).
+		if ball_speed > 0.0:
+			var fs: float = float(c["foot_speed"])
+			var ratio: float = 1.2 if kind == Kind.PLACED else 1.5
+			cost += absf(fs * ratio - ball_speed) / 7.0
+		# Tiro rapido de corta distancia: golpeo seco, casi sin carrera.
+		if prefer_short:
+			cost += clampf((float(c["run"]) - 0.8) * 0.35, 0.0, 1.0)
+		# Con efecto: los golpeos de tiro libre «curled» y los de interior que abren el pie.
+		if curled and not (c.get("tags", []) as Array).has("CURLED") and kind_of(c) != Kind.PLACED:
+			cost += 0.25
+		scored.append([cost, c])
+	if scored.is_empty():
+		return {}
+	scored.sort_custom(func(a: Array, b: Array) -> bool: return float(a[0]) < float(b[0]))
+	var best: float = float(scored[0][0])
+	var pool: Array = []
+	for s in scored:
+		if float(s[0]) <= best + 0.45 and pool.size() < 6:
+			pool.append(s[1])
+	_turn += 1
+	var pick: int = (rng.randi() if rng != null else _turn) % pool.size()
+	return pool[pick]
+
+## Direccion de la carrera habitual del pie para tirar hacia `aim` (unit. horizontal): el diestro llega desde su izquierda.
+static func approach_dir(aim: Vector3, foot: int) -> Vector3:
+	# rotated() gira hacia la izquierda con angulo positivo; la derecha del tirador es +Z cuando mira a +X.
+	return aim.rotated(Vector3.UP, -deg_to_rad(APPROACH_DEG) * float(foot))
+
+## Angulo (grados, + derecha) de `shot` respecto de `approach` (direcciones horizontales).
+static func signed_deg(approach: Vector3, shot: Vector3) -> float:
+	var a: float = atan2(approach.z, approach.x)
+	var b: float = atan2(shot.z, shot.x)
+	return rad_to_deg(wrapf(b - a, -PI, PI))
+
+## Marco del clip (origen, mirada) para que el pie llegue a la pelota en `ball` y salga hacia `shot` (horizontal).
+static func frame_for_shot(c: Dictionary, ball: Vector3, shot: Vector3) -> Array:
+	var swing: float = deg_to_rad(float(c["swing"]))
+	var sa: float = atan2(shot.z, shot.x)
+	var fa: float = sa - swing
+	var f := Vector3(cos(fa), 0.0, sin(fa))
+	var r := SpClips.right_of(f)
+	var o: Vector3 = Vector3(ball.x, 0.0, ball.z) - f * float(c["cx"]) - r * float(c["cz"])
+	return [o, f]
+
+## Instante desde el que conviene empezar el clip para que la carrera arranque a `stance_dist` de la pelota (o antes del
+## contacto lo minimo para que se vea el golpeo): salta la parte de la carrera que quedaria por detras.
+static func start_time(c: Dictionary, stance_dist: float, min_lead: float = 0.55) -> float:
+	var tc: float = float(c["tc"])
+	var cx: float = float(c["cx"])
+	var cz: float = float(c["cz"])
+	var best: float = 0.0
+	for r in c.get("roots", []):
+		var t: float = float(r[0])
+		if t > tc - min_lead:
+			break
+		var d: float = Vector2(cx - float(r[1]), cz - float(r[2])).length()
+		if d <= stance_dist + 0.25:
+			return t
+		best = t
+	return minf(best, maxf(tc - min_lead, 0.0))

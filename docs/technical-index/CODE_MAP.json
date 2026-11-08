@@ -493,67 +493,67 @@
           "file": "scripts/pitch/pitch_config.gd",
           "name": "PitchConfig.line_width",
           "default": "0.08",
-          "line": 21
+          "line": 29
         },
         {
           "file": "scripts/pitch/pitch_config.gd",
           "name": "PitchConfig.center_circle_radius",
           "default": "6.0",
-          "line": 22
+          "line": 30
         },
         {
           "file": "scripts/pitch/pitch_config.gd",
           "name": "PitchConfig.penalty_area_radius",
           "default": "8.0",
-          "line": 24
+          "line": 32
         },
         {
           "file": "scripts/pitch/pitch_config.gd",
           "name": "PitchConfig.penalty_mark_distance",
           "default": "8.0",
-          "line": 25
+          "line": 33
         },
         {
           "file": "scripts/pitch/pitch_config.gd",
           "name": "PitchConfig.second_penalty_mark_distance",
           "default": "12.0",
-          "line": 27
+          "line": 35
         },
         {
           "file": "scripts/pitch/pitch_config.gd",
           "name": "PitchConfig.corner_arc_radius",
           "default": "0.25",
-          "line": 28
+          "line": 36
         },
         {
           "file": "scripts/pitch/pitch_config.gd",
           "name": "PitchConfig.substitution_zone_length",
           "default": "5.0",
-          "line": 29
+          "line": 37
         },
         {
           "file": "scripts/pitch/pitch_config.gd",
           "name": "PitchConfig.boundary_mode",
           "default": "BoundaryMode.WALLS",
-          "line": 32
+          "line": 40
         },
         {
           "file": "scripts/pitch/pitch_config.gd",
           "name": "PitchConfig.wall_height",
           "default": "3.0",
-          "line": 34
+          "line": 42
         },
         {
           "file": "scripts/pitch/pitch_config.gd",
           "name": "PitchConfig.barrier_visible_height",
           "default": "1.0",
-          "line": 36
+          "line": 44
         },
         {
           "file": "scripts/pitch/pitch_config.gd",
           "name": "PitchConfig.run_off",
           "default": "2.5",
-          "line": 37
+          "line": 45
         }
       ],
       "dependencies": [
@@ -616,19 +616,19 @@
         {
           "file": "scripts/pitch/goal.gd",
           "name": "Goal._physics_process",
-          "line": 106,
+          "line": 150,
           "kind": "func"
         },
         {
           "file": "scripts/pitch/goal.gd",
           "name": "Goal.is_ball_in_goal",
-          "line": 126,
+          "line": 170,
           "kind": "func"
         },
         {
           "file": "scripts/pitch/goal.gd",
           "name": "Goal.aim_point",
-          "line": 139,
+          "line": 183,
           "kind": "func"
         },
         {
@@ -661,7 +661,7 @@
           "file": "scripts/pitch/pitch_config.gd",
           "name": "PitchConfig.post_radius",
           "default": "0.04",
-          "line": 18
+          "line": 26
         }
       ],
       "dependencies": [
@@ -704,25 +704,25 @@
         {
           "file": "scripts/pitch/goal_net.gd",
           "name": "GoalNet.setup",
-          "line": 76,
+          "line": 105,
           "kind": "func"
         },
         {
           "file": "scripts/pitch/goal_net.gd",
           "name": "GoalNet._ball_contact",
-          "line": 158,
+          "line": 205,
           "kind": "func"
         },
         {
           "file": "scripts/pitch/goal_net.gd",
           "name": "GoalNet._press",
-          "line": 230,
+          "line": 278,
           "kind": "func"
         },
         {
           "file": "scripts/pitch/goal_net.gd",
           "name": "GoalNet._step",
-          "line": 251,
+          "line": 299,
           "kind": "func"
         }
       ],
@@ -3539,19 +3539,19 @@
         {
           "file": "scripts/animation/pack_library.gd",
           "name": "PackLibrary.available",
-          "line": 153,
+          "line": 157,
           "kind": "func"
         },
         {
           "file": "scripts/animation/pack_library.gd",
           "name": "PackLibrary.clip",
-          "line": 167,
+          "line": 171,
           "kind": "func"
         },
         {
           "file": "scripts/animation/pack_library.gd",
           "name": "PackLibrary.meta",
-          "line": 194,
+          "line": 198,
           "kind": "func"
         },
         {
@@ -5596,13 +5596,13 @@
         {
           "file": "scripts/animation/pack_library.gd",
           "name": "PackLibrary.resolve",
-          "line": 124,
+          "line": 128,
           "kind": "func"
         },
         {
           "file": "scripts/animation/pack_library.gd",
           "name": "PackLibrary.by_role",
-          "line": 199,
+          "line": 203,
           "kind": "func"
         },
         {
@@ -5686,7 +5686,7 @@
         {
           "file": "scripts/animation/pack_library.gd",
           "name": "PackLibrary.vary_aliases",
-          "line": 216,
+          "line": 220,
           "kind": "func"
         },
         {
@@ -5845,7 +5845,7 @@
     {
       "id": "reforma.anim_bank_bench",
       "system": "REFORMA",
-      "description": "Reforma a tiros libres y penales, Fase 1: menu de desarrollo (entrada del juego; abre el banco de pruebas o el partido de futbol 5 anterior) y banco de pruebas que compara los bancos de animacion JSON original, Mixamo y Mocap por separado sobre el mismo jugador (selector que carga solo el banco elegido, categorias de tirador, barrera y arquero, sin clip en este banco, golpe en el contacto del clip, mediciones en vivo, cuerpo original de diagnostico).",
+      "description": "Reforma a tiros libres y penales, Fase 1: menu de desarrollo (abre el banco de pruebas; la entrada del juego es ahora el menu principal de SETPIECE) y banco de pruebas que compara los bancos de animacion JSON original, Mixamo y Mocap por separado sobre el mismo jugador (selector que carga solo el banco elegido, categorias de tirador, barrera y arquero, sin clip en este banco, golpe en el contacto del clip, mediciones en vivo, cuerpo original de diagnostico).",
       "keywords": [
         "reforma",
         "tiros libres",
@@ -5911,6 +5911,375 @@
         "PITCH"
       ],
       "documentation": "docs/technical-index/SYSTEMS/REFORMA.md",
+      "last_verified": "2026-11-08"
+    },
+    {
+      "id": "setpiece.modes",
+      "system": "SETPIECE",
+      "description": "Modos de penales (tanda 1 tiro / 1 atajada, serie de 5 y muerte subita) y tiro libre (pelota donde elige el usuario, barrera, arquero y sueltos): menu principal, estados y turnos, resultado, reacciones, camaras, interfaz y estadio de futbol 11 con selector de arco (caja o inclinado).",
+      "keywords": [
+        "penales",
+        "penal",
+        "tanda",
+        "tiro libre",
+        "tiros libres",
+        "free kick",
+        "penalty",
+        "menu",
+        "menu principal",
+        "modo",
+        "turno",
+        "muerte subita",
+        "colocar la pelota",
+        "estadio",
+        "futbol 11",
+        "cancha",
+        "tribunas",
+        "publico",
+        "camara",
+        "hud",
+        "marcador",
+        "arco",
+        "tipo de arco",
+        "caja",
+        "inclinado",
+        "red",
+        "festejo",
+        "reaccion"
+      ],
+      "files": [
+        "scripts/setpiece/setpiece_game.gd",
+        "scripts/setpiece/main_menu.gd",
+        "scripts/setpiece/stadium11.gd",
+        "scripts/setpiece/penalty_shootout.gd",
+        "scripts/setpiece/sp_camera.gd",
+        "scripts/setpiece/sp_hud.gd",
+        "scripts/setpiece/sp_settings.gd",
+        "scripts/setpiece/sp_reactions.gd",
+        "scenes/setpiece/setpiece_game.tscn",
+        "scenes/setpiece/main_menu.tscn",
+        "assets/setpiece/grass.gdshader",
+        "assets/setpiece/crowd.gdshader",
+        "assets/setpiece/boards.gdshader"
+      ],
+      "symbols": [
+        {
+          "file": "scripts/setpiece/setpiece_game.gd",
+          "name": "SetPieceGame._take_shot",
+          "line": 424,
+          "kind": "func"
+        },
+        {
+          "file": "scripts/setpiece/setpiece_game.gd",
+          "name": "SetPieceGame.shoot_params",
+          "line": 777,
+          "kind": "func"
+        },
+        {
+          "file": "scripts/setpiece/setpiece_game.gd",
+          "name": "SetPieceGame._finish",
+          "line": 559,
+          "kind": "func"
+        },
+        {
+          "file": "scripts/setpiece/setpiece_game.gd",
+          "name": "SetPieceGame.clamp_free_kick_spot",
+          "line": 348,
+          "kind": "func"
+        },
+        {
+          "file": "scripts/setpiece/penalty_shootout.gd",
+          "name": "PenaltyShootout.winner",
+          "line": 40,
+          "kind": "func"
+        },
+        {
+          "file": "scripts/setpiece/stadium11.gd",
+          "name": "Stadium11.build",
+          "line": 29,
+          "kind": "func"
+        },
+        {
+          "file": "scripts/setpiece/main_menu.gd",
+          "name": "MainMenu._start",
+          "line": 189,
+          "kind": "func"
+        }
+      ],
+      "parameters": [],
+      "dependencies": [
+        "PITCH",
+        "BALL",
+        "SETPIECE"
+      ],
+      "documentation": "docs/technical-index/SYSTEMS/SETPIECE.md",
+      "last_verified": "2026-11-08"
+    },
+    {
+      "id": "setpiece.shot",
+      "system": "SETPIECE",
+      "description": "Golpeo del tirador en penales y tiros libres: catalogo de los golpeos del banco JSON medidos sobre el humano JSON (contacto del pie, direccion del pie respecto de la carrera, velocidad), eleccion por pie, direccion, potencia y tipo (interior colocado al lado abierto, empeine cruzado, potente, vaselina, golpeo de error si se va fuera), carrera e impulso en el instante de contacto; actor animado con raiz.",
+      "keywords": [
+        "golpeo",
+        "patada",
+        "tiro",
+        "disparo",
+        "animacion",
+        "clip",
+        "interior",
+        "empeine",
+        "exterior",
+        "colocado",
+        "potente",
+        "vaselina",
+        "picada",
+        "error",
+        "contacto",
+        "pie",
+        "carrera",
+        "diestro",
+        "zurdo",
+        "catalogo de golpeos",
+        "shot_clips",
+        "raiz",
+        "root motion",
+        "actor"
+      ],
+      "files": [
+        "scripts/setpiece/shot_catalog.gd",
+        "scripts/setpiece/sp_shooter.gd",
+        "scripts/setpiece/sp_actor.gd",
+        "scripts/setpiece/sp_clips.gd",
+        "scripts/setpiece/shot_solver.gd",
+        "resources/setpiece/shot_clips.json",
+        "tools/setpiece/build_shot_catalog.gd"
+      ],
+      "symbols": [
+        {
+          "file": "scripts/setpiece/shot_catalog.gd",
+          "name": "ShotCatalog.choose",
+          "line": 84,
+          "kind": "func"
+        },
+        {
+          "file": "scripts/setpiece/shot_catalog.gd",
+          "name": "ShotCatalog.frame_for_shot",
+          "line": 140,
+          "kind": "func"
+        },
+        {
+          "file": "scripts/setpiece/sp_shooter.gd",
+          "name": "SpShooter.execute",
+          "line": 57,
+          "kind": "func"
+        },
+        {
+          "file": "scripts/setpiece/sp_actor.gd",
+          "name": "SpActor.play_clip",
+          "line": 121,
+          "kind": "func"
+        },
+        {
+          "file": "scripts/setpiece/sp_clips.gd",
+          "name": "SpClips.by_role",
+          "line": 73,
+          "kind": "func"
+        },
+        {
+          "file": "scripts/setpiece/shot_solver.gd",
+          "name": "ShotSolver.solve",
+          "line": 14,
+          "kind": "func"
+        }
+      ],
+      "parameters": [],
+      "dependencies": [
+        "JSON_MODE",
+        "BALL",
+        "SETPIECE"
+      ],
+      "documentation": "docs/technical-index/SYSTEMS/SETPIECE.md",
+      "last_verified": "2026-11-08"
+    },
+    {
+      "id": "setpiece.gesture",
+      "system": "SETPIECE",
+      "description": "Disparo por trazo tactil: captura con filtro (zona muerta, suavizado, limite de muestras), normalizacion por alto de pantalla, propiedades del gesto (velocidad media y maxima, aceleracion, largo, direccion inicial y final, desplazamiento vertical, curvatura, suavidad), parametros del disparo (potencia, direccion, angulo, efecto, precision, tipo), vista previa con la misma fisica y panel de diagnostico y calibracion.",
+      "keywords": [
+        "trazo",
+        "gesto",
+        "swipe",
+        "deslizar",
+        "dedo",
+        "tactil",
+        "potencia",
+        "velocidad del dedo",
+        "curvatura",
+        "efecto",
+        "comba",
+        "altura",
+        "precision",
+        "suavidad",
+        "prevision",
+        "trayectoria prevista",
+        "linea",
+        "diagnostico",
+        "calibracion",
+        "coeficientes",
+        "globo",
+        "tipo de disparo"
+      ],
+      "files": [
+        "scripts/setpiece/shot_gesture.gd",
+        "scripts/setpiece/gesture_tuning.gd",
+        "scripts/setpiece/gesture_shot_model.gd",
+        "scripts/setpiece/shot_params.gd",
+        "scripts/setpiece/trajectory_preview.gd",
+        "scripts/setpiece/gesture_diagnostics.gd"
+      ],
+      "symbols": [
+        {
+          "file": "scripts/setpiece/shot_gesture.gd",
+          "name": "ShotGesture.features",
+          "line": 94,
+          "kind": "func"
+        },
+        {
+          "file": "scripts/setpiece/gesture_shot_model.gd",
+          "name": "GestureShotModel.build",
+          "line": 30,
+          "kind": "func"
+        },
+        {
+          "file": "scripts/setpiece/gesture_shot_model.gd",
+          "name": "GestureShotModel.solve",
+          "line": 117,
+          "kind": "func"
+        },
+        {
+          "file": "scripts/setpiece/gesture_shot_model.gd",
+          "name": "GestureShotModel.classify",
+          "line": 64,
+          "kind": "func"
+        },
+        {
+          "file": "scripts/setpiece/trajectory_preview.gd",
+          "name": "TrajectoryPreview.show_path",
+          "line": 48,
+          "kind": "func"
+        }
+      ],
+      "parameters": [
+        {
+          "file": "scripts/setpiece/gesture_tuning.gd",
+          "name": "GestureTuning.speed_slow",
+          "line": 23,
+          "default": "0.9"
+        },
+        {
+          "file": "scripts/setpiece/gesture_tuning.gd",
+          "name": "GestureTuning.speed_fast",
+          "line": 24,
+          "default": "4.4"
+        },
+        {
+          "file": "scripts/setpiece/gesture_tuning.gd",
+          "name": "GestureTuning.power_curve",
+          "line": 28,
+          "default": "1.2"
+        },
+        {
+          "file": "scripts/setpiece/gesture_tuning.gd",
+          "name": "GestureTuning.spin_gain",
+          "line": 42,
+          "default": "280.0"
+        },
+        {
+          "file": "scripts/setpiece/gesture_tuning.gd",
+          "name": "GestureTuning.smoothing",
+          "line": 13,
+          "default": "0.35"
+        }
+      ],
+      "dependencies": [
+        "BALL",
+        "SETPIECE"
+      ],
+      "documentation": "docs/technical-index/SYSTEMS/SETPIECE.md",
+      "last_verified": "2026-11-08"
+    },
+    {
+      "id": "setpiece.keeper_wall",
+      "system": "SETPIECE",
+      "description": "Arquero, barrera y jugadores sueltos de penales y tiros libres: el arquero planifica la atajada con la trayectoria de manos de cada clip (KeeperPlanner), lee el tiro con tiempo de reaccion y error (tiro libre) o se juega a una zona antes del golpe (penal), y la pelota rebota o queda atrapada por contacto fisico con esferas en sus huesos; barrera a 9,15 m con colision y salto sincronizado; sueltos que se mueven al rebote y despejan si llegan.",
+      "keywords": [
+        "arquero",
+        "portero",
+        "keeper",
+        "goalkeeper",
+        "atajada",
+        "estirada",
+        "atrapar",
+        "desvio",
+        "barrera",
+        "salto",
+        "defensores",
+        "jugadores sueltos",
+        "despeje",
+        "cabezazo",
+        "rebote",
+        "colision"
+      ],
+      "files": [
+        "scripts/setpiece/sp_keeper.gd",
+        "scripts/setpiece/sp_wall.gd",
+        "scripts/setpiece/sp_field_players.gd"
+      ],
+      "symbols": [
+        {
+          "file": "scripts/setpiece/sp_keeper.gd",
+          "name": "SpKeeper.read_shot",
+          "line": 97,
+          "kind": "func"
+        },
+        {
+          "file": "scripts/setpiece/sp_keeper.gd",
+          "name": "SpKeeper.commit_to",
+          "line": 116,
+          "kind": "func"
+        },
+        {
+          "file": "scripts/setpiece/sp_keeper.gd",
+          "name": "SpKeeper._resolve",
+          "line": 223,
+          "kind": "func"
+        },
+        {
+          "file": "scripts/setpiece/sp_wall.gd",
+          "name": "SpWall.arrange",
+          "line": 50,
+          "kind": "func"
+        },
+        {
+          "file": "scripts/setpiece/sp_wall.gd",
+          "name": "SpWall.on_kick",
+          "line": 73,
+          "kind": "func"
+        },
+        {
+          "file": "scripts/setpiece/sp_field_players.gd",
+          "name": "SpFieldPlayers.on_kick",
+          "line": 58,
+          "kind": "func"
+        }
+      ],
+      "parameters": [],
+      "dependencies": [
+        "GOALKEEPER",
+        "BALL",
+        "SETPIECE"
+      ],
+      "documentation": "docs/technical-index/SYSTEMS/SETPIECE.md",
       "last_verified": "2026-11-08"
     }
   ]

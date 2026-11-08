@@ -34,6 +34,11 @@ const REST_EPS := 0.002
 
 class NetPanel:
 	var origin: Vector3
+	## Paño trapezoidal (laterales de la red de futbol 11): el largo de cada fila a lo largo de U se acorta `taper` metros
+	## de abajo (v = 0) arriba (v = len_v). 0 = rectangulo.
+	var taper: float = 0.0
+	## Caida de reposo (m, a lo largo de la normal; negativa = hacia dentro del arco): la tela cuelga por su peso.
+	var sag: float = 0.0
 	var axis_u: Vector3
 	var axis_v: Vector3
 	## Normal hacia fuera del arco.
@@ -54,7 +59,25 @@ class NetPanel:
 		return j * nu + i
 
 	func rest_point(i: int, j: int) -> Vector3:
-		return origin + axis_u * (float(i) * du) + axis_v * (float(j) * dv)
+		var b: float = float(j) * dv
+		return origin + axis_u * (float(i) * row_du(b)) + axis_v * b
+
+	## Largo de la fila a la altura b (a lo largo de V) y separacion de sus nodos.
+	func row_len(b: float) -> float:
+		return len_u - taper * clampf(b / len_v, 0.0, 1.0)
+
+	func row_du(b: float) -> float:
+		return row_len(b) / float(nu - 1)
+
+	## Coordenada U normalizada al largo del pano (para indexar filas acortadas).
+	func u_norm(a: float, b: float) -> float:
+		return a * len_u / maxf(row_len(b), 0.01)
+
+	## Forma de la caida de reposo en el nodo (i, j): campana que vale 0 en los bordes atados.
+	func sag_at(i: int, j: int) -> float:
+		if sag == 0.0:
+			return 0.0
+		return sag * sin(PI * float(i) / float(nu - 1)) * sin(PI * float(j) / float(nv - 1))
 
 var ball: Ball = null
 var panels: Array[NetPanel] = []
@@ -66,6 +89,8 @@ var peak_bulge: float = 0.0
 ## La pelota toco la red desde dentro y no salio del arco desde entonces.
 var _caught: bool = false
 var _depth: float = 1.0
+## Profundidad del techo (red de futbol 11: el fondo baja inclinado desde el techo hasta el piso, a `_depth`).
+var _top_depth: float = 1.0
 var _height: float = 2.0
 var _half_width: float = 1.5
 var _mesh: ArrayMesh
@@ -73,22 +98,43 @@ var _mesh_instance: MeshInstance3D
 var _uvs := PackedVector2Array()
 var _indices := PackedInt32Array()
 
-func setup(depth: float, height: float, half_width: float, material: Material) -> void:
+## top_depth < 0 (o igual a depth): red en forma de caja (la de siempre). Con 0 < top_depth < depth: red de futbol 11, con
+## techo de top_depth, fondo inclinado desde el techo hasta el piso a `depth` y laterales trapezoidales, y una caida de
+## reposo (la tela cuelga). Los paños se numeran igual: 0 fondo, 1 techo, 2 lateral -Z, 3 lateral +Z.
+## sag: escala de la caida de reposo (0 = tensa).
+func setup(depth: float, height: float, half_width: float, material: Material, top_depth: float = -1.0, sag: float = 0.0) -> void:
 	_depth = depth
 	_height = height
 	_half_width = half_width
+	_top_depth = depth if top_depth <= 0.0 or top_depth >= depth else top_depth
 	panels.clear()
-	panels.append(_panel(Vector3(depth, 0.0, -half_width), Vector3(0, 0, 1), Vector3(0, 1, 0), Vector3(1, 0, 0), half_width * 2.0, height))
-	panels.append(_panel(Vector3(0.0, height, -half_width), Vector3(1, 0, 0), Vector3(0, 0, 1), Vector3(0, 1, 0), depth, half_width * 2.0))
+	var slant: float = depth - _top_depth
+	if slant <= 0.0:
+		panels.append(_panel(Vector3(depth, 0.0, -half_width), Vector3(0, 0, 1), Vector3(0, 1, 0), Vector3(1, 0, 0), half_width * 2.0, height))
+	else:
+		var back_len: float = sqrt(slant * slant + height * height)
+		var av := Vector3(-slant, height, 0.0) / back_len
+		var an := Vector3(height, slant, 0.0) / back_len
+		panels.append(_panel(Vector3(depth, 0.0, -half_width), Vector3(0, 0, 1), av, an, half_width * 2.0, back_len))
+	panels.append(_panel(Vector3(0.0, height, -half_width), Vector3(1, 0, 0), Vector3(0, 0, 1), Vector3(0, 1, 0), _top_depth, half_width * 2.0))
 	panels.append(_panel(Vector3(0.0, 0.0, -half_width), Vector3(1, 0, 0), Vector3(0, 1, 0), Vector3(0, 0, -1), depth, height))
 	panels.append(_panel(Vector3(0.0, 0.0, half_width), Vector3(1, 0, 0), Vector3(0, 1, 0), Vector3(0, 0, 1), depth, height))
+	if slant > 0.0:
+		panels[2].taper = slant
+		panels[3].taper = slant
+	if sag > 0.0:
+		# La tela cuelga: el techo cae hacia dentro, el fondo se abomba un poco hacia fuera y los laterales ceden hacia dentro.
+		panels[0].sag = 0.07 * sag
+		panels[1].sag = (-0.10 if slant > 0.0 else -0.16) * sag
+		panels[2].sag = -0.05 * sag
+		panels[3].sag = -0.05 * sag
 	_uvs.clear()
 	_indices.clear()
 	var base: int = 0
 	for p in panels:
 		for j in p.nv:
 			for i in p.nu:
-				_uvs.append(Vector2(float(i) * p.du, float(j) * p.dv))
+				_uvs.append(Vector2(float(i) * p.row_du(float(j) * p.dv), float(j) * p.dv))
 		for j in p.nv - 1:
 			for i in p.nu - 1:
 				var a: int = base + p.node_index(i, j)
@@ -124,8 +170,9 @@ func _panel(origin: Vector3, au: Vector3, av: Vector3, n: Vector3, lu: float, lv
 func displacement_at(index: int, local_point: Vector3) -> float:
 	var p: NetPanel = panels[index]
 	var rel: Vector3 = local_point - p.origin
-	var i: int = clampi(int(round(rel.dot(p.axis_u) / p.du)), 0, p.nu - 1)
-	var j: int = clampi(int(round(rel.dot(p.axis_v) / p.dv)), 0, p.nv - 1)
+	var b: float = rel.dot(p.axis_v)
+	var i: int = clampi(int(round(p.u_norm(rel.dot(p.axis_u), b) / p.du)), 0, p.nu - 1)
+	var j: int = clampi(int(round(b / p.dv)), 0, p.nv - 1)
 	return p.disp[p.node_index(i, j)]
 
 func _physics_process(delta: float) -> void:
@@ -170,7 +217,8 @@ func _ball_contact(delta: float) -> bool:
 		var a: float = rel.dot(p.axis_u)
 		var b: float = rel.dot(p.axis_v)
 		var s: float = rel.dot(p.normal)
-		var over: bool = a > -r and a < p.len_u + r and b > -r and b < p.len_v + r
+		var row: float = p.row_len(b)
+		var over: bool = a > -r and a < row + r and b > -r and b < p.len_v + r
 		if not p.touching and (absf(s) > r + absf(lv.dot(p.normal)) * delta or not over):
 			p.ball_side = -1.0 if s < 0.0 else 1.0
 		var push_dir: Vector3 = p.normal * p.ball_side
@@ -185,7 +233,7 @@ func _ball_contact(delta: float) -> bool:
 		p.touching = true
 		any = true
 		# Junto al marco la tela casi no cede: mas rigida cuanto mas cerca del borde atado.
-		var edge: float = minf(minf(a, p.len_u - a), minf(b, p.len_v - b))
+		var edge: float = minf(minf(a, row - a), minf(b, p.len_v - b))
 		var soft: float = clampf(edge / EDGE_SOFT, 0.0, 1.0)
 		var stiff: float = bt.net_stiffness * (1.0 + 2.0 * (1.0 - soft))
 		# La tela no es un muelle: al devolver la pelota casi no empuja (se queda la energia y la pelota cae dentro). Con
@@ -210,7 +258,7 @@ func _ball_contact(delta: float) -> bool:
 		e = maxf(e, 0.0)
 		var v_t: Vector3 = lv + push_dir * v_into
 		accel += push_dir * a_n - v_t * bt.net_grip * clampf(e / 0.1, 0.0, 1.0)
-		_press(p, a, b, minf(e, bt.net_max_bulge), -p.ball_side, delta)
+		_press(p, p.u_norm(a, b), b, minf(e, bt.net_max_bulge), -p.ball_side, delta)
 	# Dentro del arco tras tocar la red: la tela la enreda y la frena.
 	var inside: bool = lp.x > 0.0 and lp.x < _depth + bt.net_max_bulge and absf(lp.z) < _half_width + 0.05 and lp.y < _height + 0.2
 	if not inside:
@@ -281,7 +329,7 @@ func _rebuild_mesh() -> void:
 	for p in panels:
 		for j in p.nv:
 			for i in p.nu:
-				verts.append(p.rest_point(i, j) + p.normal * p.disp[p.node_index(i, j)])
+				verts.append(p.rest_point(i, j) + p.normal * (p.disp[p.node_index(i, j)] + p.sag_at(i, j)))
 	var arrays: Array = []
 	arrays.resize(Mesh.ARRAY_MAX)
 	arrays[Mesh.ARRAY_VERTEX] = verts

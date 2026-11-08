@@ -5,9 +5,9 @@ config_version=5
 
 [application]
 
-config/name="Futbol 5"
-config/description="Juego original de futbol 5 / futsal con control asistido y fisicas propias."
-run/main_scene="res://scenes/dev/dev_menu.tscn"
+config/name="Free Kick Swipe"
+config/description="Penales y tiros libres con el dedo: fisica real de la pelota, red de tela, arquero y barrera."
+run/main_scene="res://scenes/setpiece/main_menu.tscn"
 config/features=PackedStringArray("4.7", "GL Compatibility")
 run/max_fps=0
 config/icon="res://icon.svg"

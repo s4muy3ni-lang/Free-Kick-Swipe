@@ -2,6 +2,10 @@
 
 Última actualización: 2026-11-08. Último commit al escribir esto: `70513bc` en `reforma-tiros-penales`.
 
+> **Actualización 2026-11-08:** el proyecto ya está en `s4muy3ni-lang/Free-Kick-Swipe` (rama de trabajo
+> `claude/init-repo-reforma-tiros-c7vapt`) y el juego de penales y tiros libres está hecho; estado, conexiones, pruebas y
+> pendientes en [`MODOS_TIROS_PENALES.md`](MODOS_TIROS_PENALES.md). El resto de este documento es la guía del traspaso.
+
 ## 1. Prompt para pegar en el chat nuevo
 
 (Si el proyecto se mueve a un repositorio nuevo, usar la variante del §7.)

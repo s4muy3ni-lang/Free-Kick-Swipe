@@ -15,6 +15,14 @@ enum BoundaryMode { WALLS, OUT_OF_BOUNDS }
 @export var goal_width: float = 5.0
 @export var goal_height: float = 2.0
 @export var goal_depth: float = 1.0
+## Profundidad del techo de la red (m). < 0: red en forma de caja (fondo vertical a goal_depth). Entre 0 y goal_depth: red
+## de futbol 11 (fondo inclinado desde el techo hasta el piso, con soportes detras del arco).
+@export var goal_top_depth: float = -1.0
+## Caida de reposo de la red (0 = tensa, la de siempre; 1 = cuelga como una red real de futbol 11).
+@export var goal_net_sag: float = 0.0
+## Estructura detras del arco: 0 ninguna, 1 soportes de la red inclinada (barra superior y tirantes), 2 caños en el piso
+## (red de caja, como la de los estadios).
+@export var goal_supports: int = 0
 @export var post_radius: float = 0.04
 
 @export_group("Marcas")
@@ -46,6 +54,35 @@ static func futsal() -> PitchConfig:
 	c.penalty_area_radius = 6.0
 	c.penalty_mark_distance = 6.0
 	c.second_penalty_mark_distance = 10.0
+	return c
+
+## Tipos de arco de futbol 11 (selector del menu): red de caja (techo largo y fondo vertical, caños en el piso, como en los
+## estadios) o red de fondo inclinado (techo corto y fondo que baja hasta el piso, con soportes).
+enum GoalStyle { BOX, SLANTED }
+
+## Cancha de futbol 11 (105 x 68 m, arcos de 7,32 x 2,44 m): la de los modos de tiros libres y penales (Stadium11). Las
+## marcas del area de futbol 11 las dibuja Stadium11, no Pitch.
+static func football11(style: int = GoalStyle.BOX) -> PitchConfig:
+	var c := PitchConfig.new()
+	c.length = 105.0
+	c.width = 68.0
+	c.goal_width = 7.32
+	c.goal_height = 2.44
+	if style == GoalStyle.SLANTED:
+		c.goal_depth = 2.0
+		c.goal_top_depth = 0.9
+		c.goal_supports = 1
+	else:
+		c.goal_depth = 2.0
+		c.goal_top_depth = -1.0
+		c.goal_supports = 2
+	c.goal_net_sag = 1.0
+	c.post_radius = 0.06
+	c.line_width = 0.12
+	c.center_circle_radius = 9.15
+	c.penalty_mark_distance = 11.0
+	c.boundary_mode = BoundaryMode.OUT_OF_BOUNDS
+	c.run_off = 6.0
 	return c
 
 func half_length() -> float:

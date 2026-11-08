@@ -14,7 +14,7 @@
 
 | Archivo | Qué hace |
 |---|---|
-| `scripts/dev/dev_menu.gd`, `scenes/dev/dev_menu.tscn` | `DevMenu`: escena principal del proyecto; abre el banco de pruebas (y los modos de tiros libres y penales cuando existan). El modo de fútbol 5 se quitó de esta rama: ver `docs/reforma/FUTBOL5_QUITADO.md`. |
+| `scripts/dev/dev_menu.gd`, `scenes/dev/dev_menu.tscn` | `DevMenu`: menú de desarrollo (abre el banco de pruebas). Desde 2026-11-08 la escena principal es el menú del juego (`scenes/setpiece/main_menu.tscn`, ficha [SETPIECE](SETPIECE.md)), que también abre el banco de pruebas. El modo de fútbol 5 se quitó de esta rama: ver `docs/reforma/FUTBOL5_QUITADO.md`. |
 | `scripts/dev/anim_bank_bench.gd`, `scenes/dev/anim_bank_bench.tscn` | `AnimBankBench`: selector de banco (carga solo sus bibliotecas), cuerpo común (humano JSON) o cuerpo original del banco (diagnóstico), categorías de tirador, barrera y arquero, «sin clip en este banco», golpe de referencia en el instante de contacto del clip, marcador de las manos en atajadas, mediciones en vivo, secuencia reposo → clip → reposo del mismo banco, tres cámaras fijas y zoom. |
 | `scripts/dev/anim_bank_catalog.gd` | `AnimBankCatalog`: lectura del catálogo por procedencia y material del uniforme de cada cuerpo. |
 | `resources/animation/catalogo_bancos.json` | Catálogo generado (entra en la APK). |

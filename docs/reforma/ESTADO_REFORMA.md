@@ -3,6 +3,15 @@
 Leer primero en un chat nuevo (junto con [`CONTINUAR_REFORMA.md`](CONTINUAR_REFORMA.md), que trae el prompt para pegar, y
 [`INSTRUCCION_REFORMA.md`](INSTRUCCION_REFORMA.md), la instrucción completa del usuario). Última actualización: 2026-11-08.
 
+## Actualización 2026-11-08: repositorio nuevo y juego completo
+
+- El proyecto pasó al repositorio `s4muy3ni-lang/Free-Kick-Swipe` (import sin historial, `main`); rama de trabajo
+  `claude/init-repo-reforma-tiros-c7vapt`. Las reglas de ramas de abajo son del repositorio viejo.
+- El usuario pidió completar el juego (menú, penales 1 tiro / 1 atajada, tiro libre con la pelota donde elija, golpeos por
+  dirección con todas las animaciones de tiro, reacciones, redes realistas, selector de arco, disparo avanzado por trazo).
+  Hecho con el banco JSON original: ver [`MODOS_TIROS_PENALES.md`](MODOS_TIROS_PENALES.md). El banco de pruebas de la
+  Fase 1 sigue disponible desde el menú.
+
 ## Rama y reglas
 
 - Rama de trabajo: **`reforma-tiros-penales`** (creada desde `integracion-openai` en `9c6f82a`, autorizada por el usuario).

@@ -130,16 +130,20 @@ func test_reference_kick_happens_at_the_clip_contact() -> void:
 				check(d <= 0.25, "%s sobre su cuerpo original: punta del pie a %.3f m del centro de la pelota (<= 0,25)" % [bank, d])
 	cleanup()
 
-func test_dev_menu_is_the_entry_and_the_5_a_side_mode_is_gone() -> void:
-	check(String(ProjectSettings.get_setting("application/run/main_scene")) == DevMenu.SCENE, "la entrada del juego es el menu de desarrollo")
-	check(ResourceLoader.exists(DevMenu.BENCH_SCENE), "existe la escena del banco de pruebas")
-	check(not ResourceLoader.exists("res://scenes/main/match.tscn"), "el modo de futbol 5 se quito de esta rama (sin escena de partido)")
-	var m: DevMenu = (load(DevMenu.SCENE) as PackedScene).instantiate()
+## Entrada del juego (decision del usuario 2026-11-08): el menu principal con los dos modos (penales y tiro libre) y un acceso
+## al banco de pruebas de animaciones; el modo de futbol 5 sigue fuera.
+func test_main_menu_is_the_entry_and_the_5_a_side_mode_is_gone() -> void:
+	check(String(ProjectSettings.get_setting("application/run/main_scene")) == MainMenu.SCENE, "la entrada del juego es el menu principal")
+	check(ResourceLoader.exists(MainMenu.BENCH_SCENE), "existe la escena del banco de pruebas")
+	check(not ResourceLoader.exists("res://scenes/main/match.tscn"), "el modo de futbol 5 se quito (sin escena de partido)")
+	var m: MainMenu = (load(MainMenu.SCENE) as PackedScene).instantiate()
 	spawn(m)
 	await physics_frames(1)
 	var texts: Array = []
 	for btn in m.find_children("*", "Button", true, false):
 		texts.append((btn as Button).text)
-	check(texts.size() == 1 and str(texts).contains("Banco de pruebas"), "un acceso: el banco de pruebas (%s)" % str(texts))
+	check(str(texts).contains("PENALES") and str(texts).contains("TIRO LIBRE"), "los dos modos estan en el menu (%s)" % str(texts))
+	check(str(texts).contains("Banco de animaciones"), "acceso al banco de pruebas")
+	check(str(texts).contains("Arco:"), "selector del tipo de arco")
 	check(not str(texts).contains("fútbol 5"), "ningun acceso al futbol 5")
 	cleanup()

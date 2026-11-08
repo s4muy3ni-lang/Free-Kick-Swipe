@@ -11,6 +11,35 @@ Formato de entrada: **fecha — título** · commit · qué cambió · archivos 
 
 ---
 
+## 2026-11-08 — Repositorio nuevo y juego de penales y tiros libres (menú, dos modos, disparo por trazo, arcos)
+
+Repositorio `s4muy3ni-lang/Free-Kick-Swipe`, importado sin historial de `roldanhr98-byte/Futbol5` (rama
+`reforma-tiros-penales`, `a24630d`); rama de trabajo `claude/init-repo-reforma-tiros-c7vapt`. Informe y análisis:
+`docs/reforma/MODOS_TIROS_PENALES.md`; ficha: `docs/technical-index/SYSTEMS/SETPIECE.md`.
+
+- Pedido del usuario: completar el juego con un menú, penales (1 tiro y 1 atajada por ronda) y tiro libre (elegir dónde va
+  la pelota), golpeos elegidos por la dirección del tiro con todas las animaciones de tiro del banco (también las «con
+  error» para los tiros que se van), festejos y enojos de todos, redes realistas, selector de tipo de arco y el sistema
+  avanzado de disparo por trazo. Banco usado: JSON original (único que cubre las 25 acciones sobre el humano JSON); no se
+  crean ni modifican clips.
+- Nuevo: `scripts/setpiece/*` (menú principal como escena principal, `SetPieceGame`, `Stadium11`, `SpActor`, `SpClips`,
+  `ShotCatalog` + `resources/setpiece/shot_clips.json` generado por `tools/setpiece/build_shot_catalog.tscn`, `SpShooter`,
+  `ShotSolver`, `ShotGesture`, `GestureTuning`, `GestureShotModel`, `ShotParams`, `TrajectoryPreview`,
+  `GestureDiagnostics`, `SpKeeper`, `SpWall`, `SpFieldPlayers`, `SpReactions`, `PenaltyShootout`, `SpCamera`, `SpHud`,
+  `SpSettings`), escenas `scenes/setpiece/*`, sombreadores `assets/setpiece/*`, capturas `tools/setpiece/captures.tscn`.
+- Cambiado: `GoalNet` (fondo inclinado, laterales trapezoidales y caída de reposo, todo opcional: el arco de siempre no
+  cambia), `Goal` (soportes de la red o caños en el piso), `PitchConfig` (`football11`, `GoalStyle`, `goal_top_depth`,
+  `goal_net_sag`, `goal_supports`), `PackLibrary` (el rol original de los clips reasignados se guarda en el meta: con la
+  biblioteca compartida en memoria, la segunda carga leía el rol ya reasignado y un alias podía caer en un clip excluido),
+  `AnimBankBench` (vuelve al menú principal), `project.godot` (escena principal y nombre), `export_presets.cfg` (incluye
+  `resources/setpiece/*.json` en la APK; nombre de la app), workflow (ramas `claude/**`, comprueba el catálogo de golpeos en
+  la APK y corre `test_setpiece_render` con render).
+- Prueba actualizada por cambio de requisito: `test_anim_bank_bench` comprueba ahora que la entrada es el menú principal
+  con los dos modos, el selector de arco y el acceso al banco de pruebas (antes: el menú de desarrollo).
+- Verificación (este entorno, Godot 4.7.2): `test_shot_gesture` 9/0, `test_setpiece_modes` 7/0, `test_setpiece_render`
+  2/0 con render (xvfb); suite headless completa y `docs_index.py check` registradas en el commit. Pendiente: medir tacto y
+  rendimiento en un teléfono Android.
+
 ## 2026-11-07 — Reforma: el modo de fútbol 5 sale de la rama `reforma-tiros-penales`
 
 - Pedido del usuario: no se hará fútbol 5. Se quitaron las escenas del partido y de la sala de práctica, el acceso desde el

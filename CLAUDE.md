@@ -1,6 +1,6 @@
-# Fútbol 5 — instrucciones para Claude Code
+# Free Kick Swipe (ex Fútbol 5) — instrucciones para Claude Code
 
-Juego de fútbol 5 / futsal para Android: Godot 4.7.2, GDScript, renderer GL Compatibility, física Jolt a 60 Hz.
+Juego de penales y tiros libres para Android (antes fútbol 5 / futsal): Godot 4.7.2, GDScript, renderer GL Compatibility, física Jolt a 60 Hz.
 
 ## Antes de tocar nada: usar el índice técnico
 
@@ -22,7 +22,7 @@ El procedimiento completo está al final de `INDEX.md`. Si el índice y el códi
 - **No cambiar la mecánica de juego** salvo que la tarea lo pida; los ajustes de balance viven en los valores por defecto de las clases `*Tuning` (ver [`SYSTEMS/TUNING.md`](docs/technical-index/SYSTEMS/TUNING.md)) y los números fijos del código están listados en `ARCHITECTURE.md`.
 - **Secretos:** nunca escribir la clave de Tripo3D ni claves de firma Android en el repositorio, en el chat ni en registros. Los secretos de CI van en GitHub Secrets.
 - **Tripo3D:** las operaciones de pago (generar, rig, retarget) requieren comprobar el coste antes, no superar el presupuesto (reserva ~200 créditos) y anotar cada gasto en `docs/tripo/ledger.jsonl`. Nunca forman parte de tareas de documentación.
-- **Git (actualización 2026-11-07):** la reforma a tiros libres y penales (prioridad actual) se hace en la rama `reforma-tiros-penales`; estado en [`docs/reforma/ESTADO_REFORMA.md`](docs/reforma/ESTADO_REFORMA.md) y cómo continuar en [`docs/reforma/CONTINUAR_REFORMA.md`](docs/reforma/CONTINUAR_REFORMA.md). No modificar `integracion-openai` ni `respaldo-f3`. La guía maestra de animaciones del partido (en pausa) quedó en `integracion-openai`; cómo continuar: [`docs/integration/CONTINUAR_GUIA_ANIMACIONES.md`](docs/integration/CONTINUAR_GUIA_ANIMACIONES.md). Regla anterior: trabajar en la rama `respaldo-f3` (el usuario lo pidió: todo se guarda ahí y se sube a la rama principal `ccr-a6c53cd2-uoxpk0`, la rama por defecto en GitHub, solo al terminar); no abrir PR salvo petición explícita. Estado, fases y metodología acordada: [`docs/ESTADO_Y_METODOLOGIA.md`](docs/ESTADO_Y_METODOLOGIA.md).
+- **Git (actualización 2026-11-08):** este repositorio es `s4muy3ni-lang/Free-Kick-Swipe` (importado sin historial de `roldanhr98-byte/Futbol5`, rama `reforma-tiros-penales`, `a24630d`; el repositorio viejo se conserva aparte y no se toca). Rama de trabajo: `claude/init-repo-reforma-tiros-c7vapt` (`main` tiene el import inicial); sin PR ni merges salvo pedido expreso. Las ramas `integracion-openai` y `respaldo-f3` que nombran los documentos viejos son del repositorio viejo. Estado de la reforma: [`docs/reforma/ESTADO_REFORMA.md`](docs/reforma/ESTADO_REFORMA.md); el juego de penales y tiros libres: [`docs/reforma/MODOS_TIROS_PENALES.md`](docs/reforma/MODOS_TIROS_PENALES.md) y la ficha [`SYSTEMS/SETPIECE.md`](docs/technical-index/SYSTEMS/SETPIECE.md).
 
 ## Convenciones de código (resumen; detalle en `ARCHITECTURE.md`)
 
