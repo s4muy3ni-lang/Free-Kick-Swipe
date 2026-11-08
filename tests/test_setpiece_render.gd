@@ -171,6 +171,7 @@ func test_a_loose_ball_never_stays_dead_in_the_box() -> void:
 	# Penal sin el modo rapido de las pruebas (el turno siguiente espera a que el arquero termine, hasta 6 s).
 	var g2: SetPieceGame = await _game(SetPieceGame.Mode.PENALTY)
 	g2.fast = false
+	g2.cpu_keeper.rng.seed = 21
 	g2.ball.reset_at(Vector3(g2.gx - 5.0, g2.ball.radius, 2.0))
 	await physics_frames(2)
 	g2.phase = SetPieceGame.Phase.FLIGHT

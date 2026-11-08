@@ -43,3 +43,30 @@ func test_set_piece_keeper_touches_sound_like_gloves() -> void:
 	check(not Sfx.is_keeper(b), "el tirador no")
 	a.free()
 	b.free()
+
+## Ningun jugador queda repitiendo una reaccion: los clips en bucle no se eligen como reaccion, y si un clip en bucle se
+## reproduce una vez, termina al completar su ciclo (antes el jugador quedaba trabado esperando el final).
+func test_reactions_never_loop_forever() -> void:
+	var loops: int = 0
+	for roles in [SpReactions.GOAL_SCORER, SpReactions.GOAL_TEAM, SpReactions.MISS_SHOOTER, SpReactions.SAD, SpReactions.HAPPY_DEFENDER, [&"gk_gesture", &"celebrate", &"clap"]]:
+		for i in 40:
+			var id: StringName = SpReactions.pick(roles, null, 2.5, 0.5)
+			if id != &"" and SpClips.anim(id).loop_mode != Animation.LOOP_NONE:
+				loops += 1
+	check(loops == 0, "ninguna reaccion elegida es un clip en bucle (%d)" % loops)
+	var a := SpActor.new()
+	spawn(a)
+	a.build(SpSettings.CPU_KEEPER_KIT)
+	await physics_frames(2)
+	var finished := [false]
+	a.clip_finished.connect(func(_id: StringName) -> void: finished[0] = true)
+	var looped: StringName = &"jn_gk_gesture_0064"
+	check(SpClips.has(looped) and SpClips.anim(looped).loop_mode != Animation.LOOP_NONE, "el clip de prueba es un bucle")
+	a.play_here(looped, 0.0)
+	var n: int = 0
+	while not finished[0] and n < 240:
+		await tree.physics_frame
+		n += 1
+	note("clip en bucle de %.2f s reproducido una vez: termina a los %.2f s" % [SpClips.length(looped), n / 60.0])
+	check(finished[0] and n <= int(SpClips.length(looped) * 60.0) + 12, "termina al completar su ciclo")
+	cleanup()

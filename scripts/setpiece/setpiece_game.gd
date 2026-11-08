@@ -768,10 +768,6 @@ func _finish(why: String) -> void:
 		Sfx.play(&"cheer", 0.9)
 	else:
 		Sfx.play(&"ooh", 0.8)
-	# Penal: el arquero festeja la atajada (o lamenta el gol) siempre; si la pelota quedo suelta en su area va a buscarla
-	# DESPUES de festejar.
-	if mode == Mode.PENALTY:
-		cur_keeper.react(not goal_ok)
 	_keeper_ball_done = false
 	# Pelota suelta en el area o cerca: el arquero va a recogerla o un defensor la despeja (ese no reacciona: juega).
 	chaser = null
@@ -781,6 +777,10 @@ func _finish(why: String) -> void:
 			defs.append_array(field.defenders)
 			defs.append_array(wall.players)
 		chaser = loose.start(cur_keeper, defs, mode == Mode.PENALTY)
+	# Penal: el arquero festeja la atajada (o lamenta el gol) siempre; si la pelota quedo suelta en su area va a buscarla
+	# DESPUES de festejar (festejo corto: ya sabe que tiene que ir).
+	if mode == Mode.PENALTY:
+		cur_keeper.react(not goal_ok)
 	# Reacciones: el tirador festeja o se enoja; el arquero al reves; barrera, sueltos y banco tambien. Si alguno todavia
 	# termina su golpeo o su estirada, la reaccion sale al terminar.
 	cur_shooter.react(goal_ok)

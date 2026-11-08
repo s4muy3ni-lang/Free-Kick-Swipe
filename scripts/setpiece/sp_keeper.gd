@@ -66,6 +66,8 @@ const COLLECT_REACH := 1.6
 const COLLECT_BALL_SPEED := 5.0
 ## Distancia manos-pelota (m) a la que la recogida la deja en las manos (radio de contacto de los clips gk_scoop).
 const PICKUP_HANDS := 0.4
+## Festejo corto (s) cuando despues tiene que ir a buscar la pelota.
+const SHORT_REACTION := 2.2
 var rng := RandomNumberGenerator.new()
 ## Ultimo plan de atajada (diagnostico y pruebas).
 var plan: Dictionary = {}
@@ -608,7 +610,11 @@ func react(happy: bool) -> void:
 	if state in [State.HOLD, State.COLLECT]:
 		return
 	var roles: Array = [&"gk_gesture", &"celebrate", &"clap"] if happy else [&"dejected", &"angry"]
-	var id: StringName = SpReactions.pick(roles, rng, 1.5)
+	# Si despues tiene que ir por la pelota suelta, un festejo corto (el turno siguiente no espera para siempre).
+	var max_len: float = SHORT_REACTION if _collect_wanted else INF
+	var id: StringName = SpReactions.pick(roles, rng, 1.5, 0.8, max_len)
+	if id == &"" and max_len < INF:
+		id = SpReactions.pick(roles, rng, 1.5, 0.5, max_len + 1.0)
 	if id == &"":
 		return
 	state = State.REACT
@@ -625,7 +631,8 @@ func collect(keep_reaction: bool = false) -> void:
 		_pending_react = -1
 	if ball.is_held():
 		return
-	if keep_reaction and (state == State.REACT or _pending_react >= 0):
+	if keep_reaction and (state in [State.REACT, State.IDLE] or _pending_react >= 0):
+		# Primero la reaccion (la pide el juego enseguida); si no hay reaccion, arranca en el paso siguiente.
 		_collect_wanted = true
 		return
 	if state == State.IDLE:

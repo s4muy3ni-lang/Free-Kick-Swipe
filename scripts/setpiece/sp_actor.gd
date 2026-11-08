@@ -241,9 +241,13 @@ func _physics_process(delta: float) -> void:
 	if not looping and not _finished_emitted:
 		var cur: StringName = SpClips.path(clip_id)
 		var running: bool = anim_player.current_animation == String(cur) and anim_player.is_playing()
-		_clip_time = anim_player.current_animation_position if running else SpClips.length(clip_id)
+		var pos: float = anim_player.current_animation_position if running else SpClips.length(clip_id)
+		# Un clip en bucle reproducido una vez: al dar la vuelta (la posicion vuelve atras) termino su ciclo. Sin esto el
+		# jugador quedaba repitiendolo para siempre esperando un final que no llega. La animacion compartida no se toca.
+		var wrapped: bool = running and pos + 0.05 < _clip_time
+		_clip_time = SpClips.length(clip_id) if wrapped else pos
 		_apply_root(_clip_time)
-		if not running or _clip_time >= SpClips.length(clip_id) - 0.001:
+		if not running or wrapped or _clip_time >= SpClips.length(clip_id) - 0.001:
 			_finished_emitted = true
 			clip_finished.emit(clip_id)
 	elif _moving:
