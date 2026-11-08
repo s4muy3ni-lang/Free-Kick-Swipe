@@ -68,61 +68,61 @@
         {
           "file": "scripts/ball/ball.gd",
           "name": "Ball.apply_tuning",
-          "line": 128,
+          "line": 131,
           "kind": "func"
         },
         {
           "file": "scripts/ball/ball.gd",
           "name": "Ball._integrate_forces",
-          "line": 349,
+          "line": 352,
           "kind": "func"
         },
         {
           "file": "scripts/ball/ball.gd",
           "name": "Ball.kick",
-          "line": 153,
+          "line": 156,
           "kind": "func"
         },
         {
           "file": "scripts/ball/ball.gd",
           "name": "Ball.push",
-          "line": 179,
+          "line": 182,
           "kind": "func"
         },
         {
           "file": "scripts/ball/ball.gd",
           "name": "Ball.rolling_spin",
-          "line": 175,
+          "line": 178,
           "kind": "func"
         },
         {
           "file": "scripts/ball/ball.gd",
           "name": "Ball.reset_at",
-          "line": 198,
+          "line": 201,
           "kind": "func"
         },
         {
           "file": "scripts/ball/ball.gd",
           "name": "Ball.hold",
-          "line": 210,
+          "line": 213,
           "kind": "func"
         },
         {
           "file": "scripts/ball/ball.gd",
           "name": "Ball.release",
-          "line": 220,
+          "line": 223,
           "kind": "func"
         },
         {
           "file": "scripts/ball/ball.gd",
           "name": "Ball.register_touch",
-          "line": 184,
+          "line": 187,
           "kind": "func"
         },
         {
           "file": "scripts/ball/ball.gd",
           "name": "Ball._on_body_entered",
-          "line": 584,
+          "line": 587,
           "kind": "func"
         },
         {
@@ -158,49 +158,49 @@
         {
           "file": "scripts/ball/ball.gd",
           "name": "Ball.roll_decel",
-          "line": 451,
+          "line": 454,
           "kind": "func"
         },
         {
           "file": "scripts/ball/ball.gd",
           "name": "Ball.roll_speed",
-          "line": 474,
+          "line": 477,
           "kind": "func"
         },
         {
           "file": "scripts/ball/ball.gd",
           "name": "Ball.roll_distance",
-          "line": 485,
+          "line": 488,
           "kind": "func"
         },
         {
           "file": "scripts/ball/ball.gd",
           "name": "Ball.roll_speed_for",
-          "line": 503,
+          "line": 506,
           "kind": "func"
         },
         {
           "file": "scripts/ball/ball.gd",
           "name": "Ball.roll_time",
-          "line": 539,
+          "line": 542,
           "kind": "func"
         },
         {
           "file": "scripts/ball/ball.gd",
           "name": "Ball.roll_start_speed",
-          "line": 556,
+          "line": 559,
           "kind": "func"
         },
         {
           "file": "scripts/ball/ball.gd",
           "name": "Ball.roll_catch_time",
-          "line": 570,
+          "line": 573,
           "kind": "func"
         },
         {
           "file": "scripts/ball/ball.gd",
           "name": "Ball._roll_step",
-          "line": 470,
+          "line": 473,
           "kind": "func"
         }
       ],
@@ -348,13 +348,13 @@
         {
           "file": "scripts/ball/ball.gd",
           "name": "Ball.capture_state",
-          "line": 241,
+          "line": 244,
           "kind": "func"
         },
         {
           "file": "scripts/ball/ball.gd",
           "name": "Ball.apply_state",
-          "line": 254,
+          "line": 257,
           "kind": "func"
         }
       ],
@@ -2942,7 +2942,11 @@
         "tope de fps",
         "30 fps",
         "60 fps",
-        "imagenes por segundo"
+        "imagenes por segundo",
+        "automatico",
+        "auto",
+        "perfil grafico",
+        "menu graficos"
       ],
       "files": [
         "scripts/diagnostics/graphics_settings.gd",
@@ -2952,25 +2956,25 @@
         {
           "file": "scripts/diagnostics/graphics_settings.gd",
           "name": "GraphicsSettings.apply",
-          "line": 109,
+          "line": 160,
           "kind": "func"
         },
         {
           "file": "scripts/diagnostics/graphics_settings.gd",
           "name": "GraphicsSettings.set_profile",
-          "line": 65,
+          "line": 115,
           "kind": "func"
         },
         {
           "file": "scripts/diagnostics/graphics_settings.gd",
           "name": "GraphicsSettings.set_resolution_override",
-          "line": 79,
+          "line": 130,
           "kind": "func"
         },
         {
           "file": "scripts/diagnostics/graphics_settings.gd",
           "name": "GraphicsSettings.detect_default_profile",
-          "line": 56,
+          "line": 106,
           "kind": "func"
         },
         {
@@ -3061,22 +3065,30 @@
         "draw calls",
         "profiling",
         "medición",
-        "medicion"
+        "medicion",
+        "medir en el telefono",
+        "informe de rendimiento",
+        "momento de la jugada",
+        "PerfSession",
+        "android"
       ],
       "files": [
-        "scripts/diagnostics/diagnostics_overlay.gd"
+        "scripts/diagnostics/diagnostics_overlay.gd",
+        "scripts/diagnostics/perf_session.gd",
+        "tests/test_perf_session.gd",
+        "docs/ANDROID_MEDICION.md"
       ],
       "symbols": [
         {
           "file": "scripts/diagnostics/diagnostics_overlay.gd",
           "name": "DiagnosticsOverlay.build_report",
-          "line": 88,
+          "line": 94,
           "kind": "func"
         },
         {
           "file": "scripts/diagnostics/diagnostics_overlay.gd",
           "name": "DiagnosticsOverlay.frame_stats",
-          "line": 111,
+          "line": 117,
           "kind": "func"
         },
         {
@@ -3762,22 +3774,29 @@
         "predictor",
         "pelota futura",
         "donde estará la pelota",
-        "predict"
+        "predict",
+        "deslizamiento",
+        "rodadura",
+        "friccion",
+        "efecto atras",
+        "slide",
+        "roll"
       ],
       "files": [
-        "scripts/ball/ball_predictor.gd"
+        "scripts/ball/ball_predictor.gd",
+        "tests/test_ball_roll_prediction.gd"
       ],
       "symbols": [
         {
           "file": "scripts/ball/ball_predictor.gd",
           "name": "BallPredictor.trajectory",
-          "line": 19,
+          "line": 26,
           "kind": "func"
         },
         {
           "file": "scripts/ball/ball_predictor.gd",
           "name": "BallPredictor.crossing_x",
-          "line": 76,
+          "line": 109,
           "kind": "func"
         }
       ],
@@ -4559,7 +4578,7 @@
         {
           "file": "scripts/ball/ball.gd",
           "name": "Ball.set_knuckle",
-          "line": 166,
+          "line": 169,
           "kind": "func"
         }
       ],
@@ -4600,19 +4619,19 @@
         {
           "file": "scripts/ball/ball.gd",
           "name": "Ball._process",
-          "line": 273,
+          "line": 276,
           "kind": "func"
         },
         {
           "file": "scripts/ball/ball.gd",
           "name": "Ball.VISUAL_SPIN_DEG_PER_FRAME",
-          "line": 264,
+          "line": 267,
           "kind": "const"
         },
         {
           "file": "scripts/ball/ball.gd",
           "name": "Ball.VISUAL_SHUTTER",
-          "line": 267,
+          "line": 270,
           "kind": "const"
         }
       ],
@@ -5209,7 +5228,7 @@
         {
           "file": "scripts/ball/ball.gd",
           "name": "Ball.kick",
-          "line": 153,
+          "line": 156,
           "kind": "func"
         },
         {
@@ -5750,25 +5769,25 @@
         {
           "file": "scripts/setpiece/setpiece_game.gd",
           "name": "SetPieceGame._take_shot",
-          "line": 481,
+          "line": 493,
           "kind": "func"
         },
         {
           "file": "scripts/setpiece/setpiece_game.gd",
           "name": "SetPieceGame.shoot_params",
-          "line": 894,
+          "line": 966,
           "kind": "func"
         },
         {
           "file": "scripts/setpiece/setpiece_game.gd",
           "name": "SetPieceGame._finish",
-          "line": 665,
+          "line": 680,
           "kind": "func"
         },
         {
           "file": "scripts/setpiece/setpiece_game.gd",
           "name": "SetPieceGame.clamp_free_kick_spot",
-          "line": 382,
+          "line": 393,
           "kind": "func"
         },
         {
@@ -5786,7 +5805,7 @@
         {
           "file": "scripts/setpiece/main_menu.gd",
           "name": "MainMenu._start",
-          "line": 191,
+          "line": 197,
           "kind": "func"
         }
       ],
@@ -5842,13 +5861,13 @@
         {
           "file": "scripts/setpiece/shot_catalog.gd",
           "name": "ShotCatalog.choose",
-          "line": 105,
+          "line": 107,
           "kind": "func"
         },
         {
           "file": "scripts/setpiece/shot_catalog.gd",
           "name": "ShotCatalog.frame_for_shot",
-          "line": 165,
+          "line": 170,
           "kind": "func"
         },
         {
@@ -6020,43 +6039,49 @@
         "se tira antes",
         "normal del choque",
         "guante",
-        "toca pero es gol"
+        "toca pero es gol",
+        "balance",
+        "tiro libre arquero",
+        "desvio barrera",
+        "festejo arquero",
+        "saque del arquero"
       ],
       "files": [
         "scripts/setpiece/sp_keeper.gd",
         "scripts/setpiece/sp_wall.gd",
         "scripts/setpiece/sp_field_players.gd",
-        "scripts/setpiece/sp_loose_ball.gd"
+        "scripts/setpiece/sp_loose_ball.gd",
+        "tests/test_fk_balance_measure.gd"
       ],
       "symbols": [
         {
           "file": "scripts/setpiece/sp_keeper.gd",
           "name": "SpKeeper.read_shot",
-          "line": 164,
+          "line": 177,
           "kind": "func"
         },
         {
           "file": "scripts/setpiece/sp_keeper.gd",
           "name": "SpKeeper.commit_to",
-          "line": 230,
+          "line": 273,
           "kind": "func"
         },
         {
           "file": "scripts/setpiece/sp_keeper.gd",
           "name": "SpKeeper._resolve",
-          "line": 421,
+          "line": 465,
           "kind": "func"
         },
         {
           "file": "scripts/setpiece/sp_wall.gd",
           "name": "SpWall.arrange",
-          "line": 50,
+          "line": 53,
           "kind": "func"
         },
         {
           "file": "scripts/setpiece/sp_wall.gd",
           "name": "SpWall.on_kick",
-          "line": 73,
+          "line": 77,
           "kind": "func"
         },
         {

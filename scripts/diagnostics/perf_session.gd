@@ -22,6 +22,7 @@ var _net_t: float = 0.0
 var _prof_was: bool = false
 var _started_ms: int = 0
 var _gpu_on: bool = false
+var _last_us: int = 0
 
 func start() -> void:
 	_buckets.clear()
@@ -31,6 +32,7 @@ func start() -> void:
 	Prof.enabled = true
 	Prof.reset()
 	_started_ms = Time.get_ticks_msec()
+	_last_us = 0
 	recording = true
 	var vp: RID = get_viewport().get_viewport_rid() if is_inside_tree() else RID()
 	if vp.is_valid():
@@ -50,12 +52,17 @@ static func _empty() -> Dictionary:
 	return {"frames": 0, "sum_ms": 0.0, "times": PackedFloat32Array(), "proc_ms": 0.0, "phys_ms": 0.0, "draws": 0.0, "prims": 0.0,
 		"steps": 0, "prof": {}, "gpu_ms": 0.0, "gpu_n": 0}
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if not recording:
+		return
+	# Tiempo real entre cuadros (reloj), no el delta del motor: con --fixed-fps (pruebas) el delta es fijo y mentiria.
+	var now: int = Time.get_ticks_usec()
+	var ms: float = float(now - _last_us) / 1000.0 if _last_us > 0 else 0.0
+	_last_us = now
+	if ms <= 0.0:
 		return
 	var m: StringName = _current()
 	var b: Dictionary = _buckets[m]
-	var ms: float = delta * 1000.0
 	b["frames"] = int(b["frames"]) + 1
 	b["sum_ms"] = float(b["sum_ms"]) + ms
 	var ts: PackedFloat32Array = b["times"]

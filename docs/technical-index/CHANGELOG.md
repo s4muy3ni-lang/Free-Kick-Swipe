@@ -11,6 +11,35 @@ Formato de entrada: **fecha — título** · commit · qué cambió · archivos 
 
 ---
 
+## 2026-11-08 — Segunda entrega, fases 1 y 2: rodadura real en la predicción, arquero del tiro libre, después de la atajada, medición en el teléfono
+
+- **Predicción de rodadura** (`BallPredictor.trajectory`, `spin_is_state`): modela el deslizamiento inicial (fricción
+  mu*g con mu = min(pelota 0,6; césped 0,8) = medida 0,58–0,60; esfera hueca: factor 2,5 de la velocidad de
+  deslizamiento, 1,5 del giro) hasta rodar. Medido: sin efecto la pelota entra en rodadura a 0,31–0,49 de su velocidad;
+  a 10 m/s rueda 6,10 m (antes se predecían 9,25 m; ahora 6,12 m). Rozamiento del césped en `Ball.FLOOR_FRICTION`.
+  Prueba `test_ball_roll_prediction` (12 casos): distancia dentro de max(0,15 m; 3 %), tiempo dentro de 0,12 s.
+  `test_the_result_is_decided_only_when_a_goal_is_impossible` comprueba ahora cada caso por el piso con la pelota real
+  (la pelota sin giro a 3,5 m/s se frena 1,37 m antes de la línea: decidir «no puede ser gol» es correcto).
+- **Barrera hombro con hombro** (`SpWall.SPACING` 0,56 → 0,50, variación solo hacia adelante): una vez en ~25 corridas
+  la pelota atravesó la barrera; no se reprodujo después (causa sin probar; se eliminó el único mecanismo encontrado:
+  huecos de 8 cm + azar a lo largo de la barrera). La prueba tira ahora a cada jugador y a cada hueco.
+- **Arquero del tiro libre:** mide 16 tiros fijos (`tests/test_fk_balance_measure.gd`, a pedido). El radio de plan del
+  penal (0,6) empeora el tiro libre (2 atajadas / 7 goles contra 3 / 6 con 1,0): no se copia. Arreglos: sigue leyendo
+  la pelota mientras espera para tirarse, cancela la estirada si la barrera la desvía (antes se tiraba a la nada: 14
+  estiradas en 16 tiros, ahora 11 con 4 canceladas) y ajusta el plan con la lectura más cercana. Resultado: 3 atajadas,
+  5 goles, 6 barrera, 1 palo, 1 afuera.
+- **Después de la atajada:** penal = festeja primero y después va por la pelota; con la pelota en las manos la suelta y
+  festeja (penal) o la saca con un golpeo del banco (tiro libre).
+- **ShotCatalog.choose:** la rotación no se aleja más de 8° del ángulo del mejor golpeo (entraba un potente 19°
+  desviado; la prueba de la elección dependía del orden de las pruebas).
+- **Medición en el teléfono:** `PerfSession` («Medir rendimiento» / «Copiar informe» en Diag.), guía
+  [`docs/ANDROID_MEDICION.md`](../ANDROID_MEDICION.md); `GraphicsSettings` con modo Auto y botón «Gráficos» en el menú;
+  la física no cambia con el perfil (`test_graphics_profiles_do_not_change_the_physics`). **Sin mediciones de teléfono.**
+- Verificación: suite headless 147 / 0 fallos; render: `test_setpiece_render` (pruebas nuevas del tiro libre y del
+  arquero con la pelota) en verde localmente.
+
+---
+
 ## 2026-11-08 — Plan AAA 2.0, primera entrega: arquero sin adelantarse, contacto físico real, pelota suelta, detección de gol probada
 
 - **Errores que vio el usuario:** (1) el arquero de los penales se tiraba antes del golpe: medido, la estirada arrancaba

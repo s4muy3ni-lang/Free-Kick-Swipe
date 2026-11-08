@@ -253,3 +253,91 @@ Cambios (todos con prueba):
 
 Lo que NO se hizo en esta entrega (a propósito): carga selectiva, estilos de tiro, cambios del arquero del tiro libre,
 cambios de balance del trazo, nada en línea ni de tienda.
+
+---
+
+# Segunda entrega (2026-11-08): física pendiente, arquero, medición en Android
+
+Pedido: «FREE KICK SWIPE — SIGUIENTE ENTREGA» (fases 1–11). Se trabajó en orden y por fases; cada fase con pruebas y
+commit. **Todo lo medido es de PC; en el teléfono no se midió nada todavía.**
+
+## Fase 1.1 — Predicción de rodadura (hecha)
+
+**Causa (medida):** `BallPredictor` suponía que una pelota que sale por el piso ya rueda. En Jolt, una pelota pateada sin
+efecto desliza: la fricción del césped (mu = menor de pelota 0,6 y césped 0,8, medida 0,58–0,60) frena el centro y hace
+girar la esfera hueca (I = 2/3 m r²: la velocidad de deslizamiento cae 2,5 veces más rápido que la del centro) hasta que
+rueda. Entra en rodadura a 0,31–0,49 de su velocidad inicial (0,18–0,78 s).
+
+**Modelo:** el predictor sigue la velocidad de la superficie (`spin_v`) y aplica la fricción de deslizamiento hasta
+rodar, con efecto adelante o atrás (puede frenarla del todo y hacerla volver), y la rodadura de Ball. Sin coeficientes
+nuevos: mu sale de los materiales (`Ball.FLOOR_FRICTION`) y los factores de la inercia de la pelota. Con el giro real
+(`spin_is_state`) en penales y tiros libres; las llamadas del partido viejo no cambian.
+
+**Tolerancia definida:** distancia final dentro de max(0,15 m; 3 %), tiempo hasta frenarse dentro de 0,12 s, posición a
+1 s dentro de max(0,12 m; 3 %). Medido (`test_ball_roll_prediction`):
+
+| Caso | Real | Predicho antes | Predicho ahora |
+|---|---|---|---|
+| 10 m/s sin giro | 6,10 m, 2,93 s | 9,25 m | 6,12 m, 2,95 s |
+| 16 m/s sin giro | 11,98 m | 18,66 m | 12,02 m |
+| 6 m/s efecto atrás | 2,01 m | 5,02 m | 2,02 m |
+| 12 m/s ya rodando | 11,92 m | 12,2 m | 12,22 m (2,5 %) |
+| 14 m/s, bote, efecto | 20,23 m | — | 19,71 m (2,6 %) |
+
+## Fase 1.2 — Arquero del tiro libre (hecha)
+
+Medición reproducible: 16 tiros fijos (centro, ángulos, con efecto, colocados, potentes, por encima de la barrera) con
+semillas fijas (`tests/test_fk_balance_measure.gd`, a pedido con el argumento `medir`).
+
+| Variante | Atajadas | Goles | Barrera | Palo/afuera | Estiradas | Canceladas |
+|---|---|---|---|---|---|---|
+| Antes, radio de plan 1,0 | 3 | 6 | 5 | 2 | 14 | — |
+| Antes, radio 0,6 (el del penal) | 2 | 7 | 5 | 2 | 15 | — |
+| **Ahora, radio 1,0** | **3** | **5** | **6** | **2** | **11** | **4** |
+| Ahora, radio 0,6 | 2 | 7 | 5 | 2 | 12 | 1 |
+
+- **No se copió el radio del penal:** en el tiro libre el arquero lee la pelota con error de percepción y un plan más
+  justo tolera menos ese error (un tiro flojo al centro pasaba a ser gol). Se queda en 1,0.
+- **Arreglos:** sigue leyendo la pelota mientras espera para tirarse; si la barrera la desvía, cancela (antes se tiraba a
+  la nada en 3 de los 5 tiros a la barrera); la lectura más cercana (menos error) reemplaza al plan.
+- **Comparación con el penal:** en el tiro libre ataja 3 de 8 tiros al arco que pasan la barrera (37 %); en el penal,
+  jugado a la zona exacta, 6 de 18 (33 %); la IA del penal, que adivina el lado, 3 de 18 (17 %). Los ángulos bien
+  pateados entran; los flojos o al cuerpo se atajan. Ni invencible ni regalado.
+- **Errores de posicionamiento:** en los tiros al ángulo (desde 22–24 m) el arquero queda a 1,5–2,2 m de la pelota al
+  cruzar la línea: los clips de estirada medidos no cubren esa distancia (límite físico, no de lectura).
+
+## Fase 1.3 — Después de la atajada (hecha)
+
+- Penal: el arquero **festeja primero** (después de levantarse) y después va por la pelota suelta; con la pelota en las
+  manos la suelta a un costado y festeja.
+- Tiro libre: con la pelota en las manos la suelta y **la saca lejos** con un golpeo del banco (mismo sistema que los
+  despejes: el impulso solo sale si el pie llega a la pelota).
+- Pelotas cerca del arquero, rebotes al área, desvíos a los costados: `SpLooseBall` (primera entrega) elige al que llega
+  antes; si falla, va otro.
+
+## Fase 2 — Android (preparada; sin mediciones de teléfono)
+
+- `PerfSession` (Diag. > «Medir rendimiento» / «Copiar informe») y guía [`docs/ANDROID_MEDICION.md`](ANDROID_MEDICION.md).
+- Gráficos: Auto / Muy bajo / Bajo / Medio / Alto en el menú. Auto baja un escalón en el teléfono si no llega (heurística
+  a validar). La física no cambia con el perfil (prueba).
+
+**PC (medido, Linux, 4 núcleos, render por software llvmpipe, 1280×720, perfil Alto):**
+
+| Momento | Penal: cuadro medio / p95 | Penal: física | Tiro libre: cuadro medio / p95 | Tiro libre: física |
+|---|---|---|---|---|
+| apuntando | 66 / 93 ms | 6,3 ms | 86 / 97 ms | 1,1 ms |
+| carrera | 45 / 48 ms | 6,8 ms | 88 / 98 ms | 2,6 ms |
+| red | 51 / 59 ms | 8,3 ms | — | — |
+| estirada | 49 / 58 ms | 1,1 ms | 87 / 101 ms | 7,2 ms |
+| despeje | — | — | 82 / 95 ms | 4,4 ms |
+| festejo | 57 / 67 ms | 4,1 ms | 79 / 92 ms | 7,1 ms |
+
+- En esta PC manda la GPU por software (40–80 ms); **no sirve para predecir el teléfono**. Sí sirve el costo de CPU de
+  cada sistema: red de tela 0,42 ms por paso con la pelota en la red, red del arco 0,36, pelota suelta 0,25, plan del
+  arquero 0,16, contacto del arquero 0,10, predicción del resultado 0,08 (todo < 0,5 ms).
+- Pista para el teléfono: el tiro libre dibuja ~178.000 primitivas contra ~35.000 del penal (barrera, sueltos): si el
+  teléfono no llega en el tiro libre y sí en el penal, la geometría de los jugadores es la primera sospechosa.
+- Memoria estática 213–215 MB, 10 AnimationPlayer en el penal y 13 en el tiro libre, 352–387 nodos.
+
+**Pendiente del usuario:** el informe del teléfono (guía, §2). Con eso: comparación PC/Android y optimizaciones
+justificadas (fase 2.1). Sin datos no se optimiza nada a ciegas.

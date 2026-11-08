@@ -78,21 +78,24 @@ teléfono real** (no hay dispositivo en el entorno).
 <!-- AUTO:funcs:scripts/diagnostics/graphics_settings.gd -->
 | Función | Línea | Qué hace |
 |---|---|---|
-| `GraphicsSettings._ready()` | 49 |  |
-| `GraphicsSettings.detect_default_profile()` | 56 | Heuristica de perfil inicial segun la plataforma y el hardware. No sustituye a medir. |
-| `GraphicsSettings.set_profile(new_profile: int)` | 65 |  |
-| `GraphicsSettings.cycle_resolution()` | 72 | Pasa al siguiente escalon de RESOLUTION_STEPS (boton «Resolucion» del menu de pausa). |
-| `GraphicsSettings.set_resolution_override(value: float)` | 79 |  |
-| `GraphicsSettings.get_params()` | 84 |  |
-| `GraphicsSettings.profile_name()` | 87 |  |
-| `GraphicsSettings.shadows_enabled()` | 90 |  |
-| `GraphicsSettings.cycle_fps_cap()` | 94 | Pasa al siguiente tope de FPS_CAPS. |
-| `GraphicsSettings.cycle_shadows()` | 100 | Sombras: las del perfil -> no -> si -> las del perfil. |
-| `GraphicsSettings.ambient_props_enabled()` | 105 |  |
-| `GraphicsSettings.apply()` | 109 | Aplica el perfil al viewport principal y a las luces registradas en el grupo "sun_light". |
-| `GraphicsSettings.save_settings()` | 123 |  |
-| `GraphicsSettings.load_settings()` | 133 |  |
-| `GraphicsSettings._has_saved_settings()` | 144 |  |
+| `GraphicsSettings._ready()` | 60 |  |
+| `GraphicsSettings._process(delta: float)` | 66 |  |
+| `GraphicsSettings.menu_choice_name()` | 88 | Opciones del boton «Graficos» del menu: automatico y los perfiles fijos. |
+| `GraphicsSettings.cycle_menu_choice()` | 92 | Automatico -> Muy bajo -> Bajo -> Medio -> Alto -> Automatico. |
+| `GraphicsSettings.detect_default_profile()` | 106 | Heuristica de perfil inicial segun la plataforma y el hardware. No sustituye a medir. |
+| `GraphicsSettings.set_profile(new_profile: int)` | 115 |  |
+| `GraphicsSettings.cycle_resolution()` | 123 | Pasa al siguiente escalon de RESOLUTION_STEPS (boton «Resolucion» del menu de pausa). |
+| `GraphicsSettings.set_resolution_override(value: float)` | 130 |  |
+| `GraphicsSettings.get_params()` | 135 |  |
+| `GraphicsSettings.profile_name()` | 138 |  |
+| `GraphicsSettings.shadows_enabled()` | 141 |  |
+| `GraphicsSettings.cycle_fps_cap()` | 145 | Pasa al siguiente tope de FPS_CAPS. |
+| `GraphicsSettings.cycle_shadows()` | 151 | Sombras: las del perfil -> no -> si -> las del perfil. |
+| `GraphicsSettings.ambient_props_enabled()` | 156 |  |
+| `GraphicsSettings.apply()` | 160 | Aplica el perfil al viewport principal y a las luces registradas en el grupo "sun_light". |
+| `GraphicsSettings.save_settings()` | 174 |  |
+| `GraphicsSettings.load_settings()` | 185 |  |
+| `GraphicsSettings._has_saved_settings()` | 198 |  |
 <!-- /AUTO -->
 
 <!-- AUTO:signals:scripts/diagnostics/graphics_settings.gd -->
@@ -107,10 +110,10 @@ teléfono real** (no hay dispositivo en el entorno).
 | `DiagnosticsOverlay.CaptureLogger._log_error(function: String, file: String, line: int, code: String, rationale: String, _editor_notify: bool, error_type: int, _script_backtraces: Array[ScriptBacktrace])` | 15 |  |
 | `DiagnosticsOverlay.CaptureLogger.snapshot()` | 28 |  |
 | `DiagnosticsOverlay._ready()` | 39 |  |
-| `DiagnosticsOverlay._process(delta: float)` | 56 |  |
-| `DiagnosticsOverlay._prof_report()` | 77 | Los sistemas que mas tardaron desde el ultimo informe (ms por paso de fisica) y se empieza de nuevo. |
-| `DiagnosticsOverlay.build_report()` | 88 |  |
-| `DiagnosticsOverlay.frame_stats()` | 111 | Estadisticas de fotograma para informes de rendimiento (usado por la herramienta de benchmark). |
+| `DiagnosticsOverlay._process(delta: float)` | 59 |  |
+| `DiagnosticsOverlay._prof_report()` | 83 | Los sistemas que mas tardaron desde el ultimo informe (ms por paso de fisica) y se empieza de nuevo. |
+| `DiagnosticsOverlay.build_report()` | 94 |  |
+| `DiagnosticsOverlay.frame_stats()` | 117 | Estadisticas de fotograma para informes de rendimiento (usado por la herramienta de benchmark). |
 <!-- /AUTO -->
 
 ## Recorrido de ejecución
