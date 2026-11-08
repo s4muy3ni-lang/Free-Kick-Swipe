@@ -186,6 +186,29 @@ func _refresh() -> void:
 	_diff_button.text = "Dificultad: %s" % SpSettings.DIFFICULTY_NAMES[SpSettings.difficulty]
 	_goal_button.text = "Arco: %s" % SpSettings.GOAL_STYLE_NAMES[SpSettings.goal_style]
 
+var _loading: Label = null
+
 func _start(m: int) -> void:
+	if _loading != null:
+		return
 	SetPieceGame.next_mode = m
+	# Aviso inmediato y cambio de escena en el cuadro siguiente (el toque se ve atendido aunque la carga demore).
+	var layer := CanvasLayer.new()
+	layer.layer = 20
+	add_child(layer)
+	var bg := ColorRect.new()
+	bg.color = Color(0, 0.02, 0.06, 0.75)
+	bg.set_anchors_preset(Control.PRESET_FULL_RECT)
+	layer.add_child(bg)
+	_loading = Label.new()
+	_loading.text = "Cargando…"
+	_loading.add_theme_font_size_override("font_size", 48)
+	_loading.add_theme_color_override("font_color", Color(1.0, 0.84, 0.28))
+	_loading.set_anchors_preset(Control.PRESET_CENTER)
+	_loading.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_loading.offset_left = -300
+	_loading.offset_right = 300
+	layer.add_child(_loading)
+	await get_tree().process_frame
+	await get_tree().process_frame
 	get_tree().change_scene_to_file(SetPieceGame.SCENE)

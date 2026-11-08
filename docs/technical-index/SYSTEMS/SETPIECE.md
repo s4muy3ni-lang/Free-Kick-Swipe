@@ -163,6 +163,7 @@ barrera y sueltos reaccionan a la pelota real → resultado (la física decide).
 | `test_a_kick_never_gets_stuck` | 243 |
 | `test_shooters_wait_beside_the_ball_on_their_side` | 262 |
 | `test_foot_surface_follows_the_shot` | 286 |
+| `test_entering_a_mode_does_not_freeze` | 304 |
 <!-- /AUTO -->
 
 <!-- AUTO:tests:tests/test_setpiece_render.gd -->

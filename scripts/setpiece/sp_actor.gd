@@ -111,9 +111,8 @@ func play_loop(id: StringName, blend: float = BLEND, speed: float = 1.0) -> void
 	clip_speed = speed
 	looping = true
 	_finished_emitted = true
-	var a: Animation = SpClips.anim(id)
-	if a != null and a.loop_mode == Animation.LOOP_NONE:
-		a.loop_mode = Animation.LOOP_LINEAR
+	# El bucle lo maneja el actor (se vuelve a empezar al terminar): las Animation son compartidas por todos los jugadores y
+	# no se modifican (cambiarlas obliga a cada reproductor conectado a reconstruir su cache).
 	anim_player.play(SpClips.path(id), blend, speed)
 
 ## Clip de una vez con raiz. origin/facing: marco del clip (donde estaria la raiz en t = 0). start_at: instante del clip
@@ -237,6 +236,8 @@ func enable_collider(radius: float = 0.24, height: float = 1.78) -> void:
 func _physics_process(delta: float) -> void:
 	if anim_player == null:
 		return
+	if looping and clip_id != &"" and not anim_player.is_playing():
+		anim_player.play(SpClips.path(clip_id), 0.12, clip_speed)
 	if not looping and not _finished_emitted:
 		var cur: StringName = SpClips.path(clip_id)
 		var running: bool = anim_player.current_animation == String(cur) and anim_player.is_playing()

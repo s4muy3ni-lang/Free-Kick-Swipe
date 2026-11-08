@@ -3454,19 +3454,19 @@
         {
           "file": "scripts/animation/pack_library.gd",
           "name": "PackLibrary.available",
-          "line": 139,
+          "line": 144,
           "kind": "func"
         },
         {
           "file": "scripts/animation/pack_library.gd",
           "name": "PackLibrary.clip",
-          "line": 153,
+          "line": 158,
           "kind": "func"
         },
         {
           "file": "scripts/animation/pack_library.gd",
           "name": "PackLibrary.meta",
-          "line": 180,
+          "line": 185,
           "kind": "func"
         },
         {
@@ -5374,13 +5374,13 @@
         {
           "file": "scripts/animation/pack_library.gd",
           "name": "PackLibrary.resolve",
-          "line": 110,
+          "line": 115,
           "kind": "func"
         },
         {
           "file": "scripts/animation/pack_library.gd",
           "name": "PackLibrary.by_role",
-          "line": 185,
+          "line": 190,
           "kind": "func"
         },
         {
@@ -5464,7 +5464,7 @@
         {
           "file": "scripts/animation/pack_library.gd",
           "name": "PackLibrary.vary_aliases",
-          "line": 202,
+          "line": 207,
           "kind": "func"
         },
         {
@@ -5780,7 +5780,7 @@
         {
           "file": "scripts/setpiece/main_menu.gd",
           "name": "MainMenu._start",
-          "line": 189,
+          "line": 191,
           "kind": "func"
         }
       ],
@@ -5854,7 +5854,7 @@
         {
           "file": "scripts/setpiece/sp_actor.gd",
           "name": "SpActor.play_clip",
-          "line": 121,
+          "line": 120,
           "kind": "func"
         },
         {

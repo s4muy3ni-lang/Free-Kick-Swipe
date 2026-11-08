@@ -48,7 +48,12 @@ static func _ensure() -> void:
 	_roles = {}
 	_reset_caches()
 	if want_json:
-		_field = load(JSON_FIELD_PATH) as AnimationLibrary
+		# Copia de la LISTA de animaciones (las Animation siguen siendo las mismas, sin duplicar memoria): las escenas se suman
+		# a la copia y no a la biblioteca compartida. Sumarlas a la compartida con reproductores de animacion ya conectados
+		# (los jugadores de los modos) les hacia reconstruir su cache por cada clip: 6,5 s en PC con 12 jugadores, y el
+		# juego se trababa en el telefono al entrar a un modo o en el primer tiro.
+		var shared_field: AnimationLibrary = load(JSON_FIELD_PATH) as AnimationLibrary
+		_field = shared_field.duplicate(false) as AnimationLibrary if shared_field != null else null
 		if _field != null and ResourceLoader.exists(JSON_SCENES_PATH):
 			var sc: AnimationLibrary = load(JSON_SCENES_PATH) as AnimationLibrary
 			if sc != null:

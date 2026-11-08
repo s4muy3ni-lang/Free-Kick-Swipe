@@ -11,6 +11,18 @@ Formato de entrada: **fecha — título** · commit · qué cambió · archivos 
 
 ---
 
+## 2026-11-08 — Arreglo: el juego se trababa al entrar a un modo (y antes, en el primer tiro)
+
+- Causa medida: `PackLibrary` sumaba las ~1.000 escenas del banco JSON a la biblioteca compartida `json_clips.res` mientras
+  los reproductores de animación de los jugadores ya estaban conectados a ella; cada clip agregado les hacía reconstruir su
+  caché: **6,5 s en PC con 12 jugadores** (en el teléfono, trabado). Antes pasaba en el primer tiro (primera atajada
+  planificada) y, al precalcular al cargar, pasó a trabar la entrada al modo.
+- Arreglo: `PackLibrary` arma su índice sobre una copia de la lista de animaciones (las `Animation` siguen compartidas, sin
+  duplicar memoria): 22–40 ms. `SpActor` ya no cambia el modo de bucle de las animaciones compartidas (el bucle lo maneja
+  el actor). El menú muestra «Cargando…» al tocar un modo. Entrar a un modo con el menú cargado: 140–175 ms en PC.
+- Prueba de regresión: `test_setpiece_modes::test_entering_a_mode_does_not_freeze`. Suite headless 129 / 1342 / 0 fallos;
+  `test_setpiece_render` 2/0 con xvfb.
+
 ## 2026-11-08 — Red de tela de verdad en los arcos de fútbol 11
 
 - Pedido del usuario: «la red no tiene física real». `ClothNet` (`scripts/pitch/cloth_net.gd`): la red visible es una tela

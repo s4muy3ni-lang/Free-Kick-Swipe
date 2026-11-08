@@ -297,3 +297,37 @@ func test_foot_surface_follows_the_shot() -> void:
 		check(ShotCatalog.surface_for(ShotCatalog.Kind.NORMAL, foot, false, true, -30.0 * float(foot)) == "exterior", "pie %d: comba hacia afuera = exterior" % foot)
 		var e: Dictionary = ShotCatalog.choose(foot, 0.0, ShotCatalog.Kind.PLACED, false, null, 16.0, false, false, "interior")
 		check(ShotCatalog.surface_of(e) == "interior" and int(e["foot"]) == foot, "pie %d: colocada al lado abierto con el interior de ese pie (%s)" % [foot, e.get("id", "-")])
+
+## Regresion (el juego se trababa al entrar a un modo en el telefono): iniciar PackLibrary con los jugadores ya conectados a
+## las bibliotecas no puede tocar la biblioteca compartida (cada clip agregado hacia reconstruir la cache de cada
+## reproductor: 6,5 s en PC con 12 jugadores) y entrar a un modo con el menu cargado tiene que ser rapido.
+func test_entering_a_mode_does_not_freeze() -> void:
+	var shared: AnimationLibrary = load(PackLibrary.JSON_FIELD_PATH) as AnimationLibrary
+	var before: int = shared.get_animation_list().size()
+	var actors: Array = []
+	for i in 12:
+		var a := SpActor.new()
+		spawn(a)
+		a.build(SpSettings.USER_KIT)
+		actors.append(a)
+	var t0: int = Time.get_ticks_msec()
+	PackLibrary.reload()
+	PackLibrary.field()
+	var dt: int = Time.get_ticks_msec() - t0
+	note("PackLibrary con 12 jugadores conectados: %d ms; biblioteca compartida %d -> %d clips" % [dt, before, shared.get_animation_list().size()])
+	check(shared.get_animation_list().size() == before, "la biblioteca compartida no se modifica")
+	check(dt < 1500, "iniciar el indice de clips no traba (%d ms)" % dt)
+	var menu: Node = (load(MainMenu.SCENE) as PackedScene).instantiate()
+	spawn(menu)
+	await physics_frames(1)
+	for m in [SetPieceGame.Mode.PENALTY, SetPieceGame.Mode.FREE_KICK]:
+		SetPieceGame.next_mode = m
+		var t1: int = Time.get_ticks_msec()
+		var g: SetPieceGame = (load(SetPieceGame.SCENE) as PackedScene).instantiate()
+		spawn(g)
+		var dt2: int = Time.get_ticks_msec() - t1
+		note("entrar a %s con el menu cargado: %d ms" % ["penales" if m == SetPieceGame.Mode.PENALTY else "tiro libre", dt2])
+		check(dt2 < 3000, "entrar al modo no traba (%d ms)" % dt2)
+		g.queue_free()
+		await physics_frames(1)
+	cleanup()
