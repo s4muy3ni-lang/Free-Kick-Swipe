@@ -11,6 +11,21 @@ Formato de entrada: **fecha — título** · commit · qué cambió · archivos 
 
 ---
 
+## 2026-11-08 — Presentación (público y sonido) y repeticiones por estados; catálogo de 43 minijuegos en el plan
+
+- **Público:** `Sfx.set_crowd_level` y `SetPieceGame.crowd_target`: silencio antes del penal, tensión en el vuelo,
+  estallido con el gol, murmullo con la atajada o el fallo (`test_presentation`).
+- **Guantes:** `Sfx.is_keeper`: el arquero de penales y tiros libres sonaba como una patada.
+- **Repeticiones:** `PlayRecording` (registro por estados) y la repetición en `SetPieceGame` (botón «Repetición»,
+  cámara lenta, cámaras TV/Detrás/Arco, «Saltar»). Encontrado en la prueba: los `Packed*Array` guardados dentro de un
+  `Array` son valores (un `append` modificaba una copia y las pistas de los jugadores quedaban vacías): pistas en
+  `Array` comunes. `test_replay`: repetición exacta (0,0000 m), juego restaurado.
+- **Plan:** capítulo «Arcade Football» en `docs/AAA_ROADMAP.md` (43 modos con estado, dependencias y sistemas
+  compartidos S1–S9; primera colección ordenada por dependencias). Ningún minijuego empezado.
+- Verificación: suite headless 156 / 0 fallos; render `test_setpiece_render` 7/0 y `test_anim_bank_bench` 7/0 sin fugas.
+
+---
+
 ## 2026-11-08 — Segunda entrega, fases 3 a 5: Academia de tiros, Arena de desafíos y puntuación
 
 - Una sola arquitectura: `SetPieceGame` en modo `CHALLENGE` + definición de datos (`resources/challenges/challenges.json`):

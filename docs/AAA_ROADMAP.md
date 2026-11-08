@@ -380,7 +380,7 @@ cosméticos se registran pero todavía no se pueden usar (fase 7).
 
 ## Fases 6–12 — Diseño (sin implementar en esta entrega)
 
-**6. Presentación:** cámaras ya existentes (preparación, detrás de la pelota con zoom, seguimiento en el tiro libre,
+**6. Presentación (en desarrollo: público que acompaña la jugada y guantes del arquero hechos el 2026-11-08):** cámaras ya existentes (preparación, detrás de la pelota con zoom, seguimiento en el tiro libre,
 festejo, atajada); faltan: cámara lenta en el gol especial (escala de tiempo solo de la presentación, la física se repite
 desde el registro de la jugada, ver 9), sonido de guantes y pasos, silencio previo al penal (bajar `Sfx.crowd` al apuntar)
 y reacción del público según el resultado (ya: `Stadium11.set_cheer`). Efectos sin tapar la pelota: polvo de césped en el
@@ -395,7 +395,8 @@ número por `SpSettings` y `kit_material` (ya usado para los colores); los cosm�
 `PlayerProgress`), desafíos diarios y semanales (un desafío de la Arena elegido por fecha con una semilla, sin servidor),
 celebraciones desbloqueables. Sin tienda ni pagos reales.
 
-**9. Repeticiones:** registro por estados: cada paso guarda posición, rotación y velocidad de la pelota (`Ball.capture_state`
+**9. Repeticiones (implementada la base, 2026-11-08: `PlayRecording` + botón «Repetición», cámara lenta, tres cámaras;
+faltan guardar los mejores momentos, favoritos y estadísticas):** registro por estados: cada paso guarda posición, rotación y velocidad de la pelota (`Ball.capture_state`
 ya existe) y, de cada actor, clip, instante y marco (`SpActor.clip_id`, `clip_time`, `frame_origin`, `frame_facing`).
 Una jugada de 5 s a 60 Hz son ~300 estados de pelota + ~10 actores × 300 (clip y tiempo): decenas de KB, no un video.
 Reproducción: los actores reproducen sus clips en el instante guardado y la pelota se coloca desde el registro (en la

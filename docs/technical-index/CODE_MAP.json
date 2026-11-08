@@ -5198,31 +5198,31 @@
         {
           "file": "scripts/audio/sfx.gd",
           "name": "Sfx.impulse_sound",
-          "line": 95,
+          "line": 116,
           "kind": "func"
         },
         {
           "file": "scripts/audio/sfx.gd",
           "name": "Sfx.on_event",
-          "line": 119,
+          "line": 140,
           "kind": "func"
         },
         {
           "file": "scripts/audio/sfx.gd",
           "name": "Sfx.watch_ball",
-          "line": 78,
+          "line": 94,
           "kind": "func"
         },
         {
           "file": "scripts/audio/sfx.gd",
           "name": "Sfx.crowd",
-          "line": 58,
+          "line": 74,
           "kind": "func"
         },
         {
           "file": "scripts/audio/sfx.gd",
           "name": "Sfx.set_enabled",
-          "line": 68,
+          "line": 84,
           "kind": "func"
         },
         {
@@ -5748,7 +5748,11 @@
         "inclinado",
         "red",
         "festejo",
-        "reaccion"
+        "reaccion",
+        "sonido",
+        "guante",
+        "silencio",
+        "presentacion"
       ],
       "files": [
         "scripts/setpiece/setpiece_game.gd",
@@ -5763,31 +5767,32 @@
         "scenes/setpiece/main_menu.tscn",
         "assets/setpiece/grass.gdshader",
         "assets/setpiece/crowd.gdshader",
-        "assets/setpiece/boards.gdshader"
+        "assets/setpiece/boards.gdshader",
+        "tests/test_presentation.gd"
       ],
       "symbols": [
         {
           "file": "scripts/setpiece/setpiece_game.gd",
           "name": "SetPieceGame._take_shot",
-          "line": 520,
+          "line": 535,
           "kind": "func"
         },
         {
           "file": "scripts/setpiece/setpiece_game.gd",
           "name": "SetPieceGame.shoot_params",
-          "line": 1147,
+          "line": 1281,
           "kind": "func"
         },
         {
           "file": "scripts/setpiece/setpiece_game.gd",
           "name": "SetPieceGame._finish",
-          "line": 717,
+          "line": 738,
           "kind": "func"
         },
         {
           "file": "scripts/setpiece/setpiece_game.gd",
           "name": "SetPieceGame.clamp_free_kick_spot",
-          "line": 418,
+          "line": 433,
           "kind": "func"
         },
         {
@@ -6144,6 +6149,32 @@
         "scenes/challenges/challenge_menu.tscn",
         "resources/challenges/challenges.json",
         "tests/test_challenges.gd"
+      ],
+      "symbols": [],
+      "parameters": [],
+      "dependencies": [
+        "SETPIECE",
+        "BALL"
+      ],
+      "documentation": "docs/technical-index/SYSTEMS/SETPIECE.md",
+      "last_verified": "2026-11-08"
+    },
+    {
+      "id": "setpiece.replay",
+      "system": "SETPIECE",
+      "description": "Repeticiones por estados: PlayRecording registra cada paso de la pelota (posicion, rotacion) y de cada jugador (posicion, rumbo, clip, instante, visible) y la repeticion lo reproduce exacto (camara lenta, tres camaras) con el juego en pausa, dejandolo como estaba al terminar. Base de los mejores momentos y de la camara lenta.",
+      "keywords": [
+        "repeticion",
+        "replay",
+        "camara lenta",
+        "mejores momentos",
+        "registro",
+        "estados",
+        "highlights"
+      ],
+      "files": [
+        "scripts/replay/play_recording.gd",
+        "tests/test_replay.gd"
       ],
       "symbols": [],
       "parameters": [],

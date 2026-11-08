@@ -29,6 +29,9 @@
 |---|---|---|---|
 | `Sfx.SOUNDS` | `[&"kick_hard", &"kick_soft", &"touch", &"bounce", &"post", &"net", &"whistle_...` | 7 | Autoload "Sfx": efectos de sonido del partido (sintetizados por tools/audio/make_sfx.py, en assets/audio/). Un grupo de reproductores sin posicion (en el movil el sonido 3D no aporta) y un ambiente de publico en bucle. Lo conecta MatchScene a la pelota y a los eventos del partido: los golpes (tambien los del arquero) suenan con la fuerza del impulso real (Ball.impulse), el poste, la red y los botes con su velocidad. |
 | `Sfx.VOICES` | `10` | 9 |  |
+| `Sfx.CROWD_DB_MIN` | `-38.0` | 58 | Intensidad del publico (0 silencio .. 1 estallido): el bucle sube y baja suave hacia ella (CROWD_DB_MIN..MAX). |
+| `Sfx.CROWD_DB_MAX` | `-9.0` | 59 |  |
+| `Sfx.CROWD_FADE_DB_S` | `18.0` | 60 |  |
 <!-- /AUTO -->
 
 ## Mapa de funciones
@@ -38,15 +41,19 @@
 |---|---|---|
 | `Sfx._ready()` | 21 |  |
 | `Sfx.play(name: StringName, volume: float = 1.0, pitch: float = 1.0)` | 43 | Reproduce un efecto. volume: 0..1 (escala lineal), pitch: tono (1 = original). |
-| `Sfx.crowd(on: bool)` | 58 | Ambiente de publico (bucle) mientras hay partido. |
-| `Sfx.set_enabled(on: bool)` | 68 | Enciende o apaga todo el sonido (el publico vuelve si hay partido). |
-| `Sfx.watch_ball(ball: Ball)` | 78 | Conecta los sonidos de la pelota (golpes, botes, poste, red). |
-| `Sfx._on_impulse(actor: Node, dv: float, speed: float)` | 88 | Golpe a la pelota: toque de conduccion, pase o tiro segun el cambio de velocidad (m/s) que le dio el impulso. |
-| `Sfx.impulse_sound(keeper: bool, dv: float, speed: float)` | 95 | Sonido de un golpe: [nombre, volumen, tono] o [] si no suena (un apoyo de la suela, un roce). Guantes del arquero; toque de conduccion (camb |
-| `Sfx._on_bounce(_pos: Vector3, speed: float)` | 106 |  |
-| `Sfx._on_post(_pos: Vector3, speed: float)` | 110 |  |
-| `Sfx._on_net(speed: float)` | 115 |  |
-| `Sfx.on_event(e: GameEvent)` | 119 | Sonidos de los eventos del partido: silbatos, festejo del gol, atajadas. |
+| `Sfx.set_crowd_level(level: float)` | 63 |  |
+| `Sfx.crowd_db(level: float)` | 66 |  |
+| `Sfx._process(delta: float)` | 69 |  |
+| `Sfx.crowd(on: bool)` | 74 | Ambiente de publico (bucle) mientras hay partido. |
+| `Sfx.set_enabled(on: bool)` | 84 | Enciende o apaga todo el sonido (el publico vuelve si hay partido). |
+| `Sfx.watch_ball(ball: Ball)` | 94 | Conecta los sonidos de la pelota (golpes, botes, poste, red). |
+| `Sfx._on_impulse(actor: Node, dv: float, speed: float)` | 104 | Golpe a la pelota: toque de conduccion, pase o tiro segun el cambio de velocidad (m/s) que le dio el impulso. |
+| `Sfx.is_keeper(actor: Node)` | 111 | El que toco la pelota es un arquero: el del partido (Goalkeeper) o el de penales y tiros libres (SpActor con rol «keeper»; antes sus atajada |
+| `Sfx.impulse_sound(keeper: bool, dv: float, speed: float)` | 116 | Sonido de un golpe: [nombre, volumen, tono] o [] si no suena (un apoyo de la suela, un roce). Guantes del arquero; toque de conduccion (camb |
+| `Sfx._on_bounce(_pos: Vector3, speed: float)` | 127 |  |
+| `Sfx._on_post(_pos: Vector3, speed: float)` | 131 |  |
+| `Sfx._on_net(speed: float)` | 136 |  |
+| `Sfx.on_event(e: GameEvent)` | 140 | Sonidos de los eventos del partido: silbatos, festejo del gol, atajadas. |
 <!-- /AUTO -->
 
 ## Recorrido de ejecución
