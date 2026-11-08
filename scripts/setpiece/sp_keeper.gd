@@ -614,5 +614,9 @@ func _collect_step(delta: float) -> void:
 	var spd: float = COLLECT_RUN if dist > 3.0 else maxf(1.4, COLLECT_RUN * dist / 3.0)
 	actor.move_to(stop_at, spd, SpShooter._loop_for(spd), facing)
 
+## Tiene una reaccion pendiente: todavia se tira o se levanta y la juega al terminar.
+func reaction_pending() -> bool:
+	return _pending_react >= 0
+
 func is_busy() -> bool:
 	return state in [State.WAIT_DIVE, State.DIVE, State.GETUP, State.COLLECT]

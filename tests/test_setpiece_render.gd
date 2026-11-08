@@ -196,12 +196,16 @@ func test_shooter_and_keeper_react_after_finishing_their_move() -> void:
 	var game: SetPieceGame = (load(SetPieceGame.SCENE) as PackedScene).instantiate()
 	spawn(game)
 	await physics_frames(10)
+	# Semillas fijas: la misma jugada en cualquier maquina (antes dependia del azar del arquero).
+	game.rng.seed = 2026
+	game.cpu_keeper.rng.seed = 11
+	game.user_shooter.rng.seed = 5
 	game.shoot(Vector3(game.gx, 0.5, 3.0), 0.85, 0.0)
 	var shooter_reacted: bool = false
 	var keeper_reacted: bool = false
 	var n: int = 0
 	var t_result: int = -1
-	while n < 60 * 7 and game.phase != SetPieceGame.Phase.KEEPER_PICK:
+	while n < 60 * 9 and game.phase != SetPieceGame.Phase.KEEPER_PICK:
 		await tree.physics_frame
 		n += 1
 		if game.phase == SetPieceGame.Phase.RESULT and t_result < 0:

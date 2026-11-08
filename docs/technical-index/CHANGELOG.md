@@ -46,6 +46,12 @@ Formato de entrada: **fecha — título** · commit · qué cambió · archivos 
 - Verificación: suite headless 140 pruebas / 0 fallos (18 omitidas por necesitar render); con xvfb: `live_kicks` 6/0,
   `pack_motion` 2/0, `json_mode` 8/0, `directional_kicks` 3/0, `test_anim_bank_bench` 7/0, `test_setpiece_render` 5/0
   (37 comprobaciones; estirada más temprana 0,18 s antes del golpe, límite 0,22 s).
+- CI (corrida 7): primer intento, las 5 pruebas de render bien pero una fuga al cerrar; reintento, sin fuga pero
+  `test_shooter_and_keeper_react_after_finishing_their_move` falló (el arquero no llegó a reaccionar). Causa: la prueba
+  dependía del azar y, en el juego, un arquero que tardaba en levantarse perdía su reacción porque el turno siguiente
+  llegaba a los 3,6 s. Arreglo: en el penal el resultado espera (hasta 6 s) mientras la reacción del arquero está
+  pendiente (`SpKeeper.reaction_pending`) y deja ver al menos 1,2 s de ella; la prueba usa semillas fijas (6 semillas
+  medidas: todos reaccionan; turno siguiente a 3,6–4,4 s del resultado).
 - Pendiente: medir en el teléfono (tacto y rendimiento); arquero del tiro libre con el radio de plan nuevo; rodadura con
   deslizamiento inicial en `BallPredictor`.
 

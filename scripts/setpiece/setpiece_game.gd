@@ -89,6 +89,8 @@ var _flight_t: float = 0.0
 var _decide_t: float = 0.0
 var _settle_t: float = -1.0
 var _result_t: float = 0.0
+## Penal: instante del resultado en que empezo la reaccion del arquero (-1: todavia no).
+var _keeper_react_at: float = -1.0
 var _committed: bool = false
 var _runup_t: float = 0.0
 var _keeper_zone := Vector3.INF
@@ -578,9 +580,16 @@ func _physics_process(delta: float) -> void:
 		Phase.RESULT:
 			_result_t += delta
 			var wait: float = 0.2 if fast else 3.6
-			# Penal: si el arquero esta yendo a recoger la pelota suelta, se le deja terminar (hasta 6 s).
-			if not fast and mode == Mode.PENALTY and loose.active():
-				wait = 6.0
+			# Penal: si el arquero esta yendo a recoger la pelota suelta o todavia se levanta para reaccionar, se le deja
+			# terminar (hasta 6 s): antes el turno siguiente cortaba la reaccion de un arquero que tardaba en levantarse.
+			# Cuando su reaccion empieza, se ve al menos 1,2 s.
+			if not fast and mode == Mode.PENALTY:
+				if _keeper_react_at < 0.0 and cur_keeper.state == SpKeeper.State.REACT:
+					_keeper_react_at = _result_t
+				if loose.active() or cur_keeper.reaction_pending():
+					wait = 6.0
+				elif _keeper_react_at >= 0.0:
+					wait = clampf(_keeper_react_at + 1.2, wait, 6.0)
 			if _result_t >= wait:
 				_after_result()
 
@@ -659,6 +668,7 @@ func _finish(why: String) -> void:
 	outcome = why
 	phase = Phase.RESULT
 	_result_t = 0.0
+	_keeper_react_at = -1.0
 	var goal_ok: bool = why == "goal"
 	var texts := {"goal": ["¡GOOOL!", Color(0.35, 1.0, 0.45)], "save": ["¡ATAJADA!", Color(0.4, 0.75, 1.0)],
 		"post": ["¡AL PALO!", Color(1.0, 0.8, 0.3)], "wall": ["¡BARRERA!", Color(1.0, 0.6, 0.3)],
