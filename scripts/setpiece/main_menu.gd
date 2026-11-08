@@ -14,6 +14,7 @@ var _t: float = 0.0
 var _foot_button: Button
 var _diff_button: Button
 var _goal_button: Button
+var _gfx_button: Button
 var _keeper: SpActor
 var _player: SpActor
 
@@ -138,10 +139,14 @@ func _build_ui() -> void:
 		stadium.set_ball(ball)
 		_refresh())
 	row.add_child(_goal_button)
+	_gfx_button = _small("", func() -> void:
+		GraphicsSettings.cycle_menu_choice()
+		_refresh())
+	row.add_child(_gfx_button)
 	var sp2 := Control.new()
 	sp2.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	row.add_child(sp2)
-	row.add_child(_small("Banco de animaciones (desarrollo)", func() -> void: get_tree().change_scene_to_file(BENCH_SCENE)))
+	row.add_child(_small("Banco de animaciones", func() -> void: get_tree().change_scene_to_file(BENCH_SCENE)))
 	_refresh()
 
 func _card(t: String, desc: String, color: Color, cb: Callable) -> Button:
@@ -176,8 +181,8 @@ func _small(t: String, cb: Callable) -> Button:
 	var b := Button.new()
 	b.text = t
 	b.focus_mode = Control.FOCUS_NONE
-	b.custom_minimum_size = Vector2(230, 60)
-	b.add_theme_font_size_override("font_size", 22)
+	b.custom_minimum_size = Vector2(200, 60)
+	b.add_theme_font_size_override("font_size", 21)
 	b.pressed.connect(cb)
 	return b
 
@@ -185,6 +190,7 @@ func _refresh() -> void:
 	_foot_button.text = "Pie: %s" % SpSettings.foot_name()
 	_diff_button.text = "Dificultad: %s" % SpSettings.DIFFICULTY_NAMES[SpSettings.difficulty]
 	_goal_button.text = "Arco: %s" % SpSettings.GOAL_STYLE_NAMES[SpSettings.goal_style]
+	_gfx_button.text = "Gráficos: %s" % GraphicsSettings.menu_choice_name()
 
 var _loading: Label = null
 
