@@ -43,7 +43,7 @@ func set_ball(b: Ball) -> void:
 func reset_latch() -> void:
 	_latched = false
 	entered_through_mouth = false
-	_prev_local = Vector3(-10, 0, 0)
+	_has_prev = false
 
 # --- Construccion ----------------------------------------------------------
 
@@ -181,9 +181,17 @@ func _goal_step(_delta: float) -> void:
 ## travesano; una pelota que hunde la red lateral o el techo desde afuera y queda «dentro» no es gol.
 var entered_through_mouth: bool = false
 var _prev_local := Vector3(-10, 0, 0)
+## Hay una posicion anterior real (despues de reset_latch el primer paso solo la registra: la pelota que se va a recolocar
+## todavia esta donde quedo y no «cruza» la linea desde ningun lado; antes el centinela de reinicio fabricaba un cruce y un
+## gol fantasma en ese primer paso).
+var _has_prev: bool = false
 
 func _track_mouth(lp: Vector3) -> void:
 	var r: float = ball.radius if ball != null else 0.1
+	if not _has_prev:
+		_has_prev = true
+		_prev_local = lp
+		return
 	if _prev_local.x < 0.0 and lp.x >= 0.0:
 		var u: float = (0.0 - _prev_local.x) / maxf(lp.x - _prev_local.x, 1e-5)
 		var c: Vector3 = _prev_local.lerp(lp, clampf(u, 0.0, 1.0))
