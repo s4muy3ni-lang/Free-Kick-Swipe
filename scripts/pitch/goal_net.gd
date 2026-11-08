@@ -86,6 +86,8 @@ var active: bool = false
 ## Abombado maximo actual (m) y el mayor desde el ultimo reposo (diagnostico y pruebas).
 var bulge: float = 0.0
 var peak_bulge: float = 0.0
+## false: no dibuja su malla (la dibuja la red de tela, ClothNet) y solo frena la pelota.
+var show_mesh: bool = true
 ## La pelota toco la red desde dentro y no salio del arco desde entonces.
 var _caught: bool = false
 var _depth: float = 1.0
@@ -147,7 +149,9 @@ func setup(depth: float, height: float, half_width: float, material: Material, t
 	_mesh_instance.material_override = material
 	_mesh_instance.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	add_child(_mesh_instance)
-	_rebuild_mesh()
+	_mesh_instance.visible = show_mesh
+	if show_mesh:
+		_rebuild_mesh()
 
 func _panel(origin: Vector3, au: Vector3, av: Vector3, n: Vector3, lu: float, lv: float) -> NetPanel:
 	var p := NetPanel.new()
@@ -186,7 +190,8 @@ func _net_step(delta: float) -> void:
 		return
 	active = true
 	var moving: bool = _step(delta)
-	_rebuild_mesh()
+	if show_mesh:
+		_rebuild_mesh()
 	if not touching and not moving:
 		for p in panels:
 			var zero := PackedFloat32Array()
@@ -196,7 +201,8 @@ func _net_step(delta: float) -> void:
 		active = false
 		bulge = 0.0
 		peak_bulge = 0.0
-		_rebuild_mesh()
+		if show_mesh:
+			_rebuild_mesh()
 
 # --- Pelota contra la tela ---------------------------------------------------
 

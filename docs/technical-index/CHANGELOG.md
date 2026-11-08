@@ -11,6 +11,17 @@ Formato de entrada: **fecha — título** · commit · qué cambió · archivos 
 
 ---
 
+## 2026-11-08 — Red de tela de verdad en los arcos de fútbol 11
+
+- Pedido del usuario: «la red no tiene física real». `ClothNet` (`scripts/pitch/cloth_net.gd`): la red visible es una tela
+  con nodos (cada ~0,34 m; la trama fina la dibuja el sombreador), hilos que solo tiran (Verlet, 3 iteraciones), holgura
+  y gravedad (la red cuelga sola), amortiguación del aire, atada al marco y al piso por sus bordes, y la pelota como sólido:
+  aparta las caras de la malla que toca (la pelota es más chica que la separación entre nodos) y los nodos que quedan dentro.
+  Se ve envolver la pelota, plegarse y oscilar hasta quietarse. El frenado de la pelota lo sigue dando la membrana medida
+  (`GoalNet`, que ya no dibuja su malla en estos arcos). Solo simula con la pelota cerca o la tela en movimiento.
+- Medido: 457 nodos / 657 hilos (caja), 0,8 ms por paso de física en PC con la pelota en la red; tiro de 29 m/s al ángulo:
+  la tela se mueve hasta 0,52 m (caja) y 0,36 m (inclinado). `test_setpiece_modes` lo comprueba.
+
 ## 2026-11-08 — Jugable en el teléfono: tiro trabado, gol por la red lateral, arquero ante tiros flojos; solo banco JSON
 
 Pedido del usuario tras probar la APK: «se traban algunos tiros», «si pega en la red del costado dice gol», «el arquero deja

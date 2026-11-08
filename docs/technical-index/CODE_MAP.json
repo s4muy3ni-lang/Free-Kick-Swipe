@@ -493,67 +493,67 @@
           "file": "scripts/pitch/pitch_config.gd",
           "name": "PitchConfig.line_width",
           "default": "0.08",
-          "line": 29
+          "line": 31
         },
         {
           "file": "scripts/pitch/pitch_config.gd",
           "name": "PitchConfig.center_circle_radius",
           "default": "6.0",
-          "line": 30
+          "line": 32
         },
         {
           "file": "scripts/pitch/pitch_config.gd",
           "name": "PitchConfig.penalty_area_radius",
           "default": "8.0",
-          "line": 32
+          "line": 34
         },
         {
           "file": "scripts/pitch/pitch_config.gd",
           "name": "PitchConfig.penalty_mark_distance",
           "default": "8.0",
-          "line": 33
+          "line": 35
         },
         {
           "file": "scripts/pitch/pitch_config.gd",
           "name": "PitchConfig.second_penalty_mark_distance",
           "default": "12.0",
-          "line": 35
+          "line": 37
         },
         {
           "file": "scripts/pitch/pitch_config.gd",
           "name": "PitchConfig.corner_arc_radius",
           "default": "0.25",
-          "line": 36
+          "line": 38
         },
         {
           "file": "scripts/pitch/pitch_config.gd",
           "name": "PitchConfig.substitution_zone_length",
           "default": "5.0",
-          "line": 37
+          "line": 39
         },
         {
           "file": "scripts/pitch/pitch_config.gd",
           "name": "PitchConfig.boundary_mode",
           "default": "BoundaryMode.WALLS",
-          "line": 40
+          "line": 42
         },
         {
           "file": "scripts/pitch/pitch_config.gd",
           "name": "PitchConfig.wall_height",
           "default": "3.0",
-          "line": 42
+          "line": 44
         },
         {
           "file": "scripts/pitch/pitch_config.gd",
           "name": "PitchConfig.barrier_visible_height",
           "default": "1.0",
-          "line": 44
+          "line": 46
         },
         {
           "file": "scripts/pitch/pitch_config.gd",
           "name": "PitchConfig.run_off",
           "default": "2.5",
-          "line": 45
+          "line": 47
         }
       ],
       "dependencies": [
@@ -598,43 +598,43 @@
         {
           "file": "scripts/pitch/goal.gd",
           "name": "Goal.setup",
-          "line": 22,
+          "line": 23,
           "kind": "func"
         },
         {
           "file": "scripts/pitch/goal.gd",
           "name": "Goal._build_frame",
-          "line": 47,
+          "line": 50,
           "kind": "func"
         },
         {
           "file": "scripts/pitch/goal.gd",
           "name": "Goal._build_net",
-          "line": 85,
+          "line": 88,
           "kind": "func"
         },
         {
           "file": "scripts/pitch/goal.gd",
           "name": "Goal._physics_process",
-          "line": 152,
+          "line": 161,
           "kind": "func"
         },
         {
           "file": "scripts/pitch/goal.gd",
           "name": "Goal.is_ball_in_goal",
-          "line": 195,
+          "line": 204,
           "kind": "func"
         },
         {
           "file": "scripts/pitch/goal.gd",
           "name": "Goal.aim_point",
-          "line": 208,
+          "line": 217,
           "kind": "func"
         },
         {
           "file": "scripts/pitch/goal.gd",
           "name": "Goal.reset_latch",
-          "line": 40,
+          "line": 43,
           "kind": "func"
         }
       ],
@@ -661,7 +661,7 @@
           "file": "scripts/pitch/pitch_config.gd",
           "name": "PitchConfig.post_radius",
           "default": "0.04",
-          "line": 26
+          "line": 28
         }
       ],
       "dependencies": [
@@ -674,7 +674,7 @@
     {
       "id": "pitch.goal_net",
       "system": "PITCH",
-      "description": "Red del arco con fisica de tela: cuatro panos atados al marco (membranas) que la pelota abomba con su forma; la tela la frena (muelle amortiguado implicito, mas rigido junto al marco), casi no la devuelve y vuelve con ondas. Por dentro y por fuera (red lateral, techo).",
+      "description": "Red del arco con fisica de tela: cuatro panos atados al marco (membranas) que la pelota abomba con su forma; la tela la frena (muelle amortiguado implicito, mas rigido junto al marco), casi no la devuelve y vuelve con ondas. Por dentro y por fuera (red lateral, techo). En los arcos de futbol 11 la red visible es una tela de verdad (ClothNet: nodos con masa, hilos que solo tiran, gravedad, la pelota como solido); la membrana sigue frenando la pelota.",
       "keywords": [
         "red",
         "red del arco",
@@ -688,7 +688,14 @@
         "techo de la red",
         "rebote en la red",
         "fisica de la red",
-        "física de la red"
+        "física de la red",
+        "tela",
+        "cloth",
+        "hilos",
+        "nodos",
+        "verlet",
+        "red real",
+        "fisica de la red"
       ],
       "files": [
         "scripts/pitch/goal_net.gd",
@@ -698,31 +705,44 @@
         "assets/pitch/net.gdshader",
         "tests/test_goal_net.gd",
         "tools/net_view.gd",
-        "tools/net_view.tscn"
+        "tools/net_view.tscn",
+        "scripts/pitch/cloth_net.gd"
       ],
       "symbols": [
         {
           "file": "scripts/pitch/goal_net.gd",
           "name": "GoalNet.setup",
-          "line": 105,
+          "line": 107,
           "kind": "func"
         },
         {
           "file": "scripts/pitch/goal_net.gd",
           "name": "GoalNet._ball_contact",
-          "line": 205,
+          "line": 211,
           "kind": "func"
         },
         {
           "file": "scripts/pitch/goal_net.gd",
           "name": "GoalNet._press",
-          "line": 278,
+          "line": 284,
           "kind": "func"
         },
         {
           "file": "scripts/pitch/goal_net.gd",
           "name": "GoalNet._step",
-          "line": 299,
+          "line": 305,
+          "kind": "func"
+        },
+        {
+          "file": "scripts/pitch/cloth_net.gd",
+          "name": "ClothNet._simulate",
+          "line": 136,
+          "kind": "func"
+        },
+        {
+          "file": "scripts/pitch/cloth_net.gd",
+          "name": "ClothNet._push_out",
+          "line": 181,
           "kind": "func"
         }
       ],

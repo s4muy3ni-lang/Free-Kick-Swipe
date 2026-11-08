@@ -15,8 +15,9 @@ var side: int = 1
 var ball: Ball = null
 var _latched: bool = false
 var _frame_material: StandardMaterial3D
-## Red de tela del arco.
+## Red de tela del arco (la que frena la pelota) y, en los arcos de futbol 11, la tela con nodos e hilos que se ve.
 var net: GoalNet = null
+var cloth: ClothNet = null
 var _net_bodies: Array = []
 
 func setup(cfg: PitchConfig, goal_side: int) -> void:
@@ -33,6 +34,8 @@ func set_ball(b: Ball) -> void:
 	ball = b
 	if net != null:
 		net.ball = b
+	if cloth != null:
+		cloth.ball = b
 	if b != null:
 		for body in _net_bodies:
 			b.add_collision_exception_with(body)
@@ -91,8 +94,14 @@ func _build_net() -> void:
 	mat.shader = NET_SHADER
 	net = GoalNet.new()
 	net.name = "Net"
+	net.show_mesh = not config.goal_net_cloth
 	add_child(net)
 	net.setup(d, h, hw, mat, config.goal_top_depth, config.goal_net_sag)
+	if config.goal_net_cloth:
+		cloth = ClothNet.new()
+		cloth.name = "ClothNet"
+		add_child(cloth)
+		cloth.setup(d, h, hw, mat, config.goal_top_depth)
 	if config.goal_supports == 1 and config.goal_top_depth > 0.0 and config.goal_top_depth < d:
 		_build_net_supports(d, config.goal_top_depth, h, hw)
 	elif config.goal_supports == 2:

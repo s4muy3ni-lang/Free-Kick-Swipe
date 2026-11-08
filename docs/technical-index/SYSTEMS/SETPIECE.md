@@ -18,7 +18,7 @@
 | `scripts/setpiece/main_menu.gd`, `scenes/setpiece/main_menu.tscn` | `MainMenu` | Escena principal: estadio de fondo, PENALES / TIRO LIBRE, pie hábil, dificultad, tipo de arco, acceso al banco de pruebas | `Stadium11`, `SpActor` |
 | `scripts/setpiece/setpiece_game.gd`, `scenes/setpiece/setpiece_game.tscn` | `SetPieceGame` | Estados y turnos de los dos modos, trazo, vista previa, resultado, reacciones, cámara | todo lo de abajo |
 | `scripts/setpiece/stadium11.gd` | `Stadium11` | Cancha de 105 × 68 m, líneas y áreas reglamentarias, arcos, carteles, tribunas con público, luces | `Goal`, `GoalNet`, `Pitch.LineBuilder`, `MeshUtil` |
-| `scripts/pitch/goal_net.gd` | `GoalNet` | Red de tela (membranas con ondas): ahora también con fondo inclinado, laterales trapezoidales y caída de reposo | (ampliada) |
+| `scripts/pitch/goal_net.gd`, `scripts/pitch/cloth_net.gd` | `GoalNet`, `ClothNet` | `GoalNet`: membrana medida que frena la pelota (fondo inclinado, laterales trapezoidales). `ClothNet`: la red visible como tela de verdad (nodos con masa, hilos que solo tiran, gravedad, la pelota como sólido contra las caras de la malla; ~0,8 ms por paso en PC, solo con la pelota cerca) | (ampliada / nueva) |
 | `scripts/setpiece/sp_clips.gd` | `SpClips` | Bibliotecas del banco JSON, id → biblioteca, meta, raíz y rumbo de cada clip | `ClipRolesOverlay`, `ActionMotion.heading_rel` |
 | `scripts/setpiece/sp_actor.gd` | `SpActor` | Humano JSON animado con movimiento de raíz, bucles en el sitio, cápsula de colisión que sigue la cadera | `AnimBankCatalog.kit_material` |
 | `scripts/setpiece/shot_catalog.gd`, `resources/setpiece/shot_clips.json` | `ShotCatalog` | Golpeos medidos (contacto, dirección del pie respecto de la carrera, velocidad del pie) y elección por pie, dirección, potencia, tipo | catálogo generado por `tools/setpiece/build_shot_catalog.gd` |
@@ -158,11 +158,11 @@ barrera y sueltos reaccionan a la pelota real → resultado (la física decide).
 | `test_wall_size_distance_and_free_kick_zone` | 93 |
 | `test_the_wall_really_blocks_the_ball` | 120 |
 | `test_both_goal_types_keep_the_ball_in_the_net` | 148 |
-| `test_penalty_turn_flow` | 178 |
-| `test_side_netting_from_outside_is_not_a_goal` | 206 |
-| `test_a_kick_never_gets_stuck` | 237 |
-| `test_shooters_wait_beside_the_ball_on_their_side` | 256 |
-| `test_foot_surface_follows_the_shot` | 280 |
+| `test_penalty_turn_flow` | 184 |
+| `test_side_netting_from_outside_is_not_a_goal` | 212 |
+| `test_a_kick_never_gets_stuck` | 243 |
+| `test_shooters_wait_beside_the_ball_on_their_side` | 262 |
+| `test_foot_surface_follows_the_shot` | 286 |
 <!-- /AUTO -->
 
 <!-- AUTO:tests:tests/test_setpiece_render.gd -->

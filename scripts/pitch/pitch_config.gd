@@ -23,6 +23,8 @@ enum BoundaryMode { WALLS, OUT_OF_BOUNDS }
 ## Estructura detras del arco: 0 ninguna, 1 soportes de la red inclinada (barra superior y tirantes), 2 caños en el piso
 ## (red de caja, como la de los estadios).
 @export var goal_supports: int = 0
+## Red de tela (ClothNet: nodos, hilos y gravedad) como red visible; la membrana (GoalNet) sigue frenando la pelota.
+@export var goal_net_cloth: bool = false
 @export var post_radius: float = 0.04
 
 @export_group("Marcas")
@@ -77,6 +79,7 @@ static func football11(style: int = GoalStyle.BOX) -> PitchConfig:
 		c.goal_top_depth = -1.0
 		c.goal_supports = 2
 	c.goal_net_sag = 1.0
+	c.goal_net_cloth = true
 	c.post_radius = 0.06
 	c.line_width = 0.12
 	c.center_circle_radius = 9.15

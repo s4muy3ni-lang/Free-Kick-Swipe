@@ -162,15 +162,21 @@ func test_both_goal_types_keep_the_ball_in_the_net() -> void:
 		var max_x: float = -INF
 		var peak: float = 0.0
 		var g: Goal = st.get_goal(1)
+		var cloth_peak: float = 0.0
 		for i in 180:
 			await tree.physics_frame
 			max_x = maxf(max_x, ball.global_position.x)
 			peak = maxf(peak, g.net.bulge)
+			if g.cloth != null:
+				cloth_peak = maxf(cloth_peak, g.cloth.peak_bulge)
 		note("arco %s: gol %d, la pelota llega a %.2f m detras de la linea, red abombada %.2f m, queda en %s" % [SpSettings.GOAL_STYLE_NAMES[style], goals[0], max_x - 52.5, peak, str(ball.global_position.snapped(Vector3.ONE * 0.01))])
 		check(goals[0] == 1, "%s: gol" % SpSettings.GOAL_STYLE_NAMES[style])
 		check(peak > 0.1, "%s: la red se abomba" % SpSettings.GOAL_STYLE_NAMES[style])
 		check(max_x - 52.5 < cfg.goal_depth + Tuning.ball.net_max_bulge + 0.2, "%s: la red la para" % SpSettings.GOAL_STYLE_NAMES[style])
 		check(ball.global_position.x > 52.5, "%s: la pelota queda dentro del arco" % SpSettings.GOAL_STYLE_NAMES[style])
+		note("arco %s: la tela (nodos e hilos) se mueve hasta %.2f m con el tiro" % [SpSettings.GOAL_STYLE_NAMES[style], cloth_peak])
+		check(g.cloth != null, "%s: red de tela de verdad (ClothNet)" % SpSettings.GOAL_STYLE_NAMES[style])
+		check(cloth_peak > 0.15, "%s: la tela visible se deforma con la pelota (%.2f m)" % [SpSettings.GOAL_STYLE_NAMES[style], cloth_peak])
 		cleanup()
 
 ## Flujo completo de un penal del usuario: carrera, contacto en el instante del clip, vuelo, resultado y turno siguiente
