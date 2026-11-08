@@ -111,23 +111,24 @@ barrera y sueltos reaccionan a la pelota real → resultado (la física decide).
 |---|---|---|
 | `SpKeeper.setup(a: SpActor, b: Ball, gx: float, half: float, height: float)` | 49 |  |
 | `SpKeeper.reset(home_pos: Vector3)` | 64 | Coloca al arquero en su sitio, mirando al campo, en espera. |
-| `SpKeeper.shuffle_to(p: Vector3)` | 84 | Paso lateral hacia una posicion (antes del tiro): sigue a la pelota sin dejar el arco. |
-| `SpKeeper._yaw()` | 93 |  |
-| `SpKeeper.read_shot(ball_pos: Vector3, velocity: Vector3, spin: Vector3)` | 97 | IA, despues del golpe (tiro libre): lee la trayectoria con su error de percepcion y planifica la atajada. |
-| `SpKeeper.commit_to(point: Vector3, ball_pos: Vector3, lead: float, speed_guess: float = 22.0)` | 116 |  |
-| `SpKeeper.on_kick(ball_pos: Vector3, velocity: Vector3)` | 126 | La pelota salio y ya habia elegido zona sin anticipar: planifica hacia esa zona con la velocidad que ve. |
-| `SpKeeper._line_traj(ball_pos: Vector3, point: Vector3, speed: float, wait: float)` | 135 | Trayectoria supuesta: la pelota quieta `wait` segundos y despues en linea (con un poco de comba) hasta el punto. |
-| `SpKeeper.guess_penalty(cue_point: Vector3, ball_pos: Vector3, lead: float, speed_guess: float = 22.0)` | 151 | IA en un penal: elige donde lanzarse con la lectura del cuerpo del tirador. cue_point: hacia donde apuntan la carrera y la cadera del tirado |
-| `SpKeeper._plan_with(traj: PackedVector3Array, min_delay: float)` | 166 |  |
-| `SpKeeper._start_dive()` | 176 |  |
-| `SpKeeper._physics_process(delta: float)` | 184 |  |
-| `SpKeeper._check_contact(delta: float)` | 197 |  |
-| `SpKeeper._resolve(part: Array, c: Vector3, q: Vector3, parts_now: Dictionary, delta: float)` | 223 |  |
-| `SpKeeper._can_catch(q: Vector3, vr: Vector3, parts_now: Dictionary)` | 249 | Atrapa si la pelota llega a las dos manos, no va demasiado rapida y viene de frente a una altura atrapable. |
-| `SpKeeper._on_clip_finished(_id: StringName)` | 260 |  |
-| `SpKeeper._getup()` | 277 |  |
-| `SpKeeper.react(happy: bool)` | 292 | Festejo (atajo) o lamento (le hicieron gol) en el sitio, cuando ya esta de pie. |
-| `SpKeeper.is_busy()` | 304 |  |
+| `SpKeeper.shuffle_to(p: Vector3)` | 85 | Paso lateral hacia una posicion (antes del tiro): sigue a la pelota sin dejar el arco. |
+| `SpKeeper._yaw()` | 94 |  |
+| `SpKeeper.read_shot(_ball_pos: Vector3, _velocity: Vector3, _spin: Vector3)` | 109 |  |
+| `SpKeeper._watch_step(delta: float)` | 120 |  |
+| `SpKeeper.commit_to(point: Vector3, ball_pos: Vector3, lead: float, speed_guess: float = 22.0)` | 167 |  |
+| `SpKeeper.on_kick(ball_pos: Vector3, velocity: Vector3)` | 177 | La pelota salio y ya habia elegido zona sin anticipar: planifica hacia esa zona con la velocidad que ve. |
+| `SpKeeper._line_traj(ball_pos: Vector3, point: Vector3, speed: float, wait: float)` | 186 | Trayectoria supuesta: la pelota quieta `wait` segundos y despues en linea (con un poco de comba) hasta el punto. |
+| `SpKeeper.guess_penalty(cue_point: Vector3, ball_pos: Vector3, lead: float, speed_guess: float = 22.0)` | 202 | IA en un penal: elige donde lanzarse con la lectura del cuerpo del tirador. cue_point: hacia donde apuntan la carrera y la cadera del tirado |
+| `SpKeeper._plan_with(traj: PackedVector3Array, min_delay: float)` | 217 |  |
+| `SpKeeper._start_dive()` | 227 |  |
+| `SpKeeper._physics_process(delta: float)` | 235 |  |
+| `SpKeeper._check_contact(delta: float)` | 249 |  |
+| `SpKeeper._resolve(part: Array, c: Vector3, q: Vector3, parts_now: Dictionary, delta: float)` | 275 |  |
+| `SpKeeper._can_catch(q: Vector3, vr: Vector3, parts_now: Dictionary)` | 301 | Atrapa si la pelota llega a las dos manos, no va demasiado rapida y viene de frente a una altura atrapable. |
+| `SpKeeper._on_clip_finished(_id: StringName)` | 312 |  |
+| `SpKeeper._getup()` | 329 |  |
+| `SpKeeper.react(happy: bool)` | 344 | Festejo (atajo) o lamento (le hicieron gol) en el sitio, cuando ya esta de pie. |
+| `SpKeeper.is_busy()` | 356 |  |
 <!-- /AUTO -->
 
 ## Pruebas
@@ -176,5 +177,8 @@ Capturas: `xvfb-run -a godot --display-driver x11 --rendering-driver opengl3 --f
   ángulo (alternativa válida, no bloquea).
 - El arquero en un penal elige el lado antes del golpe (adivina o elige el usuario): si acierta el lado puede atajar; un
   rincón bajo a más de ~2,2 m del centro suele ser inalcanzable con los clips de estirada medidos.
+- En el tiro libre el arquero vuelve a leer la pelota real cada 0,05 s y se tira en el último instante útil; aun con un plan
+  que llega (manos a pocos centímetros según la trayectoria medida de las manos), a veces la pelota pasa a centímetros de
+  las esferas de contacto: lo decide la física, no se corrige moviendo la pelota.
 - El catálogo de golpeos es un archivo generado: si cambian las bibliotecas hay que regenerarlo
   (`godot --headless --path . res://tools/setpiece/build_shot_catalog.tscn`); la APK falla en CI si no está dentro.

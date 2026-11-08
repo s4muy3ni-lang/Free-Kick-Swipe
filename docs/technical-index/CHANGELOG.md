@@ -11,6 +11,16 @@ Formato de entrada: **fecha — título** · commit · qué cambió · archivos 
 
 ---
 
+## 2026-11-08 — Arquero del tiro libre: lee la pelota real y se tira en el último instante útil
+
+- `SpKeeper.read_shot` ya no planifica una sola vez con el error de percepción completo (a 30 m, 2,6° eran más de un metro):
+  pasado su tiempo de reacción vuelve a leer la pelota real cada 0,05 s (también si se desvía en la barrera), con un error
+  fijo de la jugada que se achica con la distancia, y arranca la estirada exactamente cuando el plan lo pide (antes se tiraba
+  al decidir y sus manos pasaban antes que la pelota). En penales: elige la zona antes del golpe (adivina o elige el usuario)
+  y la estirada se sincroniza con la velocidad que espera por la carrera del tirador.
+- Medido con render, 16 tiros libres al azar (20–31 m, objetivo al azar en el arco): antes 10 goles, 4 barrera, 1 atajada,
+  1 palo; ahora 4 goles, 4 atajadas, 7 barrera, 1 afuera. `test_setpiece_render` 2/0 con xvfb.
+
 ## 2026-11-08 — Repositorio nuevo y juego de penales y tiros libres (menú, dos modos, disparo por trazo, arcos)
 
 Repositorio `s4muy3ni-lang/Free-Kick-Swipe`, importado sin historial de `roldanhr98-byte/Futbol5` (rama

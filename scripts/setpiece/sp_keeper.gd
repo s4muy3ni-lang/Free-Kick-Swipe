@@ -69,6 +69,7 @@ func reset(home_pos: Vector3) -> void:
 	touch_kind = &""
 	_dive_in = -1.0
 	_zone = Vector3.INF
+	_watching = false
 	_prev_parts.clear()
 	actor.stop_moving()
 	actor.global_position = home
@@ -93,19 +94,69 @@ func shuffle_to(p: Vector3) -> void:
 func _yaw() -> float:
 	return Locomotion.yaw_from_dir(facing)
 
-## IA, despues del golpe (tiro libre): lee la trayectoria con su error de percepcion y planifica la atajada.
-func read_shot(ball_pos: Vector3, velocity: Vector3, spin: Vector3) -> void:
+## IA, despues del golpe (tiro libre): mira la pelota REAL. Pasado su tiempo de reaccion la vuelve a leer cada READ_EVERY s
+## (posicion, velocidad y parte del giro) con un error de percepcion fijo para esta jugada que se achica a medida que la
+## pelota se acerca, replanifica, y se tira en el ultimo instante que le permite llegar. Si la pelota se desvia (barrera,
+## jugadores) lee la trayectoria nueva. No conoce el resultado: si lee mal o no llega, no la toca.
+const READ_EVERY := 0.05
+var _watching: bool = false
+var _watch_t: float = 0.0
+var _read_t: float = 0.0
+var _err_yaw: float = 0.0
+var _err_pitch: float = 0.0
+var _spin_seen: float = 0.85
+
+func read_shot(_ball_pos: Vector3, _velocity: Vector3, _spin: Vector3) -> void:
 	if state != State.IDLE:
 		return
+	_watching = true
+	_watch_t = SpSettings.keeper_reaction()
+	_read_t = 0.0
 	var err: float = SpSettings.keeper_perception_deg()
-	var v_seen: Vector3 = ShotSolver.perturb(velocity, err, rng)
-	var traj: PackedVector3Array = BallPredictor.trajectory(ball_pos, v_seen, 2.5, 1.0 / 30.0, spin * 0.8)
-	var cross: Vector3 = ShotSolver.crossing(traj, goal_x - 0.2)
-	if cross != Vector3.INF and (absf(cross.z) > half_goal + 1.2 or cross.y > goal_height + 0.8):
-		# La ve ir fuera: no se tira, la mira pasar.
-		actor.face_towards(Vector3(cross.x, 0, cross.z) - actor.global_position)
+	_err_yaw = deg_to_rad(rng.randfn(0.0, err))
+	_err_pitch = deg_to_rad(rng.randfn(0.0, err * 0.7))
+	_spin_seen = rng.randf_range(0.7, 1.0)
+
+func _watch_step(delta: float) -> void:
+	if not _watching or state != State.IDLE:
 		return
-	_plan_with(traj, SpSettings.keeper_reaction())
+	_watch_t -= delta
+	if _watch_t > 0.0:
+		return
+	_read_t -= delta
+	if _read_t > 0.0:
+		return
+	_read_t = READ_EVERY
+	if ball.is_held():
+		_watching = false
+		return
+	var bp: Vector3 = ball.global_position
+	var bv: Vector3 = ball.linear_velocity
+	if bv.x < 0.5 or bp.x > goal_x:
+		return
+	# El error se achica con la distancia que le queda a la pelota.
+	var k: float = clampf((goal_x - bp.x) / 25.0, 0.15, 1.0)
+	var h := Vector3(bv.x, 0.0, bv.z)
+	var side := Vector3(-h.z, 0.0, h.x).normalized() if h.length() > 0.01 else Vector3.RIGHT
+	var v_seen: Vector3 = bv.rotated(Vector3.UP, _err_yaw * k).rotated(side, -_err_pitch * k)
+	var traj: PackedVector3Array = BallPredictor.trajectory(bp, v_seen, 2.0, 1.0 / 30.0, ball.angular_velocity * _spin_seen)
+	var cross: Vector3 = ShotSolver.crossing(traj, goal_x - 0.2)
+	if cross != Vector3.INF and (absf(cross.z) > half_goal + 1.0 or cross.y > goal_height + 0.6):
+		actor.face_towards(Vector3(bp.x, 0, bp.z) - actor.global_position)
+		return
+	var human := Vector2(Tuning.keeper.hand_latency, Tuning.keeper.hand_speed) if Tuning.keeper != null else Vector2.ZERO
+	var pl: Dictionary = KeeperPlanner.plan_save(actor.global_position, _yaw(), traj, 1.0 / 30.0, 0.0, bv.length(), false, [1.0, 1.2, 1.4], human)
+	if pl.is_empty():
+		return
+	plan = pl
+	# Espera mientras pueda: se tira cuando la estirada tiene que empezar ya (o si ya no llega de ninguna forma, al final).
+	if float(pl["delay"]) <= READ_EVERY * 1.5:
+		# El plan dice cuando arrancar: ni antes (las manos pasarian antes que la pelota) ni despues.
+		_watching = false
+		state = State.WAIT_DIVE
+		_dive_in = float(pl["delay"])
+		if _dive_in <= 0.0:
+			_start_dive()
 
 ## Penal: el arquero se juega ANTES del golpe a una zona del arco (la elige el usuario o la IA con lo que lee del tirador):
 ## lead = segundos que faltan para el contacto y speed_guess = la velocidad que espera por la carrera y el impulso del
@@ -177,7 +228,7 @@ func _start_dive() -> void:
 	_dive_in = -1.0
 	state = State.DIVE
 	actor.stop_moving()
-	actor.play_clip(plan["clip"], actor.global_position, facing, 0.12, float(plan["speed"]), 0.0)
+	actor.play_clip(plan["clip"], actor.global_position, facing, 0.08, float(plan["speed"]), 0.0)
 
 # --- Paso ----------------------------------------------------------------------------------------------------------------
 
@@ -188,6 +239,7 @@ func _physics_process(delta: float) -> void:
 		_dive_in -= delta
 		if _dive_in <= 0.0:
 			_start_dive()
+	_watch_step(delta)
 	if state == State.HOLD:
 		_anchor.global_position = actor.hands_mid() + facing * 0.08
 	elif not ball.is_held():
