@@ -139,7 +139,7 @@ func _start_kicker(a: SpActor, is_keeper: bool, rest: Vector3) -> void:
 
 ## Donde se va a frenar la pelota (o donde estara en 3 s).
 func rest_point() -> Vector3:
-	var traj: PackedVector3Array = BallPredictor.trajectory(ball.global_position, ball.linear_velocity, 3.0, 1.0 / 30.0, ball.angular_velocity)
+	var traj: PackedVector3Array = BallPredictor.trajectory(ball.global_position, ball.linear_velocity, 3.0, 1.0 / 30.0, ball.angular_velocity, true)
 	return traj[traj.size() - 1] if traj.size() > 0 else ball.global_position
 
 func active() -> bool:
@@ -201,7 +201,7 @@ func _chase() -> void:
 	var bv: Vector3 = ball.linear_velocity
 	var me: Vector3 = responder.global_position
 	var dist: float = _flat(bp - me).length()
-	var traj: PackedVector3Array = BallPredictor.trajectory(bp, bv, 1.6, 1.0 / 30.0, ball.angular_velocity)
+	var traj: PackedVector3Array = BallPredictor.trajectory(bp, bv, 1.6, 1.0 / 30.0, ball.angular_velocity, true)
 	var k: int = clampi(int(dist / RUN * 30.0), 0, traj.size() - 1)
 	var aim: Vector3 = traj[k] if traj.size() > 0 else bp
 	aim.y = 0.0
@@ -243,7 +243,7 @@ func _begin_kick(bp: Vector3) -> void:
 	_kicker.execute(e, bp, dir, v, Vector3.ZERO)
 	# La pelota casi quieta todavia rueda: se apunta a donde estara en el contacto.
 	var tc: float = _kicker.time_to_contact()
-	var traj: PackedVector3Array = BallPredictor.trajectory(bp, ball.linear_velocity, maxf(tc, 0.05) + 0.1, 1.0 / 30.0, ball.angular_velocity)
+	var traj: PackedVector3Array = BallPredictor.trajectory(bp, ball.linear_velocity, maxf(tc, 0.05) + 0.1, 1.0 / 30.0, ball.angular_velocity, true)
 	var at: Vector3 = traj[clampi(int(tc * 30.0), 0, traj.size() - 1)] if traj.size() > 0 else bp
 	if _flat(at - bp).length() > 0.05:
 		_kicker.execute(e, at, dir, v, Vector3.ZERO)

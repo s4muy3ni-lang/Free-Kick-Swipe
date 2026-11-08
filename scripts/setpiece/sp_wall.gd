@@ -6,7 +6,10 @@ extends Node
 ## cruza la barrera (con su propio retraso de reaccion); si saltan, la pelota puede pasar por debajo. Despues reaccionan.
 
 const DISTANCE := 9.15
-const SPACING := 0.56
+## Separacion entre jugadores (m): hombro con hombro. Las capsulas miden 0,48 m de ancho (radio 0,24): quedan 2 cm entre
+## ellas. Antes (0,56 m, 8 cm mas el azar de la posicion a lo largo de la barrera) la pelota a veces se metia entre dos
+## jugadores y pasaba (1 de cada ~20 tiros al hueco, medido en test_the_wall_really_blocks_the_ball).
+const SPACING := 0.5
 
 var players: Array[SpActor] = []
 var rng := RandomNumberGenerator.new()
@@ -60,7 +63,8 @@ func arrange(actors: Array[SpActor], ball: Vector3, goal_x: float, half_goal: fl
 		var a: SpActor = actors[i]
 		a.role = &"wall"
 		var off: float = (float(i) - float(n - 1) * 0.5) * SPACING
-		var jitter := Vector3(rng.randf_range(-0.05, 0.05), 0.0, rng.randf_range(-0.04, 0.04))
+		# Variacion de la postura: hacia adelante o atras (no a lo largo de la barrera, que abriria huecos).
+		var jitter: Vector3 = dir * rng.randf_range(-0.06, 0.06) + side * rng.randf_range(-0.01, 0.01)
 		a.stop_moving()
 		a.global_position = _center + side * off + jitter
 		a.set_facing(_face.rotated(Vector3.UP, rng.randf_range(-0.12, 0.12)))

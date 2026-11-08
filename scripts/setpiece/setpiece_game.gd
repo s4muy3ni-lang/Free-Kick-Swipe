@@ -484,7 +484,7 @@ func _take_shot(shooter: SpShooter, p: ShotParams, error_deg: float) -> void:
 	if p.velocity == Vector3.ZERO:
 		return
 	var v: Vector3 = ShotSolver.perturb(p.velocity, error_deg, rng)
-	var traj: PackedVector3Array = BallPredictor.trajectory(ball_spot, v, 3.5, 1.0 / 60.0, p.spin)
+	var traj: PackedVector3Array = BallPredictor.trajectory(ball_spot, v, 3.5, 1.0 / 60.0, p.spin, true)
 	var cross: Vector3 = ShotSolver.crossing(traj, gx)
 	var cls: String = ShotSolver.classify(cross, half_goal, goal_h, ball.radius)
 	var dir := Vector3(v.x, 0.0, v.z).normalized()
@@ -648,7 +648,7 @@ func _goal_impossible(delta: float) -> bool:
 	if v.x > 0.5 and v.length() > 4.0:
 		return false
 	Prof.begin(&"resultado (prediccion)")
-	var traj: PackedVector3Array = BallPredictor.trajectory(ball.global_position, v, 3.0, 1.0 / 30.0, ball.angular_velocity)
+	var traj: PackedVector3Array = BallPredictor.trajectory(ball.global_position, v, 3.0, 1.0 / 30.0, ball.angular_velocity, true)
 	var impossible: bool = not traj.is_empty() and not _path_reaches_goal(traj)
 	Prof.end(&"resultado (prediccion)")
 	return impossible

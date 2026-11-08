@@ -71,7 +71,7 @@ func _build_ground() -> void:
 	body.collision_layer = Ball.LAYER_WORLD
 	body.collision_mask = 0
 	var pm := PhysicsMaterial.new()
-	pm.friction = 0.8
+	pm.friction = Ball.FLOOR_FRICTION
 	pm.bounce = 0.0
 	body.physics_material_override = pm
 	var cs := CollisionShape3D.new()

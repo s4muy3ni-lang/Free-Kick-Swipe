@@ -194,7 +194,7 @@ func _watch_step(delta: float) -> void:
 	var h := Vector3(bv.x, 0.0, bv.z)
 	var side := Vector3(-h.z, 0.0, h.x).normalized() if h.length() > 0.01 else Vector3.RIGHT
 	var v_seen: Vector3 = bv.rotated(Vector3.UP, _err_yaw * k).rotated(side, -_err_pitch * k)
-	var traj: PackedVector3Array = BallPredictor.trajectory(bp, v_seen, 2.0, 1.0 / 30.0, ball.angular_velocity * _spin_seen)
+	var traj: PackedVector3Array = BallPredictor.trajectory(bp, v_seen, 2.0, 1.0 / 30.0, ball.angular_velocity * _spin_seen, true)
 	var cross: Vector3 = ShotSolver.crossing(traj, goal_x - 0.2)
 	if cross != Vector3.INF and (absf(cross.z) > half_goal + 1.0 or cross.y > goal_height + 0.6):
 		actor.face_towards(Vector3(bp.x, 0, bp.z) - actor.global_position)
@@ -596,7 +596,7 @@ func _collect_step(delta: float) -> void:
 	var flat := Vector3(bp.x - me.x, 0.0, bp.z - me.z)
 	var dist: float = flat.length()
 	# Donde estara la pelota cuando llegue (rodadura y botes medidos de Ball).
-	var traj: PackedVector3Array = BallPredictor.trajectory(bp, bv, 1.6, 1.0 / 30.0, ball.angular_velocity)
+	var traj: PackedVector3Array = BallPredictor.trajectory(bp, bv, 1.6, 1.0 / 30.0, ball.angular_velocity, true)
 	var k: int = clampi(int(dist / COLLECT_RUN * 30.0), 0, traj.size() - 1)
 	var aim: Vector3 = traj[k] if traj.size() > 0 else bp
 	var to := Vector3(aim.x - me.x, 0.0, aim.z - me.z)

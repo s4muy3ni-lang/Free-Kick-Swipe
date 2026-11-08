@@ -126,23 +126,34 @@ func test_the_wall_really_blocks_the_ball() -> void:
 	game.ball_spot = game.clamp_free_kick_spot(Vector3(30.0, 0, 0.0))
 	game._setup_free_kick()
 	await physics_frames(10)
-	var center := Vector3.ZERO
-	var n: int = 0
+	var pts: Array = []
 	for a in game.wall_actors:
 		if a.visible:
-			center += a.global_position
-			n += 1
-	center /= float(n)
-	var to: Vector3 = (center - game.ball_spot)
-	to.y = 0.0
-	game.ball.kick(to.normalized() * 22.0 + Vector3.UP * 2.0, Vector3.ZERO, null)
-	var max_x: float = -INF
-	for i in 90:
-		await tree.physics_frame
-		max_x = maxf(max_x, game.ball.global_position.x)
-	note("tiro a la barrera (en x = %.1f): la pelota llego hasta x = %.1f, sale a %s" % [center.x, max_x, str(game.ball.linear_velocity.snapped(Vector3.ONE * 0.1))])
-	check(max_x < center.x + 0.8, "la pelota no atraviesa la barrera")
-	check(game._wall_hit, "el choque contra la barrera se registra")
+			pts.append(Vector3(a.global_position.x, 0.0, a.global_position.z))
+	# Al cuerpo de cada jugador y a cada hueco entre dos (el peor caso: hombro con hombro no debe pasar).
+	var aims: Array = pts.duplicate()
+	for k in range(pts.size() - 1):
+		aims.append((pts[k] + pts[k + 1]) * 0.5)
+	var passed: int = 0
+	var hits: int = 0
+	for aim in aims:
+		game._wall_hit = false
+		game.ball.reset_at(game.ball_spot)
+		await physics_frames(3)
+		var to: Vector3 = aim - game.ball_spot
+		to.y = 0.0
+		game.ball.kick(to.normalized() * 22.0 + Vector3.UP * 2.0, Vector3.ZERO, null)
+		var max_x: float = -INF
+		for i in 90:
+			await tree.physics_frame
+			max_x = maxf(max_x, game.ball.global_position.x)
+		if max_x > aim.x + 0.8:
+			passed += 1
+		if game._wall_hit:
+			hits += 1
+		note("tiro a (%.2f, %.2f): la pelota llego hasta x = %.2f, sale a %s" % [aim.x, aim.z, max_x, str(game.ball.linear_velocity.snapped(Vector3.ONE * 0.1))])
+	check(passed == 0, "la pelota no atraviesa la barrera, ni por los huecos entre jugadores (%d de %d pasaron)" % [passed, aims.size()])
+	check(hits == aims.size(), "cada choque contra la barrera se registra (%d de %d)" % [hits, aims.size()])
 	cleanup()
 
 func test_both_goal_types_keep_the_ball_in_the_net() -> void:
@@ -372,15 +383,28 @@ func test_the_result_is_decided_only_when_a_goal_is_impossible() -> void:
 		[Vector3(game.gx - 2.0, 0.6, 1.0), Vector3(-9.0, 3.0, 4.0), true, "rebote que se aleja del arco"],
 		[Vector3(game.gx - 9.0, 0.11, 0.5), Vector3(2.0, 0.0, 0.0), true, "pelota lenta que se frena lejos del arco"],
 		[Vector3(game.gx - 11.0, 0.11, 0.0), Vector3(22.0, 2.0, 1.0), false, "tiro que va al arco"],
-		[Vector3(game.gx - 3.0, 0.11, 0.3), Vector3(3.5, 0.0, 0.0), false, "pelota lenta que todavia llega a la linea"],
+		# Por el costado (z = 2,6): el arquero espera en el centro y la pelota real rebotaria en sus pies.
+		[Vector3(game.gx - 3.0, 0.11, 2.6), Vector3(5.0, 0.0, 0.0), false, "pelota lenta rodando que todavia llega a la linea", true],
+		[Vector3(game.gx - 3.0, 0.11, 2.6), Vector3(3.5, 0.0, 0.0), true, "pelota lenta sin giro que desliza y se frena antes de la linea"],
 		[Vector3(game.gx - 0.4, 1.5, 0.5), Vector3(0.3, 5.0, 0.0), false, "desviada hacia arriba que cae en la boca del arco"],
 		[Vector3(game.gx - 1.0, 2.6, 0.0), Vector3(-1.0, 1.0, 0.0), true, "desviada por encima que cae delante del arco"],
 	]
 	for c in cases:
-		game.ball.reset_at(c[0], c[1])
+		game.ball.reset_at(c[0], Vector3.ZERO)
+		await physics_frames(2)
+		# Con el giro de rodadura si el caso lo pide (la recolocacion deja el giro en cero: la pelota desliza).
+		game.ball.kick(c[1], game.ball.rolling_spin(c[1]) if c.size() > 4 else Vector3.ZERO, null)
 		await physics_frames(2)
 		game._decide_t = 0.0
 		var got: bool = game._goal_impossible(0.0)
 		note("%s: %s" % [c[3], "ya no puede ser gol" if got else "todavia puede ser gol"])
 		check(got == c[2], "%s: %s" % [c[3], "se decide" if c[2] else "se espera"])
+		if absf(c[1].y) < 0.01 and c[1].x > 0.0:
+			# Verdad fisica de los casos por el piso: se deja rodar la pelota real y se mira si llega a la linea.
+			var max_x: float = -INF
+			for i in 240:
+				await tree.physics_frame
+				max_x = maxf(max_x, game.ball.global_position.x)
+			note("   la pelota real llega hasta %.2f m de la linea" % (max_x - game.gx))
+			check((max_x >= game.gx - 0.3) == (not c[2]), "%s: la pelota real confirma la decision" % c[3])
 	cleanup()

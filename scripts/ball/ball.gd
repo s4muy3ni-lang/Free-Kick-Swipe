@@ -23,6 +23,9 @@ const LAYER_BALL := 2
 const LAYER_PLAYERS := 4
 const LAYER_KEEPERS := 8
 const LAYER_GOAL_FRAME := 16
+## Friccion del cesped (material del piso de Pitch y Stadium11). Jolt combina la de la pelota y la del piso tomando la
+## menor (como Godot Physics): medido en la cancha, la pelota que desliza frena a mu*g con mu = 0,58-0,60 = min(0,6; 0,8).
+const FLOOR_FRICTION := 0.8
 
 var tuning: BallTuning
 var radius: float = 0.1

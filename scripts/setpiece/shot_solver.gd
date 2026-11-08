@@ -21,7 +21,7 @@ static func solve(ball: Vector3, target: Vector3, speed: float, spin: Vector3, p
 	var best_err: float = INF
 	for it in iterations:
 		var v: Vector3 = _vel(yaw, pitch, speed)
-		var traj: PackedVector3Array = BallPredictor.trajectory(ball, v, HORIZON, step, spin)
+		var traj: PackedVector3Array = BallPredictor.trajectory(ball, v, HORIZON, step, spin, true)
 		var cross: Vector3 = crossing(traj, plane_x)
 		var err: float
 		if cross == Vector3.INF:

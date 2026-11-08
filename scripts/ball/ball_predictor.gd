@@ -12,11 +12,19 @@ const DRAG_SCALE := 0.5
 const DRAG_SCALE_AIR := 1.0
 ## Friccion pelota-piso en el bote (medida contra Jolt: la horizontal pierde mu * (1 + e) * vy en un bote rasante).
 const BOUNCE_FRICTION := 0.63
+## Esfera hueca (Ball.inertia = 2/3 m r^2): una fuerza en el punto de contacto cambia la velocidad de deslizamiento de la
+## superficie (1 + m r^2 / I) = 2,5 veces mas que la del centro, y el giro gana m r^2 / I = 1,5 veces esa velocidad.
+const SLIP_K := 2.5
+const SPIN_GAIN := 1.5
 
 ## Posiciones cada `step` segundos desde ahora (indice 0 = posicion actual) hasta `horizon` segundos.
 ## spin: giro de la pelota (rad/s, Ball.angular_velocity): curva el vuelo por efecto Magnus (Ball._integrate_forces) y fija
 ## cuanto desliza en el primer bote; sin el (cero) se supone una pelota sin giro.
-static func trajectory(pos: Vector3, vel: Vector3, horizon: float, step: float = 1.0 / 30.0, spin: Vector3 = Vector3.ZERO) -> PackedVector3Array:
+## spin_is_state: el giro es el ESTADO real de la pelota (Ball.angular_velocity o el que va a dejar Ball.kick), tambien
+## cero. Asi una pelota que sale por el piso sin giro DESLIZA primero (friccion mu*g, que la frena y la hace girar) hasta
+## rodar, como en Jolt. Sin el (false, llamadas viejas del partido) una pelota por el piso se supone ya rodando.
+static func trajectory(pos: Vector3, vel: Vector3, horizon: float, step: float = 1.0 / 30.0, spin: Vector3 = Vector3.ZERO,
+		spin_is_state: bool = false) -> PackedVector3Array:
 	var bt: BallTuning = Tuning.ball
 	var out := PackedVector3Array()
 	out.append(pos)
@@ -28,9 +36,12 @@ static func trajectory(pos: Vector3, vel: Vector3, horizon: float, step: float =
 	# Giro de la pelota expresado como velocidad de su superficie a lo largo del avance (m/s); sin dato del giro, cero (un
 	# golpeo por el aire) o la de rodadura si ya rueda.
 	var hdir: Vector3 = Vector3(vel.x, 0.0, vel.z).normalized() if Vector2(vel.x, vel.z).length() > 0.01 else Vector3.ZERO
-	var spin_v: float = Vector2(vel.x, vel.z).length() if pos.y <= bt.radius + 0.01 and absf(vel.y) < 0.5 else bt.radius * spin.cross(Vector3.UP).dot(hdir)
+	var on_floor: bool = pos.y <= bt.radius + 0.01 and absf(vel.y) < 0.5
+	var spin_v: float = Vector2(vel.x, vel.z).length() if on_floor and not spin_is_state else bt.radius * spin.cross(Vector3.UP).dot(hdir)
 	var w: Vector3 = spin
 	var magnus: float = bt.magnus_k / bt.mass
+	# Friccion de deslizamiento sobre el cesped (Jolt toma la menor de las dos).
+	var mu_g: float = minf(bt.friction, Ball.FLOOR_FRICTION) * GRAVITY
 	for i in n:
 		for s in SUBSTEPS:
 			v.y -= GRAVITY * dt
@@ -40,6 +51,9 @@ static func trajectory(pos: Vector3, vel: Vector3, horizon: float, step: float =
 				v += w.cross(v) * magnus * dt
 			if spd > 0.01:
 				var scale: float = DRAG_SCALE if p.y <= bt.radius + 0.005 else DRAG_SCALE_AIR
+				# Mientras desliza, la friccion ya esta saturada: el aire frena el centro entero (como en el vuelo).
+				if p.y <= bt.radius + 0.005 and absf(Vector2(v.x, v.z).length() - spin_v) > 0.05:
+					scale = DRAG_SCALE_AIR
 				var dv: float = minf(scale * 0.5 * bt.air_density * bt.drag_coefficient * area * spd * spd / bt.mass * dt, spd)
 				v -= v / spd * dv
 			p += v * dt
@@ -62,13 +76,32 @@ static func trajectory(pos: Vector3, vel: Vector3, horizon: float, step: float =
 						w = Vector3.UP.cross(Vector3(v.x, 0.0, v.z).normalized()) * (spin_v / bt.radius)
 				else:
 					v.y = 0.0
-					var hs: float = Vector2(v.x, v.z).length()
-					spin_v = hs   # rodando: la superficie no desliza
 					w = Vector3.ZERO
+					var hv := Vector3(v.x, 0.0, v.z)
+					var hs: float = hv.length()
+					var dir: Vector3 = hv / hs if hs > 0.0001 else hdir
+					# Rodadura de Ball (rolling_decel + rolling_viscous * v): frena el centro y el giro en la misma proporcion.
 					if hs > 0.0001:
 						var k: float = Ball.roll_speed(hs, dt) / hs
-						v.x *= k
-						v.z *= k
+						hs *= k
+						spin_v *= k
+					# Deslizamiento: la friccion (mu*g) frena el centro y acelera el giro hasta que la superficie deja de
+					# deslizar (rodadura); con efecto atras puede frenarla del todo y hacerla volver.
+					var slip: float = hs - spin_v
+					if absf(slip) <= SLIP_K * mu_g * dt:
+						hs -= slip / SLIP_K
+						spin_v = hs
+					else:
+						var sgn: float = signf(slip)
+						hs -= sgn * mu_g * dt
+						spin_v += sgn * SPIN_GAIN * mu_g * dt
+					if hs < 0.0:
+						# Vuelve hacia atras (efecto atras): la velocidad cambia de sentido.
+						dir = -dir
+						hs = -hs
+						spin_v = -spin_v
+					v.x = dir.x * hs
+					v.z = dir.z * hs
 		out.append(p)
 	return out
 
