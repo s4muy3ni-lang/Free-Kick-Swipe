@@ -6,7 +6,7 @@ extends Node3D
 ## arquero con atajadas planificadas y contacto fisico (SpKeeper), barrera con colision y salto (SpWall), jugadores sueltos
 ## (SpFieldPlayers) y reacciones de todos al resultado. Horizontal 16:9 (otras proporciones sin deformar).
 
-enum Mode { PENALTY, FREE_KICK }
+enum Mode { PENALTY, FREE_KICK, CHALLENGE }
 enum Phase { PLACE, AIM, KEEPER_PICK, RUNUP, FLIGHT, RESULT, OVER }
 
 const SCENE := "res://scenes/setpiece/setpiece_game.tscn"
@@ -25,6 +25,11 @@ const FK_MAX_X := 40.0
 
 ## Modo que abre la escena (lo fija el menu antes de cambiar de escena).
 static var next_mode: int = Mode.PENALTY
+## Modo CHALLENGE: ejercicio de la Academia o desafio de la Arena (definicion de ChallengeCatalog, ya en su dificultad) y si
+## es practica libre (no registra el progreso).
+static var next_challenge: Dictionary = {}
+static var next_practice: bool = false
+const CHALLENGE_MENU_SCENE := "res://scenes/challenges/challenge_menu.tscn"
 
 var mode: int = Mode.PENALTY
 var phase: int = Phase.AIM
@@ -49,6 +54,8 @@ var field: SpFieldPlayers
 var bench: Array[SpActor] = []
 ## Pelota suelta despues de la jugada: el arquero la recoge o un defensor la despeja.
 var loose: SpLooseBall
+## Ejercicio o desafio en curso (modo CHALLENGE).
+var runner: ChallengeRunner = null
 
 var shootout := PenaltyShootout.new()
 var fk_goals: int = 0
@@ -176,6 +183,15 @@ func _ready() -> void:
 	if mode == Mode.PENALTY:
 		hud.set_title("PENALES")
 		_start_penalty_turn()
+	elif mode == Mode.CHALLENGE:
+		var d: Dictionary = next_challenge if not next_challenge.is_empty() else ChallengeCatalog.academia()[0]
+		runner = ChallengeRunner.new()
+		runner.name = "ChallengeRunner"
+		add_child(runner)
+		runner.setup(d, next_practice, ball, gx, half_goal, goal_h)
+		hud.set_title(String(d["title"]).to_upper())
+		hud.hide_shootout()
+		_setup_challenge_attempt()
 	else:
 		hud.set_title("TIRO LIBRE")
 		hud.hide_shootout()
@@ -184,6 +200,15 @@ func _ready() -> void:
 
 func _exit_tree() -> void:
 	Sfx.crowd(false)
+	SpSettings.override_difficulty = -1
+
+## Desafio o ejercicio con la pelota en el punto del penal (contexto de penal: velocidades y lectura del arquero).
+func _penalty_like() -> bool:
+	return mode == Mode.PENALTY or (mode == Mode.CHALLENGE and runner != null and runner.spot_distance() <= 12.0)
+
+## Como un tiro libre: camara detras de la pelota con zoom, barrera, arquero que lee la pelota.
+func _fk_like() -> bool:
+	return mode == Mode.FREE_KICK or (mode == Mode.CHALLENGE and not _penalty_like())
 
 # --- Construccion ---------------------------------------------------------------------------------------------------------
 
@@ -439,6 +464,8 @@ func _aim_actions() -> void:
 	var list: Array = [[&"foot", "Pie: %s" % SpSettings.foot_name()]]
 	if mode == Mode.FREE_KICK:
 		list.push_front([&"move", "Mover balón"])
+	elif mode == Mode.CHALLENGE:
+		list.push_front([&"quit", "Salir"])
 	hud.set_actions(list)
 
 ## Cambia el pie habil del tirador del usuario y lo vuelve a parar del lado que corresponde.
@@ -455,7 +482,7 @@ func toggle_foot() -> void:
 
 func set_zoom(z: float) -> void:
 	zoom = clampf(z, 0.6, 1.7)
-	if phase == Phase.AIM and mode == Mode.FREE_KICK:
+	if phase == Phase.AIM and _fk_like():
 		_aim_camera()
 
 func _aim_camera() -> void:
@@ -485,7 +512,7 @@ func _reset_play() -> void:
 
 ## Contexto fisico del tiro para el modelo del gesto.
 func shot_context() -> Dictionary:
-	return GestureShotModel.context(gx, PEN_SPEED if mode == Mode.PENALTY else FK_SPEED, mode == Mode.PENALTY, half_goal, goal_h, ball.radius)
+	return GestureShotModel.context(gx, PEN_SPEED if _penalty_like() else FK_SPEED, _penalty_like(), half_goal, goal_h, ball.radius)
 
 ## Lanza el tiro descrito por `p` (ya resuelto con la fisica): aplica el error de precision, clasifica el resultado previsto
 ## (un tiro que se va fuera usa un golpeo «de error»), elige el golpeo por pie, direccion, potencia y tipo, y ejecuta la
@@ -511,7 +538,7 @@ func _take_shot(shooter: SpShooter, p: ShotParams, error_deg: float) -> void:
 		# Hacia su lado abierto (diestro a su derecha) sin mucha potencia: interior del pie, colocada.
 		kind = ShotCatalog.Kind.PLACED
 	var surface: String = ShotCatalog.surface_for(kind, shooter.foot, side > 2.0, p.curled, p.lateral_spin)
-	var e: Dictionary = ShotCatalog.choose(shooter.foot, rel, kind, mode == Mode.FREE_KICK, rng, v.length(), p.prefer_short, p.curled, surface)
+	var e: Dictionary = ShotCatalog.choose(shooter.foot, rel, kind, not _penalty_like(), rng, v.length(), p.prefer_short, p.curled, surface)
 	if e.is_empty():
 		e = ShotCatalog.choose(shooter.foot, rel, ShotCatalog.Kind.NORMAL, false, rng)
 	var flotado: bool = p.power > 0.82 and absf(p.lateral_spin) < 6.0 and kind != ShotCatalog.Kind.CHIP
@@ -530,7 +557,7 @@ func _take_shot(shooter: SpShooter, p: ShotParams, error_deg: float) -> void:
 	_launch_measure = -1
 	# Penal: el arquero se juega YA (lo pesado se calcula al soltar el trazo, no en el golpe), con el tiempo exacto que
 	# falta para el contacto.
-	if mode == Mode.PENALTY:
+	if _penalty_like() and cur_keeper != null and cur_keeper.actor.visible:
 		_commit_keeper(maxf(shooter.time_to_contact(), 0.0))
 
 func _on_contact(_entry: Dictionary) -> void:
@@ -539,7 +566,17 @@ func _on_contact(_entry: Dictionary) -> void:
 	_launch_measure = 2
 	# La zona elegida para atajar ya no se muestra: la pelota salio.
 	_zone_marker.visible = false
-	if mode == Mode.FREE_KICK:
+	if mode == Mode.CHALLENGE:
+		if cur_keeper.actor.visible:
+			if _penalty_like():
+				if not _committed:
+					_commit_keeper(0.0)
+				cur_keeper.on_kick(ball_spot, last_shot["velocity"])
+			else:
+				cur_keeper.read_shot(ball_spot, last_shot["velocity"], last_shot["spin"])
+		if not wall.players.is_empty() and wall.players[0].visible:
+			wall.on_kick(ball_spot, last_shot["velocity"])
+	elif mode == Mode.FREE_KICK:
 		cur_keeper.read_shot(ball_spot, last_shot["velocity"], last_shot["spin"])
 		wall.on_kick(ball_spot, last_shot["velocity"])
 		field.on_kick(last_shot["traj"], 1.0 / 60.0)
@@ -594,7 +631,7 @@ func _physics_process(delta: float) -> void:
 	match phase:
 		Phase.RESULT:
 			_result_t += delta
-			var wait: float = 0.2 if fast else 3.6
+			var wait: float = 0.2 if fast else (2.4 if mode == Mode.CHALLENGE else 3.6)
 			# Penal: si el arquero esta yendo a recoger la pelota suelta o todavia se levanta para reaccionar, se le deja
 			# terminar (hasta 6 s): antes el turno siguiente cortaba la reaccion de un arquero que tardaba en levantarse.
 			# Cuando su reaccion empieza, se ve al menos 1,2 s.
@@ -610,7 +647,7 @@ func _physics_process(delta: float) -> void:
 
 func _flight_tick(delta: float) -> void:
 	_flight_t += delta
-	if mode == Mode.FREE_KICK and not ball.is_held():
+	if _fk_like() and not ball.is_held():
 		# Tiro libre: la camara acompaña un poco la pelota (sin moverse de detras del tirador).
 		var f: Array = SpCamera.behind_ball(ball_spot, goal_center(), zoom, false)
 		var look: Vector3 = (f[1] as Vector3).lerp(ball.global_position, 0.35)
@@ -684,6 +721,9 @@ func _finish(why: String) -> void:
 	phase = Phase.RESULT
 	_result_t = 0.0
 	_keeper_react_at = -1.0
+	if mode == Mode.CHALLENGE:
+		_finish_challenge(why)
+		return
 	var goal_ok: bool = why == "goal"
 	var texts := {"goal": ["¡GOOOL!", Color(0.35, 1.0, 0.45)], "save": ["¡ATAJADA!", Color(0.4, 0.75, 1.0)],
 		"post": ["¡AL PALO!", Color(1.0, 0.8, 0.3)], "wall": ["¡BARRERA!", Color(1.0, 0.6, 0.3)],
@@ -808,10 +848,149 @@ func _after_result() -> void:
 		return
 	if mode == Mode.PENALTY:
 		_start_penalty_turn()
+	elif mode == Mode.CHALLENGE:
+		if runner.finished:
+			_show_challenge_end()
+		else:
+			cam.follow = null
+			_setup_challenge_attempt()
 	else:
 		phase = Phase.OVER
 		hud.set_actions([[&"again", "Otra vez"], [&"move", "Mover balón"]])
 		hud.set_hint("")
+
+# --- Academia y Arena (modo CHALLENGE) ----------------------------------------------------------------------------------
+
+## Prepara un intento del ejercicio o desafio: pelota en su punto, barrera (o no), sin jugadores sueltos, arquero con la
+## dificultad del desafio (o sin arquero), tirador al costado de la pelota.
+func _setup_challenge_attempt() -> void:
+	var d: Dictionary = runner.def
+	hud.hide_banner()
+	hud.hide_overlay()
+	_place_marker.visible = false
+	_reset_play()
+	var sp: Array = d["spot"]
+	ball_spot = Vector3(gx - float(sp[0]), ball.radius, float(sp[1]))
+	ball.reset_at(ball_spot)
+	var wl = d.get("wall", 0)
+	var n: int = SpWall.count_for(ball_spot, gx) if typeof(wl) == TYPE_STRING and String(wl) == "auto" else int(wl)
+	n = clampi(n, 0, wall_actors.size())
+	var use: Array[SpActor] = []
+	for i in wall_actors.size():
+		wall_actors[i].visible = i < n
+		if i < n:
+			use.append(wall_actors[i])
+		else:
+			wall_actors[i].global_position = Vector3(0, -50, 0)
+	wall.arrange(use, ball_spot, gx, half_goal)
+	for a in field.attackers + field.defenders:
+		a.visible = false
+		a.stop_moving()
+		a.global_position = Vector3(0, -50, 0)
+	cur_shooter = user_shooter
+	cur_keeper = cpu_keeper
+	if int(d.get("keeper", -1)) >= 0:
+		SpSettings.override_difficulty = int(d["keeper"])
+		cpu_keeper.actor.visible = true
+		if _penalty_like():
+			cpu_keeper.reset(Vector3(gx - 0.12, 0.0, 0.0))
+		else:
+			var cover: Vector3 = SpWall.cover_point(ball_spot, gx, half_goal)
+			var kz: float = clampf((-cover.z * 0.35 if n > 0 else 0.0) + ball_spot.z * 0.06, -1.2, 1.2)
+			cpu_keeper.reset(Vector3(gx - 0.6, 0.0, kz))
+	else:
+		# Sin arquero: fuera de la cancha y quieto (no choca la pelota).
+		SpSettings.override_difficulty = -1
+		cpu_keeper.reset(Vector3(gx + 30.0, 0.0, 30.0))
+		cpu_keeper.actor.visible = false
+		cpu_keeper.paused = true
+	user_shooter.actor.visible = true
+	user_shooter.foot = SpSettings.foot
+	var aim: Vector3 = Vector3(gx - ball_spot.x, 0.0, -ball_spot.z).normalized()
+	var st: Vector2 = PEN_STANCE if _penalty_like() else FK_STANCE
+	user_shooter.stance(ball_spot, aim, st.x, st.y)
+	user_shooting = true
+	phase = Phase.AIM
+	if _penalty_like():
+		var f: Array = SpCamera.behind_ball(ball_spot, goal_center(), 1.0, true)
+		cam.frame(f[0], f[1], f[2], _first_frame(), 0.45)
+	else:
+		_aim_camera()
+	hud.set_zoom_visible(_fk_like())
+	_aim_actions()
+	hud.set_hint(String(d["explain"]))
+	hud.set_score_text(runner.status_text())
+	runner.begin_attempt()
+
+## Resultado de un intento del desafio: lo evalua el ChallengeRunner con los blancos; reacciones de siempre.
+func _finish_challenge(why: String) -> void:
+	runner.targets.flush()
+	var ev: Dictionary = runner.evaluate(why, last_launch_speed)
+	hud.show_banner(String(ev["text"]), ev["color"], String(ev["sub"]))
+	if bool(ev["hit"]):
+		_cheer = 0.7
+		Sfx.play(&"cheer", 0.6)
+	else:
+		Sfx.play(&"ooh", 0.6)
+	cur_shooter.react(bool(ev["hit"]))
+	if cur_keeper.actor.visible:
+		cur_keeper.react(why != "goal")
+	if wall != null and not wall.players.is_empty():
+		wall.react(why == "goal")
+	hud.set_score_text(runner.status_text())
+
+## Fin del ejercicio o desafio: puntos, medalla, record, experiencia, recompensa y que hacer despues.
+func _show_challenge_end() -> void:
+	phase = Phase.OVER
+	var r: Dictionary = runner.finish()
+	var medal: int = int(r["medal"])
+	var title: String = ["SIN MEDALLA", "¡BRONCE!", "¡PLATA!", "¡ORO!"][medal]
+	var lines: PackedStringArray = []
+	lines.append("%d puntos · %s %d/%d en %d intentos" % [int(r["score"]), "caídos" if String(runner.def["rule"]) == "objects" else "aciertos",
+		int(r["progress"]), int(r["needed"]), int(r["attempts_used"])])
+	if int(r["spare_bonus"]) > 0:
+		lines.append("Intentos de sobra: +%d" % int(r["spare_bonus"]))
+	if bool(r["practice"]):
+		lines.append("Práctica libre: no cuenta para el progreso (récord %d)" % int(r["prev_best"]))
+	elif bool(r["new_best"]):
+		lines.append("¡Nuevo récord! (antes %d)" % int(r["prev_best"]))
+	else:
+		lines.append("Récord: %d" % int(r["best"]))
+	if int(r["xp_gained"]) > 0:
+		lines.append("+%d de experiencia · nivel %d" % [int(r["xp_gained"]), int(r["level"])])
+	if String(r["cosmetic"]) != "":
+		lines.append("Recompensa: %s" % String(r["cosmetic"]))
+	var acts: Array = [[&"retry", "Reintentar"]]
+	if not next_challenge_def().is_empty():
+		acts.append([&"next", "Siguiente"])
+	acts.append([&"challenges", "Elegir otro"])
+	acts.append([&"menu", "Menú"])
+	hud.set_actions([])
+	hud.show_overlay(title, "\n".join(lines), acts)
+	if medal >= 1:
+		_cheer = 1.0
+
+## El siguiente: Academia = el ejercicio que sigue (si esta abierto); Arena = la dificultad siguiente si se abrio, si no
+## el desafio que sigue en Facil.
+func next_challenge_def() -> Dictionary:
+	if runner == null:
+		return {}
+	var d: Dictionary = runner.def
+	if String(d.get("group", "")) == "academia":
+		var all: Array = ChallengeCatalog.academia()
+		for i in all.size():
+			if String(all[i]["id"]) == String(d["id"]) and i + 1 < all.size():
+				return all[i + 1] if (runner.practice or PlayerProgress.is_unlocked(all[i + 1])) else {}
+		return {}
+	var base: Dictionary = ChallengeCatalog.by_id(String(d["id"]))
+	var dif: int = int(d.get("difficulty", 0))
+	if dif < 4 and PlayerProgress.difficulty_unlocked(base, dif + 1):
+		return ChallengeCatalog.at_difficulty(base, dif + 1)
+	var all2: Array = ChallengeCatalog.arena()
+	for i in all2.size():
+		if String(all2[i]["id"]) == String(d["id"]) and i + 1 < all2.size():
+			return ChallengeCatalog.at_difficulty(all2[i + 1], 0)
+	return {}
 
 func _show_end() -> void:
 	phase = Phase.OVER
@@ -823,9 +1002,11 @@ func _show_end() -> void:
 	if w == PenaltyShootout.USER:
 		_cheer = 1.0
 
-func _on_goal_scored(g: Goal, _pos: Vector3) -> void:
+func _on_goal_scored(g: Goal, pos: Vector3) -> void:
 	if g == goal and phase == Phase.FLIGHT:
 		_goal_scored = true
+		if runner != null:
+			runner.targets.on_goal(pos)
 
 func _on_keeper_touch(kind: StringName) -> void:
 	_keeper_touch = kind
@@ -853,7 +1034,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	elif event is InputEventScreenDrag:
 		var sd := event as InputEventScreenDrag
 		_touches[sd.index] = sd.position
-		if _touches.size() >= 2 and mode == Mode.FREE_KICK and phase == Phase.AIM:
+		if _touches.size() >= 2 and _fk_like() and phase == Phase.AIM:
 			var pts: Array = _touches.values()
 			var d: float = (pts[0] as Vector2).distance_to(pts[1])
 			if _pinch_d > 0.0:
@@ -1031,6 +1212,18 @@ func _on_action(id: StringName) -> void:
 		&"rematch":
 			shootout.reset()
 			_start_penalty_turn()
+		&"retry":
+			if mode == Mode.CHALLENGE:
+				next_challenge = runner.def
+				get_tree().reload_current_scene()
+		&"next":
+			var nd: Dictionary = next_challenge_def()
+			if not nd.is_empty():
+				next_challenge = nd
+				get_tree().reload_current_scene()
+		&"quit", &"challenges":
+			if ResourceLoader.exists(CHALLENGE_MENU_SCENE):
+				get_tree().change_scene_to_file(CHALLENGE_MENU_SCENE)
 		&"menu":
 			_go_menu()
 

@@ -110,12 +110,16 @@ func _build_ui() -> void:
 	gap.custom_minimum_size = Vector2(0, 18)
 	vb.add_child(gap)
 	var cards := HBoxContainer.new()
-	cards.add_theme_constant_override("separation", 26)
+	cards.add_theme_constant_override("separation", 18)
 	vb.add_child(cards)
-	cards.add_child(_card("PENALES", "Tanda contra la CPU:\nun tiro y una atajada por ronda.\nSerie de 5 y muerte súbita.",
+	cards.add_child(_card("PENALES", "Tanda contra la CPU:\nun tiro y una atajada\npor ronda.",
 		Color(0.08, 0.30, 0.75), func() -> void: _start(SetPieceGame.Mode.PENALTY)))
-	cards.add_child(_card("TIRO LIBRE", "Elegí dónde poner la pelota,\nsuperá la barrera y al arquero.\nCurva, potencia y altura con el dedo.",
+	cards.add_child(_card("TIRO LIBRE", "Poné la pelota donde\nquieras: barrera\ny arquero.",
 		Color(0.75, 0.16, 0.12), func() -> void: _start(SetPieceGame.Mode.FREE_KICK)))
+	cards.add_child(_card("ACADEMIA", "8 niveles para aprender:\nprecisión, potencia,\nefecto, penales...",
+		Color(0.10, 0.50, 0.22), func() -> void: _open_challenges("academia")))
+	cards.add_child(_card("DESAFÍOS", "Postes, aros, conos,\ntorres, distancia\ny más.",
+		Color(0.48, 0.18, 0.62), func() -> void: _open_challenges("arena")))
 	var spacer := Control.new()
 	spacer.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	vb.add_child(spacer)
@@ -151,11 +155,11 @@ func _build_ui() -> void:
 
 func _card(t: String, desc: String, color: Color, cb: Callable) -> Button:
 	var b := Button.new()
-	b.custom_minimum_size = Vector2(430, 250)
+	b.custom_minimum_size = Vector2(282, 230)
 	b.focus_mode = Control.FOCUS_NONE
 	b.alignment = HORIZONTAL_ALIGNMENT_LEFT
 	b.text = "%s\n\n%s" % [t, desc]
-	b.add_theme_font_size_override("font_size", 26)
+	b.add_theme_font_size_override("font_size", 22)
 	for st in ["normal", "hover", "pressed", "focus"]:
 		var sb := StyleBoxFlat.new()
 		var c: Color = color
@@ -169,8 +173,8 @@ func _card(t: String, desc: String, color: Color, cb: Callable) -> Button:
 		sb.set_corner_radius_all(22)
 		sb.shadow_color = Color(0, 0, 0, 0.45)
 		sb.shadow_size = 12
-		sb.content_margin_left = 28
-		sb.content_margin_right = 28
+		sb.content_margin_left = 20
+		sb.content_margin_right = 16
 		sb.content_margin_top = 22
 		sb.content_margin_bottom = 22
 		b.add_theme_stylebox_override(st, sb)
@@ -193,6 +197,10 @@ func _refresh() -> void:
 	_gfx_button.text = "Gráficos: %s" % GraphicsSettings.menu_choice_name()
 
 var _loading: Label = null
+
+func _open_challenges(t: String) -> void:
+	ChallengeMenu.tab = t
+	get_tree().change_scene_to_file(ChallengeMenu.SCENE)
 
 func _start(m: int) -> void:
 	if _loading != null:

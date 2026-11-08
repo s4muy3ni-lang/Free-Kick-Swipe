@@ -148,13 +148,19 @@ func _build_center() -> void:
 	sub_banner.visible = false
 
 func _build_bottom() -> void:
-	hint = _label(26, Color(1, 1, 1, 0.95), 6)
-	hint.set_anchors_preset(Control.PRESET_CENTER_BOTTOM)
-	hint.offset_left = -560
-	hint.offset_right = 560
-	hint.offset_top = -64
-	hint.offset_bottom = -20
-	hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	# Abajo a la izquierda, sin pisar los botones de abajo a la derecha (texto largo: hasta dos renglones).
+	hint = _label(22, Color(1, 1, 1, 0.95), 6)
+	hint.anchor_left = 0.0
+	hint.anchor_right = 1.0
+	hint.anchor_top = 1.0
+	hint.anchor_bottom = 1.0
+	hint.offset_left = 22
+	hint.offset_right = -450
+	hint.offset_top = -100
+	hint.offset_bottom = -18
+	hint.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	hint.vertical_alignment = VERTICAL_ALIGNMENT_BOTTOM
+	hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
 	root.add_child(hint)
 	actions = HBoxContainer.new()
 	actions.set_anchors_preset(Control.PRESET_BOTTOM_RIGHT)

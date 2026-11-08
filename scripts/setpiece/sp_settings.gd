@@ -45,19 +45,28 @@ static func save_settings() -> void:
 static func foot_name() -> String:
 	return "Diestro" if foot > 0 else "Zurdo"
 
+## Dificultad que imponen los desafios mientras se juegan (-1: la del menu). Los desafios usan cinco niveles: los tres del
+## menu mas Profesional y Extremo (solo desafios).
+static var override_difficulty: int = -1
+const ALL_DIFFICULTY_NAMES := ["Fácil", "Normal", "Difícil", "Profesional", "Extremo"]
+
+static func level() -> int:
+	return override_difficulty if override_difficulty >= 0 else difficulty
+
 ## Parametros de la IA segun la dificultad (lo que cambia: tiempo de reaccion del arquero, error de percepcion, lectura del
-## cuerpo del tirador en penales, alcance; precision del tirador de la IA).
+## cuerpo del tirador en penales, alcance; precision del tirador de la IA). Profesional y Extremo siguen la misma
+## progresion (solo en los desafios).
 static func keeper_reaction() -> float:
-	return [0.34, 0.24, 0.17][difficulty]
+	return [0.34, 0.24, 0.17, 0.14, 0.12][level()]
 
 static func keeper_perception_deg() -> float:
-	return [4.5, 2.6, 1.4][difficulty]
+	return [4.5, 2.6, 1.4, 1.0, 0.7][level()]
 
 static func keeper_read_probability() -> float:
-	return [0.38, 0.52, 0.66][difficulty]
+	return [0.38, 0.52, 0.66, 0.70, 0.74][level()]
 
 static func keeper_catch_speed() -> float:
-	return [15.0, 18.0, 21.0][difficulty]
+	return [15.0, 18.0, 21.0, 22.5, 24.0][level()]
 
 static func cpu_shot_error_deg() -> float:
-	return [2.6, 1.8, 1.1][difficulty]
+	return [2.6, 1.8, 1.1, 0.9, 0.7][level()]
