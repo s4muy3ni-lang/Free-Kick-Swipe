@@ -1,0 +1,15 @@
+banco,clip,toma,espejo,rol,categorias,duracion_s,bucle,raiz_m,contacto_t_s,contacto_pie,contacto_vel_pie_m_s,mano_lateral_m,mano_altura_max_m,salto_cadera_m,pies_min_m
+mocap,mc_celebration_1,mc_celebration_1,false,mocap,st_celebrate,3.47,false,0.69,,,,-0.14,1.31,0.00,0.013
+mocap,mc_celebration_2,mc_celebration_2,false,mocap,st_celebrate,3.53,false,1.19,,,,-0.09,1.77,0.05,0.021
+mocap,mc_celebration_3,mc_celebration_3,false,mocap,st_celebrate,3.17,false,1.38,,,,0.26,1.83,0.27,0.007
+mocap,mc_keeper_save_1,mc_keeper_save_1,false,mocap,gk_dive_left,7.17,false,1.42,,,,-1.79,1.69,0.19,0.012
+mocap,mc_keeper_save_2,mc_keeper_save_2,false,mocap,gk_mid,4.37,false,0.56,,,,0.67,1.46,0.02,0.014
+mocap,mc_keeper_save_3,mc_keeper_save_3,false,mocap,gk_low,8.90,false,0.41,,,,0.54,0.96,0.00,-0.008
+mocap,mc_penalty_kick,mc_penalty_kick,false,mocap,st_setpiece|st_penalty,2.40,false,2.49,1.592,D,8.1,0.35,1.46,0.13,0.021
+mocap,mc_penalty_kick_2,mc_penalty_kick_2,false,mocap,st_setpiece|st_penalty,2.40,false,2.02,1.6,D,8.9,0.52,1.46,0.15,0.015
+mocap,mc_penalty_kick_2_mirror,mc_penalty_kick_2,true,mocap,st_setpiece|st_penalty,2.40,false,2.02,1.6,I,8.8,-0.53,1.48,0.15,0.023
+mocap,mc_penalty_kick_mirror,mc_penalty_kick,true,mocap,st_setpiece|st_penalty,2.40,false,2.49,1.592,I,8.1,-0.36,1.48,0.13,0.028
+mocap,mc_power_kick,mc_power_kick,false,mocap,st_power,1.43,false,1.68,0.758,I,10.0,-0.22,1.43,0.20,0.014
+mocap,mc_power_kick_mirror,mc_power_kick,true,mocap,st_power,1.43,false,1.68,0.758,D,10.0,0.20,1.42,0.20,0.026
+mocap,mc_side_foot_pass,mc_side_foot_pass,false,mocap,st_pass,1.33,false,0.51,0.758,D,4.5,0.12,1.20,0.02,0.021
+mocap,mc_side_foot_pass_mirror,mc_side_foot_pass,true,mocap,st_pass,1.33,false,0.51,0.758,I,4.4,-0.14,1.21,0.02,0.024

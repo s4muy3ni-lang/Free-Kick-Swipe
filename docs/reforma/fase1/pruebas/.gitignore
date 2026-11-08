@@ -1,0 +1,2 @@
+# Evidencia ejecutada: se conserva aunque los logs de trabajo se ignoran globalmente.
+!*.log

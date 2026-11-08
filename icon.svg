@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
+  <rect width="128" height="128" rx="24" fill="#12301f"/>
+  <rect x="12" y="30" width="104" height="68" rx="4" fill="#1f6b3a" stroke="#f4f4ee" stroke-width="3"/>
+  <line x1="64" y1="30" x2="64" y2="98" stroke="#f4f4ee" stroke-width="3"/>
+  <circle cx="64" cy="64" r="13" fill="none" stroke="#f4f4ee" stroke-width="3"/>
+  <circle cx="64" cy="64" r="22" fill="#f4f4ee"/>
+  <polygon points="64,50 75,58 71,71 57,71 53,58" fill="#14141c"/>
+  <text x="64" y="118" font-family="sans-serif" font-size="16" font-weight="bold" fill="#f4f4ee" text-anchor="middle">F5</text>
+</svg>

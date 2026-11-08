@@ -1,0 +1,82 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+WARNING: Could not set V-Sync mode, as changing V-Sync mode is not supported by the graphics driver.
+     at: set_use_vsync (platform/linuxbsd/x11/gl_manager_x11.cpp:372)
+OpenGL API 4.5 (Core Profile) Mesa 25.2.8-0ubuntu0.24.04.4 - Compatibility - Using Device: Mesa - llvmpipe (LLVM 20.1.2, 256 bits)
+ALSA lib confmisc.c:855:(parse_card) cannot find card '0'
+ALSA lib conf.c:5208:(_snd_config_evaluate) function snd_func_card_inum returned error: No such file or directory
+ALSA lib confmisc.c:422:(snd_func_concat) error evaluating strings
+ALSA lib conf.c:5208:(_snd_config_evaluate) function snd_func_concat returned error: No such file or directory
+ALSA lib confmisc.c:1342:(snd_func_refer) error evaluating name
+ALSA lib conf.c:5208:(_snd_config_evaluate) function snd_func_refer returned error: No such file or directory
+ALSA lib conf.c:5731:(snd_config_expand) Evaluate error: No such file or directory
+ALSA lib pcm.c:2721:(snd_pcm_open_noupdate) Unknown PCM default
+ERROR: Condition "status < 0" is true. Returning: ERR_CANT_OPEN
+   at: init_output_device (drivers/alsa/audio_driver_alsa.cpp:97)
+WARNING: All audio drivers failed, falling back to the dummy driver.
+     at: initialize (servers/audio/audio_server.cpp:258)
+
+       · falta durante la recepcion: arbitro fall (nivel 80), recepcion activa false, toques del clip 0
+[ OK ] test_receive::test_a_fall_interrupts_a_reception_before_the_touch (4 checks, 780 ms)
+       · pelota de costado (derecha): clip jn_control_stand_1330_mirror, toque en el paso 32, pelota en el toque a 0.70 m hacia ese lado; final a 0.42 m
+[ OK ] test_receive::test_ball_from_the_side_is_received_with_the_foot_on_that_side (4 checks, 1331 ms)
+       · recepcion jn_control_stand_1330: saltos de posicion 0, cambios bruscos de velocidad antes del toque 0 (toque en el paso 32)
+[ OK ] test_receive::test_ball_is_never_teleported_and_only_changes_speed_at_the_touch (4 checks, 1034 ms)
+       · pelota a 0.22 m: foot (jn_control_stand_1330), sale vy -0.33, final a 0.88 m; pelota a 0.80 m: foot_air (jn_receive_1828_mirror), sale vy 0.07, final a 0.90 m; pelota a 0.92 m: thigh (jn_receive_0580_mirror), sale vy 1.31, final a 0.90 m; pelota a 1.00 m: thigh (jn_receive_3162_mirror), sale vy 1.27, final a 0.92 m; pelota a 1.06 m: thigh (jn_receive_3162), sale vy 1.14, final a 0.89 m
+[ OK ] test_receive::test_body_part_matches_the_ball_height_at_contact (11 checks, 4849 ms)
+       · pelota al pecho: clip jn_receive_2130_mirror parte chest, pelota a 1.43 m, llega a 6.5 m/s en el suelo, sale a 1.7 m/s, final a 0.95 m
+[ OK ] test_receive::test_chest_high_ball_is_controlled_with_the_chest (4 checks, 1412 ms)
+       · parado: 42 de 42 recepciones con clip (toque del pie del clip), 42 de 42 con la pelota controlada al final; clips { &"jn_control_stand_1330": 20, &"jn_control_stand_1330_mirror": 16, &"jn_control_stand_3070_mirror": 2, &"jn_control_stand_3070": 2, &"jn_control_stand_3068": 1, &"jn_control_stand_3068_mirror": 1 }
+[ OK ] test_receive::test_coverage_of_standing_receptions (44 checks, 33773 ms)
+       · estado de minima velocidad en recepcion: { "action": &"", "clip": &"jn_start_0494_mirror", "turn": false, "touch": &"", "position": (7.235939, 0.000877, -0.141743), "ball": (7.553783, 0.099993, -0.536887) }
+       · trotando a 3.09 m/s: clip , primer toque fisico 1, del clip 0, velocidad minima 2.79 m/s, pelota a 0.45 m
+[ OK ] test_receive::test_jogging_receiver_is_not_forced_into_an_incompatible_clip (5 checks, 1794 ms)
+       · pie animado: +0 grados: jn_control_stand_1330_mirror, pie a 0.011 m de la pelota en el toque, antes como mucho a 0.313 m; +30 grados: jn_control_stand_1330, pie a 0.001 m de la pelota en el toque, antes como mucho a 0.369 m; -90 grados: jn_control_stand_1330_mirror, pie a 0.061 m de la pelota en el toque, antes como mucho a 0.466 m
+[ OK ] test_receive::test_live_foot_meets_the_ball (6 checks, 3201 ms)
+       · globo en carrera: clip jn_receive_3162 parte thigh (carrera de entrada del clip 0.50 m/s), velocidad minima 0.13 m/s, final a 0.76 m
+[ OK ] test_receive::test_lob_received_while_running (3 checks, 1529 ms)
+       · al terminar (jn_control_stand_1330): pose sin dueno false; recepcion desviada (empezo true, cortada true, motivo pelota desviada): pose sin dueno false
+[ OK ] test_receive::test_no_orphan_pose_after_a_reception_or_an_aborted_one (5 checks, 1576 ms)
+       · pelota que llega a un jugador caido: recepciones 0, nivel del arbitro 80
+[ OK ] test_receive::test_no_reception_starts_during_a_fall (2 checks, 964 ms)
+       · balon parado en curso (jn_throw_in_2282, true): recepciones 0, nivel del arbitro 70
+[ OK ] test_receive::test_no_reception_starts_during_a_set_piece (3 checks, 1067 ms)
+       · joystick a +70 grados: clip jn_control_stand_1330_mirror (giro -4 grados), salida a 41 grados del joystick, la pelota avanzo 0.80 m hacia alli en 0.5 s; jugador mira a 0 grados del joystick al final
+[ OK ] test_receive::test_oriented_control_to_the_left (4 checks, 1281 ms)
+       · joystick a -70 grados: clip jn_control_stand_1330_mirror (giro -4 grados), salida a 35 grados del joystick, la pelota avanzo 0.68 m hacia alli en 0.5 s; jugador mira a 0 grados del joystick al final
+[ OK ] test_receive::test_oriented_control_to_the_right (4 checks, 1276 ms)
+       · perfiles: { "not_reception": 4, "usable": 50, "pending": 25, "conditional": 45 }; verificados en el visor: 52
+       · 572: contacto 0.30 s, primer ball_touches 0.60 s; 564 (sin ball_touches): usable, contacto 0.23 s
+       · 580 «R_THIGH»: muslo en z -0.16 (espejo 0.16); FROM_R_45 (600) llega por +45 grados
+[ OK ] test_receive::test_profiles_follow_the_audit_and_resolve_the_mirrored_sides (6 checks, 543 ms)
+       · pelota a 1 m del jugador: se coloco true, al empezar el clip estaba a 0.43 m de donde estaba, contacto true
+[ OK ] test_receive::test_receiver_moves_to_where_a_clip_fits_before_the_ball_arrives (2 checks, 1218 ms)
+       · recepcion jn_control_stand_1330_mirror: 54 pasos con el nivel de movimiento con pelota; al terminar nivel 0, testigo 0, liberadas 1
+[ OK ] test_receive::test_reception_releases_the_arbiter_when_it_ends (4 checks, 1444 ms)
+       · recepcion (jn_control_stand_1330) y luego conduccion hacia +Z: 10 toques, 7.17 m recorridos, pelota a como mucho 0.55 m
+[ OK ] test_receive::test_reception_then_dribble (4 checks, 1831 ms)
+       · pase tras recibir (jn_control_stand_1330; en la cola del clip al pulsar: true): golpeo 0.32 s despues de soltar, pelota a 9.6 m/s, recepcion terminada: golpeo tras el control, golpeos { "started": 1, "contact": 1, "missed": 0, "out_of_reach": 0 }, plan alpha 1, pelota a 4.26 m
+[ OK ] test_receive::test_reception_then_pass (4 checks, 1259 ms)
+       · tiro tras recibir (jn_control_stand_1330; en la cola del clip al pulsar: true): golpeo 0.32 s despues de soltar, pelota a 12.4 m/s, recepcion terminada: golpeo tras el control, golpeos { "started": 1, "contact": 1, "missed": 0, "out_of_reach": 0 }, plan alpha 13, pelota a 3.29 m
+[ OK ] test_receive::test_reception_then_shot (4 checks, 1246 ms)
+       · pase cargado mientras llega la pelota: clip jn_control_stand_1610 (condiciones ["post_action"]), golpeos 1, impulsos fuertes tras el control 1
+[ OK ] test_receive::test_reception_with_a_pass_in_the_clip_uses_the_real_pass_once (3 checks, 1337 ms)
+       · con un rival a 1.9 m: clip jn_control_stand_1330 (rol control_stand)
+[ OK ] test_receive::test_rival_nearby_allows_the_shielding_control_only_then (4 checks, 2585 ms)
+       · estado de minima velocidad en recepcion: { "action": &"", "clip": &"jn_start_0494", "turn": false, "touch": &"", "position": (7.793222, 0.000878, 0.97289), "ball": (8.006541, 0.099998, 0.551694) }
+       · corriendo a 5.33 m/s: clip , primer toque fisico 1, del clip 0, velocidad minima 4.68 m/s, pelota a 0.59 m
+[ OK ] test_receive::test_running_receiver_is_not_forced_into_an_incompatible_clip (5 checks, 1860 ms)
+[SKIP] test_receive::test_second_contact_that_does_not_arrive_cuts_the_clip (ninguna recepcion de prueba eligio un clip con toques posteriores)
+       · parado, pelota de frente a 12 m/s: clip jn_control_stand_1330_mirror, toque en el paso 32, pelota a 0.45 m al final
+[ OK ] test_receive::test_standing_receiver_controls_with_a_clip_whose_foot_meets_the_ball (5 checks, 1362 ms)
+       · clip jn_control_stand_1330_mirror empieza en el paso 2 con el toque a 0.50 s: previsto en el paso 32, toque en el 32, primer cambio de la pelota en el 32
+[ OK ] test_receive::test_touch_happens_at_the_clip_contact_instant_not_before (3 checks, 935 ms)
+       · joystick a 120 grados: clip jn_control_stand_3070 (giro 33), jugador mira a 0 grados del joystick, la pelota avanzo 1.63 m hacia alli
+[ OK ] test_receive::test_turn_reception_follows_the_stick (3 checks, 1249 ms)
+       · pelota a la cintura: clip jn_receive_0204 parte knee, pelota a 0.91 m, sale (1.65, 1.13, -0.72), final a 0.49 m
+[ OK ] test_receive::test_waist_high_ball_is_controlled_with_the_thigh (3 checks, 1461 ms)
+       · caminando a 1.29 m/s, pelota a 45 grados: clip jn_control_stand_1330_mirror (carrera de entrada 0.07 m/s), toque en el paso 42
+[ OK ] test_receive::test_walking_receiver_uses_a_clip_that_matches_its_pace (6 checks, 1696 ms)
+       · sin clip compatible (6.4 m/s): recepciones con clip 0, primer toque fisico 1, nivel del arbitro 0, pelota a 0.94 m
+[ OK ] test_receive::test_without_a_compatible_clip_the_physical_control_takes_over (5 checks, 1827 ms)
+
+Resumen: 30 pruebas, 0 fallidas, 1 omitidas, 164 comprobaciones, 84.9 s

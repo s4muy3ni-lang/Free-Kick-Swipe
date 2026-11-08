@@ -1,0 +1,11 @@
+       · 11 m centrado, joystick al palo: al arco 66/80, goles 20, atajadas 46 (blocajes 6, despejes 34, con el cuerpo 6), palo 5, fuera 9; ataja 69 % de los que van al
+       · 11 m centrado, joystick al arquero: al arco 75/80, goles 9, atajadas 66 (blocajes 2, despejes 63, con el cuerpo 1), palo 3, fuera 2; ataja 88 % de los que van a
+       · 11 m centrado, joystick de lado (90 grados): al arco 66/80, goles 20, atajadas 46 (blocajes 6, despejes 34, con el cuerpo 6), palo 5, fuera 9; ataja 69 % de los
+       · 11 m, rival encima: al arco 58/80, goles 0, atajadas 58 (blocajes 21, despejes 36, con el cuerpo 1), palo 2, fuera 20; ataja 100 % de los que van al arco
+       · 18 m, potente: al arco 57/80, goles 3, atajadas 54 (blocajes 1, despejes 50, con el cuerpo 3), palo 0, fuera 23; ataja 94 % de los que van al arco
+       · 8 m de angulo cerrado: al arco 63/80, goles 1, atajadas 62 (blocajes 14, despejes 32, con el cuerpo 16), palo 0, fuera 17; ataja 98 % de los que van al arco
+       · 11 m, tirador de 85: al arco 62/80, goles 39, atajadas 23 (blocajes 2, despejes 17, con el cuerpo 4), palo 12, fuera 6; ataja 37 % de los que van al arco
+       · 11 m centrado, joystick al otro palo: al arco 64/80, goles 21, atajadas 43 (blocajes 3, despejes 39, con el cuerpo 1), palo 6, fuera 10; ataja 67 % de los que v
+       · 11 m, al otro palo, tirador de 85: al arco 65/80, goles 45, atajadas 20 (blocajes 0, despejes 19, con el cuerpo 1), palo 6, fuera 9; ataja 30 % de los que van a
+[ OK ] test_shot_keeper::test_shots_go_at_goal_and_the_keeper_saves_what_he_reaches (10 checks, 55891 ms)
+Resumen: 1 pruebas, 0 fallidas, 0 omitidas, 10 comprobaciones, 55.9 s

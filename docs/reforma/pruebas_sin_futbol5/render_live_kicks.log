@@ -1,0 +1,88 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+WARNING: Could not set V-Sync mode, as changing V-Sync mode is not supported by the graphics driver.
+     at: set_use_vsync (platform/linuxbsd/x11/gl_manager_x11.cpp:372)
+OpenGL API 4.5 (Core Profile) Mesa 25.2.8-0ubuntu0.24.04.4 - Compatibility - Using Device: Mesa - llvmpipe (LLVM 20.1.2, 256 bits)
+ALSA lib confmisc.c:855:(parse_card) cannot find card '0'
+ALSA lib conf.c:5208:(_snd_config_evaluate) function snd_func_card_inum returned error: No such file or directory
+ALSA lib confmisc.c:422:(snd_func_concat) error evaluating strings
+ALSA lib conf.c:5208:(_snd_config_evaluate) function snd_func_concat returned error: No such file or directory
+ALSA lib confmisc.c:1342:(snd_func_refer) error evaluating name
+ALSA lib conf.c:5208:(_snd_config_evaluate) function snd_func_refer returned error: No such file or directory
+ALSA lib conf.c:5731:(snd_config_expand) Evaluate error: No such file or directory
+ALSA lib pcm.c:2721:(snd_pcm_open_noupdate) Unknown PCM default
+ERROR: Condition "status < 0" is true. Returning: ERR_CANT_OPEN
+   at: init_output_device (drivers/alsa/audio_driver_alsa.cpp:97)
+WARNING: All audio drivers failed, falling back to the dummy driver.
+     at: initialize (servers/audio/audio_server.cpp:258)
+
+       · recuperacion tras giro y ventana de orden: { "kicked": true, "toe": 0.13266542553902, "toe_raw": 0.04030011594296, "toe_before": 0.17450469732285, "whiff": "", "count": 1, "rival_first": false, "free": true, "busy": "golpeo , orden , bloqueo 0.00 s, accion  ", "clip": "jn_kick_shot_0656" }
+[ OK ] test_live_kicks::test_behind_ball_shot_finishes_after_its_measured_turn_and_pending_window (2 checks, 1406 ms)
+       · pase de primera (pelota que llega a 5 m/s): clip jn_kick_pass_1620_mirror, pie der, punta del pie a 0.219 m de la pelota en el impulso, pelota antes 7.23 m/s, sale a 44 grados del cuerpo, pie de apoyo desliza 0.17 m/s (por fotograma: ["0.1", "0.1", "0.2"])
+[ OK ] test_live_kicks::test_first_time_pass_from_an_incoming_ball (4 checks, 1157 ms)
+       · parado, pelota delante, pass carga 6: GOLPEO con jn_kick_pass_soft_1608, punta visible 0.125 m, pose base 0.036 m (0.079 en la anterior)
+       · parado, pelota delante, pass carga 40: GOLPEO con jn_kick_shot_1754_mirror, punta visible 0.126 m, pose base 0.051 m (0.279 en la anterior)
+       · parado, pelota delante, shot carga 6: GOLPEO con jn_kick_shot_3592_mirror, punta visible 0.133 m, pose base 0.014 m (0.131 en la anterior)
+       · parado, pelota delante, shot carga 40: GOLPEO con jn_kick_shot_1780, punta visible 0.125 m, pose base 0.032 m (0.116 en la anterior)
+       · parado, pelota izquierda, pass carga 6: GOLPEO con jn_kick_pass_soft_1608_mirror, punta visible 0.125 m, pose base 0.034 m (0.077 en la anterior)
+       · parado, pelota izquierda, pass carga 40: GOLPEO con jn_kick_shot_1782, punta visible 0.125 m, pose base 0.030 m (0.192 en la anterior)
+       · parado, pelota izquierda, shot carga 6: GOLPEO con jn_kick_shot_3592_mirror, punta visible 0.133 m, pose base 0.012 m (0.128 en la anterior)
+       · parado, pelota izquierda, shot carga 40: GOLPEO con jn_kick_shot_1780, punta visible 0.125 m, pose base 0.032 m (0.115 en la anterior)
+       · parado, pelota derecha, pass carga 6: GOLPEO con jn_kick_pass_3086_mirror, punta visible 0.126 m, pose base 0.008 m (0.132 en la anterior)
+       · parado, pelota derecha, pass carga 40: GOLPEO con jn_kick_shot_1782, punta visible 0.125 m, pose base 0.042 m (0.205 en la anterior)
+       · parado, pelota derecha, shot carga 6: GOLPEO con jn_kick_shot_1892_mirror, punta visible 0.127 m, pose base 0.049 m (0.113 en la anterior)
+       · parado, pelota derecha, shot carga 40: GOLPEO con jn_kick_shot_1780_mirror, punta visible 0.125 m, pose base 0.026 m (0.122 en la anterior)
+       · parado, pelota lejos (1.3 m), pass carga 6: GOLPEO con jn_kick_pass_soft_1602, punta visible 0.125 m, pose base 0.038 m (0.150 en la anterior)
+       · parado, pelota lejos (1.3 m), pass carga 40: GOLPEO con jn_kick_shot_2198, punta visible 0.125 m, pose base 0.023 m (0.103 en la anterior)
+       · parado, pelota lejos (1.3 m), shot carga 6: GOLPEO con jn_kick_shot_3592_mirror, punta visible 0.133 m, pose base 0.010 m (0.135 en la anterior)
+       · parado, pelota lejos (1.3 m), shot carga 40: GOLPEO con jn_kick_shot_1754, punta visible 0.126 m, pose base 0.024 m (0.200 en la anterior)
+       · parado, pelota al costado, pass carga 6: GOLPEO con jn_kick_pass_3658, punta visible 0.127 m, pose base 0.043 m (0.104 en la anterior)
+       · parado, pelota al costado, pass carga 40: GOLPEO con jn_kick_shot_1782_mirror, punta visible 0.125 m, pose base 0.034 m (0.199 en la anterior)
+       · parado, pelota al costado, shot carga 6: GOLPEO con jn_kick_shot_1886_mirror, punta visible 0.127 m, pose base 0.107 m (0.115 en la anterior)
+       · parado, pelota al costado, shot carga 40: GOLPEO con jn_kick_shot_1780, punta visible 0.125 m, pose base 0.032 m (0.116 en la anterior)
+       · parado, pelota detras, pass carga 6: GOLPEO con jn_kick_turn_0990_mirror, punta visible 0.127 m, pose base 0.071 m (0.123 en la anterior)
+       · parado, pelota detras, pass carga 40: GOLPEO con jn_kick_pass_3086, punta visible 0.133 m, pose base 0.129 m (0.189 en la anterior)
+       · parado, pelota detras, shot carga 6: GOLPEO con jn_kick_shot_2220, punta visible 0.126 m, pose base 0.032 m (0.120 en la anterior)
+       · parado, pelota detras, shot carga 40: GOLPEO con jn_kick_shot_0656, punta visible 0.133 m, pose base 0.044 m (0.187 en la anterior)
+       · en carrera, pass: GOLPEO con jn_kick_pass_3234, punta visible 0.143 m, pose base 0.037 m (0.178 en la anterior)
+       · en carrera girando 60 grados, pass: GOLPEO con jn_kick_turn_3280_mirror, punta visible 0.127 m, pose base 0.073 m (0.325 en la anterior)
+       · en carrera girando 120 grados, pass: GOLPEO con jn_kick_turn_3210_mirror, punta visible 0.136 m, pose base 0.078 m (0.185 en la anterior)
+       · en carrera, shot: GOLPEO con jn_kick_shot_1780, punta visible 0.125 m, pose base 0.032 m (0.117 en la anterior)
+       · en carrera girando 60 grados, shot: GOLPEO con jn_kick_shot_3250, punta visible 0.127 m, pose base 0.096 m (0.265 en la anterior)
+       · en carrera girando 120 grados, shot: GOLPEO con jn_kick_shot_1200, punta visible 0.126 m, pose base 0.026 m (0.174 en la anterior)
+       · en carrera, through: GOLPEO con jn_kick_pass_3234_mirror, punta visible 0.140 m, pose base 0.031 m (0.175 en la anterior)
+       · en carrera girando 60 grados, through: GOLPEO con jn_kick_pass_3234, punta visible 0.143 m, pose base 0.037 m (0.169 en la anterior)
+       · en carrera girando 120 grados, through: GOLPEO con jn_kick_turn_3210_mirror, punta visible 0.136 m, pose base 0.079 m (0.182 en la anterior)
+       · en carrera, cross: GOLPEO con jn_kick_pass_3234, punta visible 0.143 m, pose base 0.037 m (0.179 en la anterior)
+       · en carrera girando 60 grados, cross: GOLPEO con jn_kick_pass_3238, punta visible 0.127 m, pose base 0.065 m (0.108 en la anterior)
+       · en carrera girando 120 grados, cross: GOLPEO con jn_kick_pass_3118, punta visible 0.127 m, pose base 0.031 m (0.123 en la anterior)
+       · pelota que se aleja a 2.5 m/s, pass: GOLPEO con jn_kick_pass_soft_1602_mirror, punta visible 0.125 m, pose base 0.029 m (0.143 en la anterior)
+       · pelota que llega a 6 m/s, pass de primera: GOLPEO con jn_kick_pass_3078, punta visible 0.147 m, pose base 0.162 m (0.208 en la anterior)
+       · pelota que llega cruzada, pass de primera: GOLPEO con jn_kick_pass_1620_mirror, punta visible 0.161 m, pose base 0.189 m (0.187 en la anterior)
+       · pelota botando delante, pass: GOLPEO con jn_kick_pass_3966_mirror, punta visible 0.146 m, pose base 0.071 m (0.123 en la anterior)
+       · pelota que se aleja a 2.5 m/s, shot: GOLPEO con jn_kick_shot_3666_mirror, punta visible 0.128 m, pose base 0.034 m (0.123 en la anterior)
+       · pelota que llega a 6 m/s, shot de primera: GOLPEO con jn_kick_shot_0656, punta visible 0.132 m, pose base 0.092 m (0.236 en la anterior)
+       · pelota que llega cruzada, shot de primera: GOLPEO con jn_kick_shot_2996, punta visible 0.133 m, pose base 0.027 m (0.146 en la anterior)
+       · pelota botando delante, shot: GOLPEO con jn_kick_shot_3582_mirror, punta visible 0.190 m, pose base 0.035 m (0.087 en la anterior)
+       · pie no dominante (pelota a la izquierda), pass: GOLPEO con jn_kick_pass_soft_3656, punta visible 0.132 m, pose base 0.020 m (0.114 en la anterior)
+       · bajo presion parado, pass: GOLPEO con jn_kick_pass_soft_1608_mirror, punta visible 0.125 m, pose base 0.036 m (0.079 en la anterior)
+       · bajo presion en carrera, pass: GOLPEO con jn_kick_pass_1208, punta visible 0.131 m, pose base 0.033 m (0.115 en la anterior)
+       · pie no dominante (pelota a la izquierda), shot: GOLPEO con jn_kick_shot_3592, punta visible 0.132 m, pose base 0.017 m (0.126 en la anterior)
+       · bajo presion parado, shot: GOLPEO con jn_kick_shot_3592, punta visible 0.132 m, pose base 0.014 m (0.127 en la anterior)
+       · bajo presion en carrera, shot: GOLPEO con jn_kick_shot_1162, punta visible 0.129 m, pose base 0.031 m (0.125 en la anterior)
+       · TOTAL 50 acciones: 50 golpeos con contacto, sin golpeo {  }, contacto invalido 0, bloqueos 0
+[ OK ] test_live_kicks::test_kick_battery_fifty_varied_actions (5 checks, 37753 ms)
+       · pase parado, pelota a la derecha: clip jn_kick_pass_soft_1596, pie der, punta del pie a 0.019 m de la pelota en el impulso, pelota antes 0.00 m/s, sale a 0 grados del cuerpo, pie de apoyo desliza 0.21 m/s (por fotograma: ["0.2", "0.1", "0.0"])
+       · pase parado, pelota a la izquierda: clip jn_kick_pass_soft_3052, pie izq, punta del pie a 0.026 m de la pelota en el impulso, pelota antes 1.42 m/s, sale a 1 grados del cuerpo, pie de apoyo desliza 0.59 m/s (por fotograma: ["0.6", "0.1", "0.3"])
+       · pase largo: clip jn_kick_shot_1782, pie izq, punta del pie a 0.088 m de la pelota en el impulso, pelota antes 4.76 m/s, sale a 9 grados del cuerpo, pie de apoyo desliza 0.79 m/s (por fotograma: ["0.8", "0.1", "0.1"])
+       · pase en carrera: clip jn_kick_pass_3234_mirror, pie der, punta del pie a 0.025 m de la pelota en el impulso, pelota antes 4.05 m/s, sale a 2 grados del cuerpo, pie de apoyo desliza 0.79 m/s (por fotograma: ["0.8", "0.2", "0.1"])
+[ OK ] test_live_kicks::test_passes_standing_with_each_foot_long_and_running (17 checks, 3281 ms)
+       · contacto bajo presion: { "kicked": true, "toe": 0.12501858174801, "toe_raw": 0.02898209542036, "toe_before": 0.20242266356945, "whiff": "", "count": 1, "rival_first": false, "free": true, "busy": "golpeo , orden , bloqueo 0.00 s, accion  ", "clip": "jn_kick_shot_1766" }
+[ OK ] test_live_kicks::test_running_shot_under_pressure_has_a_visible_foot_contact (2 checks, 1543 ms)
+       · tiro suave: clip jn_kick_shot_1892_mirror, pie izq, punta del pie a 0.021 m de la pelota en el impulso, pelota antes 0.00 m/s, sale a 4 grados del cuerpo, pie de apoyo desliza 0.13 m/s (por fotograma: ["0.1", "0.1", "0.0"])
+       · tiro medio: clip jn_kick_shot_2202_mirror, pie der, punta del pie a 0.078 m de la pelota en el impulso, pelota antes 1.82 m/s, sale a 4 grados del cuerpo, pie de apoyo desliza 0.11 m/s (por fotograma: ["0.1", "0.0", "0.1"])
+       · tiro potente: clip jn_kick_shot_1780_mirror, pie izq, punta del pie a 0.038 m de la pelota en el impulso, pelota antes 3.91 m/s, sale a 7 grados del cuerpo, pie de apoyo desliza 0.73 m/s (por fotograma: ["0.7", "0.2", "0.1"])
+       · tiro cruzado izquierda: clip jn_kick_shot_2522_mirror, pie der, punta del pie a 0.050 m de la pelota en el impulso, pelota antes 1.87 m/s, sale a 29 grados del cuerpo, pie de apoyo desliza 0.31 m/s (por fotograma: ["0.3", "0.3", "0.2"])
+       · tiro cruzado derecha: clip jn_kick_shot_hard_3780, pie izq, punta del pie a 0.058 m de la pelota en el impulso, pelota antes 0.99 m/s, sale a 27 grados del cuerpo, pie de apoyo desliza 0.30 m/s (por fotograma: ["0.2", "0.3", "0.3"])
+[ OK ] test_live_kicks::test_shots_of_different_power_and_angle (20 checks, 3708 ms)
+
+Resumen: 6 pruebas, 0 fallidas, 0 omitidas, 50 comprobaciones, 48.9 s

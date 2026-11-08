@@ -1,0 +1,24 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+       · jn_setpiece_pass_3330: resultado contact, fallos 0, ejecutor (-0.653356, 0.000923, 0.162822)
+       · { "start": (-3.201678, 0.0, -0.491845), "start_t": 0.86666666666667, "toe": (5.565432, 0.214124, 0.50728), "root0": (2.363754, 0.015435) }
+       · { "clip": &"jn_setpiece_pass_3330", "distance": 0.03929876163602, "swept_distance": 0.10145453363657, "toe": (0.037961, 0.214124, -0.010172), "ball": (0.000002, 0.099524, 0.0), "body": (-0.678157, 0.000923, 0.141586), "time": 1.63333333333333 }
+       · jn_setpiece_pass_3342: resultado contact, fallos 0, ejecutor (-0.197536, 0.000877, 0.587408)
+       · { "start": (-2.829725, 0.0, 0.89682), "start_t": 0.9, "toe": (5.048819, 0.0747, -0.476344), "root0": (2.219094, 0.420476) }
+       · { "clip": &"jn_setpiece_pass_3342", "distance": 0.02737143449485, "swept_distance": 0.02546464651823, "toe": (0.023605, 0.0747, -0.013859), "ball": (0.000002, 0.099524, 0.0), "body": (-0.235689, 0.000878, 0.578221), "time": 1.66666666666666 }
+       · jn_setpiece_pass_3346: resultado contact, fallos 0, ejecutor (-0.392549, 0.000877, 0.624072)
+       · { "start": (-3.022807, 0.0, 0.469809), "start_t": 0.9, "toe": (5.078063, 0.0569, 0.019331), "root0": (2.055256, 0.48914) }
+       · { "clip": &"jn_setpiece_pass_3346", "distance": 0.01322719268501, "swept_distance": 0.04462957382202, "toe": (-0.010788, 0.0569, -0.007649), "ball": (0.000003, 0.099524, 0.0), "body": (-0.430242, 0.000877, 0.613017), "time": 2.0 }
+       · jn_setpiece_shot_3354: resultado contact, fallos 0, ejecutor (0.097889, 0.000927, -0.436516)
+       · { "start": (-2.39424, 0.0, -1.097258), "start_t": 0.93333333333333, "toe": (4.346379, 0.207057, 0.947312), "root0": (1.952139, -0.149946) }
+       · { "clip": &"jn_setpiece_shot_3354", "distance": 0.48474356532097, "swept_distance": 0.10963663458824, "toe": (0.48268, 0.0234, -0.044706), "ball": (0.000003, 0.099524, 0.0), "body": (0.070319, 0.000927, -0.434266), "time": 1.86666666666666 }
+       · jn_setpiece_shot_3856: resultado contact, fallos 0, ejecutor (-0.109179, 0.000878, 0.463206)
+       · { "start": (-1.045275, 0.0, -0.100256), "start_t": 0.0, "toe": (1.045275, 0.124793, 0.100256), "root0": (0.0, 0.0) }
+       · { "clip": &"jn_setpiece_shot_3856", "distance": 0.46238905191422, "swept_distance": 0.02638018503785, "toe": (0.437905, 0.045, 0.148471), "ball": (0.000001, 0.099524, 0.0), "body": (-0.140426, 0.000878, 0.432827), "time": 0.31666666666667 }
+[ OK ] test_setpiece_recovery::test_originally_excluded_kicks_reach_the_ball_at_an_unobstructed_free_kick (15 checks, 1357 ms)
+
+Resumen: 1 pruebas, 0 fallidas, 0 omitidas, 15 comprobaciones, 1.4 s
+WARNING: 42 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 5 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)

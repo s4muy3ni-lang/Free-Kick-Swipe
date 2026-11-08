@@ -1,0 +1,6 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://tools/json_anim/build_json_human.gd" id="1"]
+
+[node name="BuildJsonHuman" type="Node"]
+script = ExtResource("1")

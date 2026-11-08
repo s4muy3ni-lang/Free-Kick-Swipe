@@ -1,0 +1,6 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://tools/json_anim/keeper_view.gd" id="1"]
+
+[node name="KeeperView" type="Node"]
+script = ExtResource("1")

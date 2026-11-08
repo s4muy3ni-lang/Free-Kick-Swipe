@@ -1,0 +1,326 @@
+WorkerThreadPool: 4 threads, 1 max low-priority.
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+TextServer: Added interface "Dummy"
+TextServer: Added interface "ICU / HarfBuzz / Graphite (Built-in)"
+SDL: Init OK!
+Using "default" pen tablet driver...
+
+TextServer: Primary interface set to: "ICU / HarfBuzz / Graphite (Built-in)".
+CORE API HASH: 2004498165
+EDITOR API HASH: 1696660745
+SceneTreeFTI: traversal method DEFAULT
+Loading resource: res://scripts/gameplay/tuning.gd remapped: res://scripts/gameplay/tuning.gd
+Completed load for: 'res://scripts/gameplay/tuning.gd' remapped 'res://scripts/gameplay/tuning.gd' at thread -1
+Loading resource: res://scripts/diagnostics/graphics_settings.gd remapped: res://scripts/diagnostics/graphics_settings.gd
+Completed load for: 'res://scripts/diagnostics/graphics_settings.gd' remapped 'res://scripts/diagnostics/graphics_settings.gd' at thread -1
+Loading resource: res://scripts/audio/sfx.gd remapped: res://scripts/audio/sfx.gd
+Loading resource: res://assets/pitch/court.gdshader remapped: res://assets/pitch/court.gdshader
+Completed load for: 'res://assets/pitch/court.gdshader' remapped 'res://assets/pitch/court.gdshader' at thread -1
+Loading resource: res://assets/pitch/net.gdshader remapped: res://assets/pitch/net.gdshader
+Completed load for: 'res://assets/pitch/net.gdshader' remapped 'res://assets/pitch/net.gdshader' at thread -1
+Loading resource: res://assets/characters/player/player_kit.gdshader remapped: res://assets/characters/player/player_kit.gdshader
+Completed load for: 'res://assets/characters/player/player_kit.gdshader' remapped 'res://assets/characters/player/player_kit.gdshader' at thread -1
+Loading resource: res://assets/characters/mocap/mocap_kit.gdshader remapped: res://assets/characters/mocap/mocap_kit.gdshader
+Completed load for: 'res://assets/characters/mocap/mocap_kit.gdshader' remapped 'res://assets/characters/mocap/mocap_kit.gdshader' at thread -1
+Completed load for: 'res://scripts/audio/sfx.gd' remapped 'res://scripts/audio/sfx.gd' at thread -1
+Loaded system CA certificates
+Loading resource: res://tests/run_tests.tscn remapped: res://tests/run_tests.tscn
+Loading resource: res://tests/run_tests.gd remapped: res://tests/run_tests.gd
+Completed load for: 'res://tests/run_tests.gd' remapped 'res://tests/run_tests.gd' at thread -1
+Completed load for: 'res://tests/run_tests.tscn' remapped 'res://tests/run_tests.tscn' at thread -1
+Loading resource: res://assets/audio/kick_hard.wav remapped: res://assets/audio/kick_hard.wav
+Loading resource: res://.godot/imported/kick_hard.wav-062def96bc99d91e83aadf830f48da8a.sample remapped: res://.godot/imported/kick_hard.wav-062def96bc99d91e83aadf830f48da8a.sample
+Completed load for: 'res://assets/audio/kick_hard.wav' remapped 'res://assets/audio/kick_hard.wav' at thread -1
+Loading resource: res://assets/audio/kick_soft.wav remapped: res://assets/audio/kick_soft.wav
+Loading resource: res://.godot/imported/kick_soft.wav-e97e0b56ccdff4ab8977f9bff34de914.sample remapped: res://.godot/imported/kick_soft.wav-e97e0b56ccdff4ab8977f9bff34de914.sample
+Completed load for: 'res://assets/audio/kick_soft.wav' remapped 'res://assets/audio/kick_soft.wav' at thread -1
+Loading resource: res://assets/audio/touch.wav remapped: res://assets/audio/touch.wav
+Loading resource: res://.godot/imported/touch.wav-d10e3d470e2f6c3e429cda1542fc4b6c.sample remapped: res://.godot/imported/touch.wav-d10e3d470e2f6c3e429cda1542fc4b6c.sample
+Completed load for: 'res://assets/audio/touch.wav' remapped 'res://assets/audio/touch.wav' at thread -1
+Loading resource: res://assets/audio/bounce.wav remapped: res://assets/audio/bounce.wav
+Loading resource: res://.godot/imported/bounce.wav-e8efea040633da180f39debb9ec52a73.sample remapped: res://.godot/imported/bounce.wav-e8efea040633da180f39debb9ec52a73.sample
+Completed load for: 'res://assets/audio/bounce.wav' remapped 'res://assets/audio/bounce.wav' at thread -1
+Loading resource: res://assets/audio/post.wav remapped: res://assets/audio/post.wav
+Loading resource: res://.godot/imported/post.wav-50b3fc22e4a4430df248aaab1f5ac2d6.sample remapped: res://.godot/imported/post.wav-50b3fc22e4a4430df248aaab1f5ac2d6.sample
+Completed load for: 'res://assets/audio/post.wav' remapped 'res://assets/audio/post.wav' at thread -1
+Loading resource: res://assets/audio/net.wav remapped: res://assets/audio/net.wav
+Loading resource: res://.godot/imported/net.wav-bb9d5e5fa95b35ebea865edce900d888.sample remapped: res://.godot/imported/net.wav-bb9d5e5fa95b35ebea865edce900d888.sample
+Completed load for: 'res://assets/audio/net.wav' remapped 'res://assets/audio/net.wav' at thread -1
+Loading resource: res://assets/audio/whistle_short.wav remapped: res://assets/audio/whistle_short.wav
+Loading resource: res://.godot/imported/whistle_short.wav-527088648daec13767b46577b77720f3.sample remapped: res://.godot/imported/whistle_short.wav-527088648daec13767b46577b77720f3.sample
+Completed load for: 'res://assets/audio/whistle_short.wav' remapped 'res://assets/audio/whistle_short.wav' at thread -1
+Loading resource: res://assets/audio/whistle_long.wav remapped: res://assets/audio/whistle_long.wav
+Loading resource: res://.godot/imported/whistle_long.wav-760e0fec3757d393a909d0b858d2bc18.sample remapped: res://.godot/imported/whistle_long.wav-760e0fec3757d393a909d0b858d2bc18.sample
+Completed load for: 'res://assets/audio/whistle_long.wav' remapped 'res://assets/audio/whistle_long.wav' at thread -1
+Loading resource: res://assets/audio/glove.wav remapped: res://assets/audio/glove.wav
+Loading resource: res://.godot/imported/glove.wav-b451688fcf6a08772aea1cd74a3fbab3.sample remapped: res://.godot/imported/glove.wav-b451688fcf6a08772aea1cd74a3fbab3.sample
+Completed load for: 'res://assets/audio/glove.wav' remapped 'res://assets/audio/glove.wav' at thread -1
+Loading resource: res://assets/audio/cheer.wav remapped: res://assets/audio/cheer.wav
+Loading resource: res://.godot/imported/cheer.wav-738bbd08bbb81a69e4245818d44c9b01.sample remapped: res://.godot/imported/cheer.wav-738bbd08bbb81a69e4245818d44c9b01.sample
+Completed load for: 'res://assets/audio/cheer.wav' remapped 'res://assets/audio/cheer.wav' at thread -1
+Loading resource: res://assets/audio/ooh.wav remapped: res://assets/audio/ooh.wav
+Loading resource: res://.godot/imported/ooh.wav-828f736732e34d2cb6a4a4b9aa7df67a.sample remapped: res://.godot/imported/ooh.wav-828f736732e34d2cb6a4a4b9aa7df67a.sample
+Completed load for: 'res://assets/audio/ooh.wav' remapped 'res://assets/audio/ooh.wav' at thread -1
+Loading resource: res://assets/audio/crowd_loop.wav remapped: res://assets/audio/crowd_loop.wav
+Loading resource: res://.godot/imported/crowd_loop.wav-d0290e439ed7b2d92d1c1cb2e4d89f68.sample remapped: res://.godot/imported/crowd_loop.wav-d0290e439ed7b2d92d1c1cb2e4d89f68.sample
+Completed load for: 'res://assets/audio/crowd_loop.wav' remapped 'res://assets/audio/crowd_loop.wav' at thread -1
+Loading resource: res://tests/test_action_arbiter.gd remapped: res://tests/test_action_arbiter.gd
+Completed load for: 'res://tests/test_action_arbiter.gd' remapped 'res://tests/test_action_arbiter.gd' at thread -1
+Loading resource: res://scenes/ball/ball.tscn remapped: res://scenes/ball/ball.tscn
+Completed load for: 'res://scenes/ball/ball.tscn' remapped 'res://scenes/ball/ball.tscn' at thread -1
+Loading resource: res://assets/ball/ball.gdshader remapped: res://assets/ball/ball.gdshader
+Completed load for: 'res://assets/ball/ball.gdshader' remapped 'res://assets/ball/ball.gdshader' at thread -1
+Loading resource: res://scenes/player/footballer.tscn remapped: res://scenes/player/footballer.tscn
+Completed load for: 'res://scenes/player/footballer.tscn' remapped 'res://scenes/player/footballer.tscn' at thread -1
+Loading resource: res://assets/characters/json/json_human.scn remapped: res://assets/characters/json/json_human.scn
+Completed load for: 'res://assets/characters/json/json_human.scn' remapped 'res://assets/characters/json/json_human.scn' at thread -1
+Loading resource: res://assets/animations/json_clips.res remapped: res://assets/animations/json_clips.res
+Completed load for: 'res://assets/animations/json_clips.res' remapped 'res://assets/animations/json_clips.res' at thread -1
+Loading resource: res://assets/animations/json_scenes.res remapped: res://assets/animations/json_scenes.res
+Completed load for: 'res://assets/animations/json_scenes.res' remapped 'res://assets/animations/json_scenes.res' at thread -1
+Loading resource: res://assets/animations/json_keeper.res remapped: res://assets/animations/json_keeper.res
+Completed load for: 'res://assets/animations/json_keeper.res' remapped 'res://assets/animations/json_keeper.res' at thread -1
+Loading resource: res://assets/characters/json/json_kit.gdshader remapped: res://assets/characters/json/json_kit.gdshader
+Completed load for: 'res://assets/characters/json/json_kit.gdshader' remapped 'res://assets/characters/json/json_kit.gdshader' at thread -1
+Loading resource: res://assets/animations/pack_clips.res remapped: res://assets/animations/pack_clips.res
+Completed load for: 'res://assets/animations/pack_clips.res' remapped 'res://assets/animations/pack_clips.res' at thread -1
+Loading resource: res://assets/animations/touch_clips.res remapped: res://assets/animations/touch_clips.res
+Completed load for: 'res://assets/animations/touch_clips.res' remapped 'res://assets/animations/touch_clips.res' at thread -1
+Loading resource: res://assets/animations/mocap_clips.res remapped: res://assets/animations/mocap_clips.res
+Completed load for: 'res://assets/animations/mocap_clips.res' remapped 'res://assets/animations/mocap_clips.res' at thread -1
+Loading resource: res://assets/animations/pack_keeper.res remapped: res://assets/animations/pack_keeper.res
+Completed load for: 'res://assets/animations/pack_keeper.res' remapped 'res://assets/animations/pack_keeper.res' at thread -1
+[ OK ] test_action_arbiter::test_a_foul_knocks_down_a_player_in_a_ball_move (6 checks, 595 ms)
+Loading resource: res://scenes/ball/ball.tscn remapped: res://scenes/ball/ball.tscn
+Completed load for: 'res://scenes/ball/ball.tscn' remapped 'res://scenes/ball/ball.tscn' at thread -1
+Loading resource: res://assets/ball/ball.gdshader remapped: res://assets/ball/ball.gdshader
+Completed load for: 'res://assets/ball/ball.gdshader' remapped 'res://assets/ball/ball.gdshader' at thread -1
+Loading resource: res://scenes/player/footballer.tscn remapped: res://scenes/player/footballer.tscn
+Completed load for: 'res://scenes/player/footballer.tscn' remapped 'res://scenes/player/footballer.tscn' at thread -1
+Loading resource: res://assets/characters/json/json_human.scn remapped: res://assets/characters/json/json_human.scn
+Completed load for: 'res://assets/characters/json/json_human.scn' remapped 'res://assets/characters/json/json_human.scn' at thread -1
+Loading resource: res://assets/animations/json_clips.res remapped: res://assets/animations/json_clips.res
+Completed load for: 'res://assets/animations/json_clips.res' remapped 'res://assets/animations/json_clips.res' at thread -1
+Loading resource: res://assets/animations/json_scenes.res remapped: res://assets/animations/json_scenes.res
+Completed load for: 'res://assets/animations/json_scenes.res' remapped 'res://assets/animations/json_scenes.res' at thread -1
+Loading resource: res://assets/animations/json_keeper.res remapped: res://assets/animations/json_keeper.res
+Completed load for: 'res://assets/animations/json_keeper.res' remapped 'res://assets/animations/json_keeper.res' at thread -1
+Loading resource: res://assets/characters/json/json_kit.gdshader remapped: res://assets/characters/json/json_kit.gdshader
+Completed load for: 'res://assets/characters/json/json_kit.gdshader' remapped 'res://assets/characters/json/json_kit.gdshader' at thread -1
+Loading resource: res://assets/animations/pack_clips.res remapped: res://assets/animations/pack_clips.res
+Completed load for: 'res://assets/animations/pack_clips.res' remapped 'res://assets/animations/pack_clips.res' at thread -1
+Loading resource: res://assets/animations/touch_clips.res remapped: res://assets/animations/touch_clips.res
+Completed load for: 'res://assets/animations/touch_clips.res' remapped 'res://assets/animations/touch_clips.res' at thread -1
+Loading resource: res://assets/animations/mocap_clips.res remapped: res://assets/animations/mocap_clips.res
+Completed load for: 'res://assets/animations/mocap_clips.res' remapped 'res://assets/animations/mocap_clips.res' at thread -1
+Loading resource: res://assets/animations/pack_keeper.res remapped: res://assets/animations/pack_keeper.res
+Completed load for: 'res://assets/animations/pack_keeper.res' remapped 'res://assets/animations/pack_keeper.res' at thread -1
+[ OK ] test_action_arbiter::test_finished_action_releases_locks_and_locomotion_resumes (4 checks, 664 ms)
+Loading resource: res://scenes/ball/ball.tscn remapped: res://scenes/ball/ball.tscn
+Completed load for: 'res://scenes/ball/ball.tscn' remapped 'res://scenes/ball/ball.tscn' at thread -1
+Loading resource: res://assets/ball/ball.gdshader remapped: res://assets/ball/ball.gdshader
+Completed load for: 'res://assets/ball/ball.gdshader' remapped 'res://assets/ball/ball.gdshader' at thread -1
+Loading resource: res://scenes/player/footballer.tscn remapped: res://scenes/player/footballer.tscn
+Completed load for: 'res://scenes/player/footballer.tscn' remapped 'res://scenes/player/footballer.tscn' at thread -1
+Loading resource: res://assets/characters/json/json_human.scn remapped: res://assets/characters/json/json_human.scn
+Completed load for: 'res://assets/characters/json/json_human.scn' remapped 'res://assets/characters/json/json_human.scn' at thread -1
+Loading resource: res://assets/animations/json_clips.res remapped: res://assets/animations/json_clips.res
+Completed load for: 'res://assets/animations/json_clips.res' remapped 'res://assets/animations/json_clips.res' at thread -1
+Loading resource: res://assets/animations/json_scenes.res remapped: res://assets/animations/json_scenes.res
+Completed load for: 'res://assets/animations/json_scenes.res' remapped 'res://assets/animations/json_scenes.res' at thread -1
+Loading resource: res://assets/animations/json_keeper.res remapped: res://assets/animations/json_keeper.res
+Completed load for: 'res://assets/animations/json_keeper.res' remapped 'res://assets/animations/json_keeper.res' at thread -1
+Loading resource: res://assets/characters/json/json_kit.gdshader remapped: res://assets/characters/json/json_kit.gdshader
+Completed load for: 'res://assets/characters/json/json_kit.gdshader' remapped 'res://assets/characters/json/json_kit.gdshader' at thread -1
+Loading resource: res://assets/animations/pack_clips.res remapped: res://assets/animations/pack_clips.res
+Completed load for: 'res://assets/animations/pack_clips.res' remapped 'res://assets/animations/pack_clips.res' at thread -1
+Loading resource: res://assets/animations/touch_clips.res remapped: res://assets/animations/touch_clips.res
+Completed load for: 'res://assets/animations/touch_clips.res' remapped 'res://assets/animations/touch_clips.res' at thread -1
+Loading resource: res://assets/animations/mocap_clips.res remapped: res://assets/animations/mocap_clips.res
+Completed load for: 'res://assets/animations/mocap_clips.res' remapped 'res://assets/animations/mocap_clips.res' at thread -1
+Loading resource: res://assets/animations/pack_keeper.res remapped: res://assets/animations/pack_keeper.res
+Completed load for: 'res://assets/animations/pack_keeper.res' remapped 'res://assets/animations/pack_keeper.res' at thread -1
+[ OK ] test_action_arbiter::test_higher_level_replaces_lower_and_lower_cannot_interrupt (5 checks, 661 ms)
+Loading resource: res://scenes/ball/ball.tscn remapped: res://scenes/ball/ball.tscn
+Completed load for: 'res://scenes/ball/ball.tscn' remapped 'res://scenes/ball/ball.tscn' at thread -1
+Loading resource: res://assets/ball/ball.gdshader remapped: res://assets/ball/ball.gdshader
+Completed load for: 'res://assets/ball/ball.gdshader' remapped 'res://assets/ball/ball.gdshader' at thread -1
+Loading resource: res://scenes/player/footballer.tscn remapped: res://scenes/player/footballer.tscn
+Completed load for: 'res://scenes/player/footballer.tscn' remapped 'res://scenes/player/footballer.tscn' at thread -1
+Loading resource: res://assets/characters/json/json_human.scn remapped: res://assets/characters/json/json_human.scn
+Completed load for: 'res://assets/characters/json/json_human.scn' remapped 'res://assets/characters/json/json_human.scn' at thread -1
+Loading resource: res://assets/animations/json_clips.res remapped: res://assets/animations/json_clips.res
+Completed load for: 'res://assets/animations/json_clips.res' remapped 'res://assets/animations/json_clips.res' at thread -1
+Loading resource: res://assets/animations/json_scenes.res remapped: res://assets/animations/json_scenes.res
+Completed load for: 'res://assets/animations/json_scenes.res' remapped 'res://assets/animations/json_scenes.res' at thread -1
+Loading resource: res://assets/animations/json_keeper.res remapped: res://assets/animations/json_keeper.res
+Completed load for: 'res://assets/animations/json_keeper.res' remapped 'res://assets/animations/json_keeper.res' at thread -1
+Loading resource: res://assets/characters/json/json_kit.gdshader remapped: res://assets/characters/json/json_kit.gdshader
+Completed load for: 'res://assets/characters/json/json_kit.gdshader' remapped 'res://assets/characters/json/json_kit.gdshader' at thread -1
+       · velocidad 6.4 m/s, clip jn_tackle_stand_2750 a 2.8 m/s
+Loading resource: res://assets/animations/pack_clips.res remapped: res://assets/animations/pack_clips.res
+Completed load for: 'res://assets/animations/pack_clips.res' remapped 'res://assets/animations/pack_clips.res' at thread -1
+Loading resource: res://assets/animations/touch_clips.res remapped: res://assets/animations/touch_clips.res
+Completed load for: 'res://assets/animations/touch_clips.res' remapped 'res://assets/animations/touch_clips.res' at thread -1
+Loading resource: res://assets/animations/mocap_clips.res remapped: res://assets/animations/mocap_clips.res
+Completed load for: 'res://assets/animations/mocap_clips.res' remapped 'res://assets/animations/mocap_clips.res' at thread -1
+Loading resource: res://assets/animations/pack_keeper.res remapped: res://assets/animations/pack_keeper.res
+Completed load for: 'res://assets/animations/pack_keeper.res' remapped 'res://assets/animations/pack_keeper.res' at thread -1
+[ OK ] test_action_arbiter::test_in_place_pose_is_refused_while_running (2 checks, 642 ms)
+Loading resource: res://scenes/ball/ball.tscn remapped: res://scenes/ball/ball.tscn
+Completed load for: 'res://scenes/ball/ball.tscn' remapped 'res://scenes/ball/ball.tscn' at thread -1
+Loading resource: res://assets/ball/ball.gdshader remapped: res://assets/ball/ball.gdshader
+Completed load for: 'res://assets/ball/ball.gdshader' remapped 'res://assets/ball/ball.gdshader' at thread -1
+Loading resource: res://scenes/player/footballer.tscn remapped: res://scenes/player/footballer.tscn
+Completed load for: 'res://scenes/player/footballer.tscn' remapped 'res://scenes/player/footballer.tscn' at thread -1
+Loading resource: res://assets/characters/json/json_human.scn remapped: res://assets/characters/json/json_human.scn
+Completed load for: 'res://assets/characters/json/json_human.scn' remapped 'res://assets/characters/json/json_human.scn' at thread -1
+Loading resource: res://assets/animations/json_clips.res remapped: res://assets/animations/json_clips.res
+Completed load for: 'res://assets/animations/json_clips.res' remapped 'res://assets/animations/json_clips.res' at thread -1
+Loading resource: res://assets/animations/json_scenes.res remapped: res://assets/animations/json_scenes.res
+Completed load for: 'res://assets/animations/json_scenes.res' remapped 'res://assets/animations/json_scenes.res' at thread -1
+Loading resource: res://assets/animations/json_keeper.res remapped: res://assets/animations/json_keeper.res
+Completed load for: 'res://assets/animations/json_keeper.res' remapped 'res://assets/animations/json_keeper.res' at thread -1
+Loading resource: res://assets/characters/json/json_kit.gdshader remapped: res://assets/characters/json/json_kit.gdshader
+Completed load for: 'res://assets/characters/json/json_kit.gdshader' remapped 'res://assets/characters/json/json_kit.gdshader' at thread -1
+Loading resource: res://assets/animations/pack_clips.res remapped: res://assets/animations/pack_clips.res
+Completed load for: 'res://assets/animations/pack_clips.res' remapped 'res://assets/animations/pack_clips.res' at thread -1
+Loading resource: res://assets/animations/touch_clips.res remapped: res://assets/animations/touch_clips.res
+Completed load for: 'res://assets/animations/touch_clips.res' remapped 'res://assets/animations/touch_clips.res' at thread -1
+Loading resource: res://assets/animations/mocap_clips.res remapped: res://assets/animations/mocap_clips.res
+Completed load for: 'res://assets/animations/mocap_clips.res' remapped 'res://assets/animations/mocap_clips.res' at thread -1
+Loading resource: res://assets/animations/pack_keeper.res remapped: res://assets/animations/pack_keeper.res
+Completed load for: 'res://assets/animations/pack_keeper.res' remapped 'res://assets/animations/pack_keeper.res' at thread -1
+[ OK ] test_action_arbiter::test_missing_clip_fails_safely (5 checks, 592 ms)
+Loading resource: res://scenes/ball/ball.tscn remapped: res://scenes/ball/ball.tscn
+Completed load for: 'res://scenes/ball/ball.tscn' remapped 'res://scenes/ball/ball.tscn' at thread -1
+Loading resource: res://assets/ball/ball.gdshader remapped: res://assets/ball/ball.gdshader
+Completed load for: 'res://assets/ball/ball.gdshader' remapped 'res://assets/ball/ball.gdshader' at thread -1
+Loading resource: res://scenes/player/footballer.tscn remapped: res://scenes/player/footballer.tscn
+Completed load for: 'res://scenes/player/footballer.tscn' remapped 'res://scenes/player/footballer.tscn' at thread -1
+Loading resource: res://assets/characters/json/json_human.scn remapped: res://assets/characters/json/json_human.scn
+Completed load for: 'res://assets/characters/json/json_human.scn' remapped 'res://assets/characters/json/json_human.scn' at thread -1
+Loading resource: res://assets/animations/json_clips.res remapped: res://assets/animations/json_clips.res
+Completed load for: 'res://assets/animations/json_clips.res' remapped 'res://assets/animations/json_clips.res' at thread -1
+Loading resource: res://assets/animations/json_scenes.res remapped: res://assets/animations/json_scenes.res
+Completed load for: 'res://assets/animations/json_scenes.res' remapped 'res://assets/animations/json_scenes.res' at thread -1
+Loading resource: res://assets/animations/json_keeper.res remapped: res://assets/animations/json_keeper.res
+Completed load for: 'res://assets/animations/json_keeper.res' remapped 'res://assets/animations/json_keeper.res' at thread -1
+Loading resource: res://assets/characters/json/json_kit.gdshader remapped: res://assets/characters/json/json_kit.gdshader
+Completed load for: 'res://assets/characters/json/json_kit.gdshader' remapped 'res://assets/characters/json/json_kit.gdshader' at thread -1
+       · cadena de caida: 35 imagenes, 0 con la pose distinta de la raiz
+Loading resource: res://assets/animations/pack_clips.res remapped: res://assets/animations/pack_clips.res
+Completed load for: 'res://assets/animations/pack_clips.res' remapped 'res://assets/animations/pack_clips.res' at thread -1
+Loading resource: res://assets/animations/touch_clips.res remapped: res://assets/animations/touch_clips.res
+Completed load for: 'res://assets/animations/touch_clips.res' remapped 'res://assets/animations/touch_clips.res' at thread -1
+Loading resource: res://assets/animations/mocap_clips.res remapped: res://assets/animations/mocap_clips.res
+Completed load for: 'res://assets/animations/mocap_clips.res' remapped 'res://assets/animations/mocap_clips.res' at thread -1
+Loading resource: res://assets/animations/pack_keeper.res remapped: res://assets/animations/pack_keeper.res
+Completed load for: 'res://assets/animations/pack_keeper.res' remapped 'res://assets/animations/pack_keeper.res' at thread -1
+[ OK ] test_action_arbiter::test_one_root_controller_and_pose_follows_the_root_until_it_ends (6 checks, 613 ms)
+Loading resource: res://scenes/ball/ball.tscn remapped: res://scenes/ball/ball.tscn
+Completed load for: 'res://scenes/ball/ball.tscn' remapped 'res://scenes/ball/ball.tscn' at thread -1
+Loading resource: res://assets/ball/ball.gdshader remapped: res://assets/ball/ball.gdshader
+Completed load for: 'res://assets/ball/ball.gdshader' remapped 'res://assets/ball/ball.gdshader' at thread -1
+Loading resource: res://scenes/player/footballer.tscn remapped: res://scenes/player/footballer.tscn
+Completed load for: 'res://scenes/player/footballer.tscn' remapped 'res://scenes/player/footballer.tscn' at thread -1
+Loading resource: res://assets/characters/json/json_human.scn remapped: res://assets/characters/json/json_human.scn
+Completed load for: 'res://assets/characters/json/json_human.scn' remapped 'res://assets/characters/json/json_human.scn' at thread -1
+Loading resource: res://assets/animations/json_clips.res remapped: res://assets/animations/json_clips.res
+Completed load for: 'res://assets/animations/json_clips.res' remapped 'res://assets/animations/json_clips.res' at thread -1
+Loading resource: res://assets/animations/json_scenes.res remapped: res://assets/animations/json_scenes.res
+Completed load for: 'res://assets/animations/json_scenes.res' remapped 'res://assets/animations/json_scenes.res' at thread -1
+Loading resource: res://assets/animations/json_keeper.res remapped: res://assets/animations/json_keeper.res
+Completed load for: 'res://assets/animations/json_keeper.res' remapped 'res://assets/animations/json_keeper.res' at thread -1
+Loading resource: res://assets/characters/json/json_kit.gdshader remapped: res://assets/characters/json/json_kit.gdshader
+Completed load for: 'res://assets/characters/json/json_kit.gdshader' remapped 'res://assets/characters/json/json_kit.gdshader' at thread -1
+Loading resource: res://assets/animations/pack_clips.res remapped: res://assets/animations/pack_clips.res
+Completed load for: 'res://assets/animations/pack_clips.res' remapped 'res://assets/animations/pack_clips.res' at thread -1
+Loading resource: res://assets/animations/touch_clips.res remapped: res://assets/animations/touch_clips.res
+Completed load for: 'res://assets/animations/touch_clips.res' remapped 'res://assets/animations/touch_clips.res' at thread -1
+Loading resource: res://assets/animations/mocap_clips.res remapped: res://assets/animations/mocap_clips.res
+Completed load for: 'res://assets/animations/mocap_clips.res' remapped 'res://assets/animations/mocap_clips.res' at thread -1
+Loading resource: res://assets/animations/pack_keeper.res remapped: res://assets/animations/pack_keeper.res
+Completed load for: 'res://assets/animations/pack_keeper.res' remapped 'res://assets/animations/pack_keeper.res' at thread -1
+[ OK ] test_action_arbiter::test_reset_leaves_no_residue (3 checks, 604 ms)
+Loading resource: res://scenes/ball/ball.tscn remapped: res://scenes/ball/ball.tscn
+Completed load for: 'res://scenes/ball/ball.tscn' remapped 'res://scenes/ball/ball.tscn' at thread -1
+Loading resource: res://assets/ball/ball.gdshader remapped: res://assets/ball/ball.gdshader
+Completed load for: 'res://assets/ball/ball.gdshader' remapped 'res://assets/ball/ball.gdshader' at thread -1
+Loading resource: res://scenes/player/footballer.tscn remapped: res://scenes/player/footballer.tscn
+Completed load for: 'res://scenes/player/footballer.tscn' remapped 'res://scenes/player/footballer.tscn' at thread -1
+Loading resource: res://assets/characters/json/json_human.scn remapped: res://assets/characters/json/json_human.scn
+Completed load for: 'res://assets/characters/json/json_human.scn' remapped 'res://assets/characters/json/json_human.scn' at thread -1
+Loading resource: res://assets/animations/json_clips.res remapped: res://assets/animations/json_clips.res
+Completed load for: 'res://assets/animations/json_clips.res' remapped 'res://assets/animations/json_clips.res' at thread -1
+Loading resource: res://assets/animations/json_scenes.res remapped: res://assets/animations/json_scenes.res
+Completed load for: 'res://assets/animations/json_scenes.res' remapped 'res://assets/animations/json_scenes.res' at thread -1
+Loading resource: res://assets/animations/json_keeper.res remapped: res://assets/animations/json_keeper.res
+Completed load for: 'res://assets/animations/json_keeper.res' remapped 'res://assets/animations/json_keeper.res' at thread -1
+Loading resource: res://assets/characters/json/json_kit.gdshader remapped: res://assets/characters/json/json_kit.gdshader
+Completed load for: 'res://assets/characters/json/json_kit.gdshader' remapped 'res://assets/characters/json/json_kit.gdshader' at thread -1
+Loading resource: res://scenes/ball/ball.tscn remapped: res://scenes/ball/ball.tscn
+Completed load for: 'res://scenes/ball/ball.tscn' remapped 'res://scenes/ball/ball.tscn' at thread -1
+Loading resource: res://assets/animations/json_scenes.res remapped: res://assets/animations/json_scenes.res
+Completed load for: 'res://assets/animations/json_scenes.res' remapped 'res://assets/animations/json_scenes.res' at thread -1
+Loading resource: res://assets/animations/json_keeper.res remapped: res://assets/animations/json_keeper.res
+Completed load for: 'res://assets/animations/json_keeper.res' remapped 'res://assets/animations/json_keeper.res' at thread -1
+Loading resource: res://scenes/player/footballer.tscn remapped: res://scenes/player/footballer.tscn
+Completed load for: 'res://scenes/player/footballer.tscn' remapped 'res://scenes/player/footballer.tscn' at thread -1
+Loading resource: res://assets/characters/json/json_human.scn remapped: res://assets/characters/json/json_human.scn
+Completed load for: 'res://assets/characters/json/json_human.scn' remapped 'res://assets/characters/json/json_human.scn' at thread -1
+Loading resource: res://assets/characters/json/json_kit.gdshader remapped: res://assets/characters/json/json_kit.gdshader
+Completed load for: 'res://assets/characters/json/json_kit.gdshader' remapped 'res://assets/characters/json/json_kit.gdshader' at thread -1
+Loading resource: res://scenes/ball/ball.tscn remapped: res://scenes/ball/ball.tscn
+Completed load for: 'res://scenes/ball/ball.tscn' remapped 'res://scenes/ball/ball.tscn' at thread -1
+Loading resource: res://assets/animations/json_scenes.res remapped: res://assets/animations/json_scenes.res
+Completed load for: 'res://assets/animations/json_scenes.res' remapped 'res://assets/animations/json_scenes.res' at thread -1
+Loading resource: res://assets/animations/json_keeper.res remapped: res://assets/animations/json_keeper.res
+Completed load for: 'res://assets/animations/json_keeper.res' remapped 'res://assets/animations/json_keeper.res' at thread -1
+Loading resource: res://scenes/player/footballer.tscn remapped: res://scenes/player/footballer.tscn
+Completed load for: 'res://scenes/player/footballer.tscn' remapped 'res://scenes/player/footballer.tscn' at thread -1
+Loading resource: res://assets/characters/json/json_human.scn remapped: res://assets/characters/json/json_human.scn
+Completed load for: 'res://assets/characters/json/json_human.scn' remapped 'res://assets/characters/json/json_human.scn' at thread -1
+Loading resource: res://assets/characters/json/json_kit.gdshader remapped: res://assets/characters/json/json_kit.gdshader
+Completed load for: 'res://assets/characters/json/json_kit.gdshader' remapped 'res://assets/characters/json/json_kit.gdshader' at thread -1
+Loading resource: res://assets/animations/pack_clips.res remapped: res://assets/animations/pack_clips.res
+Completed load for: 'res://assets/animations/pack_clips.res' remapped 'res://assets/animations/pack_clips.res' at thread -1
+Loading resource: res://assets/animations/touch_clips.res remapped: res://assets/animations/touch_clips.res
+Completed load for: 'res://assets/animations/touch_clips.res' remapped 'res://assets/animations/touch_clips.res' at thread -1
+Loading resource: res://assets/animations/mocap_clips.res remapped: res://assets/animations/mocap_clips.res
+Completed load for: 'res://assets/animations/mocap_clips.res' remapped 'res://assets/animations/mocap_clips.res' at thread -1
+Loading resource: res://assets/animations/pack_keeper.res remapped: res://assets/animations/pack_keeper.res
+Completed load for: 'res://assets/animations/pack_keeper.res' remapped 'res://assets/animations/pack_keeper.res' at thread -1
+[ OK ] test_action_arbiter::test_simultaneous_requests_resolve_by_level_not_by_order (4 checks, 906 ms)
+Loading resource: res://scenes/ball/ball.tscn remapped: res://scenes/ball/ball.tscn
+Completed load for: 'res://scenes/ball/ball.tscn' remapped 'res://scenes/ball/ball.tscn' at thread -1
+Loading resource: res://assets/ball/ball.gdshader remapped: res://assets/ball/ball.gdshader
+Completed load for: 'res://assets/ball/ball.gdshader' remapped 'res://assets/ball/ball.gdshader' at thread -1
+Loading resource: res://scenes/player/footballer.tscn remapped: res://scenes/player/footballer.tscn
+Completed load for: 'res://scenes/player/footballer.tscn' remapped 'res://scenes/player/footballer.tscn' at thread -1
+Loading resource: res://assets/characters/json/json_human.scn remapped: res://assets/characters/json/json_human.scn
+Completed load for: 'res://assets/characters/json/json_human.scn' remapped 'res://assets/characters/json/json_human.scn' at thread -1
+Loading resource: res://assets/animations/json_clips.res remapped: res://assets/animations/json_clips.res
+Completed load for: 'res://assets/animations/json_clips.res' remapped 'res://assets/animations/json_clips.res' at thread -1
+Loading resource: res://assets/animations/json_scenes.res remapped: res://assets/animations/json_scenes.res
+Completed load for: 'res://assets/animations/json_scenes.res' remapped 'res://assets/animations/json_scenes.res' at thread -1
+Loading resource: res://assets/animations/json_keeper.res remapped: res://assets/animations/json_keeper.res
+Completed load for: 'res://assets/animations/json_keeper.res' remapped 'res://assets/animations/json_keeper.res' at thread -1
+Loading resource: res://assets/characters/json/json_kit.gdshader remapped: res://assets/characters/json/json_kit.gdshader
+Completed load for: 'res://assets/characters/json/json_kit.gdshader' remapped 'res://assets/characters/json/json_kit.gdshader' at thread -1
+Loading resource: res://assets/animations/pack_clips.res remapped: res://assets/animations/pack_clips.res
+Completed load for: 'res://assets/animations/pack_clips.res' remapped 'res://assets/animations/pack_clips.res' at thread -1
+Loading resource: res://assets/animations/touch_clips.res remapped: res://assets/animations/touch_clips.res
+Completed load for: 'res://assets/animations/touch_clips.res' remapped 'res://assets/animations/touch_clips.res' at thread -1
+Loading resource: res://assets/animations/mocap_clips.res remapped: res://assets/animations/mocap_clips.res
+Completed load for: 'res://assets/animations/mocap_clips.res' remapped 'res://assets/animations/mocap_clips.res' at thread -1
+Loading resource: res://assets/animations/pack_keeper.res remapped: res://assets/animations/pack_keeper.res
+Completed load for: 'res://assets/animations/pack_keeper.res' remapped 'res://assets/animations/pack_keeper.res' at thread -1
+[ OK ] test_action_arbiter::test_stale_tokens_do_nothing (6 checks, 642 ms)
+
+Resumen: 9 pruebas, 0 fallidas, 0 omitidas, 41 comprobaciones, 6.1 s
+XR: Clearing primary interface
+XR: Removed interface "Native mobile"
+XR: Removed interface "OpenXR"
+Orphan StringName: DIRS (static: 0, total: 9)
+StringName: 1 unclaimed string names at exit.

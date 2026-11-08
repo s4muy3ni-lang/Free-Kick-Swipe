@@ -1,0 +1,1012 @@
+WorkerThreadPool: 4 threads, 1 max low-priority.
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+TextServer: Added interface "Dummy"
+TextServer: Added interface "ICU / HarfBuzz / Graphite (Built-in)"
+SDL: Init OK!
+Using "default" pen tablet driver...
+
+TextServer: Primary interface set to: "ICU / HarfBuzz / Graphite (Built-in)".
+CORE API HASH: 2004498165
+EDITOR API HASH: 1696660745
+SceneTreeFTI: traversal method DEFAULT
+Loading resource: res://scripts/gameplay/tuning.gd remapped: res://scripts/gameplay/tuning.gd
+Completed load for: 'res://scripts/gameplay/tuning.gd' remapped 'res://scripts/gameplay/tuning.gd' at thread -1
+Loading resource: res://scripts/diagnostics/graphics_settings.gd remapped: res://scripts/diagnostics/graphics_settings.gd
+Completed load for: 'res://scripts/diagnostics/graphics_settings.gd' remapped 'res://scripts/diagnostics/graphics_settings.gd' at thread -1
+Loading resource: res://scripts/audio/sfx.gd remapped: res://scripts/audio/sfx.gd
+Loading resource: res://assets/pitch/court.gdshader remapped: res://assets/pitch/court.gdshader
+Completed load for: 'res://assets/pitch/court.gdshader' remapped 'res://assets/pitch/court.gdshader' at thread -1
+Loading resource: res://assets/pitch/net.gdshader remapped: res://assets/pitch/net.gdshader
+Completed load for: 'res://assets/pitch/net.gdshader' remapped 'res://assets/pitch/net.gdshader' at thread -1
+Loading resource: res://assets/characters/player/player_kit.gdshader remapped: res://assets/characters/player/player_kit.gdshader
+Completed load for: 'res://assets/characters/player/player_kit.gdshader' remapped 'res://assets/characters/player/player_kit.gdshader' at thread -1
+Loading resource: res://assets/characters/mocap/mocap_kit.gdshader remapped: res://assets/characters/mocap/mocap_kit.gdshader
+Completed load for: 'res://assets/characters/mocap/mocap_kit.gdshader' remapped 'res://assets/characters/mocap/mocap_kit.gdshader' at thread -1
+Completed load for: 'res://scripts/audio/sfx.gd' remapped 'res://scripts/audio/sfx.gd' at thread -1
+Loaded system CA certificates
+Loading resource: res://tests/run_tests.tscn remapped: res://tests/run_tests.tscn
+Loading resource: res://tests/run_tests.gd remapped: res://tests/run_tests.gd
+Completed load for: 'res://tests/run_tests.gd' remapped 'res://tests/run_tests.gd' at thread -1
+Completed load for: 'res://tests/run_tests.tscn' remapped 'res://tests/run_tests.tscn' at thread -1
+Loading resource: res://assets/audio/kick_hard.wav remapped: res://assets/audio/kick_hard.wav
+Loading resource: res://.godot/imported/kick_hard.wav-062def96bc99d91e83aadf830f48da8a.sample remapped: res://.godot/imported/kick_hard.wav-062def96bc99d91e83aadf830f48da8a.sample
+Completed load for: 'res://assets/audio/kick_hard.wav' remapped 'res://assets/audio/kick_hard.wav' at thread -1
+Loading resource: res://assets/audio/kick_soft.wav remapped: res://assets/audio/kick_soft.wav
+Loading resource: res://.godot/imported/kick_soft.wav-e97e0b56ccdff4ab8977f9bff34de914.sample remapped: res://.godot/imported/kick_soft.wav-e97e0b56ccdff4ab8977f9bff34de914.sample
+Completed load for: 'res://assets/audio/kick_soft.wav' remapped 'res://assets/audio/kick_soft.wav' at thread -1
+Loading resource: res://assets/audio/touch.wav remapped: res://assets/audio/touch.wav
+Loading resource: res://.godot/imported/touch.wav-d10e3d470e2f6c3e429cda1542fc4b6c.sample remapped: res://.godot/imported/touch.wav-d10e3d470e2f6c3e429cda1542fc4b6c.sample
+Completed load for: 'res://assets/audio/touch.wav' remapped 'res://assets/audio/touch.wav' at thread -1
+Loading resource: res://assets/audio/bounce.wav remapped: res://assets/audio/bounce.wav
+Loading resource: res://.godot/imported/bounce.wav-e8efea040633da180f39debb9ec52a73.sample remapped: res://.godot/imported/bounce.wav-e8efea040633da180f39debb9ec52a73.sample
+Completed load for: 'res://assets/audio/bounce.wav' remapped 'res://assets/audio/bounce.wav' at thread -1
+Loading resource: res://assets/audio/post.wav remapped: res://assets/audio/post.wav
+Loading resource: res://.godot/imported/post.wav-50b3fc22e4a4430df248aaab1f5ac2d6.sample remapped: res://.godot/imported/post.wav-50b3fc22e4a4430df248aaab1f5ac2d6.sample
+Completed load for: 'res://assets/audio/post.wav' remapped 'res://assets/audio/post.wav' at thread -1
+Loading resource: res://assets/audio/net.wav remapped: res://assets/audio/net.wav
+Loading resource: res://.godot/imported/net.wav-bb9d5e5fa95b35ebea865edce900d888.sample remapped: res://.godot/imported/net.wav-bb9d5e5fa95b35ebea865edce900d888.sample
+Completed load for: 'res://assets/audio/net.wav' remapped 'res://assets/audio/net.wav' at thread -1
+Loading resource: res://assets/audio/whistle_short.wav remapped: res://assets/audio/whistle_short.wav
+Loading resource: res://.godot/imported/whistle_short.wav-527088648daec13767b46577b77720f3.sample remapped: res://.godot/imported/whistle_short.wav-527088648daec13767b46577b77720f3.sample
+Completed load for: 'res://assets/audio/whistle_short.wav' remapped 'res://assets/audio/whistle_short.wav' at thread -1
+Loading resource: res://assets/audio/whistle_long.wav remapped: res://assets/audio/whistle_long.wav
+Loading resource: res://.godot/imported/whistle_long.wav-760e0fec3757d393a909d0b858d2bc18.sample remapped: res://.godot/imported/whistle_long.wav-760e0fec3757d393a909d0b858d2bc18.sample
+Completed load for: 'res://assets/audio/whistle_long.wav' remapped 'res://assets/audio/whistle_long.wav' at thread -1
+Loading resource: res://assets/audio/glove.wav remapped: res://assets/audio/glove.wav
+Loading resource: res://.godot/imported/glove.wav-b451688fcf6a08772aea1cd74a3fbab3.sample remapped: res://.godot/imported/glove.wav-b451688fcf6a08772aea1cd74a3fbab3.sample
+Completed load for: 'res://assets/audio/glove.wav' remapped 'res://assets/audio/glove.wav' at thread -1
+Loading resource: res://assets/audio/cheer.wav remapped: res://assets/audio/cheer.wav
+Loading resource: res://.godot/imported/cheer.wav-738bbd08bbb81a69e4245818d44c9b01.sample remapped: res://.godot/imported/cheer.wav-738bbd08bbb81a69e4245818d44c9b01.sample
+Completed load for: 'res://assets/audio/cheer.wav' remapped 'res://assets/audio/cheer.wav' at thread -1
+Loading resource: res://assets/audio/ooh.wav remapped: res://assets/audio/ooh.wav
+Loading resource: res://.godot/imported/ooh.wav-828f736732e34d2cb6a4a4b9aa7df67a.sample remapped: res://.godot/imported/ooh.wav-828f736732e34d2cb6a4a4b9aa7df67a.sample
+Completed load for: 'res://assets/audio/ooh.wav' remapped 'res://assets/audio/ooh.wav' at thread -1
+Loading resource: res://assets/audio/crowd_loop.wav remapped: res://assets/audio/crowd_loop.wav
+Loading resource: res://.godot/imported/crowd_loop.wav-d0290e439ed7b2d92d1c1cb2e4d89f68.sample remapped: res://.godot/imported/crowd_loop.wav-d0290e439ed7b2d92d1c1cb2e4d89f68.sample
+Completed load for: 'res://assets/audio/crowd_loop.wav' remapped 'res://assets/audio/crowd_loop.wav' at thread -1
+Loading resource: res://tests/test_action_arbiter.gd remapped: res://tests/test_action_arbiter.gd
+Completed load for: 'res://tests/test_action_arbiter.gd' remapped 'res://tests/test_action_arbiter.gd' at thread -1
+Loading resource: res://scenes/ball/ball.tscn remapped: res://scenes/ball/ball.tscn
+Completed load for: 'res://scenes/ball/ball.tscn' remapped 'res://scenes/ball/ball.tscn' at thread -1
+Loading resource: res://assets/ball/ball.gdshader remapped: res://assets/ball/ball.gdshader
+Completed load for: 'res://assets/ball/ball.gdshader' remapped 'res://assets/ball/ball.gdshader' at thread -1
+Loading resource: res://scenes/player/footballer.tscn remapped: res://scenes/player/footballer.tscn
+Completed load for: 'res://scenes/player/footballer.tscn' remapped 'res://scenes/player/footballer.tscn' at thread -1
+Loading resource: res://assets/characters/json/json_human.scn remapped: res://assets/characters/json/json_human.scn
+Completed load for: 'res://assets/characters/json/json_human.scn' remapped 'res://assets/characters/json/json_human.scn' at thread -1
+Loading resource: res://assets/animations/json_clips.res remapped: res://assets/animations/json_clips.res
+Completed load for: 'res://assets/animations/json_clips.res' remapped 'res://assets/animations/json_clips.res' at thread -1
+Loading resource: res://assets/animations/json_scenes.res remapped: res://assets/animations/json_scenes.res
+Completed load for: 'res://assets/animations/json_scenes.res' remapped 'res://assets/animations/json_scenes.res' at thread -1
+Loading resource: res://assets/animations/json_keeper.res remapped: res://assets/animations/json_keeper.res
+Completed load for: 'res://assets/animations/json_keeper.res' remapped 'res://assets/animations/json_keeper.res' at thread -1
+Loading resource: res://assets/characters/json/json_kit.gdshader remapped: res://assets/characters/json/json_kit.gdshader
+Completed load for: 'res://assets/characters/json/json_kit.gdshader' remapped 'res://assets/characters/json/json_kit.gdshader' at thread -1
+Loading resource: res://assets/animations/pack_clips.res remapped: res://assets/animations/pack_clips.res
+Completed load for: 'res://assets/animations/pack_clips.res' remapped 'res://assets/animations/pack_clips.res' at thread -1
+Loading resource: res://assets/animations/touch_clips.res remapped: res://assets/animations/touch_clips.res
+Completed load for: 'res://assets/animations/touch_clips.res' remapped 'res://assets/animations/touch_clips.res' at thread -1
+Loading resource: res://assets/animations/mocap_clips.res remapped: res://assets/animations/mocap_clips.res
+Completed load for: 'res://assets/animations/mocap_clips.res' remapped 'res://assets/animations/mocap_clips.res' at thread -1
+Loading resource: res://assets/animations/pack_keeper.res remapped: res://assets/animations/pack_keeper.res
+Completed load for: 'res://assets/animations/pack_keeper.res' remapped 'res://assets/animations/pack_keeper.res' at thread -1
+[ OK ] test_action_arbiter::test_a_foul_knocks_down_a_player_in_a_ball_move (6 checks, 622 ms)
+Loading resource: res://scenes/ball/ball.tscn remapped: res://scenes/ball/ball.tscn
+Completed load for: 'res://scenes/ball/ball.tscn' remapped 'res://scenes/ball/ball.tscn' at thread -1
+Loading resource: res://assets/ball/ball.gdshader remapped: res://assets/ball/ball.gdshader
+Completed load for: 'res://assets/ball/ball.gdshader' remapped 'res://assets/ball/ball.gdshader' at thread -1
+Loading resource: res://scenes/player/footballer.tscn remapped: res://scenes/player/footballer.tscn
+Completed load for: 'res://scenes/player/footballer.tscn' remapped 'res://scenes/player/footballer.tscn' at thread -1
+Loading resource: res://assets/characters/json/json_human.scn remapped: res://assets/characters/json/json_human.scn
+Completed load for: 'res://assets/characters/json/json_human.scn' remapped 'res://assets/characters/json/json_human.scn' at thread -1
+Loading resource: res://assets/animations/json_clips.res remapped: res://assets/animations/json_clips.res
+Completed load for: 'res://assets/animations/json_clips.res' remapped 'res://assets/animations/json_clips.res' at thread -1
+Loading resource: res://assets/animations/json_scenes.res remapped: res://assets/animations/json_scenes.res
+Completed load for: 'res://assets/animations/json_scenes.res' remapped 'res://assets/animations/json_scenes.res' at thread -1
+Loading resource: res://assets/animations/json_keeper.res remapped: res://assets/animations/json_keeper.res
+Completed load for: 'res://assets/animations/json_keeper.res' remapped 'res://assets/animations/json_keeper.res' at thread -1
+Loading resource: res://assets/characters/json/json_kit.gdshader remapped: res://assets/characters/json/json_kit.gdshader
+Completed load for: 'res://assets/characters/json/json_kit.gdshader' remapped 'res://assets/characters/json/json_kit.gdshader' at thread -1
+Loading resource: res://assets/animations/pack_clips.res remapped: res://assets/animations/pack_clips.res
+Completed load for: 'res://assets/animations/pack_clips.res' remapped 'res://assets/animations/pack_clips.res' at thread -1
+Loading resource: res://assets/animations/touch_clips.res remapped: res://assets/animations/touch_clips.res
+Completed load for: 'res://assets/animations/touch_clips.res' remapped 'res://assets/animations/touch_clips.res' at thread -1
+Loading resource: res://assets/animations/mocap_clips.res remapped: res://assets/animations/mocap_clips.res
+Completed load for: 'res://assets/animations/mocap_clips.res' remapped 'res://assets/animations/mocap_clips.res' at thread -1
+Loading resource: res://assets/animations/pack_keeper.res remapped: res://assets/animations/pack_keeper.res
+Completed load for: 'res://assets/animations/pack_keeper.res' remapped 'res://assets/animations/pack_keeper.res' at thread -1
+[ OK ] test_action_arbiter::test_finished_action_releases_locks_and_locomotion_resumes (4 checks, 625 ms)
+Loading resource: res://scenes/ball/ball.tscn remapped: res://scenes/ball/ball.tscn
+Completed load for: 'res://scenes/ball/ball.tscn' remapped 'res://scenes/ball/ball.tscn' at thread -1
+Loading resource: res://assets/ball/ball.gdshader remapped: res://assets/ball/ball.gdshader
+Completed load for: 'res://assets/ball/ball.gdshader' remapped 'res://assets/ball/ball.gdshader' at thread -1
+Loading resource: res://scenes/player/footballer.tscn remapped: res://scenes/player/footballer.tscn
+Completed load for: 'res://scenes/player/footballer.tscn' remapped 'res://scenes/player/footballer.tscn' at thread -1
+Loading resource: res://assets/characters/json/json_human.scn remapped: res://assets/characters/json/json_human.scn
+Completed load for: 'res://assets/characters/json/json_human.scn' remapped 'res://assets/characters/json/json_human.scn' at thread -1
+Loading resource: res://assets/animations/json_clips.res remapped: res://assets/animations/json_clips.res
+Completed load for: 'res://assets/animations/json_clips.res' remapped 'res://assets/animations/json_clips.res' at thread -1
+Loading resource: res://assets/animations/json_scenes.res remapped: res://assets/animations/json_scenes.res
+Completed load for: 'res://assets/animations/json_scenes.res' remapped 'res://assets/animations/json_scenes.res' at thread -1
+Loading resource: res://assets/animations/json_keeper.res remapped: res://assets/animations/json_keeper.res
+Completed load for: 'res://assets/animations/json_keeper.res' remapped 'res://assets/animations/json_keeper.res' at thread -1
+Loading resource: res://assets/characters/json/json_kit.gdshader remapped: res://assets/characters/json/json_kit.gdshader
+Completed load for: 'res://assets/characters/json/json_kit.gdshader' remapped 'res://assets/characters/json/json_kit.gdshader' at thread -1
+Loading resource: res://assets/animations/pack_clips.res remapped: res://assets/animations/pack_clips.res
+Completed load for: 'res://assets/animations/pack_clips.res' remapped 'res://assets/animations/pack_clips.res' at thread -1
+Loading resource: res://assets/animations/touch_clips.res remapped: res://assets/animations/touch_clips.res
+Completed load for: 'res://assets/animations/touch_clips.res' remapped 'res://assets/animations/touch_clips.res' at thread -1
+Loading resource: res://assets/animations/mocap_clips.res remapped: res://assets/animations/mocap_clips.res
+Completed load for: 'res://assets/animations/mocap_clips.res' remapped 'res://assets/animations/mocap_clips.res' at thread -1
+Loading resource: res://assets/animations/pack_keeper.res remapped: res://assets/animations/pack_keeper.res
+Completed load for: 'res://assets/animations/pack_keeper.res' remapped 'res://assets/animations/pack_keeper.res' at thread -1
+[ OK ] test_action_arbiter::test_higher_level_replaces_lower_and_lower_cannot_interrupt (5 checks, 590 ms)
+Loading resource: res://scenes/ball/ball.tscn remapped: res://scenes/ball/ball.tscn
+Completed load for: 'res://scenes/ball/ball.tscn' remapped 'res://scenes/ball/ball.tscn' at thread -1
+Loading resource: res://assets/ball/ball.gdshader remapped: res://assets/ball/ball.gdshader
+Completed load for: 'res://assets/ball/ball.gdshader' remapped 'res://assets/ball/ball.gdshader' at thread -1
+Loading resource: res://scenes/player/footballer.tscn remapped: res://scenes/player/footballer.tscn
+Completed load for: 'res://scenes/player/footballer.tscn' remapped 'res://scenes/player/footballer.tscn' at thread -1
+Loading resource: res://assets/characters/json/json_human.scn remapped: res://assets/characters/json/json_human.scn
+Completed load for: 'res://assets/characters/json/json_human.scn' remapped 'res://assets/characters/json/json_human.scn' at thread -1
+Loading resource: res://assets/animations/json_clips.res remapped: res://assets/animations/json_clips.res
+Completed load for: 'res://assets/animations/json_clips.res' remapped 'res://assets/animations/json_clips.res' at thread -1
+Loading resource: res://assets/animations/json_scenes.res remapped: res://assets/animations/json_scenes.res
+Completed load for: 'res://assets/animations/json_scenes.res' remapped 'res://assets/animations/json_scenes.res' at thread -1
+Loading resource: res://assets/animations/json_keeper.res remapped: res://assets/animations/json_keeper.res
+Completed load for: 'res://assets/animations/json_keeper.res' remapped 'res://assets/animations/json_keeper.res' at thread -1
+Loading resource: res://assets/characters/json/json_kit.gdshader remapped: res://assets/characters/json/json_kit.gdshader
+Completed load for: 'res://assets/characters/json/json_kit.gdshader' remapped 'res://assets/characters/json/json_kit.gdshader' at thread -1
+       · velocidad 6.4 m/s, clip jn_tackle_stand_2750 a 2.8 m/s
+Loading resource: res://assets/animations/pack_clips.res remapped: res://assets/animations/pack_clips.res
+Completed load for: 'res://assets/animations/pack_clips.res' remapped 'res://assets/animations/pack_clips.res' at thread -1
+Loading resource: res://assets/animations/touch_clips.res remapped: res://assets/animations/touch_clips.res
+Completed load for: 'res://assets/animations/touch_clips.res' remapped 'res://assets/animations/touch_clips.res' at thread -1
+Loading resource: res://assets/animations/mocap_clips.res remapped: res://assets/animations/mocap_clips.res
+Completed load for: 'res://assets/animations/mocap_clips.res' remapped 'res://assets/animations/mocap_clips.res' at thread -1
+Loading resource: res://assets/animations/pack_keeper.res remapped: res://assets/animations/pack_keeper.res
+Completed load for: 'res://assets/animations/pack_keeper.res' remapped 'res://assets/animations/pack_keeper.res' at thread -1
+[ OK ] test_action_arbiter::test_in_place_pose_is_refused_while_running (2 checks, 711 ms)
+Loading resource: res://scenes/ball/ball.tscn remapped: res://scenes/ball/ball.tscn
+Completed load for: 'res://scenes/ball/ball.tscn' remapped 'res://scenes/ball/ball.tscn' at thread -1
+Loading resource: res://assets/ball/ball.gdshader remapped: res://assets/ball/ball.gdshader
+Completed load for: 'res://assets/ball/ball.gdshader' remapped 'res://assets/ball/ball.gdshader' at thread -1
+Loading resource: res://scenes/player/footballer.tscn remapped: res://scenes/player/footballer.tscn
+Completed load for: 'res://scenes/player/footballer.tscn' remapped 'res://scenes/player/footballer.tscn' at thread -1
+Loading resource: res://assets/characters/json/json_human.scn remapped: res://assets/characters/json/json_human.scn
+Completed load for: 'res://assets/characters/json/json_human.scn' remapped 'res://assets/characters/json/json_human.scn' at thread -1
+Loading resource: res://assets/animations/json_clips.res remapped: res://assets/animations/json_clips.res
+Completed load for: 'res://assets/animations/json_clips.res' remapped 'res://assets/animations/json_clips.res' at thread -1
+Loading resource: res://assets/animations/json_scenes.res remapped: res://assets/animations/json_scenes.res
+Completed load for: 'res://assets/animations/json_scenes.res' remapped 'res://assets/animations/json_scenes.res' at thread -1
+Loading resource: res://assets/animations/json_keeper.res remapped: res://assets/animations/json_keeper.res
+Completed load for: 'res://assets/animations/json_keeper.res' remapped 'res://assets/animations/json_keeper.res' at thread -1
+Loading resource: res://assets/characters/json/json_kit.gdshader remapped: res://assets/characters/json/json_kit.gdshader
+Completed load for: 'res://assets/characters/json/json_kit.gdshader' remapped 'res://assets/characters/json/json_kit.gdshader' at thread -1
+Loading resource: res://assets/animations/pack_clips.res remapped: res://assets/animations/pack_clips.res
+Completed load for: 'res://assets/animations/pack_clips.res' remapped 'res://assets/animations/pack_clips.res' at thread -1
+Loading resource: res://assets/animations/touch_clips.res remapped: res://assets/animations/touch_clips.res
+Completed load for: 'res://assets/animations/touch_clips.res' remapped 'res://assets/animations/touch_clips.res' at thread -1
+Loading resource: res://assets/animations/mocap_clips.res remapped: res://assets/animations/mocap_clips.res
+Completed load for: 'res://assets/animations/mocap_clips.res' remapped 'res://assets/animations/mocap_clips.res' at thread -1
+Loading resource: res://assets/animations/pack_keeper.res remapped: res://assets/animations/pack_keeper.res
+Completed load for: 'res://assets/animations/pack_keeper.res' remapped 'res://assets/animations/pack_keeper.res' at thread -1
+[ OK ] test_action_arbiter::test_missing_clip_fails_safely (5 checks, 697 ms)
+Loading resource: res://scenes/ball/ball.tscn remapped: res://scenes/ball/ball.tscn
+Completed load for: 'res://scenes/ball/ball.tscn' remapped 'res://scenes/ball/ball.tscn' at thread -1
+Loading resource: res://assets/ball/ball.gdshader remapped: res://assets/ball/ball.gdshader
+Completed load for: 'res://assets/ball/ball.gdshader' remapped 'res://assets/ball/ball.gdshader' at thread -1
+Loading resource: res://scenes/player/footballer.tscn remapped: res://scenes/player/footballer.tscn
+Completed load for: 'res://scenes/player/footballer.tscn' remapped 'res://scenes/player/footballer.tscn' at thread -1
+Loading resource: res://assets/characters/json/json_human.scn remapped: res://assets/characters/json/json_human.scn
+Completed load for: 'res://assets/characters/json/json_human.scn' remapped 'res://assets/characters/json/json_human.scn' at thread -1
+Loading resource: res://assets/animations/json_clips.res remapped: res://assets/animations/json_clips.res
+Completed load for: 'res://assets/animations/json_clips.res' remapped 'res://assets/animations/json_clips.res' at thread -1
+Loading resource: res://assets/animations/json_scenes.res remapped: res://assets/animations/json_scenes.res
+Completed load for: 'res://assets/animations/json_scenes.res' remapped 'res://assets/animations/json_scenes.res' at thread -1
+Loading resource: res://assets/animations/json_keeper.res remapped: res://assets/animations/json_keeper.res
+Completed load for: 'res://assets/animations/json_keeper.res' remapped 'res://assets/animations/json_keeper.res' at thread -1
+Loading resource: res://assets/characters/json/json_kit.gdshader remapped: res://assets/characters/json/json_kit.gdshader
+Completed load for: 'res://assets/characters/json/json_kit.gdshader' remapped 'res://assets/characters/json/json_kit.gdshader' at thread -1
+       · cadena de caida: 31 imagenes, 0 con la pose distinta de la raiz
+Loading resource: res://assets/animations/pack_clips.res remapped: res://assets/animations/pack_clips.res
+Completed load for: 'res://assets/animations/pack_clips.res' remapped 'res://assets/animations/pack_clips.res' at thread -1
+Loading resource: res://assets/animations/touch_clips.res remapped: res://assets/animations/touch_clips.res
+Completed load for: 'res://assets/animations/touch_clips.res' remapped 'res://assets/animations/touch_clips.res' at thread -1
+Loading resource: res://assets/animations/mocap_clips.res remapped: res://assets/animations/mocap_clips.res
+Completed load for: 'res://assets/animations/mocap_clips.res' remapped 'res://assets/animations/mocap_clips.res' at thread -1
+Loading resource: res://assets/animations/pack_keeper.res remapped: res://assets/animations/pack_keeper.res
+Completed load for: 'res://assets/animations/pack_keeper.res' remapped 'res://assets/animations/pack_keeper.res' at thread -1
+[ OK ] test_action_arbiter::test_one_root_controller_and_pose_follows_the_root_until_it_ends (6 checks, 573 ms)
+Loading resource: res://scenes/ball/ball.tscn remapped: res://scenes/ball/ball.tscn
+Completed load for: 'res://scenes/ball/ball.tscn' remapped 'res://scenes/ball/ball.tscn' at thread -1
+Loading resource: res://assets/ball/ball.gdshader remapped: res://assets/ball/ball.gdshader
+Completed load for: 'res://assets/ball/ball.gdshader' remapped 'res://assets/ball/ball.gdshader' at thread -1
+Loading resource: res://scenes/player/footballer.tscn remapped: res://scenes/player/footballer.tscn
+Completed load for: 'res://scenes/player/footballer.tscn' remapped 'res://scenes/player/footballer.tscn' at thread -1
+Loading resource: res://assets/characters/json/json_human.scn remapped: res://assets/characters/json/json_human.scn
+Completed load for: 'res://assets/characters/json/json_human.scn' remapped 'res://assets/characters/json/json_human.scn' at thread -1
+Loading resource: res://assets/animations/json_clips.res remapped: res://assets/animations/json_clips.res
+Completed load for: 'res://assets/animations/json_clips.res' remapped 'res://assets/animations/json_clips.res' at thread -1
+Loading resource: res://assets/animations/json_scenes.res remapped: res://assets/animations/json_scenes.res
+Completed load for: 'res://assets/animations/json_scenes.res' remapped 'res://assets/animations/json_scenes.res' at thread -1
+Loading resource: res://assets/animations/json_keeper.res remapped: res://assets/animations/json_keeper.res
+Completed load for: 'res://assets/animations/json_keeper.res' remapped 'res://assets/animations/json_keeper.res' at thread -1
+Loading resource: res://assets/characters/json/json_kit.gdshader remapped: res://assets/characters/json/json_kit.gdshader
+Completed load for: 'res://assets/characters/json/json_kit.gdshader' remapped 'res://assets/characters/json/json_kit.gdshader' at thread -1
+Loading resource: res://assets/animations/pack_clips.res remapped: res://assets/animations/pack_clips.res
+Completed load for: 'res://assets/animations/pack_clips.res' remapped 'res://assets/animations/pack_clips.res' at thread -1
+Loading resource: res://assets/animations/touch_clips.res remapped: res://assets/animations/touch_clips.res
+Completed load for: 'res://assets/animations/touch_clips.res' remapped 'res://assets/animations/touch_clips.res' at thread -1
+Loading resource: res://assets/animations/mocap_clips.res remapped: res://assets/animations/mocap_clips.res
+Completed load for: 'res://assets/animations/mocap_clips.res' remapped 'res://assets/animations/mocap_clips.res' at thread -1
+Loading resource: res://assets/animations/pack_keeper.res remapped: res://assets/animations/pack_keeper.res
+Completed load for: 'res://assets/animations/pack_keeper.res' remapped 'res://assets/animations/pack_keeper.res' at thread -1
+[ OK ] test_action_arbiter::test_reset_leaves_no_residue (3 checks, 581 ms)
+Loading resource: res://scenes/ball/ball.tscn remapped: res://scenes/ball/ball.tscn
+Completed load for: 'res://scenes/ball/ball.tscn' remapped 'res://scenes/ball/ball.tscn' at thread -1
+Loading resource: res://assets/ball/ball.gdshader remapped: res://assets/ball/ball.gdshader
+Completed load for: 'res://assets/ball/ball.gdshader' remapped 'res://assets/ball/ball.gdshader' at thread -1
+Loading resource: res://scenes/player/footballer.tscn remapped: res://scenes/player/footballer.tscn
+Completed load for: 'res://scenes/player/footballer.tscn' remapped 'res://scenes/player/footballer.tscn' at thread -1
+Loading resource: res://assets/characters/json/json_human.scn remapped: res://assets/characters/json/json_human.scn
+Completed load for: 'res://assets/characters/json/json_human.scn' remapped 'res://assets/characters/json/json_human.scn' at thread -1
+Loading resource: res://assets/animations/json_clips.res remapped: res://assets/animations/json_clips.res
+Completed load for: 'res://assets/animations/json_clips.res' remapped 'res://assets/animations/json_clips.res' at thread -1
+Loading resource: res://assets/animations/json_scenes.res remapped: res://assets/animations/json_scenes.res
+Completed load for: 'res://assets/animations/json_scenes.res' remapped 'res://assets/animations/json_scenes.res' at thread -1
+Loading resource: res://assets/animations/json_keeper.res remapped: res://assets/animations/json_keeper.res
+Completed load for: 'res://assets/animations/json_keeper.res' remapped 'res://assets/animations/json_keeper.res' at thread -1
+Loading resource: res://assets/characters/json/json_kit.gdshader remapped: res://assets/characters/json/json_kit.gdshader
+Completed load for: 'res://assets/characters/json/json_kit.gdshader' remapped 'res://assets/characters/json/json_kit.gdshader' at thread -1
+Loading resource: res://scenes/ball/ball.tscn remapped: res://scenes/ball/ball.tscn
+Completed load for: 'res://scenes/ball/ball.tscn' remapped 'res://scenes/ball/ball.tscn' at thread -1
+Loading resource: res://assets/animations/json_scenes.res remapped: res://assets/animations/json_scenes.res
+Completed load for: 'res://assets/animations/json_scenes.res' remapped 'res://assets/animations/json_scenes.res' at thread -1
+Loading resource: res://assets/animations/json_keeper.res remapped: res://assets/animations/json_keeper.res
+Completed load for: 'res://assets/animations/json_keeper.res' remapped 'res://assets/animations/json_keeper.res' at thread -1
+Loading resource: res://scenes/player/footballer.tscn remapped: res://scenes/player/footballer.tscn
+Completed load for: 'res://scenes/player/footballer.tscn' remapped 'res://scenes/player/footballer.tscn' at thread -1
+Loading resource: res://assets/characters/json/json_human.scn remapped: res://assets/characters/json/json_human.scn
+Completed load for: 'res://assets/characters/json/json_human.scn' remapped 'res://assets/characters/json/json_human.scn' at thread -1
+Loading resource: res://assets/characters/json/json_kit.gdshader remapped: res://assets/characters/json/json_kit.gdshader
+Completed load for: 'res://assets/characters/json/json_kit.gdshader' remapped 'res://assets/characters/json/json_kit.gdshader' at thread -1
+Loading resource: res://scenes/ball/ball.tscn remapped: res://scenes/ball/ball.tscn
+Completed load for: 'res://scenes/ball/ball.tscn' remapped 'res://scenes/ball/ball.tscn' at thread -1
+Loading resource: res://assets/animations/json_scenes.res remapped: res://assets/animations/json_scenes.res
+Completed load for: 'res://assets/animations/json_scenes.res' remapped 'res://assets/animations/json_scenes.res' at thread -1
+Loading resource: res://assets/animations/json_keeper.res remapped: res://assets/animations/json_keeper.res
+Completed load for: 'res://assets/animations/json_keeper.res' remapped 'res://assets/animations/json_keeper.res' at thread -1
+Loading resource: res://scenes/player/footballer.tscn remapped: res://scenes/player/footballer.tscn
+Completed load for: 'res://scenes/player/footballer.tscn' remapped 'res://scenes/player/footballer.tscn' at thread -1
+Loading resource: res://assets/characters/json/json_human.scn remapped: res://assets/characters/json/json_human.scn
+Completed load for: 'res://assets/characters/json/json_human.scn' remapped 'res://assets/characters/json/json_human.scn' at thread -1
+Loading resource: res://assets/characters/json/json_kit.gdshader remapped: res://assets/characters/json/json_kit.gdshader
+Completed load for: 'res://assets/characters/json/json_kit.gdshader' remapped 'res://assets/characters/json/json_kit.gdshader' at thread -1
+Loading resource: res://assets/animations/pack_clips.res remapped: res://assets/animations/pack_clips.res
+Completed load for: 'res://assets/animations/pack_clips.res' remapped 'res://assets/animations/pack_clips.res' at thread -1
+Loading resource: res://assets/animations/touch_clips.res remapped: res://assets/animations/touch_clips.res
+Completed load for: 'res://assets/animations/touch_clips.res' remapped 'res://assets/animations/touch_clips.res' at thread -1
+Loading resource: res://assets/animations/mocap_clips.res remapped: res://assets/animations/mocap_clips.res
+Completed load for: 'res://assets/animations/mocap_clips.res' remapped 'res://assets/animations/mocap_clips.res' at thread -1
+Loading resource: res://assets/animations/pack_keeper.res remapped: res://assets/animations/pack_keeper.res
+Completed load for: 'res://assets/animations/pack_keeper.res' remapped 'res://assets/animations/pack_keeper.res' at thread -1
+[ OK ] test_action_arbiter::test_simultaneous_requests_resolve_by_level_not_by_order (4 checks, 809 ms)
+Loading resource: res://scenes/ball/ball.tscn remapped: res://scenes/ball/ball.tscn
+Completed load for: 'res://scenes/ball/ball.tscn' remapped 'res://scenes/ball/ball.tscn' at thread -1
+Loading resource: res://assets/ball/ball.gdshader remapped: res://assets/ball/ball.gdshader
+Completed load for: 'res://assets/ball/ball.gdshader' remapped 'res://assets/ball/ball.gdshader' at thread -1
+Loading resource: res://scenes/player/footballer.tscn remapped: res://scenes/player/footballer.tscn
+Completed load for: 'res://scenes/player/footballer.tscn' remapped 'res://scenes/player/footballer.tscn' at thread -1
+Loading resource: res://assets/characters/json/json_human.scn remapped: res://assets/characters/json/json_human.scn
+Completed load for: 'res://assets/characters/json/json_human.scn' remapped 'res://assets/characters/json/json_human.scn' at thread -1
+Loading resource: res://assets/animations/json_clips.res remapped: res://assets/animations/json_clips.res
+Completed load for: 'res://assets/animations/json_clips.res' remapped 'res://assets/animations/json_clips.res' at thread -1
+Loading resource: res://assets/animations/json_scenes.res remapped: res://assets/animations/json_scenes.res
+Completed load for: 'res://assets/animations/json_scenes.res' remapped 'res://assets/animations/json_scenes.res' at thread -1
+Loading resource: res://assets/animations/json_keeper.res remapped: res://assets/animations/json_keeper.res
+Completed load for: 'res://assets/animations/json_keeper.res' remapped 'res://assets/animations/json_keeper.res' at thread -1
+Loading resource: res://assets/characters/json/json_kit.gdshader remapped: res://assets/characters/json/json_kit.gdshader
+Completed load for: 'res://assets/characters/json/json_kit.gdshader' remapped 'res://assets/characters/json/json_kit.gdshader' at thread -1
+Loading resource: res://assets/animations/pack_clips.res remapped: res://assets/animations/pack_clips.res
+Completed load for: 'res://assets/animations/pack_clips.res' remapped 'res://assets/animations/pack_clips.res' at thread -1
+Loading resource: res://assets/animations/touch_clips.res remapped: res://assets/animations/touch_clips.res
+Completed load for: 'res://assets/animations/touch_clips.res' remapped 'res://assets/animations/touch_clips.res' at thread -1
+Loading resource: res://assets/animations/mocap_clips.res remapped: res://assets/animations/mocap_clips.res
+Completed load for: 'res://assets/animations/mocap_clips.res' remapped 'res://assets/animations/mocap_clips.res' at thread -1
+Loading resource: res://assets/animations/pack_keeper.res remapped: res://assets/animations/pack_keeper.res
+Completed load for: 'res://assets/animations/pack_keeper.res' remapped 'res://assets/animations/pack_keeper.res' at thread -1
+[ OK ] test_action_arbiter::test_stale_tokens_do_nothing (6 checks, 640 ms)
+
+Resumen: 9 pruebas, 0 fallidas, 0 omitidas, 41 comprobaciones, 6.0 s
+WARNING: 72 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+XR: Clearing primary interface
+XR: Removed interface "Native mobile"
+XR: Removed interface "OpenXR"
+Leaked instance: GDScriptNativeClass:9223372052944126882 - Reference count: 5
+Leaked instance: GDScript:9223372070560204298 - Reference count: 11
+Leaked instance: GDScript:9223372076767774239 - Reference count: 11
+Leaked instance: GDScript:9223372076918769184 - Reference count: 11
+Leaked instance: GDScript:9223372082757240376 - Reference count: 11
+Leaked instance: GDScript:9223372083143116345 - Reference count: 11
+Leaked instance: RandomNumberGenerator:9223372399527855777 - Reference count: 1
+Leaked instance: RefCounted:9223372534500558501 - Reference count: 1
+Leaked instance: RandomNumberGenerator:9223372671184537267 - Reference count: 1
+Leaked instance: RefCounted:9223372466485724878 - Reference count: 1
+Leaked instance: RefCounted:9223372534550890292 - Reference count: 1
+Leaked instance: RefCounted:9223372686116259653 - Reference count: 1
+Leaked instance: RefCounted:9223372192228575050 - Reference count: 4
+Leaked instance: RefCounted:9223372192278906699 - Reference count: 1
+Leaked instance: RefCounted:9223372192295683916 - Reference count: 1
+Leaked instance: RefCounted:9223372192312461133 - Reference count: 1
+Leaked instance: RandomNumberGenerator:9223372192245352275 - Reference count: 1
+Leaked instance: RefCounted:9223372125136488282 - Reference count: 4
+Leaked instance: RandomNumberGenerator:9223372125153265499 - Reference count: 1
+Leaked instance: RefCounted:9223372125170042716 - Reference count: 1
+Leaked instance: RefCounted:9223372125186819933 - Reference count: 1
+Leaked instance: RefCounted:9223372125203597150 - Reference count: 1
+Leaked instance: RefCounted:9223372125220374367 - Reference count: 1
+Leaked instance: RefCounted:9223372534467004263 - Reference count: 4
+Leaked instance: RefCounted:9223372698497845098 - Reference count: 1
+Leaked instance: RefCounted:9223372601877858157 - Reference count: 1
+Leaked instance: RefCounted:9223372698531401728 - Reference count: 1
+Leaked instance: RefCounted:9223372601793974856 - Reference count: 4
+Leaked instance: RefCounted:9223372601844306505 - Reference count: 1
+Leaked instance: RefCounted:9223372671201317456 - Reference count: 1
+Leaked instance: RefCounted:9223372601861083738 - Reference count: 1
+Leaked instance: RefCounted:9223372466502505060 - Reference count: 1
+Leaked instance: RefCounted:9223372399544636005 - Reference count: 1
+Leaked instance: RefCounted:9223372466519282278 - Reference count: 1
+Leaked instance: RefCounted:9223372329617199721 - Reference count: 1
+Leaked instance: RefCounted:9223372262592221802 - Reference count: 1
+Leaked instance: RefCounted:9223372329633976940 - Reference count: 1
+Leaked instance: RefCounted:9223372329650754169 - Reference count: 1
+Leaked instance: RefCounted:9223372534534115965 - Reference count: 1
+Leaked instance: RefCounted:9223372329566868131 - Reference count: 4
+Leaked instance: RefCounted:9223372601827529490 - Reference count: 1
+Leaked instance: RefCounted:9223372466452173631 - Reference count: 4
+Leaked instance: RandomNumberGenerator:9223372534483784514 - Reference count: 1
+Leaked instance: RefCounted:9223372466536059715 - Reference count: 1
+Leaked instance: RefCounted:9223372534517338979 - Reference count: 1
+Leaked instance: RefCounted:9223372671167763328 - Reference count: 4
+Leaked instance: RefCounted:9223372329600422816 - Reference count: 1
+Leaked instance: RandomNumberGenerator:9223372262575444911 - Reference count: 1
+Leaked instance: RefCounted:9223372686133040115 - Reference count: 1
+Leaked instance: RefCounted:9223372262558667770 - Reference count: 4
+Leaked instance: RefCounted:9223372686099485691 - Reference count: 1
+Leaked instance: RefCounted:9223372262625776648 - Reference count: 1
+Leaked instance: RefCounted:9223372262608999433 - Reference count: 1
+Leaked instance: RefCounted:9223372262642553866 - Reference count: 1
+Leaked instance: RefCounted:9223372192262132748 - Reference count: 1
+Leaked instance: RandomNumberGenerator:9223372466468951054 - Reference count: 1
+Leaked instance: RandomNumberGenerator:922337268606ERROR: 5 resources still in use at exit.
+   at: clear (core/io/resource.cpp:817)
+5931280 - Reference count: 1
+Leaked instance: RandomNumberGenerator:9223372329583645713 - Reference count: 1
+Leaked instance: RefCounted:9223372399511082003 - Reference count: 4
+Leaked instance: RefCounted:9223372399594968084 - Reference count: 1
+Leaked instance: RefCounted:9223372399561413654 - Reference count: 1
+Leaked instance: RefCounted:9223372671251649563 - Reference count: 1
+Leaked instance: RefCounted:9223372698447516728 - Reference count: 4
+Leaked instance: RefCounted:9223372399578190907 - Reference count: 1
+Leaked instance: RandomNumberGenerator:9223372601810752582 - Reference count: 1
+Leaked instance: RefCounted:9223372686049154119 - Reference count: 4
+Leaked instance: RefCounted:9223372671218095192 - Reference count: 1
+Leaked instance: RefCounted:9223372686082708586 - Reference count: 1
+Leaked instance: RefCounted:9223372671234872432 - Reference count: 1
+Leaked instance: RefCounted:9223372698514625655 - Reference count: 1
+Leaked instance: RefCounted:9223372698481071225 - Reference count: 1
+Leaked instance: RandomNumberGenerator:9223372698464294021 - Reference count: 1
+Hint: Leaked instances typically happen when nodes are removed from the scene tree (with `remove_child()`) but not freed (with `free()` or `queue_free()`).
+Resource still in use: res://scripts/player/ball_turn.gd (GDScript)
+Resource still in use: res://scripts/player/drag_back.gd (GDScript)
+Resource still in use: res://scripts/player/json_receive.gd (GDScript)
+Resource still in use: res://scripts/player/json_ball_move.gd (GDScript)
+Resource still in use: res://scripts/player/ball_handler.gd (GDScript)
+Orphan StringName: _path_clear (static: 0, total: 1)
+Orphan StringName: kick_desired_mag (static: 0, total: 14)
+Orphan StringName: IK_RELEASE (static: 0, total: 1)
+Orphan StringName: STEER_ROLES (static: 0, total: 1)
+Orphan StringName: _turn_kick_clip_t (static: 0, total: 1)
+Orphan StringName: touch_candidates (static: 0, total: 1)
+Orphan StringName: TRAJ_STEP (static: 0, total: 1)
+Orphan StringName: JSON_TOUCH_IK_HOLD (static: 0, total: 1)
+Orphan StringName: ROLES_STOP (static: 0, total: 1)
+Orphan StringName: CORR_MAX (static: 0, total: 1)
+Orphan StringName: _abort (static: 0, total: 1)
+Orphan StringName: _desired_dir (static: 0, total: 14)
+Orphan StringName: clip_touch_count (static: 0, total: 14)
+Orphan StringName: touches (static: 0, total: 14)
+Orphan StringName: cancel (static: 0, total: 3)
+Orphan StringName: _origin (static: 0, total: 14)
+Orphan StringName: _fade_touch_ik (static: 0, total: 1)
+Orphan StringName: MIN_ANGLE (static: 0, total: 2)
+Orphan StringName: LOST_MARGIN (static: 0, total: 1)
+Orphan StringName: AI_TURN_MIN (static: 0, total: 1)
+Orphan StringName: plan_move (static: 0, total: 1)
+Orphan StringName: _toe_body (static: 0, total: 1)
+Orphan StringName: START_TOL (static: 0, total: 1)
+Orphan StringName: FOOT_WAIT_MAX (static: 0, total: 1)
+Orphan StringName: request_skill (static: 0, total: 1)
+Orphan StringName: AI_COOLDOWN (static: 0, total: 1)
+Orphan StringName: CATCH_UP_TIME (static: 0, total: 1)
+Orphan StringName: PULL_TIME (static: 0, total: 1)
+Orphan StringName: FOOT_BALL_LEAD (static: 0, total: 1)
+Orphan StringName: STEER_TAIL (static: 0, total: 1)
+Orphan StringName: TOUCH_MAX_TURN (static: 0, total: 1)
+Orphan StringName: can_reach (static: 0, total: 1)
+Orphan StringName: foot_sync_enabled (static: 0, total: 2)
+Orphan StringName: _recv_cut (static: 0, total: 14)
+Orphan StringName: _fast_prediction (static: 0, total: 1)
+Orphan StringName: feet_live (static: 0, total: 14)
+Orphan StringName: _reach (static: 0, total: 14)
+Orphan StringName: _sole (static: 0, total: 14)
+Orphan StringName: CATCH_CLOSING (static: 0, total: 1)
+Orphan StringName: _length (static: 0, total: 14)
+Orphan StringName: approach_face (static: 0, total: 14)
+Orphan StringName: dribble_touch_count (static: 0, total: 14)
+Orphan StringName: _touch (static: 0, total: 2)
+Orphan StringName: STEER_TOUCH_DEG (static: 0, total: 1)
+Orphan StringName: kick_nudge_cap (static: 0, total: 1)
+Orphan StringName: _samples_cache (static: 0, total: 1)
+Orphan StringName: MIN_STICK (static: 0, total: 4)
+Orphan StringName: _toe_now (static: 0, total: 13)
+Orphan StringName: _bbox_cache (static: 0, total: 1)
+Orphan StringName: _person (static: 0, total: 1)
+Orphan StringName: kick_log (static: 0, total: 13)
+Orphan StringName: plan_clip_kick (static: 0, total: 1)
+Orphan StringName: _req_speed (static: 0, total: 14)
+Orphan StringName: TOUCH_EARLY (static: 0, total: 1)
+Orphan StringName: STOP_MAX_SPEED (static: 0, total: 1)
+Orphan StringName: KICK_PLANT_TIME (static: 0, total: 1)
+Orphan StringName: FOOT_ZONE_BACK (static: 0, total: 1)
+Orphan StringName: PLANT_SPEED_GAIN_MAX (static: 0, total: 1)
+Orphan StringName: SETTLE_ZONE_BACK (static: 0, total: 1)
+Orphan StringName: step (static: 0, total: 1)
+Orphan StringName: TRAJ_DRIFT (static: 0, total: 1)
+Orphan StringName: AERIAL_SETS (static: 0, total: 1)
+Orphan StringName: _touch_active (static: 0, total: 13)
+Orphan StringName: _recv_gap (static: 0, total: 14)
+Orphan StringName: foot_touches (static: 0, total: 14)
+Orphan StringName: _first_t (static: 0, total: 14)
+Orphan StringName: plant_velocity (static: 0, total: 1)
+Orphan StringName: _ankle_ids (static: 0, total: 13)
+Orphan StringName: FOOT_ZONE_FWD (static: 0, total: 1)
+Orphan StringName: LOOSE_CHASE_MAX_BALL_SPEED (static: 0, total: 1)
+Orphan StringName: touch_timer (static: 0, total: 14)
+Orphan StringName: _ik_foot (static: 0, total: 14)
+Orphan StringName: REBOUND (static: 0, total: 1)
+Orphan StringName: _yaw0 (static: 0, total: 14)
+Orphan StringName: selectable (static: 0, total: 1)
+Orphan StringName: MAX_TIME (static: 0, total: 2)
+Orphan StringName: CATCH_REL (static: 0, total: 2)
+Orphan StringName: TOUCH_IK_LAT_STRAIGHT (static: 0, total: 1)
+Orphan StringName: RESTING_BALL_MIN_Y (static: 0, total: 1)
+Orphan StringName: carry_steer (static: 0, total: 1)
+Orphan StringName: APPROACH_EVERY (static: 0, total: 1)
+Orphan StringName: _requested (static: 0, total: 14)
+Orphan StringName: PLANT_FOOT_MAX_Y (static: 0, total: 1)
+Orphan StringName: _json_touch_ik_step (static: 0, total: 1)
+Orphan StringName: _kick_to (static: 0, total: 1)
+Orphan StringName: _kick_v0 (static: 0, total: 14)
+Orphan StringName: _kick_curl (static: 0, total: 14)
+Orphan StringName: first_touch_absorb (static: 0, total: 1)
+Orphan StringName: TOUCH_LAT_TOL (static: 0, total: 1)
+Orphan StringName: STEER_MAX_DV (static: 0, total: 1)
+Orphan StringName: cancel_charge (static: 0, total: 1)
+Orphan StringName: _receive_step (static: 0, total: 1)
+Orphan StringName: STILL_OUT (static: 0, total: 1)
+Orphan StringName: STEER_COOLDOWN (static: 0, total: 1)
+Orphan StringName: turn_for_kick (static: 0, total: 1)
+Orphan StringName: _after_kick (static: 0, total: 1)
+Orphan StringName: _pass_ghost (static: 0, total: 14)
+Orphan StringName: _recv_inc (static: 0, total: 14)
+Orphan StringName: CURVE_BALL_BEARING (static: 0, total: 1)
+Orphan StringName: controls_ball (static: 0, total: 1)
+Orphan StringName: _part_point (static: 0, total: 1)
+Orphan StringName: last_contact (static: 0, total: 13)
+Orphan StringName: _next (static: 0, total: 14)
+Orphan StringName: _reach_peak (static: 0, total: 14)
+Orphan StringName: _turn_end (static: 0, total: 14)
+Orphan StringName: IK_RISE (static: 0, total: 1)
+Orphan StringName: incoming_ball_eta (static: 0, total: 1)
+Orphan StringName: _exit_touch (static: 0, total: 1)
+Orphan StringName: _carry_speed_after_turn (static: 0, total: 1)
+Orphan StringName: last_touch_foot (static: 0, total: 14)
+Orphan StringName: _jik_dir (static: 0, total: 14)
+Orphan StringName: CATCH_UP_MARGIN (static: 0, total: 1)
+Orphan StringName: is_dribbling (static: 0, total: 1)
+Orphan StringName: clip_timing (static: 0, total: 1)
+Orphan StringName: _root_end (static: 0, total: 14)
+Orphan StringName: kicked (static: 0, total: 13)
+Orphan StringName: APPROACH_SPEED (static: 0, total: 1)
+Orphan StringName: LOOSE_CHASE_RANGE (static: 0, total: 1)
+Orphan StringName: TOUCH_IK_IN (static: 0, total: 1)
+Orphan StringName: start_receive (static: 0, total: 1)
+Orphan StringName: BODY_CLEAR (static: 0, total: 1)
+Orphan StringName: TOUCH_CURVE_RATE (static: 0, total: 1)
+Orphan StringName: JsonBallMove (static: 0, total: 3)
+Orphan StringName: REVERSAL_TOUCH_GAP (static: 0, total: 1)
+Orphan StringName: _contact_reset (static: 0, total: 1)
+Orphan StringName: record_rejects (static: 0, total: 2)
+Orphan StringName: _through_time (static: 0, total: 14)
+Orphan StringName: _contact_toe_now (static: 0, total: 1)
+Orphan StringName: FOOT_CONTACT (static: 0, total: 1)
+Orphan StringName: TOUCH_LIVE_LAT (static: 0, total: 1)
+Orphan StringName: _rival_within (static: 0, total: 1)
+Orphan StringName: _through_active (static: 0, total: 14)
+Orphan StringName: _recv_cp (static: 0, total: 13)
+Orphan StringName: _body_coords (static: 0, total: 1)
+Orphan StringName: IK_MAX (static: 0, total: 1)
+Orphan StringName: carry_catch_up_mag (static: 0, total: 1)
+Orphan StringName: SOLE_AHEAD_MAX (static: 0, total: 1)
+Orphan StringName: clip (static: 0, total: 14)
+Orphan StringName: _ankle_now (static: 0, total: 13)
+Orphan StringName: FOOT_ZONE_LAT (static: 0, total: 1)
+Orphan StringName: STEER_OUTER_FOOT_BONUS (static: 0, total: 1)
+Orphan StringName: _pulled (static: 0, total: 14)
+Orphan StringName: _toe_vel (static: 0, total: 13)
+Orphan StringName: _kick_action (static: 0, total: 14)
+Orphan StringName: COOLDOWN (static: 0, total: 4)
+Orphan StringName: _received (static: 0, total: 1)
+Orphan StringName: _ball_rolling (static: 0, total: 1)
+Orphan StringName: _finish_clip_kick (static: 0, total: 1)
+Orphan StringName: _recv_t (static: 0, total: 14)
+Orphan StringName: _min_dist (static: 0, total: 1)
+Orphan StringName: foot_contact_world (static: 0, total: 1)
+Orphan StringName: _try_execute_pending (static: 0, total: 1)
+Orphan StringName: _foot_strike (static: 0, total: 1)
+Orphan StringName: PLANT_MISMATCH_COST (static: 0, total: 1)
+Orphan StringName: plan_aerial_kick (static: 0, total: 1)
+Orphan StringName: TOUCH_REACH (static: 0, total: 1)
+Orphan StringName: EXIT_TIME (static: 0, total: 1)
+Orphan StringName: APPROACH_MAX_DIST (static: 0, total: 1)
+Orphan StringName: _sprint_ratio (static: 0, total: 1)
+Orphan StringName: MAX_DV_BUTTON (static: 0, total: 1)
+Orphan StringName: _speed (static: 0, total: 14)
+Orphan StringName: _lateral_hold (static: 0, total: 14)
+Orphan StringName: dribble_speed_cap (static: 0, total: 1)
+Orphan StringName: _kick_stick (static: 0, total: 14)
+Orphan StringName: warm_cache (static: 0, total: 1)
+Orphan StringName: _since_touch (static: 0, total: 14)
+Orphan StringName: _predicted_yaw (static: 0, total: 1)
+Orphan StringName: cross_charge (static: 0, total: 14)
+Orphan StringName: TOUCH_LATE (static: 0, total: 1)
+Orphan StringName: CROUCH (static: 0, total: 1)
+Orphan StringName: _json_kick_ik (static: 0, total: 1)
+Orphan StringName: kick_turn (static: 0, total: 1)
+Orphan StringName: last_touch_toe_distance (static: 0, total: 14)
+Orphan StringName: START_MAX_DV (static: 0, total: 1)
+Orphan StringName: _kick_lob (static: 0, total: 14)
+Orphan StringName: _local_point (static: 0, total: 1)
+Orphan StringName: get_dt (static: 0, total: 1)
+Orphan StringName: _last_push (static: 0, total: 14)
+Orphan StringName: contact_point (static: 0, total: 1)
+Orphan StringName: _last_kick_frame (static: 0, total: 14)
+Orphan StringName: _corr (static: 0, total: 14)
+Orphan StringName: TOUCH_SHARP_DEG (static: 0, total: 1)
+Orphan StringName: stats (static: 0, total: 52)
+Orphan StringName: _magnitude_for_speed (static: 0, total: 1)
+Orphan StringName: kick_approach_steer (static: 0, total: 1)
+Orphan StringName: turn_control (static: 0, total: 1)
+Orphan StringName: toe_world (static: 0, total: 1)
+Orphan StringName: active (static: 2, total: 18)
+Orphan StringName: _ball_still_arriving (static: 0, total: 1)
+Orphan StringName: _jik_max (static: 0, total: 14)
+Orphan StringName: REQUEST_HOLD (static: 0, total: 1)
+Orphan StringName: RESTING_BALL_SECONDS (static: 0, total: 1)
+Orphan StringName: _toe_target (static: 0, total: 1)
+Orphan StringName: _contact_prev_toe (static: 0, total: 14)
+Orphan StringName: is_kick_in_progress (static: 0, total: 1)
+Orphan StringName: _touch_sync (static: 0, total: 14)
+Orphan StringName: JSON_KICK_IK_IN (static: 0, total: 1)
+Orphan StringName: _req_t (static: 0, total: 28)
+Orphan StringName: TOUCH_GAP (static: 0, total: 1)
+Orphan StringName: SETTLE_UNDER (static: 0, total: 1)
+Orphan StringName: plan (static: 0, total: 1)
+Orphan StringName: TURN_TOL (static: 0, total: 2)
+Orphan StringName: TOUCH_LEAD (static: 0, total: 1)
+Orphan StringName: TURN_RATE (static: 0, total: 2)
+Orphan StringName: _json_touch_ik_start (static: 0, total: 1)
+Orphan StringName: _at (static: 0, total: 1)
+Orphan StringName: _dt (static: 0, total: 14)
+Orphan StringName: MAX_DV (static: 0, total: 1)
+Orphan StringName: SOLE_AHEAD (static: 0, total: 1)
+Orphan StringName: STEER_MAX_SPEED (static: 0, total: 1)
+Orphan StringName: _leg_bone (static: 0, total: 14)
+Orphan StringName: _ball_incoming (static: 0, total: 1)
+Orphan StringName: STEER_AFTER_KICK_S (static: 0, total: 1)
+Orphan StringName: CURVE_CARRY_MAX_DEG (static: 0, total: 1)
+Orphan StringName: jn_ball_turn_2500_mirror (static: 0, total: 1)
+Orphan StringName: drag_back (static: 0, total: 14)
+Orphan StringName: _rest (static: 0, total: 1)
+Orphan StringName: _exit_speed (static: 0, total: 14)
+Orphan StringName: ACCEL_TOUCH_MAX (static: 0, total: 1)
+Orphan StringName: STEER_TOUCH_REACH (static: 0, total: 1)
+Orphan StringName: MAX_DIST (static: 0, total: 1)
+Orphan StringName: uses_clip_touches (static: 0, total: 1)
+Orphan StringName: ACCEL_TOUCH_PER_FRACTION (static: 0, total: 1)
+Orphan StringName: _steer_touch_ready (static: 0, total: 1)
+Orphan StringName: _kick_start_ball_v (static: 0, total: 14)
+Orphan StringName: Phase (static: 0, total: 2)
+Orphan StringName: last_touch_foot_distance (static: 0, total: 14)
+Orphan StringName: _update_buttons (static: 0, total: 1)
+Orphan StringName: _try_first_touch (static: 0, total: 1)
+Orphan StringName: JSON_STEP_COST (static: 0, total: 1)
+Orphan StringName: receive (static: 0, total: 14)
+Orphan StringName: PLAN_EVERY (static: 0, total: 2)
+Orphan StringName: _contact_prev_d (static: 0, total: 14)
+Orphan StringName: STOP_MIN_SPEED (static: 0, total: 1)
+Orphan StringName: touch_turn_max_deg (static: 0, total: 1)
+Orphan StringName: _kick_start_touch (static: 0, total: 14)
+Orphan StringName: _pending_action (static: 0, total: 14)
+Orphan StringName: carry_turn_scale (static: 0, total: 1)
+Orphan StringName: RESTING_BALL_SPEED (static: 0, total: 1)
+Orphan StringName: SETTLE_COMFY_LAT (static: 0, total: 1)
+Orphan StringName: perform_shot (static: 0, total: 1)
+Orphan StringName: finish (static: 0, total: 1)
+Orphan StringName: _path_bbox (static: 0, total: 1)
+Orphan StringName: _start (static: 0, total: 1)
+Orphan StringName: PART_VTOL (static: 0, total: 1)
+Orphan StringName: _v_out (static: 0, total: 14)
+Orphan StringName: TOUCH_STICK_RATE_MAX (static: 0, total: 1)
+Orphan StringName: _kick_timer (static: 0, total: 14)
+Orphan StringName: START_MAX_V_IN (static: 0, total: 1)
+Orphan StringName: foot_distance (static: 0, total: 1)
+Orphan StringName: settle_steer (static: 0, total: 1)
+Orphan StringName: _finish_kick (static: 0, total: 1)
+Orphan StringName: _plan_reject (static: 0, total: 14)
+Orphan StringName: MODEL_SCALE (static: 0, total: 1)
+Orphan StringName: SETTLE_COMFY_MAX (static: 0, total: 1)
+Orphan StringName: kick_body_travel (static: 0, total: 1)
+Orphan StringName: SETTLE_COMFY_MIN (static: 0, total: 1)
+Orphan StringName: _end_early (static: 0, total: 1)
+Orphan StringName: BRAKE (static: 0, total: 1)
+Orphan StringName: MIN_CLOSING (static: 0, total: 1)
+Orphan StringName: body_control (static: 0, total: 2)
+Orphan StringName: REACH_AHEAD (static: 0, total: 1)
+Orphan StringName: request (static: 2, total: 3)
+Orphan StringName: contact_samples (static: 0, total: 1)
+Orphan StringName: reachable (static: 0, total: 1)
+Orphan StringName: _pose (static: 0, total: 1)
+Orphan StringName: OWN_KICK_SECONDS (static: 0, total: 1)
+Orphan StringName: STILL_TURN (static: 0, total: 1)
+Orphan StringName: phase (static: 0, total: 28)
+Orphan StringName: _approach_ttl (static: 0, total: 14)
+Orphan StringName: MAX_AHEAD (static: 0, total: 2)
+Orphan StringName: _kick_event_info (static: 0, total: 13)
+Orphan StringName: follow_steer (static: 0, total: 1)
+Orphan StringName: _point_cache (static: 0, total: 1)
+Orphan StringName: nearest_opponent (static: 0, total: 1)
+Orphan StringName: IK_FALL (static: 0, total: 1)
+Orphan StringName: _recv_part (static: 0, total: 14)
+Orphan StringName: _phase_t (static: 0, total: 28)
+Orphan StringName: CORR_SPEED (static: 0, total: 1)
+Orphan StringName: LOST_DIST (static: 0, total: 1)
+Orphan StringName: _jik_foot (static: 0, total: 14)
+Orphan StringName: _release_ik (static: 0, total: 3)
+Orphan StringName: abort_kick (static: 0, total: 1)
+Orphan StringName: SOLE_AHEAD_PER_MS (static: 0, total: 1)
+Orphan StringName: _shrug_resting_ball (static: 0, total: 1)
+Orphan StringName: perform_action (static: 0, total: 1)
+Orphan StringName: _lateral_cooldown (static: 0, total: 14)
+Orphan StringName: _kick_turn (static: 0, total: 13)
+Orphan StringName: ball_offset (static: 0, total: 1)
+Orphan StringName: TURN_KICK_PRESSED_LATENCY (static: 0, total: 1)
+Orphan StringName: PULL_BODY_SPEED (static: 0, total: 1)
+Orphan StringName: CONTACT_WAIT_MAX (static: 0, total: 1)
+Orphan StringName: ball (static: 0, total: 1)
+Orphan StringName: ROLES (static: 0, total: 1)
+Orphan StringName: MOCAP_EXTRA_LATENCY (static: 0, total: 1)
+Orphan StringName: REACH_MAX (static: 0, total: 2)
+Orphan StringName: _steer_cd (static: 0, total: 14)
+Orphan StringName: PLANT_BRAKE (static: 0, total: 1)
+Orphan StringName: JSON_PLANT_MISMATCH_COST (static: 0, total: 1)
+Orphan StringName: ball_distance (static: 0, total: 1)
+Orphan StringName: old_dir (static: 0, total: 28)
+Orphan StringName: history (static: 0, total: 13)
+Orphan StringName: carry_gap (static: 0, total: 1)
+Orphan StringName: PULL_SIDE (static: 0, total: 1)
+Orphan StringName: contact_samples_cached (static: 0, total: 1)
+Orphan StringName: loose_ball_chase (static: 0, total: 1)
+Orphan StringName: uses_clip_kicks (static: 0, total: 1)
+Orphan StringName: _part_normal (static: 0, total: 1)
+Orphan StringName: _ik_weight (static: 0, total: 28)
+Orphan StringName: KICK_NUDGE_MAX (static: 0, total: 1)
+Orphan StringName: _sample_feet (static: 0, total: 1)
+Orphan StringName: control_cooldown (static: 0, total: 14)
+Orphan StringName: plan_carry (static: 0, total: 1)
+Orphan StringName: turn_sign (static: 0, total: 28)
+Orphan StringName: perform_cross (static: 0, total: 1)
+Orphan StringName: JSON_KICK_IK_MAX (static: 0, total: 1)
+Orphan StringName: _clip_touch_step (static: 0, total: 1)
+Orphan StringName: _pull (static: 0, total: 1)
+Orphan StringName: has_possession (static: 0, total: 1)
+Orphan StringName: touched_ball (static: 0, total: 2)
+Orphan StringName: clip_touch_gap (static: 0, total: 1)
+Orphan StringName: SETTLE_STRIKE_SCALE (static: 0, total: 1)
+Orphan StringName: touch_reach (static: 0, total: 1)
+Orphan StringName: TURN_MIN_ANGLE (static: 0, total: 1)
+Orphan StringName: _released_t (static: 0, total: 14)
+Orphan StringName: json_move (static: 0, total: 14)
+Orphan StringName: perform_through (static: 0, total: 1)
+Orphan StringName: _misses (static: 0, total: 14)
+Orphan StringName: _log_kick (static: 0, total: 1)
+Orphan StringName: turn_toward (static: 0, total: 1)
+Orphan StringName: MAX_SPEED (static: 0, total: 3)
+Orphan StringName: _ball_at_foot (static: 0, total: 1)
+Orphan StringName: _reach_bound (static: 0, total: 2)
+Orphan StringName: MAX_SAMPLES (static: 0, total: 1)
+Orphan StringName: _tight (static: 0, total: 1)
+Orphan StringName: possession_radius (static: 0, total: 1)
+Orphan StringName: EXIT_SPEED (static: 0, total: 1)
+Orphan StringName: _curve_turn_scale (static: 0, total: 1)
+Orphan StringName: CONTACT_EARLY (static: 0, total: 1)
+Orphan StringName: PULL_FOLLOW (static: 0, total: 1)
+Orphan StringName: _init (static: 0, total: 5)
+Orphan StringName: assist_shot_level (static: 0, total: 1)
+Orphan StringName: intent (static: 0, total: 14)
+Orphan StringName: last_foot_distance (static: 0, total: 14)
+Orphan StringName: carry_face (static: 0, total: 1)
+Orphan StringName: ESCAPE_STEER_SPEED (static: 0, total: 1)
+Orphan StringName: MAX_FRONT (static: 0, total: 1)
+Orphan StringName: _approach_bound (static: 0, total: 2)
+Orphan StringName: _touch_cache (static: 0, total: 1)
+Orphan StringName: _recv_toucher (static: 0, total: 14)
+Orphan StringName: TURN_KICK_MIN (static: 0, total: 1)
+Orphan StringName: PULL_LEAD (static: 0, total: 1)
+Orphan StringName: ROLES_TURN (static: 0, total: 1)
+Orphan StringName: TOUCH_IK_FWD (static: 0, total: 1)
+Orphan StringName: TOUCH_INTERVAL (static: 0, total: 1)
+Orphan StringName: _launching (static: 0, total: 1)
+Orphan StringName: _touch_point (static: 0, total: 1)
+Orphan StringName: SETTLE_STEP_SPEED (static: 0, total: 1)
+Orphan StringName: DRIBBLE_GHOST_RANGE (static: 0, total: 1)
+Orphan StringName: _plan_clip_touch (static: 0, total: 1)
+Orphan StringName: DIRS (static: 0, total: 9)
+Orphan StringName: clip_touches_enabled (static: 0, total: 2)
+Orphan StringName: kick_body_velocity (static: 0, total: 1)
+Orphan StringName: contact_offset (static: 0, total: 1)
+Orphan StringName: STEER_MIN_SPEED (static: 0, total: 1)
+Orphan StringName: REQUEST_WINDOW (static: 0, total: 2)
+Orphan StringName: CONTACT_LATE (static: 0, total: 1)
+Orphan StringName: TOUCH_SYNC_KEEP (static: 0, total: 1)
+Orphan StringName: MAX_LATERAL (static: 0, total: 2)
+Orphan StringName: JSON_KICK_EVAL (static: 0, total: 1)
+Orphan StringName: carry (static: 0, total: 2)
+Orphan StringName: perform_pass (static: 0, total: 1)
+Orphan StringName: _resting_time (static: 0, total: 14)
+Orphan StringName: TURN_KICK_PRESS_DIST (static: 0, total: 1)
+Orphan StringName: MAX_BALL_Y (static: 0, total: 1)
+Orphan StringName: kick_reach (static: 0, total: 1)
+Orphan StringName: CURVE_GENTLE_MAX_DEG (static: 0, total: 1)
+Orphan StringName: _cands (static: 0, total: 1)
+Orphan StringName: _still_frames (static: 0, total: 14)
+Orphan StringName: profile (static: 0, total: 1)
+Orphan StringName: _steer_built (static: 0, total: 2)
+Orphan StringName: _jik_t (static: 0, total: 14)
+Orphan StringName: _desired_yaw_rate (static: 0, total: 14)
+Orphan StringName: _kick_token (static: 0, total: 14)
+Orphan StringName: ROLES_SKILL (static: 0, total: 1)
+Orphan StringName: rng (static: 0, total: 13)
+Orphan StringName: BALL_TURN_SCALE (static: 0, total: 1)
+Orphan StringName: TOUCH_CURVE_DEG (static: 0, total: 1)
+Orphan StringName: HORIZON (static: 0, total: 1)
+Orphan StringName: CURVE_TURN_SCALE (static: 0, total: 1)
+Orphan StringName: force_dribble_touch (static: 0, total: 1)
+Orphan StringName: _shoot_active (static: 0, total: 14)
+Orphan StringName: FOOT_MAX_Y (static: 0, total: 1)
+Orphan StringName: TOUCH_MAX_FOLLOW (static: 0, total: 1)
+Orphan StringName: MAX_LEAD (static: 0, total: 2)
+Orphan StringName: _track_map (static: 0, total: 1)
+Orphan StringName: _remember (static: 0, total: 1)
+Orphan StringName: PENDING_APPROACH_MAX (static: 0, total: 1)
+Orphan StringName: _settle_adjust (static: 0, total: 14)
+Orphan StringName: TOUCH_IK_RESIDUAL (static: 0, total: 1)
+Orphan StringName: _curve_hold (static: 0, total: 14)
+Orphan StringName: _body_partner (static: 0, total: 1)
+Orphan StringName: CATCH_LEAD (static: 0, total: 1)
+Orphan StringName: KICK_LOG_MAX (static: 0, total: 1)
+Orphan StringName: BallHandler (static: 0, total: 3)
+Orphan StringName: TOUCH_IK_LAT (static: 0, total: 1)
+Orphan StringName: _steer_angle (static: 0, total: 1)
+Orphan StringName: predict_body (static: 0, total: 1)
+Orphan StringName: _pending_age (static: 0, total: 14)
+Orphan StringName: STEER_SNAP_SPRINT (static: 0, total: 1)
+Orphan StringName: JSON_TOUCH_IK_FADE (static: 0, total: 1)
+Orphan StringName: is_waiting_first_time (static: 0, total: 1)
+Orphan StringName: _pending_stick (static: 0, total: 14)
+Orphan StringName: contact_delay (static: 0, total: 1)
+Orphan StringName: clip_plan_rejects (static: 0, total: 13)
+Orphan StringName: KICK_PLANT_SPEED (static: 0, total: 1)
+Orphan StringName: TOUCH_MIN_SPEED (static: 0, total: 1)
+Orphan StringName: _touches (static: 0, total: 13)
+Orphan StringName: UNVERIFIED_PENALTY (static: 0, total: 1)
+Orphan StringName: ended (static: 0, total: 1)
+Orphan StringName: TURN_KICK_TOL (static: 0, total: 1)
+Orphan StringName: _shoot_time (static: 0, total: 14)
+Orphan StringName: _contact_wait (static: 0, total: 14)
+Orphan StringName: MIN_AHEAD (static: 0, total: 2)
+Orphan StringName: curl_from (static: 0, total: 1)
+Orphan StringName: PARTS (static: 0, total: 1)
+Orphan StringName: reset_caches (static: 0, total: 3)
+Orphan StringName: ball_travel (static: 0, total: 1)
+Orphan StringName: t (static: 0, total: 28)
+Orphan StringName: consider (static: 0, total: 2)
+Orphan StringName: _avoid_ball (static: 0, total: 1)
+Orphan StringName: MAX_APPROACH (static: 0, total: 1)
+Orphan StringName: DIR_TOL (static: 0, total: 1)
+Orphan StringName: APPROACH_MAX (static: 0, total: 1)
+Orphan StringName: TURN_FIRST_MIN (static: 0, total: 1)
+Orphan StringName: CURVE_LEAD_DEG (static: 0, total: 1)
+Orphan StringName: REACH_AHEAD_PER_MS (static: 0, total: 1)
+Orphan StringName: _carry_face (static: 0, total: 14)
+Orphan StringName: _kick_charge (static: 0, total: 14)
+Orphan StringName: steer_pool (static: 0, total: 1)
+Orphan StringName: _foot_reach (static: 0, total: 14)
+Orphan StringName: _bone (static: 0, total: 1)
+Orphan StringName: BallTurn (static: 0, total: 3)
+Orphan StringName: STEER_TOL (static: 0, total: 1)
+Orphan StringName: kick_body_yaw (static: 0, total: 1)
+Orphan StringName: TOUCH_IK_OUT (static: 0, total: 1)
+Orphan StringName: ACCEL_TOUCH_KEEP_FRACTION (static: 0, total: 1)
+Orphan StringName: _settle_close (static: 0, total: 1)
+Orphan StringName: MISS_DIST (static: 0, total: 1)
+Orphan StringName: REACH_AHEAD_MAX (static: 0, total: 1)
+Orphan StringName: settle_close_now (static: 0, total: 14)
+Orphan StringName: is_approaching_for_kick (static: 0, total: 1)
+Orphan StringName: estimated_kick_dir (static: 0, total: 1)
+Orphan StringName: approach (static: 0, total: 14)
+Orphan StringName: through_charge (static: 0, total: 14)
+Orphan StringName: ROLES_DRAG (static: 0, total: 1)
+Orphan StringName: _update_ik (static: 0, total: 3)
+Orphan StringName: owner (static: 0, total: 13)
+Orphan StringName: EXIT_ANGLE (static: 0, total: 2)
+Orphan StringName: _toe_prev (static: 0, total: 13)
+Orphan StringName: IK_HOLD (static: 0, total: 1)
+Orphan StringName: _curving (static: 0, total: 14)
+Orphan StringName: BALL_LEAD (static: 0, total: 1)
+Orphan StringName: _predict_body (static: 0, total: 1)
+Orphan StringName: _reject (static: 0, total: 1)
+Orphan StringName: _aim_press (static: 0, total: 14)
+Orphan StringName: RefCounted (static: 1, total: 3)
+Orphan StringName: EXIT_LEAD (static: 0, total: 1)
+Orphan StringName: _clip_driving (static: 0, total: 1)
+Orphan StringName: FOLLOW_MAX_DIST (static: 0, total: 1)
+Orphan StringName: TURN_SPEED (static: 0, total: 1)
+Orphan StringName: _toe_sk_prev (static: 0, total: 14)
+Orphan StringName: IK_LEAD (static: 0, total: 1)
+Orphan StringName: path_point (static: 0, total: 1)
+Orphan StringName: _end_t (static: 0, total: 14)
+Orphan StringName: _touch_target_speed (static: 0, total: 14)
+Orphan StringName: _planned_gap (static: 0, total: 14)
+Orphan StringName: _update_approach (static: 0, total: 1)
+Orphan StringName: _try_dribble_touch (static: 0, total: 1)
+Orphan StringName: _queue (static: 0, total: 1)
+Orphan StringName: start_pool (static: 0, total: 1)
+Orphan StringName: _try_start (static: 0, total: 2)
+Orphan StringName: pass_charge (static: 0, total: 14)
+Orphan StringName: update (static: 0, total: 3)
+Orphan StringName: JOSTLE_RIVAL (static: 0, total: 1)
+Orphan StringName: request_kick (static: 0, total: 1)
+Orphan StringName: _foot_wait (static: 0, total: 14)
+Orphan StringName: holding_for_kick (static: 0, total: 1)
+Orphan StringName: _desired_yaw_prev (static: 0, total: 14)
+Orphan StringName: TOUCH_SPEED_MAX (static: 0, total: 1)
+Orphan StringName: last_result (static: 0, total: 14)
+Orphan StringName: STEER_MIN_ANGLE (static: 0, total: 1)
+Orphan StringName: FOLLOW_BACK (static: 0, total: 1)
+Orphan StringName: OVERRUN_FWD (static: 0, total: 1)
+Orphan StringName: last_plan_debug (static: 0, total: 14)
+Orphan StringName: TOUCH_INTERVAL_MAX (static: 0, total: 1)
+Orphan StringName: _cross_active (static: 0, total: 14)
+Orphan StringName: _cross_time (static: 0, total: 14)
+Orphan StringName: _cooldown (static: 0, total: 56)
+Orphan StringName: kick_adjust_capacity (static: 0, total: 1)
+Orphan StringName: clip_touch_misses (static: 0, total: 14)
+Orphan StringName: _foot_to_ball_fast (static: 0, total: 1)
+Orphan StringName: _touch_interval (static: 0, total: 1)
+Orphan StringName: _catching_ball (static: 0, total: 1)
+Orphan StringName: STOP_WINDOW (static: 0, total: 1)
+Orphan StringName: APPROACH_MIN_CLOSING (static: 0, total: 1)
+Orphan StringName: predicted_foot_to_ball (static: 0, total: 1)
+Orphan StringName: seconds_since_kick (static: 0, total: 1)
+Orphan StringName: PART_SLACK (static: 0, total: 1)
+Orphan StringName: assist_pass_level (static: 0, total: 1)
+Orphan StringName: KICK_NUDGE_PER_MS (static: 0, total: 1)
+Orphan StringName: _update_touch_ik (static: 0, total: 1)
+Orphan StringName: _headless (static: 0, total: 1)
+Orphan StringName: _touch_mode (static: 0, total: 1)
+Orphan StringName: incoming_ball_point (static: 0, total: 1)
+Orphan StringName: kick_desired_dir (static: 0, total: 14)
+Orphan StringName: JSON_KICK_VARIETY (static: 0, total: 1)
+Orphan StringName: _start_toucher (static: 0, total: 28)
+Orphan StringName: JSON_TOUCH_IK_MAX (static: 0, total: 1)
+Orphan StringName: FOOT_SLACK (static: 0, total: 1)
+Orphan StringName: plan_ids (static: 0, total: 1)
+Orphan StringName: LOOSE_CHASE_MAX_Y (static: 0, total: 1)
+Orphan StringName: _pending_lob (static: 0, total: 14)
+Orphan StringName: _pending_curl (static: 0, total: 14)
+Orphan StringName: _pass_time (static: 0, total: 14)
+Orphan StringName: is_clip_touch_in_progress (static: 0, total: 1)
+Orphan StringName: _ik_fade (static: 0, total: 13)
+Orphan StringName: _turn_kick_foot_to_ball (static: 0, total: 1)
+Orphan StringName: START_MIN_STICK (static: 0, total: 1)
+Orphan StringName: FIRST_TOUCH_DELAY (static: 0, total: 1)
+Orphan StringName: _clip_touch_update (static: 0, total: 1)
+Orphan StringName: HOLD_MAX (static: 0, total: 1)
+Orphan StringName: _end (static: 0, total: 1)
+Orphan StringName: HOLD_MIN (static: 0, total: 1)
+Orphan StringName: plan_turn_kick (static: 0, total: 1)
+Orphan StringName: foot (static: 0, total: 28)
+Orphan StringName: SETTLE_ZONE_LAT (static: 0, total: 1)
+Orphan StringName: _pending_charge (static: 0, total: 14)
+Orphan StringName: CLOSE_CONTROL_SPEED (static: 0, total: 1)
+Orphan StringName: clip_kicks_enabled (static: 0, total: 2)
+Orphan StringName: _steer_clip_kick (static: 0, total: 1)
+Orphan StringName: _carry_skill (static: 0, total: 1)
+Orphan StringName: START_OFFSETS (static: 0, total: 1)
+Orphan StringName: handler (static: 0, total: 52)
+Orphan StringName: _steer_pool (static: 0, total: 1)
+Orphan StringName: _json_kicks (static: 0, total: 1)
+Orphan StringName: KICK_GHOST_SECONDS (static: 0, total: 1)
+Orphan StringName: _skill_req (static: 0, total: 14)
+Orphan StringName: _start_clip_kick (static: 0, total: 1)
+Orphan StringName: _recv_traj (static: 0, total: 13)
+Orphan StringName: last_clip_touch (static: 0, total: 13)
+Orphan StringName: _recv_frame0 (static: 0, total: 14)
+Orphan StringName: _ik_fwd (static: 0, total: 1)
+Orphan StringName: lockout (static: 0, total: 14)
+Orphan StringName: PART_REACH (static: 0, total: 1)
+Orphan StringName: AERIAL_MIN_BALL_Y (static: 0, total: 1)
+Orphan StringName: TOUCH_CURVE_HOLD (static: 0, total: 1)
+Orphan StringName: CONTACT_ARRIVE_TOL (static: 0, total: 1)
+Orphan StringName: shot_curl (static: 0, total: 14)
+Orphan StringName: _lateral_face (static: 0, total: 14)
+Orphan StringName: _cands_built (static: 0, total: 2)
+Orphan StringName: TOUCH_LIVE_Y (static: 0, total: 1)
+Orphan StringName: contact_velocity (static: 0, total: 1)
+Orphan StringName: LATERAL_ACCEL (static: 0, total: 1)
+Orphan StringName: _plan_lat_tol (static: 0, total: 1)
+Orphan StringName: last_plan (static: 0, total: 13)
+Orphan StringName: _pass_active (static: 0, total: 14)
+Orphan StringName: rejects (static: 0, total: 13)
+Orphan StringName: clip_plant_velocity (static: 0, total: 1)
+Orphan StringName: _body_point (static: 0, total: 1)
+Orphan StringName: ball_turn (static: 0, total: 14)
+Orphan StringName: OWN_TOUCH_NO_CONTROL_SECONDS (static: 0, total: 1)
+Orphan StringName: PENDING_KICK_MAX (static: 0, total: 1)
+Orphan StringName: new_dir (static: 0, total: 28)
+Orphan StringName: _shield_dir (static: 0, total: 1)
+Orphan StringName: _plan_tick (static: 0, total: 28)
+Orphan StringName: last (static: 0, total: 39)
+Orphan StringName: ball_owned_by_other (static: 0, total: 1)
+Orphan StringName: is_clip_kick_in_progress (static: 0, total: 1)
+Orphan StringName: kick_stats (static: 0, total: 13)
+Orphan StringName: TURN_KICK_MAX_LATENCY (static: 0, total: 1)
+Orphan StringName: REVERSAL_GHOST_SECONDS (static: 0, total: 1)
+Orphan StringName: shot_charge (static: 0, total: 14)
+Orphan StringName: MIN_LEAD (static: 0, total: 1)
+Orphan StringName: _foot_ik (static: 0, total: 1)
+Orphan StringName: TRAJ_DV (static: 0, total: 1)
+Orphan StringName: _drift (static: 0, total: 1)
+Orphan StringName: _start_pool (static: 0, total: 1)
+Orphan StringName: _kick_clip (static: 0, total: 13)
+Orphan StringName: TOUCH_MAX_TOE_Y (static: 0, total: 1)
+Orphan StringName: _release_touch_ik (static: 0, total: 1)
+Orphan StringName: _kick_turn_dir (static: 0, total: 14)
+Orphan StringName: MAX_DV_STICK (static: 0, total: 1)
+Orphan StringName: _last (static: 0, total: 14)
+Orphan StringName: _toe_ids (static: 0, total: 13)
+Orphan StringName: last_touch_mode (static: 0, total: 14)
+Orphan StringName: SETTLE_STILL_SPEED (static: 0, total: 1)
+Orphan StringName: APPROACH_STARTS (static: 0, total: 1)
+Orphan StringName: kick_button_now (static: 0, total: 14)
+Orphan StringName: JsonReceive (static: 0, total: 3)
+Orphan StringName: attempt_tackle (static: 0, total: 1)
+Orphan StringName: DragBack (static: 0, total: 3)
+Orphan StringName: _close_control (static: 0, total: 14)
+Orphan StringName: _redirect_hold (static: 0, total: 14)
+Orphan StringName: PENDING_FIRST_TIME_MAX (static: 0, total: 1)
+StringName: 605 unclaimed string names at exit.

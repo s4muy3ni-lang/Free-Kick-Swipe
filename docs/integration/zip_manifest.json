@@ -1,0 +1,1468 @@
+{
+  "source_ref": "origin/respaldo-f3",
+  "source_commit": "3d47a07",
+  "git_blob": "9b839a10a3b14754b996a50bb8fa692a9226b99a",
+  "zip_sha256": "17c3172944b4202ef9a33f9f85435338221d016486dfae3efa6901c0fc18aa8c",
+  "files": [
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/LEEME_PRIMERO.md",
+      "bytes": 2194,
+      "sha256": "0f3cdcc68d6b7da0bd76c000150f944542157b1e1e12d58f3528e1df1dc88217"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/INVENTARIO_SHA256.txt",
+      "bytes": 39463,
+      "sha256": "9ed002358a5cf6711806bec7d8ccb099b9ff2b2874f1ac658fbe3ee7f26c94a6"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/OPTIMIZACION/OPTIMIZACION_ANDROID_MALI_G57.md",
+      "bytes": 1690,
+      "sha256": "3b9f60e444a6e6d433661a73138f9f40ec723863e21c5ce4a4d3e2ea4538db09"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/REGLAS/REGLAS_GOLPEO_Y_BALON.md",
+      "bytes": 1913,
+      "sha256": "b1ad07079e7418adb8543dafb3ecb3ac1372af221129aacb783f90c39051a906"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/REGLAS/IA_Y_ARQUEROS.md",
+      "bytes": 1155,
+      "sha256": "6d6320c4f530932e79abe5715854d9a3b440e48bd2ec7e065dc2de92498bb919"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/REGLAS/REGLAS_MOVIMIENTO_Y_CONDUCCION.md",
+      "bytes": 1687,
+      "sha256": "91b676743d8ecb0c34da7ea9a903700a90ecca53333b414506415c0506df2e5b"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/PRUEBAS/prueba_exportador_glb.txt",
+      "bytes": 899,
+      "sha256": "b3bedc268956c11447bbe02be80c42c698a91df8f3a1a7be30ecd22d99eba99f"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/PRUEBAS/validacion_ejemplos.json",
+      "bytes": 8981,
+      "sha256": "bedf893df17579f02f2f3ba21e7fd2fe8847d3ebcb6fff832019631ec1c8d000"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/PRUEBAS/conversion_ejemplos.json",
+      "bytes": 18623,
+      "sha256": "c9baa887f2aec8380b0c4ac63d240dd7ffc327cd66c94b972532841d886aac98"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/PRUEBAS/godot_check_scripts.txt",
+      "bytes": 26,
+      "sha256": "971be5a8cf3d664a04553c08f373314498cdb30693cc09cd1896e68569f58274"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/PRUEBAS/conversion_ejemplos.txt",
+      "bytes": 31,
+      "sha256": "2156f0e3fc6891f3e5278f0ddcbd5e6cae5b030ef5f6a084c70d8665051f4952"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/PRUEBAS/godot_run_tests.txt",
+      "bytes": 1606,
+      "sha256": "2f72d20cef2f313ec4605afd5208bc2bbd6c9cf609dda6ced5e63b7f85ff398f"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/PRUEBAS/validacion_ejemplos.txt",
+      "bytes": 3908,
+      "sha256": "086bf46d436de28d26733ccf811d7c72cb4d338178f4999b614be6f50b2bfe88"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/ANIMACIONES_PROPIAS/LEEME.md",
+      "bytes": 344,
+      "sha256": "1294177ecd9f2dd3c2f516e02d1c3676920062f5eb30c8ca796b6b317313a69d"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/ANIMACIONES_PROPIAS/EJEMPLOS_SINTETICOS/LOCO/EJ_LOCO_TROTE.json",
+      "bytes": 20516,
+      "sha256": "1f7a11664c5a221ea133b8652fcad6341d429c5b4269fd49d1b1e6d0e0eeb7c3"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/ANIMACIONES_PROPIAS/EJEMPLOS_SINTETICOS/LOCO/EJ_LOCO_SPRINT.json",
+      "bytes": 20364,
+      "sha256": "9ed3f97f99beaf6840847742d52a74476ca760fbbccce19b47495832411aba41"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/ANIMACIONES_PROPIAS/EJEMPLOS_SINTETICOS/LOCO/EJ_LOCO_CAMINAR.json",
+      "bytes": 20530,
+      "sha256": "87a19ec448b3f079f45cfdcf5964c517ca2b215407ff1e19b438ff25956af1ca"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/ANIMACIONES_PROPIAS/EJEMPLOS_SINTETICOS/LOCO/EJ_LOCO_CARRERA.json",
+      "bytes": 20534,
+      "sha256": "33ad68641aaae909af3f5a720c79e2e3a18d7cf733277dc6557c1a2fc0c24184"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/ANIMACIONES_PROPIAS/EJEMPLOS_SINTETICOS/TACKLESLIDE/EJ_TACKLESLIDE_R.json",
+      "bytes": 20802,
+      "sha256": "0ba67cb8cfbf2a4a13acdac99f6837c81d28ea7803ae624dcb9cb6de930e5be0"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/ANIMACIONES_PROPIAS/EJEMPLOS_SINTETICOS/TURN/EJ_TURN_IZQ_90.json",
+      "bytes": 13534,
+      "sha256": "44e644ee51bfa1da258fa73de0f86c84b1863f34965274d8ca7397d3e5a62f4d"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/ANIMACIONES_PROPIAS/EJEMPLOS_SINTETICOS/TURN/EJ_TURN_DER_90.json",
+      "bytes": 13608,
+      "sha256": "be9488b362457f7bc6a59b0df4511680b96e68e586a0e89ea5c6bf0dc152321c"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/ANIMACIONES_PROPIAS/EJEMPLOS_SINTETICOS/TURN/EJ_TURN_IZQ_180.json",
+      "bytes": 13522,
+      "sha256": "1bf6cc8c4e1dfd396de868195a9d2584c2f19c553750f9e7dd9e78c0a75d4efa"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/ANIMACIONES_PROPIAS/EJEMPLOS_SINTETICOS/KICK/EJ_KICK_PASE_R_3_0.json",
+      "bytes": 17375,
+      "sha256": "f01145a91c129b4e69785efbb359db265c74f32215d83947cdb1278298329709"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/ANIMACIONES_PROPIAS/EJEMPLOS_SINTETICOS/KICK/EJ_KICK_PASE_L_3_0.json",
+      "bytes": 17374,
+      "sha256": "ad24d5d8db1cb744dc5d20b0f1d339dfb1c4aeaaa4737dd5c5c34945226d5430"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/ANIMACIONES_PROPIAS/EJEMPLOS_SINTETICOS/KICK/EJ_KICK_TIRO_L.json",
+      "bytes": 19083,
+      "sha256": "7e80ae2348702a0478bc8f65e5409a994607e3f09b67e9543c9d654c6cee8895"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/ANIMACIONES_PROPIAS/EJEMPLOS_SINTETICOS/KICK/EJ_KICK_PASE_R_5_5.json",
+      "bytes": 17544,
+      "sha256": "8460db00e6ea2af5974bf1a0ab5563c55ed8c3124806d265f1a0cfb77e8c12dd"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/ANIMACIONES_PROPIAS/EJEMPLOS_SINTETICOS/KICK/EJ_KICK_PASE_L_0_0.json",
+      "bytes": 17349,
+      "sha256": "5959b5736c10bf8847a88e4eafb69343741336735078497e8256c6e987ce6a4a"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/ANIMACIONES_PROPIAS/EJEMPLOS_SINTETICOS/KICK/EJ_KICK_PASE_L_5_5.json",
+      "bytes": 17543,
+      "sha256": "0963f4d3ba0e29ee9c03a38100e042e92ba171febee7cddb4b29c469c568dd83"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/ANIMACIONES_PROPIAS/EJEMPLOS_SINTETICOS/KICK/EJ_KICK_CENTRO_R.json",
+      "bytes": 18930,
+      "sha256": "379b0b22bf0851159486b83c40aa5e9f6c2ecd4460c7816b3763c4b5a74315a1"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/ANIMACIONES_PROPIAS/EJEMPLOS_SINTETICOS/KICK/EJ_KICK_TIRO_R.json",
+      "bytes": 19084,
+      "sha256": "992acfa64e251300cc596290704e41d91c0c30ef0d6048e24eda17b0bd873c20"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/ANIMACIONES_PROPIAS/EJEMPLOS_SINTETICOS/KICK/EJ_KICK_PASE_R_0_0.json",
+      "bytes": 17350,
+      "sha256": "da6d4ad657345bf14bb1fb628b82de53d509663bbb8d0f3005b0edb16e8eb25a"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/ANIMACIONES_PROPIAS/EJEMPLOS_SINTETICOS/KICK/EJ_KICK_CENTRO_L.json",
+      "bytes": 18930,
+      "sha256": "22bc2c7163e75c17aab835880d4dc2c6172dac0e8ee19d43f07472e60c4e7268"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/ANIMACIONES_PROPIAS/EJEMPLOS_SINTETICOS/FALL/EJ_FALL_ADELANTE.json",
+      "bytes": 17537,
+      "sha256": "6afb11a3ef72ffd32140004afbea666895ef89589a84deeb8c5adc0c59b8989e"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/ANIMACIONES_PROPIAS/EJEMPLOS_SINTETICOS/GKSAVE/EJ_GKSAVE_ESTIRADA_DER_BAJA.json",
+      "bytes": 17365,
+      "sha256": "1f377f4c1d46c4675abc3ed076e7279c998a114cf3d381481e6672fdaee8f4b5"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/ANIMACIONES_PROPIAS/EJEMPLOS_SINTETICOS/GKSAVE/EJ_GKSAVE_ESTIRADA_IZQ_MEDIA.json",
+      "bytes": 17365,
+      "sha256": "63b48f0a1c9b959a79023b0298e0275bdb9d707f83599d7b3816cd854e21dd28"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/ANIMACIONES_PROPIAS/EJEMPLOS_SINTETICOS/GKSAVE/EJ_GKSAVE_ESTIRADA_DER_MEDIA.json",
+      "bytes": 17366,
+      "sha256": "f719e701ccb45ea292250156251b12f8dd04697daeefc5a6dd3640456df58ecf"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/ANIMACIONES_PROPIAS/EJEMPLOS_SINTETICOS/GKSAVE/EJ_GKSAVE_CENTRO.json",
+      "bytes": 14271,
+      "sha256": "738045a696c7e310704429e96a4ac7c980a310cac438be7f49d2566927be095d"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/ANIMACIONES_PROPIAS/EJEMPLOS_SINTETICOS/GKSAVE/EJ_GKSAVE_ESTIRADA_IZQ_BAJA.json",
+      "bytes": 17364,
+      "sha256": "da00c08e94cec7887de91a1a4fdda1c6fed5c31a8c790ac06d2bf793a7a8b1c6"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/ANIMACIONES_PROPIAS/EJEMPLOS_SINTETICOS/TACKLE/EJ_TACKLE_PIE_R.json",
+      "bytes": 14428,
+      "sha256": "b88eb49c75fde8245b8b9488281c4cb115b14e7db4db87c648cafa137e0ee187"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/ANIMACIONES_PROPIAS/EJEMPLOS_SINTETICOS/GETUP/EJ_GETUP_ADELANTE.json",
+      "bytes": 23339,
+      "sha256": "9c1410f644cec0210beb50e290fd3311fb5c231ca446bf0d14d2e8bc75885a5c"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/ANIMACIONES_PROPIAS/EJEMPLOS_SINTETICOS/STAND/EJ_STAND_FRENADA.json",
+      "bytes": 11114,
+      "sha256": "c4e7a118c215e48e95fd424197506b50f5f974063c82668ecf0e34e71636e062"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/ANIMACIONES_PROPIAS/EJEMPLOS_SINTETICOS/STAND/EJ_STAND_REPOSO.json",
+      "bytes": 19109,
+      "sha256": "1398d50a335c16e5c038073e7573691d006f1e08f1c2c0e43c45b12251392825"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/ANIMACIONES_PROPIAS/EJEMPLOS_SINTETICOS/CONTROL/EJ_CONTROL_TOQUE_L_1_5.json",
+      "bytes": 11287,
+      "sha256": "7361011a5087add5497e817d340600cd02492c7233fac7428b21e80a8bb2ffc5"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/ANIMACIONES_PROPIAS/EJEMPLOS_SINTETICOS/CONTROL/EJ_CONTROL_TOQUE_L_3_5.json",
+      "bytes": 11367,
+      "sha256": "3427ba5e8e14a74589b65b5bc1b758989279ee7376b6b3aa3684e6e642c19ab5"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/ANIMACIONES_PROPIAS/EJEMPLOS_SINTETICOS/CONTROL/EJ_CONTROL_RECEPCION_R.json",
+      "bytes": 14470,
+      "sha256": "3200759b81ccb21a63ed294b1978862a5145fc71a5a173d5409d872c78969d9a"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/ANIMACIONES_PROPIAS/EJEMPLOS_SINTETICOS/CONTROL/EJ_CONTROL_RECEPCION_L.json",
+      "bytes": 14469,
+      "sha256": "7cf172086dad48ba43097f8d63f3eddde29bf3a083a02846c30111a5d95b9717"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/ANIMACIONES_PROPIAS/EJEMPLOS_SINTETICOS/CONTROL/EJ_CONTROL_TOQUE_R_1_5.json",
+      "bytes": 11288,
+      "sha256": "ad72a6ddc555add8b4fec521ca1998b91b35d36780373bdcc7b1ad41d163ec4e"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/ANIMACIONES_PROPIAS/EJEMPLOS_SINTETICOS/CONTROL/EJ_CONTROL_TOQUE_L_5_5.json",
+      "bytes": 11377,
+      "sha256": "2b833f10a793373613105c1ac54ffdd70eee8bb1c5a973db07036b76bf25f24b"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/ANIMACIONES_PROPIAS/EJEMPLOS_SINTETICOS/CONTROL/EJ_CONTROL_TOQUE_R_3_5.json",
+      "bytes": 11368,
+      "sha256": "a0a471116d5ae4470acd8133c093096ddfd229155ca63d6b927cf4d4786afcab"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/ANIMACIONES_PROPIAS/EJEMPLOS_SINTETICOS/CONTROL/EJ_CONTROL_TOQUE_L_7_0.json",
+      "bytes": 11363,
+      "sha256": "1eb0e2815960c955b071d14f6badbe922801825ce4963d2e9e4ec70b38938d54"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/ANIMACIONES_PROPIAS/EJEMPLOS_SINTETICOS/CONTROL/EJ_CONTROL_TOQUE_R_5_5.json",
+      "bytes": 11378,
+      "sha256": "d1325a8baff5ff78b07948d1e8c685d7b00170731d02325f628b70524fdc48ee"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/ANIMACIONES_PROPIAS/EJEMPLOS_SINTETICOS/CONTROL/EJ_CONTROL_TOQUE_R_7_0.json",
+      "bytes": 11364,
+      "sha256": "3a9c48d5d6de86d6a1aed389944222f3ab5d73e479b77e56c25ab1a849cc24f6"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/HERRAMIENTAS/catalogar.py",
+      "bytes": 4530,
+      "sha256": "863544faa54cb0e4f10fa7226961cac560352841f470fba721136ea9430e2e96"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/HERRAMIENTAS/f5anim.py",
+      "bytes": 4055,
+      "sha256": "e94ed56212e8edfa57fb7f4e540c830b1242371c83f2f13a4614a63ed6f65b42"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/HERRAMIENTAS/generar_ejemplos_sinteticos.py",
+      "bytes": 7018,
+      "sha256": "928c02b5c517e975d837d998ec16cbf869bec5c424690aad5dc1c056cc5b45f0"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/HERRAMIENTAS/validar_animaciones.py",
+      "bytes": 6003,
+      "sha256": "4461c9534b637ae305e0767c5deef301de4ee7b9f17c0bc8628e899a5f07997b"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/HERRAMIENTAS/convertir_a_godot.py",
+      "bytes": 13321,
+      "sha256": "148c26a8e20732b8c60afa2c9f740d477f2c90da778274f3c12ddd62479f6376"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/HERRAMIENTAS/verificar_integridad.py",
+      "bytes": 2057,
+      "sha256": "2047f1b629c3dcf4fbc32dbf3fa4c860ea09c2e18af84a9f5b9dfa5fc3b62d3c"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/HERRAMIENTAS/__pycache__/f5anim.cpython-313.pyc",
+      "bytes": 9489,
+      "sha256": "11fe780cabdc03cf48179bc8e06c79a7df4ee650010074a8f76b7adb35c25b7d"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/project.godot",
+      "bytes": 638,
+      "sha256": "31dd1b70cd7289e17b99fc6337fa05dd9ee932268ad736f2edeb37d6f18b2661"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/imported/LOCO/EJ_LOCO_SPRINT.tres",
+      "bytes": 9814,
+      "sha256": "81ef4adf3a45dd4ed9fb52ddd9c842d0f30ab37d7d48e8a7bf44130f62681360"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/imported/LOCO/EJ_LOCO_CARRERA.tres",
+      "bytes": 9824,
+      "sha256": "36ea25f0f0d3d4b36d2e4f239b3853a879bc34656d2954e22f4b90e892578406"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/imported/LOCO/EJ_LOCO_TROTE.tres",
+      "bytes": 9808,
+      "sha256": "63e6259611cc808d3663bec66dfd134e77cd55936b5850a2c560765dfacbd0cd"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/imported/LOCO/EJ_LOCO_CAMINAR.tres",
+      "bytes": 9820,
+      "sha256": "3a9fdc094d5e1354e13aa3d290a320274dcbec186e3b8162bfbeec00576044d2"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/imported/TURN/EJ_TURN_IZQ_90_ESPEJO.tres",
+      "bytes": 6574,
+      "sha256": "bda26005c071803a3b5fa15673418ce1b2a94da407e3c5db1d07f110e90956ec"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/imported/TURN/EJ_TURN_DER_90.tres",
+      "bytes": 6574,
+      "sha256": "bd8571e6f150981e0f35e366a198e5c079005cc70a83bc6da4a2c81b04ca635f"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/imported/TURN/EJ_TURN_IZQ_180_ESPEJO.tres",
+      "bytes": 6584,
+      "sha256": "e20712e96535a27a1a2d02f1464251b5cd90d6651302ac065b2c9e30a055525c"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/imported/TURN/EJ_TURN_DER_90_ESPEJO.tres",
+      "bytes": 6574,
+      "sha256": "4a75f78daf5d33f0703c4907f185a1c6e45d254b50ade949cf892b6ab52220c6"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/imported/TURN/EJ_TURN_IZQ_180.tres",
+      "bytes": 6586,
+      "sha256": "67e70f3dc715c30bb938cd052cf1c879519c7967478b00a69663ff7d346e7cff"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/imported/TURN/EJ_TURN_IZQ_90.tres",
+      "bytes": 6574,
+      "sha256": "1872740a6ef9b0b32a2a3d963875cef55c9e3dda444486ad7af447e720c8c700"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/imported/TACKLESLIDE/EJ_TACKLESLIDE_R_ESPEJO.tres",
+      "bytes": 9952,
+      "sha256": "d6d656ac15afe6250cb2c4dfb9cab82c0f697464b82b9d41a35ebbcc0b15c78f"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/imported/TACKLESLIDE/EJ_TACKLESLIDE_R.tres",
+      "bytes": 9952,
+      "sha256": "6262f5d7f96c0a9d6d7b825f2cb56ab54a4056e2d73c4a80130595f13ea298fb"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/imported/KICK/EJ_KICK_CENTRO_L_ESPEJO.tres",
+      "bytes": 9105,
+      "sha256": "be3144ab0cc97ec7f84ba28525bd49848d11786fc69c091cf16d5bf63646fb37"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/imported/KICK/EJ_KICK_PASE_L_3_0_ESPEJO.tres",
+      "bytes": 8391,
+      "sha256": "29cd7e58fac9a9175fdb19ab5af9208aa3a33b6e9cb73e3009af5b6e87d64a42"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/imported/KICK/EJ_KICK_TIRO_L.tres",
+      "bytes": 9087,
+      "sha256": "c5230724aff1b4ed42a4b3bf471f28a81449fb8aa4dae6e2db1fc02789ac3455"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/imported/KICK/EJ_KICK_PASE_L_3_0.tres",
+      "bytes": 8391,
+      "sha256": "3a2d70fe90b333ac5edb7f4f9c6c2a5cc4162e679e1afdbf9cac2c5ad6a6b280"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/imported/KICK/EJ_KICK_PASE_R_3_0_ESPEJO.tres",
+      "bytes": 8391,
+      "sha256": "29cd7e58fac9a9175fdb19ab5af9208aa3a33b6e9cb73e3009af5b6e87d64a42"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/imported/KICK/EJ_KICK_CENTRO_R_ESPEJO.tres",
+      "bytes": 9105,
+      "sha256": "be3144ab0cc97ec7f84ba28525bd49848d11786fc69c091cf16d5bf63646fb37"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/imported/KICK/EJ_KICK_CENTRO_L.tres",
+      "bytes": 9105,
+      "sha256": "38acaf770396a90909d28b055034c1df434a8eea0f932a3c4908aca52b115b9e"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/imported/KICK/EJ_KICK_PASE_L_5_5.tres",
+      "bytes": 8391,
+      "sha256": "3a2d70fe90b333ac5edb7f4f9c6c2a5cc4162e679e1afdbf9cac2c5ad6a6b280"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/imported/KICK/EJ_KICK_TIRO_R_ESPEJO.tres",
+      "bytes": 9087,
+      "sha256": "0527c5b8a262c67a0e12d9ee5b06794cf09109a5832cf1259f636fa078d87dc9"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/imported/KICK/EJ_KICK_TIRO_L_ESPEJO.tres",
+      "bytes": 9087,
+      "sha256": "0527c5b8a262c67a0e12d9ee5b06794cf09109a5832cf1259f636fa078d87dc9"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/imported/KICK/EJ_KICK_PASE_R_5_5_ESPEJO.tres",
+      "bytes": 8391,
+      "sha256": "29cd7e58fac9a9175fdb19ab5af9208aa3a33b6e9cb73e3009af5b6e87d64a42"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/imported/KICK/EJ_KICK_PASE_L_5_5_ESPEJO.tres",
+      "bytes": 8391,
+      "sha256": "29cd7e58fac9a9175fdb19ab5af9208aa3a33b6e9cb73e3009af5b6e87d64a42"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/imported/KICK/EJ_KICK_PASE_R_0_0.tres",
+      "bytes": 8391,
+      "sha256": "3a2d70fe90b333ac5edb7f4f9c6c2a5cc4162e679e1afdbf9cac2c5ad6a6b280"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/imported/KICK/EJ_KICK_CENTRO_R.tres",
+      "bytes": 9105,
+      "sha256": "38acaf770396a90909d28b055034c1df434a8eea0f932a3c4908aca52b115b9e"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/imported/KICK/EJ_KICK_PASE_R_0_0_ESPEJO.tres",
+      "bytes": 8391,
+      "sha256": "29cd7e58fac9a9175fdb19ab5af9208aa3a33b6e9cb73e3009af5b6e87d64a42"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/imported/KICK/EJ_KICK_PASE_R_5_5.tres",
+      "bytes": 8391,
+      "sha256": "3a2d70fe90b333ac5edb7f4f9c6c2a5cc4162e679e1afdbf9cac2c5ad6a6b280"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/imported/KICK/EJ_KICK_PASE_L_0_0.tres",
+      "bytes": 8391,
+      "sha256": "3a2d70fe90b333ac5edb7f4f9c6c2a5cc4162e679e1afdbf9cac2c5ad6a6b280"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/imported/KICK/EJ_KICK_PASE_R_3_0.tres",
+      "bytes": 8391,
+      "sha256": "3a2d70fe90b333ac5edb7f4f9c6c2a5cc4162e679e1afdbf9cac2c5ad6a6b280"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/imported/KICK/EJ_KICK_PASE_L_0_0_ESPEJO.tres",
+      "bytes": 8391,
+      "sha256": "29cd7e58fac9a9175fdb19ab5af9208aa3a33b6e9cb73e3009af5b6e87d64a42"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/imported/KICK/EJ_KICK_TIRO_R.tres",
+      "bytes": 9087,
+      "sha256": "c5230724aff1b4ed42a4b3bf471f28a81449fb8aa4dae6e2db1fc02789ac3455"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/imported/TACKLE/EJ_TACKLE_PIE_R_ESPEJO.tres",
+      "bytes": 6957,
+      "sha256": "c75256b62b4dacc8b06d5014935acb7ad9243b10e7b2efd1ad556928307cf080"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/imported/TACKLE/EJ_TACKLE_PIE_R.tres",
+      "bytes": 6957,
+      "sha256": "6dab63e605d122e22cb3352d592dfa58954962480368013c8e617681f16bd1fb"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/imported/FALL/EJ_FALL_ADELANTE.tres",
+      "bytes": 8539,
+      "sha256": "0312777b9f9a265fc056049ae98557e55c7b8cb27ca8857c7b88ec58d1654e47"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/imported/GKSAVE/EJ_GKSAVE_ESTIRADA_IZQ_BAJA_ESPEJO.tres",
+      "bytes": 8399,
+      "sha256": "4eb2b88db33160d707120add473f1a40b713af3079c28454f3f1ee90c1b7f220"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/imported/GKSAVE/EJ_GKSAVE_ESTIRADA_IZQ_MEDIA_ESPEJO.tres",
+      "bytes": 8399,
+      "sha256": "4eb2b88db33160d707120add473f1a40b713af3079c28454f3f1ee90c1b7f220"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/imported/GKSAVE/EJ_GKSAVE_ESTIRADA_DER_BAJA_ESPEJO.tres",
+      "bytes": 8399,
+      "sha256": "4eb2b88db33160d707120add473f1a40b713af3079c28454f3f1ee90c1b7f220"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/imported/GKSAVE/EJ_GKSAVE_CENTRO.tres",
+      "bytes": 6963,
+      "sha256": "f8d3ed39840a56cd87bc9d4973ee31a05c8e4ddbfdbb7715433d6de841baadbf"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/imported/GKSAVE/EJ_GKSAVE_ESTIRADA_DER_MEDIA_ESPEJO.tres",
+      "bytes": 8399,
+      "sha256": "4eb2b88db33160d707120add473f1a40b713af3079c28454f3f1ee90c1b7f220"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/imported/GKSAVE/EJ_GKSAVE_ESTIRADA_IZQ_MEDIA.tres",
+      "bytes": 8399,
+      "sha256": "c6b9369d15cfdabe2531c352f74aada25315148d49b5bab22f0fe85bf496ca88"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/imported/GKSAVE/EJ_GKSAVE_ESTIRADA_DER_BAJA.tres",
+      "bytes": 8399,
+      "sha256": "c6b9369d15cfdabe2531c352f74aada25315148d49b5bab22f0fe85bf496ca88"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/imported/GKSAVE/EJ_GKSAVE_ESTIRADA_DER_MEDIA.tres",
+      "bytes": 8399,
+      "sha256": "c6b9369d15cfdabe2531c352f74aada25315148d49b5bab22f0fe85bf496ca88"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/imported/GKSAVE/EJ_GKSAVE_ESTIRADA_IZQ_BAJA.tres",
+      "bytes": 8399,
+      "sha256": "c6b9369d15cfdabe2531c352f74aada25315148d49b5bab22f0fe85bf496ca88"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/imported/GETUP/EJ_GETUP_ADELANTE.tres",
+      "bytes": 11206,
+      "sha256": "00032ab53dbc09b2787f23cf1cbaab780c55276925c7e1eea6cc7dc240aaa212"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/imported/STAND/EJ_STAND_FRENADA.tres",
+      "bytes": 5509,
+      "sha256": "0d90d549424125f94b27f034ec964a27050c196de3c6c2f0a60604265bc81a0f"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/imported/STAND/EJ_STAND_REPOSO.tres",
+      "bytes": 8092,
+      "sha256": "2fb1aed49c9ae8cc8109ae0d0d0c892b99a88d6dcf7a9c08844bea508f5d77e8"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/imported/CONTROL/EJ_CONTROL_RECEPCION_R.tres",
+      "bytes": 6957,
+      "sha256": "fd27eece65db41db0e2635fc8c5a7bb05250e44402121871c0f3e47f11137f4f"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/imported/CONTROL/EJ_CONTROL_TOQUE_L_5_5_ESPEJO.tres",
+      "bytes": 5523,
+      "sha256": "9b29c009274d92f08a4e168fde82e45912a229ea28580cac9386a744b8a08811"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/imported/CONTROL/EJ_CONTROL_RECEPCION_L_ESPEJO.tres",
+      "bytes": 6957,
+      "sha256": "848b8c22f23a0fce639c24b0f86e1b826bdc2226ed27bc195d5b99bc3678f8be"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/imported/CONTROL/EJ_CONTROL_TOQUE_L_3_5_ESPEJO.tres",
+      "bytes": 5513,
+      "sha256": "5272ee119f38381b539efd665869e02649bce49169d641621c2a78599413f4b5"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/imported/CONTROL/EJ_CONTROL_TOQUE_L_7_0.tres",
+      "bytes": 5509,
+      "sha256": "51f88ce1d8f9b9e1fbb40847fbb56f9f41731f23e489c9dfbd2bbf3f7608d2a4"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/imported/CONTROL/EJ_CONTROL_TOQUE_R_1_5_ESPEJO.tres",
+      "bytes": 5515,
+      "sha256": "2f097a7fd051e749cbffdbee24007b16248ae8b323faa03ef52060bf66d4c22d"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/imported/CONTROL/EJ_CONTROL_TOQUE_R_1_5.tres",
+      "bytes": 5515,
+      "sha256": "c250da0d2612dcab4df62429d67d7cca7200b5516eb0b3465f5e7989bc549363"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/imported/CONTROL/EJ_CONTROL_TOQUE_L_1_5.tres",
+      "bytes": 5515,
+      "sha256": "c250da0d2612dcab4df62429d67d7cca7200b5516eb0b3465f5e7989bc549363"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/imported/CONTROL/EJ_CONTROL_TOQUE_R_7_0.tres",
+      "bytes": 5509,
+      "sha256": "51f88ce1d8f9b9e1fbb40847fbb56f9f41731f23e489c9dfbd2bbf3f7608d2a4"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/imported/CONTROL/EJ_CONTROL_TOQUE_R_7_0_ESPEJO.tres",
+      "bytes": 5509,
+      "sha256": "f21739dd1793515f02b73e30a41f7e245654b3f42b10aa06085e1e803994c484"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/imported/CONTROL/EJ_CONTROL_TOQUE_L_1_5_ESPEJO.tres",
+      "bytes": 5515,
+      "sha256": "2f097a7fd051e749cbffdbee24007b16248ae8b323faa03ef52060bf66d4c22d"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/imported/CONTROL/EJ_CONTROL_RECEPCION_R_ESPEJO.tres",
+      "bytes": 6957,
+      "sha256": "848b8c22f23a0fce639c24b0f86e1b826bdc2226ed27bc195d5b99bc3678f8be"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/imported/CONTROL/EJ_CONTROL_TOQUE_R_3_5.tres",
+      "bytes": 5513,
+      "sha256": "346d3f9d0ff7efb360112d3aab3bf353a72fd2308aafbd42eeaeb7de1089b714"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/imported/CONTROL/EJ_CONTROL_TOQUE_L_3_5.tres",
+      "bytes": 5513,
+      "sha256": "346d3f9d0ff7efb360112d3aab3bf353a72fd2308aafbd42eeaeb7de1089b714"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/imported/CONTROL/EJ_CONTROL_TOQUE_R_5_5_ESPEJO.tres",
+      "bytes": 5523,
+      "sha256": "9b29c009274d92f08a4e168fde82e45912a229ea28580cac9386a744b8a08811"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/imported/CONTROL/EJ_CONTROL_RECEPCION_L.tres",
+      "bytes": 6957,
+      "sha256": "fd27eece65db41db0e2635fc8c5a7bb05250e44402121871c0f3e47f11137f4f"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/imported/CONTROL/EJ_CONTROL_TOQUE_R_3_5_ESPEJO.tres",
+      "bytes": 5513,
+      "sha256": "5272ee119f38381b539efd665869e02649bce49169d641621c2a78599413f4b5"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/imported/CONTROL/EJ_CONTROL_TOQUE_L_7_0_ESPEJO.tres",
+      "bytes": 5509,
+      "sha256": "f21739dd1793515f02b73e30a41f7e245654b3f42b10aa06085e1e803994c484"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/imported/CONTROL/EJ_CONTROL_TOQUE_R_5_5.tres",
+      "bytes": 5523,
+      "sha256": "98bd7a9ff2cc02bd69148e5486c25ba35085ed895f660bd052c6504b935aa8ec"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/imported/CONTROL/EJ_CONTROL_TOQUE_L_5_5.tres",
+      "bytes": 5523,
+      "sha256": "98bd7a9ff2cc02bd69148e5486c25ba35085ed895f660bd052c6504b935aa8ec"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/metadata/LOCO/EJ_LOCO_CAMINAR.tres",
+      "bytes": 1743,
+      "sha256": "15d930358332b2d795ac7b77bbb2de7930d34211acb0ffd967a2974df5874f7b"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/metadata/LOCO/EJ_LOCO_CARRERA.tres",
+      "bytes": 1743,
+      "sha256": "068bbca44944f5d3d78679d285968e06620fdc5184477ab102041302b5c34af4"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/metadata/LOCO/EJ_LOCO_SPRINT.tres",
+      "bytes": 1627,
+      "sha256": "e13dbd5992de7518296ea957268f3d725fa2e53692fee9de2c721edf3b74f57a"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/metadata/LOCO/EJ_LOCO_TROTE.tres",
+      "bytes": 1737,
+      "sha256": "d4151c4f3b73fa1eee2509ba717a0761adbd4c565c0a1414b3be80238c0763a5"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/metadata/TACKLESLIDE/EJ_TACKLESLIDE_R_ESPEJO.tres",
+      "bytes": 1846,
+      "sha256": "210620e5cf09332f361bb62e66b4e3dcff03816e4c4671ab130751d60a30cdc0"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/metadata/TACKLESLIDE/EJ_TACKLESLIDE_R.tres",
+      "bytes": 1848,
+      "sha256": "17fefd419847a1314b66ee25b36887ed4fd7c2a200b048a00b5446f4744912ad"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/metadata/TURN/EJ_TURN_IZQ_90_ESPEJO.tres",
+      "bytes": 1648,
+      "sha256": "fd4273b65e428b23f53006b3f2a66f8e972d5d2c5ed355142ea910ad2d08c46c"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/metadata/TURN/EJ_TURN_DER_90.tres",
+      "bytes": 1588,
+      "sha256": "84cb5f25a2ed165ae57d137b3540a6c4291cd032b1b6963e469a83f69c863630"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/metadata/TURN/EJ_TURN_IZQ_180_ESPEJO.tres",
+      "bytes": 1650,
+      "sha256": "a5d54d3eec9a37799191d1daa809fb6e8d0604bd2d9facb7bccea6503fc069f5"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/metadata/TURN/EJ_TURN_DER_90_ESPEJO.tres",
+      "bytes": 1611,
+      "sha256": "020dddae33236e4621ad6f63bd2de6b1708a7633591d5a98bb4370cc9cdb0965"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/metadata/TURN/EJ_TURN_IZQ_180.tres",
+      "bytes": 1551,
+      "sha256": "3e6506815aaa0db9e9f7d2a3c6e0af646b34397405c305981cf0ad98a2becaf3"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/metadata/TURN/EJ_TURN_IZQ_90.tres",
+      "bytes": 1551,
+      "sha256": "85ccb5d3f8d9f9f9f92ed2fb90d50f7d34838c49de6e6dfab03e98a062dc0623"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/metadata/KICK/EJ_KICK_CENTRO_L_ESPEJO.tres",
+      "bytes": 1824,
+      "sha256": "b344ea22f539dcc46346fc3172488c721baeb48f4bf77cd41d48e5f24ea3fe39"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/metadata/KICK/EJ_KICK_PASE_L_3_0_ESPEJO.tres",
+      "bytes": 1593,
+      "sha256": "9b957c1b2f3e0080ce6c6e09444afbbc6db5a78bce35b07ffde9ba4b5b10ee1a"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/metadata/KICK/EJ_KICK_TIRO_L.tres",
+      "bytes": 1755,
+      "sha256": "badf5709d43800dae5cc247528033201a0096175b06d19e6c520742508b2a4c2"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/metadata/KICK/EJ_KICK_PASE_L_3_0.tres",
+      "bytes": 1524,
+      "sha256": "af51f6233276192e495ba7cdb81467a5b2df62eff59b110eec565d1b0904092e"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/metadata/KICK/EJ_KICK_CENTRO_L.tres",
+      "bytes": 1760,
+      "sha256": "df4323981de2a02cb0fe974a49182c2d2ddb7b77c58bea575b888420d3462f65"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/metadata/KICK/EJ_KICK_PASE_R_3_0_ESPEJO.tres",
+      "bytes": 1592,
+      "sha256": "d7e9d2a17802ba59bff12bd8ddec1152bb4526d63ec6d84f4e59409ac005e21a"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/metadata/KICK/EJ_KICK_PASE_L_5_5.tres",
+      "bytes": 1624,
+      "sha256": "5b924da4aba9cb1b282ff1626d272f05a018ee97ef7f2b410b70dc01e525a59b"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/metadata/KICK/EJ_KICK_CENTRO_R_ESPEJO.tres",
+      "bytes": 1824,
+      "sha256": "9219dc8dfffb2c22cfc9ab6495e83d0fb560c4d8759ffa306dcde565ddd74ac5"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/metadata/KICK/EJ_KICK_TIRO_L_ESPEJO.tres",
+      "bytes": 1816,
+      "sha256": "8781bae42f40b437658b446d28672d097112c73397c553b7ea766d769c7f7abd"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/metadata/KICK/EJ_KICK_TIRO_R_ESPEJO.tres",
+      "bytes": 1815,
+      "sha256": "16fad45e5cc615b2ed3567a4ed75aa1ca4a2b368e33fa84b549cfd0526a49068"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/metadata/KICK/EJ_KICK_PASE_R_5_5_ESPEJO.tres",
+      "bytes": 1692,
+      "sha256": "f69707b8ae11bced6a3a05169d1d522d8aaa6860e8efbc0ca2cd49eece6f1f06"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/metadata/KICK/EJ_KICK_PASE_L_5_5_ESPEJO.tres",
+      "bytes": 1693,
+      "sha256": "0de205a049b77b5cdbdc63d20729557187dcb16695f96c68b832774f9f248254"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/metadata/KICK/EJ_KICK_PASE_R_0_0_ESPEJO.tres",
+      "bytes": 1546,
+      "sha256": "6be7756b509c5dcc92f76a650b5754b8fc193a4c424138b414e693b1e10a4095"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/metadata/KICK/EJ_KICK_CENTRO_R.tres",
+      "bytes": 1760,
+      "sha256": "d3c12494112fe89151e08fe1649741af6c321e862bacff607e2eb0a4ab71519d"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/metadata/KICK/EJ_KICK_PASE_R_3_0.tres",
+      "bytes": 1525,
+      "sha256": "f096f7426fb02fa5f220f1e143ad797eba7b0879155e4ffb39b050f7c0606ab7"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/metadata/KICK/EJ_KICK_PASE_R_5_5.tres",
+      "bytes": 1625,
+      "sha256": "10adce56c68421561e1bf6325b68d0546a85612abca095992e01988227d433c5"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/metadata/KICK/EJ_KICK_PASE_R_0_0.tres",
+      "bytes": 1479,
+      "sha256": "80d4aac5fe4dc35b4ad9bc08c168cbc9dd2eb9ed2982172788db27d614a26bfc"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/metadata/KICK/EJ_KICK_PASE_L_0_0_ESPEJO.tres",
+      "bytes": 1547,
+      "sha256": "6528dd1c11f7cb7d65f9fe80105c43a7eb2c05e13e129489973b5c5e76afcbed"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/metadata/KICK/EJ_KICK_PASE_L_0_0.tres",
+      "bytes": 1478,
+      "sha256": "8611ef09aee4d793ed37fba4d4841edddd17308ec031cb88ef7ba357caf8987c"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/metadata/KICK/EJ_KICK_TIRO_R.tres",
+      "bytes": 1756,
+      "sha256": "89ff7fe06854fc628a65b1364a9fb8ffe45b33c74b6cc0e1042c471d724fba39"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/metadata/FALL/EJ_FALL_ADELANTE.tres",
+      "bytes": 1611,
+      "sha256": "6ffac58365a6ac20080dbd971c7367c8d2564950966f56177e8140fe78694a78"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/metadata/TACKLE/EJ_TACKLE_PIE_R_ESPEJO.tres",
+      "bytes": 1581,
+      "sha256": "39f90a0f8213e2f4d2744767b01d564310f08333388208a43ead2dfd04718cf1"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/metadata/TACKLE/EJ_TACKLE_PIE_R.tres",
+      "bytes": 1585,
+      "sha256": "4fe33db47b26fa826190a44b85861b63ca81f432b26bbf1f8ef762c5562219ab"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/metadata/GKSAVE/EJ_GKSAVE_ESTIRADA_IZQ_MEDIA_ESPEJO.tres",
+      "bytes": 1610,
+      "sha256": "8f2a8e5fe80cc7363fef4bb0155f3d13f90e917411e8b9c712c8f94dac05e9f0"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/metadata/GKSAVE/EJ_GKSAVE_ESTIRADA_IZQ_BAJA_ESPEJO.tres",
+      "bytes": 1605,
+      "sha256": "8badc0321463f7af6b336205b82f4b6f885eaa5c73da4ba777df0b3198da9577"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/metadata/GKSAVE/EJ_GKSAVE_ESTIRADA_DER_MEDIA_ESPEJO.tres",
+      "bytes": 1609,
+      "sha256": "df079a6698dd5ebb224aef9c22b2e145c5136b17cbf07de97945559f486b92cc"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/metadata/GKSAVE/EJ_GKSAVE_ESTIRADA_DER_BAJA_ESPEJO.tres",
+      "bytes": 1604,
+      "sha256": "5c0b320255aad4e9e87d35fdc47ac443126f1b492df090321a7dc679b6feb792"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/metadata/GKSAVE/EJ_GKSAVE_CENTRO.tres",
+      "bytes": 1469,
+      "sha256": "205401563a7f13f8fc2f037cb6018ed26529cfce600e06ff490dc45c7dcb744d"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/metadata/GKSAVE/EJ_GKSAVE_ESTIRADA_IZQ_MEDIA.tres",
+      "bytes": 1521,
+      "sha256": "4be5d0a4a1daaa0c411dc2eeb0876364a51044aabab3b51bad598536e2902881"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/metadata/GKSAVE/EJ_GKSAVE_ESTIRADA_DER_MEDIA.tres",
+      "bytes": 1522,
+      "sha256": "cdbc513df986f0b3f52a73477986318a61a95c1b7365a691a963eab2d7ffba9a"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/metadata/GKSAVE/EJ_GKSAVE_ESTIRADA_DER_BAJA.tres",
+      "bytes": 1519,
+      "sha256": "c76f9d3e9a31d2eb26a91949fd04d66e3f2d4d21c5d0f8f10ac3209f677f7352"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/metadata/GKSAVE/EJ_GKSAVE_ESTIRADA_IZQ_BAJA.tres",
+      "bytes": 1518,
+      "sha256": "821ce45830602d71730ce7456fcafed0effb5238e5701eba28dbaa14eb829fab"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/metadata/STAND/EJ_STAND_FRENADA.tres",
+      "bytes": 1307,
+      "sha256": "27e52bdc8298d6fdd0c871781e45c283766b62fd36285a0627f747010fbd0a20"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/metadata/STAND/EJ_STAND_REPOSO.tres",
+      "bytes": 1570,
+      "sha256": "73e4deaf0034ea544fe06b3bc8e34188418b4835adb116ff19d8fa59a80e1707"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/metadata/GETUP/EJ_GETUP_ADELANTE.tres",
+      "bytes": 1677,
+      "sha256": "fc4fd08208c59cb5a3a61a786acf18b4a0d44ff3e75a7e0bb76ba03f86f0d950"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/metadata/CONTROL/EJ_CONTROL_TOQUE_L_5_5_ESPEJO.tres",
+      "bytes": 1474,
+      "sha256": "a5e9fe00aec1c454facf5adf0c3600a8d5b3f66206469380209a37bf6a8a704f"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/metadata/CONTROL/EJ_CONTROL_RECEPCION_R.tres",
+      "bytes": 1536,
+      "sha256": "c066eed725966c0a35f5926f1072df972023e2124eabb53979345c500cfaf057"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/metadata/CONTROL/EJ_CONTROL_RECEPCION_L_ESPEJO.tres",
+      "bytes": 1612,
+      "sha256": "796ffa65274a02a9adc087ba903798076c7fb6acc628c4c06ae42da2dd0d6ed4"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/metadata/CONTROL/EJ_CONTROL_TOQUE_L_3_5_ESPEJO.tres",
+      "bytes": 1474,
+      "sha256": "0b1b9755fb88f3d67fead599641064cbf9f588b5354cbf72a74efcc31be919e9"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/metadata/CONTROL/EJ_CONTROL_TOQUE_L_7_0.tres",
+      "bytes": 1395,
+      "sha256": "e16457e48661898c709f336b8504287656dc9016a165f94de596cc8afbf8db0a"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/metadata/CONTROL/EJ_CONTROL_TOQUE_R_1_5.tres",
+      "bytes": 1346,
+      "sha256": "d772d8f2f9d3d5f7ffa8e031b522b328f7b6a4ba27791cacc8bdecd0c267dd8b"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/metadata/CONTROL/EJ_CONTROL_TOQUE_L_1_5.tres",
+      "bytes": 1345,
+      "sha256": "b7213f61452dec95ee68b16d3620528af961f1d5ee24159b28f831b9d449741c"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/metadata/CONTROL/EJ_CONTROL_TOQUE_R_1_5_ESPEJO.tres",
+      "bytes": 1421,
+      "sha256": "e2b9cec6796013bb73ac4a04a9bb64d0fc1092ace6866e379ba01292f95ee845"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/metadata/CONTROL/EJ_CONTROL_TOQUE_R_7_0.tres",
+      "bytes": 1396,
+      "sha256": "6938deb18295c9f1ea4731412e8797ade7f8ef3b69fea252731e4bd5a6fc4996"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/metadata/CONTROL/EJ_CONTROL_TOQUE_L_1_5_ESPEJO.tres",
+      "bytes": 1422,
+      "sha256": "c36131b827bb93dd81d92740917ca8490f1264ec0fbbea4214203683269ad140"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/metadata/CONTROL/EJ_CONTROL_RECEPCION_R_ESPEJO.tres",
+      "bytes": 1611,
+      "sha256": "d82624ff3e705a837cf2a4c2294a4b3d398535c8433178108eac2a0209896adc"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/metadata/CONTROL/EJ_CONTROL_TOQUE_R_7_0_ESPEJO.tres",
+      "bytes": 1471,
+      "sha256": "4abc2e20fd84c47f7d1c7b67b897dcd4345ff31d4c5292d13ef81bd4a2436b0c"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/metadata/CONTROL/EJ_CONTROL_TOQUE_R_3_5.tres",
+      "bytes": 1398,
+      "sha256": "573ceea4e8538a23c0ade6593798bdc7930f3b4d01f215dcb094276377143eb6"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/metadata/CONTROL/EJ_CONTROL_TOQUE_R_5_5_ESPEJO.tres",
+      "bytes": 1473,
+      "sha256": "5a15301189b2d7385d09ac015a24b460eb71cc8c43767e6717a9c68adbb05ded"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/metadata/CONTROL/EJ_CONTROL_TOQUE_L_3_5.tres",
+      "bytes": 1397,
+      "sha256": "af72f4cc6c47c4ed00cfcfee03637f218433499227a68554db9771bcaea002f7"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/metadata/CONTROL/EJ_CONTROL_RECEPCION_L.tres",
+      "bytes": 1535,
+      "sha256": "22d8708248a4e3c54166fa3ab40a3cef7c44a2fa684596881d530b7512c1ca5e"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/metadata/CONTROL/EJ_CONTROL_TOQUE_R_3_5_ESPEJO.tres",
+      "bytes": 1473,
+      "sha256": "32d52ef3c007ce535fd5ec1826961921f8025239a950f31c92c536406ac15a53"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/metadata/CONTROL/EJ_CONTROL_TOQUE_L_7_0_ESPEJO.tres",
+      "bytes": 1472,
+      "sha256": "456cdcbddeae02dc3ab02ac1d71cc49044a49a1ca0e103c6c7e3dedab1535f53"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/metadata/CONTROL/EJ_CONTROL_TOQUE_R_5_5.tres",
+      "bytes": 1398,
+      "sha256": "d2e3750e6e7d20f3266ec37f9c0aaeda847e7d991c406c74a4a816724dd139d6"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/animations/metadata/CONTROL/EJ_CONTROL_TOQUE_L_5_5.tres",
+      "bytes": 1397,
+      "sha256": "2655827ba1e69f1ee93c5520a31ab11e00571853935d64a354324162f4d68aca"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/catalog/catalogo.json",
+      "bytes": 18783,
+      "sha256": "3282b2347b71530b43ff89077c77256c2393b5cf7b2a94a7d25a51e4c2db5479"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/data/config/futbol_config_default.tres",
+      "bytes": 190,
+      "sha256": "70c7fa7aaa72bdf8dc08e82a9c877a0e3c74c4bb20a4716078a37c00d16bce3a"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/animation/anim_catalog.gd",
+      "bytes": 3215,
+      "sha256": "c04a65cf825e44f282e3c5463af8e5568cfd169beddaf2c20304326a7dc490bb"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/animation/player_animator.gd.uid",
+      "bytes": 19,
+      "sha256": "031044288aee608ad8783a0f0da717c093c336b19a8edcc4b6f82d65eda3e558"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/animation/player_animator.gd",
+      "bytes": 2769,
+      "sha256": "d0cfafa3982de969dae8d262a929a5de7b30defd485a0832f79034972a38d890"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/animation/anim_clip_meta.gd.uid",
+      "bytes": 20,
+      "sha256": "d853f2d8a7f606905c09c835fb66f8a0b395f0d6aeac404ff8cc6a79200c28df"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/animation/anim_clip_meta.gd",
+      "bytes": 4597,
+      "sha256": "80ed82d80599ced19edfd1a8b2b54456a6f4f9bb6f463a714254856c176f2643"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/animation/anim_catalog.gd.uid",
+      "bytes": 20,
+      "sha256": "40a64108f02c95598bd043cce714e58dad9d4ceeb7d863054c895165a3997ee0"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/core/futbol_config.gd.uid",
+      "bytes": 20,
+      "sha256": "4792918a32fe6dec0091f073d51001ae388b88256d73fa6b67a08d628f3df6b0"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/core/futbol_config.gd",
+      "bytes": 10775,
+      "sha256": "cfd43cd35e61b8a20ef7a6fc12018682d5ac792c37089157d6fc601a26aeb006"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/ball/trajectory_solver.gd.uid",
+      "bytes": 20,
+      "sha256": "97fd08674cff290bb17c0f7a145f05657d166e4fd33d476051fcd1143a0da6d9"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/ball/ball_predictor.gd.uid",
+      "bytes": 20,
+      "sha256": "50a90766be0767d8dd6f4ac40390959e965ce0bbc1d94f165b4c9fb0cf9168a0"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/ball/ball_state.gd.uid",
+      "bytes": 20,
+      "sha256": "9b3989855b37c0bc1401569541422308c7ad7c3cf8d423e375b144a330f2e32f"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/ball/ball_physics.gd",
+      "bytes": 2559,
+      "sha256": "5806dc25826b3af9a949ddbde2994f7875a4c7b8720e4c7679e635620227d5dc"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/ball/ball.gd.uid",
+      "bytes": 20,
+      "sha256": "17cece285a232ec8817a21d450a4bc6ad34ba1fc82709328fe800a1de17b164f"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/ball/ball.gd",
+      "bytes": 2940,
+      "sha256": "98397c0c795f4fd029f69f7f400e10432c45f4f67d5055a66db295316d00ba88"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/ball/goal_frame.gd.uid",
+      "bytes": 20,
+      "sha256": "4041839a55411c0142e5162067e9d417018dd9c51530eb91e5b521fb39338332"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/ball/goal_frame.gd",
+      "bytes": 3189,
+      "sha256": "9b5cb78301c68ff09c1cda7603a71777c1420167119661448729294989f55dad"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/ball/ball_predictor.gd",
+      "bytes": 1658,
+      "sha256": "444c824fa91e014a4dd61faadba68a84aa8cdb5e31e2fee52310b5c681763319"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/ball/trajectory_solver.gd",
+      "bytes": 2247,
+      "sha256": "3d00115b653ba3304e5f91b1baa537bd65354adc3e019c3804f8811871e94484"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/ball/ball_physics.gd.uid",
+      "bytes": 20,
+      "sha256": "16350423359d50b228320cbc16c5b5c95808302a65fb16b141cc57ae3a6fb7a8"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/ball/ball_state.gd",
+      "bytes": 642,
+      "sha256": "76173e4daeac330a2c9e8967f2640be5582c8bbf8e6761f6654e95819beef6b7"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/goalkeeper/gk_ai.gd",
+      "bytes": 3015,
+      "sha256": "38048ef66c2a346054e3dfb6653b5592d660bdf0ac76fd225f395d17f7063f60"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/goalkeeper/gk_ai.gd.uid",
+      "bytes": 20,
+      "sha256": "0e980a6eea264e3fd33f27ae3335421e52588f3e95e3d7ab2145b6d4a633e10b"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/ai/team_ai.gd",
+      "bytes": 2877,
+      "sha256": "3bd13f7e721b8159341bb62211617915606534e07afd76f0afbee2ece4b4099c"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/ai/player_ai.gd",
+      "bytes": 3790,
+      "sha256": "54d6f1e5264fa2937dd1efdfee361c112addea32735c36753d7005746f7766cd"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/ai/team_ai.gd.uid",
+      "bytes": 20,
+      "sha256": "dc45b79fac6cbc62f4836a223c573d3a8566d0aab7b9d05d88d09119105b0bfd"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/ai/player_ai.gd.uid",
+      "bytes": 20,
+      "sha256": "a2cfd12e685509e93e2e0f223ff57d071ce52837e6b72caeaa1492f0caa938b1"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/tests/test_exportador_glb.gd.uid",
+      "bytes": 20,
+      "sha256": "a852c3bd81a231858f4c97f0d43f5903dfb1918565a211e6af6ffebecdea5bd3"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/tests/test_exportador_glb.gd",
+      "bytes": 2643,
+      "sha256": "514afc1eea1de11e529a1c6c31048c5b1a0850fcc208b9ae30bfc0364df8f158"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/tests/run_tests.gd",
+      "bytes": 8449,
+      "sha256": "f3d7e42fe99b53de1ace1d45c8bbc95dfa22907e1ce9eed3c8c64fd3e4f992c7"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/tests/check_scripts.gd",
+      "bytes": 708,
+      "sha256": "c0c9fdf0bc77a015d8b7f25a73cac0a47cc27cb27878787cf54f658d86fd8402"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/tests/check_scripts.gd.uid",
+      "bytes": 20,
+      "sha256": "7994c331c21abf3f8f2b724b28e3ed1fd87bcc72e3e65555a6e11771fcb84328"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/tests/run_tests.gd.uid",
+      "bytes": 20,
+      "sha256": "83c886aabf42948c50f274b4419fda4dc81dac7729bad8a15b57fdc32d01ee70"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/input/human_input.gd.uid",
+      "bytes": 20,
+      "sha256": "4598dc6eba7153c9ee82678b34de2491da5005c33eed14154c0c4cc9910d50db"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/input/human_input.gd",
+      "bytes": 1789,
+      "sha256": "d0d54ae7d8676fb95675571856e701dae2fd5c11df8caf71fd23e3631fb7fc29"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/actions/receive_action.gd.uid",
+      "bytes": 20,
+      "sha256": "fbc2e3532b3aaeb436058a607b1d3657b421c5826b5c887243f34272f34b9d04"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/actions/tackle_action.gd",
+      "bytes": 2210,
+      "sha256": "30a4b489ed80a8415dab2f76cee306570bc55e177d2e563bdaec9256ed4dc121"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/actions/receive_action.gd",
+      "bytes": 1533,
+      "sha256": "6c66d53160b891c4d3ed603b98545e858d5e7673d87f85ff5f9a5cbf1c87ccf6"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/actions/kick_action.gd.uid",
+      "bytes": 20,
+      "sha256": "64c3c3199f3c88970f52dd36120e8c69e7e67d95f2aa0400672832cc966b78d8"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/actions/dribble_action.gd",
+      "bytes": 2492,
+      "sha256": "a3c5ad9a8f40f7aa6ac322a40f4c7f612621b6bb6ad29472c628e3643726df4e"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/actions/tackle_action.gd.uid",
+      "bytes": 20,
+      "sha256": "e3b3e40f86fdbb622da6f7bfc61ae806a29c54723ac060aebed44e277e4240e4"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/actions/kick_action.gd",
+      "bytes": 5816,
+      "sha256": "83370b4d504a641fb766d7b8cdd5ccbe3a8cf4d96f1d0f68d9726d4c816f620c"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/actions/dribble_action.gd.uid",
+      "bytes": 20,
+      "sha256": "b5e69f6262a10df98e463f4a87747a0c0a9d83247464cb33615582d0368e3cb7"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/tools/exportar_clips_json.gd.uid",
+      "bytes": 20,
+      "sha256": "c486f7ded6040d926197e623cf5a86d911c2458182fa54965c47065bbb02815b"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/tools/exportar_clips_json.gd",
+      "bytes": 6206,
+      "sha256": "2b8f15dc7196eb7fe5ef28845bdff767c89ef12119f18443ada72537aa567047"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/debug/debug_draw.gd",
+      "bytes": 1444,
+      "sha256": "fdfa0186d835e42fc346286525707edf37313c030b0ace3b9abb61a5cbc2e5c8"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/debug/debug_draw.gd.uid",
+      "bytes": 20,
+      "sha256": "c00266073abc6112d9236d6d053d85a38dc6e695291f2d508198f8709eb8cc7d"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/match/match_sim.gd",
+      "bytes": 2831,
+      "sha256": "2a1bbeaae0c922392c4dbf2df50d734c6df20b3376fdafc0884b44e07124a668"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/match/match_sim.gd.uid",
+      "bytes": 20,
+      "sha256": "f074881a25c4df977c467d167c829a4c0b95ea4c3e35f023ea8f0b26513d9539"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/player/locomotion.gd.uid",
+      "bytes": 20,
+      "sha256": "6d36af29b9e8e9f565c9f789b0bda38ee4011d4b1831ceaffe74c827b6dbad8c"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/player/contact_planner.gd",
+      "bytes": 4502,
+      "sha256": "c8047c8afc09211483c6b4ef4b5ccf649451b4e00884bd8afe266a47c3055a4c"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/player/contact_executor.gd",
+      "bytes": 3942,
+      "sha256": "32655096ae1e9968ec5c40aa11f8fe969bdf7ba609f61aeec9c0c59cbb5507bb"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/player/contact_executor.gd.uid",
+      "bytes": 19,
+      "sha256": "6bfdc672972e18e495ce30d5721d1ee82ebba4daa33791113f7a6107ba38c02b"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/player/contact_planner.gd.uid",
+      "bytes": 20,
+      "sha256": "c7f060cc65ac05266bc99560ba88c6d5c2e05563911ae39b1cbb13f84bd6c5db"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/player/locomotion.gd",
+      "bytes": 3848,
+      "sha256": "3ad7ad9a702e8d070f289c56ae4c84b2fd53c87c5e3982fc1d5c48be490f1aae"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/player/player.gd.uid",
+      "bytes": 20,
+      "sha256": "602a37cccea67d7785c5588535753c89ca0acd1bf1c9132407f752c5abcb09fe"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/player/contact_plan.gd.uid",
+      "bytes": 20,
+      "sha256": "0ac5bddd46e523dde584469fdafe02cc53df69f4b61c94446ef79f1432749151"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/player/player.gd",
+      "bytes": 2946,
+      "sha256": "4fe1902f2ee3ea909d34997b580fed1e7c49fbcee97c861254ca00f681839bdc"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/GODOT_4_7_2/proyecto_futbol5/player/contact_plan.gd",
+      "bytes": 940,
+      "sha256": "96f3ba12032297794837cc05fbd3bb52a31c2e079cdd994f2a612e21e9595f39"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/METADATOS/ESQUEMAS/futbol5_clip_v1.schema.json",
+      "bytes": 3572,
+      "sha256": "db723a5ae6d65dcc213dc67483151a1e37deb6d7c4c418bfcd145e553d8daddf"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/DOCUMENTACION/REGLAS_MOVIMIENTO_Y_CONDUCCION.md",
+      "bytes": 1687,
+      "sha256": "91b676743d8ecb0c34da7ea9a903700a90ecca53333b414506415c0506df2e5b"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/DOCUMENTACION/REGLAS_GOLPEO_Y_BALON.md",
+      "bytes": 1913,
+      "sha256": "b1ad07079e7418adb8543dafb3ecb3ac1372af221129aacb783f90c39051a906"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/DOCUMENTACION/PLAN_DE_IMPLEMENTACION.md",
+      "bytes": 1499,
+      "sha256": "6532230e241dd07508a06229dcb09a1dbf9d08306bfd3bde73fc829d4a8e87bc"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/DOCUMENTACION/CATALOGO_ANIMACIONES.md",
+      "bytes": 1712,
+      "sha256": "53de6010ca3e3e033cf6a43150b476e9529b6676a698d21e337c68289831520c"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/DOCUMENTACION/CALIBRACION_FISICA.md",
+      "bytes": 15673,
+      "sha256": "b275d6ef39f2b94683f2a47e6f288c9ce3197a745f1cf5c6cdfcdc61bb5a2d4f"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/DOCUMENTACION/ARQUITECTURA_GODOT.md",
+      "bytes": 3966,
+      "sha256": "6667d226c9e6032ecf54280c96019957c294a7ff376f081a49209aeba3b5920e"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/DOCUMENTACION/IA_Y_ARQUEROS.md",
+      "bytes": 1155,
+      "sha256": "6d6320c4f530932e79abe5715854d9a3b440e48bd2ec7e065dc2de92498bb919"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/DOCUMENTACION/INVESTIGACION_ETAPA3.md",
+      "bytes": 11491,
+      "sha256": "aa454881ec107728a4066034528bfcb925ce862aa74371319826c210ae72aef5"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/DOCUMENTACION/MANUAL_MAESTRO_OTRO_CLAUDE.md",
+      "bytes": 9764,
+      "sha256": "14a7b6e1e0098b44f249edf73b867dc78791d1b1121e458597699c45ab9313b2"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/DOCUMENTACION/OPTIMIZACION.md",
+      "bytes": 1690,
+      "sha256": "3b9f60e444a6e6d433661a73138f9f40ec723863e21c5ce4a4d3e2ea4538db09"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/DOCUMENTACION/ESQUELETO_Y_RETARGETING.md",
+      "bytes": 1400,
+      "sha256": "45efdc368f02b6569f7a650b0adaaeded1836802629307793da2f4da0d0c192e"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/CATALOGO/EJEMPLOS_SINTETICOS/catalogo_completo.csv",
+      "bytes": 7257,
+      "sha256": "541aa0656ff8d83be2c2ff406042ca579de079aecad89b571a3b7b59cc1b138a"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/CATALOGO/EJEMPLOS_SINTETICOS/compatibilidad.csv",
+      "bytes": 2141,
+      "sha256": "f20057763987789746e3d07aed2233157c4fecf800934ade4e3e8da582c6e3b9"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/CATALOGO/EJEMPLOS_SINTETICOS/catalogo_completo.json",
+      "bytes": 19176,
+      "sha256": "f38478affdf5b9065260d4549ccee4085864d431b82c44044cdbea80c1166919"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/CATALOGO/EJEMPLOS_SINTETICOS/sistemas/giro.csv",
+      "bytes": 657,
+      "sha256": "88d498f615469b20ff10c69f83d2e31be482830d86ba8c33fa771431036f2759"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/CATALOGO/EJEMPLOS_SINTETICOS/sistemas/entrada.csv",
+      "bytes": 537,
+      "sha256": "2f70ef8cf34441bc790e924b46e28d8a13a540d0b1dbb8cd1c9ebfb16cf6e2ee"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/CATALOGO/EJEMPLOS_SINTETICOS/sistemas/caida.csv",
+      "bytes": 333,
+      "sha256": "afdbb369b83cc80bcbcacaeb00214bed7e28cd5ad4c0a77720c683394fb62a23"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/CATALOGO/EJEMPLOS_SINTETICOS/sistemas/pase.csv",
+      "bytes": 1238,
+      "sha256": "49e0d71f10a5bbb9818bf20bbc8ea1be6c3827137f968e220bc8953eef0268c7"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/CATALOGO/EJEMPLOS_SINTETICOS/sistemas/portero.csv",
+      "bytes": 1193,
+      "sha256": "a2e2af2a62280941850223cbe96d4ced91f919dcd3b01e7370d21825bb3b47c2"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/CATALOGO/EJEMPLOS_SINTETICOS/sistemas/conduccion.csv",
+      "bytes": 1796,
+      "sha256": "92f5679f8fe2800ee75cb2013250b26f2e293104f1ce6068070addc642d153ef"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/CATALOGO/EJEMPLOS_SINTETICOS/sistemas/recuperacion.csv",
+      "bytes": 344,
+      "sha256": "974aa3d67e86a8a4c7f264c331501df707b7a116d3c2b4055652337933e11093"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/CATALOGO/EJEMPLOS_SINTETICOS/sistemas/frenado.csv",
+      "bytes": 339,
+      "sha256": "e373ce27741c0410d0b454e69f4ac7e15d7b51e393d1a1cd0d582e86a0496461"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/CATALOGO/EJEMPLOS_SINTETICOS/sistemas/locomocion.csv",
+      "bytes": 1005,
+      "sha256": "3ecbbb4dbbe4e758c5ddb7a8b646325fd63b9da2fd00c1726f73fd26cd7d55c3"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/CATALOGO/EJEMPLOS_SINTETICOS/sistemas/centro.csv",
+      "bytes": 533,
+      "sha256": "96152525944edfb47961c7eb387a738a1dab588ed18f0498a61986c432942c36"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/CATALOGO/EJEMPLOS_SINTETICOS/sistemas/control.csv",
+      "bytes": 580,
+      "sha256": "bc3b1deef19893c5f1ab9d4858e7d80761074e53a17deb98e61fc1a93a6f3a85"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/CATALOGO/EJEMPLOS_SINTETICOS/sistemas/tiro.csv",
+      "bytes": 506,
+      "sha256": "5516b969be1ce2969a7758d86c2fd9268b91ec8573eb89293c98937ba8afb0fa"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/CATALOGO/EJEMPLOS_SINTETICOS/categorias/TACKLE.csv",
+      "bytes": 346,
+      "sha256": "be0d1090a6c1a44b9b15976fc2bb28f38b7be960416e5b4d1b8cd828b7cfbb07"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/CATALOGO/EJEMPLOS_SINTETICOS/categorias/CONTROL.csv",
+      "bytes": 2212,
+      "sha256": "ca39177a73b13538beefe3426099e70da91060d72e18636b502aab4de943d46b"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/CATALOGO/EJEMPLOS_SINTETICOS/categorias/TURN.csv",
+      "bytes": 657,
+      "sha256": "88d498f615469b20ff10c69f83d2e31be482830d86ba8c33fa771431036f2759"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/CATALOGO/EJEMPLOS_SINTETICOS/categorias/STAND.csv",
+      "bytes": 510,
+      "sha256": "e49cb11b606b9c20b2edbf439520645506ceacf850ddc7bbfef2acb383d42f60"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/CATALOGO/EJEMPLOS_SINTETICOS/categorias/GKSAVE.csv",
+      "bytes": 1193,
+      "sha256": "a2e2af2a62280941850223cbe96d4ced91f919dcd3b01e7370d21825bb3b47c2"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/CATALOGO/EJEMPLOS_SINTETICOS/categorias/LOCO.csv",
+      "bytes": 834,
+      "sha256": "f05587961726f27813e44ce63cafd35ad5c02f4df6db6646ce8d77b9e290e70b"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/CATALOGO/EJEMPLOS_SINTETICOS/categorias/KICK.csv",
+      "bytes": 1949,
+      "sha256": "f5ebae826751f39dce898b0e01f38246be5cd837805e3e6da6b4bdeca50b4397"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/CATALOGO/EJEMPLOS_SINTETICOS/categorias/FALL.csv",
+      "bytes": 333,
+      "sha256": "afdbb369b83cc80bcbcacaeb00214bed7e28cd5ad4c0a77720c683394fb62a23"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/CATALOGO/EJEMPLOS_SINTETICOS/categorias/TACKLESLIDE.csv",
+      "bytes": 355,
+      "sha256": "e76c0513af37a418329cb19578913640b7a7c0a8a404dbe25e61c1135be2e0e8"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/CATALOGO/EJEMPLOS_SINTETICOS/categorias/GETUP.csv",
+      "bytes": 344,
+      "sha256": "974aa3d67e86a8a4c7f264c331501df707b7a116d3c2b4055652337933e11093"
+    },
+    {
+      "path": "FUTBOL5_GODOT_4_7_2_INTEGRACION/CATALOGO/EJEMPLOS_SINTETICOS/espejos/pares_espejo.csv",
+      "bytes": 875,
+      "sha256": "1cc07682babe82a86f8c48c7267105fcd580d12ccca9454717ada67436cfda92"
+    }
+  ]
+}

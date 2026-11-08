@@ -1,0 +1,8 @@
+{
+ "engine": "4.7.2-stable (official)",
+ "failures": 0,
+ "memory_static_bytes": 207374177,
+ "method": "AnimationPlayer: invocacion y seek al inicio, mitad y final; pistas, huesos y poses finitas",
+ "sources": 2022,
+ "tested": 3223
+}

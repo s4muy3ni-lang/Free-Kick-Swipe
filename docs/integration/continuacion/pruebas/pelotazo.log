@@ -1,0 +1,9 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+[ OK ] test_ball_face_reaction::test_a_real_ball_collision_at_face_height_invokes_the_face_reaction (4 checks, 657 ms)
+
+Resumen: 1 pruebas, 0 fallidas, 0 omitidas, 4 comprobaciones, 0.7 s
+WARNING: 12 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 5 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)

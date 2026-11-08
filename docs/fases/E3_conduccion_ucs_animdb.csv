@@ -1,0 +1,79 @@
+indice,nombre_ucs,id_juego,rol,conectada_antes,sistema_antes,toque_orientado_ahora,giro_juego_grados,ucs_fotograma_toque,ucs_pie_toque,ucs_giro_sector,ucs_giro_medido,ucs_ventana_joystick_min,ucs_ventana_joystick_max,ucs_v_in_x10,ucs_v_out_x10,ucs_destino_adelante_m,ucs_destino_lateral_m,toques_json
+0194,CONTROL_ET0525_EX2013_DRIBBLE,jn_dribble_fast_0194,dribble_fast,no,-,no,,18,izq,0,0,-67,67,50,49,3.175,0.189,3R 15L
+0196,CONTROL_ET0531_EX2018_DRIBBLE_STRETCH,jn_ball_dribble_0196,ball_skill,si,movimiento con pelota (JsonBallMove),si,-13.4,20,izq,0,0,-67,67,70,65,3.945,0.102,19L 35R
+0198,CONTROL_ET0535_EX2018_DRIBBLE,jn_ball_dribble_0198,ball_skill,si,movimiento con pelota (JsonBallMove),si,9.4,19,der,9,9,-67,67,69,63,4.066,-0.284,19R 32L
+0200,CONTROL_ET0538_EX2013_DRIBBLE,jn_ball_dribble_0200,ball_skill,si,movimiento con pelota (JsonBallMove),si,-22.3,19,izq,-8,-8,-67,67,48,45,2.54,-0.174,4R 16L
+0234,NIS_ET0655_EX2052_WALK_WITH_BALL,jn_dribble_walk_0234,dribble_walk,si,conduccion,no,,25,-,0,0,-67,67,0,16,0.0,0.0,4R 34L 42L 61R 88L
+0524,STAND_EXE138_STAND_READY_DRIB,jn_idle_ball_0524,idle_ball,si,conduccion,no,,15,-,0,0,-67,67,6,6,0.0,0.0,
+0540,CONTROL_EXE148_STAND_TO_WALKING_DRIBBLE_TO_STAND_D,jn_control_stand_0540,control_stand,no,recepcion (JsonReceive),no,-10.1,11,izq,-5,-4,-69,66,10,0,1.429,0.374,
+0542,CONTROL_EXE150_STAND_TO_JOGGING_DRIBBLE_TO_STAND,jn_control_stand_0542,control_stand,no,recepcion (JsonReceive),no,-9.3,15,izq,-8,-8,-76,59,37,0,2.133,0.35,
+0544,CONTROL_EXE150_STAND_TO_JOGGING_DRIBBLE_TO_STAND_CTRL,jn_ball_start_0544,ball_start,no,recepcion (JsonReceive),si,-14.4,18,izq,0,0,-67,67,1,31,0.622,0.062,24L 47R
+0546,CONTROL_EXE150_STAND_TO_JOGGING_DRIBBLE_TO_STAND_DRIBBLE,jn_ball_dribble_0546,ball_skill,si,movimiento con pelota (JsonBallMove),si,-11.8,18,izq,-6,-6,-67,67,22,42,2.354,0.129,43R 61L
+0548,CONTROL_EXE153_SPRINTING_DRIBBLE,jn_dribble_fast_0548,dribble_fast,si,conduccion,no,,19,izq,3,3,-67,67,50,63,3.468,0.161,18L 38R
+0550,CONTROL_EXE154_STAND_TO_45_R_FORWARDS_JOGGING_DRIBBLE_CTRL,jn_ball_start_0550,ball_start,no,recepcion (JsonReceive),si,35.4,18,izq,45,39,-45,90,4,32,0.326,0.285,39R 51R
+0552,CONTROL_EXE155_STAND_TO_90_R_JOGGING_DRIBBLE_CTRL,jn_ball_turn_stop_0552,ball_turn_stop,si,movimiento con pelota (JsonBallMove),no,89.5,19,izq,90,95,-22,112,3,36,0.297,0.145,
+0554,CONTROL_EXE156_STAND_TO_135_R_JOGGING_DRIBBLE_CTRL,jn_ball_turn_0554,ball_turn,si,movimiento con pelota (JsonBallMove),si,121.6,22,izq,135,135,10,112,5,36,0.238,0.249,19L 39R 52R
+0556,CONTROL_EXE157_STAND_TO_180_R_JOGGING_DRIBBLE_CTRL,jn_ball_turn_0556,ball_turn,si,movimiento con pelota (JsonBallMove),si,143.9,24,izq,157,167,22,135,4,36,0.365,-0.065,4R 9L 31L 55R
+0560,CONTROL_EXE161_FORWARD_JOGGING_DRIBBLE_TO_180_R_JOGGING_DRIBBLE,jn_ball_turn_0560,ball_turn,si,movimiento con pelota (JsonBallMove),si,154.7,26,izq,168,168,22,123,46,23,2.319,0.585,23R 71R
+0612,CONTROL_EXE237_STAND_BALL_IN_FROM_L_45_CHEST_CONTROL_TO_FORWARD_DRIBBLE,jn_receive_0612,receive,si,recepcion (JsonReceive),no,,17,-,22,16,-45,90,13,8,0.25,-1.047,12L
+0614,CONTROL_EXE238_STAND_BALL_IN_FROM_L_45_LOW_HEIGHT_CONTROL_TO_FORWARD_DRIBBLE,jn_receive_0614,receive,si,recepcion (JsonReceive),no,,15,izq,0,5,-67,67,4,14,0.305,0.069,28L
+0616,CONTROL_EXE239_STAND_BALL_IN_FROM_FORWARD__GOES_OVERHEAD_TURN_L_180_JOG_DRIBBLE,jn_receive_0616,receive,pendiente,recepcion (JsonReceive),no,,19,der,-45,-39,-22,112,27,44,2.381,-1.681,6L 30L
+0620,CONTROL_EXE242_JOG_FORWARD_BALL_COMES_OVER_L_SHOULDER_CONTROL_LOW_TO_FORWARD_JOG_DRIBBLE,jn_receive_0620,receive,pendiente,recepcion (JsonReceive),no,,18,izq,33,22,-123,11,24,28,0.993,1.461,19R 41R
+0622,CONTROL_EXE245_JOG_FORWARD_BALL_COMES_FROM_R_SHOULDER_HEIGHT_TO_FORWARD_JOG_DRIBBLE,jn_receive_0622,receive,si,recepcion (JsonReceive),no,,22,izq,0,0,-56,78,17,39,2.128,0.119,50R
+0624,CONTROL_EXE249_JOG_TO_R_KNEE_CONTROL_TO_R_HEEL_CONTROL_TO_FORWARD_JOG_DRIBBLE,jn_receive_0624,receive,si,recepcion (JsonReceive),no,,17,izq,-11,-5,-67,67,20,19,1.12,0.041,45L 56R
+0914,GKSAVE_EXE677_STAND_TO_DIVE_R_SAVE_CATCH_MID_HEIGHT_TO_STAND_WITH_BALL,jn_gk_dive_0914,gk_dive,si,arquero,no,,18,-,0,95,-45,45,-1,16,0.592,1.318,
+0972,GETUP_EXE755_GOALKEEPER_LYING_FACE_DOWN_WITH_BALL_TO_STAND_WITH_BALL,jn_gk_getup_0972,gk_getup,si,arquero,no,,19,-,0,-5,-67,67,0,16,0.0,0.0,52R 90L
+0974,GETUP_EXE756_GOALKEEPER_LYING_ON_SIDE_TO_STAND_WITH_BALL,jn_gk_getup_0974,gk_getup,si,arquero,no,,22,-,0,-5,-67,67,0,16,0.0,0.0,60R
+1020,CONTROL_FT0165_CONTROL_DRIB,jn_ball_dribble_1020,ball_skill,si,movimiento con pelota (JsonBallMove),no,,11,izq,-11,-5,-67,67,32,36,2.358,0.467,14L
+1124,CONTROL_FT0410_DRIBBLE,jn_ball_dribble_1124,ball_skill,si,movimiento con pelota (JsonBallMove),si,7.4,11,izq,11,11,-67,67,29,27,1.887,0.276,16L
+1288,CONTROL_FT0703_CONTROL_DRIBBLE_1_ANDYD_DRIB,jn_dribble_run_1288,dribble_run,no,-,no,,18,izq,-7,-7,-67,67,45,39,2.819,-0.14,3R 13L 37R
+1290,CONTROL_FT0704_CONTROL_DRIBBLE_1_ANDYS_DRIB,jn_ball_turn_1290,ball_turn,si,movimiento con pelota (JsonBallMove),si,34.1,19,der,17,17,-56,78,53,44,3.112,-0.831,12R 19L 37L 56R
+1292,CONTROL_FT0704_CONTROL_DRIBBLE_1_CONTROL_DRIBBLE_TURN_ANDYD,jn_ball_turn_1292,ball_turn,si,movimiento con pelota (JsonBallMove),si,132.9,19,izq,157,151,22,135,35,18,1.67,0.214,7L 36R
+1502,TURN_FT0932_GK_STAND_TURN_90_TO_JOG_WITH_BALL_JOSH_STRAIGHT,jn_gk_turn_1502,gk_turn,no,-,no,,8,-,0,0,0,0,0,18,0.0,0.0,18L
+1504,TURN_FT0933_GK_STAND_TURN_45_TO_JOG_WITH_BALL_1_JOSH,jn_gk_turn_1504,gk_turn,no,-,no,,10,-,0,0,0,0,0,22,0.0,0.0,27L
+1506,TURN_FT0934_GK_STAND_TURN_90_TO_JOG_WITH_BALL_2_JOSH,jn_gk_turn_1506,gk_turn,no,-,no,,11,-,0,0,0,0,0,22,0.0,0.0,32L
+1508,TURN_FT0935_GK_STAND_TURN_135_TO_JOG_WITH_BALL_JOSH,jn_gk_turn_1508,gk_turn,no,-,no,,11,-,0,0,0,0,0,20,0.0,0.0,27L 33L
+1510,TURN_FT0936_GK_STAND_TURN_180_TO_JOG_WITH_BALL_JOSH,jn_gk_turn_1510,gk_turn,no,-,no,,12,-,0,0,0,0,0,21,0.0,0.0,39L
+1512,TURN_FT0936_GK_STAND_TURN_180_TO_JOG_WITH_BALL_JOSH90,jn_gk_turn_1512,gk_turn,no,-,no,,9,-,0,0,0,0,0,21,0.0,0.0,17L
+1574,CONTROL_FT0962_JOG_DRIBBLE_FWD_JOSH_DRIB,jn_dribble_jog_1574,dribble_jog,si,conduccion,no,,16,der,4,4,-67,67,33,32,2.173,-0.058,15R 39L
+1576,CONTROL_FT0962_JOG_DRIBBLE_FWD_JOSH_DRIB2,jn_ball_dribble_1576,ball_skill,si,movimiento con pelota (JsonBallMove),si,4.0,16,der,9,9,-67,67,39,32,2.359,-0.24,3L 10R 34L 58R
+1578,CONTROL_FT0962_JOG_DRIBBLE_FWD_MAX_DRIB,jn_ball_dribble_1578,ball_skill,si,movimiento con pelota (JsonBallMove),si,-11.3,17,izq,-1,-1,-67,67,33,29,2.069,0.444,17L 39R 44L
+1580,CONTROL_FT0963_SPRINT_DRIBBLE_FWD_JOSH_DRIB,jn_ball_dribble_1580,ball_skill,si,movimiento con pelota (JsonBallMove),si,1.6,17,der,4,4,-67,67,59,63,3.547,0.105,14R 39L 56L
+1582,CONTROL_FT0963_SPRINT_DRIBBLE_FWD_JOSH_DRIB2,jn_dribble_sprint_1582,dribble_sprint,si,conduccion,no,,19,der,13,13,-67,67,59,64,3.821,-0.268,4L 20R 35L 47R
+1584,CONTROL_FT0963_SPRINT_DRIBBLE_FWD_JOSH_DRIB3,jn_dribble_sprint_1584,dribble_sprint,no,-,no,,17,der,-5,-5,-67,67,64,56,3.416,-0.261,3L 15R 33L 51R
+1586,CONTROL_FT0963_SPRINT_DRIBBLE_FWD_MAX_DRIB,jn_ball_dribble_1586,ball_skill,si,movimiento con pelota (JsonBallMove),si,-2.8,19,izq,-4,-4,-67,67,50,53,3.492,0.048,19L 34R 48L
+1588,CONTROL_FT0964_SPRINT_DRIBBLE_FWD_1_JOSH_DRIB,jn_ball_dribble_1588,ball_skill,si,movimiento con pelota (JsonBallMove),si,0.2,16,der,-10,-10,-67,67,57,59,3.522,-0.08,13R 32L
+1590,CONTROL_FT0964_SPRINT_DRIBBLE_FWD_1_JOSH_DRIB2,jn_ball_dribble_1590,ball_skill,si,movimiento con pelota (JsonBallMove),si,-1.1,18,der,5,5,-67,67,60,60,3.785,-0.012,14R 32L 48R
+1592,CONTROL_FT0964_SPRINT_DRIBBLE_FWD_1_MAX_DRIB,jn_ball_dribble_1592,ball_skill,si,movimiento con pelota (JsonBallMove),si,17.8,18,der,14,14,-67,67,48,53,3.252,-0.262,19R 37L 49R
+1894,TURN_FT1021_THROW_IN___ROTATING_WITH_BALL_BEHIND_HEAD_LOOKING_FOR_PLAYERS_MAX,jn_ball_turn_1894,ball_turn,si,movimiento con pelota (JsonBallMove),no,,6,-,0,0,0,0,0,0,0.0,0.0,
+2090,CONTROL_FT1204_JOG_DRIBBLE_FWD_1_NOEL,jn_ball_dribble_2090,ball_skill,si,movimiento con pelota (JsonBallMove),si,1.5,18,der,12,12,-67,67,31,50,2.515,0.145,17R 30L 40R
+2092,CONTROL_FT1204_JOG_DRIBBLE_FWD_2_COLIN,jn_dribble_fast_2092,dribble_fast,no,-,no,,19,izq,-6,-6,-67,67,47,49,3.296,-0.157,18L 35R
+2094,CONTROL_FT1205_JOG_DRIBBLE_FWD_3_COLIN,jn_ball_dribble_2094,ball_skill,si,movimiento con pelota (JsonBallMove),si,-10.5,20,izq,-11,-11,-78,56,52,55,3.462,-0.246,19L 39R 53L
+2096,CONTROL_FT1206_JOG_DRIBBLE_FWD_4_NOEL,jn_ball_dribble_2096,ball_skill,si,movimiento con pelota (JsonBallMove),si,0.2,18,der,-6,-6,-78,56,47,45,2.901,-0.616,17R 36L
+2098,CONTROL_FT1207_SPRINT_DRIBBLE_FWD_4_COLIN,jn_ball_dribble_2098,ball_skill,si,movimiento con pelota (JsonBallMove),si,-20.1,19,izq,-8,-8,-67,67,47,63,3.654,0.271,5R 19L 32R
+2100,CONTROL_FT1207_SPRINT_DRIBBLE_FWD_4_COLIN_D,jn_ball_dribble_2100,ball_skill,si,movimiento con pelota (JsonBallMove),si,-8.4,19,izq,-8,-8,-78,56,54,65,3.762,0.018,3R 20L 38R
+2102,CONTROL_FT1209_SPRINT_DRIBBLE_FWD_2_NOEL,jn_ball_dribble_2102,ball_skill,si,movimiento con pelota (JsonBallMove),si,14.3,18,der,12,12,-56,78,52,60,3.48,-0.548,3L 19R 32L 48R
+2104,CONTROL_FT1210_JOG_DRIBBLE_45_2_COLIN,jn_ball_turn_2104,ball_turn,si,movimiento con pelota (JsonBallMove),si,-99.5,17,der,-112,-106,-112,22,15,28,-0.079,-0.075,18R 25R 39L 50R
+2106,CONTROL_FT1210_JOG_DRIBBLE_45_3_COLIN,jn_dribble_jog_2106,dribble_jog,no,-,no,,16,izq,56,50,-33,101,34,24,1.781,-0.567,10L 33R 38L
+2108,CONTROL_FT1210_JOG_DRIBBLE_45_4_COLIN,jn_ball_turn_2108,ball_turn,si,movimiento con pelota (JsonBallMove),si,-32.0,19,izq,-22,-22,-90,45,32,33,2.315,0.38,12L 35R
+2110,CONTROL_FT1210_JOG_DRIBBLE_45_5_COLIN,jn_ball_stop_2110,ball_stop,si,movimiento con pelota (JsonBallMove),no,162.8,17,izq,157,157,11,122,36,8,1.92,-0.341,10L 34R
+2112,CONTROL_FT1210_JOG_DRIBBLE_45_6_NOEL,jn_ball_turn_2112,ball_turn,si,movimiento con pelota (JsonBallMove),no,135.4,21,der,157,163,10,100,35,10,2.038,-0.146,23R 29R 47L
+2114,CONTROL_FT1210_JOG_DRIBBLE_45_6_NOEL_D,jn_ball_turn_2114,ball_turn,si,movimiento con pelota (JsonBallMove),si,39.9,14,izq,33,33,-11,123,6,30,1.355,0.841,20L 33R 44R
+2116,CONTROL_FT1210_JOG_DRIBBLE_45_7_NOEL,jn_ball_turn_2116,ball_turn,si,movimiento con pelota (JsonBallMove),si,-57.1,16,der,-56,-61,-112,22,25,19,1.897,-0.083,4R 13R 33L 49R
+2118,CONTROL_FT1210_JOG_DRIBBLE_45_7_NOEL_D,jn_ball_turn_2118,ball_turn,si,movimiento con pelota (JsonBallMove),si,-56.5,20,der,-56,-56,-112,22,23,36,1.432,-0.307,5L 20R 48L
+2120,CONTROL_FT1210_JOG_DRIBBLE_45_COLIN,jn_ball_stop_2120,ball_stop,si,movimiento con pelota (JsonBallMove),no,-86.3,15,der,-90,-90,-112,22,21,20,1.317,-0.643,7R 31L 49R
+2122,CONTROL_FT1211_JOG_DRIBBLE_45_10_NOEL,jn_ball_turn_2122,ball_turn,si,movimiento con pelota (JsonBallMove),si,-66.7,19,der,-78,-84,-112,33,32,28,2.079,-0.464,18R 27L 38R 52L
+2124,CONTROL_FT1211_JOG_DRIBBLE_45_11_NOEL_CTRL,jn_ball_turn_2124,ball_turn,si,movimiento con pelota (JsonBallMove),si,98.8,27,der,112,112,-5,89,36,32,2.034,-0.125,22L 32R 68R
+2126,CONTROL_FT1211_JOG_DRIBBLE_45_8_COLIN_CTRL,jn_ball_stop_2126,ball_stop,si,movimiento con pelota (JsonBallMove),no,-65.1,23,izq,-67,-67,-112,22,28,31,2.068,0.273,16L 32R 45L 53L
+2128,CONTROL_FT1211_JOG_DRIBBLE_45_9_COLIN_DRIB,jn_ball_dribble_2128,ball_skill,si,movimiento con pelota (JsonBallMove),si,-22.3,18,izq,0,0,-78,56,24,38,1.803,0.056,3R 15L 34R
+2496,CONTROL_FT1446_CONTROL_DRIBBLE_00_ARMANI,jn_ball_start_2496,ball_start,pendiente,recepcion (JsonReceive),si,-4.6,14,izq,-11,0,-67,67,7,21,0.464,0.24,16L 36R
+2498,CONTROL_FT1446_CONTROL_DRIBBLE_01_ARMANI,jn_ball_dribble_2498,ball_skill,si,movimiento con pelota (JsonBallMove),si,-7.3,17,izq,-1,-1,-67,67,26,33,1.807,0.146,18L 35R 40L 52L
+2500,CONTROL_FT1446_CONTROL_DRIBBLE_04_ARMANI,jn_ball_turn_2500,ball_turn,si,movimiento con pelota (JsonBallMove),si,-163.6,25,izq,-168,-174,-100,-24,44,21,1.865,0.195,21R 32L 75L
+2502,CONTROL_FT1447_CONTROL_DRIBBLE_00_ARMANI,jn_ball_turn_2502,ball_turn,si,movimiento con pelota (JsonBallMove),si,-33.5,17,izq,-7,-7,-67,67,44,54,3.064,-0.043,15L 32R
+2504,CONTROL_FT1447_CONTROL_DRIBBLE_02_ARMANI,jn_ball_turn_2504,ball_turn,si,movimiento con pelota (JsonBallMove),si,113.9,21,izq,157,157,20,135,24,23,1.312,0.094,9L 26R 66R
+3182,CONTROL_FT1631_CONTROL_DRIBBLE_01_ADAM,jn_ball_dribble_3182,ball_skill,si,movimiento con pelota (JsonBallMove),si,-9.8,18,izq,-12,-12,-67,67,42,42,2.874,0.009,13L 36R
+3184,CONTROL_FT1631_CONTROL_DRIBBLE_02_DAVID,jn_dribble_run_3184,dribble_run,no,-,no,,19,izq,6,6,-71,64,44,48,2.831,0.407,17L 37R
+3186,CONTROL_FT1632_CONTROL_DRIBBLE_03_DAVID,jn_dribble_run_3186,dribble_run,si,conduccion,no,,18,izq,-7,-7,-66,69,39,47,2.862,0.28,12L 35R
+3188,CONTROL_FT1632_CONTROL_DRIBBLE_04_ADAM,jn_ball_dribble_3188,ball_skill,si,movimiento con pelota (JsonBallMove),si,-2.4,18,izq,-2,-2,-66,69,48,49,3.193,0.426,12L 32R 47L
+3190,CONTROL_FT1633_CONTROL_DRIBBLE_05_ADAM,jn_dribble_sprint_3190,dribble_sprint,no,-,no,,20,izq,9,9,-63,72,55,56,3.587,-0.142,15L 35R 50L
+3192,CONTROL_FT1634_CONTROL_DRIBBLE_08_ADAM,jn_ball_dribble_3192,ball_skill,si,movimiento con pelota (JsonBallMove),si,-2.5,18,izq,-8,-8,-57,78,57,54,3.615,0.406,13L 30R 47L

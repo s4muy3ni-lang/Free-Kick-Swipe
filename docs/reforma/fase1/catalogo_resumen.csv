@@ -1,0 +1,26 @@
+grupo,categoria,json,mixamo,mocap
+Tirador,Reposo / preparación,12,2,0
+Tirador,Carrera,16,8,0
+Tirador,Arranque y pasos de ajuste,34,3,0
+Tirador,Golpeo de balón parado (tiro libre),62,2,4
+Tirador,Penal (golpeo),2,2,4
+Tirador,Disparo potente,86,4,2
+Tirador,Disparo colocado / con efecto,144,0,0
+Tirador,Vaselina / picado,20,2,0
+Tirador,Pase de interior,244,2,2
+Tirador,Festejo,127,7,3
+Tirador,Lamento,95,7,0
+Barrera,Barrera: postura,10,0,0
+Barrera,Barrera: salto,8,0,0
+Barrera,Salto genérico (no de barrera),1,3,0
+Arquero,Arquero: posición inicial / espera,6,2,0
+Arquero,Arquero: desplazamiento lateral,8,2,0
+Arquero,Arquero: estirada a su izquierda,81,1,1
+Arquero,Arquero: estirada a su derecha,81,1,0
+Arquero,Arquero: atajada alta,22,4,0
+Arquero,Arquero: atajada central / captura,62,4,1
+Arquero,Arquero: atajada baja,72,2,1
+Arquero,Arquero: bloqueo,14,6,0
+Arquero,Arquero: desvío,28,0,0
+Arquero,Arquero: no llega,2,2,0
+Arquero,Arquero: levantarse,21,0,0

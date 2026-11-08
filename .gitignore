@@ -1,0 +1,39 @@
+# Godot
+.godot/
+.import/
+*.translation
+export_presets.cfg.local
+/android/build/
+/android/*.keystore
+/android/*.jks
+
+# Exportaciones
+/build/
+*.apk
+*.aab
+*.idsig
+
+# Secretos: NUNCA se versionan
+*.keystore
+*.jks
+*.pem
+.env
+.env.*
+**/tripo_api_key*
+**/config.json
+.tripo/
+
+# Archivos de trabajo
+*.tmp
+*.log
+.DS_Store
+__pycache__/
+scratch/
+
+# Las animaciones van dentro del juego ya convertidas (assets/animations/pack_*.res, versionadas). Los FBX originales
+# (fuente para reconvertir) se quedan en local y no se suben.
+/pack/
+
+# Salidas de la firma/exportacion Android
+*.keystore.base64.txt
+node_modules/

@@ -1,0 +1,800 @@
+{
+ "01_portero/Goalie_Throw.fbx": {
+  "nota": "Distribucion del arquero; solo metricas (no visto).",
+  "ola": 3,
+  "rec": "CANDIDATO",
+  "visual": false
+ },
+ "01_portero/goalkeeper_body_block.fbx": {
+  "nota": "Bloqueo con el cuerpo; el primero se vio bien.",
+  "ola": 3,
+  "rec": "CANDIDATO",
+  "visual": true
+ },
+ "01_portero/goalkeeper_body_block_2.fbx": {
+  "nota": "Bloqueo con el cuerpo; el primero se vio bien.",
+  "ola": 3,
+  "rec": "CANDIDATO",
+  "visual": false
+ },
+ "01_portero/goalkeeper_body_block_3.fbx": {
+  "nota": "Bloqueo con el cuerpo; el primero se vio bien.",
+  "ola": 3,
+  "rec": "CANDIDATO",
+  "visual": false
+ },
+ "01_portero/goalkeeper_catch.fbx": {
+  "nota": "Atajada baja / media / en salto (corriendo) / en salto (parado).",
+  "ola": 3,
+  "rec": "USAR",
+  "visual": true
+ },
+ "01_portero/goalkeeper_catch_2.fbx": {
+  "nota": "Atajada baja / media / en salto (corriendo) / en salto (parado).",
+  "ola": 3,
+  "rec": "USAR",
+  "visual": true
+ },
+ "01_portero/goalkeeper_catch_3.fbx": {
+  "nota": "Atajada baja / media / en salto (corriendo) / en salto (parado).",
+  "ola": 3,
+  "rec": "USAR",
+  "visual": true
+ },
+ "01_portero/goalkeeper_catch_4.fbx": {
+  "nota": "Atajada baja / media / en salto (corriendo) / en salto (parado).",
+  "ola": 3,
+  "rec": "USAR",
+  "visual": true
+ },
+ "01_portero/goalkeeper_directing.fbx": {
+  "nota": "Indicaciones al equipo (7 s).",
+  "ola": 5,
+  "rec": "RESERVAR",
+  "visual": false
+ },
+ "01_portero/goalkeeper_directing_2.fbx": {
+  "nota": "Indicaciones al equipo (7 s).",
+  "ola": 5,
+  "rec": "RESERVAR",
+  "visual": false
+ },
+ "01_portero/goalkeeper_diving_save.fbx": {
+  "nota": "Estirada lateral izquierda/derecha con caida y recuperacion (3.2-3.4 s). La raiz (2.8 m) es el desplazamiento de la estirada: no quitarla sin impulsarla por codigo.",
+  "ola": 3,
+  "rec": "USAR",
+  "visual": true
+ },
+ "01_portero/goalkeeper_diving_save_2.fbx": {
+  "nota": "Estirada lateral izquierda/derecha con caida y recuperacion (3.2-3.4 s). La raiz (2.8 m) es el desplazamiento de la estirada: no quitarla sin impulsarla por codigo.",
+  "ola": 3,
+  "rec": "USAR",
+  "visual": true
+ },
+ "01_portero/goalkeeper_drop_kick.fbx": {
+  "nota": "Distribucion del arquero (saque a pie, con la mano, rodado, colocando).",
+  "ola": 3,
+  "rec": "USAR",
+  "visual": true
+ },
+ "01_portero/goalkeeper_idle.fbx": {
+  "nota": "Posicion base del arquero sin balon (4.6 s, ciclo sin costura).",
+  "ola": 3,
+  "rec": "USAR",
+  "visual": true
+ },
+ "01_portero/goalkeeper_idle_2.fbx": {
+  "nota": "Posicion base con balon; solo metricas.",
+  "ola": 3,
+  "rec": "CANDIDATO",
+  "visual": false
+ },
+ "01_portero/goalkeeper_miss.fbx": {
+  "nota": "Salta y no llega.",
+  "ola": 3,
+  "rec": "USAR",
+  "visual": true
+ },
+ "01_portero/goalkeeper_overhand_throw.fbx": {
+  "nota": "Distribucion del arquero (saque a pie, con la mano, rodado, colocando).",
+  "ola": 3,
+  "rec": "USAR",
+  "visual": true
+ },
+ "01_portero/goalkeeper_pass.fbx": {
+  "nota": "Distribucion del arquero (saque a pie, con la mano, rodado, colocando).",
+  "ola": 3,
+  "rec": "USAR",
+  "visual": true
+ },
+ "01_portero/goalkeeper_placing_ball.fbx": {
+  "nota": "Distribucion del arquero (saque a pie, con la mano, rodado, colocando).",
+  "ola": 3,
+  "rec": "USAR",
+  "visual": true
+ },
+ "01_portero/goalkeeper_placing_ball_2.fbx": {
+  "nota": "Distribucion del arquero; solo metricas (no visto).",
+  "ola": 3,
+  "rec": "CANDIDATO",
+  "visual": false
+ },
+ "01_portero/goalkeeper_scoop.fbx": {
+  "nota": "Levanta un balon rodado (2.6 s, raiz 3.9 m).",
+  "ola": 3,
+  "rec": "USAR",
+  "visual": true
+ },
+ "01_portero/goalkeeper_sidestep.fbx": {
+  "nota": "Paso lateral de 0.5 s: su sentido esta en la raiz (1.2-1.5 m); sin raiz casi no se mueve (verificado).",
+  "ola": 3,
+  "rec": "USAR",
+  "visual": true
+ },
+ "01_portero/goalkeeper_sidestep_2.fbx": {
+  "nota": "Paso lateral derecho (raiz 1.5 m); solo metricas.",
+  "ola": 3,
+  "rec": "CANDIDATO",
+  "visual": false
+ },
+ "02_balon_pases_tiros/Chip.fbx": {
+  "nota": "Pase elevado trotando (raiz 5.0 m); avance del pie 7.1 m/s a 0.47 s. Dura 1.67 s (el indice dice 1.33 s).",
+  "ola": 1,
+  "rec": "USAR",
+  "visual": true
+ },
+ "02_balon_pases_tiros/Dribble_2.fbx": {
+  "nota": "Trote con balon; SIN gemelo in place: raiz 4.64 m en 1.73 s (2.32 m/s en juego). El pie se adelanta solo 0.26 m: toques cerca del cuerpo.",
+  "ola": 1,
+  "rec": "USAR",
+  "visual": true
+ },
+ "02_balon_pases_tiros/Flying_Bicycle_Kick.fbx": {
+  "nota": "Remate acrobatico / cabezazo; no necesario para el nucleo.",
+  "ola": 5,
+  "rec": "RESERVAR",
+  "visual": false
+ },
+ "02_balon_pases_tiros/Header.fbx": {
+  "nota": "Cabezazo rapido; el juego aun no tiene cabeceo. Dura 1.43 s (el indice dice 1.13 s).",
+  "ola": 5,
+  "rec": "RESERVAR",
+  "visual": true
+ },
+ "02_balon_pases_tiros/Receive.fbx": {
+  "nota": "Control con el pecho (1.4 s; el indice dice 1.17 s).",
+  "ola": 1,
+  "rec": "USAR",
+  "visual": true
+ },
+ "02_balon_pases_tiros/Soccer_Header.fbx": {
+  "nota": "Remate acrobatico / cabezazo; no necesario para el nucleo.",
+  "ola": 5,
+  "rec": "RESERVAR",
+  "visual": false
+ },
+ "02_balon_pases_tiros/Soccer_Idle.fbx": {
+  "nota": "Idle con balon (6.2 s, ciclo sin costura): pies juegan con el balon.",
+  "ola": 1,
+  "rec": "USAR",
+  "visual": true
+ },
+ "02_balon_pases_tiros/Soccer_Pass.fbx": {
+  "nota": "Pase parado; maxima velocidad de avance del pie 8.8 m/s a 0.47 s (latencia: hoy el juego golpea a 0.10 s). Alcance maximo 0.81 m.",
+  "ola": 1,
+  "rec": "USAR",
+  "visual": true
+ },
+ "02_balon_pases_tiros/Soccer_Spin.fbx": {
+  "nota": "Ruleta de 360 grados con balon (habilidad). Raiz 3.6 m.",
+  "ola": 5,
+  "rec": "RESERVAR",
+  "visual": true
+ },
+ "02_balon_pases_tiros/header_soccerball.fbx": {
+  "nota": "Remate acrobatico / cabezazo; no necesario para el nucleo.",
+  "ola": 5,
+  "rec": "RESERVAR",
+  "visual": false
+ },
+ "02_balon_pases_tiros/header_soccerball_2.fbx": {
+  "nota": "Remate acrobatico / cabezazo; no necesario para el nucleo.",
+  "ola": 5,
+  "rec": "RESERVAR",
+  "visual": false
+ },
+ "02_balon_pases_tiros/kick_soccerball.fbx": {
+  "nota": "Jueguito (modo practica).",
+  "ola": 5,
+  "rec": "RESERVAR",
+  "visual": false
+ },
+ "02_balon_pases_tiros/kick_soccerball_2.fbx": {
+  "nota": "Jueguito (modo practica).",
+  "ola": 5,
+  "rec": "RESERVAR",
+  "visual": false
+ },
+ "02_balon_pases_tiros/kick_up_soccerball.fbx": {
+  "nota": "Jueguito (modo practica).",
+  "ola": 5,
+  "rec": "RESERVAR",
+  "visual": false
+ },
+ "02_balon_pases_tiros/kneeing_soccerball.fbx": {
+  "nota": "Jueguito (modo practica).",
+  "ola": 5,
+  "rec": "RESERVAR",
+  "visual": false
+ },
+ "02_balon_pases_tiros/kneeing_soccerball_2.fbx": {
+  "nota": "Jueguito (modo practica).",
+  "ola": 5,
+  "rec": "RESERVAR",
+  "visual": false
+ },
+ "02_balon_pases_tiros/offensive_idle.fbx": {
+  "nota": "Idle sin balon, postura ofensiva (10.6 s, ciclo sin costura).",
+  "ola": 1,
+  "rec": "USAR",
+  "visual": true
+ },
+ "02_balon_pases_tiros/receive_soccerball.fbx": {
+  "nota": "Recepcion con el pie (5.1 s); el ciclo no cierra (20.7 grados) y trae 2.7 m de raiz: usar solo el primer tramo.",
+  "ola": 1,
+  "rec": "CANDIDATO",
+  "visual": true
+ },
+ "02_balon_pases_tiros/scissor_kick.fbx": {
+  "nota": "Remate acrobatico / cabezazo; no necesario para el nucleo.",
+  "ola": 5,
+  "rec": "RESERVAR",
+  "visual": true
+ },
+ "02_balon_pases_tiros/soccer_penalty_kick.fbx": {
+  "nota": "Tiro parado con carrera (raiz 2.99 m); avance del pie 8.7 m/s a 0.77 s. Dura 1.5 s (el indice dice 1.97 s).",
+  "ola": 1,
+  "rec": "USAR",
+  "visual": true
+ },
+ "02_balon_pases_tiros/stall_soccerball.fbx": {
+  "nota": "Jueguito (modo practica).",
+  "ola": 5,
+  "rec": "RESERVAR",
+  "visual": false
+ },
+ "02_balon_pases_tiros/stall_soccerball_2.fbx": {
+  "nota": "Jueguito (modo practica).",
+  "ola": 5,
+  "rec": "RESERVAR",
+  "visual": false
+ },
+ "02_balon_pases_tiros/stall_soccerball_3.fbx": {
+  "nota": "Jueguito (modo practica).",
+  "ola": 5,
+  "rec": "RESERVAR",
+  "visual": false
+ },
+ "02_balon_pases_tiros/stall_soccerball_4.fbx": {
+  "nota": "Jueguito (modo practica).",
+  "ola": 5,
+  "rec": "RESERVAR",
+  "visual": false
+ },
+ "02_balon_pases_tiros/strike_foward_jog.fbx": {
+  "nota": "Gemelo con raiz (2.99 m).",
+  "ola": 0,
+  "rec": "RESERVAR",
+  "visual": false
+ },
+ "02_balon_pases_tiros/strike_foward_jog_inplace.fbx": {
+  "nota": "Golpeo corriendo: velocidad de avance del pie 11.8 m/s a 0.43 s, alcance maximo 0.95 m; contacto estimado a 0.43 s.",
+  "ola": 1,
+  "rec": "USAR",
+  "visual": true
+ },
+ "02_balon_pases_tiros/throw_in.fbx": {
+  "nota": "Saque lateral: el partido aun no tiene reglas de banda.",
+  "ola": 5,
+  "rec": "RESERVAR",
+  "visual": false
+ },
+ "02_balon_pases_tiros/transition.fbx": {
+  "nota": "Transicion corta de patada a idle.",
+  "ola": 0,
+  "rec": "RESERVAR",
+  "visual": false
+ },
+ "03_defensa_faltas_caidas/Defender.fbx": {
+  "nota": "Pese a la descripcion ('corre a marcar') termina en una barrida al piso: comparar con soccer_tackle.",
+  "ola": 4,
+  "rec": "RESERVAR",
+  "visual": true
+ },
+ "03_defensa_faltas_caidas/Defender_2.fbx": {
+  "nota": "Salto para desviar el balon (barrera); solo metricas.",
+  "ola": 4,
+  "rec": "RESERVAR",
+  "visual": false
+ },
+ "03_defensa_faltas_caidas/Fall_Flat.fbx": {
+  "nota": "Caidas; ninguna cierra el ciclo (es una accion unica).",
+  "ola": 2,
+  "rec": "USAR",
+  "visual": true
+ },
+ "03_defensa_faltas_caidas/Falling_Down.fbx": {
+  "nota": "Caidas; ninguna cierra el ciclo (es una accion unica).",
+  "ola": 2,
+  "rec": "USAR",
+  "visual": true
+ },
+ "03_defensa_faltas_caidas/Getting_Up_3.fbx": {
+  "nota": "Levantarse tras una caida/falta; solo metricas.",
+  "ola": 2,
+  "rec": "CANDIDATO",
+  "visual": false
+ },
+ "03_defensa_faltas_caidas/Jogging_Stumble.fbx": {
+  "nota": "Tropiezo con raiz / lesion.",
+  "ola": 4,
+  "rec": "RESERVAR",
+  "visual": false
+ },
+ "03_defensa_faltas_caidas/Jogging_Stumble_inplace.fbx": {
+  "nota": "Tropiezo trotando (verificado).",
+  "ola": 4,
+  "rec": "RESERVAR",
+  "visual": true
+ },
+ "03_defensa_faltas_caidas/Shoulder_Hit_And_Fall.fbx": {
+  "nota": "Contacto/empujon; solo metricas.",
+  "ola": 2,
+  "rec": "CANDIDATO",
+  "visual": false
+ },
+ "03_defensa_faltas_caidas/Shove_Reaction.fbx": {
+  "nota": "Contacto/empujon; solo metricas.",
+  "ola": 2,
+  "rec": "CANDIDATO",
+  "visual": false
+ },
+ "03_defensa_faltas_caidas/Shove_Reaction_2.fbx": {
+  "nota": "Contacto/empujon; solo metricas.",
+  "ola": 2,
+  "rec": "CANDIDATO",
+  "visual": false
+ },
+ "03_defensa_faltas_caidas/Sweep_Fall.fbx": {
+  "nota": "Caidas; ninguna cierra el ciclo (es una accion unica).",
+  "ola": 2,
+  "rec": "USAR",
+  "visual": true
+ },
+ "03_defensa_faltas_caidas/Writhing_In_Pain.fbx": {
+  "nota": "Tropiezo con raiz / lesion.",
+  "ola": 4,
+  "rec": "RESERVAR",
+  "visual": false
+ },
+ "03_defensa_faltas_caidas/fallen_idle.fbx": {
+  "nota": "Levantarse tras una caida/falta; solo metricas.",
+  "ola": 2,
+  "rec": "CANDIDATO",
+  "visual": false
+ },
+ "03_defensa_faltas_caidas/soccer_tackle.fbx": {
+  "nota": "Barrida (2.73 s, raiz 3.9 m); termina en el piso. Avance del pie 9.3 m/s a 0.60 s.",
+  "ola": 2,
+  "rec": "USAR",
+  "visual": true
+ },
+ "03_defensa_faltas_caidas/soccer_tackle_2.fbx": {
+  "nota": "Variantes de barrida; solo metricas.",
+  "ola": 2,
+  "rec": "CANDIDATO",
+  "visual": false
+ },
+ "03_defensa_faltas_caidas/soccer_tackle_3.fbx": {
+  "nota": "Variantes de barrida; solo metricas.",
+  "ola": 2,
+  "rec": "CANDIDATO",
+  "visual": false
+ },
+ "03_defensa_faltas_caidas/soccer_trip.fbx": {
+  "nota": "Recibe una falta y cae (1.6 s).",
+  "ola": 2,
+  "rec": "USAR",
+  "visual": true
+ },
+ "03_defensa_faltas_caidas/standing_up.fbx": {
+  "nota": "Levantarse tras una caida/falta; solo metricas.",
+  "ola": 2,
+  "rec": "CANDIDATO",
+  "visual": false
+ },
+ "04_movimiento_en_cancha/Idle_To_Sprint.fbx": {
+  "nota": "Arranque explosivo (raiz 1.6 m). Verificado: transicion plausible; el final no cierra con idle (37 grados de media).",
+  "ola": 1,
+  "rec": "USAR",
+  "visual": true
+ },
+ "04_movimiento_en_cancha/Jogging.fbx": {
+  "nota": "Gemelo con raiz del trote lento.",
+  "ola": 0,
+  "rec": "RESERVAR",
+  "visual": false
+ },
+ "04_movimiento_en_cancha/Jogging_inplace.fbx": {
+  "nota": "Trote lento (1.64 m/s en juego), ciclo de 2.57 s sin costura.",
+  "ola": 1,
+  "rec": "USAR",
+  "visual": true
+ },
+ "04_movimiento_en_cancha/Jump_2.fbx": {
+  "nota": "Salto corriendo (raiz 4 m).",
+  "ola": 2,
+  "rec": "USAR",
+  "visual": true
+ },
+ "04_movimiento_en_cancha/Jump_4.fbx": {
+  "nota": "Salto en el lugar (2.6 s con aterrizaje); cadera 0.59-1.41 x reposo.",
+  "ola": 2,
+  "rec": "USAR",
+  "visual": true
+ },
+ "04_movimiento_en_cancha/Jumping_Up.fbx": {
+  "nota": "Salto vertical (disputa de cabeza), 0.83 s; ciclo no cierra (18 grados).",
+  "ola": 2,
+  "rec": "USAR",
+  "visual": true
+ },
+ "04_movimiento_en_cancha/Running.fbx": {
+  "nota": "Gemelo con raiz.",
+  "ola": 0,
+  "rec": "RESERVAR",
+  "visual": false
+ },
+ "04_movimiento_en_cancha/Running_Tired.fbx": {
+  "nota": "Carrera cansado (7 s, la costura del ciclo no cierra: 27.6 grados de media). Para estamina baja mas adelante.",
+  "ola": 0,
+  "rec": "RESERVAR",
+  "visual": false
+ },
+ "04_movimiento_en_cancha/Running_inplace.fbx": {
+  "nota": "Se ve bien, pero su velocidad natural (2.14 m/s en juego) es la del trote: no aporta una marcha mas rapida.",
+  "ola": 0,
+  "rec": "RESERVAR",
+  "visual": true
+ },
+ "04_movimiento_en_cancha/Sprint.fbx": {
+  "nota": "Con raiz; ver Sprint_inplace.",
+  "ola": 0,
+  "rec": "RESERVAR",
+  "visual": false
+ },
+ "04_movimiento_en_cancha/Sprint_To_Backslide.fbx": {
+  "nota": "Pese al nombre NO es un frenado: termina tumbado en el piso y rodando. Sirve como caida, no como freno.",
+  "ola": 0,
+  "rec": "NO",
+  "visual": true
+ },
+ "04_movimiento_en_cancha/Sprint_To_Backslide_inplace.fbx": {
+  "nota": "Igual que Sprint_To_Backslide: es una caida al piso, no un frenado.",
+  "ola": 0,
+  "rec": "NO",
+  "visual": false
+ },
+ "04_movimiento_en_cancha/Sprint_Turn.fbx": {
+  "nota": "Giro a velocidad (4.45 m/s en juego, 60 grados de costura maxima). Candidato para giros cerrados.",
+  "ola": 1,
+  "rec": "USAR",
+  "visual": true
+ },
+ "04_movimiento_en_cancha/Sprint_inplace.fbx": {
+  "nota": "Sprint: 5.13 m/s en juego. El indice lo marca 'in place' pero TIENE 3.16 m de raiz (identico a Sprint.fbx): quitar la raiz por codigo.",
+  "ola": 1,
+  "rec": "USAR",
+  "visual": true
+ },
+ "04_movimiento_en_cancha/Strafe_3.fbx": {
+  "nota": "Gemelo con raiz. Dura 0.67 s, no 1.67 s.",
+  "ola": 0,
+  "rec": "RESERVAR",
+  "visual": false
+ },
+ "04_movimiento_en_cancha/Strafe_3_inplace.fbx": {
+  "nota": "Desplazamiento lateral corriendo (3.14 m/s en juego), 0.67 s (el indice dice 1.67 s).",
+  "ola": 1,
+  "rec": "USAR",
+  "visual": true
+ },
+ "04_movimiento_en_cancha/Two_Cycle_Sprint.fbx": {
+  "nota": "Gemelo con raiz. Dura 1.07 s, no 4.4 s.",
+  "ola": 0,
+  "rec": "RESERVAR",
+  "visual": false
+ },
+ "04_movimiento_en_cancha/Two_Cycle_Sprint_inplace.fbx": {
+  "nota": "Sprint de 2 ciclos (5.29 m/s en juego). Dura 1.07 s, NO los 4.4 s del indice. No visto.",
+  "ola": 1,
+  "rec": "CANDIDATO",
+  "visual": false
+ },
+ "04_movimiento_en_cancha/Walking_7.fbx": {
+  "nota": "Usar el gemelo _inplace; este solo sirve para medir la velocidad natural.",
+  "ola": 0,
+  "rec": "RESERVAR",
+  "visual": false
+ },
+ "04_movimiento_en_cancha/Walking_7_inplace.fbx": {
+  "nota": "Caminata; 0.90 m/s en nuestro futbolista (el juego camina a 1.8: escala x2).",
+  "ola": 1,
+  "rec": "USAR",
+  "visual": true
+ },
+ "04_movimiento_en_cancha/jog_backward.fbx": {
+  "nota": "Gemelo con raiz de jog_backward_inplace (mismas rotaciones); sirve para medir la velocidad natural.",
+  "ola": 0,
+  "rec": "RESERVAR",
+  "visual": false
+ },
+ "04_movimiento_en_cancha/jog_backward_diagonal.fbx": {
+  "nota": "Gemelo con raiz de jog_backward_diagonal_inplace (mismas rotaciones); sirve para medir la velocidad natural.",
+  "ola": 0,
+  "rec": "RESERVAR",
+  "visual": false
+ },
+ "04_movimiento_en_cancha/jog_backward_diagonal_2.fbx": {
+  "nota": "Gemelo con raiz de jog_backward_diagonal_2_inplace (mismas rotaciones); sirve para medir la velocidad natural.",
+  "ola": 0,
+  "rec": "RESERVAR",
+  "visual": false
+ },
+ "04_movimiento_en_cancha/jog_backward_diagonal_2_inplace.fbx": {
+  "nota": "Diagonal atras-izquierda. El indice lo marca 'in place' pero TIENE 1.43 m de raiz lateral: quitar la raiz por codigo. No visto.",
+  "ola": 1,
+  "rec": "CANDIDATO",
+  "visual": false
+ },
+ "04_movimiento_en_cancha/jog_backward_diagonal_inplace.fbx": {
+  "nota": "Diagonal; solo metricas.",
+  "ola": 1,
+  "rec": "CANDIDATO",
+  "visual": false
+ },
+ "04_movimiento_en_cancha/jog_backward_inplace.fbx": {
+  "nota": "Trote hacia atras (1.98 m/s en juego).",
+  "ola": 1,
+  "rec": "USAR",
+  "visual": true
+ },
+ "04_movimiento_en_cancha/jog_forward.fbx": {
+  "nota": "Gemelo con raiz; sirve para medir la velocidad natural.",
+  "ola": 0,
+  "rec": "RESERVAR",
+  "visual": false
+ },
+ "04_movimiento_en_cancha/jog_forward_diagonal.fbx": {
+  "nota": "Gemelo con raiz de jog_forward_diagonal_inplace (mismas rotaciones); sirve para medir la velocidad natural.",
+  "ola": 0,
+  "rec": "RESERVAR",
+  "visual": false
+ },
+ "04_movimiento_en_cancha/jog_forward_diagonal_2.fbx": {
+  "nota": "Gemelo con raiz de jog_forward_diagonal_2_inplace (mismas rotaciones); sirve para medir la velocidad natural.",
+  "ola": 0,
+  "rec": "RESERVAR",
+  "visual": false
+ },
+ "04_movimiento_en_cancha/jog_forward_diagonal_2_inplace.fbx": {
+  "nota": "Diagonal; solo metricas.",
+  "ola": 1,
+  "rec": "CANDIDATO",
+  "visual": false
+ },
+ "04_movimiento_en_cancha/jog_forward_diagonal_inplace.fbx": {
+  "nota": "Diagonal adelante-derecha al trote (2.40 m/s en juego).",
+  "ola": 1,
+  "rec": "USAR",
+  "visual": true
+ },
+ "04_movimiento_en_cancha/jog_forward_inplace.fbx": {
+  "nota": "Trote de futbol (2.15 m/s en juego); ciclo de 0.83 s sin costura.",
+  "ola": 1,
+  "rec": "USAR",
+  "visual": true
+ },
+ "04_movimiento_en_cancha/jog_strafe_left.fbx": {
+  "nota": "Gemelo con raiz de jog_strafe_left_inplace (mismas rotaciones); sirve para medir la velocidad natural.",
+  "ola": 0,
+  "rec": "RESERVAR",
+  "visual": false
+ },
+ "04_movimiento_en_cancha/jog_strafe_left_inplace.fbx": {
+  "nota": "Lateral izquierda al trote (2.50 m/s en juego). Izquierda y derecha NO tienen la misma velocidad natural.",
+  "ola": 1,
+  "rec": "USAR",
+  "visual": true
+ },
+ "04_movimiento_en_cancha/jog_strafe_right.fbx": {
+  "nota": "Gemelo con raiz de jog_strafe_right_inplace (mismas rotaciones); sirve para medir la velocidad natural.",
+  "ola": 0,
+  "rec": "RESERVAR",
+  "visual": false
+ },
+ "04_movimiento_en_cancha/jog_strafe_right_inplace.fbx": {
+  "nota": "Lateral derecha al trote (1.99 m/s en juego); ver asimetria con la izquierda.",
+  "ola": 1,
+  "rec": "USAR",
+  "visual": true
+ },
+ "05_festejos_y_reacciones/Angry.fbx": {
+  "nota": "Reaccion adicional; solo metricas.",
+  "ola": 5,
+  "rec": "RESERVAR",
+  "visual": false
+ },
+ "05_festejos_y_reacciones/Angry_Gesture_2.fbx": {
+  "nota": "Derrota/decepcion/enojo.",
+  "ola": 4,
+  "rec": "USAR",
+  "visual": true
+ },
+ "05_festejos_y_reacciones/Cheering.fbx": {
+  "nota": "Reaccion adicional; solo metricas.",
+  "ola": 5,
+  "rec": "RESERVAR",
+  "visual": false
+ },
+ "05_festejos_y_reacciones/Cheering_2.fbx": {
+  "nota": "Festejo de gol.",
+  "ola": 4,
+  "rec": "USAR",
+  "visual": true
+ },
+ "05_festejos_y_reacciones/Clapping.fbx": {
+  "nota": "Reaccion adicional; solo metricas.",
+  "ola": 5,
+  "rec": "RESERVAR",
+  "visual": false
+ },
+ "05_festejos_y_reacciones/Crying.fbx": {
+  "nota": "Reaccion adicional; solo metricas.",
+  "ola": 5,
+  "rec": "RESERVAR",
+  "visual": false
+ },
+ "05_festejos_y_reacciones/Defeat.fbx": {
+  "nota": "Se tapa la cara (7.3 s; el indice dice 5.0 s).",
+  "ola": 4,
+  "rec": "USAR",
+  "visual": true
+ },
+ "05_festejos_y_reacciones/Defeat_Idle_2.fbx": {
+  "nota": "Derrota/decepcion/enojo.",
+  "ola": 4,
+  "rec": "USAR",
+  "visual": true
+ },
+ "05_festejos_y_reacciones/Defeated.fbx": {
+  "nota": "Reaccion adicional; solo metricas.",
+  "ola": 5,
+  "rec": "RESERVAR",
+  "visual": false
+ },
+ "05_festejos_y_reacciones/Disappointed.fbx": {
+  "nota": "Derrota/decepcion/enojo.",
+  "ola": 4,
+  "rec": "USAR",
+  "visual": true
+ },
+ "05_festejos_y_reacciones/Excited.fbx": {
+  "nota": "Reaccion adicional; solo metricas.",
+  "ola": 5,
+  "rec": "RESERVAR",
+  "visual": false
+ },
+ "05_festejos_y_reacciones/Fist_Pump.fbx": {
+  "nota": "Festejo de gol.",
+  "ola": 4,
+  "rec": "USAR",
+  "visual": true
+ },
+ "05_festejos_y_reacciones/Fist_Pump_3.fbx": {
+  "nota": "Festejo con mucha euforia (1.9 s); solo metricas.",
+  "ola": 4,
+  "rec": "CANDIDATO",
+  "visual": false
+ },
+ "05_festejos_y_reacciones/Loser.fbx": {
+  "nota": "Reaccion adicional; solo metricas.",
+  "ola": 5,
+  "rec": "RESERVAR",
+  "visual": false
+ },
+ "05_festejos_y_reacciones/Pointing_2.fbx": {
+  "nota": "Reaccion adicional; solo metricas.",
+  "ola": 5,
+  "rec": "RESERVAR",
+  "visual": false
+ },
+ "05_festejos_y_reacciones/Sad_Idle_3.fbx": {
+  "nota": "Derrota/decepcion/enojo.",
+  "ola": 4,
+  "rec": "USAR",
+  "visual": true
+ },
+ "05_festejos_y_reacciones/Standing_Fist_Pump.fbx": {
+  "nota": "Festejo de gol.",
+  "ola": 4,
+  "rec": "USAR",
+  "visual": true
+ },
+ "05_festejos_y_reacciones/Standing_Thumbs_Up.fbx": {
+  "nota": "Reaccion adicional; solo metricas.",
+  "ola": 5,
+  "rec": "RESERVAR",
+  "visual": false
+ },
+ "05_festejos_y_reacciones/Standing_Yell_2.fbx": {
+  "nota": "Reaccion adicional; solo metricas.",
+  "ola": 5,
+  "rec": "RESERVAR",
+  "visual": false
+ },
+ "05_festejos_y_reacciones/Taunt.fbx": {
+  "nota": "Provocacion.",
+  "ola": 5,
+  "rec": "RESERVAR",
+  "visual": true
+ },
+ "05_festejos_y_reacciones/Victory.fbx": {
+  "nota": "Festejo de victoria (8.5 s; el indice dice 6.67 s).",
+  "ola": 4,
+  "rec": "USAR",
+  "visual": true
+ },
+ "05_festejos_y_reacciones/Waving.fbx": {
+  "nota": "Reaccion adicional; solo metricas.",
+  "ola": 5,
+  "rec": "RESERVAR",
+  "visual": false
+ },
+ "05_festejos_y_reacciones/Waving_3.fbx": {
+  "nota": "Reaccion adicional; solo metricas.",
+  "ola": 5,
+  "rec": "RESERVAR",
+  "visual": false
+ },
+ "05_festejos_y_reacciones/Yelling_While_Standing.fbx": {
+  "nota": "Reaccion adicional; solo metricas.",
+  "ola": 5,
+  "rec": "RESERVAR",
+  "visual": false
+ },
+ "06_arbitro_y_calentamiento/Arm_Stretching.fbx": {
+  "nota": "Arbitro / calentamiento.",
+  "ola": 5,
+  "rec": "RESERVAR",
+  "visual": false
+ },
+ "06_arbitro_y_calentamiento/Counting.fbx": {
+  "nota": "Arbitro / calentamiento.",
+  "ola": 5,
+  "rec": "RESERVAR",
+  "visual": false
+ },
+ "06_arbitro_y_calentamiento/Neck_Stretching.fbx": {
+  "nota": "Arbitro / calentamiento.",
+  "ola": 5,
+  "rec": "RESERVAR",
+  "visual": false
+ },
+ "06_arbitro_y_calentamiento/Pointing_Forward.fbx": {
+  "nota": "Arbitro / calentamiento.",
+  "ola": 5,
+  "rec": "RESERVAR",
+  "visual": false
+ }
+}

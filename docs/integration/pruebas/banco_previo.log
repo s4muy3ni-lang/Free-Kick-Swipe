@@ -1,0 +1,29 @@
+ERROR: Could not create directory: '/home/codespace/.local/share/godot'.
+   at: make_dir_recursive (core/io/dir_access.cpp:179)
+ERROR: Error attempting to create data dir: /home/codespace/.local/share/godot/app_userdata/Futbol 5.
+   at: ensure_user_data_dir (core/os/os.cpp:442)
+ERROR: Could not create directory: 'user://logs'.
+   at: make_dir_recursive (core/io/dir_access.cpp:179)
+ERROR: Failed to open log file for writing: user://logs/godot.log
+   at: rotate_file (core/io/logger.cpp:169)
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+       · poses vistas: [&"Idle_To_Sprint", &"Running_Tired"]
+[ OK ] test_bank_integration::test_gait_transitions_play_in_mode_4 (3 checks, 1274 ms)
+       · inventario: 2024 entradas, 2022 archivos; util { "si": 1682, "no": 317, "pendiente": 25 }
+[ OK ] test_bank_integration::test_inventory_covers_the_whole_bank (4 checks, 59 ms)
+       · esquivar: jn_avoid_1414 (rol avoid), nivel del arbitro 60
+       · recorrido 0.47 m
+[ OK ] test_bank_integration::test_missed_slide_is_jumped_with_an_avoid_clip (3 checks, 884 ms)
+       · reasignados 74; fuera de su rol: []
+[ OK ] test_bank_integration::test_reassigned_clips_enter_their_system (1 checks, 700 ms)
+       · excluidos [&"jn_setpiece_pass_3330", &"jn_setpiece_pass_3342", &"jn_setpiece_pass_3346", &"jn_setpiece_shot_3354", &"jn_setpiece_shot_3856", &"jn_throw_in_2280", &"jn_throw_in_2506"]; elegidos en 30 repartos: 37 clips
+[ OK ] test_bank_integration::test_set_piece_clips_that_miss_the_ball_are_never_chosen (29 checks, 1289 ms)
+       · Idle_To_Sprint -> jn_start_0494
+[ OK ] test_bank_integration::test_transitions_requested_by_name_have_a_clip (2 checks, 866 ms)
+
+Resumen: 6 pruebas, 0 fallidas, 0 omitidas, 42 comprobaciones, 5.2 s
+WARNING: 18 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 5 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)

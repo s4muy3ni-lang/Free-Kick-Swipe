@@ -1,0 +1,291 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+[ OK ] test_action_arbiter::test_a_foul_knocks_down_a_player_in_a_ball_move (6 checks, 819 ms)
+[ OK ] test_action_arbiter::test_finished_action_releases_locks_and_locomotion_resumes (4 checks, 806 ms)
+[ OK ] test_action_arbiter::test_higher_level_replaces_lower_and_lower_cannot_interrupt (5 checks, 668 ms)
+       · velocidad 6.4 m/s, clip jn_tackle_stand_2750 a 2.8 m/s
+[ OK ] test_action_arbiter::test_in_place_pose_is_refused_while_running (2 checks, 936 ms)
+[ OK ] test_action_arbiter::test_missing_clip_fails_safely (5 checks, 697 ms)
+       · cadena de caida: 35 imagenes, 0 con la pose distinta de la raiz
+[ OK ] test_action_arbiter::test_one_root_controller_and_pose_follows_the_root_until_it_ends (6 checks, 707 ms)
+[ OK ] test_action_arbiter::test_reset_leaves_no_residue (3 checks, 715 ms)
+[ OK ] test_action_arbiter::test_simultaneous_requests_resolve_by_level_not_by_order (4 checks, 872 ms)
+[ OK ] test_action_arbiter::test_stale_tokens_do_nothing (6 checks, 645 ms)
+       · pelota a 0.9 m: resultado=contact clip=jn_header_0796 pie/cabeza-pelota=0.02 m
+       · pelota a 1.2 m: resultado=contact clip=jn_volley_0986 pie/cabeza-pelota=0.07 m
+       · pelota a 1.6 m: resultado=contact clip=jn_volley_3544_mirror pie/cabeza-pelota=0.38 m
+       · pelota a 1.9 m: resultado=contact clip=jn_header_2616 pie/cabeza-pelota=0.10 m
+[ OK ] test_aerial_kicks::test_header_and_volley_contact_happen_when_head_or_foot_reaches_the_flying_ball (2 checks, 1074 ms)
+       · json: 1248 clips catalogados de 3223 en sus bibliotecas
+       · mixamo: 64 clips catalogados de 171 en sus bibliotecas
+       · mocap: 14 clips catalogados de 24 en sus bibliotecas
+[ OK ] test_anim_bank_bench::test_catalog_is_separated_by_provenance (14 checks, 72 ms)
+[ OK ] test_anim_bank_bench::test_dev_menu_is_the_entry_and_the_5_a_side_mode_is_gone (5 checks, 7 ms)
+[ OK ] test_anim_bank_bench::test_empty_category_shows_no_clip_and_never_borrows (4 checks, 188 ms)
+[ OK ] test_anim_bank_bench::test_every_catalog_clip_binds_to_the_common_body (3 checks, 68 ms)
+       · categorias con clip reproducidas: 53
+[ OK ] test_anim_bank_bench::test_every_category_plays_in_every_bank_without_errors (53 checks, 1313 ms)
+[SKIP] test_anim_bank_bench::test_reference_kick_happens_at_the_clip_contact (el esqueleto no se anima en headless: ejecutar con xvfb-run --rendering-driver opengl3)
+[ OK ] test_anim_bank_bench::test_selector_loads_only_the_chosen_bank (9 checks, 276 ms)
+[ OK ] test_anim_trace::test_csv_schema_is_the_fixed_one (3 checks, 0 ms)
+       · jn_kick_shot_hard_1774: contacto no limpio (JsonCatalog.kick_candidates exige clean: costado, apoyo_no_plantado)
+       · golpeo sin pelota jn_kick_shot_0656: sin_contacto {"accepted":2,"contact_failed:pelota a 5.82 m del punto de contacto (limite 0.65 m)":1,"expired:caducada":1,"rejected:coste":1}
+[ OK ] test_anim_trace::test_explain_gives_a_data_reason_for_each_case (11 checks, 766 ms)
+       · elegido: jn_kick_pass_0638_mirror fuente 0638 rol kick_pass contacto f11 error 0.154 m coste 0.195 {"ajuste_zancada":0.0531010150909424,"carrera_pie_apoyo":0.115454603433609,"residuo":0.0268251821398735}
+[ OK ] test_anim_trace::test_kick_decision_contact_and_export (11 checks, 317 ms)
+       · ANIMACIONES  [F3 ocultar · F4 jugador]  Footballer (id 1) | Arbitro: nivel 0   |   ultimo: f1118 FIN kick (nivel 20): caducada | Decision t1088: kick · BallHandler.plan_clip_kick · pass |   ELEGIDO jn_kick_pass_0638 (jn_kick_pass_0638_mirror) -> accepted  |   fotogramas inicio 4 · contacto 11 · foot L
+[ OK ] test_anim_trace::test_overlay_shows_the_decision_markers_and_candidates (3 checks, 252 ms)
+[ OK ] test_anim_trace::test_trace_is_off_by_default_and_never_on_in_release (4 checks, 140 ms)
+       · sin registro: jn_kick_pass_0638_mirror (10.34421, 0.000093, 3.52591) · con registro: jn_kick_pass_0638_mirror (10.34421, 0.000093, 3.52591)
+[ OK ] test_anim_trace::test_tracing_does_not_change_any_decision (2 checks, 460 ms)
+       · 58 clips con contacto medido
+[ OK ] test_animation_contact_audit::test_ball_contact_clips_are_valid_and_reported (19 checks, 253 ms)
+       · Soccer_Pass t=0.467: punta medida (0.169728, 0.110864, 0.207585), contacto del conversor (0.169729, 0.110864, 0.207585)
+[ OK ] test_animation_inventory::test_coordinates_match_the_contact_measured_when_converting (2 checks, 150 ms)
+       · 228 animaciones medidas; 0 con pistas sin enlazar
+       · - `Dribble_2` (cuerpo a 2.32 m/s, 1.73 s): 3 empujes: 0.18 s izq.: 0.23 m delante, 0.19 m al costado izq., 0.07 m de alto, pie a 4.7 m/s, punta girada +27°; 0.60 s der.: 0.16 m delante, 0.15 m al costado der., 0.05 m de alto, pie a 3.0 m/s, punta girada +31°; 1.07 s izq.: 0.26 m delante, 0.11 m al costado izq., 0.06 m de alto, pie a 4.7 m/s, punta girada +30°; 4 apoyos; talón hasta 0.33 / 0.38 m (izq./der.).
+       · - `Soccer_Idle` (cuerpo a 0.00 m/s, 6.20 s): 3 empujes: 0.47 s der.: 0.46 m delante, 0.15 m al costado der., 0.14 m de alto, pie a 2.9 m/s, punta girada +30°; 5.48 s der.: 0.21 m delante, 0.25 m al costado der., 0.14 m de alto, pie a 3.0 m/s, punta girada +39°; 5.60 s der.: 0.46 m delante, 0.14 m al costado der., 0.14 m de alto, pie a 2.4 m/s, punta girada +31°; 19 apoyos; talón hasta 0.35 / 0.20 m (izq./der.).
+       · - `Running_inplace` (cuerpo a 2.14 m/s, 0.83 s): 2 empujes: 0.18 s izq.: 0.22 m delante, 0.12 m al costado izq., 0.06 m de alto, pie a 4.4 m/s, punta girada +15°; 0.58 s der.: 0.22 m delante, 0.13 m al costado der., 0.05 m de alto, pie a 3.9 m/s, punta girada +22°; 2 apoyos; talón hasta 0.31 / 0.32 m (izq./der.).
+       · - `Two_Cycle_Sprint_inplace` (cuerpo a 5.29 m/s, 1.07 s): 4 empujes: 0.10 s izq.: 0.27 m delante, 0.12 m al costado izq., 0.13 m de alto, pie a 6.5 m/s, punta girada +18°; 0.37 s der.: 0.28 m delante, 0.12 m al costado der., 0.09 m de alto, pie a 8.5 m/s, punta girada +24°; 0.67 s izq.: 0.39 m delante, 0.18 m al costado izq., 0.06 m de alto, pie a 8.3 m/s, punta girada +25°; 0.92 s der.: 0.33 m delante, 0.09 m al costado der., 0.08 m de alto, pie a 8.8 m/s, punta girada +25°; 3 apoyos; talón hasta 0.62 / 0.62 m (izq./der.).
+       · - `jog_forward_inplace` (cuerpo a 2.15 m/s, 0.83 s): 2 empujes: 0.17 s izq.: 0.17 m delante, 0.12 m al costado izq., 0.07 m de alto, pie a 2.9 m/s, punta girada +25°; 0.57 s der.: 0.24 m delante, 0.17 m al costado der., 0.07 m de alto, pie a 4.3 m/s, punta girada +23°; 1 apoyos; talón hasta 0.40 / 0.41 m (izq./der.).
+       · - `Jogging_inplace` (cuerpo a 1.64 m/s, 2.57 s): 1 empujes: 1.87 s izq.: 0.17 m delante, 0.12 m al costado izq., 0.05 m de alto, pie a 2.5 m/s, punta girada +11°; 6 apoyos; talón hasta 0.34 / 0.34 m (izq./der.).
+       · - `Sprint_inplace` (cuerpo a 5.13 m/s, 0.53 s): 2 empujes: 0.10 s izq.: 0.27 m delante, 0.10 m al costado izq., 0.14 m de alto, pie a 6.2 m/s, punta girada +13°; 0.37 s der.: 0.35 m delante, 0.15 m al costado der., 0.12 m de alto, pie a 8.6 m/s, punta girada +15°; 2 apoyos; talón hasta 0.55 / 0.53 m (izq./der.).
+       · - `Soccer_Spin` (cuerpo a 2.48 m/s, 1.27 s): 1 empujes: 0.12 s izq.: 0.25 m delante, 0.10 m al costado izq., 0.03 m de alto, pie a 5.7 m/s, punta girada +55°; 2 apoyos; talón hasta 0.38 / 0.31 m (izq./der.).
+       · - `receive_soccerball` (cuerpo a 0.46 m/s, 5.13 s): 8 empujes: 0.13 s izq.: 0.38 m delante, 0.19 m al costado izq., 0.10 m de alto, pie a 5.2 m/s, punta girada +2°; 0.40 s der.: 0.43 m delante, 0.15 m al costado der., 0.07 m de alto, pie a 4.9 m/s, punta girada +34°; 0.63 s izq.: 0.45 m delante, 0.23 m al costado izq., 0.04 m de alto, pie a 5.7 m/s, punta girada -5°; 0.75 s der.: 0.29 m delante, 0.11 m al costado der., 0.00 m de alto, pie a 2.5 m/s, punta girada +30°; 0.90 s izq.: 0.39 m delante, 0.15 m al costado izq., 0.10 m de alto, pie a 2.9 m/s, punta girada -5°; 1.77 s izq.: 0.32 m delante, 0.34 m al costado izq., 0.15 m de alto, pie a 2.2 m/s, punta girada -10°; 2.60 s izq.: 0.25 m delante, 0.00 m al costado der., 0.04 m de alto, pie a 2.3 m/s, punta girada -48°; 3.07 s izq.: 0.24 m delante, 0.05 m al costado der., 0.05 m de alto, pie a 1.0 m/s, punta girada -46°; 16 apoyos; talón hasta 0.28 / 0.31 m (izq./der.).
+       · - `Receive` (cuerpo a 0.00 m/s, 1.40 s): 0 empujes; 13 apoyos; talón hasta 0.16 / 0.13 m (izq./der.).
+       · - `stall_soccerball` (cuerpo a 0.00 m/s, 3.27 s): 0 empujes; 8 apoyos; talón hasta 0.56 / 0.02 m (izq./der.).
+       · - `Idle_To_Sprint` (cuerpo a 1.73 m/s, 0.80 s): 1 empujes: 0.60 s der.: 0.32 m delante, 0.08 m al costado der., 0.11 m de alto, pie a 5.3 m/s, punta girada +19°; 0 apoyos; talón hasta 0.41 / 0.36 m (izq./der.).
+       · - `Sprint_Turn` (cuerpo a 4.45 m/s, 1.00 s): 4 empujes: 0.15 s izq.: 0.34 m delante, 0.36 m al costado izq., 0.09 m de alto, pie a 10.3 m/s, punta girada +26°; 0.40 s der.: 0.44 m delante, 0.11 m al costado izq., 0.08 m de alto, pie a 10.0 m/s, punta girada +37°; 0.67 s izq.: 0.54 m delante, 0.11 m al costado izq., 0.13 m de alto, pie a 6.8 m/s, punta girada -21°; 0.92 s der.: 0.36 m delante, 0.08 m al costado der., 0.03 m de alto, pie a 9.7 m/s, punta girada +56°; 4 apoyos; talón hasta 0.53 / 0.47 m (izq./der.).
+       · clips de marcha que cumplen los criterios de conduccion con toques integrados: ninguno
+[ OK ] test_animation_inventory::test_inventory_of_every_clip_with_measured_feet (3 checks, 1566 ms)
+[ OK ] test_audio::test_all_sounds_are_loaded_and_the_crowd_loops (23 checks, 1 ms)
+[ OK ] test_audio::test_ball_reports_every_kick_with_its_impulse (1 checks, 9 ms)
+[ OK ] test_audio::test_each_hit_picks_its_sound_by_the_real_impulse (5 checks, 0 ms)
+       · pase a 2 m/s: gira 18 grados por imagen el real, 18.0 el dibujado; desenfoque en 9 grados
+       · pase a 6 m/s: gira 54 grados por imagen el real, 19.0 el dibujado; desenfoque en 28 grados
+       · pase a 12 m/s: gira 111 grados por imagen el real, 18.7 el dibujado; desenfoque en 56 grados
+[ OK ] test_ball_curl::test_drawn_ball_spin_is_readable (9 checks, 18 ms)
+       · empeine derecho: 6 de 6 roscan hacia el lado del pie, curva media -0.10 m, a 0.14 m del punto de mira
+       · empeine izquierdo: 6 de 6 roscan hacia el lado del pie, curva media 0.11 m, a 0.21 m del punto de mira
+WARNING: Jolt Physics job system exceeded the maximum number of jobs. This should not happen. Please report this. Waiting for jobs to become available...
+     at: CreateJob (modules/jolt_physics/spaces/jolt_job_system.cpp:123)
+       · colocado: placed_shot, giro vertical 23.0 rad/s, curva -0.36 m, mira z -0.98, llega z -1.05
+       · potente de 18 m: power_shot, giro 3.2 rad/s, flotado 4.6 m/s2 a 2.3 Hz; en la linea z 0.03 (sin flotado 0.13)
+       · vaselina: contragiro 20.0 rad/s
+[ OK ] test_ball_curl::test_every_shot_has_its_natural_spin (11 checks, 221 ms)
+       · tras 0.8 s (~17 m): sin efecto z=0.00, chanfle a la derecha z=1.30, a la izquierda z=-1.30
+[ OK ] test_ball_curl::test_side_spin_curves_the_real_ball (4 checks, 68 ms)
+       · tiro con chanfle a la izquierda: tipo curl_shot, efecto -0.9, sale -3.1 grados abierto
+       · pelota en la linea de gol a |z|=0.39 m (medio arco 1.50), gol=true
+[ OK ] test_ball_curl::test_stick_gesture_asks_for_curl_and_shot_bends_back_on_goal (6 checks, 79 ms)
+[ OK ] test_ball_face_reaction::test_a_real_ball_collision_at_face_height_invokes_the_face_reaction (4 checks, 532 ms)
+[ OK ] test_ball_physics::test_ball_on_the_line_is_not_a_goal (1 checks, 8 ms)
+[ OK ] test_ball_physics::test_ball_stays_inside_walls (2 checks, 125 ms)
+       · altura del primer rebote desde 2 m: 0.550 m
+[ OK ] test_ball_physics::test_bounce_height_matches_futsal_spec (2 checks, 29 ms)
+[ OK ] test_ball_physics::test_crossbar_deflects_ball (2 checks, 31 ms)
+[ OK ] test_ball_physics::test_goal_detected_once_when_fully_across_line (4 checks, 96 ms)
+[ OK ] test_ball_physics::test_kick_applies_impulse_not_teleport (2 checks, 19 ms)
+[ OK ] test_ball_physics::test_post_deflects_ball_physically (3 checks, 42 ms)
+       · v0=5.68 m/s, v(2s)=0.48 m/s, recorrido hasta detenerse: 5.0 m
+[ OK ] test_ball_physics::test_rolling_decelerates_and_stops (6 checks, 248 ms)
+[ OK ] test_ball_physics::test_state_roundtrip (3 checks, 10 ms)
+       · globo largo (1.6 s de vuelo): error maximo 0.06 m, al final 0.03 m (limite 0.47 m)
+       · pase largo con bote: error maximo 0.19 m, al final 0.19 m (limite 0.50 m)
+       · tiro tenso a media altura: error maximo 0.14 m, al final 0.14 m (limite 0.34 m)
+       · disparo que bota antes del arco: error maximo 0.14 m, al final 0.14 m (limite 0.35 m)
+       · tiro con efecto (curva): error maximo 0.12 m, al final 0.12 m (limite 0.35 m)
+       · centro con efecto y bote: error maximo 0.14 m, al final 0.14 m (limite 0.47 m)
+[ OK ] test_ball_prediction::test_prediction_matches_the_real_ball_in_long_flights (6 checks, 233 ms)
+       · pase raso 10 m/s, a los 2 s: error 0.03 m
+[ OK ] test_ball_prediction::test_rolling_pass_prediction (1 checks, 51 ms)
+       · poses vistas: [&"Idle_To_Sprint", &"jn_step_stand_0474_mirror", &"Running_Tired"]
+[ OK ] test_bank_integration::test_gait_transitions_play_in_mode_4 (3 checks, 1162 ms)
+       · inventario: 2024 entradas, 2022 archivos; util { "si": 1682, "no": 317, "pendiente": 25 }
+[ OK ] test_bank_integration::test_inventory_covers_the_whole_bank (4 checks, 70 ms)
+       · esquivar: jn_avoid_2422 (rol avoid), nivel del arbitro 60
+       · recorrido 0.14 m
+[ OK ] test_bank_integration::test_missed_slide_is_jumped_with_an_avoid_clip (3 checks, 994 ms)
+       · reasignados 74; fuera de su rol: []
+[ OK ] test_bank_integration::test_reassigned_clips_enter_their_system (1 checks, 715 ms)
+       · excluidos [&"jn_setpiece_pass_3330", &"jn_setpiece_pass_3342", &"jn_setpiece_pass_3346", &"jn_setpiece_shot_3354", &"jn_setpiece_shot_3856", &"jn_throw_in_2280", &"jn_throw_in_2506"]; elegidos en 30 repartos: 39 clips
+[ OK ] test_bank_integration::test_set_piece_clips_that_miss_the_ball_are_never_chosen (29 checks, 655 ms)
+       · Idle_To_Sprint -> jn_start_0494
+[ OK ] test_bank_integration::test_transitions_requested_by_name_have_a_clip (2 checks, 633 ms)
+[SKIP] test_directional_kicks::test_crosses_from_the_wing (el esqueleto no se anima en headless: ejecutar con xvfb-run --rendering-driver opengl3)
+[SKIP] test_directional_kicks::test_passes_in_every_direction (el esqueleto no se anima en headless: ejecutar con xvfb-run --rendering-driver opengl3)
+[SKIP] test_directional_kicks::test_shots_in_every_direction (el esqueleto no se anima en headless: ejecutar con xvfb-run --rendering-driver opengl3)
+[ OK ] test_gait_variants::test_previous_gait_variants_are_connected_to_their_real_blend_spaces (99 checks, 485 ms)
+       · pelota sobre el techo: gol 0, red abombada 0.22 m, final en (20.5, 2.04, 0.3)
+[ OK ] test_goal_net::test_a_ball_falling_on_the_roof_stays_out (3 checks, 180 ms)
+       · raso a 15 m/s: gol 1, llega hasta 1.05 m detras de la linea (fondo a 1.00), red abombada 0.22 m, vuelve a 1.1 m/s (7 %), al final 0.00 m/s en (20.88, 0.1, 0.0)
+       · a media altura a 25 m/s: gol 1, llega hasta 1.44 m detras de la linea (fondo a 1.00), red abombada 0.92 m, vuelve a 2.3 m/s (9 %), al final 0.00 m/s en (20.82, 0.1, 0.4)
+       · potente al angulo a 30 m/s: gol 1, llega hasta 1.46 m detras de la linea (fondo a 1.00), red abombada 0.67 m, vuelve a 2.6 m/s (8 %), al final 0.00 m/s en (20.72, 0.1, 0.86)
+[ OK ] test_goal_net::test_a_shot_bulges_the_net_and_the_net_stops_it (18 checks, 509 ms)
+       · red lateral por fuera: gol 0, red abombada 0.13 m, final en (20.74, 0.1, 1.65)
+[ OK ] test_goal_net::test_side_netting_from_outside_keeps_the_ball_out (3 checks, 128 ms)
+       · tiro fuerte al angulo: atajadas=0, superado=0, log={ "result": &"no_chance", "time": 0.43333333333333, "dist": 3.32817244529724, "speed": 24.1900749206543 }
+[ OK ] test_goalkeeper::test_hands_contact_is_real_the_ball_must_be_within_reach (2 checks, 821 ms)
+[ OK ] test_goalkeeper::test_keeper_stands_on_the_goal_line_arc_and_tracks_the_ball (6 checks, 781 ms)
+       · clips elegidos para 4 disparos distintos: [&"jn_gk_scoop_1736", &"jn_gk_dive_0028_mirror", &"jn_gk_scoop_1740"]
+[ OK ] test_goalkeeper::test_planner_finds_a_clip_whose_hands_reach_the_predicted_ball (9 checks, 621 ms)
+       · velocidad 9 m/s: el arquero detiene 9 de 9 tiros al arco (100 %)
+       · velocidad 15 m/s: el arquero detiene 12 de 12 tiros al arco (100 %)
+       · velocidad 24 m/s: el arquero detiene 1 de 8 tiros al arco (12 %)
+[ OK ] test_goalkeeper::test_save_rate_depends_on_speed_and_placement (2 checks, 4302 ms)
+[ OK ] test_goalkeeper::test_slow_shot_to_the_hands_is_caught_and_distributed (6 checks, 972 ms)
+[ OK ] test_integration_catalog::test_complete_catalog_is_defensive_and_includes_every_source (6 checks, 41 ms)
+[ OK ] test_integration_catalog::test_context_filters_preserve_role_and_mirror_coverage (72 checks, 727 ms)
+       · planificar un golpeo aereo: 11.2 ms (10 de 10 con plan, ej. jn_volley_0780 volley; 190 clips de cabezazo, 108 de volea)
+[ OK ] test_json_mode::test_aerial_planning_cost_and_clips (1 checks, 969 ms)
+       ·   de ello, listar los candidatos: 0.00 ms
+       ·   samples cacheadas: 0.06 ms
+       ·   timing+plant por clip: 0.46 ms
+       · planificar un golpeo: 1.21 ms de media (60 de 60 con plan, 100 candidatos de pase)
+[ OK ] test_json_mode::test_kick_planning_with_many_clips_is_cheap (1 checks, 802 ms)
+       · clips de campo: 2747, de arquero: 476
+[ OK ] test_json_mode::test_library_has_roles_and_measured_contacts (300 checks, 615 ms)
+[SKIP] test_json_mode::test_live_dribble_keeps_the_ball_with_foot_touches (el esqueleto no se anima en headless: ejecutar con xvfb-run --rendering-driver opengl3)
+       · Humanoide: mezcla direccional con 16 clips (["jn_jog_1144", "jn_dir_back_0486", "jn_dir_back_0486_mirror", "jn_dir_back_diag_0480", "jn_dir_back_diag_0480_mirror", "jn_dir_fwd_diag_0470", "jn_dir_fwd_diag_0470_mirror", "jn_dir_side_0186", "jn_dir_side_0186_mirror", "jn_loco_walk_1478", "jn_loco_walk_1480", "jn_loco_walk_2028", "jn_loco_jog_2394", "jn_loco_jog_3020", "jn_loco_side_3018"])
+       · Humanoide: altura de cadera a 0/1.8/3.6/6 m/s: ["0.83", "0.80", "0.84", "0.80"]
+[ OK ] test_json_mode::test_model_builds_and_animates (11 checks, 582 ms)
+[ OK ] test_json_mode::test_pack_names_resolve_to_json_clips (13 checks, 663 ms)
+       · pass parado (6.1 m/s, a los 0.6 s): clip jn_kick_pass_0638_mirror, pie a 0.035 m de la pelota, latencia 0.20 s, pelota a 9.4 m/s
+       · pass trote (3.7 m/s, a los 1.4 s): clip jn_kick_pass_3234, pie a 0.031 m de la pelota, latencia 0.20 s, pelota a 10.0 m/s
+       · pass trote (3.9 m/s, a los 1.7 s): clip jn_kick_pass_3234, pie a 0.034 m de la pelota, latencia 0.20 s, pelota a 10.2 m/s
+       · pass carrera (5.3 m/s, a los 1.5 s): clip jn_kick_pass_soft_2186, pie a 0.103 m de la pelota, latencia 0.20 s, pelota a 10.9 m/s
+       · pass carrera (5.3 m/s, a los 1.9 s): clip jn_kick_pass_3234_mirror, pie a 0.072 m de la pelota, latencia 0.20 s, pelota a 11.0 m/s
+       · pass sprint (6.4 m/s, a los 1.8 s): clip jn_kick_pass_1212, pie a 0.175 m de la pelota, latencia 0.20 s, pelota a 9.6 m/s
+       · shot parado (0.0 m/s, a los 0.6 s): clip jn_kick_shot_0656, pie a 0.042 m de la pelota, latencia 0.33 s, pelota a 14.3 m/s
+       · shot trote (3.6 m/s, a los 1.4 s): clip jn_kick_shot_1780_mirror, pie a 0.032 m de la pelota, latencia 0.33 s, pelota a 13.2 m/s
+       · shot trote (3.6 m/s, a los 1.7 s): clip jn_kick_shot_1780, pie a 0.029 m de la pelota, latencia 0.33 s, pelota a 14.3 m/s
+       · shot carrera (5.3 m/s, a los 1.5 s): clip jn_kick_shot_1780_mirror, pie a 0.032 m de la pelota, latencia 0.33 s, pelota a 13.2 m/s
+       · shot carrera (5.3 m/s, a los 1.9 s): clip jn_kick_shot_1780_mirror, pie a 0.030 m de la pelota, latencia 0.33 s, pelota a 13.2 m/s
+       · shot sprint (7.0 m/s, a los 1.8 s): clip jn_kick_shot_1780_mirror, pie a 0.043 m de la pelota, latencia 0.33 s, pelota a 13.2 m/s
+       · modo 4: 12 de 12 golpeos ejecutados
+[ OK ] test_json_mode::test_passes_and_shots_connect_with_json_clips (37 checks, 4848 ms)
+       · error maximo de alcance de extremidades: 0.00 cm
+[ OK ] test_json_mode::test_retarget_reaches_the_data (1 checks, 715 ms)
+       · estirada desesperada: derecha goalkeeper_miss, izquierda goalkeeper_miss_mirror
+[ OK ] test_keeper_and_gait_clips::test_desperate_dive_uses_goalkeeper_miss_and_hands_decide (2 checks, 531 ms)
+       · clips de transicion vistos: [&"Idle_To_Sprint", &"Sprint_Turn", &"Running_Tired"]
+[ OK ] test_keeper_and_gait_clips::test_gait_transition_clips_follow_the_real_movement (4 checks, 433 ms)
+       · centro al area: salidas 1, atrapadas 1, pelota en manos del arquero: true
+       · registro del arquero: [{ "result": &"catch", "time": 1.1, "clip": "jn_gk_catch_0042_mirror", "dist": 0.22940847277641, "speed": 9.59145259857178, "radius": 0.44863636363636, "pickup": false, "plan_dist": 0.02914776839316, "clip_speed": 1.0, "late": -0.0262750013085, "off": (-0.11904, -0.0958, 0.171115) }]
+[ OK ] test_keeper_and_gait_clips::test_keeper_claims_a_high_cross_into_his_area (2 checks, 691 ms)
+       · con la pelota: clip goalkeeper_idle_2, pelota a 0.04 m de las manos del clip
+[ OK ] test_keeper_and_gait_clips::test_keeper_holds_the_ball_in_the_hands_of_his_idle_clip (2 checks, 673 ms)
+       · mano a mano: arquero a 5.91 m de su linea; con un defensor en medio, a 2.25 m
+[ OK ] test_keeper_and_gait_clips::test_keeper_rushes_out_against_a_lone_attacker (3 checks, 938 ms)
+[ OK ] test_keeper_shot_read::test_real_shot_is_read_and_an_on_target_ball_triggers_a_save_plan (6 checks, 107 ms)
+[ OK ] test_keeper_turn_connections::test_every_keeper_turn_is_invocable_with_its_measured_orientation (34 checks, 48 ms)
+[ OK ] test_keeper_turn_connections::test_orientation_turn_is_cancelled_when_the_ball_target_changes (3 checks, 34 ms)
+       · pelota que se escapa a 3.5 veces la velocidad: golpeos 0, cancelaciones 1 (out_of_reach)
+[ OK ] test_kick_reach::test_kick_is_cancelled_with_a_warning_when_the_ball_cannot_be_reached (2 checks, 897 ms)
+       · tiro a media velocidad, pelota 1.7 m delante y al costado (video 58.4 s) (3.6 m/s): golpeos 1 (con contacto 1, pie a 0.02 m), cancelaciones 0 , toques sin pie antes del golpeo n/d (headless)
+       · tiro a media velocidad, pelota 1.9 m delante (4.2 m/s): golpeos 1 (con contacto 1, pie a 0.03 m), cancelaciones 0 , toques sin pie antes del golpeo n/d (headless)
+       · tiro despacio, pelota 2.2 m delante (2.6 m/s): golpeos 1 (con contacto 1, pie a 0.13 m), cancelaciones 0 , toques sin pie antes del golpeo n/d (headless)
+       · tiro a media velocidad, pelota 2.6 m delante (3.6 m/s): golpeos 1 (con contacto 1, pie a 0.03 m), cancelaciones 0 , toques sin pie antes del golpeo n/d (headless)
+       · tiro a sprint, pelota 1.4 m delante a la velocidad del jugador (7.0 m/s): golpeos 1 (con contacto 1, pie a 0.03 m), cancelaciones 0 , toques sin pie antes del golpeo n/d (headless)
+       · pase a sprint, pelota 1.8 m delante (7.0 m/s): golpeos 1 (con contacto 1, pie a 0.18 m), cancelaciones 0 , toques sin pie antes del golpeo n/d (headless)
+       · pase a la carrera, pelota 1.0 m delante (5.3 m/s): golpeos 1 (con contacto 1, pie a 0.07 m), cancelaciones 0 , toques sin pie antes del golpeo n/d (headless)
+       · golpeos con contacto: 7 de 7
+[ OK ] test_kick_reach::test_kick_requested_with_the_ball_out_of_reach_ahead (8 checks, 1893 ms)
+       · golpeos recuperados (con espejos) que llegan a la pelota: 108 de 108; peor distancia pie-pelota 0.151 m
+[ OK ] test_kick_recovery::test_each_recovered_kick_reaches_the_ball_through_the_real_planner (1 checks, 6781 ms)
+       · golpeos recuperados por el costado: 54
+       · golpeos (con espejos) que siguen fuera por otra condicion: 134
+[ OK ] test_kick_recovery::test_recovered_set_is_exactly_the_lateral_only_kicks (136 checks, 629 ms)
+       · tiempo entre el inicio de la patada y el movimiento de la pelota: 0.117 s (contacto programado: 0.100 s)
+[ OK ] test_kick_timing::test_ball_impulse_happens_at_contact_not_at_button_release (7 checks, 37 ms)
+[ OK ] test_kick_timing::test_kick_whiffs_if_the_ball_moves_away_during_the_swing (2 checks, 26 ms)
+       · balanceo maximo hacia atras: -0.91 rad en t=0.074 s; velocidad angular maxima de cadera: 49.9 rad/s; salto maximo por muestra (1.0 ms): 0.050 rad
+[ OK ] test_kick_timing::test_pose_curves_are_continuous_and_peak_at_contact (6 checks, 1 ms)
+[SKIP] test_live_kicks::test_behind_ball_shot_finishes_after_its_measured_turn_and_pending_window (el esqueleto no se anima en headless: ejecutar con xvfb-run --rendering-driver opengl3)
+[SKIP] test_live_kicks::test_first_time_pass_from_an_incoming_ball (el esqueleto no se anima en headless: ejecutar con xvfb-run --rendering-driver opengl3)
+[SKIP] test_live_kicks::test_kick_battery_fifty_varied_actions (el esqueleto no se anima en headless: ejecutar con xvfb-run --rendering-driver opengl3)
+[SKIP] test_live_kicks::test_passes_standing_with_each_foot_long_and_running (el esqueleto no se anima en headless: ejecutar con xvfb-run --rendering-driver opengl3)
+[SKIP] test_live_kicks::test_running_shot_under_pressure_has_a_visible_foot_contact (el esqueleto no se anima en headless: ejecutar con xvfb-run --rendering-driver opengl3)
+[SKIP] test_live_kicks::test_shots_of_different_power_and_angle (el esqueleto no se anima en headless: ejecutar con xvfb-run --rendering-driver opengl3)
+       · v(0.2 s)=1.17 m/s de 5.20
+       · tiempo hasta el 90 % de la velocidad de carrera: 1.05 s
+[ OK ] test_locomotion::test_acceleration_is_progressive (4 checks, 2 ms)
+[ OK ] test_locomotion::test_attributes_scale_speed_within_limits (2 checks, 1 ms)
+       · inversion a sprint: v_inicial=6.80, v_min=0.63, desplazamiento_lateral=0.67 m, v_al_alinear=0.70
+[ OK ] test_locomotion::test_reversal_at_sprint_brakes_first_and_never_slides_sideways (4 checks, 3 ms)
+[ OK ] test_locomotion::test_sprint_is_faster_and_drains_stamina (3 checks, 3 ms)
+       · frenada desde carrera: 0.55 s, 1.38 m
+[ OK ] test_locomotion::test_stops_without_sliding_like_ice (2 checks, 2 ms)
+       · giro de 90 grados: parado 0.15 s, sprint 0.30 s
+[ OK ] test_locomotion::test_turning_rate_depends_on_speed (3 checks, 1 ms)
+[ OK ] test_pack_kick::test_ball_leaving_during_the_swing_is_a_real_whiff (5 checks, 129 ms)
+[ OK ] test_pack_kick::test_ball_out_of_reach_gives_no_kick_and_no_teleport (5 checks, 172 ms)
+       · instantes de contacto elegidos para pelota a 0.05 m y 0.5 m delante: [0.45833333333333, 0.48333333333333]
+[ OK ] test_pack_kick::test_contact_instant_comes_from_the_foot_trajectory (55 checks, 216 ms)
+[ OK ] test_pack_kick::test_each_candidate_foot_hits_when_the_ball_is_on_it (8 checks, 707 ms)
+[ OK ] test_pack_kick::test_only_in_place_clips_are_connected_to_kicks (14 checks, 96 ms)
+       · pase: latencia boton->salida de pelota 0.217 s (objetivo 0.20 s), distancia pie-pelota 0.007 m, clip 'Soccer_Pass'
+[ OK ] test_pack_kick::test_pass_contact_is_synchronised_with_the_foot_arrival (12 checks, 186 ms)
+       · pelota a 1.3 m: el jugador avanzo 0.68 m, toques=0, golpeos { "started": 1, "contact": 1, "missed": 0, "out_of_reach": 0 }, pie-pelota 0.120 m
+[ OK ] test_pack_kick::test_reach_is_limited_by_the_leg_not_a_fixed_radius (5 checks, 366 ms)
+       · ajuste de zancada: 0.30 m (maximo parado 0.30 m), pie-pelota al golpear 0.205 m, desplazamiento del cuerpo 0.35 m, clip 'Soccer_Pass_mirror'
+[ OK ] test_pack_kick::test_stride_adjustment_reaches_a_ball_slightly_off_the_foot (4 checks, 128 ms)
+[ OK ] test_pack_locomotion::test_actions_never_overlap_and_finish (8 checks, 152 ms)
+[ OK ] test_pack_locomotion::test_fallback_to_tripo_gaits_when_pack_is_disabled (6 checks, 91 ms)
+       · sprint: velocidad 6.80 m/s, escala de tiempo x1.33, posicion de mezcla 6.80
+[ OK ] test_pack_locomotion::test_pack_gait_blend_points_are_the_measured_natural_speeds (18 checks, 159 ms)
+[ OK ] test_pack_locomotion::test_situations_resolve_through_the_single_catalog (40 checks, 63 ms)
+[SKIP] test_pack_motion::test_live_foot_passes_through_the_ball_at_the_impulse (el esqueleto no se anima en headless: ejecutar con xvfb-run --rendering-driver opengl3)
+[SKIP] test_pack_motion::test_planted_foot_slide_pack_vs_tripo (el esqueleto no se anima en headless: ejecutar con xvfb-run --rendering-driver opengl3)
+       · mayor salto de un hueso entre fotogramas consecutivos (30 fps): 118.5 grados en 'Fall_Flat_mirror'
+[ OK ] test_pack_retarget::test_every_clip_has_clean_tracks (2 checks, 113 ms)
+[ OK ] test_pack_retarget::test_feet_stay_on_the_ground_and_hips_do_not_travel (8 checks, 99 ms)
+[ OK ] test_pack_retarget::test_kick_contacts_are_measured_and_mirrors_are_symmetric (24 checks, 106 ms)
+       · clips de campo: 191
+[ OK ] test_pack_retarget::test_library_has_expected_clips_and_metadata (36 checks, 87 ms)
+       · escala de tiempo del sprint (6.8 m/s) con el clip del pack: x1.33
+[ OK ] test_pack_retarget::test_measured_natural_speeds_match_the_clips (6 checks, 81 ms)
+       · poses de orientacion comprobadas: 24
+[ OK ] test_pack_retarget::test_orientation_matches_the_tripo_rig (24 checks, 107 ms)
+       · blend de locomocion: parado=0.00, sprint=6.22; escala de tiempo=1.21
+[ OK ] test_player_model::test_animation_tree_responds_to_speed (4 checks, 89 ms)
+[ OK ] test_player_model::test_animations_present_loop_and_are_centered (24 checks, 33 ms)
+[ OK ] test_player_model::test_kit_recolors_the_material (3 checks, 31 ms)
+       · triangulos del futbolista: 7640 (limite 10000)
+[ OK ] test_player_model::test_model_imports_within_triangle_budget (5 checks, 34 ms)
+[ OK ] test_resource_cleanup::test_ball_handler_dispose_is_safe_to_call_twice (1 checks, 10 ms)
+[ OK ] test_resource_cleanup::test_freed_footballer_releases_its_ball_handler_and_submodules (1 checks, 10 ms)
+[ OK ] test_resource_cleanup::test_lambda_on_a_ball_handler_signal_does_not_keep_it_alive (1 checks, 9 ms)
+       · jn_setpiece_pass_3330: resultado contact, fallos 0, ejecutor (-0.653356, 0.000923, 0.162822)
+       · { "start": (-3.201678, 0.0, -0.491845), "start_t": 0.86666666666667, "toe": (5.565432, 0.214124, 0.50728), "root0": (2.363754, 0.015435) }
+       · { "clip": &"jn_setpiece_pass_3330", "distance": 0.03929876163602, "swept_distance": 0.10145453363657, "toe": (0.037961, 0.214124, -0.010172), "ball": (0.000002, 0.099524, 0.0), "body": (-0.678157, 0.000923, 0.141586), "time": 1.63333333333333 }
+       · jn_setpiece_pass_3342: resultado contact, fallos 0, ejecutor (-0.197536, 0.000877, 0.587408)
+       · { "start": (-2.829725, 0.0, 0.89682), "start_t": 0.9, "toe": (5.048819, 0.0747, -0.476344), "root0": (2.219094, 0.420476) }
+       · { "clip": &"jn_setpiece_pass_3342", "distance": 0.02737143449485, "swept_distance": 0.02546464651823, "toe": (0.023605, 0.0747, -0.013859), "ball": (0.000002, 0.099524, 0.0), "body": (-0.235689, 0.000878, 0.578221), "time": 1.66666666666666 }
+       · jn_setpiece_pass_3346: resultado contact, fallos 0, ejecutor (-0.392549, 0.000877, 0.624072)
+       · { "start": (-3.022807, 0.0, 0.469809), "start_t": 0.9, "toe": (5.078063, 0.0569, 0.019331), "root0": (2.055256, 0.48914) }
+       · { "clip": &"jn_setpiece_pass_3346", "distance": 0.01322719268501, "swept_distance": 0.04462957382202, "toe": (-0.010788, 0.0569, -0.007649), "ball": (0.000003, 0.099524, 0.0), "body": (-0.430242, 0.000877, 0.613017), "time": 2.0 }
+       · jn_setpiece_shot_3354: resultado contact, fallos 0, ejecutor (0.097889, 0.000927, -0.436516)
+       · { "start": (-2.39424, 0.0, -1.097258), "start_t": 0.93333333333333, "toe": (4.346379, 0.207057, 0.947312), "root0": (1.952139, -0.149946) }
+       · { "clip": &"jn_setpiece_shot_3354", "distance": 0.48474356532097, "swept_distance": 0.10963663458824, "toe": (0.48268, 0.0234, -0.044706), "ball": (0.000003, 0.099524, 0.0), "body": (0.070319, 0.000927, -0.434266), "time": 1.86666666666666 }
+       · jn_setpiece_shot_3856: resultado contact, fallos 0, ejecutor (-0.109179, 0.000878, 0.463206)
+       · { "start": (-1.045275, 0.0, -0.100256), "start_t": 0.0, "toe": (1.045275, 0.124793, 0.100256), "root0": (0.0, 0.0) }
+       · { "clip": &"jn_setpiece_shot_3856", "distance": 0.46238905191422, "swept_distance": 0.02638018503785, "toe": (0.437905, 0.045, 0.148471), "ball": (0.000001, 0.099524, 0.0), "body": (-0.140426, 0.000878, 0.432827), "time": 0.31666666666667 }
+[ OK ] test_setpiece_recovery::test_originally_excluded_kicks_reach_the_ball_at_an_unobstructed_free_kick (15 checks, 770 ms)
+       · 11 m centrado, joystick al palo: al arco 66/80, goles 20, atajadas 46 (blocajes 6, despejes 34, con el cuerpo 6), palo 5, fuera 9; ataja 69 % de los que van al arco
+       · 11 m centrado, joystick al arquero: al arco 75/80, goles 9, atajadas 66 (blocajes 2, despejes 63, con el cuerpo 1), palo 3, fuera 2; ataja 88 % de los que van al arco
+       · 11 m centrado, joystick de lado (90 grados): al arco 66/80, goles 20, atajadas 46 (blocajes 6, despejes 34, con el cuerpo 6), palo 5, fuera 9; ataja 69 % de los que van al arco
+       · 11 m, rival encima: al arco 58/80, goles 0, atajadas 58 (blocajes 21, despejes 36, con el cuerpo 1), palo 2, fuera 20; ataja 100 % de los que van al arco
+       · 18 m, potente: al arco 57/80, goles 3, atajadas 54 (blocajes 1, despejes 50, con el cuerpo 3), palo 0, fuera 23; ataja 94 % de los que van al arco
+       · 8 m de angulo cerrado: al arco 63/80, goles 1, atajadas 62 (blocajes 14, despejes 32, con el cuerpo 16), palo 0, fuera 17; ataja 98 % de los que van al arco
+       · 11 m, tirador de 85: al arco 62/80, goles 39, atajadas 23 (blocajes 2, despejes 17, con el cuerpo 4), palo 12, fuera 6; ataja 37 % de los que van al arco
+       · 11 m centrado, joystick al otro palo: al arco 64/80, goles 21, atajadas 43 (blocajes 3, despejes 39, con el cuerpo 1), palo 6, fuera 10; ataja 67 % de los que van al arco
+       · 11 m, al otro palo, tirador de 85: al arco 65/80, goles 45, atajadas 20 (blocajes 0, despejes 19, con el cuerpo 1), palo 6, fuera 9; ataja 30 % de los que van al arco
+[ OK ] test_shot_keeper::test_shots_go_at_goal_and_the_keeper_saves_what_he_reaches (10 checks, 65929 ms)
+[ OK ] test_transition_connections::test_all_previously_unrouted_transitions_can_start_in_their_own_state (43 checks, 20 ms)
+       · transiciones de arranque comprobadas con pelota muerta: 3
+[ OK ] test_transition_connections::test_dead_ball_transition_never_carries_a_player_into_the_set_piece_zone (4 checks, 19 ms)
+[ OK ] test_transition_connections::test_incoming_ball_keeps_the_body_available_for_a_first_time_kick (3 checks, 25 ms)
+
+Resumen: 132 pruebas, 0 fallidas, 13 omitidas, 1546 comprobaciones, 123.7 s
+RC=0

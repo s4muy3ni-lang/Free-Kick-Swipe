@@ -1,0 +1,11 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+       · jn_kick_cross_0744: contacto { "started": 1, "contact": 1, "missed": 0, "out_of_reach": 0 }, distancia 0.082
+       · jn_kick_cross_0746: contacto { "started": 1, "contact": 1, "missed": 0, "out_of_reach": 0 }, distancia 0.112
+[ OK ] test_cross_connections::test_each_lateral_cross_plans_and_executes_when_the_ball_is_on_its_contact_side (8 checks, 740 ms)
+
+Resumen: 1 pruebas, 0 fallidas, 0 omitidas, 8 comprobaciones, 0.8 s
+WARNING: 21 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 5 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)

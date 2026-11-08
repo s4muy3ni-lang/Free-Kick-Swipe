@@ -1,0 +1,20 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+       · 11 m centrado, joystick al palo: al arco 65/80, goles 20, atajadas 45 (blocajes 5, despejes 35, con el cuerpo 5), palo 6, fuera 9; ataja 69 % de los que van al arco
+       · 11 m centrado, joystick al arquero: al arco 75/80, goles 9, atajadas 66 (blocajes 6, despejes 60, con el cuerpo 0), palo 3, fuera 2; ataja 88 % de los que van al arco
+       · 11 m centrado, joystick de lado (90 grados): al arco 66/80, goles 20, atajadas 46 (blocajes 5, despejes 35, con el cuerpo 6), palo 5, fuera 9; ataja 69 % de los que van al arco
+       · 11 m, rival encima: al arco 58/80, goles 0, atajadas 58 (blocajes 17, despejes 40, con el cuerpo 1), palo 2, fuera 20; ataja 100 % de los que van al arco
+       · 18 m, potente: al arco 57/80, goles 5, atajadas 52 (blocajes 1, despejes 48, con el cuerpo 3), palo 0, fuera 23; ataja 91 % de los que van al arco
+WARNING: Jolt Physics job system exceeded the maximum number of jobs. This should not happen. Please report this. Waiting for jobs to become available...
+     at: CreateJob (modules/jolt_physics/spaces/jolt_job_system.cpp:123)
+       · 8 m de angulo cerrado: al arco 65/80, goles 7, atajadas 58 (blocajes 14, despejes 5, con el cuerpo 39), palo 0, fuera 15; ataja 89 % de los que van al arco
+       · 11 m, tirador de 85: al arco 63/80, goles 40, atajadas 23 (blocajes 1, despejes 19, con el cuerpo 3), palo 12, fuera 5; ataja 36 % de los que van al arco
+       · 11 m centrado, joystick al otro palo: al arco 65/80, goles 17, atajadas 48 (blocajes 2, despejes 44, con el cuerpo 2), palo 5, fuera 10; ataja 73 % de los que van al arco
+       · 11 m, al otro palo, tirador de 85: al arco 65/80, goles 43, atajadas 22 (blocajes 0, despejes 21, con el cuerpo 1), palo 6, fuera 9; ataja 33 % de los que van al arco
+[ OK ] test_shot_keeper::test_shots_go_at_goal_and_the_keeper_saves_what_he_reaches (10 checks, 55140 ms)
+
+Resumen: 1 pruebas, 0 fallidas, 0 omitidas, 10 comprobaciones, 55.2 s
+WARNING: 76 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 5 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)

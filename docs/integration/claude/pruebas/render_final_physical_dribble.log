@@ -1,0 +1,64 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+WARNING: Could not set V-Sync mode, as changing V-Sync mode is not supported by the graphics driver.
+     at: set_use_vsync (platform/linuxbsd/x11/gl_manager_x11.cpp:372)
+OpenGL API 4.5 (Core Profile) Mesa 25.2.8-0ubuntu0.24.04.4 - Compatibility - Using Device: Mesa - llvmpipe (LLVM 20.1.2, 256 bits)
+ALSA lib confmisc.c:855:(parse_card) cannot find card '0'
+ALSA lib conf.c:5208:(_snd_config_evaluate) function snd_func_card_inum returned error: No such file or directory
+ALSA lib confmisc.c:422:(snd_func_concat) error evaluating strings
+ALSA lib conf.c:5208:(_snd_config_evaluate) function snd_func_concat returned error: No such file or directory
+ALSA lib confmisc.c:1342:(snd_func_refer) error evaluating name
+ALSA lib conf.c:5208:(_snd_config_evaluate) function snd_func_refer returned error: No such file or directory
+ALSA lib conf.c:5731:(snd_config_expand) Evaluate error: No such file or directory
+ALSA lib pcm.c:2721:(snd_pcm_open_noupdate) Unknown PCM default
+ERROR: Condition "status < 0" is true. Returning: ERR_CANT_OPEN
+   at: init_output_device (drivers/alsa/audio_driver_alsa.cpp:97)
+WARNING: All audio drivers failed, falling back to the dummy driver.
+     at: initialize (servers/audio/audio_server.cpp:258)
+
+       · sprint + diagonal 40: 9 toques, 3 sin pie o lejos, pelota max 1.08 m, jugador se aparta de la pelota hasta 31 grados
+       ·    0.05s carry pie=-1 d_pie=-1.00 d_cuerpo=0.60 adel=0.60 v=0.1 giro=0 <-- SIN PIE
+       ·    0.28s carry pie=0 d_pie=0.27 d_cuerpo=0.59 adel=0.59 v=1.5 giro=1
+       ·    0.70s carry pie=1 d_pie=0.40 d_cuerpo=0.44 adel=0.44 v=3.6 giro=1 <-- SIN PIE
+       ·    1.03s carry pie=1 d_pie=0.37 d_cuerpo=0.49 adel=0.49 v=4.9 giro=1 <-- SIN PIE
+       ·    1.35s carry pie=0 d_pie=0.28 d_cuerpo=0.56 adel=0.56 v=6.0 giro=1
+       ·    1.88s carry pie=0 d_pie=0.24 d_cuerpo=0.62 adel=0.61 v=6.5 giro=28
+       ·    2.42s carry pie=0 d_pie=0.27 d_cuerpo=0.68 adel=0.67 v=6.4 giro=10
+       ·    2.92s carry pie=0 d_pie=0.27 d_cuerpo=0.68 adel=0.68 v=6.4 giro=2
+       ·    3.35s carry pie=0 d_pie=0.27 d_cuerpo=0.63 adel=0.63 v=6.4 giro=1
+[ OK ] test_physical_dribble::test_diagonal_after_sprint_follows_the_ball (5 checks, 1792 ms)
+       · trote + giro 90: 8 toques, 1 sin pie o lejos, pelota max 1.00 m, jugador se aparta de la pelota hasta 18 grados
+       ·    0.37s move pie=1 d_pie=0.01 d_cuerpo=0.43 adel=0.42 v=1.1 giro=0
+       ·    0.73s move pie=0 d_pie=0.02 d_cuerpo=0.27 adel=0.27 v=3.2 giro=7
+       ·    1.57s redirect pie=-1 d_pie=-1.00 d_cuerpo=0.53 adel=0.53 v=2.9 giro=114 <-- SIN PIE
+       ·    1.63s carry pie=1 d_pie=0.08 d_cuerpo=0.30 adel=0.28 v=2.7 giro=34
+       ·    1.85s move pie=1 d_pie=0.09 d_cuerpo=0.39 adel=0.38 v=2.5 giro=84
+       ·    2.02s move pie=0 d_pie=0.02 d_cuerpo=0.35 adel=-0.07 v=2.6 giro=98
+       ·    2.87s move pie=1 d_pie=0.05 d_cuerpo=0.19 adel=0.13 v=4.2 giro=10
+       ·    3.13s move pie=0 d_pie=0.07 d_cuerpo=0.17 adel=0.14 v=4.3 giro=6
+[ OK ] test_physical_dribble::test_jog_turn_90_in_touches (5 checks, 1351 ms)
+       · pase atras (joystick suelto): golpeo=true a los 0.20 s con jn_kick_pass_2590_mirror (kick_pass), cuerpo vs pelota 1 grados, pelota vs companero 170 grados, { "started": 1, "contact": 1, "missed": 0, "out_of_reach": 0 }
+       · pase atras (joystick hacia el companero): golpeo=true a los 0.32 s con jn_kick_back_1622 (kick_back), cuerpo vs pelota 163 grados, pelota vs companero 5 grados, { "started": 1, "contact": 1, "missed": 0, "out_of_reach": 0, "turn": 1 }
+[ OK ] test_physical_dribble::test_pass_to_a_mate_behind_uses_a_back_kick_or_turns (7 checks, 2301 ms)
+       · al costado, quieta: 0 toques, 0 sin pie, jugador se movio 0.04 m y giro 59 grados, pelota delante y quieta a los 0.08 s, al final adelante 0.49 lado 0.17
+       · al costado, rodando hacia afuera: 1 toques, 0 sin pie, jugador se movio 0.04 m y giro 51 grados, pelota delante y quieta a los 0.07 s, al final adelante 0.42 lado 0.21
+       ·    settle pie=1 d_pie_visible=0.255 d_base=0.255 d_cuerpo=0.51
+       · detras, rodando hacia atras: 1 toques, 0 sin pie, jugador se movio 0.04 m y giro 110 grados, pelota delante y quieta a los 0.17 s, al final adelante 0.24 lado 0.24
+       ·    settle pie=1 d_pie_visible=0.140 d_base=0.126 d_cuerpo=0.34
+       · delante, rodando despacio: 0 toques, 0 sin pie, jugador se movio 0.47 m y giro 0 grados, pelota delante y quieta a los 0.62 s, al final adelante 0.59 lado 0.00
+[ OK ] test_physical_dribble::test_released_stick_player_goes_to_the_ball (12 checks, 4682 ms)
+       · carrera + curva suave 60: 12 toques, 1 sin pie o lejos, pelota max 0.71 m, jugador se aparta de la pelota hasta 18 grados
+       ·    0.37s move pie=1 d_pie=0.01 d_cuerpo=0.43 adel=0.42 v=1.1 giro=0
+       ·    0.73s move pie=0 d_pie=0.02 d_cuerpo=0.27 adel=0.27 v=3.2 giro=7
+       ·    1.32s carry pie=0 d_pie=0.08 d_cuerpo=0.28 adel=0.28 v=5.0 giro=1
+       ·    1.58s carry pie=1 d_pie=0.26 d_cuerpo=0.56 adel=0.51 v=5.3 giro=17
+       ·    1.85s carry pie=0 d_pie=0.18 d_cuerpo=0.51 adel=0.48 v=5.3 giro=9
+       ·    2.13s carry pie=1 d_pie=0.26 d_cuerpo=0.50 adel=0.48 v=5.3 giro=9
+       ·    2.43s carry pie=0 d_pie=0.20 d_cuerpo=0.58 adel=0.56 v=5.3 giro=9
+       ·    2.70s carry pie=1 d_pie=0.23 d_cuerpo=0.49 adel=0.48 v=5.3 giro=4
+       ·    2.97s carry pie=0 d_pie=0.28 d_cuerpo=0.47 adel=0.43 v=5.3 giro=12
+       ·    3.23s carry pie=1 d_pie=0.36 d_cuerpo=0.45 adel=0.45 v=5.3 giro=2 <-- SIN PIE
+       ·    3.58s carry pie=0 d_pie=0.27 d_cuerpo=0.56 adel=0.56 v=5.3 giro=4
+       ·    3.85s carry pie=1 d_pie=0.24 d_cuerpo=0.54 adel=0.54 v=5.3 giro=3
+[ OK ] test_physical_dribble::test_run_gentle_curve (5 checks, 1589 ms)
+
+Resumen: 5 pruebas, 0 fallidas, 0 omitidas, 34 comprobaciones, 11.7 s

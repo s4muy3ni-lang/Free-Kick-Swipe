@@ -1,0 +1,4 @@
+[gd_scene load_steps=2 format=3]
+[ext_resource type="Script" path="res://tools/integration/inspect_pending.gd" id="1"]
+[node name="InspectPending" type="Node3D"]
+script = ExtResource("1")

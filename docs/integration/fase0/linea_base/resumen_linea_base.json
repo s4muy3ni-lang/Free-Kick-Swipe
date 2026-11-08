@@ -1,0 +1,161 @@
+{
+ "partidos_10min": [
+  "s101",
+  "s202",
+  "s303",
+  "s404",
+  "s505",
+  "s606"
+ ],
+ "estadisticas": {
+  "goles": {
+   "media": 4.5,
+   "min": 4,
+   "max": 5,
+   "render_3min": 3
+  },
+  "goles_en_propia": {
+   "media": 1,
+   "min": 0,
+   "max": 2,
+   "render_3min": 1
+  },
+  "pases": {
+   "media": 89.5,
+   "min": 77,
+   "max": 98,
+   "render_3min": 36
+  },
+  "tiros": {
+   "media": 13.5,
+   "min": 9,
+   "max": 19,
+   "render_3min": 3
+  },
+  "tramos_reproducidos": {
+   "media": 387,
+   "min": 354,
+   "max": 406,
+   "render_3min": 278
+  },
+  "roles_reproducidos": {
+   "media": 75.667,
+   "min": 72,
+   "max": 78,
+   "render_3min": 69
+  },
+  "golpeos_iniciados": {
+   "media": 104.833,
+   "min": 91,
+   "max": 115,
+   "render_3min": 37
+  },
+  "pct_golpeos_iniciados_sin_contacto": {
+   "media": 5.233,
+   "min": 4.3,
+   "max": 6.31,
+   "render_3min": 0.0
+  },
+  "contacto_dist_mediana": {
+   "media": 0.137,
+   "min": 0.1155,
+   "max": 0.1577,
+   "render_3min": 0.1478
+  },
+  "contacto_dist_p90": {
+   "media": 0.401,
+   "min": 0.3255,
+   "max": 0.4648,
+   "render_3min": 0.3787
+  },
+  "contacto_dist_max": {
+   "media": 0.618,
+   "min": 0.5769,
+   "max": 0.6469,
+   "render_3min": 0.4714
+  },
+  "pct_contactos_mas_030": {
+   "media": 19.108,
+   "min": 15.12,
+   "max": 24.0,
+   "render_3min": 27.03
+  },
+  "golpeos_aereos": {
+   "media": 0,
+   "min": 0,
+   "max": 0,
+   "render_3min": 0
+  },
+  "pct_rasos_fallidos": {
+   "media": 4.167,
+   "min": 2.2,
+   "max": 5.49,
+   "render_3min": 0.0
+  },
+  "golpeos_hacia_arco_propio": {
+   "media": 7.333,
+   "min": 5,
+   "max": 10,
+   "render_3min": 0
+  },
+  "recepciones_clip_iniciadas": {
+   "media": 30.333,
+   "min": 24,
+   "max": 35,
+   "render_3min": 7
+  },
+  "pct_recepciones_clip_abortadas": {
+   "media": 34.582,
+   "min": 25.71,
+   "max": 52.94,
+   "render_3min": 42.86
+  },
+  "pct_primeros_toques_con_clip": {
+   "media": 18.087,
+   "min": 14.95,
+   "max": 23.01,
+   "render_3min": 20.0
+  },
+  "pct_perdida_tras_recepcion_animada": {
+   "media": 28.067,
+   "min": 19.23,
+   "max": 38.89,
+   "render_3min": 50.0
+  },
+  "pct_mov_pelota_cortados": {
+   "media": 32.933,
+   "min": 26.32,
+   "max": 40.0,
+   "render_3min": 27.78
+  },
+  "pct_arbitro_rechazadas": {
+   "media": 22.837,
+   "min": 21.13,
+   "max": 24.5,
+   "render_3min": 30.71
+  },
+  "pct_clip_mas_repetido": {
+   "media": 10.853,
+   "min": 8.66,
+   "max": 13.59,
+   "render_3min": 10.59
+  },
+  "clip_mas_repetido": {
+   "valores": [
+    "jn_start_0494",
+    "jn_start_0494",
+    "jn_start_0494",
+    "jn_start_0494",
+    "jn_start_0494",
+    "jn_start_0494"
+   ],
+   "render_3min": "jn_start_0494"
+  },
+  "script_errors": {
+   "media": 0,
+   "min": 0,
+   "max": 0,
+   "render_3min": 0
+  }
+ }
+}

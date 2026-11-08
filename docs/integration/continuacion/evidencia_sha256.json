@@ -1,0 +1,11 @@
+{
+  "pruebas/banda.log": "41a091babd9605f8f37df8a71f607821d62a967c81f257e3e417f9619a9af173",
+  "pruebas/centros.log": "935c3b8260ed198c53d187f5e70a84f5ad7b412defde7698d9cf69153726050b",
+  "pruebas/conexiones.log": "2ef3f10f162037be8ae2ab2c550d789b92750d5872675772309101090559e67e",
+  "pruebas/lectura_arquero.log": "8e0dbb40fbc7df3e80f7f9ded507092d286c541a7a328f696079ab9731e61d3f",
+  "pruebas/marcha.log": "e2915edfb5c7893f44d8779ff4ec76cc2ac67da0e6d4adec5a757b33b36691f0",
+  "pruebas/pelotazo.log": "35541c758d04e53605c2371d2e713dd949f15f1e22a98104e3489af1a70ccda4",
+  "pruebas/pies_render.log": "e11d16fa84a63b5d0be6b1001ea0de7d904fe71083c27604550969f0980a2c90",
+  "pruebas/regresion_mezcla_detectada.log": "a9a35f9046bdd7949b0cae364d03ebc7c4a6196d3bf4138727625e692cfa975b",
+  "pruebas/tiros_libres.log": "4df2d0a28b543ac87c1142115bd9de6e5dc372b0e8f51047883c4f1dc5f50e87"
+}

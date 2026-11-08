@@ -1,0 +1,1863 @@
+{
+	"comentario": "Los 133 clips del pack (generado por make_selection.py). library: field -> assets/animations/pack_clips.res; keeper -> pack_keeper.res. mirror: genera <id>_mirror (lado opuesto). kick: detecta el contacto del pie. paths: trayectorias (30 Hz, con la raiz) de punta de pie, cabeza y manos para planificar contactos. role: situacion del juego que lo usa.",
+	"clips": [
+		{
+			"id": "Goalie_Throw",
+			"source": "01_portero/Goalie_Throw.fbx",
+			"library": "keeper",
+			"loop": false,
+			"mirror": true,
+			"kick": false,
+			"paths": [
+				"hands"
+			],
+			"calibrate": false,
+			"speed_from": "",
+			"role": "arquero",
+			"state": "integrated"
+		},
+		{
+			"id": "goalkeeper_body_block",
+			"source": "01_portero/goalkeeper_body_block.fbx",
+			"library": "keeper",
+			"loop": false,
+			"mirror": true,
+			"kick": false,
+			"paths": [
+				"hands"
+			],
+			"calibrate": false,
+			"speed_from": "",
+			"role": "arquero",
+			"state": "integrated"
+		},
+		{
+			"id": "goalkeeper_body_block_2",
+			"source": "01_portero/goalkeeper_body_block_2.fbx",
+			"library": "keeper",
+			"loop": false,
+			"mirror": true,
+			"kick": false,
+			"paths": [
+				"hands"
+			],
+			"calibrate": false,
+			"speed_from": "",
+			"role": "arquero",
+			"state": "integrated"
+		},
+		{
+			"id": "goalkeeper_body_block_3",
+			"source": "01_portero/goalkeeper_body_block_3.fbx",
+			"library": "keeper",
+			"loop": false,
+			"mirror": true,
+			"kick": false,
+			"paths": [
+				"hands"
+			],
+			"calibrate": false,
+			"speed_from": "",
+			"role": "arquero",
+			"state": "integrated"
+		},
+		{
+			"id": "goalkeeper_catch",
+			"source": "01_portero/goalkeeper_catch.fbx",
+			"library": "keeper",
+			"loop": false,
+			"mirror": true,
+			"kick": false,
+			"paths": [
+				"hands"
+			],
+			"calibrate": false,
+			"speed_from": "",
+			"role": "arquero",
+			"state": "integrated"
+		},
+		{
+			"id": "goalkeeper_catch_2",
+			"source": "01_portero/goalkeeper_catch_2.fbx",
+			"library": "keeper",
+			"loop": false,
+			"mirror": true,
+			"kick": false,
+			"paths": [
+				"hands"
+			],
+			"calibrate": false,
+			"speed_from": "",
+			"role": "arquero",
+			"state": "integrated"
+		},
+		{
+			"id": "goalkeeper_catch_3",
+			"source": "01_portero/goalkeeper_catch_3.fbx",
+			"library": "keeper",
+			"loop": false,
+			"mirror": true,
+			"kick": false,
+			"paths": [
+				"hands"
+			],
+			"calibrate": false,
+			"speed_from": "",
+			"role": "arquero",
+			"state": "integrated"
+		},
+		{
+			"id": "goalkeeper_catch_4",
+			"source": "01_portero/goalkeeper_catch_4.fbx",
+			"library": "keeper",
+			"loop": false,
+			"mirror": true,
+			"kick": false,
+			"paths": [
+				"hands"
+			],
+			"calibrate": false,
+			"speed_from": "",
+			"role": "arquero",
+			"state": "integrated"
+		},
+		{
+			"id": "goalkeeper_directing",
+			"source": "01_portero/goalkeeper_directing.fbx",
+			"library": "keeper",
+			"loop": false,
+			"mirror": false,
+			"kick": false,
+			"paths": [
+				"hands"
+			],
+			"calibrate": false,
+			"speed_from": "",
+			"role": "arquero",
+			"state": "integrated"
+		},
+		{
+			"id": "goalkeeper_directing_2",
+			"source": "01_portero/goalkeeper_directing_2.fbx",
+			"library": "keeper",
+			"loop": false,
+			"mirror": false,
+			"kick": false,
+			"paths": [
+				"hands"
+			],
+			"calibrate": false,
+			"speed_from": "",
+			"role": "arquero",
+			"state": "integrated"
+		},
+		{
+			"id": "goalkeeper_diving_save",
+			"source": "01_portero/goalkeeper_diving_save.fbx",
+			"library": "keeper",
+			"loop": false,
+			"mirror": false,
+			"kick": false,
+			"paths": [
+				"hands"
+			],
+			"calibrate": false,
+			"speed_from": "",
+			"role": "arquero",
+			"state": "integrated"
+		},
+		{
+			"id": "goalkeeper_diving_save_2",
+			"source": "01_portero/goalkeeper_diving_save_2.fbx",
+			"library": "keeper",
+			"loop": false,
+			"mirror": false,
+			"kick": false,
+			"paths": [
+				"hands"
+			],
+			"calibrate": false,
+			"speed_from": "",
+			"role": "arquero",
+			"state": "integrated"
+		},
+		{
+			"id": "goalkeeper_drop_kick",
+			"source": "01_portero/goalkeeper_drop_kick.fbx",
+			"library": "keeper",
+			"loop": false,
+			"mirror": true,
+			"kick": false,
+			"paths": [
+				"toe_l",
+				"toe_r",
+				"hands"
+			],
+			"calibrate": false,
+			"speed_from": "",
+			"role": "arquero",
+			"state": "integrated"
+		},
+		{
+			"id": "goalkeeper_idle",
+			"source": "01_portero/goalkeeper_idle.fbx",
+			"library": "keeper",
+			"loop": true,
+			"mirror": false,
+			"kick": false,
+			"paths": [
+				"hands"
+			],
+			"calibrate": false,
+			"speed_from": "",
+			"role": "arquero",
+			"state": "integrated"
+		},
+		{
+			"id": "goalkeeper_idle_2",
+			"source": "01_portero/goalkeeper_idle_2.fbx",
+			"library": "keeper",
+			"loop": true,
+			"mirror": false,
+			"kick": false,
+			"paths": [
+				"hands"
+			],
+			"calibrate": false,
+			"speed_from": "",
+			"role": "arquero",
+			"state": "integrated"
+		},
+		{
+			"id": "goalkeeper_miss",
+			"source": "01_portero/goalkeeper_miss.fbx",
+			"library": "keeper",
+			"loop": false,
+			"mirror": true,
+			"kick": false,
+			"paths": [
+				"hands"
+			],
+			"calibrate": false,
+			"speed_from": "",
+			"role": "arquero",
+			"state": "integrated"
+		},
+		{
+			"id": "goalkeeper_overhand_throw",
+			"source": "01_portero/goalkeeper_overhand_throw.fbx",
+			"library": "keeper",
+			"loop": false,
+			"mirror": true,
+			"kick": false,
+			"paths": [
+				"hands"
+			],
+			"calibrate": false,
+			"speed_from": "",
+			"role": "arquero",
+			"state": "integrated"
+		},
+		{
+			"id": "goalkeeper_pass",
+			"source": "01_portero/goalkeeper_pass.fbx",
+			"library": "keeper",
+			"loop": false,
+			"mirror": true,
+			"kick": false,
+			"paths": [
+				"hands"
+			],
+			"calibrate": false,
+			"speed_from": "",
+			"role": "arquero",
+			"state": "integrated"
+		},
+		{
+			"id": "goalkeeper_placing_ball",
+			"source": "01_portero/goalkeeper_placing_ball.fbx",
+			"library": "keeper",
+			"loop": false,
+			"mirror": true,
+			"kick": false,
+			"paths": [
+				"hands"
+			],
+			"calibrate": false,
+			"speed_from": "",
+			"role": "arquero",
+			"state": "integrated"
+		},
+		{
+			"id": "goalkeeper_placing_ball_2",
+			"source": "01_portero/goalkeeper_placing_ball_2.fbx",
+			"library": "keeper",
+			"loop": false,
+			"mirror": false,
+			"kick": false,
+			"paths": [
+				"hands"
+			],
+			"calibrate": false,
+			"speed_from": "",
+			"role": "arquero",
+			"state": "integrated"
+		},
+		{
+			"id": "goalkeeper_scoop",
+			"source": "01_portero/goalkeeper_scoop.fbx",
+			"library": "keeper",
+			"loop": false,
+			"mirror": true,
+			"kick": false,
+			"paths": [
+				"hands"
+			],
+			"calibrate": false,
+			"speed_from": "",
+			"role": "arquero",
+			"state": "integrated"
+		},
+		{
+			"id": "goalkeeper_sidestep",
+			"source": "01_portero/goalkeeper_sidestep.fbx",
+			"library": "keeper",
+			"loop": false,
+			"mirror": false,
+			"kick": false,
+			"paths": [
+				"hands"
+			],
+			"calibrate": false,
+			"speed_from": "",
+			"role": "arquero",
+			"state": "integrated"
+		},
+		{
+			"id": "goalkeeper_sidestep_2",
+			"source": "01_portero/goalkeeper_sidestep_2.fbx",
+			"library": "keeper",
+			"loop": false,
+			"mirror": false,
+			"kick": false,
+			"paths": [
+				"hands"
+			],
+			"calibrate": false,
+			"speed_from": "",
+			"role": "arquero",
+			"state": "integrated"
+		},
+		{
+			"id": "Chip",
+			"source": "02_balon_pases_tiros/Chip.fbx",
+			"library": "field",
+			"loop": false,
+			"mirror": true,
+			"kick": true,
+			"paths": [
+				"toe_l",
+				"toe_r"
+			],
+			"calibrate": false,
+			"speed_from": "",
+			"role": "practica",
+			"state": "integrated"
+		},
+		{
+			"id": "Dribble_2",
+			"source": "02_balon_pases_tiros/Dribble_2.fbx",
+			"library": "field",
+			"loop": true,
+			"mirror": false,
+			"kick": false,
+			"paths": [],
+			"calibrate": true,
+			"speed_from": "",
+			"role": "marcha_con_balon",
+			"state": "integrated"
+		},
+		{
+			"id": "Flying_Bicycle_Kick",
+			"source": "02_balon_pases_tiros/Flying_Bicycle_Kick.fbx",
+			"library": "field",
+			"loop": false,
+			"mirror": true,
+			"kick": true,
+			"paths": [
+				"toe_l",
+				"toe_r"
+			],
+			"calibrate": false,
+			"speed_from": "",
+			"role": "volea",
+			"state": "integrated"
+		},
+		{
+			"id": "Header",
+			"source": "02_balon_pases_tiros/Header.fbx",
+			"library": "field",
+			"loop": false,
+			"mirror": true,
+			"kick": false,
+			"paths": [
+				"head"
+			],
+			"calibrate": false,
+			"speed_from": "",
+			"role": "cabezazo",
+			"state": "integrated"
+		},
+		{
+			"id": "Soccer_Header",
+			"source": "02_balon_pases_tiros/Soccer_Header.fbx",
+			"library": "field",
+			"loop": false,
+			"mirror": true,
+			"kick": false,
+			"paths": [
+				"head"
+			],
+			"calibrate": false,
+			"speed_from": "",
+			"role": "cabezazo",
+			"state": "integrated"
+		},
+		{
+			"id": "Soccer_Idle",
+			"source": "02_balon_pases_tiros/Soccer_Idle.fbx",
+			"library": "field",
+			"loop": true,
+			"mirror": false,
+			"kick": false,
+			"paths": [],
+			"calibrate": false,
+			"speed_from": "",
+			"role": "marcha_con_balon",
+			"state": "integrated"
+		},
+		{
+			"id": "Soccer_Pass",
+			"source": "02_balon_pases_tiros/Soccer_Pass.fbx",
+			"library": "field",
+			"loop": false,
+			"mirror": true,
+			"kick": true,
+			"paths": [
+				"toe_l",
+				"toe_r"
+			],
+			"calibrate": false,
+			"speed_from": "",
+			"role": "pase_tiro",
+			"state": "integrated"
+		},
+		{
+			"id": "Soccer_Spin",
+			"source": "02_balon_pases_tiros/Soccer_Spin.fbx",
+			"library": "field",
+			"loop": false,
+			"mirror": false,
+			"kick": false,
+			"paths": [
+				"toe_l",
+				"toe_r"
+			],
+			"calibrate": false,
+			"speed_from": "",
+			"role": "habilidad",
+			"state": "integrated"
+		},
+		{
+			"id": "Receive",
+			"source": "02_balon_pases_tiros/Receive.fbx",
+			"library": "field",
+			"loop": false,
+			"mirror": false,
+			"kick": false,
+			"paths": [],
+			"calibrate": false,
+			"speed_from": "",
+			"role": "recepcion",
+			"state": "integrated"
+		},
+		{
+			"id": "header_soccerball",
+			"source": "02_balon_pases_tiros/header_soccerball.fbx",
+			"library": "field",
+			"loop": false,
+			"mirror": true,
+			"kick": false,
+			"paths": [
+				"head"
+			],
+			"calibrate": false,
+			"speed_from": "",
+			"role": "cabezazo",
+			"state": "integrated"
+		},
+		{
+			"id": "header_soccerball_2",
+			"source": "02_balon_pases_tiros/header_soccerball_2.fbx",
+			"library": "field",
+			"loop": false,
+			"mirror": true,
+			"kick": false,
+			"paths": [
+				"head"
+			],
+			"calibrate": false,
+			"speed_from": "",
+			"role": "cabezazo",
+			"state": "integrated"
+		},
+		{
+			"id": "kick_soccerball",
+			"source": "02_balon_pases_tiros/kick_soccerball.fbx",
+			"library": "field",
+			"loop": false,
+			"mirror": false,
+			"kick": true,
+			"paths": [
+				"toe_l",
+				"toe_r"
+			],
+			"calibrate": false,
+			"speed_from": "",
+			"role": "volea",
+			"state": "integrated"
+		},
+		{
+			"id": "kick_soccerball_2",
+			"source": "02_balon_pases_tiros/kick_soccerball_2.fbx",
+			"library": "field",
+			"loop": false,
+			"mirror": false,
+			"kick": true,
+			"paths": [
+				"toe_l",
+				"toe_r"
+			],
+			"calibrate": false,
+			"speed_from": "",
+			"role": "volea",
+			"state": "integrated"
+		},
+		{
+			"id": "kick_up_soccerball",
+			"source": "02_balon_pases_tiros/kick_up_soccerball.fbx",
+			"library": "field",
+			"loop": false,
+			"mirror": false,
+			"kick": true,
+			"paths": [
+				"toe_l",
+				"toe_r"
+			],
+			"calibrate": false,
+			"speed_from": "",
+			"role": "malabares",
+			"state": "integrated"
+		},
+		{
+			"id": "kneeing_soccerball",
+			"source": "02_balon_pases_tiros/kneeing_soccerball.fbx",
+			"library": "field",
+			"loop": false,
+			"mirror": false,
+			"kick": false,
+			"paths": [
+				"knee_l"
+			],
+			"calibrate": false,
+			"speed_from": "",
+			"role": "malabares",
+			"state": "integrated"
+		},
+		{
+			"id": "kneeing_soccerball_2",
+			"source": "02_balon_pases_tiros/kneeing_soccerball_2.fbx",
+			"library": "field",
+			"loop": false,
+			"mirror": false,
+			"kick": false,
+			"paths": [
+				"knee_r"
+			],
+			"calibrate": false,
+			"speed_from": "",
+			"role": "malabares",
+			"state": "integrated"
+		},
+		{
+			"id": "offensive_idle",
+			"source": "02_balon_pases_tiros/offensive_idle.fbx",
+			"library": "field",
+			"loop": true,
+			"mirror": false,
+			"kick": false,
+			"paths": [],
+			"calibrate": false,
+			"speed_from": "",
+			"role": "marcha",
+			"state": "integrated"
+		},
+		{
+			"id": "receive_soccerball",
+			"source": "02_balon_pases_tiros/receive_soccerball.fbx",
+			"library": "field",
+			"loop": false,
+			"mirror": false,
+			"kick": false,
+			"paths": [],
+			"calibrate": false,
+			"speed_from": "",
+			"role": "practica",
+			"state": "integrated"
+		},
+		{
+			"id": "scissor_kick",
+			"source": "02_balon_pases_tiros/scissor_kick.fbx",
+			"library": "field",
+			"loop": false,
+			"mirror": true,
+			"kick": true,
+			"paths": [
+				"toe_l",
+				"toe_r"
+			],
+			"calibrate": false,
+			"speed_from": "",
+			"role": "volea",
+			"state": "integrated"
+		},
+		{
+			"id": "soccer_penalty_kick",
+			"source": "02_balon_pases_tiros/soccer_penalty_kick.fbx",
+			"library": "field",
+			"loop": false,
+			"mirror": true,
+			"kick": true,
+			"paths": [
+				"toe_l",
+				"toe_r"
+			],
+			"calibrate": false,
+			"speed_from": "",
+			"role": "practica",
+			"state": "integrated"
+		},
+		{
+			"id": "stall_soccerball",
+			"source": "02_balon_pases_tiros/stall_soccerball.fbx",
+			"library": "field",
+			"loop": false,
+			"mirror": false,
+			"kick": false,
+			"paths": [
+				"toe_l",
+				"toe_r"
+			],
+			"calibrate": false,
+			"speed_from": "",
+			"role": "malabares",
+			"state": "integrated"
+		},
+		{
+			"id": "stall_soccerball_2",
+			"source": "02_balon_pases_tiros/stall_soccerball_2.fbx",
+			"library": "field",
+			"loop": false,
+			"mirror": false,
+			"kick": false,
+			"paths": [
+				"toe_l",
+				"toe_r"
+			],
+			"calibrate": false,
+			"speed_from": "",
+			"role": "malabares",
+			"state": "integrated"
+		},
+		{
+			"id": "stall_soccerball_3",
+			"source": "02_balon_pases_tiros/stall_soccerball_3.fbx",
+			"library": "field",
+			"loop": false,
+			"mirror": false,
+			"kick": false,
+			"paths": [
+				"knee_l"
+			],
+			"calibrate": false,
+			"speed_from": "",
+			"role": "malabares",
+			"state": "integrated"
+		},
+		{
+			"id": "stall_soccerball_4",
+			"source": "02_balon_pases_tiros/stall_soccerball_4.fbx",
+			"library": "field",
+			"loop": false,
+			"mirror": false,
+			"kick": false,
+			"paths": [
+				"knee_r"
+			],
+			"calibrate": false,
+			"speed_from": "",
+			"role": "malabares",
+			"state": "integrated"
+		},
+		{
+			"id": "strike_foward_jog",
+			"source": "02_balon_pases_tiros/strike_foward_jog.fbx",
+			"library": "field",
+			"loop": false,
+			"mirror": true,
+			"kick": true,
+			"paths": [
+				"toe_l",
+				"toe_r"
+			],
+			"calibrate": false,
+			"speed_from": "",
+			"role": "gemelo_raiz",
+			"state": "integrated"
+		},
+		{
+			"id": "strike_foward_jog_inplace",
+			"source": "02_balon_pases_tiros/strike_foward_jog_inplace.fbx",
+			"library": "field",
+			"loop": false,
+			"mirror": true,
+			"kick": true,
+			"paths": [
+				"toe_l",
+				"toe_r"
+			],
+			"calibrate": false,
+			"speed_from": "",
+			"role": "pase_tiro",
+			"state": "integrated"
+		},
+		{
+			"id": "throw_in",
+			"source": "02_balon_pases_tiros/throw_in.fbx",
+			"library": "field",
+			"loop": false,
+			"mirror": true,
+			"kick": false,
+			"paths": [],
+			"calibrate": false,
+			"speed_from": "",
+			"role": "practica",
+			"state": "integrated"
+		},
+		{
+			"id": "transition",
+			"source": "02_balon_pases_tiros/transition.fbx",
+			"library": "field",
+			"loop": false,
+			"mirror": false,
+			"kick": false,
+			"paths": [
+				"toe_l",
+				"toe_r"
+			],
+			"calibrate": false,
+			"speed_from": "",
+			"role": "malabares",
+			"state": "integrated"
+		},
+		{
+			"id": "Fall_Flat",
+			"source": "03_defensa_faltas_caidas/Fall_Flat.fbx",
+			"library": "field",
+			"loop": false,
+			"mirror": true,
+			"kick": false,
+			"paths": [],
+			"calibrate": false,
+			"speed_from": "",
+			"role": "contacto_caida",
+			"state": "integrated"
+		},
+		{
+			"id": "Falling_Down",
+			"source": "03_defensa_faltas_caidas/Falling_Down.fbx",
+			"library": "field",
+			"loop": false,
+			"mirror": true,
+			"kick": false,
+			"paths": [],
+			"calibrate": false,
+			"speed_from": "",
+			"role": "contacto_caida",
+			"state": "integrated"
+		},
+		{
+			"id": "Getting_Up_3",
+			"source": "03_defensa_faltas_caidas/Getting_Up_3.fbx",
+			"library": "field",
+			"loop": false,
+			"mirror": false,
+			"kick": false,
+			"paths": [],
+			"calibrate": false,
+			"speed_from": "",
+			"role": "suelo",
+			"state": "integrated"
+		},
+		{
+			"id": "Shoulder_Hit_And_Fall",
+			"source": "03_defensa_faltas_caidas/Shoulder_Hit_And_Fall.fbx",
+			"library": "field",
+			"loop": false,
+			"mirror": true,
+			"kick": false,
+			"paths": [],
+			"calibrate": false,
+			"speed_from": "",
+			"role": "contacto_caida",
+			"state": "integrated"
+		},
+		{
+			"id": "Sweep_Fall",
+			"source": "03_defensa_faltas_caidas/Sweep_Fall.fbx",
+			"library": "field",
+			"loop": false,
+			"mirror": true,
+			"kick": false,
+			"paths": [],
+			"calibrate": false,
+			"speed_from": "",
+			"role": "contacto_caida",
+			"state": "integrated"
+		},
+		{
+			"id": "Defender",
+			"source": "03_defensa_faltas_caidas/Defender.fbx",
+			"library": "field",
+			"loop": false,
+			"mirror": false,
+			"kick": false,
+			"paths": [
+				"toe_l",
+				"toe_r"
+			],
+			"calibrate": false,
+			"speed_from": "",
+			"role": "entrada",
+			"state": "integrated"
+		},
+		{
+			"id": "Jogging_Stumble",
+			"source": "03_defensa_faltas_caidas/Jogging_Stumble.fbx",
+			"library": "field",
+			"loop": false,
+			"mirror": true,
+			"kick": false,
+			"paths": [],
+			"calibrate": false,
+			"speed_from": "",
+			"role": "gemelo_raiz",
+			"state": "integrated"
+		},
+		{
+			"id": "Jogging_Stumble_inplace",
+			"source": "03_defensa_faltas_caidas/Jogging_Stumble_inplace.fbx",
+			"library": "field",
+			"loop": false,
+			"mirror": true,
+			"kick": false,
+			"paths": [],
+			"calibrate": false,
+			"speed_from": "",
+			"role": "contacto_caida",
+			"state": "integrated"
+		},
+		{
+			"id": "Shove_Reaction",
+			"source": "03_defensa_faltas_caidas/Shove_Reaction.fbx",
+			"library": "field",
+			"loop": false,
+			"mirror": true,
+			"kick": false,
+			"paths": [],
+			"calibrate": false,
+			"speed_from": "",
+			"role": "contacto_caida",
+			"state": "integrated"
+		},
+		{
+			"id": "Shove_Reaction_2",
+			"source": "03_defensa_faltas_caidas/Shove_Reaction_2.fbx",
+			"library": "field",
+			"loop": false,
+			"mirror": true,
+			"kick": false,
+			"paths": [],
+			"calibrate": false,
+			"speed_from": "",
+			"role": "contacto_caida",
+			"state": "integrated"
+		},
+		{
+			"id": "Writhing_In_Pain",
+			"source": "03_defensa_faltas_caidas/Writhing_In_Pain.fbx",
+			"library": "field",
+			"loop": true,
+			"mirror": false,
+			"kick": false,
+			"paths": [],
+			"calibrate": false,
+			"speed_from": "",
+			"role": "suelo",
+			"state": "integrated"
+		},
+		{
+			"id": "Defender_2",
+			"source": "03_defensa_faltas_caidas/Defender_2.fbx",
+			"library": "field",
+			"loop": false,
+			"mirror": false,
+			"kick": false,
+			"paths": [
+				"head"
+			],
+			"calibrate": false,
+			"speed_from": "",
+			"role": "contacto_caida",
+			"state": "integrated"
+		},
+		{
+			"id": "fallen_idle",
+			"source": "03_defensa_faltas_caidas/fallen_idle.fbx",
+			"library": "field",
+			"loop": true,
+			"mirror": false,
+			"kick": false,
+			"paths": [],
+			"calibrate": false,
+			"speed_from": "",
+			"role": "suelo",
+			"state": "integrated"
+		},
+		{
+			"id": "soccer_tackle",
+			"source": "03_defensa_faltas_caidas/soccer_tackle.fbx",
+			"library": "field",
+			"loop": false,
+			"mirror": true,
+			"kick": false,
+			"paths": [
+				"toe_l",
+				"toe_r"
+			],
+			"calibrate": false,
+			"speed_from": "",
+			"role": "entrada",
+			"state": "integrated"
+		},
+		{
+			"id": "soccer_tackle_2",
+			"source": "03_defensa_faltas_caidas/soccer_tackle_2.fbx",
+			"library": "field",
+			"loop": false,
+			"mirror": true,
+			"kick": false,
+			"paths": [
+				"toe_l",
+				"toe_r"
+			],
+			"calibrate": false,
+			"speed_from": "",
+			"role": "entrada",
+			"state": "integrated"
+		},
+		{
+			"id": "soccer_tackle_3",
+			"source": "03_defensa_faltas_caidas/soccer_tackle_3.fbx",
+			"library": "field",
+			"loop": false,
+			"mirror": true,
+			"kick": false,
+			"paths": [
+				"toe_l",
+				"toe_r"
+			],
+			"calibrate": false,
+			"speed_from": "",
+			"role": "entrada",
+			"state": "integrated"
+		},
+		{
+			"id": "soccer_trip",
+			"source": "03_defensa_faltas_caidas/soccer_trip.fbx",
+			"library": "field",
+			"loop": false,
+			"mirror": true,
+			"kick": false,
+			"paths": [
+				"toe_l",
+				"toe_r"
+			],
+			"calibrate": false,
+			"speed_from": "",
+			"role": "contacto_caida",
+			"state": "integrated"
+		},
+		{
+			"id": "standing_up",
+			"source": "03_defensa_faltas_caidas/standing_up.fbx",
+			"library": "field",
+			"loop": false,
+			"mirror": false,
+			"kick": false,
+			"paths": [],
+			"calibrate": false,
+			"speed_from": "",
+			"role": "suelo",
+			"state": "integrated"
+		},
+		{
+			"id": "Idle_To_Sprint",
+			"source": "04_movimiento_en_cancha/Idle_To_Sprint.fbx",
+			"library": "field",
+			"loop": false,
+			"mirror": false,
+			"kick": false,
+			"paths": [],
+			"calibrate": false,
+			"speed_from": "",
+			"role": "habilidad",
+			"state": "integrated"
+		},
+		{
+			"id": "Jogging",
+			"source": "04_movimiento_en_cancha/Jogging.fbx",
+			"library": "field",
+			"loop": true,
+			"mirror": false,
+			"kick": false,
+			"paths": [],
+			"calibrate": false,
+			"speed_from": "",
+			"role": "gemelo_raiz",
+			"state": "integrated"
+		},
+		{
+			"id": "Jogging_inplace",
+			"source": "04_movimiento_en_cancha/Jogging_inplace.fbx",
+			"library": "field",
+			"loop": true,
+			"mirror": false,
+			"kick": false,
+			"paths": [],
+			"calibrate": true,
+			"speed_from": "04_movimiento_en_cancha/Jogging.fbx",
+			"role": "marcha",
+			"state": "integrated"
+		},
+		{
+			"id": "Running",
+			"source": "04_movimiento_en_cancha/Running.fbx",
+			"library": "field",
+			"loop": true,
+			"mirror": false,
+			"kick": false,
+			"paths": [],
+			"calibrate": false,
+			"speed_from": "",
+			"role": "gemelo_raiz",
+			"state": "integrated"
+		},
+		{
+			"id": "Running_Tired",
+			"source": "04_movimiento_en_cancha/Running_Tired.fbx",
+			"library": "field",
+			"loop": false,
+			"mirror": false,
+			"kick": false,
+			"paths": [],
+			"calibrate": false,
+			"speed_from": "",
+			"role": "cansancio",
+			"state": "integrated"
+		},
+		{
+			"id": "Running_inplace",
+			"source": "04_movimiento_en_cancha/Running_inplace.fbx",
+			"library": "field",
+			"loop": true,
+			"mirror": false,
+			"kick": false,
+			"paths": [],
+			"calibrate": false,
+			"speed_from": "04_movimiento_en_cancha/Running.fbx",
+			"role": "marcha",
+			"state": "integrated"
+		},
+		{
+			"id": "Sprint",
+			"source": "04_movimiento_en_cancha/Sprint.fbx",
+			"library": "field",
+			"loop": true,
+			"mirror": false,
+			"kick": false,
+			"paths": [],
+			"calibrate": false,
+			"speed_from": "",
+			"role": "gemelo_raiz",
+			"state": "integrated"
+		},
+		{
+			"id": "Sprint_To_Backslide",
+			"source": "04_movimiento_en_cancha/Sprint_To_Backslide.fbx",
+			"library": "field",
+			"loop": false,
+			"mirror": false,
+			"kick": false,
+			"paths": [],
+			"calibrate": false,
+			"speed_from": "",
+			"role": "gemelo_raiz",
+			"state": "integrated"
+		},
+		{
+			"id": "Sprint_To_Backslide_inplace",
+			"source": "04_movimiento_en_cancha/Sprint_To_Backslide_inplace.fbx",
+			"library": "field",
+			"loop": false,
+			"mirror": false,
+			"kick": false,
+			"paths": [],
+			"calibrate": false,
+			"speed_from": "",
+			"role": "habilidad",
+			"state": "integrated"
+		},
+		{
+			"id": "Sprint_Turn",
+			"source": "04_movimiento_en_cancha/Sprint_Turn.fbx",
+			"library": "field",
+			"loop": false,
+			"mirror": false,
+			"kick": false,
+			"paths": [],
+			"calibrate": false,
+			"speed_from": "",
+			"role": "habilidad",
+			"state": "integrated"
+		},
+		{
+			"id": "Sprint_inplace",
+			"source": "04_movimiento_en_cancha/Sprint_inplace.fbx",
+			"library": "field",
+			"loop": true,
+			"mirror": false,
+			"kick": false,
+			"paths": [],
+			"calibrate": true,
+			"speed_from": "",
+			"role": "marcha",
+			"state": "integrated"
+		},
+		{
+			"id": "Strafe_3",
+			"source": "04_movimiento_en_cancha/Strafe_3.fbx",
+			"library": "field",
+			"loop": true,
+			"mirror": false,
+			"kick": false,
+			"paths": [],
+			"calibrate": false,
+			"speed_from": "",
+			"role": "gemelo_raiz",
+			"state": "integrated"
+		},
+		{
+			"id": "Strafe_3_inplace",
+			"source": "04_movimiento_en_cancha/Strafe_3_inplace.fbx",
+			"library": "field",
+			"loop": true,
+			"mirror": false,
+			"kick": false,
+			"paths": [],
+			"calibrate": false,
+			"speed_from": "04_movimiento_en_cancha/Strafe_3.fbx",
+			"role": "direccional",
+			"state": "integrated"
+		},
+		{
+			"id": "Two_Cycle_Sprint",
+			"source": "04_movimiento_en_cancha/Two_Cycle_Sprint.fbx",
+			"library": "field",
+			"loop": true,
+			"mirror": false,
+			"kick": false,
+			"paths": [],
+			"calibrate": false,
+			"speed_from": "",
+			"role": "gemelo_raiz",
+			"state": "integrated"
+		},
+		{
+			"id": "Two_Cycle_Sprint_inplace",
+			"source": "04_movimiento_en_cancha/Two_Cycle_Sprint_inplace.fbx",
+			"library": "field",
+			"loop": true,
+			"mirror": false,
+			"kick": false,
+			"paths": [],
+			"calibrate": false,
+			"speed_from": "04_movimiento_en_cancha/Two_Cycle_Sprint.fbx",
+			"role": "marcha",
+			"state": "integrated"
+		},
+		{
+			"id": "Walking_7",
+			"source": "04_movimiento_en_cancha/Walking_7.fbx",
+			"library": "field",
+			"loop": true,
+			"mirror": false,
+			"kick": false,
+			"paths": [],
+			"calibrate": false,
+			"speed_from": "",
+			"role": "gemelo_raiz",
+			"state": "integrated"
+		},
+		{
+			"id": "Walking_7_inplace",
+			"source": "04_movimiento_en_cancha/Walking_7_inplace.fbx",
+			"library": "field",
+			"loop": true,
+			"mirror": false,
+			"kick": false,
+			"paths": [],
+			"calibrate": true,
+			"speed_from": "04_movimiento_en_cancha/Walking_7.fbx",
+			"role": "marcha",
+			"state": "integrated"
+		},
+		{
+			"id": "Jump_2",
+			"source": "04_movimiento_en_cancha/Jump_2.fbx",
+			"library": "field",
+			"loop": false,
+			"mirror": false,
+			"kick": false,
+			"paths": [
+				"head"
+			],
+			"calibrate": false,
+			"speed_from": "",
+			"role": "salto",
+			"state": "integrated"
+		},
+		{
+			"id": "Jump_4",
+			"source": "04_movimiento_en_cancha/Jump_4.fbx",
+			"library": "field",
+			"loop": false,
+			"mirror": false,
+			"kick": false,
+			"paths": [
+				"head"
+			],
+			"calibrate": false,
+			"speed_from": "",
+			"role": "salto",
+			"state": "integrated"
+		},
+		{
+			"id": "Jumping_Up",
+			"source": "04_movimiento_en_cancha/Jumping_Up.fbx",
+			"library": "field",
+			"loop": false,
+			"mirror": false,
+			"kick": false,
+			"paths": [
+				"head"
+			],
+			"calibrate": false,
+			"speed_from": "",
+			"role": "salto",
+			"state": "integrated"
+		},
+		{
+			"id": "jog_backward",
+			"source": "04_movimiento_en_cancha/jog_backward.fbx",
+			"library": "field",
+			"loop": true,
+			"mirror": false,
+			"kick": false,
+			"paths": [],
+			"calibrate": false,
+			"speed_from": "",
+			"role": "gemelo_raiz",
+			"state": "integrated"
+		},
+		{
+			"id": "jog_backward_diagonal",
+			"source": "04_movimiento_en_cancha/jog_backward_diagonal.fbx",
+			"library": "field",
+			"loop": true,
+			"mirror": false,
+			"kick": false,
+			"paths": [],
+			"calibrate": false,
+			"speed_from": "",
+			"role": "gemelo_raiz",
+			"state": "integrated"
+		},
+		{
+			"id": "jog_backward_diagonal_2",
+			"source": "04_movimiento_en_cancha/jog_backward_diagonal_2.fbx",
+			"library": "field",
+			"loop": true,
+			"mirror": false,
+			"kick": false,
+			"paths": [],
+			"calibrate": false,
+			"speed_from": "",
+			"role": "gemelo_raiz",
+			"state": "integrated"
+		},
+		{
+			"id": "jog_backward_diagonal_2_inplace",
+			"source": "04_movimiento_en_cancha/jog_backward_diagonal_2_inplace.fbx",
+			"library": "field",
+			"loop": true,
+			"mirror": false,
+			"kick": false,
+			"paths": [],
+			"calibrate": false,
+			"speed_from": "",
+			"role": "direccional",
+			"state": "integrated"
+		},
+		{
+			"id": "jog_backward_diagonal_inplace",
+			"source": "04_movimiento_en_cancha/jog_backward_diagonal_inplace.fbx",
+			"library": "field",
+			"loop": true,
+			"mirror": false,
+			"kick": false,
+			"paths": [],
+			"calibrate": false,
+			"speed_from": "04_movimiento_en_cancha/jog_backward_diagonal.fbx",
+			"role": "direccional",
+			"state": "integrated"
+		},
+		{
+			"id": "jog_backward_inplace",
+			"source": "04_movimiento_en_cancha/jog_backward_inplace.fbx",
+			"library": "field",
+			"loop": true,
+			"mirror": false,
+			"kick": false,
+			"paths": [],
+			"calibrate": false,
+			"speed_from": "04_movimiento_en_cancha/jog_backward.fbx",
+			"role": "direccional",
+			"state": "integrated"
+		},
+		{
+			"id": "jog_forward",
+			"source": "04_movimiento_en_cancha/jog_forward.fbx",
+			"library": "field",
+			"loop": true,
+			"mirror": false,
+			"kick": false,
+			"paths": [],
+			"calibrate": false,
+			"speed_from": "",
+			"role": "gemelo_raiz",
+			"state": "integrated"
+		},
+		{
+			"id": "jog_forward_diagonal",
+			"source": "04_movimiento_en_cancha/jog_forward_diagonal.fbx",
+			"library": "field",
+			"loop": true,
+			"mirror": false,
+			"kick": false,
+			"paths": [],
+			"calibrate": false,
+			"speed_from": "",
+			"role": "gemelo_raiz",
+			"state": "integrated"
+		},
+		{
+			"id": "jog_forward_diagonal_2",
+			"source": "04_movimiento_en_cancha/jog_forward_diagonal_2.fbx",
+			"library": "field",
+			"loop": true,
+			"mirror": false,
+			"kick": false,
+			"paths": [],
+			"calibrate": false,
+			"speed_from": "",
+			"role": "gemelo_raiz",
+			"state": "integrated"
+		},
+		{
+			"id": "jog_forward_diagonal_2_inplace",
+			"source": "04_movimiento_en_cancha/jog_forward_diagonal_2_inplace.fbx",
+			"library": "field",
+			"loop": true,
+			"mirror": false,
+			"kick": false,
+			"paths": [],
+			"calibrate": false,
+			"speed_from": "04_movimiento_en_cancha/jog_forward_diagonal_2.fbx",
+			"role": "direccional",
+			"state": "integrated"
+		},
+		{
+			"id": "jog_forward_diagonal_inplace",
+			"source": "04_movimiento_en_cancha/jog_forward_diagonal_inplace.fbx",
+			"library": "field",
+			"loop": true,
+			"mirror": false,
+			"kick": false,
+			"paths": [],
+			"calibrate": false,
+			"speed_from": "04_movimiento_en_cancha/jog_forward_diagonal.fbx",
+			"role": "direccional",
+			"state": "integrated"
+		},
+		{
+			"id": "jog_forward_inplace",
+			"source": "04_movimiento_en_cancha/jog_forward_inplace.fbx",
+			"library": "field",
+			"loop": true,
+			"mirror": false,
+			"kick": false,
+			"paths": [],
+			"calibrate": true,
+			"speed_from": "04_movimiento_en_cancha/jog_forward.fbx",
+			"role": "direccional",
+			"state": "integrated"
+		},
+		{
+			"id": "jog_strafe_left",
+			"source": "04_movimiento_en_cancha/jog_strafe_left.fbx",
+			"library": "field",
+			"loop": true,
+			"mirror": false,
+			"kick": false,
+			"paths": [],
+			"calibrate": false,
+			"speed_from": "",
+			"role": "gemelo_raiz",
+			"state": "integrated"
+		},
+		{
+			"id": "jog_strafe_left_inplace",
+			"source": "04_movimiento_en_cancha/jog_strafe_left_inplace.fbx",
+			"library": "field",
+			"loop": true,
+			"mirror": false,
+			"kick": false,
+			"paths": [],
+			"calibrate": false,
+			"speed_from": "04_movimiento_en_cancha/jog_strafe_left.fbx",
+			"role": "direccional",
+			"state": "integrated"
+		},
+		{
+			"id": "jog_strafe_right",
+			"source": "04_movimiento_en_cancha/jog_strafe_right.fbx",
+			"library": "field",
+			"loop": true,
+			"mirror": false,
+			"kick": false,
+			"paths": [],
+			"calibrate": false,
+			"speed_from": "",
+			"role": "gemelo_raiz",
+			"state": "integrated"
+		},
+		{
+			"id": "jog_strafe_right_inplace",
+			"source": "04_movimiento_en_cancha/jog_strafe_right_inplace.fbx",
+			"library": "field",
+			"loop": true,
+			"mirror": false,
+			"kick": false,
+			"paths": [],
+			"calibrate": false,
+			"speed_from": "04_movimiento_en_cancha/jog_strafe_right.fbx",
+			"role": "direccional",
+			"state": "integrated"
+		},
+		{
+			"id": "Taunt",
+			"source": "05_festejos_y_reacciones/Taunt.fbx",
+			"library": "field",
+			"loop": false,
+			"mirror": false,
+			"kick": false,
+			"paths": [],
+			"calibrate": false,
+			"speed_from": "",
+			"role": "festejo",
+			"state": "integrated"
+		},
+		{
+			"id": "Angry",
+			"source": "05_festejos_y_reacciones/Angry.fbx",
+			"library": "field",
+			"loop": false,
+			"mirror": false,
+			"kick": false,
+			"paths": [],
+			"calibrate": false,
+			"speed_from": "",
+			"role": "lamento",
+			"state": "integrated"
+		},
+		{
+			"id": "Angry_Gesture_2",
+			"source": "05_festejos_y_reacciones/Angry_Gesture_2.fbx",
+			"library": "field",
+			"loop": false,
+			"mirror": false,
+			"kick": false,
+			"paths": [],
+			"calibrate": false,
+			"speed_from": "",
+			"role": "lamento",
+			"state": "integrated"
+		},
+		{
+			"id": "Cheering",
+			"source": "05_festejos_y_reacciones/Cheering.fbx",
+			"library": "field",
+			"loop": false,
+			"mirror": false,
+			"kick": false,
+			"paths": [],
+			"calibrate": false,
+			"speed_from": "",
+			"role": "festejo",
+			"state": "integrated"
+		},
+		{
+			"id": "Cheering_2",
+			"source": "05_festejos_y_reacciones/Cheering_2.fbx",
+			"library": "field",
+			"loop": false,
+			"mirror": false,
+			"kick": false,
+			"paths": [],
+			"calibrate": false,
+			"speed_from": "",
+			"role": "festejo",
+			"state": "integrated"
+		},
+		{
+			"id": "Crying",
+			"source": "05_festejos_y_reacciones/Crying.fbx",
+			"library": "field",
+			"loop": false,
+			"mirror": false,
+			"kick": false,
+			"paths": [],
+			"calibrate": false,
+			"speed_from": "",
+			"role": "lamento",
+			"state": "integrated"
+		},
+		{
+			"id": "Defeat",
+			"source": "05_festejos_y_reacciones/Defeat.fbx",
+			"library": "field",
+			"loop": false,
+			"mirror": false,
+			"kick": false,
+			"paths": [],
+			"calibrate": false,
+			"speed_from": "",
+			"role": "lamento",
+			"state": "integrated"
+		},
+		{
+			"id": "Defeat_Idle_2",
+			"source": "05_festejos_y_reacciones/Defeat_Idle_2.fbx",
+			"library": "field",
+			"loop": false,
+			"mirror": false,
+			"kick": false,
+			"paths": [],
+			"calibrate": false,
+			"speed_from": "",
+			"role": "lamento",
+			"state": "integrated"
+		},
+		{
+			"id": "Defeated",
+			"source": "05_festejos_y_reacciones/Defeated.fbx",
+			"library": "field",
+			"loop": false,
+			"mirror": false,
+			"kick": false,
+			"paths": [],
+			"calibrate": false,
+			"speed_from": "",
+			"role": "lamento",
+			"state": "integrated"
+		},
+		{
+			"id": "Disappointed",
+			"source": "05_festejos_y_reacciones/Disappointed.fbx",
+			"library": "field",
+			"loop": false,
+			"mirror": false,
+			"kick": false,
+			"paths": [],
+			"calibrate": false,
+			"speed_from": "",
+			"role": "lamento",
+			"state": "integrated"
+		},
+		{
+			"id": "Excited",
+			"source": "05_festejos_y_reacciones/Excited.fbx",
+			"library": "field",
+			"loop": false,
+			"mirror": false,
+			"kick": false,
+			"paths": [],
+			"calibrate": false,
+			"speed_from": "",
+			"role": "festejo",
+			"state": "integrated"
+		},
+		{
+			"id": "Fist_Pump",
+			"source": "05_festejos_y_reacciones/Fist_Pump.fbx",
+			"library": "field",
+			"loop": false,
+			"mirror": false,
+			"kick": false,
+			"paths": [],
+			"calibrate": false,
+			"speed_from": "",
+			"role": "festejo",
+			"state": "integrated"
+		},
+		{
+			"id": "Fist_Pump_3",
+			"source": "05_festejos_y_reacciones/Fist_Pump_3.fbx",
+			"library": "field",
+			"loop": false,
+			"mirror": false,
+			"kick": false,
+			"paths": [],
+			"calibrate": false,
+			"speed_from": "",
+			"role": "festejo",
+			"state": "integrated"
+		},
+		{
+			"id": "Loser",
+			"source": "05_festejos_y_reacciones/Loser.fbx",
+			"library": "field",
+			"loop": false,
+			"mirror": false,
+			"kick": false,
+			"paths": [],
+			"calibrate": false,
+			"speed_from": "",
+			"role": "lamento",
+			"state": "integrated"
+		},
+		{
+			"id": "Sad_Idle_3",
+			"source": "05_festejos_y_reacciones/Sad_Idle_3.fbx",
+			"library": "field",
+			"loop": false,
+			"mirror": false,
+			"kick": false,
+			"paths": [],
+			"calibrate": false,
+			"speed_from": "",
+			"role": "lamento",
+			"state": "integrated"
+		},
+		{
+			"id": "Standing_Fist_Pump",
+			"source": "05_festejos_y_reacciones/Standing_Fist_Pump.fbx",
+			"library": "field",
+			"loop": false,
+			"mirror": false,
+			"kick": false,
+			"paths": [],
+			"calibrate": false,
+			"speed_from": "",
+			"role": "festejo",
+			"state": "integrated"
+		},
+		{
+			"id": "Victory",
+			"source": "05_festejos_y_reacciones/Victory.fbx",
+			"library": "field",
+			"loop": false,
+			"mirror": false,
+			"kick": false,
+			"paths": [],
+			"calibrate": false,
+			"speed_from": "",
+			"role": "festejo",
+			"state": "integrated"
+		},
+		{
+			"id": "Clapping",
+			"source": "05_festejos_y_reacciones/Clapping.fbx",
+			"library": "field",
+			"loop": false,
+			"mirror": false,
+			"kick": false,
+			"paths": [],
+			"calibrate": false,
+			"speed_from": "",
+			"role": "felicitar",
+			"state": "integrated"
+		},
+		{
+			"id": "Pointing_2",
+			"source": "05_festejos_y_reacciones/Pointing_2.fbx",
+			"library": "field",
+			"loop": false,
+			"mirror": false,
+			"kick": false,
+			"paths": [],
+			"calibrate": false,
+			"speed_from": "",
+			"role": "festejo",
+			"state": "integrated"
+		},
+		{
+			"id": "Standing_Thumbs_Up",
+			"source": "05_festejos_y_reacciones/Standing_Thumbs_Up.fbx",
+			"library": "field",
+			"loop": false,
+			"mirror": false,
+			"kick": false,
+			"paths": [],
+			"calibrate": false,
+			"speed_from": "",
+			"role": "felicitar",
+			"state": "integrated"
+		},
+		{
+			"id": "Standing_Yell_2",
+			"source": "05_festejos_y_reacciones/Standing_Yell_2.fbx",
+			"library": "field",
+			"loop": false,
+			"mirror": false,
+			"kick": false,
+			"paths": [],
+			"calibrate": false,
+			"speed_from": "",
+			"role": "lamento",
+			"state": "integrated"
+		},
+		{
+			"id": "Yelling_While_Standing",
+			"source": "05_festejos_y_reacciones/Yelling_While_Standing.fbx",
+			"library": "field",
+			"loop": false,
+			"mirror": false,
+			"kick": false,
+			"paths": [],
+			"calibrate": false,
+			"speed_from": "",
+			"role": "lamento",
+			"state": "integrated"
+		},
+		{
+			"id": "Waving",
+			"source": "05_festejos_y_reacciones/Waving.fbx",
+			"library": "field",
+			"loop": false,
+			"mirror": false,
+			"kick": false,
+			"paths": [],
+			"calibrate": false,
+			"speed_from": "",
+			"role": "festejo",
+			"state": "integrated"
+		},
+		{
+			"id": "Waving_3",
+			"source": "05_festejos_y_reacciones/Waving_3.fbx",
+			"library": "field",
+			"loop": false,
+			"mirror": false,
+			"kick": false,
+			"paths": [],
+			"calibrate": false,
+			"speed_from": "",
+			"role": "festejo",
+			"state": "integrated"
+		},
+		{
+			"id": "Arm_Stretching",
+			"source": "06_arbitro_y_calentamiento/Arm_Stretching.fbx",
+			"library": "field",
+			"loop": false,
+			"mirror": false,
+			"kick": false,
+			"paths": [],
+			"calibrate": false,
+			"speed_from": "",
+			"role": "calentamiento",
+			"state": "integrated"
+		},
+		{
+			"id": "Neck_Stretching",
+			"source": "06_arbitro_y_calentamiento/Neck_Stretching.fbx",
+			"library": "field",
+			"loop": false,
+			"mirror": false,
+			"kick": false,
+			"paths": [],
+			"calibrate": false,
+			"speed_from": "",
+			"role": "calentamiento",
+			"state": "integrated"
+		},
+		{
+			"id": "Counting",
+			"source": "06_arbitro_y_calentamiento/Counting.fbx",
+			"library": "field",
+			"loop": false,
+			"mirror": false,
+			"kick": false,
+			"paths": [],
+			"calibrate": false,
+			"speed_from": "",
+			"role": "arbitro",
+			"state": "integrated"
+		},
+		{
+			"id": "Pointing_Forward",
+			"source": "06_arbitro_y_calentamiento/Pointing_Forward.fbx",
+			"library": "field",
+			"loop": false,
+			"mirror": false,
+			"kick": false,
+			"paths": [],
+			"calibrate": false,
+			"speed_from": "",
+			"role": "arbitro",
+			"state": "integrated"
+		}
+	]
+}

@@ -1,0 +1,35 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+       · trastabillones disponibles: 13
+[ OK ] test_falls_direction::test_directed_pick_follows_the_expected_direction (1 checks, 1104 ms)
+       · junto a la banda: 28 caidas, 6 terminarian fuera en alguna version; elegidas fuera 0 de 40
+[ OK ] test_falls_direction::test_fall_next_to_the_sideline_never_picks_a_clip_that_ends_outside (1 checks, 75 ms)
+       · corriendo 5.6 m/s, por detras: jn_fall_2766 recorrido adelante 1.57 lado 0.12
+       · corriendo 4.4 m/s, por detras: jn_fall_1448_mirror recorrido adelante 3.01 lado 0.46
+       · corriendo 4.3 m/s, por detras: jn_fall_hit_2352 recorrido adelante 2.93 lado -1.49
+       · corriendo 4.4 m/s, por detras: jn_fall_2354 recorrido adelante 2.34 lado -1.40
+       · corriendo 4.3 m/s, por detras: jn_fall_3516 recorrido adelante 2.30 lado -0.63
+       · corriendo 4.3 m/s, por detras: jn_fall_1448_mirror recorrido adelante 3.01 lado 0.46
+[ OK ] test_falls_direction::test_running_player_hit_from_behind_falls_forward (1 checks, 2290 ms)
+       · corriendo, golpe desde la izquierda: jn_fall_1444_mirror recorrido (2.30, 0.30), esperado (5.57, 3.41)
+       · corriendo, golpe desde la derecha: jn_fall_3512 recorrido (1.32, -0.44), esperado (4.35, -3.10)
+       · corriendo, golpe desde la izquierda: jn_fall_3514_mirror recorrido (1.39, 0.61), esperado (5.57, 2.59)
+       · corriendo, golpe desde la derecha: jn_fall_3516 recorrido (2.30, -0.63), esperado (5.57, -3.41)
+       · corriendo, golpe desde la izquierda: jn_fall_1444_mirror recorrido (2.30, 0.30), esperado (3.61, 3.47)
+       · corriendo, golpe desde la derecha: jn_fall_1444 recorrido (2.30, -0.30), esperado (5.57, -2.59)
+       · corriendo, golpe desde la izquierda: jn_fall_2350 recorrido (1.40, 1.92), esperado (4.35, 2.90)
+       · corriendo, golpe desde la derecha: jn_fall_0864_mirror recorrido (2.39, -0.47), esperado (5.57, -2.59)
+[ OK ] test_falls_direction::test_side_hit_while_running_deflects_the_fall_away_from_the_attacker (1 checks, 2892 ms)
+       · parado, de frente: Shove_Reaction recorrido adelante 0.07 lado 0.09
+       · parado, de frente: jn_fall_0964_mirror recorrido adelante 0.00 lado 0.00
+       · parado, de frente: jn_fall_0980_mirror recorrido adelante -0.83 lado 0.72
+       · parado, de frente: jn_fall_0980_mirror recorrido adelante -0.83 lado 0.72
+       · parado, de frente: jn_fall_1446_mirror recorrido adelante 0.00 lado 0.00
+       · parado, de frente: jn_fall_0978_mirror recorrido adelante -0.72 lado -0.38
+[ OK ] test_falls_direction::test_standing_player_hit_from_the_front_never_falls_onto_the_attacker (1 checks, 1432 ms)
+
+Resumen: 5 pruebas, 0 fallidas, 0 omitidas, 5 comprobaciones, 7.8 s
+WARNING: 138 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 5 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)

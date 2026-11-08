@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/player/footballer.gd" id="1_footballer"]
+
+[node name="Footballer" type="CharacterBody3D"]
+script = ExtResource("1_footballer")

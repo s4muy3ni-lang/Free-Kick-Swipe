@@ -1,0 +1,2 @@
+# Evidencia ejecutada de esta integracion; se conserva aun cuando los logs de trabajo se ignoran globalmente.
+!*.log

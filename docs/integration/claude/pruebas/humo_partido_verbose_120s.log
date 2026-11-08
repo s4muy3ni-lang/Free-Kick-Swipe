@@ -1,0 +1,170 @@
+WorkerThreadPool: 4 threads, 1 max low-priority.
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+TextServer: Added interface "Dummy"
+TextServer: Added interface "ICU / HarfBuzz / Graphite (Built-in)"
+SDL: Init OK!
+Accessibility: AccessKit driver loaded.
+Xshape 1.1 detected.
+Xinerama 1.1 detected.
+Xrandr 1.6 detected.
+Xrender 0.11 detected.
+Xinput 2.2 detected.
+XInput: Refreshing devices.
+XInput: No touch devices found.
+Input method started.
+Detecting GPUs, set DRI_PRIME in the environment to override GPU detection logic.
+Only one GPU found, using default.
+Accessibility: window 0 adapter created.
+WARNING: Could not set V-Sync mode, as changing V-Sync mode is not supported by the graphics driver.
+     at: set_use_vsync (platform/linuxbsd/x11/gl_manager_x11.cpp:372)
+XcursorGetTheme could not get cursor theme
+Failed loading custom cursor: crossed_circle
+DBus 1.14.10 detected.
+Using "default" pen tablet driver...
+Shader 'CanvasSdfShaderGLES3' SHA256: bfb4d3f47e7b197828685d0dcaa3ac71d9e1366c1e65b4f460df2262fa91546c
+Shader 'SkeletonShaderGLES3' SHA256: 84035b3cefc09f9557dd6bf4f292f5563f0545ca349eba904f9efc23e561e23f
+Shader 'ParticlesShaderGLES3' SHA256: 73290417c43773bd027c734f085d428579d637dedf854af6900fc76b8b237a99
+Shader 'ParticlesCopyShaderGLES3' SHA256: 1ffdae88b5d6e87af388e5ebe57a70db1e4b7360256723d212e5cfdb8632eebb
+Shader 'CopyShaderGLES3' SHA256: 2d07accf5e52cc75dda4b3798e2578ba2d7f03e83d567dcc2c8dc871f0a111e9
+Shader 'CubemapFilterShaderGLES3' SHA256: dedeeafa47bd84bd41fbf476996763e9f8fea0c73540a49765d0d23109b8fc44
+Shader 'GlowShaderGLES3' SHA256: 1a8d454e812a242df093576020d31bebccf9a3e446f78160d33e363f683df8d2
+Shader 'PostShaderGLES3' SHA256: 652389d1ff5979a72cb73bb058892a1781dd6c97027db95dcb2754aad82b614b
+Shader 'FeedShaderGLES3' SHA256: ff8ce52247f567be25a85ee57b249f526c39fe4595e675da7a92cda3482cc47b
+Shader 'CanvasShaderGLES3' SHA256: ec4ada8cee357dc1d60cc059a0f84ad21dee27e29d58fa9a87f46f2aef80c3ea
+Shader 'CanvasOcclusionShaderGLES3' SHA256: 4e16639184f7526ea06a888f215233eefb1de099c0a4d76f784773cff78d4e14
+Shader 'SceneShaderGLES3' SHA256: 218dbeaf0023e2cbc56cd117ce17923f88eae2d8ee261d76cc405e5cca411741
+Shader 'SkyShaderGLES3' SHA256: 804e4e540a7a3f03699c11d13920846aeba4980287678fc1b6f75324d8601057
+Shader 'TexBlitShaderGLES3' SHA256: 8ed7a52936e463ebd5f2607bb08ee88f94fb259bf07facbf4d5872bb317fabe7
+OpenGL API 4.5 (Core Profile) Mesa 25.2.8-0ubuntu0.24.04.4 - Compatibility - Using Device: Mesa - llvmpipe (LLVM 20.1.2, 256 bits)
+PulseAudio 16.1.0 detected.
+PulseAudio: context other
+PulseAudio: context failed
+ALSA 1.2.11 detected.
+ALSA lib confmisc.c:855:(parse_card) cannot find card '0'
+ALSA lib conf.c:5208:(_snd_config_evaluate) function snd_func_card_inum returned error: No such file or directory
+ALSA lib confmisc.c:422:(snd_func_concat) error evaluating strings
+ALSA lib conf.c:5208:(_snd_config_evaluate) function snd_func_concat returned error: No such file or directory
+ALSA lib confmisc.c:1342:(snd_func_refer) error evaluating name
+ALSA lib conf.c:5208:(_snd_config_evaluate) function snd_func_refer returned error: No such file or directory
+ALSA lib conf.c:5731:(snd_config_expand) Evaluate error: No such file or directory
+ALSA lib pcm.c:2721:(snd_pcm_open_noupdate) Unknown PCM default
+ERROR: Condition "status < 0" is true. Returning: ERR_CANT_OPEN
+   at: init_output_device (drivers/alsa/audio_driver_alsa.cpp:97)
+WARNING: All audio drivers failed, falling back to the dummy driver.
+     at: initialize (servers/audio/audio_server.cpp:258)
+
+TextServer: Primary interface set to: "ICU / HarfBuzz / Graphite (Built-in)".
+CORE API HASH: 2004498165
+EDITOR API HASH: 1696660745
+SceneTreeFTI: traversal method DEFAULT
+Loading resource: res://scripts/gameplay/tuning.gd remapped: res://scripts/gameplay/tuning.gd
+Completed load for: 'res://scripts/gameplay/tuning.gd' remapped 'res://scripts/gameplay/tuning.gd' at thread -1
+Loading resource: res://scripts/diagnostics/graphics_settings.gd remapped: res://scripts/diagnostics/graphics_settings.gd
+Completed load for: 'res://scripts/diagnostics/graphics_settings.gd' remapped 'res://scripts/diagnostics/graphics_settings.gd' at thread -1
+Loading resource: res://scripts/audio/sfx.gd remapped: res://scripts/audio/sfx.gd
+Loading resource: res://assets/pitch/court.gdshader remapped: res://assets/pitch/court.gdshader
+Completed load for: 'res://assets/pitch/court.gdshader' remapped 'res://assets/pitch/court.gdshader' at thread -1
+Loading resource: res://assets/pitch/net.gdshader remapped: res://assets/pitch/net.gdshader
+Completed load for: 'res://assets/pitch/net.gdshader' remapped 'res://assets/pitch/net.gdshader' at thread -1
+Loading resource: res://assets/characters/player/player_kit.gdshader remapped: res://assets/characters/player/player_kit.gdshader
+Completed load for: 'res://assets/characters/player/player_kit.gdshader' remapped 'res://assets/characters/player/player_kit.gdshader' at thread -1
+Loading resource: res://scenes/ball/ball.tscn remapped: res://scenes/ball/ball.tscn
+Completed load for: 'res://scenes/ball/ball.tscn' remapped 'res://scenes/ball/ball.tscn' at thread -1
+Loading resource: res://scenes/player/footballer.tscn remapped: res://scenes/player/footballer.tscn
+Loading resource: res://scripts/player/footballer.gd remapped: res://scripts/player/footballer.gd
+Completed load for: 'res://scripts/player/footballer.gd' remapped 'res://scripts/player/footballer.gd' at thread -1
+Completed load for: 'res://scenes/player/footballer.tscn' remapped 'res://scenes/player/footballer.tscn' at thread -1
+Loading resource: res://assets/characters/mocap/mocap_kit.gdshader remapped: res://assets/characters/mocap/mocap_kit.gdshader
+Completed load for: 'res://assets/characters/mocap/mocap_kit.gdshader' remapped 'res://assets/characters/mocap/mocap_kit.gdshader' at thread -1
+Completed load for: 'res://scripts/audio/sfx.gd' remapped 'res://scripts/audio/sfx.gd' at thread -1
+Loaded system CA certificates
+Loading resource: res://scenes/main/match.tscn remapped: res://scenes/main/match.tscn
+Completed load for: 'res://scenes/main/match.tscn' remapped 'res://scenes/main/match.tscn' at thread -1
+Loading resource: res://assets/audio/kick_hard.wav remapped: res://assets/audio/kick_hard.wav
+Loading resource: res://.godot/imported/kick_hard.wav-062def96bc99d91e83aadf830f48da8a.sample remapped: res://.godot/imported/kick_hard.wav-062def96bc99d91e83aadf830f48da8a.sample
+Completed load for: 'res://assets/audio/kick_hard.wav' remapped 'res://assets/audio/kick_hard.wav' at thread -1
+Loading resource: res://assets/audio/kick_soft.wav remapped: res://assets/audio/kick_soft.wav
+Loading resource: res://.godot/imported/kick_soft.wav-e97e0b56ccdff4ab8977f9bff34de914.sample remapped: res://.godot/imported/kick_soft.wav-e97e0b56ccdff4ab8977f9bff34de914.sample
+Completed load for: 'res://assets/audio/kick_soft.wav' remapped 'res://assets/audio/kick_soft.wav' at thread -1
+Loading resource: res://assets/audio/touch.wav remapped: res://assets/audio/touch.wav
+Loading resource: res://.godot/imported/touch.wav-d10e3d470e2f6c3e429cda1542fc4b6c.sample remapped: res://.godot/imported/touch.wav-d10e3d470e2f6c3e429cda1542fc4b6c.sample
+Completed load for: 'res://assets/audio/touch.wav' remapped 'res://assets/audio/touch.wav' at thread -1
+Loading resource: res://assets/audio/bounce.wav remapped: res://assets/audio/bounce.wav
+Loading resource: res://.godot/imported/bounce.wav-e8efea040633da180f39debb9ec52a73.sample remapped: res://.godot/imported/bounce.wav-e8efea040633da180f39debb9ec52a73.sample
+Completed load for: 'res://assets/audio/bounce.wav' remapped 'res://assets/audio/bounce.wav' at thread -1
+Loading resource: res://assets/audio/post.wav remapped: res://assets/audio/post.wav
+Loading resource: res://.godot/imported/post.wav-50b3fc22e4a4430df248aaab1f5ac2d6.sample remapped: res://.godot/imported/post.wav-50b3fc22e4a4430df248aaab1f5ac2d6.sample
+Completed load for: 'res://assets/audio/post.wav' remapped 'res://assets/audio/post.wav' at thread -1
+Loading resource: res://assets/audio/net.wav remapped: res://assets/audio/net.wav
+Loading resource: res://.godot/imported/net.wav-bb9d5e5fa95b35ebea865edce900d888.sample remapped: res://.godot/imported/net.wav-bb9d5e5fa95b35ebea865edce900d888.sample
+Completed load for: 'res://assets/audio/net.wav' remapped 'res://assets/audio/net.wav' at thread -1
+Loading resource: res://assets/audio/whistle_short.wav remapped: res://assets/audio/whistle_short.wav
+Loading resource: res://.godot/imported/whistle_short.wav-527088648daec13767b46577b77720f3.sample remapped: res://.godot/imported/whistle_short.wav-527088648daec13767b46577b77720f3.sample
+Completed load for: 'res://assets/audio/whistle_short.wav' remapped 'res://assets/audio/whistle_short.wav' at thread -1
+Loading resource: res://assets/audio/whistle_long.wav remapped: res://assets/audio/whistle_long.wav
+Loading resource: res://.godot/imported/whistle_long.wav-760e0fec3757d393a909d0b858d2bc18.sample remapped: res://.godot/imported/whistle_long.wav-760e0fec3757d393a909d0b858d2bc18.sample
+Completed load for: 'res://assets/audio/whistle_long.wav' remapped 'res://assets/audio/whistle_long.wav' at thread -1
+Loading resource: res://assets/audio/glove.wav remapped: res://assets/audio/glove.wav
+Loading resource: res://.godot/imported/glove.wav-b451688fcf6a08772aea1cd74a3fbab3.sample remapped: res://.godot/imported/glove.wav-b451688fcf6a08772aea1cd74a3fbab3.sample
+Completed load for: 'res://assets/audio/glove.wav' remapped 'res://assets/audio/glove.wav' at thread -1
+Loading resource: res://assets/audio/cheer.wav remapped: res://assets/audio/cheer.wav
+Loading resource: res://.godot/imported/cheer.wav-738bbd08bbb81a69e4245818d44c9b01.sample remapped: res://.godot/imported/cheer.wav-738bbd08bbb81a69e4245818d44c9b01.sample
+Completed load for: 'res://assets/audio/cheer.wav' remapped 'res://assets/audio/cheer.wav' at thread -1
+Loading resource: res://assets/audio/ooh.wav remapped: res://assets/audio/ooh.wav
+Loading resource: res://.godot/imported/ooh.wav-828f736732e34d2cb6a4a4b9aa7df67a.sample remapped: res://.godot/imported/ooh.wav-828f736732e34d2cb6a4a4b9aa7df67a.sample
+Completed load for: 'res://assets/audio/ooh.wav' remapped 'res://assets/audio/ooh.wav' at thread -1
+Loading resource: res://assets/audio/crowd_loop.wav remapped: res://assets/audio/crowd_loop.wav
+Loading resource: res://.godot/imported/crowd_loop.wav-d0290e439ed7b2d92d1c1cb2e4d89f68.sample remapped: res://.godot/imported/crowd_loop.wav-d0290e439ed7b2d92d1c1cb2e4d89f68.sample
+Completed load for: 'res://assets/audio/crowd_loop.wav' remapped 'res://assets/audio/crowd_loop.wav' at thread -1
+Loading resource: res://assets/ball/ball.gdshader remapped: res://assets/ball/ball.gdshader
+Completed load for: 'res://assets/ball/ball.gdshader' remapped 'res://assets/ball/ball.gdshader' at thread -1
+Loading resource: res://assets/characters/json/json_human.scn remapped: res://assets/characters/json/json_human.scn
+Completed load for: 'res://assets/characters/json/json_human.scn' remapped 'res://assets/characters/json/json_human.scn' at thread -1
+Loading resource: res://assets/animations/json_clips.res remapped: res://assets/animations/json_clips.res
+Completed load for: 'res://assets/animations/json_clips.res' remapped 'res://assets/animations/json_clips.res' at thread -1
+Loading resource: res://assets/animations/json_scenes.res remapped: res://assets/animations/json_scenes.res
+Completed load for: 'res://assets/animations/json_scenes.res' remapped 'res://assets/animations/json_scenes.res' at thread -1
+Loading resource: res://assets/animations/json_keeper.res remapped: res://assets/animations/json_keeper.res
+Completed load for: 'res://assets/animations/json_keeper.res' remapped 'res://assets/animations/json_keeper.res' at thread -1
+Loading resource: res://assets/characters/json/json_kit.gdshader remapped: res://assets/characters/json/json_kit.gdshader
+Completed load for: 'res://assets/characters/json/json_kit.gdshader' remapped 'res://assets/characters/json/json_kit.gdshader' at thread -1
+Loading resource: res://assets/characters/json/json_human.scn remapped: res://assets/characters/json/json_human.scn
+Completed load for: 'res://assets/characters/json/json_human.scn' remapped 'res://assets/characters/json/json_human.scn' at thread -1
+Loading resource: res://assets/characters/json/json_human.scn remapped: res://assets/characters/json/json_human.scn
+Completed load for: 'res://assets/characters/json/json_human.scn' remapped 'res://assets/characters/json/json_human.scn' at thread -1
+Loading resource: res://assets/characters/json/json_human.scn remapped: res://assets/characters/json/json_human.scn
+Completed load for: 'res://assets/characters/json/json_human.scn' remapped 'res://assets/characters/json/json_human.scn' at thread -1
+Loading resource: res://assets/characters/json/json_human.scn remapped: res://assets/characters/json/json_human.scn
+Completed load for: 'res://assets/characters/json/json_human.scn' remapped 'res://assets/characters/json/json_human.scn' at thread -1
+Loading resource: res://assets/characters/json/json_human.scn remapped: res://assets/characters/json/json_human.scn
+Completed load for: 'res://assets/characters/json/json_human.scn' remapped 'res://assets/characters/json/json_human.scn' at thread -1
+Loading resource: res://assets/characters/json/json_human.scn remapped: res://assets/characters/json/json_human.scn
+Completed load for: 'res://assets/characters/json/json_human.scn' remapped 'res://assets/characters/json/json_human.scn' at thread -1
+Loading resource: res://assets/characters/json/json_human.scn remapped: res://assets/characters/json/json_human.scn
+Completed load for: 'res://assets/characters/json/json_human.scn' remapped 'res://assets/characters/json/json_human.scn' at thread -1
+Loading resource: res://assets/characters/json/json_human.scn remapped: res://assets/characters/json/json_human.scn
+Completed load for: 'res://assets/characters/json/json_human.scn' remapped 'res://assets/characters/json/json_human.scn' at thread -1
+Loading resource: res://assets/characters/json/json_human.scn remapped: res://assets/characters/json/json_human.scn
+Completed load for: 'res://assets/characters/json/json_human.scn' remapped 'res://assets/characters/json/json_human.scn' at thread -1
+Loading resource: res://assets/characters/json/json_human.scn remapped: res://assets/characters/json/json_human.scn
+Completed load for: 'res://assets/characters/json/json_human.scn' remapped 'res://assets/characters/json/json_human.scn' at thread -1
+Loading resource: res://assets/characters/json/json_human.scn remapped: res://assets/characters/json/json_human.scn
+Completed load for: 'res://assets/characters/json/json_human.scn' remapped 'res://assets/characters/json/json_human.scn' at thread -1
+Loading resource: res://assets/characters/json/json_human.scn remapped: res://assets/characters/json/json_human.scn
+Completed load for: 'res://assets/characters/json/json_human.scn' remapped 'res://assets/characters/json/json_human.scn' at thread -1
+Loading resource: res://assets/characters/json/json_human.scn remapped: res://assets/characters/json/json_human.scn
+Completed load for: 'res://assets/characters/json/json_human.scn' remapped 'res://assets/characters/json/json_human.scn' at thread -1
+Loading resource: res://assets/characters/json/json_human.scn remapped: res://assets/characters/json/json_human.scn
+Completed load for: 'res://assets/characters/json/json_human.scn' remapped 'res://assets/characters/json/json_human.scn' at thread -1
+Loading resource: res://assets/characters/json/json_human.scn remapped: res://assets/characters/json/json_human.scn
+Completed load for: 'res://assets/characters/json/json_human.scn' remapped 'res://assets/characters/json/json_human.scn' at thread -1
+Loading resource: res://assets/characters/json/json_human.scn remapped: res://assets/characters/json/json_human.scn
+Completed load for: 'res://assets/characters/json/json_human.scn' remapped 'res://assets/characters/json/json_human.scn' at thread -1
+Loading resource: res://assets/characters/json/json_human.scn remapped: res://assets/characters/json/json_human.scn
+Completed load for: 'res://assets/characters/json/json_human.scn' remapped 'res://assets/characters/json/json_human.scn' at thread -1
+XR: Clearing primary interface
+XR: Removed interface "Native mobile"
+XR: Removed interface "OpenXR"
+Accessibility: window 0 adapter destroyed.
+Orphan StringName: DIRS (static: 0, total: 1)
+StringName: 1 unclaimed string names at exit.

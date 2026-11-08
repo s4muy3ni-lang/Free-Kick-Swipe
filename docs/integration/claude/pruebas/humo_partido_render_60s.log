@@ -1,0 +1,17 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+WARNING: Could not set V-Sync mode, as changing V-Sync mode is not supported by the graphics driver.
+     at: set_use_vsync (platform/linuxbsd/x11/gl_manager_x11.cpp:372)
+OpenGL API 4.5 (Core Profile) Mesa 25.2.8-0ubuntu0.24.04.4 - Compatibility - Using Device: Mesa - llvmpipe (LLVM 20.1.2, 256 bits)
+
+Movie Maker mode enabled, recording movie in 1280×720 @ 30 FPS...
+WARNING: 4 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 1 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)
+--------------------------------------------------------------------------------
+Done recording movie at path: /tmp/claude-0/-home-user-Futbol5/6025adf8-002d-5de2-90b0-08dffaff93f2/scratchpad/movie/f.png
+1800 frames at 30 FPS (movie length: 00:01:00:00), recorded in 00:05:49 (17% of real-time speed).
+CPU render time: 169.71 seconds (average: 94.28 ms/frame)
+GPU render time: 170.79 seconds (average: 94.89 ms/frame)
+Encoding time: 137.40 seconds (average: 76.34 ms/frame)
+--------------------------------------------------------------------------------

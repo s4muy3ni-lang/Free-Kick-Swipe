@@ -1,0 +1,61 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+WARNING: Could not set V-Sync mode, as changing V-Sync mode is not supported by the graphics driver.
+     at: set_use_vsync (platform/linuxbsd/x11/gl_manager_x11.cpp:372)
+OpenGL API 4.5 (Core Profile) Mesa 25.2.8-0ubuntu0.24.04.4 - Compatibility - Using Device: Mesa - llvmpipe (LLVM 20.1.2, 256 bits)
+libpulse.so.0: cannot open shared object file: No such file or directory
+libpulse.so.0: cannot open shared object file: No such file or directory
+ALSA lib confmisc.c:855:(parse_card) cannot find card '0'
+ALSA lib conf.c:5208:(_snd_config_evaluate) function snd_func_card_inum returned error: No such file or directory
+ALSA lib confmisc.c:422:(snd_func_concat) error evaluating strings
+ALSA lib conf.c:5208:(_snd_config_evaluate) function snd_func_concat returned error: No such file or directory
+ALSA lib confmisc.c:1342:(snd_func_refer) error evaluating name
+ALSA lib conf.c:5208:(_snd_config_evaluate) function snd_func_refer returned error: No such file or directory
+ALSA lib conf.c:5731:(snd_config_expand) Evaluate error: No such file or directory
+ALSA lib pcm.c:2721:(snd_pcm_open_noupdate) Unknown PCM default
+ERROR: Condition "status < 0" is true. Returning: ERR_CANT_OPEN
+   at: init_output_device (drivers/alsa/audio_driver_alsa.cpp:97)
+WARNING: All audio drivers failed, falling back to the dummy driver.
+     at: initialize (servers/audio/audio_server.cpp:258)
+
+       · planificar un golpeo aereo: 14.2 ms (10 de 10 con plan, ej. jn_volley_0780 volley; 190 clips de cabezazo, 108 de volea)
+[ OK ] test_json_mode::test_aerial_planning_cost_and_clips (1 checks, 699 ms)
+[SKIP] test_json_mode::test_ai_match_in_json_mode (se mide en la suite headless (con render y OpenGL por software tarda ~9 min))
+       ·   de ello, listar los candidatos: 0.00 ms
+       ·   samples cacheadas: 0.05 ms
+       ·   timing+plant por clip: 0.44 ms
+       · planificar un golpeo: 1.37 ms de media (60 de 60 con plan, 82 candidatos de pase)
+[ OK ] test_json_mode::test_kick_planning_with_many_clips_is_cheap (1 checks, 660 ms)
+       · clips de campo: 2747, de arquero: 476
+[ OK ] test_json_mode::test_library_has_roles_and_measured_contacts (200 checks, 531 ms)
+       · Humanoide, trote: pelota-cuerpo mediana 0.39 m, max 0.51 m, toques 19 (con el pie 19), velocidad max 3.9 m/s
+       · maxima separacion: jugador (-6.332185, 0.000877, 0.117058), pelota (-5.822083, 0.099989, 0.124957)
+       · Humanoide, carrera: pelota-cuerpo mediana 0.46 m, max 0.54 m, toques 24 (con el pie 24), velocidad max 4.7 m/s
+       · maxima separacion: jugador (7.725767, 0.000877, -0.087689), pelota (8.264649, 0.099998, -0.127753)
+       · Humanoide, sprint: pelota-cuerpo mediana 0.68 m, max 0.96 m, toques 21 (con el pie 15), velocidad max 6.5 m/s
+       · maxima separacion: jugador (-0.175778, 0.000878, -0.244467), pelota (0.786114, 0.099999, -0.271667)
+       · Humanoide, zigzag: pelota-cuerpo mediana 0.52 m, max 1.10 m, toques 24 (con el pie 24), velocidad max 5.7 m/s
+       · maxima separacion: jugador (3.689824, 0.000877, -4.09483), pelota (4.589819, 0.099998, -3.457799)
+[ OK ] test_json_mode::test_live_dribble_keeps_the_ball_with_foot_touches (12 checks, 8074 ms)
+       · Humanoide: mezcla direccional con 16 clips (["jn_jog_1144", "jn_dir_back_0486", "jn_dir_back_0486_mirror", "jn_dir_back_diag_0480", "jn_dir_back_diag_0480_mirror", "jn_dir_fwd_diag_0470", "jn_dir_fwd_diag_0470_mirror", "jn_dir_side_0186", "jn_dir_side_0186_mirror", "jn_loco_walk_1478", "jn_loco_walk_1480", "jn_loco_walk_2028", "jn_loco_jog_2394", "jn_loco_jog_3020", "jn_loco_side_3018"])
+       · Humanoide: altura de cadera a 0/1.8/3.6/6 m/s: ["0.83", "0.80", "0.84", "0.80"]
+[ OK ] test_json_mode::test_model_builds_and_animates (11 checks, 550 ms)
+[ OK ] test_json_mode::test_pack_names_resolve_to_json_clips (13 checks, 602 ms)
+       · pass parado (6.1 m/s, a los 0.6 s): clip jn_kick_pass_0638_mirror, pie a 0.035 m de la pelota, latencia 0.20 s, pelota a 9.4 m/s
+       · pass trote (3.6 m/s, a los 1.4 s): clip jn_kick_pass_0668, pie a 0.032 m de la pelota, latencia 0.20 s, pelota a 10.0 m/s
+       · pass trote (3.9 m/s, a los 1.7 s): clip jn_kick_pass_0668, pie a 0.035 m de la pelota, latencia 0.20 s, pelota a 10.2 m/s
+       · pass carrera (5.3 m/s, a los 1.5 s): clip jn_kick_pass_3234_mirror, pie a 0.029 m de la pelota, latencia 0.20 s, pelota a 11.1 m/s
+       · pass carrera (5.3 m/s, a los 1.9 s): clip jn_kick_pass_3234_mirror, pie a 0.030 m de la pelota, latencia 0.20 s, pelota a 11.7 m/s
+       · pass sprint (6.4 m/s, a los 1.8 s): clip jn_kick_pass_3234, pie a 0.059 m de la pelota, latencia 0.20 s, pelota a 10.4 m/s
+       · shot parado (0.0 m/s, a los 0.6 s): clip jn_kick_shot_0656, pie a 0.042 m de la pelota, latencia 0.33 s, pelota a 14.3 m/s
+       · shot trote (3.6 m/s, a los 1.4 s): clip jn_kick_shot_1780_mirror, pie a 0.032 m de la pelota, latencia 0.33 s, pelota a 13.2 m/s
+       · shot trote (3.6 m/s, a los 1.7 s): clip jn_kick_shot_1780, pie a 0.034 m de la pelota, latencia 0.33 s, pelota a 14.3 m/s
+       · shot carrera (5.3 m/s, a los 1.5 s): clip jn_kick_shot_1780_mirror, pie a 0.030 m de la pelota, latencia 0.33 s, pelota a 13.2 m/s
+       · shot carrera (5.3 m/s, a los 1.9 s): clip jn_kick_shot_1780, pie a 0.032 m de la pelota, latencia 0.33 s, pelota a 14.3 m/s
+       · shot sprint (7.0 m/s, a los 1.8 s): clip jn_kick_shot_1780, pie a 0.028 m de la pelota, latencia 0.33 s, pelota a 14.3 m/s
+       · modo 4: 12 de 12 golpeos ejecutados
+[ OK ] test_json_mode::test_passes_and_shots_connect_with_json_clips (37 checks, 10206 ms)
+[ OK ] test_json_mode::test_practice_scene_opens_in_json_mode (1 checks, 5814 ms)
+       · error maximo de alcance de extremidades: 0.00 cm
+[ OK ] test_json_mode::test_retarget_reaches_the_data (1 checks, 557 ms)
+
+Resumen: 10 pruebas, 0 fallidas, 1 omitidas, 277 comprobaciones, 27.7 s

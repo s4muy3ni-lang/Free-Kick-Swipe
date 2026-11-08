@@ -1,0 +1,33 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+== física del balón
+  OK    caída libre 2 m ≈ sqrt(2h/g)  0.617 s vs 0.622 s
+  OK    altura del primer bote ≈ e²·h  0.314 m vs 0.329 m
+  OK    rodadura 6 m/s se para a v²/2a  19.95 m vs 20.00 m
+  OK    paso determinista (mismo estado → mismo resultado)  
+  OK    Magnus: spin +Y curva hacia +X con vel +Z  x = 0.120 m
+== solucionadores
+  OK    solve_air llega a (2.0, 1.5, 15.0) en 45 frames  error 0.006 m
+  OK    solve_air llega a (-5.0, 0.4, 25.0) en 45 frames  error 0.005 m
+  OK    solve_air llega a (0.0, 2.2, 10.0) en 45 frames  error 0.009 m
+  OK    solve_ground 12 m en 1.5 s  z = 12.000
+  OK    solve_ground imposible → INF  
+== predictor
+  OK    predictor = simulación real a 100 frames  dif 0.000000 m
+== portería
+  OK    tiro centrado entra: 1 gol  goles 1
+  OK    la red retiene el balón  z = 20.90
+  OK    balón al poste rebota (sin gol)  postes 1 goles 0 vz -4.72
+  OK    tiro alto por encima del larguero: sin gol  
+== catálogo
+  OK    índice cargado  67 clips
+  OK    validación del catálogo sin problemas  []
+  OK    Animation cargable  EJ_CONTROL_RECEPCION_L pistas 5
+    clips: 67  espejos: 29  categorías: [&"CONTROL", &"FALL", &"GETUP", &"GKSAVE", &"KICK", &"LOCO", &"STAND", &"TACKLE", &"TACKLESLIDE", &"TURN"]
+== conducción planificada (integración)
+  OK    conducción: varios toques validados en 6 s  toques 11, fallos 0, ticks sin plan 0
+  OK    conducción: el balón no se escapa (sep. máx < 3 m)  sep. máx 1.30 m
+  OK    conducción: el jugador avanza  z final 15.59
+  OK    conducción: sin contactos fallidos  fallos 0
+
+RESULTADO: 22 OK, 0 FALLAS

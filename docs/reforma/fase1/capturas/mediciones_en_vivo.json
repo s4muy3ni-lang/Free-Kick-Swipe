@@ -1,0 +1,288 @@
+[
+ {
+  "banco": "json",
+  "captura": "json_st_setpiece_comun.png",
+  "categoria": "st_setpiece",
+  "clip": "jn_setpiece_lob_3742",
+  "cuerpo": "comun",
+  "medido": {
+   "mano_lateral_m": 0.972624838352203,
+   "pie_pelota_m": 0.0220314655452967,
+   "pies_min_m": -0.0101041067391634,
+   "salto_cadera_m": 0.0540807247161865
+  },
+  "medido_clip_completo": {
+   "mano_lateral_m": 0.972624838352203,
+   "pie_pelota_m": 0.0220314655452967,
+   "pies_min_m": -0.0101041067391634,
+   "salto_cadera_m": 0.0540807247161865
+  },
+  "t": 2.658
+ },
+ {
+  "banco": "mixamo",
+  "captura": "mixamo_st_setpiece_comun.png",
+  "categoria": "st_setpiece",
+  "clip": "soccer_penalty_kick",
+  "cuerpo": "comun",
+  "medido": {
+   "mano_lateral_m": 0.477844893932343,
+   "pie_pelota_m": 1.17834758758545,
+   "pies_min_m": 0.535384654998779,
+   "salto_cadera_m": 0.0226207971572876
+  },
+  "medido_clip_completo": {
+   "mano_lateral_m": 0.918803691864014,
+   "pie_pelota_m": 1.17834758758545,
+   "pies_min_m": 0.382373005151749,
+   "salto_cadera_m": 0.0735127925872803
+  },
+  "t": 0.758
+ },
+ {
+  "banco": "mocap",
+  "captura": "mocap_st_setpiece_comun.png",
+  "categoria": "st_setpiece",
+  "clip": "mc_penalty_kick",
+  "cuerpo": "comun",
+  "medido": {
+   "mano_lateral_m": 0.29901522397995,
+   "pie_pelota_m": 1.13694417476654,
+   "pies_min_m": 0.611483216285706,
+   "salto_cadera_m": 0.0250800251960754
+  },
+  "medido_clip_completo": {
+   "mano_lateral_m": 0.616457521915436,
+   "pie_pelota_m": 1.13694417476654,
+   "pies_min_m": 0.607661664485931,
+   "salto_cadera_m": 0.132125616073608
+  },
+  "t": 1.592
+ },
+ {
+  "banco": "mixamo",
+  "captura": "mixamo_st_setpiece_original.png",
+  "categoria": "st_setpiece",
+  "clip": "soccer_penalty_kick",
+  "cuerpo": "original",
+  "medido": {
+   "mano_lateral_m": 0.298273205757141,
+   "pie_pelota_m": 0.0350409671664238,
+   "pies_min_m": 0.025265384465456,
+   "salto_cadera_m": 0.0226207971572876
+  },
+  "medido_clip_completo": {
+   "mano_lateral_m": 0.663789689540863,
+   "pie_pelota_m": 0.0350409671664238,
+   "pies_min_m": 0.00751461647450924,
+   "salto_cadera_m": 0.0735127925872803
+  },
+  "t": 0.758
+ },
+ {
+  "banco": "mocap",
+  "captura": "mocap_st_setpiece_original.png",
+  "categoria": "st_setpiece",
+  "clip": "mc_penalty_kick",
+  "cuerpo": "original",
+  "medido": {
+   "mano_lateral_m": 0.253194272518158,
+   "pie_pelota_m": 0.04939965903759,
+   "pies_min_m": 0.0130851427093148,
+   "salto_cadera_m": 0.0250800251960754
+  },
+  "medido_clip_completo": {
+   "mano_lateral_m": 0.35036963224411,
+   "pie_pelota_m": 0.04939965903759,
+   "pies_min_m": 0.0130851427093148,
+   "salto_cadera_m": 0.132125616073608
+  },
+  "t": 1.592
+ },
+ {
+  "banco": "json",
+  "captura": "json_gk_dive_left_comun.png",
+  "categoria": "gk_dive_left",
+  "clip": "jn_gk_catch_0042",
+  "cuerpo": "comun",
+  "medido": {
+   "mano_lateral_m": 0.782776892185211,
+   "pies_min_m": -0.000918224453926086,
+   "salto_cadera_m": 0.258444726467133
+  },
+  "medido_clip_completo": {
+   "mano_lateral_m": 1.10114026069641,
+   "pies_min_m": -0.00616431050002575,
+   "salto_cadera_m": 0.258444726467133
+  },
+  "t": 0.5225
+ },
+ {
+  "banco": "mixamo",
+  "captura": "mixamo_gk_dive_left_comun.png",
+  "categoria": "gk_dive_left",
+  "clip": "goalkeeper_diving_save",
+  "cuerpo": "comun",
+  "medido": {
+   "mano_lateral_m": 2.92229342460632,
+   "pies_min_m": 0.583103179931641,
+   "salto_cadera_m": 0.0978385210037231
+  },
+  "medido_clip_completo": {
+   "mano_lateral_m": 2.92229342460632,
+   "pies_min_m": 0.524288415908813,
+   "salto_cadera_m": 0.0978385210037231
+  },
+  "t": 1.87
+ },
+ {
+  "banco": "mocap",
+  "captura": "mocap_gk_dive_left_comun.png",
+  "categoria": "gk_dive_left",
+  "clip": "mc_keeper_save_1",
+  "cuerpo": "comun",
+  "medido": {
+   "mano_lateral_m": 0.110175304114819,
+   "pies_min_m": 0.628649950027466,
+   "salto_cadera_m": 0.0
+  },
+  "medido_clip_completo": {
+   "mano_lateral_m": 1.59200763702393,
+   "pies_min_m": 0.488858759403229,
+   "salto_cadera_m": 0.189259648323059
+  },
+  "t": 3.9435
+ },
+ {
+  "banco": "mixamo",
+  "captura": "mixamo_gk_dive_left_original.png",
+  "categoria": "gk_dive_left",
+  "clip": "goalkeeper_diving_save",
+  "cuerpo": "original",
+  "medido": {
+   "mano_lateral_m": 2.48108625411987,
+   "pies_min_m": -0.00572156207635999,
+   "salto_cadera_m": 0.0978385210037231
+  },
+  "medido_clip_completo": {
+   "mano_lateral_m": 2.48108625411987,
+   "pies_min_m": -0.0573442131280899,
+   "salto_cadera_m": 0.0978385210037231
+  },
+  "t": 1.87
+ },
+ {
+  "banco": "mocap",
+  "captura": "mocap_gk_dive_left_original.png",
+  "categoria": "gk_dive_left",
+  "clip": "mc_keeper_save_1",
+  "cuerpo": "original",
+  "medido": {
+   "mano_lateral_m": 0.091999351978302,
+   "pies_min_m": 0.0123360827565193,
+   "salto_cadera_m": 0.0
+  },
+  "medido_clip_completo": {
+   "mano_lateral_m": 1.78597784042358,
+   "pies_min_m": 0.0123360827565193,
+   "salto_cadera_m": 0.189259648323059
+  },
+  "t": 3.9435
+ },
+ {
+  "banco": "json",
+  "captura": "json_wa_jump_comun.png",
+  "categoria": "wa_jump",
+  "clip": "jn_wall_0538",
+  "cuerpo": "comun",
+  "medido": {
+   "mano_lateral_m": 0.0371644198894501,
+   "pies_min_m": 0.00122014433145523,
+   "salto_cadera_m": 0.358804881572723
+  },
+  "medido_clip_completo": {
+   "mano_lateral_m": 0.119640327990055,
+   "pies_min_m": 0.000775882974267006,
+   "salto_cadera_m": 0.358804881572723
+  },
+  "t": 0.3685
+ },
+ {
+  "banco": "mixamo",
+  "captura": "mixamo_wa_jump_comun.png",
+  "categoria": "wa_jump",
+  "clip": "sin clip",
+  "cuerpo": "comun",
+  "medido": {},
+  "t": 0.0
+ },
+ {
+  "banco": "mocap",
+  "captura": "mocap_wa_jump_comun.png",
+  "categoria": "wa_jump",
+  "clip": "sin clip",
+  "cuerpo": "comun",
+  "medido": {},
+  "t": 0.0
+ },
+ {
+  "banco": "json",
+  "captura": "json_st_penalty_comun.png",
+  "categoria": "st_penalty",
+  "clip": "jn_setpiece_shot_0704",
+  "cuerpo": "comun",
+  "medido": {
+   "mano_lateral_m": 0.199993491172791,
+   "pie_pelota_m": 0.0950413793325424,
+   "pies_min_m": -0.023546164855361,
+   "salto_cadera_m": 0.00744336843490601
+  },
+  "medido_clip_completo": {
+   "mano_lateral_m": 0.635957479476929,
+   "pie_pelota_m": 0.0950413793325424,
+   "pies_min_m": -0.023546164855361,
+   "salto_cadera_m": 0.211299359798431
+  },
+  "t": 2.383
+ },
+ {
+  "banco": "mixamo",
+  "captura": "mixamo_st_penalty_original.png",
+  "categoria": "st_penalty",
+  "clip": "soccer_penalty_kick",
+  "cuerpo": "original",
+  "medido": {
+   "mano_lateral_m": 0.298273205757141,
+   "pie_pelota_m": 0.0350409671664238,
+   "pies_min_m": 0.025265384465456,
+   "salto_cadera_m": 0.0226207971572876
+  },
+  "medido_clip_completo": {
+   "mano_lateral_m": 0.663789689540863,
+   "pie_pelota_m": 0.0350409671664238,
+   "pies_min_m": 0.00751461647450924,
+   "salto_cadera_m": 0.0735127925872803
+  },
+  "t": 0.758
+ },
+ {
+  "banco": "mocap",
+  "captura": "mocap_st_penalty_original.png",
+  "categoria": "st_penalty",
+  "clip": "mc_penalty_kick",
+  "cuerpo": "original",
+  "medido": {
+   "mano_lateral_m": 0.253194272518158,
+   "pie_pelota_m": 0.04939965903759,
+   "pies_min_m": 0.0130851427093148,
+   "salto_cadera_m": 0.0250800251960754
+  },
+  "medido_clip_completo": {
+   "mano_lateral_m": 0.35036963224411,
+   "pie_pelota_m": 0.04939965903759,
+   "pies_min_m": 0.0130851427093148,
+   "salto_cadera_m": 0.132125616073608
+  },
+  "t": 1.592
+ }
+]

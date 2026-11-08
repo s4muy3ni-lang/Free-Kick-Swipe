@@ -1,0 +1,33 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+       · clips de mocap: 24 (mc_celebration_1, mc_celebration_2, mc_celebration_3, mc_defending_1, mc_defending_2, mc_dribble_1, mc_dribble_2, mc_dribble_3, mc_juggling_1, mc_juggling_3, mc_keeper_save_1, mc_keeper_save_2, mc_keeper_save_3, mc_penalty_kick, mc_penalty_kick_2, mc_penalty_kick_2_mirror, mc_penalty_kick_mirror, mc_power_kick, mc_power_kick_mirror, mc_red_card, mc_side_foot_pass, mc_side_foot_pass_mirror, mc_throw_in, mc_yellow_card)
+[ OK ] test_mocap_mode::test_library_has_the_mocap_clips_with_measured_contacts (14 checks, 54 ms)
+       · modo 2: 8 de 8 jugadores y 2 arqueros con el modelo del mocap
+       · separacion maxima entre los dos esqueletos: pies/manos 0.059 m (Footballer_8 RightFoot), cabeza 0.057 m
+[ OK ] test_mocap_mode::test_mode2_draws_the_mocap_model_following_the_skeleton (10 checks, 721 ms)
+       · pass parado (5.7 m/s, a los 0.6 s): clip mc_side_foot_pass_mirror, pie a 0.008 m de la pelota, latencia 0.28 s
+       · pass trote (3.9 m/s, a los 1.4 s): clip mc_side_foot_pass_mirror, pie a 0.008 m de la pelota, latencia 0.28 s
+       · pass trote (4.5 m/s, a los 1.7 s): clip mc_side_foot_pass_mirror, pie a 0.020 m de la pelota, latencia 0.28 s
+       · pass carrera (5.3 m/s, a los 1.5 s): clip mc_side_foot_pass_mirror, pie a 0.036 m de la pelota, latencia 0.28 s
+       · pass carrera (5.3 m/s, a los 1.9 s): clip mc_side_foot_pass_mirror, pie a 0.045 m de la pelota, latencia 0.28 s
+       · pass sprint (6.4 m/s, a los 1.8 s): clip mc_side_foot_pass_mirror, pie a 0.039 m de la pelota, latencia 0.28 s
+       · shot parado (0.0 m/s, a los 0.6 s): clip mc_power_kick_mirror, pie a 0.015 m de la pelota, latencia 0.42 s
+       · shot trote (3.6 m/s, a los 1.4 s): clip mc_power_kick_mirror, pie a 0.015 m de la pelota, latencia 0.42 s
+       · shot trote (3.6 m/s, a los 1.7 s): clip mc_power_kick, pie a 0.030 m de la pelota, latencia 0.42 s
+       · shot carrera (5.3 m/s, a los 1.5 s): clip mc_power_kick_mirror, pie a 0.051 m de la pelota, latencia 0.42 s
+       · shot carrera (5.3 m/s, a los 1.9 s): clip mc_power_kick_mirror, pie a 0.050 m de la pelota, latencia 0.42 s
+       · shot sprint (7.0 m/s, a los 1.8 s): clip mc_power_kick_mirror, pie a 0.090 m de la pelota, latencia 0.42 s
+       · modo 2: 12 de 12 golpeos ejecutados
+[ OK ] test_mocap_mode::test_mode2_passes_and_shots_connect_at_every_speed (37 checks, 1598 ms)
+       · penal en modo 2: clip mc_penalty_kick, resultado contact, disparos 1
+[ OK ] test_mocap_mode::test_mode2_penalty_uses_the_mocap_run_up (3 checks, 833 ms)
+       · saque en modo 2: clip mc_throw_in, resultado thrown, sale a 1.55 m
+       · falta en modo 2: el arbitro reproduce mc_yellow_card
+[ OK ] test_mocap_mode::test_mode2_throw_in_and_referee_card (5 checks, 744 ms)
+       · modo 3 pass: eventos 1, { "started": 0, "contact": 0, "missed": 0, "out_of_reach": 0 }
+       · modo 3 shot: eventos 1, { "started": 0, "contact": 0, "missed": 0, "out_of_reach": 0 }
+[ OK ] test_mocap_mode::test_mode3_is_tripo_only_and_kicks_connect (6 checks, 191 ms)
+       · modo 1 pase ["Soccer_Pass", "Soccer_Pass_mirror", "strike_foward_jog_inplace", "strike_foward_jog_inplace_mirror"] | modo 2 pase ["mc_side_foot_pass", "mc_side_foot_pass_mirror"], tiro ["mc_power_kick", "mc_power_kick_mirror"], festejo { "source": &"pack", "clip": &"mc_celebration_1" }
+[ OK ] test_mocap_mode::test_mode_switch_picks_the_clips (4 checks, 63 ms)
+
+Resumen: 7 pruebas, 0 fallidas, 0 omitidas, 79 comprobaciones, 4.4 s

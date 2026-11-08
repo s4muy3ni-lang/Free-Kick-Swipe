@@ -1,0 +1,6 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+[ OK ] test_integration_catalog::test_complete_catalog_is_defensive_and_includes_every_source (6 checks, 470 ms)
+[ OK ] test_integration_catalog::test_context_filters_preserve_role_and_mirror_coverage (72 checks, 3538 ms)
+
+Resumen: 2 pruebas, 0 fallidas, 0 omitidas, 78 comprobaciones, 4.1 s

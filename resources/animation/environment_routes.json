@@ -1,0 +1,1353 @@
+{
+  "jn_manager_0358": {
+    "actor": "manager",
+    "context": "protest",
+    "source_name": "ANM_NIS_ET0828_EX2112_MANAGER_ANGRY",
+    "reason": "personaje y condicion de presentacion fuera del campo; sin contacto con el balon de partido"
+  },
+  "jn_manager_1038": {
+    "actor": "manager",
+    "context": "ambient",
+    "source_name": "ANM_NIS_FT0237_MANAGER",
+    "reason": "personaje y condicion de presentacion fuera del campo; sin contacto con el balon de partido"
+  },
+  "jn_manager_1040": {
+    "actor": "manager",
+    "context": "ambient",
+    "source_name": "ANM_NIS_FT0238_MANAGER",
+    "reason": "personaje y condicion de presentacion fuera del campo; sin contacto con el balon de partido"
+  },
+  "jn_manager_1042": {
+    "actor": "manager",
+    "context": "ambient",
+    "source_name": "ANM_NIS_FT0240_MANAGER",
+    "reason": "personaje y condicion de presentacion fuera del campo; sin contacto con el balon de partido"
+  },
+  "jn_manager_1044": {
+    "actor": "manager",
+    "context": "ambient",
+    "source_name": "ANM_NIS_FT0241_MANAGER_B",
+    "reason": "personaje y condicion de presentacion fuera del campo; sin contacto con el balon de partido"
+  },
+  "jn_manager_1386": {
+    "actor": "manager",
+    "context": "ambient",
+    "source_name": "ANM_NIS_FT0801_NIS_MANAGER_1_ANDYS",
+    "reason": "personaje y condicion de presentacion fuera del campo; sin contacto con el balon de partido"
+  },
+  "jn_manager_1388": {
+    "actor": "manager",
+    "context": "ambient",
+    "source_name": "ANM_NIS_FT0803_NIS_MANAGER_3_ANDYD",
+    "reason": "personaje y condicion de presentacion fuera del campo; sin contacto con el balon de partido"
+  },
+  "jn_manager_1390": {
+    "actor": "manager",
+    "context": "ambient",
+    "source_name": "ANM_NIS_FT0803_NIS_MANAGER_3_NIS_MANAGER_3_2_ANDYS",
+    "reason": "personaje y condicion de presentacion fuera del campo; sin contacto con el balon de partido"
+  },
+  "jn_manager_1392": {
+    "actor": "manager",
+    "context": "ambient",
+    "source_name": "ANM_NIS_FT0804_NIS_MANAGER_3_ANDYD",
+    "reason": "personaje y condicion de presentacion fuera del campo; sin contacto con el balon de partido"
+  },
+  "jn_manager_1394": {
+    "actor": "manager",
+    "context": "ambient",
+    "source_name": "ANM_NIS_FT0804_NIS_MANAGER_3_NIS_MANAGER_3_2_ANDYS",
+    "reason": "personaje y condicion de presentacion fuera del campo; sin contacto con el balon de partido"
+  },
+  "jn_mascot_1460": {
+    "actor": "mascot",
+    "context": "celebration",
+    "source_name": "ANM_NIS_FT0878_NIS_HAPPYSTAND_1_NIS_HAPPYSTAND_1_2_ANDYS_MASCOT",
+    "reason": "personaje y condicion de presentacion fuera del campo; sin contacto con el balon de partido"
+  },
+  "jn_manager_2886": {
+    "actor": "manager",
+    "context": "ambient",
+    "source_name": "ANM_NIS_FT1510_NIS_MANAGER_06_MAX",
+    "reason": "personaje y condicion de presentacion fuera del campo; sin contacto con el balon de partido"
+  },
+  "jn_manager_2888": {
+    "actor": "manager",
+    "context": "ambient",
+    "source_name": "ANM_NIS_FT1510_NIS_MANAGER_07_MAX",
+    "reason": "personaje y condicion de presentacion fuera del campo; sin contacto con el balon de partido"
+  },
+  "jn_manager_2890": {
+    "actor": "manager",
+    "context": "ambient",
+    "source_name": "ANM_NIS_FT1510_NIS_MANAGER_08_MAX",
+    "reason": "personaje y condicion de presentacion fuera del campo; sin contacto con el balon de partido"
+  },
+  "jn_manager_2892": {
+    "actor": "manager",
+    "context": "ambient",
+    "source_name": "ANM_NIS_FT1510_NIS_MANAGER_09_MAX",
+    "reason": "personaje y condicion de presentacion fuera del campo; sin contacto con el balon de partido"
+  },
+  "jn_manager_2894": {
+    "actor": "manager",
+    "context": "ambient",
+    "source_name": "ANM_NIS_FT1510_NIS_MANAGER_10_MAX",
+    "reason": "personaje y condicion de presentacion fuera del campo; sin contacto con el balon de partido"
+  },
+  "jn_manager_2896": {
+    "actor": "manager",
+    "context": "ambient",
+    "source_name": "ANM_NIS_FT1511_NIS_MANAGER_02_MAX",
+    "reason": "personaje y condicion de presentacion fuera del campo; sin contacto con el balon de partido"
+  },
+  "jn_manager_2898": {
+    "actor": "manager",
+    "context": "ambient",
+    "source_name": "ANM_NIS_FT1511_NIS_MANAGER_04_ARMANI",
+    "reason": "personaje y condicion de presentacion fuera del campo; sin contacto con el balon de partido"
+  },
+  "jn_manager_2900": {
+    "actor": "manager",
+    "context": "ambient",
+    "source_name": "ANM_NIS_FT1511_NIS_MANAGER_05_ARMANI",
+    "reason": "personaje y condicion de presentacion fuera del campo; sin contacto con el balon de partido"
+  },
+  "jn_manager_2902": {
+    "actor": "manager",
+    "context": "ambient",
+    "source_name": "ANM_NIS_FT1512_NIS_MANAGER_00_MAX_A",
+    "reason": "personaje y condicion de presentacion fuera del campo; sin contacto con el balon de partido"
+  },
+  "jn_manager_2904": {
+    "actor": "manager",
+    "context": "ambient",
+    "source_name": "ANM_NIS_FT1512_NIS_MANAGER_00_MAX_B",
+    "reason": "personaje y condicion de presentacion fuera del campo; sin contacto con el balon de partido"
+  },
+  "jn_manager_2906": {
+    "actor": "manager",
+    "context": "ambient",
+    "source_name": "ANM_NIS_FT1512_NIS_MANAGER_02_MAX",
+    "reason": "personaje y condicion de presentacion fuera del campo; sin contacto con el balon de partido"
+  },
+  "jn_manager_2908": {
+    "actor": "manager",
+    "context": "ambient",
+    "source_name": "ANM_NIS_FT1512_NIS_MANAGER_04_MAX",
+    "reason": "personaje y condicion de presentacion fuera del campo; sin contacto con el balon de partido"
+  },
+  "jn_manager_2910": {
+    "actor": "manager",
+    "context": "ambient",
+    "source_name": "ANM_NIS_FT1512_NIS_MANAGER_05_ARMANI_B",
+    "reason": "personaje y condicion de presentacion fuera del campo; sin contacto con el balon de partido"
+  },
+  "jn_manager_2912": {
+    "actor": "manager",
+    "context": "ambient",
+    "source_name": "ANM_NIS_FT1512_NIS_MANAGER_06_ARMANI",
+    "reason": "personaje y condicion de presentacion fuera del campo; sin contacto con el balon de partido"
+  },
+  "jn_manager_2914": {
+    "actor": "manager",
+    "context": "ambient",
+    "source_name": "ANM_NIS_FT1512_NIS_MANAGER_07_ARMANI",
+    "reason": "personaje y condicion de presentacion fuera del campo; sin contacto con el balon de partido"
+  },
+  "jn_crowd_2916": {
+    "actor": "crowd",
+    "context": "ambient",
+    "source_name": "ANM_NIS_FT1515_NIS_CROWD_03_ARMANI",
+    "reason": "personaje y condicion de presentacion fuera del campo; sin contacto con el balon de partido"
+  },
+  "jn_crowd_2918": {
+    "actor": "crowd",
+    "context": "ambient",
+    "source_name": "ANM_NIS_FT1515_NIS_CROWD_04_ARMANI",
+    "reason": "personaje y condicion de presentacion fuera del campo; sin contacto con el balon de partido"
+  },
+  "jn_crowd_2920": {
+    "actor": "crowd",
+    "context": "ambient",
+    "source_name": "ANM_NIS_FT1515_NIS_CROWD_05_ARMANI",
+    "reason": "personaje y condicion de presentacion fuera del campo; sin contacto con el balon de partido"
+  },
+  "jn_crowd_2922": {
+    "actor": "crowd",
+    "context": "ambient",
+    "source_name": "ANM_NIS_FT1515_NIS_CROWD_06_ARMANI",
+    "reason": "personaje y condicion de presentacion fuera del campo; sin contacto con el balon de partido"
+  },
+  "jn_crowd_2924": {
+    "actor": "crowd",
+    "context": "ambient",
+    "source_name": "ANM_NIS_FT1515_NIS_CROWD_07_ARMANI",
+    "reason": "personaje y condicion de presentacion fuera del campo; sin contacto con el balon de partido"
+  },
+  "jn_crowd_2926": {
+    "actor": "crowd",
+    "context": "ambient",
+    "source_name": "ANM_NIS_FT1515_NIS_CROWD_08_ARMANI",
+    "reason": "personaje y condicion de presentacion fuera del campo; sin contacto con el balon de partido"
+  },
+  "jn_crowd_2928": {
+    "actor": "crowd",
+    "context": "ambient",
+    "source_name": "ANM_NIS_FT1515_NIS_CROWD_09_ARMANI",
+    "reason": "personaje y condicion de presentacion fuera del campo; sin contacto con el balon de partido"
+  },
+  "jn_crowd_2930": {
+    "actor": "crowd",
+    "context": "ambient",
+    "source_name": "ANM_NIS_FT1515_NIS_CROWD_14_MAX",
+    "reason": "personaje y condicion de presentacion fuera del campo; sin contacto con el balon de partido"
+  },
+  "jn_crowd_2932": {
+    "actor": "crowd",
+    "context": "ambient",
+    "source_name": "ANM_NIS_FT1515_NIS_CROWD_16_MAX",
+    "reason": "personaje y condicion de presentacion fuera del campo; sin contacto con el balon de partido"
+  },
+  "jn_crowd_2934": {
+    "actor": "crowd",
+    "context": "ambient",
+    "source_name": "ANM_NIS_FT1515_NIS_CROWD_17_MAX",
+    "reason": "personaje y condicion de presentacion fuera del campo; sin contacto con el balon de partido"
+  },
+  "jn_crowd_2936": {
+    "actor": "crowd",
+    "context": "ambient",
+    "source_name": "ANM_NIS_FT1515_NIS_CROWD_18_MAX",
+    "reason": "personaje y condicion de presentacion fuera del campo; sin contacto con el balon de partido"
+  },
+  "jn_crowd_2938": {
+    "actor": "crowd",
+    "context": "ambient",
+    "source_name": "ANM_NIS_FT1516_NIS_CROWD_01_ARMANI",
+    "reason": "personaje y condicion de presentacion fuera del campo; sin contacto con el balon de partido"
+  },
+  "jn_crowd_2940": {
+    "actor": "crowd",
+    "context": "ambient",
+    "source_name": "ANM_NIS_FT1516_NIS_CROWD_02_ARMANI",
+    "reason": "personaje y condicion de presentacion fuera del campo; sin contacto con el balon de partido"
+  },
+  "jn_crowd_2942": {
+    "actor": "crowd",
+    "context": "ambient",
+    "source_name": "ANM_NIS_FT1516_NIS_CROWD_03_ARMANI",
+    "reason": "personaje y condicion de presentacion fuera del campo; sin contacto con el balon de partido"
+  },
+  "jn_crowd_2944": {
+    "actor": "crowd",
+    "context": "ambient",
+    "source_name": "ANM_NIS_FT1516_NIS_CROWD_04_ARMANI",
+    "reason": "personaje y condicion de presentacion fuera del campo; sin contacto con el balon de partido"
+  },
+  "jn_crowd_2946": {
+    "actor": "crowd",
+    "context": "ambient",
+    "source_name": "ANM_NIS_FT1516_NIS_CROWD_05_ARMANI",
+    "reason": "personaje y condicion de presentacion fuera del campo; sin contacto con el balon de partido"
+  },
+  "jn_crowd_2948": {
+    "actor": "crowd",
+    "context": "ambient",
+    "source_name": "ANM_NIS_FT1516_NIS_CROWD_06_ARMANI",
+    "reason": "personaje y condicion de presentacion fuera del campo; sin contacto con el balon de partido"
+  },
+  "jn_crowd_2950": {
+    "actor": "crowd",
+    "context": "ambient",
+    "source_name": "ANM_NIS_FT1516_NIS_CROWD_07_MAX",
+    "reason": "personaje y condicion de presentacion fuera del campo; sin contacto con el balon de partido"
+  },
+  "jn_crowd_2952": {
+    "actor": "crowd",
+    "context": "ambient",
+    "source_name": "ANM_NIS_FT1516_NIS_CROWD_08_MAX",
+    "reason": "personaje y condicion de presentacion fuera del campo; sin contacto con el balon de partido"
+  },
+  "jn_crowd_2954": {
+    "actor": "crowd",
+    "context": "ambient",
+    "source_name": "ANM_NIS_FT1516_NIS_CROWD_10_MAX",
+    "reason": "personaje y condicion de presentacion fuera del campo; sin contacto con el balon de partido"
+  },
+  "jn_crowd_2956": {
+    "actor": "crowd",
+    "context": "ambient",
+    "source_name": "ANM_NIS_FT1516_NIS_CROWD_11_MAX",
+    "reason": "personaje y condicion de presentacion fuera del campo; sin contacto con el balon de partido"
+  },
+  "jn_crowd_2958": {
+    "actor": "crowd",
+    "context": "ambient",
+    "source_name": "ANM_NIS_FT1516_NIS_CROWD_14_MAX",
+    "reason": "personaje y condicion de presentacion fuera del campo; sin contacto con el balon de partido"
+  },
+  "jn_crowd_2960": {
+    "actor": "crowd",
+    "context": "ambient",
+    "source_name": "ANM_NIS_FT1517_NIS_CROWD_01_ARMANI",
+    "reason": "personaje y condicion de presentacion fuera del campo; sin contacto con el balon de partido"
+  },
+  "jn_crowd_2962": {
+    "actor": "crowd",
+    "context": "ambient",
+    "source_name": "ANM_NIS_FT1517_NIS_CROWD_03_ARMANI",
+    "reason": "personaje y condicion de presentacion fuera del campo; sin contacto con el balon de partido"
+  },
+  "jn_crowd_2964": {
+    "actor": "crowd",
+    "context": "ambient",
+    "source_name": "ANM_NIS_FT1517_NIS_CROWD_04_ARMANI",
+    "reason": "personaje y condicion de presentacion fuera del campo; sin contacto con el balon de partido"
+  },
+  "jn_crowd_2966": {
+    "actor": "crowd",
+    "context": "ambient",
+    "source_name": "ANM_NIS_FT1517_NIS_CROWD_05_ARMANI",
+    "reason": "personaje y condicion de presentacion fuera del campo; sin contacto con el balon de partido"
+  },
+  "jn_crowd_2968": {
+    "actor": "crowd",
+    "context": "ambient",
+    "source_name": "ANM_NIS_FT1517_NIS_CROWD_06_ARMANI",
+    "reason": "personaje y condicion de presentacion fuera del campo; sin contacto con el balon de partido"
+  },
+  "jn_crowd_2970": {
+    "actor": "crowd",
+    "context": "ambient",
+    "source_name": "ANM_NIS_FT1517_NIS_CROWD_07_ARMANI",
+    "reason": "personaje y condicion de presentacion fuera del campo; sin contacto con el balon de partido"
+  },
+  "jn_crowd_2972": {
+    "actor": "crowd",
+    "context": "ambient",
+    "source_name": "ANM_NIS_FT1517_NIS_CROWD_08_ARMANI",
+    "reason": "personaje y condicion de presentacion fuera del campo; sin contacto con el balon de partido"
+  },
+  "jn_crowd_2974": {
+    "actor": "crowd",
+    "context": "ambient",
+    "source_name": "ANM_NIS_FT1517_NIS_CROWD_09_ARMANI",
+    "reason": "personaje y condicion de presentacion fuera del campo; sin contacto con el balon de partido"
+  },
+  "jn_crowd_2976": {
+    "actor": "crowd",
+    "context": "ambient",
+    "source_name": "ANM_NIS_FT1517_NIS_CROWD_10_ARMANI",
+    "reason": "personaje y condicion de presentacion fuera del campo; sin contacto con el balon de partido"
+  },
+  "jn_crowd_2978": {
+    "actor": "crowd",
+    "context": "ambient",
+    "source_name": "ANM_NIS_FT1517_NIS_CROWD_11_MAX",
+    "reason": "personaje y condicion de presentacion fuera del campo; sin contacto con el balon de partido"
+  },
+  "jn_crowd_2980": {
+    "actor": "crowd",
+    "context": "ambient",
+    "source_name": "ANM_NIS_FT1517_NIS_CROWD_12_MAX",
+    "reason": "personaje y condicion de presentacion fuera del campo; sin contacto con el balon de partido"
+  },
+  "jn_crowd_2982": {
+    "actor": "crowd",
+    "context": "ambient",
+    "source_name": "ANM_NIS_FT1517_NIS_CROWD_13_MAX",
+    "reason": "personaje y condicion de presentacion fuera del campo; sin contacto con el balon de partido"
+  },
+  "jn_crowd_2984": {
+    "actor": "crowd",
+    "context": "ambient",
+    "source_name": "ANM_NIS_FT1517_NIS_CROWD_14_MAX",
+    "reason": "personaje y condicion de presentacion fuera del campo; sin contacto con el balon de partido"
+  },
+  "jn_crowd_2986": {
+    "actor": "crowd",
+    "context": "ambient",
+    "source_name": "ANM_NIS_FT1517_NIS_CROWD_15_MAX",
+    "reason": "personaje y condicion de presentacion fuera del campo; sin contacto con el balon de partido"
+  },
+  "jn_crowd_3890": {
+    "actor": "crowd",
+    "context": "celebration",
+    "source_name": "ANM_NIS_FT2009_CROWD_SIT_CLAP_002",
+    "reason": "personaje y condicion de presentacion fuera del campo; sin contacto con el balon de partido"
+  },
+  "jn_crowd_3892": {
+    "actor": "crowd",
+    "context": "celebration",
+    "source_name": "ANM_NIS_FT2010_CROWD_SIT_DOWN_HAPPY_001",
+    "reason": "personaje y condicion de presentacion fuera del campo; sin contacto con el balon de partido"
+  },
+  "jn_crowd_3894": {
+    "actor": "crowd",
+    "context": "ambient",
+    "source_name": "ANM_NIS_FT2014_CROWD_SIT_FIDGET_001",
+    "reason": "personaje y condicion de presentacion fuera del campo; sin contacto con el balon de partido"
+  },
+  "jn_crowd_3896": {
+    "actor": "crowd",
+    "context": "ambient",
+    "source_name": "ANM_NIS_FT2015_CROWD_SIT_FIDGET_002",
+    "reason": "personaje y condicion de presentacion fuera del campo; sin contacto con el balon de partido"
+  },
+  "jn_crowd_3898": {
+    "actor": "crowd",
+    "context": "conceded",
+    "source_name": "ANM_NIS_FT2017_CROWD_SIT_SAD_001",
+    "reason": "personaje y condicion de presentacion fuera del campo; sin contacto con el balon de partido"
+  },
+  "jn_crowd_3900": {
+    "actor": "crowd",
+    "context": "conceded",
+    "source_name": "ANM_NIS_FT2018_CROWD_SIT_SAD_002",
+    "reason": "personaje y condicion de presentacion fuera del campo; sin contacto con el balon de partido"
+  },
+  "jn_crowd_3902": {
+    "actor": "crowd",
+    "context": "protest",
+    "source_name": "ANM_NIS_FT2021_CROWD_STAND_ANGRY_002",
+    "reason": "personaje y condicion de presentacion fuera del campo; sin contacto con el balon de partido"
+  },
+  "jn_crowd_3904": {
+    "actor": "crowd",
+    "context": "ambient",
+    "source_name": "ANM_NIS_FT2026_CROWD_STAND_FIDGET_002_",
+    "reason": "personaje y condicion de presentacion fuera del campo; sin contacto con el balon de partido"
+  },
+  "jn_crowd_3906": {
+    "actor": "crowd",
+    "context": "ambient",
+    "source_name": "ANM_NIS_FT2027_CROWD_STAND_FIDGET_004_",
+    "reason": "personaje y condicion de presentacion fuera del campo; sin contacto con el balon de partido"
+  },
+  "jn_crowd_3980": {
+    "actor": "crowd",
+    "context": "protest",
+    "source_name": "ANM_NIS_FT2087_CROWD_GET_UP_ANGRY_001",
+    "reason": "personaje y condicion de presentacion fuera del campo; sin contacto con el balon de partido"
+  },
+  "jn_crowd_3982": {
+    "actor": "crowd",
+    "context": "protest",
+    "source_name": "ANM_NIS_FT2089_CROWD_GET_UP_ANGRY_002",
+    "reason": "personaje y condicion de presentacion fuera del campo; sin contacto con el balon de partido"
+  },
+  "jn_crowd_3984": {
+    "actor": "crowd",
+    "context": "ambient",
+    "source_name": "ANM_NIS_FT2094_CROWD_GET_UP_NORMAL_001",
+    "reason": "personaje y condicion de presentacion fuera del campo; sin contacto con el balon de partido"
+  },
+  "jn_mascot_3986": {
+    "actor": "mascot",
+    "context": "celebration",
+    "source_name": "ANM_NIS_FX001_MASCOTDANCE_01",
+    "reason": "personaje y condicion de presentacion fuera del campo; sin contacto con el balon de partido"
+  },
+  "jn_mascot_3988": {
+    "actor": "mascot",
+    "context": "celebration",
+    "source_name": "ANM_NIS_FX002_MASCOTDANCE_02",
+    "reason": "personaje y condicion de presentacion fuera del campo; sin contacto con el balon de partido"
+  },
+  "jn_mascot_3990": {
+    "actor": "mascot",
+    "context": "celebration",
+    "source_name": "ANM_NIS_FX003_MASCOTDANCE_03",
+    "reason": "personaje y condicion de presentacion fuera del campo; sin contacto con el balon de partido"
+  },
+  "jn_mascot_3994": {
+    "actor": "mascot",
+    "context": "celebration",
+    "source_name": "ANM_NIS_FX010_MASCOTPOSE_BIGCAT_01",
+    "reason": "personaje y condicion de presentacion fuera del campo; sin contacto con el balon de partido"
+  },
+  "jn_mascot_3996": {
+    "actor": "mascot",
+    "context": "celebration",
+    "source_name": "ANM_NIS_FX011_MASCOTPOSE_BIGCAT_02",
+    "reason": "personaje y condicion de presentacion fuera del campo; sin contacto con el balon de partido"
+  },
+  "jn_mascot_3998": {
+    "actor": "mascot",
+    "context": "celebration",
+    "source_name": "ANM_NIS_FX012_MASCOTPOSE_CLAP_INFRONT_01",
+    "reason": "personaje y condicion de presentacion fuera del campo; sin contacto con el balon de partido"
+  },
+  "jn_mascot_4000": {
+    "actor": "mascot",
+    "context": "celebration",
+    "source_name": "ANM_NIS_FX015_MASCOTPOSE_HAPPYWAVE_01",
+    "reason": "personaje y condicion de presentacion fuera del campo; sin contacto con el balon de partido"
+  },
+  "jn_mascot_4002": {
+    "actor": "mascot",
+    "context": "celebration",
+    "source_name": "ANM_NIS_FX016_MASCOTPOSE_WINGFLAP_01",
+    "reason": "personaje y condicion de presentacion fuera del campo; sin contacto con el balon de partido"
+  },
+  "jn_mascot_4004": {
+    "actor": "mascot",
+    "context": "celebration",
+    "source_name": "ANM_NIS_FX020_MASCOTPOSE_ELEPHANT_01",
+    "reason": "personaje y condicion de presentacion fuera del campo; sin contacto con el balon de partido"
+  },
+  "jn_mascot_4006": {
+    "actor": "mascot",
+    "context": "celebration",
+    "source_name": "ANM_NIS_FX023_MASCOT_ALIEN_WAVE",
+    "reason": "personaje y condicion de presentacion fuera del campo; sin contacto con el balon de partido"
+  },
+  "jn_mascot_4008": {
+    "actor": "mascot",
+    "context": "celebration",
+    "source_name": "ANM_NIS_FX024_MASCOT_BALD_EAGLE_SALUTE",
+    "reason": "personaje y condicion de presentacion fuera del campo; sin contacto con el balon de partido"
+  },
+  "jn_mascot_4010": {
+    "actor": "mascot",
+    "context": "celebration",
+    "source_name": "ANM_NIS_FX026_MASCOT_BEE_JUMP_ROUND_02",
+    "reason": "personaje y condicion de presentacion fuera del campo; sin contacto con el balon de partido"
+  },
+  "jn_mascot_4012": {
+    "actor": "mascot",
+    "context": "celebration",
+    "source_name": "ANM_NIS_FX027_MASCOT_BULL_PAW_GROUND_01",
+    "reason": "personaje y condicion de presentacion fuera del campo; sin contacto con el balon de partido"
+  },
+  "jn_mascot_4014": {
+    "actor": "mascot",
+    "context": "celebration",
+    "source_name": "ANM_NIS_FX028_MASCOT_COCKEREL_CROW",
+    "reason": "personaje y condicion de presentacion fuera del campo; sin contacto con el balon de partido"
+  },
+  "jn_mascot_4016": {
+    "actor": "mascot",
+    "context": "celebration",
+    "source_name": "ANM_NIS_FX030_MASCOT_FOX_KARATE",
+    "reason": "personaje y condicion de presentacion fuera del campo; sin contacto con el balon de partido"
+  },
+  "jn_mascot_4018": {
+    "actor": "mascot",
+    "context": "celebration",
+    "source_name": "ANM_NIS_FX031_MASCOT_STRONGMAN_FLEX",
+    "reason": "personaje y condicion de presentacion fuera del campo; sin contacto con el balon de partido"
+  },
+  "jn_mascot_4020": {
+    "actor": "mascot",
+    "context": "celebration",
+    "source_name": "ANM_NIS_FX032_MASCOT_KINGSGUARD_MARCH",
+    "reason": "personaje y condicion de presentacion fuera del campo; sin contacto con el balon de partido"
+  },
+  "jn_mascot_4022": {
+    "actor": "mascot",
+    "context": "celebration",
+    "source_name": "ANM_NIS_FX033_MASCOT_BUNNY_HOP",
+    "reason": "personaje y condicion de presentacion fuera del campo; sin contacto con el balon de partido"
+  },
+  "jn_mascot_4024": {
+    "actor": "mascot",
+    "context": "celebration",
+    "source_name": "ANM_NIS_FX034_MASCOT_CROC_SNAP",
+    "reason": "personaje y condicion de presentacion fuera del campo; sin contacto con el balon de partido"
+  },
+  "jn_mascot_4026": {
+    "actor": "mascot",
+    "context": "celebration",
+    "source_name": "ANM_NIS_FX035_MASCOT_LION_POUNCE",
+    "reason": "personaje y condicion de presentacion fuera del campo; sin contacto con el balon de partido"
+  },
+  "jn_mascot_4028": {
+    "actor": "mascot",
+    "context": "celebration",
+    "source_name": "ANM_NIS_FX036_MASCOT_SNOWMAN_SHIVER",
+    "reason": "personaje y condicion de presentacion fuera del campo; sin contacto con el balon de partido"
+  },
+  "jn_mascot_4030": {
+    "actor": "mascot",
+    "context": "celebration",
+    "source_name": "ANM_NIS_FX037_MASCOT_TOUCAN_SAMBA",
+    "reason": "personaje y condicion de presentacion fuera del campo; sin contacto con el balon de partido"
+  },
+  "jn_mascot_4034": {
+    "actor": "mascot",
+    "context": "celebration",
+    "source_name": "ANM_NIS_FX042_IRISH_MASCOT_DANCE_B",
+    "reason": "personaje y condicion de presentacion fuera del campo; sin contacto con el balon de partido"
+  },
+  "jn_mascot_4036": {
+    "actor": "mascot",
+    "context": "celebration",
+    "source_name": "ANM_NIS_FX046_PORTUGAL_MASCOT_B",
+    "reason": "personaje y condicion de presentacion fuera del campo; sin contacto con el balon de partido"
+  },
+  "jn_mascot_4038": {
+    "actor": "mascot",
+    "context": "celebration",
+    "source_name": "ANM_NIS_FX048_SNAKE_MASCOT_B",
+    "reason": "personaje y condicion de presentacion fuera del campo; sin contacto con el balon de partido"
+  },
+  "jn_mascot_4042": {
+    "actor": "mascot",
+    "context": "celebration",
+    "source_name": "ANM_NIS_FX052_VIKING_MASCOT_PUNCH_FLOOR",
+    "reason": "personaje y condicion de presentacion fuera del campo; sin contacto con el balon de partido"
+  },
+  "jn_mascot_4044": {
+    "actor": "mascot",
+    "context": "celebration",
+    "source_name": "ANM_NIS_FX055_MASCOT_EURO_BEAR_WAVE",
+    "reason": "personaje y condicion de presentacion fuera del campo; sin contacto con el balon de partido"
+  },
+  "jn_mascot_4046": {
+    "actor": "mascot",
+    "context": "celebration",
+    "source_name": "ANM_NIS_FX056_MASCOT_CHAMPIONS_BEAR",
+    "reason": "personaje y condicion de presentacion fuera del campo; sin contacto con el balon de partido"
+  },
+  "jn_mascot_4048": {
+    "actor": "mascot",
+    "context": "celebration",
+    "source_name": "ANM_NIS_FX057_MASCOT_HAMMERHEAD_SWIM",
+    "reason": "personaje y condicion de presentacion fuera del campo; sin contacto con el balon de partido"
+  },
+  "jn_mascot_4050": {
+    "actor": "mascot",
+    "context": "celebration",
+    "source_name": "ANM_NIS_FX058_MASCOT_PEACOCK_SHAKE_ASS",
+    "reason": "personaje y condicion de presentacion fuera del campo; sin contacto con el balon de partido"
+  },
+  "jn_mascot_4052": {
+    "actor": "mascot",
+    "context": "celebration",
+    "source_name": "ANM_NIS_FX059_MASCOT_POLISH_SOAR",
+    "reason": "personaje y condicion de presentacion fuera del campo; sin contacto con el balon de partido"
+  },
+  "jn_mascot_4054": {
+    "actor": "mascot",
+    "context": "celebration",
+    "source_name": "ANM_NIS_FX060_MASCOT_ZEUS_HANDS_TO_SKY",
+    "reason": "personaje y condicion de presentacion fuera del campo; sin contacto con el balon de partido"
+  },
+  "jn_mascot_4056": {
+    "actor": "mascot",
+    "context": "celebration",
+    "source_name": "ANM_NIS_FX063_HALLOWEEN_MASCOT_001",
+    "reason": "personaje y condicion de presentacion fuera del campo; sin contacto con el balon de partido"
+  },
+  "jn_mascot_4058": {
+    "actor": "mascot",
+    "context": "celebration",
+    "source_name": "ANM_NIS_FX064_MADRID_MASCOT_001",
+    "reason": "personaje y condicion de presentacion fuera del campo; sin contacto con el balon de partido"
+  },
+  "jn_mascot_4060": {
+    "actor": "mascot",
+    "context": "celebration",
+    "source_name": "ANM_NIS_FX067_MEXICO_MASCOT_002",
+    "reason": "personaje y condicion de presentacion fuera del campo; sin contacto con el balon de partido"
+  },
+  "jn_mascot_4062": {
+    "actor": "mascot",
+    "context": "celebration",
+    "source_name": "ANM_NIS_FX068_POWER_MASCOT_001",
+    "reason": "personaje y condicion de presentacion fuera del campo; sin contacto con el balon de partido"
+  },
+  "jn_mascot_4064": {
+    "actor": "mascot",
+    "context": "celebration",
+    "source_name": "ANM_NIS_FX070_TURKEY_MASCOT_001",
+    "reason": "personaje y condicion de presentacion fuera del campo; sin contacto con el balon de partido"
+  },
+  "jn_nis_misc_0240": {
+    "actor": "substitute",
+    "context": "protest",
+    "source_name": "ANM_NIS_ET0705_EX2055_ANGY_TURN_L",
+    "reason": "clasificacion tras inspeccion de cuatro poses sobre el esqueleto real; gesto individual sin contacto con otro actor",
+    "visual_sheet": "page_00.png",
+    "visual_row": 4
+  },
+  "jn_nis_misc_0252": {
+    "actor": "substitute",
+    "context": "protest",
+    "source_name": "ANM_NIS_ET0714_EX2060_FRUSTRATED_TURN_L",
+    "reason": "clasificacion tras inspeccion de cuatro poses sobre el esqueleto real; gesto individual sin contacto con otro actor",
+    "visual_sheet": "page_00.png",
+    "visual_row": 5
+  },
+  "jn_nis_misc_0260": {
+    "actor": "substitute",
+    "context": "protest",
+    "source_name": "ANM_NIS_ET0718_EX2065_WHO_ME_TURN_L",
+    "reason": "clasificacion tras inspeccion de cuatro poses sobre el esqueleto real; gesto individual sin contacto con otro actor",
+    "visual_sheet": "page_00.png",
+    "visual_row": 6
+  },
+  "jn_nis_misc_2858": {
+    "actor": "substitute",
+    "context": "protest",
+    "source_name": "ANM_NIS_FT1507_NIS_TAUNT_03_ARMANI",
+    "reason": "clasificacion tras inspeccion de cuatro poses sobre el esqueleto real; gesto individual sin contacto con otro actor",
+    "visual_sheet": "page_12.png",
+    "visual_row": 2
+  },
+  "jn_nis_misc_2860": {
+    "actor": "substitute",
+    "context": "protest",
+    "source_name": "ANM_NIS_FT1507_NIS_TAUNT_05_ARMANI",
+    "reason": "clasificacion tras inspeccion de cuatro poses sobre el esqueleto real; gesto individual sin contacto con otro actor",
+    "visual_sheet": "page_12.png",
+    "visual_row": 3
+  },
+  "jn_nis_misc_0290": {
+    "actor": "substitute",
+    "context": "intro",
+    "source_name": "ANM_NIS_ET0737_EX2078_ARMS_IN_FRONT",
+    "reason": "clasificacion tras inspeccion de cuatro poses sobre el esqueleto real; gesto individual sin contacto con otro actor",
+    "visual_sheet": "page_00.png",
+    "visual_row": 7
+  },
+  "jn_nis_misc_0292": {
+    "actor": "substitute",
+    "context": "intro",
+    "source_name": "ANM_NIS_ET0737_EX2078_ARMS_IN_FRONT_LOOP",
+    "reason": "clasificacion tras inspeccion de cuatro poses sobre el esqueleto real; gesto individual sin contacto con otro actor",
+    "visual_sheet": "page_00.png",
+    "visual_row": 8
+  },
+  "jn_nis_misc_0294": {
+    "actor": "substitute",
+    "context": "intro",
+    "source_name": "ANM_NIS_ET0738_EX2079_ARMS_BEHIND",
+    "reason": "clasificacion tras inspeccion de cuatro poses sobre el esqueleto real; gesto individual sin contacto con otro actor",
+    "visual_sheet": "page_01.png",
+    "visual_row": 1
+  },
+  "jn_nis_misc_0296": {
+    "actor": "substitute",
+    "context": "intro",
+    "source_name": "ANM_NIS_ET0738_EX2079_ARMS_BEHIND_LOOP",
+    "reason": "clasificacion tras inspeccion de cuatro poses sobre el esqueleto real; gesto individual sin contacto con otro actor",
+    "visual_sheet": "page_01.png",
+    "visual_row": 2
+  },
+  "jn_nis_misc_0342": {
+    "actor": "substitute",
+    "context": "intro",
+    "source_name": "ANM_NIS_ET0821_EX2106_CROUCH_DOWN",
+    "reason": "clasificacion tras inspeccion de cuatro poses sobre el esqueleto real; gesto individual sin contacto con otro actor",
+    "visual_sheet": "page_01.png",
+    "visual_row": 8
+  },
+  "jn_nis_misc_0344": {
+    "actor": "substitute",
+    "context": "intro",
+    "source_name": "ANM_NIS_ET0821_EX2106_CROUCH_DOWN_END",
+    "reason": "clasificacion tras inspeccion de cuatro poses sobre el esqueleto real; gesto individual sin contacto con otro actor",
+    "visual_sheet": "page_02.png",
+    "visual_row": 1
+  },
+  "jn_nis_misc_0346": {
+    "actor": "substitute",
+    "context": "intro",
+    "source_name": "ANM_NIS_ET0822_EX2107_CROUCH_DOWN",
+    "reason": "clasificacion tras inspeccion de cuatro poses sobre el esqueleto real; gesto individual sin contacto con otro actor",
+    "visual_sheet": "page_02.png",
+    "visual_row": 2
+  },
+  "jn_nis_misc_0348": {
+    "actor": "substitute",
+    "context": "intro",
+    "source_name": "ANM_NIS_ET0822_EX2107_CROUCH_DOWN_END",
+    "reason": "clasificacion tras inspeccion de cuatro poses sobre el esqueleto real; gesto individual sin contacto con otro actor",
+    "visual_sheet": "page_02.png",
+    "visual_row": 3
+  },
+  "jn_nis_misc_1062": {
+    "actor": "substitute",
+    "context": "intro",
+    "source_name": "ANM_NIS_FT0307_NIS_",
+    "reason": "clasificacion tras inspeccion de cuatro poses sobre el esqueleto real; gesto individual sin contacto con otro actor",
+    "visual_sheet": "page_06.png",
+    "visual_row": 1
+  },
+  "jn_nis_misc_1072": {
+    "actor": "substitute",
+    "context": "intro",
+    "source_name": "ANM_NIS_FT0313_NIS",
+    "reason": "clasificacion tras inspeccion de cuatro poses sobre el esqueleto real; gesto individual sin contacto con otro actor",
+    "visual_sheet": "page_06.png",
+    "visual_row": 6
+  },
+  "jn_nis_misc_1074": {
+    "actor": "substitute",
+    "context": "intro",
+    "source_name": "ANM_NIS_FT0316_NIS",
+    "reason": "clasificacion tras inspeccion de cuatro poses sobre el esqueleto real; gesto individual sin contacto con otro actor",
+    "visual_sheet": "page_06.png",
+    "visual_row": 7
+  },
+  "jn_nis_misc_1096": {
+    "actor": "substitute",
+    "context": "intro",
+    "source_name": "ANM_NIS_FT0351_NIS_CHRIS",
+    "reason": "clasificacion tras inspeccion de cuatro poses sobre el esqueleto real; gesto individual sin contacto con otro actor",
+    "visual_sheet": "page_07.png",
+    "visual_row": 8
+  },
+  "jn_nis_misc_1120": {
+    "actor": "substitute",
+    "context": "intro",
+    "source_name": "ANM_NIS_FT0402_NIS_CHRIS",
+    "reason": "clasificacion tras inspeccion de cuatro poses sobre el esqueleto real; gesto individual sin contacto con otro actor",
+    "visual_sheet": "page_09.png",
+    "visual_row": 4
+  },
+  "jn_nis_misc_1268": {
+    "actor": "substitute",
+    "context": "intro",
+    "source_name": "ANM_NIS_FT0664_FT_NIS_0_ALEX",
+    "reason": "clasificacion tras inspeccion de cuatro poses sobre el esqueleto real; gesto individual sin contacto con otro actor",
+    "visual_sheet": "page_10.png",
+    "visual_row": 1
+  },
+  "jn_nis_misc_3508": {
+    "actor": "substitute",
+    "context": "intro",
+    "source_name": "ANM_NIS_FT1668_NIS_REVEAL_4_DAVID",
+    "reason": "clasificacion tras inspeccion de cuatro poses sobre el esqueleto real; gesto individual sin contacto con otro actor",
+    "visual_sheet": "page_12.png",
+    "visual_row": 7
+  },
+  "jn_nis_misc_3510": {
+    "actor": "substitute",
+    "context": "intro",
+    "source_name": "ANM_NIS_FT1668_NIS_REVEAL_5_DAVID",
+    "reason": "clasificacion tras inspeccion de cuatro poses sobre el esqueleto real; gesto individual sin contacto con otro actor",
+    "visual_sheet": "page_12.png",
+    "visual_row": 8
+  },
+  "jn_nis_misc_0868": {
+    "actor": "substitute",
+    "context": "ambient",
+    "source_name": "ANM_NIS_EXE605_RELAXED",
+    "reason": "clasificacion tras inspeccion de cuatro poses sobre el esqueleto real; gesto individual sin contacto con otro actor",
+    "visual_sheet": "page_04.png",
+    "visual_row": 6,
+    "anchor": "bench"
+  },
+  "jn_nis_misc_1058": {
+    "actor": "substitute",
+    "context": "ambient",
+    "source_name": "ANM_NIS_FT0303_NIS_",
+    "reason": "clasificacion tras inspeccion de cuatro poses sobre el esqueleto real; gesto individual sin contacto con otro actor",
+    "visual_sheet": "page_05.png",
+    "visual_row": 7
+  },
+  "jn_nis_misc_1084": {
+    "actor": "substitute",
+    "context": "ambient",
+    "source_name": "ANM_NIS_FT0325_NIS",
+    "reason": "clasificacion tras inspeccion de cuatro poses sobre el esqueleto real; gesto individual sin contacto con otro actor",
+    "visual_sheet": "page_07.png",
+    "visual_row": 4
+  },
+  "jn_nis_misc_1102": {
+    "actor": "substitute",
+    "context": "ambient",
+    "source_name": "ANM_NIS_FT0355_NIS_ANDY",
+    "reason": "clasificacion tras inspeccion de cuatro poses sobre el esqueleto real; gesto individual sin contacto con otro actor",
+    "visual_sheet": "page_08.png",
+    "visual_row": 3
+  },
+  "jn_nis_misc_1104": {
+    "actor": "substitute",
+    "context": "ambient",
+    "source_name": "ANM_NIS_FT0355_NIS_CHRIS",
+    "reason": "clasificacion tras inspeccion de cuatro poses sobre el esqueleto real; gesto individual sin contacto con otro actor",
+    "visual_sheet": "page_08.png",
+    "visual_row": 4
+  },
+  "jn_nis_misc_1408": {
+    "actor": "substitute",
+    "context": "ambient",
+    "source_name": "ANM_NIS_FT0821_NIS_MISC_24_ANDYS",
+    "reason": "clasificacion tras inspeccion de cuatro poses sobre el esqueleto real; gesto individual sin contacto con otro actor",
+    "visual_sheet": "page_11.png",
+    "visual_row": 4
+  },
+  "jn_nis_misc_1410": {
+    "actor": "substitute",
+    "context": "ambient",
+    "source_name": "ANM_NIS_FT0821_NIS_MISC_24_NIS_MISC_24_2_ANDYD",
+    "reason": "clasificacion tras inspeccion de cuatro poses sobre el esqueleto real; gesto individual sin contacto con otro actor",
+    "visual_sheet": "page_11.png",
+    "visual_row": 5
+  },
+  "jn_nis_misc_1412": {
+    "actor": "substitute",
+    "context": "ambient",
+    "source_name": "ANM_NIS_FT0821_NIS_MISC_24_NIS_MISC_24_NIS_MISC_24_3_ANDYD",
+    "reason": "clasificacion tras inspeccion de cuatro poses sobre el esqueleto real; gesto individual sin contacto con otro actor",
+    "visual_sheet": "page_11.png",
+    "visual_row": 6
+  },
+  "jn_nis_misc_1416": {
+    "actor": "substitute",
+    "context": "ambient",
+    "source_name": "ANM_NIS_FT0840_NIS_MISC_40_ANDYS",
+    "reason": "clasificacion tras inspeccion de cuatro poses sobre el esqueleto real; gesto individual sin contacto con otro actor",
+    "visual_sheet": "page_11.png",
+    "visual_row": 7
+  },
+  "jn_nis_misc_1052": {
+    "actor": "substitute",
+    "context": "conceded",
+    "source_name": "ANM_NIS_FT0266_NIS",
+    "reason": "clasificacion tras inspeccion de cuatro poses sobre el esqueleto real; gesto individual sin contacto con otro actor",
+    "visual_sheet": "page_05.png",
+    "visual_row": 4
+  },
+  "jn_nis_misc_1060": {
+    "actor": "substitute",
+    "context": "conceded",
+    "source_name": "ANM_NIS_FT0305_NIS",
+    "reason": "clasificacion tras inspeccion de cuatro poses sobre el esqueleto real; gesto individual sin contacto con otro actor",
+    "visual_sheet": "page_05.png",
+    "visual_row": 8
+  },
+  "jn_nis_misc_1050": {
+    "actor": "substitute",
+    "context": "celebration",
+    "source_name": "ANM_NIS_FT0265_NIS",
+    "reason": "clasificacion tras inspeccion de cuatro poses sobre el esqueleto real; gesto individual sin contacto con otro actor",
+    "visual_sheet": "page_05.png",
+    "visual_row": 3
+  },
+  "jn_nis_misc_1054": {
+    "actor": "substitute",
+    "context": "celebration",
+    "source_name": "ANM_NIS_FT0267_NIS",
+    "reason": "clasificacion tras inspeccion de cuatro poses sobre el esqueleto real; gesto individual sin contacto con otro actor",
+    "visual_sheet": "page_05.png",
+    "visual_row": 5
+  },
+  "jn_nis_misc_1056": {
+    "actor": "substitute",
+    "context": "celebration",
+    "source_name": "ANM_NIS_FT0301_NIS_",
+    "reason": "clasificacion tras inspeccion de cuatro poses sobre el esqueleto real; gesto individual sin contacto con otro actor",
+    "visual_sheet": "page_05.png",
+    "visual_row": 6
+  },
+  "jn_nis_misc_1064": {
+    "actor": "substitute",
+    "context": "celebration",
+    "source_name": "ANM_NIS_FT0308_NIS_A",
+    "reason": "clasificacion tras inspeccion de cuatro poses sobre el esqueleto real; gesto individual sin contacto con otro actor",
+    "visual_sheet": "page_06.png",
+    "visual_row": 2
+  },
+  "jn_nis_misc_1066": {
+    "actor": "substitute",
+    "context": "celebration",
+    "source_name": "ANM_NIS_FT0308_NIS_B",
+    "reason": "clasificacion tras inspeccion de cuatro poses sobre el esqueleto real; gesto individual sin contacto con otro actor",
+    "visual_sheet": "page_06.png",
+    "visual_row": 3
+  },
+  "jn_nis_misc_1068": {
+    "actor": "substitute",
+    "context": "celebration",
+    "source_name": "ANM_NIS_FT0310_NIS",
+    "reason": "clasificacion tras inspeccion de cuatro poses sobre el esqueleto real; gesto individual sin contacto con otro actor",
+    "visual_sheet": "page_06.png",
+    "visual_row": 4
+  },
+  "jn_nis_misc_1070": {
+    "actor": "substitute",
+    "context": "celebration",
+    "source_name": "ANM_NIS_FT0312_NIS",
+    "reason": "clasificacion tras inspeccion de cuatro poses sobre el esqueleto real; gesto individual sin contacto con otro actor",
+    "visual_sheet": "page_06.png",
+    "visual_row": 5
+  },
+  "jn_nis_misc_1076": {
+    "actor": "substitute",
+    "context": "celebration",
+    "source_name": "ANM_NIS_FT0317_NIS",
+    "reason": "clasificacion tras inspeccion de cuatro poses sobre el esqueleto real; gesto individual sin contacto con otro actor",
+    "visual_sheet": "page_06.png",
+    "visual_row": 8
+  },
+  "jn_nis_misc_1082": {
+    "actor": "substitute",
+    "context": "celebration",
+    "source_name": "ANM_NIS_FT0321_NIS",
+    "reason": "clasificacion tras inspeccion de cuatro poses sobre el esqueleto real; gesto individual sin contacto con otro actor",
+    "visual_sheet": "page_07.png",
+    "visual_row": 3
+  },
+  "jn_nis_misc_1090": {
+    "actor": "substitute",
+    "context": "celebration",
+    "source_name": "ANM_NIS_FT0350_NIS_ANDY",
+    "reason": "clasificacion tras inspeccion de cuatro poses sobre el esqueleto real; gesto individual sin contacto con otro actor",
+    "visual_sheet": "page_07.png",
+    "visual_row": 5
+  },
+  "jn_nis_misc_1092": {
+    "actor": "substitute",
+    "context": "celebration",
+    "source_name": "ANM_NIS_FT0350_NIS_CHRIS",
+    "reason": "clasificacion tras inspeccion de cuatro poses sobre el esqueleto real; gesto individual sin contacto con otro actor",
+    "visual_sheet": "page_07.png",
+    "visual_row": 6
+  },
+  "jn_nis_misc_1094": {
+    "actor": "substitute",
+    "context": "celebration",
+    "source_name": "ANM_NIS_FT0351_NIS_ANDY",
+    "reason": "clasificacion tras inspeccion de cuatro poses sobre el esqueleto real; gesto individual sin contacto con otro actor",
+    "visual_sheet": "page_07.png",
+    "visual_row": 7
+  },
+  "jn_nis_misc_1098": {
+    "actor": "substitute",
+    "context": "celebration",
+    "source_name": "ANM_NIS_FT0354_NIS_ANDY",
+    "reason": "clasificacion tras inspeccion de cuatro poses sobre el esqueleto real; gesto individual sin contacto con otro actor",
+    "visual_sheet": "page_08.png",
+    "visual_row": 1
+  },
+  "jn_nis_misc_1100": {
+    "actor": "substitute",
+    "context": "celebration",
+    "source_name": "ANM_NIS_FT0354_NIS_CHRIS",
+    "reason": "clasificacion tras inspeccion de cuatro poses sobre el esqueleto real; gesto individual sin contacto con otro actor",
+    "visual_sheet": "page_08.png",
+    "visual_row": 2
+  },
+  "jn_nis_misc_1108": {
+    "actor": "substitute",
+    "context": "celebration",
+    "source_name": "ANM_NIS_FT0356_NIS_CHRIS",
+    "reason": "clasificacion tras inspeccion de cuatro poses sobre el esqueleto real; gesto individual sin contacto con otro actor",
+    "visual_sheet": "page_08.png",
+    "visual_row": 6
+  },
+  "jn_nis_misc_1112": {
+    "actor": "substitute",
+    "context": "celebration",
+    "source_name": "ANM_NIS_FT0362_NIS_CHRIS",
+    "reason": "clasificacion tras inspeccion de cuatro poses sobre el esqueleto real; gesto individual sin contacto con otro actor",
+    "visual_sheet": "page_08.png",
+    "visual_row": 8
+  },
+  "jn_nis_misc_1126": {
+    "actor": "substitute",
+    "context": "celebration",
+    "source_name": "ANM_NIS_FT0420_NIS",
+    "reason": "clasificacion tras inspeccion de cuatro poses sobre el esqueleto real; gesto individual sin contacto con otro actor",
+    "visual_sheet": "page_09.png",
+    "visual_row": 5
+  },
+  "jn_nis_misc_1128": {
+    "actor": "substitute",
+    "context": "celebration",
+    "source_name": "ANM_NIS_FT0421_NIS",
+    "reason": "clasificacion tras inspeccion de cuatro poses sobre el esqueleto real; gesto individual sin contacto con otro actor",
+    "visual_sheet": "page_09.png",
+    "visual_row": 6
+  },
+  "jn_nis_misc_1396": {
+    "actor": "substitute",
+    "context": "celebration",
+    "source_name": "ANM_NIS_FT0808_NIS_MISC_06_ANDYD",
+    "reason": "clasificacion tras inspeccion de cuatro poses sobre el esqueleto real; gesto individual sin contacto con otro actor",
+    "visual_sheet": "page_10.png",
+    "visual_row": 6
+  },
+  "jn_nis_misc_1398": {
+    "actor": "substitute",
+    "context": "celebration",
+    "source_name": "ANM_NIS_FT0808_NIS_MISC_06_NIS_MISC_06_2_ANDYS",
+    "reason": "clasificacion tras inspeccion de cuatro poses sobre el esqueleto real; gesto individual sin contacto con otro actor",
+    "visual_sheet": "page_10.png",
+    "visual_row": 7
+  },
+  "jn_nis_misc_1400": {
+    "actor": "substitute",
+    "context": "celebration",
+    "source_name": "ANM_NIS_FT0809_NIS_MISC_07_ANDYD",
+    "reason": "clasificacion tras inspeccion de cuatro poses sobre el esqueleto real; gesto individual sin contacto con otro actor",
+    "visual_sheet": "page_10.png",
+    "visual_row": 8
+  },
+  "jn_nis_misc_1402": {
+    "actor": "substitute",
+    "context": "celebration",
+    "source_name": "ANM_NIS_FT0809_NIS_MISC_07_NIS_MISC_07_2_ANDYS",
+    "reason": "clasificacion tras inspeccion de cuatro poses sobre el esqueleto real; gesto individual sin contacto con otro actor",
+    "visual_sheet": "page_11.png",
+    "visual_row": 1
+  },
+  "jn_nis_misc_1404": {
+    "actor": "substitute",
+    "context": "celebration",
+    "source_name": "ANM_NIS_FT0818_NIS_MISC_19_ANDYD",
+    "reason": "clasificacion tras inspeccion de cuatro poses sobre el esqueleto real; gesto individual sin contacto con otro actor",
+    "visual_sheet": "page_11.png",
+    "visual_row": 2
+  },
+  "jn_nis_misc_1406": {
+    "actor": "substitute",
+    "context": "celebration",
+    "source_name": "ANM_NIS_FT0818_NIS_MISC_19_NIS_MISC_19_2_ANDYS",
+    "reason": "clasificacion tras inspeccion de cuatro poses sobre el esqueleto real; gesto individual sin contacto con otro actor",
+    "visual_sheet": "page_11.png",
+    "visual_row": 3
+  },
+  "jn_nis_misc_2862": {
+    "actor": "substitute",
+    "context": "celebration",
+    "source_name": "ANM_NIS_FT1507_NIS_TAUNT_06_ARMANI",
+    "reason": "clasificacion tras inspeccion de cuatro poses sobre el esqueleto real; gesto individual sin contacto con otro actor",
+    "visual_sheet": "page_12.png",
+    "visual_row": 4
+  },
+  "jn_nis_misc_2864": {
+    "actor": "substitute",
+    "context": "celebration",
+    "source_name": "ANM_NIS_FT1507_NIS_TAUNT_12_MAX",
+    "reason": "clasificacion tras inspeccion de cuatro poses sobre el esqueleto real; gesto individual sin contacto con otro actor",
+    "visual_sheet": "page_12.png",
+    "visual_row": 5
+  },
+  "jn_nis_misc_2866": {
+    "actor": "substitute",
+    "context": "celebration",
+    "source_name": "ANM_NIS_FT1507_NIS_TAUNT_13_MAX",
+    "reason": "clasificacion tras inspeccion de cuatro poses sobre el esqueleto real; gesto individual sin contacto con otro actor",
+    "visual_sheet": "page_12.png",
+    "visual_row": 6
+  },
+  "jn_nis_misc_3992": {
+    "actor": "substitute",
+    "context": "celebration",
+    "source_name": "ANM_NIS_FX007_NIGHT_FEVER_DANCE_01",
+    "reason": "clasificacion tras inspeccion de cuatro poses sobre el esqueleto real; gesto individual sin contacto con otro actor",
+    "visual_sheet": "page_13.png",
+    "visual_row": 1
+  },
+  "jn_nis_misc_4032": {
+    "actor": "substitute",
+    "context": "celebration",
+    "source_name": "ANM_NIS_FX039_EASTER_BUNNY_B",
+    "reason": "clasificacion tras inspeccion de cuatro poses sobre el esqueleto real; gesto individual sin contacto con otro actor",
+    "visual_sheet": "page_13.png",
+    "visual_row": 2
+  },
+  "jn_nis_misc_4040": {
+    "actor": "substitute",
+    "context": "celebration",
+    "source_name": "ANM_NIS_FX049_VALENTINE_BEAR_A",
+    "reason": "clasificacion tras inspeccion de cuatro poses sobre el esqueleto real; gesto individual sin contacto con otro actor",
+    "visual_sheet": "page_13.png",
+    "visual_row": 3
+  },
+  "jn_nis_walk_0114": {
+    "actor": "substitute",
+    "context": "conceded",
+    "source_name": "ANM_NIS_ET0265_XF0240_SHAKEHEADWALKAWAY",
+    "reason": "desplazamiento de entrada, espera o decepcion identificado por nombre y rol; raiz fuera de la cancha"
+  },
+  "jn_nis_walk_0120": {
+    "actor": "substitute",
+    "context": "intro",
+    "source_name": "ANM_NIS_ET0316_XF0540_WALKINTRO",
+    "reason": "desplazamiento de entrada, espera o decepcion identificado por nombre y rol; raiz fuera de la cancha"
+  },
+  "jn_nis_walk_0122": {
+    "actor": "substitute",
+    "context": "intro",
+    "source_name": "ANM_NIS_ET0317_XF0550_WALKINTRO",
+    "reason": "desplazamiento de entrada, espera o decepcion identificado por nombre y rol; raiz fuera de la cancha"
+  },
+  "jn_nis_walk_0124": {
+    "actor": "substitute",
+    "context": "intro",
+    "source_name": "ANM_NIS_ET0317_XF0550_WALKINTRO_HANDS_DOWN",
+    "reason": "desplazamiento de entrada, espera o decepcion identificado por nombre y rol; raiz fuera de la cancha"
+  },
+  "jn_nis_walk_0126": {
+    "actor": "substitute",
+    "context": "intro",
+    "source_name": "ANM_NIS_ET0318_XF0550_WALKINTRO",
+    "reason": "desplazamiento de entrada, espera o decepcion identificado por nombre y rol; raiz fuera de la cancha"
+  },
+  "jn_nis_walk_0128": {
+    "actor": "substitute",
+    "context": "intro",
+    "source_name": "ANM_NIS_ET0320_XF0560_WALKINTRO",
+    "reason": "desplazamiento de entrada, espera o decepcion identificado por nombre y rol; raiz fuera de la cancha"
+  },
+  "jn_nis_walk_0130": {
+    "actor": "substitute",
+    "context": "intro",
+    "source_name": "ANM_NIS_ET0326_XF0590_JOGINTRO",
+    "reason": "desplazamiento de entrada, espera o decepcion identificado por nombre y rol; raiz fuera de la cancha"
+  },
+  "jn_nis_walk_0132": {
+    "actor": "substitute",
+    "context": "intro",
+    "source_name": "ANM_NIS_ET0327_XF0590_JOGINTRO",
+    "reason": "desplazamiento de entrada, espera o decepcion identificado por nombre y rol; raiz fuera de la cancha"
+  },
+  "jn_nis_walk_0172": {
+    "actor": "substitute",
+    "context": "intro",
+    "source_name": "ANM_NIS_ET0345_NONAME_WALKINTRO",
+    "reason": "desplazamiento de entrada, espera o decepcion identificado por nombre y rol; raiz fuera de la cancha"
+  },
+  "jn_nis_walk_0226": {
+    "actor": "substitute",
+    "context": "ambient",
+    "source_name": "ANM_NIS_ET0648_EX2047_WALK_FIDGET",
+    "reason": "desplazamiento de entrada, espera o decepcion identificado por nombre y rol; raiz fuera de la cancha"
+  },
+  "jn_nis_walk_0228": {
+    "actor": "substitute",
+    "context": "conceded",
+    "source_name": "ANM_NIS_ET0650_EX2048_WALK_SHAKE_HEAD",
+    "reason": "desplazamiento de entrada, espera o decepcion identificado por nombre y rol; raiz fuera de la cancha"
+  },
+  "jn_nis_walk_0230": {
+    "actor": "substitute",
+    "context": "conceded",
+    "source_name": "ANM_NIS_ET0651_EX2049_WALK_FORLORN",
+    "reason": "desplazamiento de entrada, espera o decepcion identificado por nombre y rol; raiz fuera de la cancha"
+  },
+  "jn_nis_walk_0236": {
+    "actor": "substitute",
+    "context": "conceded",
+    "source_name": "ANM_NIS_ET0701_EX2053_WALK_HANDS_ON_HEAD",
+    "reason": "desplazamiento de entrada, espera o decepcion identificado por nombre y rol; raiz fuera de la cancha"
+  },
+  "jn_nis_walk_0306": {
+    "actor": "substitute",
+    "context": "intro",
+    "source_name": "ANM_NIS_ET0747_EX2083_TOUCH_FLOOR_RUN_ON",
+    "reason": "desplazamiento de entrada, espera o decepcion identificado por nombre y rol; raiz fuera de la cancha"
+  },
+  "jn_nis_walk_0330": {
+    "actor": "substitute",
+    "context": "intro",
+    "source_name": "ANM_NIS_ET0809_EX2089_G_JOG_ON_SPOT",
+    "reason": "desplazamiento de entrada, espera o decepcion identificado por nombre y rol; raiz fuera de la cancha"
+  },
+  "jn_nis_sit_0870": {
+    "actor": "substitute",
+    "context": "ambient",
+    "source_name": "ANM_NIS_EXE605_SITTING_LOOP",
+    "anchor": "bench",
+    "reason": "espera del suplente en el banco; no participa de la posesion"
+  },
+  "jn_nis_sit_0872": {
+    "actor": "substitute",
+    "context": "ambient",
+    "source_name": "ANM_NIS_EXE606_SIT_TO_STAND_TO_SIT_STAND",
+    "anchor": "bench",
+    "reason": "espera del suplente en el banco; no participa de la posesion"
+  },
+  "jn_nis_walk_0952": {
+    "actor": "substitute",
+    "context": "conceded",
+    "source_name": "ANM_NIS_EXE740_STAND_TO_WALK_FWD_HANDS_ON_HIPS_SHAKING_HEAD_TO_STAND",
+    "reason": "desplazamiento de entrada, espera o decepcion identificado por nombre y rol; raiz fuera de la cancha"
+  },
+  "jn_nis_walk_1944": {
+    "actor": "substitute",
+    "context": "intro",
+    "source_name": "ANM_NIS_FT1028_INTRO___WALKING_INTO_A_LINEUP_ALL_PLAYERS_STOOD_INTO_A_LINE_THEN_TURNING_AROUND_2_MAX",
+    "reason": "desplazamiento de entrada, espera o decepcion identificado por nombre y rol; raiz fuera de la cancha"
+  },
+  "jn_nis_walk_1946": {
+    "actor": "substitute",
+    "context": "intro",
+    "source_name": "ANM_NIS_FT1028_INTRO___WALKING_INTO_A_LINEUP_ALL_PLAYERS_STOOD_INTO_A_LINE_THEN_TURNING_AROUND_3_MAX",
+    "reason": "desplazamiento de entrada, espera o decepcion identificado por nombre y rol; raiz fuera de la cancha"
+  },
+  "jn_nis_walk_1948": {
+    "actor": "substitute",
+    "context": "intro",
+    "source_name": "ANM_NIS_FT1028_INTRO___WALKING_INTO_A_LINEUP_ALL_PLAYERS_STOOD_INTO_A_LINE_THEN_TURNING_AROUND_JOSH",
+    "reason": "desplazamiento de entrada, espera o decepcion identificado por nombre y rol; raiz fuera de la cancha"
+  },
+  "jn_nis_walk_3494": {
+    "actor": "substitute",
+    "context": "intro",
+    "source_name": "ANM_NIS_FT1667_NIS_INTROLOCO_4_DAVID",
+    "reason": "desplazamiento de entrada, espera o decepcion identificado por nombre y rol; raiz fuera de la cancha"
+  },
+  "jn_nis_walk_3496": {
+    "actor": "substitute",
+    "context": "intro",
+    "source_name": "ANM_NIS_FT1667_NIS_INTROLOCO_5_DAVID",
+    "reason": "desplazamiento de entrada, espera o decepcion identificado por nombre y rol; raiz fuera de la cancha"
+  },
+  "jn_nis_walk_3500": {
+    "actor": "substitute",
+    "context": "intro",
+    "source_name": "ANM_NIS_FT1667_NIS_INTROLOCO_6_DAVID",
+    "reason": "desplazamiento de entrada, espera o decepcion identificado por nombre y rol; raiz fuera de la cancha"
+  },
+  "jn_nis_walk_3502": {
+    "actor": "substitute",
+    "context": "intro",
+    "source_name": "ANM_NIS_FT1667_NIS_INTROLOCO_7_DAVID",
+    "reason": "desplazamiento de entrada, espera o decepcion identificado por nombre y rol; raiz fuera de la cancha"
+  },
+  "jn_nis_walk_3504": {
+    "actor": "substitute",
+    "context": "intro",
+    "source_name": "ANM_NIS_FT1667_NIS_INTROLOCO_8_DAVID",
+    "reason": "desplazamiento de entrada, espera o decepcion identificado por nombre y rol; raiz fuera de la cancha"
+  },
+  "jn_nis_walk_3506": {
+    "actor": "substitute",
+    "context": "intro",
+    "source_name": "ANM_NIS_FT1667_NIS_INTROLOCO_ADAM",
+    "reason": "desplazamiento de entrada, espera o decepcion identificado por nombre y rol; raiz fuera de la cancha"
+  },
+  "jn_nis_walk_3564": {
+    "actor": "substitute",
+    "context": "intro",
+    "source_name": "ANM_NIS_FT1697_ANDYD_LOCO_INTRO_01",
+    "reason": "desplazamiento de entrada, espera o decepcion identificado por nombre y rol; raiz fuera de la cancha"
+  },
+  "jn_nis_walk_3622": {
+    "actor": "substitute",
+    "context": "intro",
+    "source_name": "ANM_NIS_FT1750_INTRO_WALKOUT_LOCO_05",
+    "reason": "desplazamiento de entrada, espera o decepcion identificado por nombre y rol; raiz fuera de la cancha"
+  },
+  "jn_idle_ball_var_0300": {
+    "actor": "substitute",
+    "context": "ambient",
+    "source_name": "ANM_STAND_ET0742_EX2075_FIDGET_SCRATCH_BALLS",
+    "reason": "gesto de espera del suplente quieto; no controla ni desplaza el balon"
+  },
+  "jn_referee_0364": {
+    "actor": "manager",
+    "context": "ambient",
+    "source_name": "ANM_NIS_ET0832_EX2116_MANAGER_INSTRUCTIONS",
+    "reason": "instrucciones del tecnico, segun el nombre original; el rol previo referee no describe el personaje"
+  }
+}

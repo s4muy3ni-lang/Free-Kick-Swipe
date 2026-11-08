@@ -1,0 +1,64 @@
+{
+ "bancos": {
+  "json": {
+   "clips": 3223,
+   "clips_desvio_mayor_10cm": 3223,
+   "clips_pies_flotando_mas_8cm_en_json_human": 1,
+   "clips_pies_hundidos_mas_3cm_en_json_human": 23,
+   "contacto_error_mediana_json_human_m": 0.00637272419407964,
+   "contacto_error_mediana_player_base_m": 1.2450886964798,
+   "contacto_error_p90_json_human_m": 0.0261631943285465,
+   "contacto_error_p90_player_base_m": 1.66949844360352,
+   "cuerpo_original": "json_human",
+   "desvio_max_mediana_m": 1.19917285442352,
+   "desvio_max_p90_m": 1.43615198135376,
+   "golpeos_con_contacto": 894,
+   "pies_min_json_human_mediana_m": -0.000618696212768555,
+   "salto_pose_mediana_m": 0.556785210967064,
+   "salto_pose_p90_m": 1.34594191610813,
+   "transicion_reposo": "jn_idle_0520"
+  },
+  "mixamo": {
+   "clips": 171,
+   "clips_desvio_mayor_10cm": 171,
+   "clips_pies_flotando_mas_8cm_en_json_human": 138,
+   "clips_pies_hundidos_mas_3cm_en_json_human": 23,
+   "contacto_error_mediana_json_human_m": 1.20789110660553,
+   "contacto_error_mediana_player_base_m": 0.0000001849185480296,
+   "contacto_error_p90_json_human_m": 1.37697350978851,
+   "contacto_error_p90_player_base_m": 0.000000404412816124022,
+   "cuerpo_original": "player_base",
+   "desvio_max_mediana_m": 0.787694573402405,
+   "desvio_max_p90_m": 0.811039328575134,
+   "golpeos_con_contacto": 17,
+   "pies_min_json_human_mediana_m": 0.270705014467239,
+   "salto_pose_mediana_m": 0.3723482824862,
+   "salto_pose_p90_m": 0.983535841107368,
+   "transicion_reposo": "Soccer_Idle"
+  },
+  "mocap": {
+   "clips": 24,
+   "clips_desvio_mayor_10cm": 24,
+   "clips_pies_flotando_mas_8cm_en_json_human": 22,
+   "clips_pies_hundidos_mas_3cm_en_json_human": 1,
+   "contacto_error_mediana_json_human_m": 1.33680713176727,
+   "contacto_error_mediana_player_base_m": 0.000000257260893476996,
+   "contacto_error_p90_json_human_m": 1.40545296669006,
+   "contacto_error_p90_player_base_m": 0.000000408425023579184,
+   "cuerpo_original": "player_base",
+   "desvio_max_mediana_m": 0.783325016498566,
+   "desvio_max_p90_m": 0.807262420654297,
+   "golpeos_con_contacto": 8,
+   "pies_min_json_human_mediana_m": 0.279347777366638,
+   "salto_pose_mediana_m": null,
+   "salto_pose_p90_m": null,
+   "transicion_reposo": "sin reposo en el banco"
+  }
+ },
+ "reposo": {
+  "angulo_max_grados": 176.953604035347,
+  "angulo_mediano_grados": 19.92351495986,
+  "huesos": 23,
+  "huesos_con_angulo_mayor_a_5": 17
+ }
+}

@@ -1,0 +1,13 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+       · 120 s de partido 4+1 vs 4+1: eventos={ "TACKLE_WON": 3, "FIRST_TOUCH": 20, "PASS": 14, "TACKLE_FAILED": 28, "TURNOVER": 1, "SET_PIECE": 1, "FOUL": 1, "SHOT": 2, "KICK_WHIFF": 3, "SAVE": 1, "OUT_OF_PLAY": 1 } | marcador=[0, 0]
+       · arquero equipo 0: { "shots_faced": 1, "catches": 0, "parries": 0, "beaten": 1, "dives": 1, "pickups": 0, "distributions": 0, "directing": 7, "getups": 1 }
+       · arquero equipo 1: { "shots_faced": 1, "catches": 0, "parries": 1, "beaten": 0, "dives": 1, "pickups": 0, "distributions": 0, "directing": 9, "getups": 1 }
+       · distancia recorrida por la IA en 120 s: [273, 297, 286, 293, 278, 298, 260, 278]
+[ OK ] test_ai_match::test_ai_teams_play_a_real_match_without_getting_stuck (8 checks, 68872 ms)
+
+Resumen: 1 pruebas, 0 fallidas, 0 omitidas, 8 comprobaciones, 69.3 s
+WARNING: 62 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 5 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)
