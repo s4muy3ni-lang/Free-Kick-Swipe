@@ -11,6 +11,20 @@ Formato de entrada: **fecha — título** · commit · qué cambió · archivos 
 
 ---
 
+## 2026-11-08 — Arreglo: jugadores trabados repitiendo una reacción en bucle
+
+- **Causa (medida):** 19 de los 280 clips de reacción del banco (festejos, lamentos, gestos) son bucles. Reproducidos
+  una vez, el actor esperaba el final del clip, que no llega, y quedaba repitiéndolo: es lo que el usuario vio como
+  «jugadores trabados en bucle». Lo destapó la CI (corrida 12): el arquero del penal sacó `jn_gk_gesture_0064` (bucle) y
+  nunca fue a buscar la pelota.
+- **Arreglo:** `SpReactions.pick` no elige clips en bucle; `SpActor` termina una reproducción de una vez al completar el
+  ciclo aunque el clip sea un bucle (las animaciones compartidas no se tocan). Penal: primero se decide quién va por la
+  pelota y después reacciona el arquero (festejo corto, hasta 2,2 s, si tiene que ir a buscarla).
+- Pruebas: `test_presentation::test_reactions_never_loop_forever`; 8 semillas del penal: festeja y la recoge en
+  3,1–4,2 s. Suite headless 157 / 0 fallos.
+
+---
+
 ## 2026-11-08 — Presentación (público y sonido) y repeticiones por estados; catálogo de 43 minijuegos en el plan
 
 - **Público:** `Sfx.set_crowd_level` y `SetPieceGame.crowd_target`: silencio antes del penal, tensión en el vuelo,

@@ -135,40 +135,40 @@ libre abre todo y no registra.
 <!-- AUTO:funcs:scripts/setpiece/sp_keeper.gd -->
 | Función | Línea | Qué hace |
 |---|---|---|
-| `SpKeeper.setup(a: SpActor, b: Ball, gx: float, half: float, height: float)` | 99 |  |
-| `SpKeeper.reset(home_pos: Vector3)` | 114 | Coloca al arquero en su sitio, mirando al campo, en espera. |
-| `SpKeeper.shuffle_to(p: Vector3, speed: float = 1.4)` | 145 | Paso lateral hacia una posicion (antes del tiro): sigue a la pelota sin dejar el arco. |
-| `SpKeeper._yaw()` | 154 |  |
-| `SpKeeper.read_shot(_ball_pos: Vector3, _velocity: Vector3, _spin: Vector3)` | 177 |  |
-| `SpKeeper._watch_step(delta: float)` | 188 |  |
-| `SpKeeper._cancel_dive()` | 257 | Estirada agendada que ya no tiene sentido (la pelota no viene): vuelve a la espera mirando la pelota. |
-| `SpKeeper.commit_to(point: Vector3, ball_pos: Vector3, lead: float, speed_guess: float = 22.0)` | 273 |  |
-| `SpKeeper.on_kick(ball_pos: Vector3, velocity: Vector3)` | 287 | La pelota salio y ya habia elegido zona sin anticipar: planifica hacia esa zona con la velocidad que ve. |
-| `SpKeeper._line_traj(ball_pos: Vector3, point: Vector3, speed: float, wait: float)` | 313 | Trayectoria supuesta: la pelota quieta `wait` segundos y despues en linea (con un poco de comba) hasta el punto. |
-| `SpKeeper.guess_penalty(cue_point: Vector3, ball_pos: Vector3, lead: float, speed_guess: float = 22.0)` | 329 | IA en un penal: elige donde lanzarse con la lectura del cuerpo del tirador. cue_point: hacia donde apuntan la carrera y la cadera del tirado |
-| `SpKeeper._plan_with(traj: PackedVector3Array, min_delay: float)` | 347 |  |
-| `SpKeeper._make_plan(traj: PackedVector3Array, min_delay: float)` | 353 |  |
-| `SpKeeper._adopt(pl: Dictionary)` | 358 | Toma el plan: espera su demora y se tira (o se tira ya). |
-| `SpKeeper._start_dive()` | 365 |  |
-| `SpKeeper._physics_process(delta: float)` | 374 |  |
-| `SpKeeper._check_contact(delta: float)` | 400 |  |
-| `SpKeeper.contact_along(b0: Vector3, b1: Vector3, c0: Vector3, c1: Vector3, r: float)` | 444 | Primer contacto entre la pelota (de b0 a b1) y una esfera que se mueve (de c0 a c1) en un paso, con radio sumado r. Devuelve [s en 0..1, cen |
-| `SpKeeper._resolve(part: Array, c: Vector3, q: Vector3, parts_now: Dictionary, delta: float)` | 465 | c: centro de la esfera en el contacto; q: centro de la pelota en el contacto. La normal del choque va de c a q. |
-| `SpKeeper.rebound(v: Vector3, part_v: Vector3, n: Vector3, e: float, grip: float = BODY_GRIP)` | 501 | Velocidad de la pelota despues del choque con una parte del cuerpo que se mueve a part_v, con normal n (de la parte a la pelota) y restituci |
-| `SpKeeper.glove_normal(n: Vector3, vr: Vector3, keeper_facing: Vector3)` | 513 | Guante: no es una esfera sino una superficie ancha que el arquero pone con la palma hacia la pelota. Si la pelota llega de frente (desde el  |
-| `SpKeeper._pick_up()` | 521 |  |
-| `SpKeeper._can_catch(q: Vector3, vr: Vector3, parts_now: Dictionary)` | 531 | Atrapa si la pelota llega a las dos manos, no va demasiado rapida y viene de frente a una altura atrapable. |
-| `SpKeeper._on_clip_finished(_id: StringName)` | 542 |  |
-| `SpKeeper.idle()` | 567 | Vuelve a la espera en su sitio actual (despues de que otro sistema lo manejo). |
-| `SpKeeper._back_to_idle(blend: float)` | 572 | De pie y libre: juega la reaccion pendiente o vuelve a la espera (o sigue buscando la pelota suelta). |
-| `SpKeeper._getup()` | 588 |  |
-| `SpKeeper.react(happy: bool)` | 604 | Festejo (atajo) o lamento (le hicieron gol) en el sitio, cuando ya esta de pie. Si todavia se esta tirando o levantando, queda pendiente y s |
-| `SpKeeper.collect(keep_reaction: bool = false)` | 623 | Va a buscar la pelota suelta (rebote, tiro flojo que se frena) y la recoge con las manos: arranca en cuanto esta de pie (despues de la estir |
-| `SpKeeper.drop_ball(v: Vector3)` | 639 | De pie con la pelota en las manos (despues de atraparla o recogerla): la suelta delante con velocidad v (cae de las manos) y vuelve a la esp |
-| `SpKeeper.is_collecting()` | 649 |  |
-| `SpKeeper._collect_step(delta: float)` | 652 |  |
-| `SpKeeper.reaction_pending()` | 685 | Tiene una reaccion pendiente: todavia se tira o se levanta y la juega al terminar. |
-| `SpKeeper.is_busy()` | 688 |  |
+| `SpKeeper.setup(a: SpActor, b: Ball, gx: float, half: float, height: float)` | 101 |  |
+| `SpKeeper.reset(home_pos: Vector3)` | 116 | Coloca al arquero en su sitio, mirando al campo, en espera. |
+| `SpKeeper.shuffle_to(p: Vector3, speed: float = 1.4)` | 147 | Paso lateral hacia una posicion (antes del tiro): sigue a la pelota sin dejar el arco. |
+| `SpKeeper._yaw()` | 156 |  |
+| `SpKeeper.read_shot(_ball_pos: Vector3, _velocity: Vector3, _spin: Vector3)` | 179 |  |
+| `SpKeeper._watch_step(delta: float)` | 190 |  |
+| `SpKeeper._cancel_dive()` | 259 | Estirada agendada que ya no tiene sentido (la pelota no viene): vuelve a la espera mirando la pelota. |
+| `SpKeeper.commit_to(point: Vector3, ball_pos: Vector3, lead: float, speed_guess: float = 22.0)` | 275 |  |
+| `SpKeeper.on_kick(ball_pos: Vector3, velocity: Vector3)` | 289 | La pelota salio y ya habia elegido zona sin anticipar: planifica hacia esa zona con la velocidad que ve. |
+| `SpKeeper._line_traj(ball_pos: Vector3, point: Vector3, speed: float, wait: float)` | 315 | Trayectoria supuesta: la pelota quieta `wait` segundos y despues en linea (con un poco de comba) hasta el punto. |
+| `SpKeeper.guess_penalty(cue_point: Vector3, ball_pos: Vector3, lead: float, speed_guess: float = 22.0)` | 331 | IA en un penal: elige donde lanzarse con la lectura del cuerpo del tirador. cue_point: hacia donde apuntan la carrera y la cadera del tirado |
+| `SpKeeper._plan_with(traj: PackedVector3Array, min_delay: float)` | 349 |  |
+| `SpKeeper._make_plan(traj: PackedVector3Array, min_delay: float)` | 355 |  |
+| `SpKeeper._adopt(pl: Dictionary)` | 360 | Toma el plan: espera su demora y se tira (o se tira ya). |
+| `SpKeeper._start_dive()` | 367 |  |
+| `SpKeeper._physics_process(delta: float)` | 376 |  |
+| `SpKeeper._check_contact(delta: float)` | 402 |  |
+| `SpKeeper.contact_along(b0: Vector3, b1: Vector3, c0: Vector3, c1: Vector3, r: float)` | 446 | Primer contacto entre la pelota (de b0 a b1) y una esfera que se mueve (de c0 a c1) en un paso, con radio sumado r. Devuelve [s en 0..1, cen |
+| `SpKeeper._resolve(part: Array, c: Vector3, q: Vector3, parts_now: Dictionary, delta: float)` | 467 | c: centro de la esfera en el contacto; q: centro de la pelota en el contacto. La normal del choque va de c a q. |
+| `SpKeeper.rebound(v: Vector3, part_v: Vector3, n: Vector3, e: float, grip: float = BODY_GRIP)` | 503 | Velocidad de la pelota despues del choque con una parte del cuerpo que se mueve a part_v, con normal n (de la parte a la pelota) y restituci |
+| `SpKeeper.glove_normal(n: Vector3, vr: Vector3, keeper_facing: Vector3)` | 515 | Guante: no es una esfera sino una superficie ancha que el arquero pone con la palma hacia la pelota. Si la pelota llega de frente (desde el  |
+| `SpKeeper._pick_up()` | 523 |  |
+| `SpKeeper._can_catch(q: Vector3, vr: Vector3, parts_now: Dictionary)` | 533 | Atrapa si la pelota llega a las dos manos, no va demasiado rapida y viene de frente a una altura atrapable. |
+| `SpKeeper._on_clip_finished(_id: StringName)` | 544 |  |
+| `SpKeeper.idle()` | 569 | Vuelve a la espera en su sitio actual (despues de que otro sistema lo manejo). |
+| `SpKeeper._back_to_idle(blend: float)` | 574 | De pie y libre: juega la reaccion pendiente o vuelve a la espera (o sigue buscando la pelota suelta). |
+| `SpKeeper._getup()` | 590 |  |
+| `SpKeeper.react(happy: bool)` | 606 | Festejo (atajo) o lamento (le hicieron gol) en el sitio, cuando ya esta de pie. Si todavia se esta tirando o levantando, queda pendiente y s |
+| `SpKeeper.collect(keep_reaction: bool = false)` | 629 | Va a buscar la pelota suelta (rebote, tiro flojo que se frena) y la recoge con las manos: arranca en cuanto esta de pie (despues de la estir |
+| `SpKeeper.drop_ball(v: Vector3)` | 646 | De pie con la pelota en las manos (despues de atraparla o recogerla): la suelta delante con velocidad v (cae de las manos) y vuelve a la esp |
+| `SpKeeper.is_collecting()` | 656 |  |
+| `SpKeeper._collect_step(delta: float)` | 659 |  |
+| `SpKeeper.reaction_pending()` | 692 | Tiene una reaccion pendiente: todavia se tira o se levanta y la juega al terminar. |
+| `SpKeeper.is_busy()` | 695 |  |
 <!-- /AUTO -->
 
 ## Pruebas
@@ -213,9 +213,9 @@ libre abre todo y no registra.
 | `test_the_keeper_touches_what_he_reaches_and_not_what_he_does_not` | 45 |
 | `test_the_penalty_keeper_does_not_dive_before_the_kick` | 92 |
 | `test_a_loose_ball_never_stays_dead_in_the_box` | 148 |
-| `test_shooter_and_keeper_react_after_finishing_their_move` | 192 |
-| `test_free_kick_keeper_reads_deflections_and_is_beatable` | 226 |
-| `test_keeper_with_the_ball_celebrates_or_kicks_it_out` | 266 |
+| `test_shooter_and_keeper_react_after_finishing_their_move` | 193 |
+| `test_free_kick_keeper_reads_deflections_and_is_beatable` | 227 |
+| `test_keeper_with_the_ball_celebrates_or_kicks_it_out` | 267 |
 <!-- /AUTO -->
 
 Con render (esqueleto animado): `xvfb-run -a godot --display-driver x11 --rendering-driver opengl3 --fixed-fps 60 --path . res://tests/run_tests.tscn -- --filter test_setpiece_render`.
