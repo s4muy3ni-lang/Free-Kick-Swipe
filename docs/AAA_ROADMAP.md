@@ -499,3 +499,14 @@ Reglas para todos: la pelota es el centro; la IA respeta la física y las reglas
 pelota alterada); nada se da por terminado con solo una escena; cada modo con pruebas de colisiones, rebotes, blancos y
 resultados; recompensas sin repetición explotable (la experiencia ya solo se gana al mejorar el récord o con la primera
 medalla); sin pagos reales sin autorización expresa.
+
+## APK de esta entrega
+
+Corrida 13 de GitHub Actions, verde (pruebas headless y con render, APK firmada de depuración):
+https://github.com/s4muy3ni-lang/Free-Kick-Swipe/actions/runs/42509748274 — artefacto `futbol5-apk` (vence el
+2026-11-22). Incluye: rodadura real en la predicción, arquero del tiro libre, después de la atajada, medición en el
+teléfono (Diag. > Medir rendimiento), gráficos Auto, Academia, Arena, público que acompaña la jugada, repeticiones y el
+arreglo de las reacciones en bucle.
+
+**Probado en PC:** todo lo anterior (suite headless 157 / 0 fallos; render 7/0 y 7/0 sin fugas, localmente y en CI).
+**Probado en Android:** nada todavía (pendiente del informe del teléfono, `docs/ANDROID_MEDICION.md`).
