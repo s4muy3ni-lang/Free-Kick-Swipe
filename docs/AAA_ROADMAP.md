@@ -411,3 +411,90 @@ emparejamiento, tienda y monetización: fase posterior con aprobación expresa.
 **11. Documentación y pruebas:** cada fase con su prueba (`test_ball_roll_prediction`, `test_fk_balance_measure`,
 `test_perf_session`, `test_challenges`, render de `test_setpiece_render`); ningún umbral se bajó sin medición (los que
 cambiaron están en el CHANGELOG con la razón física).
+
+---
+
+# Complemento «Arcade Football»: catálogo de 43 minijuegos (2026-11-08)
+
+Incorporado al plan **sin interrumpir las prioridades técnicas vigentes** (medición en el teléfono, presentación,
+personalización, repeticiones). No se empezó ningún minijuego por iniciativa propia: este capítulo fija estados,
+dependencias y sistemas compartidos para desarrollarlos de a poco.
+
+**Estados:** Idea · Diseñado · En desarrollo · Implementado · Probado · Pendiente de balance. «Implementado (individual)»
+= existe como ejercicio o desafío de un jugador contra el marcador (Academia/Arena), sin versus ni turnos todavía.
+
+## Sistemas compartidos (se construyen una vez y los usan muchos modos)
+
+| Sistema | Qué es | Estado | Base que ya existe |
+|---|---|---|---|
+| S1 Competición | Definición común (id, objetivo, jugadores, individual/versus/cooperativo, IA, en línea, duración, rondas, puntuación, condición de victoria, dificultad, escenario, recompensas, récord, estadísticas) y un orquestador de rondas y turnos (alternancia justa, simultáneo con eventos validados) | Diseñado | `ChallengeCatalog`/`ChallengeRunner` (un jugador, intentos), `PenaltyShootout` (alternancia y muerte súbita) |
+| S2 IA rival que patea | La IA usa el MISMO modelo del tiro (`ShotParams` + `GestureShotModel.solve`) con error por dificultad (fácil, normal, difícil, experto); nunca toca la pelota fuera de su golpe | Diseñado | `SetPieceGame._cpu_penalty` (ya lo hace en los penales) |
+| S3 Blancos físicos | Paneles con puntaje, dianas colgantes con articulación y resistencia (caen por impulso real, varios impactos), botones físicos, giratorios, que cambian de lugar | Diseñado | `ChallengeTargets` (recuadros, aros, marco, objetos con física) |
+| S4 Plataformas y caídas | Plataformas sobre vacío o agua, pisos que se abren, empujes por impacto (física propia, separada de los modos de tiro) | Idea | — |
+| S5 Control de la pelota | Conducción, recepción, dominadas, primer toque | Idea (auditar) | Conducción del partido viejo (`scripts/gameplay/`, `ai_input.gd`, `touch_foot_ik.gd`); clips de volea y «control y golpe» (48 con rol), golpeos FREESTYLE/FLICKS a revisar |
+| S6 Básquet | Canasta (aro horizontal: enceste = paso físico de la pelota por el aro, de arriba hacia abajo), tableros y planos inclinados | Diseñado | detección de aro de `ChallengeTargets` |
+| S7 Escenarios | Variantes reutilizables (estadio, barrio, entrenamiento, arena de precisión, vacío, agua, urbano, nocturno, futurista, fútbol-básquet, arco con dianas) con distancia, tamaño de blancos, velocidad, obstáculos, tiempo, balones y superficie configurables | Idea | `Stadium11`, `PitchConfig` |
+| S8 En línea | Partida rápida y privada, código, revancha, torneos, historial, clasificación por minijuego; un solo emparejamiento para todos; el servidor valida resultados y recompensas (repite el tiro desde sus parámetros) | Idea (fase posterior, con aprobación) | — |
+| S9 Repeticiones | Registro por estados (ver fase 9) | Diseñado | `Ball.capture_state` |
+
+## Catálogo
+
+| # | Modo | Estado | Existe / falta | Usa |
+|---|---|---|---|---|
+| 1 | Duelo de precisión | Diseñado | Blancos y puntaje existen; falta versus por turnos | S1, S2, S3 |
+| 2 | Botón de caída | Idea | Plataformas con botón físico que abre el piso | S1, S2, S3, S4 |
+| 3 | Caída al vacío por impactos | Idea | Empuje por impacto real | S1, S2, S4 |
+| 4 | Caída al agua | Idea | Escenario sobre agua | S1, S2, S4, S7 |
+| 5 | Rey del travesaño | Implementado (individual) | Arena «Travesaño»; falta puntos acumulados por sesión y versus | S1, S3 |
+| 6 | Desafío de los tres postes | Diseñado | Secuencia de marco (datos de la Arena: palo izq., palo der., travesaño) | S1, S3 |
+| 7 | Ventanas de precisión | Implementado (individual) | Ventanas y esquinas; faltan ventanas con distinto puntaje (ver #43) | S3 |
+| 8 | Tiro de larga distancia | Implementado (individual) | 25/30/35/40 m; falta la escalera progresiva en una sesión | S1 |
+| 9 | Tiros con efecto | Implementado (individual) | Academia nivel 4 (postes), Arena (maniquíes) | S3 |
+| 10 | Objetivo sorpresa | Implementado (individual, parcial) | Blancos que desaparecen; falta cambiar de lugar entre tiros | S3 |
+| 11 | Bolos de fútbol | Implementado (individual) | Conos, botellas, bloques con física | S1, S3 |
+| 12 | Derribar la torre | Implementado (individual) | Torre; premia los intentos de sobra | S3 |
+| 13 | Billar futbolístico | Idea | Varias pelotas con física | S3, S7 |
+| 14 | Rebote obligatorio | Implementado (parcial) | Rebote en el piso; faltan paredes | S3, S7 |
+| 15 | Circuito de aros | Diseñado | Un aro existe; falta «todos en un mismo tiro» | S3 |
+| 16 | Carrera de obstáculos | Idea | Conducción | S5, S7 |
+| 17 | Torre de precisión | Implementado (individual) | Secuencia de blancos | S3 |
+| 18 | Objetivos móviles | Implementado (individual) | Blanco que se mueve | S3 |
+| 19 | Arena de obstáculos | Implementado (individual, parcial) | Postes y maniquíes | S3, S7 |
+| 20 | Dominadas | Idea (investigar) | Clips de dominadas: no hay uno completo con rol; revisar FREESTYLE/FLICKS sin modificar originales | S5 |
+| 21 | Desafío de control | Idea | Recepción | S5 |
+| 22 | Slalom | Idea | Conducción entre conos | S5, S3 |
+| 23 | Carrera de conducción | Idea | Conducción | S5, S7 |
+| 24 | Pases de precisión | Diseñado | 232 golpeos de pase medidos; blancos en el piso y compañeros | S3, S1 |
+| 25 | Pared y definición | Idea | Recepción y remate | S5 |
+| 26 | Primer toque | Idea | Recepción dirigida | S5 |
+| 27 | Golpeo por zonas | Diseñado | Zonas en el piso y zonas prohibidas | S3 |
+| 28 | Dos arqueros | Diseñado | Segundo `SpKeeper` con su propio plan y contacto | S1 |
+| 29 | Duelo de atajadas | Implementado (parcial) | La tanda alterna tirador y arquero contra la IA | S1, S2 |
+| 30 | Arquero contra reloj | Diseñado | Arquero del usuario + serie de tiros de la IA con tiempo | S1, S2 |
+| 31 | Penales por eliminación | Implementado (parcial) | Tanda con muerte súbita contra la IA; falta eliminación entre varios | S1, S8 |
+| 32 | Tiro libre profesional | Implementado (individual) | Modo tiro libre + Academia nivel 6 | S1 |
+| 33 | Arquero sorpresa | Diseñado | Perfiles de arquero (se adelanta, se queda, lee el cuerpo) con la misma física | S1 |
+| 34 | Muerte súbita | Implementado (parcial) | En la tanda | S1 |
+| 35 | Batalla de obstáculos | Idea | — | S1, S4, S7 |
+| 36 | Cooperativo | Idea | — | S1, S8 |
+| 37 | Torneo de amigos | Idea | — | S1, S8 |
+| 38 | Último en pie | Idea | — | S1, S4 |
+| 39 | Plataformas destructibles | Idea | — | S4 |
+| 40 | Duelo de rebotes | Idea | — | S1, S3 |
+| 41 | Dominadas y enceste | Idea (investigar) | Necesita dominadas (#20) y canasta | S5, S6 |
+| 42 | Enceste por rebote | Diseñado | Plano inclinado + canasta con paso físico por el aro | S6, S3 |
+| 43 | Dianas y blancos desmontables | Diseñado | Paneles con puntaje, dianas colgantes con articulación y resistencia, móviles y giratorias; solo colisiones reales | S3, S1 |
+
+## Primera colección (orden propuesto por dependencias, cuando terminen las prioridades técnicas)
+
+1. **S1 + S2** (competición por turnos contra la IA): habilita Duelo de precisión (#1), Rey del travesaño (#5), Tres postes
+   (#6) y Duelo de atajadas (#29) con lo que ya existe.
+2. **S3 ampliado**: Dianas y blancos desmontables (#43) y Bolos en versus (#11).
+3. **S6**: Enceste por rebote (#42).
+4. **S4**: Botón de caída (#2) y Caída al vacío (#3).
+5. **S5** (con la investigación de animaciones): Slalom (#22), Pases de precisión (#24), Dominadas y enceste (#41).
+
+Reglas para todos: la pelota es el centro; la IA respeta la física y las reglas del jugador (sin ventajas ocultas ni
+pelota alterada); nada se da por terminado con solo una escena; cada modo con pruebas de colisiones, rebotes, blancos y
+resultados; recompensas sin repetición explotable (la experiencia ya solo se gana al mejorar el récord o con la primera
+medalla); sin pagos reales sin autorización expresa.
