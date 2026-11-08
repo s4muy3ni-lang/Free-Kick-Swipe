@@ -15,6 +15,9 @@ const SAVE_CLIPS := {
 const PICKUP_CLIPS := [&"goalkeeper_scoop", &"goalkeeper_catch", &"goalkeeper_catch_2", &"goalkeeper_catch_4"]
 ## Altura maxima (m) de las manos en el contacto de una recogida.
 const PICKUP_MAX_HANDS_Y := 0.7
+## Banco JSON: roles de los clips de recogida (los nombres de PICKUP_CLIPS son del banco viejo y no existen en el JSON: sin
+## esto ningun clip contaba como recogida y el arquero nunca levantaba una pelota suelta).
+const JSON_PICKUP_ROLES := [&"gk_scoop", &"gk_catch"]
 
 ## Modo 4: roles de los clips de atajada y su radio de contacto de las manos (m).
 const JSON_ROLE_RADIUS := {&"gk_catch": 0.42, &"gk_dive": 0.50, &"gk_scoop": 0.40, &"gk_sidestep": 0.45, &"gk_block": 0.60}
@@ -181,7 +184,8 @@ static func _candidate_data() -> Array:
 			trav[k] = rp[mini(k, rp.size() - 1)].length() if rp.size() > 0 else 0.0
 			ready_d[k] = (hp[k] - READY_HANDS).length()
 		_cand_cache.append([id, hp, rp, radius_of(id) / maxf(scale, 1e-6), bb[0], bb[1],
-			style_penalty(id), float(meta.get("duration", 1.0)), PICKUP_CLIPS.has(StringName(String(id).trim_suffix("_mirror"))),
+			style_penalty(id), float(meta.get("duration", 1.0)), PICKUP_CLIPS.has(StringName(String(id).trim_suffix("_mirror"))) \
+				or (PackLibrary.json_mode() and JSON_PICKUP_ROLES.has(_role(id))),
 			String(id).begins_with("goalkeeper_scoop"), klo, khi, trav, ready_d])
 	return _cand_cache
 
@@ -209,10 +213,12 @@ static func _bbox(id: StringName, hp: PackedVector3Array) -> Array:
 ## latencia + distancia desde la posicion de espera (READY_HANDS) / velocidad, aunque el clip lo haga mas rapido (varios
 ## clips empiezan con la estirada ya lanzada). Vector2.ZERO = sin limite.
 ## Devuelve {} o {clip, speed, k, tau, delay, arrive, dist, radius, travel}.
+## radius_scale: escala extra del radio de contacto de las manos (1 = el del partido). Los modos de tiros libres y penales
+## resuelven el contacto con esferas en los huesos (mas chicas que el radio del partido) y piden planes mas justos.
 static func plan_save(origin: Vector3, yaw: float, traj: PackedVector3Array, step: float, min_delay: float,
-		_ball_speed: float, pickup: bool, speeds: Array = [1.0, 1.4], human: Vector2 = Vector2.ZERO) -> Dictionary:
+		_ball_speed: float, pickup: bool, speeds: Array = [1.0, 1.4], human: Vector2 = Vector2.ZERO, radius_scale: float = 1.0) -> Dictionary:
 	Prof.begin(&"arquero (plan de atajada)")
-	var plan: Dictionary = _plan_save(origin, yaw, traj, step, min_delay, pickup, speeds, human)
+	var plan: Dictionary = _plan_save(origin, yaw, traj, step, min_delay, pickup, speeds, human, radius_scale)
 	Prof.end(&"arquero (plan de atajada)")
 	return plan
 
@@ -221,7 +227,7 @@ static func plan_save(origin: Vector3, yaw: float, traj: PackedVector3Array, ste
 static var trace_reasons: Dictionary = {}
 
 static func _plan_save(origin: Vector3, yaw: float, traj: PackedVector3Array, step: float, min_delay: float, pickup: bool,
-		speeds: Array, human: Vector2) -> Dictionary:
+		speeds: Array, human: Vector2, radius_scale: float = 1.0) -> Dictionary:
 	if AnimTrace.enabled:
 		trace_reasons = {}
 	var best: Dictionary = {}
@@ -277,7 +283,7 @@ static func _plan_save(origin: Vector3, yaw: float, traj: PackedVector3Array, st
 			hi_b = Vector3(maxf(hi_b.x, seg_hi_box[i].x), maxf(hi_b.y, seg_hi_box[i].y), maxf(hi_b.z, seg_hi_box[i].z))
 		blk_lo[bi] = lo_b
 		blk_hi[bi] = hi_b
-	var scale: float = Tuning.keeper.contact_scale if Tuning.keeper != null else 1.0
+	var scale: float = (Tuning.keeper.contact_scale if Tuning.keeper != null else 1.0) * radius_scale
 	for cd in _candidate_data():
 		var id: StringName = cd[0]
 		var is_pickup_clip: bool = cd[8]

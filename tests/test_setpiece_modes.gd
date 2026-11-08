@@ -331,3 +331,56 @@ func test_entering_a_mode_does_not_freeze() -> void:
 		g.queue_free()
 		await physics_frames(1)
 	cleanup()
+
+## Contacto del arquero (causa de «la toca pero igual es gol»): antes la normal del choque salia del punto del recorrido
+## de la pelota mas cercano a la esfera, que es perpendicular al recorrido, y cualquier toque era un roce (la pelota seguia
+## con el 80 % de su velocidad hacia el arco). Ahora se busca el instante real del choque en el movimiento relativo y la
+## normal va de la esfera a la pelota en ese instante: de frente la devuelve, de costado la desvia, rozando sigue.
+func test_keeper_contact_uses_the_real_impact_normal() -> void:
+	var r: float = 0.13 + 0.11
+	# De frente: la pelota viene por +X hacia una esfera quieta en el camino.
+	var hit: Array = SpKeeper.contact_along(Vector3(-0.5, 1.0, 0.0), Vector3(0.0, 1.0, 0.0), Vector3(-0.1, 1.0, 0.0), Vector3(-0.1, 1.0, 0.0), r)
+	check(not hit.is_empty(), "el choque de frente se detecta dentro del paso")
+	var n: Vector3 = ((hit[2] as Vector3) - (hit[1] as Vector3)).normalized()
+	check(n.dot(Vector3(-1, 0, 0)) > 0.99, "la normal de frente apunta contra la pelota (%s)" % str(n.snapped(Vector3.ONE * 0.01)))
+	var out: Vector3 = SpKeeper.rebound(Vector3(22, 0, 0), Vector3.ZERO, n, 0.28)
+	check(out.x < -5.0, "de frente la pelota vuelve hacia la cancha (%.1f m/s)" % out.x)
+	# El calculo viejo (punto del recorrido mas cercano al centro) daba una normal perpendicular: ningun rebote.
+	var q_old: Vector3 = Geometry3D.get_closest_point_to_segment(Vector3(-0.1, 1.0, 0.0), Vector3(-0.5, 1.0, 0.0), Vector3(0.3, 1.0, 0.02))
+	var n_old: Vector3 = (q_old - Vector3(-0.1, 1.0, 0.0)).normalized()
+	check(absf(n_old.dot(Vector3(1, 0, 0))) < 0.05, "(el calculo viejo daba una normal perpendicular al tiro)")
+	# Roce: pasa a 0,2 m del centro (dentro del radio sumado): se desvia, pero sigue hacia adelante.
+	var graze: Array = SpKeeper.contact_along(Vector3(-0.6, 1.0, 0.2), Vector3(0.4, 1.0, 0.2), Vector3(0.0, 1.0, 0.0), Vector3(0.0, 1.0, 0.0), r)
+	check(not graze.is_empty(), "el roce se detecta")
+	var ng: Vector3 = ((graze[2] as Vector3) - (graze[1] as Vector3)).normalized()
+	var og: Vector3 = SpKeeper.rebound(Vector3(22, 0, 0), Vector3.ZERO, ng, 0.28)
+	check(og.x > 5.0 and og.z > 2.0, "rozando sigue hacia adelante y se abre (%s)" % str(og.snapped(Vector3.ONE * 0.1)))
+	# Lejos: no hay choque. Una mano que se mueve hacia la pelota la alcanza aunque la pelota sola no llegue.
+	check(SpKeeper.contact_along(Vector3(-0.6, 1.0, 0.5), Vector3(0.4, 1.0, 0.5), Vector3.UP, Vector3.UP, r).is_empty(), "lejos no la toca")
+	var moving: Array = SpKeeper.contact_along(Vector3(0.0, 1.0, 0.5), Vector3(0.3, 1.0, 0.5), Vector3(0.0, 1.0, 0.0), Vector3(0.3, 1.0, 0.4), r)
+	check(not moving.is_empty(), "la mano que se estira hacia la pelota la alcanza")
+
+## El resultado sale enseguida cuando ya no puede ser gol (rebote que se aleja, pelota que se frena antes del arco), pero
+## nunca mientras la pelota todavia va hacia el arco.
+func test_the_result_is_decided_only_when_a_goal_is_impossible() -> void:
+	SetPieceGame.next_mode = SetPieceGame.Mode.PENALTY
+	var game: SetPieceGame = (load(SetPieceGame.SCENE) as PackedScene).instantiate()
+	game.fast = true
+	spawn(game)
+	await physics_frames(10)
+	var cases := [
+		[Vector3(game.gx - 2.0, 0.6, 1.0), Vector3(-9.0, 3.0, 4.0), true, "rebote que se aleja del arco"],
+		[Vector3(game.gx - 9.0, 0.11, 0.5), Vector3(2.0, 0.0, 0.0), true, "pelota lenta que se frena lejos del arco"],
+		[Vector3(game.gx - 11.0, 0.11, 0.0), Vector3(22.0, 2.0, 1.0), false, "tiro que va al arco"],
+		[Vector3(game.gx - 3.0, 0.11, 0.3), Vector3(3.5, 0.0, 0.0), false, "pelota lenta que todavia llega a la linea"],
+		[Vector3(game.gx - 0.4, 1.5, 0.5), Vector3(0.3, 5.0, 0.0), false, "desviada hacia arriba que cae en la boca del arco"],
+		[Vector3(game.gx - 1.0, 2.6, 0.0), Vector3(-1.0, 1.0, 0.0), true, "desviada por encima que cae delante del arco"],
+	]
+	for c in cases:
+		game.ball.reset_at(c[0], c[1])
+		await physics_frames(2)
+		game._decide_t = 0.0
+		var got: bool = game._goal_impossible(0.0)
+		note("%s: %s" % [c[3], "ya no puede ser gol" if got else "todavia puede ser gol"])
+		check(got == c[2], "%s: %s" % [c[3], "se decide" if c[2] else "se espera"])
+	cleanup()

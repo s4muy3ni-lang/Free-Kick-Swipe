@@ -3,9 +3,14 @@ extends Node
 ## Tirador de los modos de tiros libres y penales: espera detras de la pelota con su carrera habitual, y al tirar ejecuta el
 ## golpeo elegido por ShotCatalog: trote (si hace falta) hasta el punto de la carrera del clip, golpeo con el pie MEDIDO en
 ## la pelota y salida del balon en el instante exacto de contacto del clip (Ball.kick), seguimiento de la pierna y
-## recuperacion; despues festeja o se lamenta.
+## recuperacion; mientras la pelota viaja la mira, y despues festeja o se lamenta (si el resultado llega mientras todavia
+## termina el golpeo, la reaccion queda pendiente y sale al terminar: nunca se queda en bucle esperando).
+##
+## Tambien despeja pelotas sueltas (SpLooseBall): con require_touch > 0 el impulso solo sale si la punta del pie llega de
+## verdad a la pelota en el contacto del clip (si no llega, emite `missed`).
 
 signal contact(entry: Dictionary)
+signal missed()
 
 enum State { IDLE, APPROACH, KICK, AFTER, REACT }
 
@@ -29,6 +34,10 @@ var _idle_clip: StringName = &""
 ## Velocidad del trote de aproximacion (m/s) y destino, para estimar cuanto falta para el contacto.
 var _approach_speed: float = 3.0
 var _approach_target := Vector3.ZERO
+## Reaccion pendiente (-1 ninguna, 0 lamento, 1 festejo).
+var _pending_react: int = -1
+## Distancia maxima pie-pelota (m) para que el golpe salga (0 = siempre sale: tiros a pelota quieta).
+var require_touch: float = 0.0
 
 const IDLE_ROLES: Array = [&"idle_ready", &"idle"]
 
@@ -45,6 +54,7 @@ func stance(ball_pos: Vector3, aim: Vector3, back: float, side: float) -> void:
 	kicked = false
 	entry = {}
 	contact_gap = -1.0
+	_pending_react = -1
 	var a := Vector3(aim.x, 0.0, aim.z).normalized()
 	var b := Vector3(ball_pos.x, 0.0, ball_pos.z)
 	actor.stop_moving()
@@ -67,6 +77,7 @@ func execute(e: Dictionary, ball_pos: Vector3, shot_dir: Vector3, v: Vector3, w:
 	shot_spin = w
 	knuckle = flotado
 	kicked = false
+	_pending_react = -1
 	frame = ShotCatalog.frame_for_shot(e, ball_pos, shot_dir)
 	start_at = ShotCatalog.start_time_near(e, frame, actor.global_position)
 	var start_body: Array = SpActor.body_at(StringName(e["id"]), start_at, frame[0], frame[1])
@@ -122,11 +133,18 @@ func _physics_process(_delta: float) -> void:
 			# nunca queda el tiro esperando.
 			if not kicked and (actor.clip_time() >= float(entry["tc"]) or not actor.is_playing_clip(StringName(entry["id"]))):
 				_do_contact()
+		State.AFTER:
+			# Mira la pelota mientras viaja (gira en el sitio).
+			if ball != null:
+				actor.face_towards(ball.global_position - actor.global_position)
 
 func _do_contact() -> void:
 	kicked = true
 	var toe: Vector3 = actor.bone_world(SpActor.TOE_R if int(entry["foot"]) > 0 else SpActor.TOE_L)
 	contact_gap = Vector2(toe.x - ball.global_position.x, toe.z - ball.global_position.z).length()
+	if require_touch > 0.0 and (contact_gap > require_touch or ball.global_position.y > 0.7 or ball.is_held()):
+		missed.emit()
+		return
 	ball.kick(shot_velocity, shot_spin, actor)
 	if knuckle:
 		ball.set_knuckle(rng.randf_range(2.0, 4.0), rng.randf_range(1.2, 2.2), rng.randf_range(0.0, TAU))
@@ -156,13 +174,24 @@ func _on_clip_finished(_id: StringName) -> void:
 			if not kicked:
 				_do_contact()
 			state = State.AFTER
+			if _pending_react >= 0:
+				var g: bool = _pending_react == 1
+				_pending_react = -1
+				react(g)
+				if state == State.REACT:
+					return
 			actor.play_loop(_idle_clip, 0.3)
 		State.REACT:
+			state = State.AFTER
 			actor.play_loop(_idle_clip, 0.35)
 
 ## Festejo (gol) o lamento/enojo (atajada, palo, fuera). Con gol puede salir corriendo a festejar (clips con recorrido).
+## Si todavia esta en la carrera o el golpeo, queda pendiente y sale al terminar el clip.
 func react(goal: bool) -> void:
-	if state in [State.APPROACH, State.KICK]:
+	# Con el seguimiento de la pierna ya hecho (0,4 s despues del contacto) reacciona enseguida, mezclando desde el golpeo.
+	var follow_done: bool = state == State.KICK and kicked and actor.clip_time() > float(entry.get("tc", 0.0)) + 0.4
+	if state == State.APPROACH or (state == State.KICK and not follow_done):
+		_pending_react = 1 if goal else 0
 		return
 	var id: StringName = SpReactions.pick(SpReactions.GOAL_SCORER, rng, 2.5, 1.5) if goal else SpReactions.pick(SpReactions.MISS_SHOOTER, rng, 1.6, 1.2)
 	if id == &"":

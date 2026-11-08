@@ -122,9 +122,11 @@ func _apex_time(id: StringName) -> float:
 	_apex_cache[id] = best_t
 	return best_t
 
-## Reaccion de la barrera al final de la jugada (festejan si no fue gol).
-func react(goal: bool) -> void:
+## Reaccion de la barrera al final de la jugada (festejan si no fue gol). skip: el que fue a despejar (sigue jugando).
+func react(goal: bool, skip: SpActor = null) -> void:
 	for a in players:
+		if a == skip:
+			continue
 		var id: StringName = SpReactions.pick(SpReactions.SAD if goal else SpReactions.HAPPY_DEFENDER, rng, 1.2, 1.0)
 		if id != &"":
 			a.play_here(id, 0.3)

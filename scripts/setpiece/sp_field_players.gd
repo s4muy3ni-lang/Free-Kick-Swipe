@@ -105,13 +105,16 @@ func _physics_process(delta: float) -> void:
 			ball.kick(away * 11.0 + Vector3.UP * 6.0, Vector3.ZERO, a)
 			_cleared = true
 
-func react(goal: bool) -> void:
+## Reaccion al resultado. skip: el que fue a despejar la pelota suelta (sigue jugando).
+func react(goal: bool, skip: SpActor = null) -> void:
 	for a in attackers:
 		var id: StringName = SpReactions.pick(SpReactions.GOAL_TEAM if goal else SpReactions.SAD, rng, 1.5, 1.0)
 		if id != &"":
 			a.stop_moving()
 			a.play_here(id, 0.3)
 	for a in defenders:
+		if a == skip:
+			continue
 		var id2: StringName = SpReactions.pick(SpReactions.SAD if goal else SpReactions.HAPPY_DEFENDER, rng, 1.5, 1.0)
 		if id2 != &"":
 			a.stop_moving()

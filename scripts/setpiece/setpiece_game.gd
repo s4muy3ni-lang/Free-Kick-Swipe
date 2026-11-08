@@ -47,6 +47,8 @@ var wall: SpWall
 var wall_actors: Array[SpActor] = []
 var field: SpFieldPlayers
 var bench: Array[SpActor] = []
+## Pelota suelta despues de la jugada: el arquero la recoge o un defensor la despeja.
+var loose: SpLooseBall
 
 var shootout := PenaltyShootout.new()
 var fk_goals: int = 0
@@ -57,6 +59,7 @@ var zoom: float = 1.0
 var gesture: ShotGesture
 var preview: TrajectoryPreview
 var diag: GestureDiagnostics
+var perf: DiagnosticsOverlay
 ## Ultimos parametros del tiro (diagnostico y pruebas) y velocidad real de salida medida despues del contacto.
 var last_params: ShotParams = null
 var last_features: Dictionary = {}
@@ -80,7 +83,10 @@ var _goal_scored: bool = false
 var _post_hit: bool = false
 var _wall_hit: bool = false
 var _keeper_touch: StringName = &""
+## Quien fue a buscar la pelota suelta en esta jugada (no reacciona: esta jugando).
+var chaser: SpActor = null
 var _flight_t: float = 0.0
+var _decide_t: float = 0.0
 var _settle_t: float = -1.0
 var _result_t: float = 0.0
 var _committed: bool = false
@@ -123,6 +129,10 @@ func _ready() -> void:
 	hud.zoom_changed.connect(func(d: float) -> void: set_zoom(zoom * (1.15 if d > 0.0 else 1.0 / 1.15)))
 	_build_markers()
 	_build_people()
+	loose = SpLooseBall.new()
+	loose.name = "LooseBall"
+	add_child(loose)
+	loose.setup(ball, gx)
 	# Precalculo al cargar (antes costaba ~0,65 s en PC la primera atajada, en el golpe: en el telefono se trababa el tiro).
 	KeeperPlanner.warm_cache()
 	ShotCatalog.clips()
@@ -136,7 +146,16 @@ func _ready() -> void:
 	diag.visible = false
 	hud.root.add_child(diag)
 	diag.compare_requested.connect(_compare_gestures)
-	hud.diag_pressed.connect(func() -> void: diag.visible = not diag.visible)
+	# Rendimiento medido en el dispositivo (el mismo medidor del partido): FPS, tiempos de cuadro y de fisica, llamadas de
+	# dibujo y el costo de cada sistema (Prof) mientras el diagnostico esta abierto. Es lo que hay que leer en el telefono.
+	perf = DiagnosticsOverlay.new()
+	perf.name = "PerfOverlay"
+	perf.position = Vector2(16, 90)
+	perf.visible = false
+	hud.root.add_child(perf)
+	hud.diag_pressed.connect(func() -> void:
+		diag.visible = not diag.visible
+		perf.visible = diag.visible)
 	if is_inside_tree():
 		Sfx.watch_ball(ball)
 		Sfx.crowd(true)
@@ -264,6 +283,7 @@ func _start_penalty_turn() -> void:
 		_show_end()
 		return
 	user_shooting = shootout.next_team() == PenaltyShootout.USER
+	_zone_marker.visible = false
 	ball_spot = Vector3(gx - Stadium11.PENALTY_MARK, ball.radius, 0.0)
 	_reset_play()
 	ball.reset_at(ball_spot)
@@ -438,8 +458,12 @@ func _reset_play() -> void:
 	_wall_hit = false
 	_keeper_touch = &""
 	_flight_t = 0.0
+	_decide_t = 0.0
 	_settle_t = -1.0
 	_committed = false
+	chaser = null
+	if loose != null:
+		loose.stop()
 	last_shot = {}
 	stadium.reset_goal_latches()
 	if ball.is_held():
@@ -499,6 +523,8 @@ func _on_contact(_entry: Dictionary) -> void:
 	phase = Phase.FLIGHT
 	_flight_t = 0.0
 	_launch_measure = 2
+	# La zona elegida para atajar ya no se muestra: la pelota salio.
+	_zone_marker.visible = false
 	if mode == Mode.FREE_KICK:
 		cur_keeper.read_shot(ball_spot, last_shot["velocity"], last_shot["spin"])
 		wall.on_kick(ball_spot, last_shot["velocity"])
@@ -552,6 +578,9 @@ func _physics_process(delta: float) -> void:
 		Phase.RESULT:
 			_result_t += delta
 			var wait: float = 0.2 if fast else 3.6
+			# Penal: si el arquero esta yendo a recoger la pelota suelta, se le deja terminar (hasta 6 s).
+			if not fast and mode == Mode.PENALTY and loose.active():
+				wait = 6.0
 			if _result_t >= wait:
 				_after_result()
 
@@ -577,6 +606,8 @@ func _flight_tick(delta: float) -> void:
 		done = true
 	elif p.x < ball_spot.x - 3.0 and _flight_t > 0.6:
 		done = true
+	elif _flight_t > 0.25 and _goal_impossible(delta):
+		done = true
 	if done:
 		if _settle_t < 0.0:
 			_settle_t = 0.1 if fast else 0.45
@@ -592,6 +623,35 @@ func _flight_tick(delta: float) -> void:
 			elif _post_hit:
 				why = "post"
 			_finish(why)
+
+## Ya no puede ser gol: la pelota se aleja del arco (o va lenta) y su trayectoria prevista (BallPredictor: aire, botes y
+## rodadura medidos de Ball) no vuelve a la boca del arco en 3 s. Asi el resultado sale enseguida tras un rebote del
+## arquero, del palo o de la barrera, sin esperar a que la pelota se frene. Un tiro que todavia va hacia el arco NO se
+## decide aqui (cruza la linea, lo atrapan o se va: condiciones de siempre). Se mira cada 0,1 s.
+func _goal_impossible(delta: float) -> bool:
+	_decide_t -= delta
+	if _decide_t > 0.0:
+		return false
+	_decide_t = 0.1
+	if ball.is_held():
+		return false
+	var v: Vector3 = ball.linear_velocity
+	if v.x > 0.5 and v.length() > 4.0:
+		return false
+	Prof.begin(&"resultado (prediccion)")
+	var traj: PackedVector3Array = BallPredictor.trajectory(ball.global_position, v, 3.0, 1.0 / 30.0, ball.angular_velocity)
+	var impossible: bool = not traj.is_empty() and not _path_reaches_goal(traj)
+	Prof.end(&"resultado (prediccion)")
+	return impossible
+
+func _path_reaches_goal(traj: PackedVector3Array) -> bool:
+	for q in traj:
+		if q.x >= gx - 0.3 and absf(q.z) <= half_goal + 0.3 and q.y <= goal_h + 0.3:
+			return true
+	if traj.size() >= 2 and traj[traj.size() - 1].x - traj[traj.size() - 2].x > 0.01:
+		# Al final del horizonte todavia rueda hacia el arco: no se sabe.
+		return true
+	return false
 
 func _finish(why: String) -> void:
 	if phase != Phase.FLIGHT:
@@ -621,13 +681,23 @@ func _finish(why: String) -> void:
 		Sfx.play(&"cheer", 0.9)
 	else:
 		Sfx.play(&"ooh", 0.8)
-	# Reacciones: el tirador festeja o se enoja; el arquero al reves; barrera, sueltos y banco tambien.
+	# Pelota suelta en el area o cerca: el arquero va a recogerla o un defensor la despeja (ese no reacciona: juega).
+	chaser = null
+	if not goal_ok and not ball.is_held():
+		var defs: Array = []
+		if mode == Mode.FREE_KICK:
+			defs.append_array(field.defenders)
+			defs.append_array(wall.players)
+		chaser = loose.start(cur_keeper, defs)
+	# Reacciones: el tirador festeja o se enoja; el arquero al reves; barrera, sueltos y banco tambien. Si alguno todavia
+	# termina su golpeo o su estirada, la reaccion sale al terminar.
 	cur_shooter.react(goal_ok)
-	cur_keeper.react(not goal_ok)
+	if chaser != cur_keeper.actor:
+		cur_keeper.react(not goal_ok)
 	if wall != null:
-		wall.react(goal_ok)
+		wall.react(goal_ok, chaser)
 	if field != null:
-		field.react(goal_ok)
+		field.react(goal_ok, chaser)
 	for b in bench:
 		var team_scored: bool = goal_ok == (b.team == (0 if user_shooting else 1))
 		var id: StringName = SpReactions.pick(SpReactions.GOAL_TEAM if team_scored else SpReactions.SAD, rng, 1.2, 1.0)
