@@ -1,41 +1,749 @@
 {
-	"games": [
-		{
-			"id": "boton_caida",
-			"title": "Botón de caída",
-			"scene": "res://scenes/minigames/boton_caida.tscn",
-			"status": "Implementado",
-			"description": "Dos plataformas sobre el vacío: pegale fuerte al botón del rival y se abre su piso.",
-			"levels": [
-				{"title": "A la vista", "objective": "Pegale FUERTE al botón rojo del fondo de la plataforma rival: se abre su piso y cae. Gana el primero que haga caer 2 veces al otro. Un roce no alcanza.",
-					"gap": 12.0, "button": {"radius": 0.55, "y": 1.2}, "points_to_win": 2, "medals": [200, 300, 380]},
-				{"title": "Custodiado", "objective": "El botón está protegido por dos postes y un bloque. Buscá el hueco.",
-					"gap": 14.0, "button": {"radius": 0.5, "y": 1.1},
-					"obstacles": [{"type": "post", "pos": [-3.6, 1.2, -0.75], "size": [0.3, 2.4, 0.3]}, {"type": "post", "pos": [-3.6, 1.2, 0.75], "size": [0.3, 2.4, 0.3]},
-						{"type": "box", "pos": [-4.6, 0.45, 0.0], "size": [0.5, 0.9, 1.2]}], "points_to_win": 2, "medals": [200, 300, 380]},
-				{"title": "Detrás del muro", "objective": "El botón está en el piso, detrás de un muro. Pasala por arriba: que caiga sobre el botón o que rebote en el tablero del fondo.",
-					"gap": 13.0, "button": {"kind": "floor", "radius": 0.75, "x": -5.2}, "ai": {"aim": [-6.4, 1.36, 0.0], "speed": 14.0},
-					"obstacles": [{"type": "wall", "pos": [-3.8, 1.25, 0.0], "size": [0.3, 2.5, 2.2]}, {"type": "wall", "pos": [-7.1, 2.0, 0.0], "size": [0.3, 4.0, 4.0]}],
-					"points_to_win": 2, "medals": [200, 300, 380]},
-				{"title": "Botón móvil", "objective": "El botón va y viene. Calculá dónde va a estar cuando llegue la pelota.",
-					"gap": 13.0, "button": {"radius": 0.5, "y": 1.2, "move": {"axis": [0, 0, 1], "amp": 2.2, "speed": 1.6}}, "points_to_win": 2, "medals": [200, 300, 380]},
-				{"title": "Botón chico", "objective": "El botón es mucho más chico. Precisión pura.",
-					"gap": 12.0, "button": {"radius": 0.28, "y": 1.0}, "points_to_win": 2, "medals": [200, 300, 380]},
-				{"title": "Desnivel", "objective": "Las plataformas están a distinta altura y giradas. Ajustá la altura y el ángulo.",
-					"gap": 13.0, "button": {"radius": 0.5, "y": 1.2}, "platforms": [{"y": 0.0, "yaw": -12.0, "dz": -1.5}, {"y": 2.0, "yaw": 14.0, "dz": 2.0}],
-					"points_to_win": 2, "medals": [200, 300, 380]},
-				{"title": "Obstáculos en movimiento", "objective": "Dos bloques se cruzan delante del botón y una barra gira. Elegí el momento.",
-					"gap": 13.0, "button": {"radius": 0.5, "y": 1.2},
-					"obstacles": [{"type": "box", "pos": [-5.1, 1.2, 0.0], "size": [0.3, 1.4, 1.1], "move": {"axis": [0, 0, 1], "amp": 1.6, "speed": 1.3}},
-						{"type": "box", "pos": [-5.6, 1.2, 0.0], "size": [0.3, 1.4, 1.1], "move": {"axis": [0, 0, 1], "amp": 1.6, "speed": 1.3, "phase": 3.14}},
-						{"type": "box", "pos": [-5.95, 1.2, 0.0], "size": [0.15, 2.2, 0.25], "move": {"axis": [0, 0, 0], "amp": 0.0, "speed": 1.0, "spin_axis": [1, 0, 0], "spin": 1.8}}],
-					"points_to_win": 2, "medals": [200, 300, 380]},
-				{"title": "Varios rebotes", "objective": "El botón del piso está bajo un techo y detrás de un muro bajo. Hace falta rebotar (piso, tablero o techo) para llegar.",
-					"gap": 12.0, "button": {"kind": "floor", "radius": 0.75, "x": -5.4}, "ai": {"aim": [-6.6, 0.76, 0.0], "speed": 18.0},
-					"obstacles": [{"type": "wall", "pos": [-3.8, 0.6, 0.0], "size": [0.3, 1.2, 2.2]}, {"type": "wall", "pos": [-5.5, 2.4, 0.0], "size": [3.0, 0.2, 3.2]},
-						{"type": "wall", "pos": [-7.1, 1.8, 0.0], "size": [0.3, 3.6, 4.0]}],
-					"points_to_win": 2, "medals": [200, 300, 380]}
-			]
-		}
-	]
+ "games": [
+  {
+   "id": "boton_caida",
+   "title": "Botón de caída",
+   "scene": "res://scenes/minigames/boton_caida.tscn",
+   "status": "Implementado",
+   "description": "Dos plataformas sobre el vacío: pegale fuerte al botón del rival y se abre su piso.",
+   "levels": [
+    {
+     "title": "A la vista",
+     "objective": "Pegale FUERTE al botón rojo del fondo de la plataforma rival: se abre su piso y cae. Gana el primero que haga caer 2 veces al otro. Un roce no alcanza.",
+     "gap": 12.0,
+     "button": {
+      "radius": 0.55,
+      "y": 1.2
+     },
+     "points_to_win": 2,
+     "medals": [
+      200,
+      300,
+      380
+     ]
+    },
+    {
+     "title": "Custodiado",
+     "objective": "El botón está protegido por dos postes y un bloque. Buscá el hueco.",
+     "gap": 14.0,
+     "button": {
+      "radius": 0.5,
+      "y": 1.1
+     },
+     "obstacles": [
+      {
+       "type": "post",
+       "pos": [
+        -3.6,
+        1.2,
+        -0.75
+       ],
+       "size": [
+        0.3,
+        2.4,
+        0.3
+       ]
+      },
+      {
+       "type": "post",
+       "pos": [
+        -3.6,
+        1.2,
+        0.75
+       ],
+       "size": [
+        0.3,
+        2.4,
+        0.3
+       ]
+      },
+      {
+       "type": "box",
+       "pos": [
+        -4.6,
+        0.45,
+        0.0
+       ],
+       "size": [
+        0.5,
+        0.9,
+        1.2
+       ]
+      }
+     ],
+     "points_to_win": 2,
+     "medals": [
+      200,
+      300,
+      380
+     ]
+    },
+    {
+     "title": "Detrás del muro",
+     "objective": "El botón está en el piso, detrás de un muro. Pasala por arriba: que caiga sobre el botón o que rebote en el tablero del fondo.",
+     "gap": 13.0,
+     "button": {
+      "kind": "floor",
+      "radius": 0.75,
+      "x": -5.2
+     },
+     "ai": {
+      "aim": [
+       -6.4,
+       1.36,
+       0.0
+      ],
+      "speed": 14.0
+     },
+     "obstacles": [
+      {
+       "type": "wall",
+       "pos": [
+        -3.8,
+        1.25,
+        0.0
+       ],
+       "size": [
+        0.3,
+        2.5,
+        2.2
+       ]
+      },
+      {
+       "type": "wall",
+       "pos": [
+        -7.1,
+        2.0,
+        0.0
+       ],
+       "size": [
+        0.3,
+        4.0,
+        4.0
+       ]
+      }
+     ],
+     "points_to_win": 2,
+     "medals": [
+      200,
+      300,
+      380
+     ]
+    },
+    {
+     "title": "Botón móvil",
+     "objective": "El botón va y viene. Calculá dónde va a estar cuando llegue la pelota.",
+     "gap": 13.0,
+     "button": {
+      "radius": 0.5,
+      "y": 1.2,
+      "move": {
+       "axis": [
+        0,
+        0,
+        1
+       ],
+       "amp": 2.2,
+       "speed": 1.6
+      }
+     },
+     "points_to_win": 2,
+     "medals": [
+      200,
+      300,
+      380
+     ]
+    },
+    {
+     "title": "Botón chico",
+     "objective": "El botón es mucho más chico. Precisión pura.",
+     "gap": 12.0,
+     "button": {
+      "radius": 0.28,
+      "y": 1.0
+     },
+     "points_to_win": 2,
+     "medals": [
+      200,
+      300,
+      380
+     ]
+    },
+    {
+     "title": "Desnivel",
+     "objective": "Las plataformas están a distinta altura y giradas. Ajustá la altura y el ángulo.",
+     "gap": 13.0,
+     "button": {
+      "radius": 0.5,
+      "y": 1.2
+     },
+     "platforms": [
+      {
+       "y": 0.0,
+       "yaw": -12.0,
+       "dz": -1.5
+      },
+      {
+       "y": 2.0,
+       "yaw": 14.0,
+       "dz": 2.0
+      }
+     ],
+     "points_to_win": 2,
+     "medals": [
+      200,
+      300,
+      380
+     ]
+    },
+    {
+     "title": "Obstáculos en movimiento",
+     "objective": "Dos bloques se cruzan delante del botón y una barra gira. Elegí el momento.",
+     "gap": 13.0,
+     "button": {
+      "radius": 0.5,
+      "y": 1.2
+     },
+     "obstacles": [
+      {
+       "type": "box",
+       "pos": [
+        -5.1,
+        1.2,
+        0.0
+       ],
+       "size": [
+        0.3,
+        1.4,
+        1.1
+       ],
+       "move": {
+        "axis": [
+         0,
+         0,
+         1
+        ],
+        "amp": 1.6,
+        "speed": 1.3
+       }
+      },
+      {
+       "type": "box",
+       "pos": [
+        -5.6,
+        1.2,
+        0.0
+       ],
+       "size": [
+        0.3,
+        1.4,
+        1.1
+       ],
+       "move": {
+        "axis": [
+         0,
+         0,
+         1
+        ],
+        "amp": 1.6,
+        "speed": 1.3,
+        "phase": 3.14
+       }
+      },
+      {
+       "type": "box",
+       "pos": [
+        -5.95,
+        1.2,
+        0.0
+       ],
+       "size": [
+        0.15,
+        2.2,
+        0.25
+       ],
+       "move": {
+        "axis": [
+         0,
+         0,
+         0
+        ],
+        "amp": 0.0,
+        "speed": 1.0,
+        "spin_axis": [
+         1,
+         0,
+         0
+        ],
+        "spin": 1.8
+       }
+      }
+     ],
+     "points_to_win": 2,
+     "medals": [
+      200,
+      300,
+      380
+     ]
+    },
+    {
+     "title": "Varios rebotes",
+     "objective": "El botón del piso está bajo un techo y detrás de un muro bajo. Hace falta rebotar (piso, tablero o techo) para llegar.",
+     "gap": 12.0,
+     "button": {
+      "kind": "floor",
+      "radius": 0.75,
+      "x": -5.4
+     },
+     "ai": {
+      "aim": [
+       -6.6,
+       0.76,
+       0.0
+      ],
+      "speed": 18.0
+     },
+     "obstacles": [
+      {
+       "type": "wall",
+       "pos": [
+        -3.8,
+        0.6,
+        0.0
+       ],
+       "size": [
+        0.3,
+        1.2,
+        2.2
+       ]
+      },
+      {
+       "type": "wall",
+       "pos": [
+        -5.5,
+        2.4,
+        0.0
+       ],
+       "size": [
+        3.0,
+        0.2,
+        3.2
+       ]
+      },
+      {
+       "type": "wall",
+       "pos": [
+        -7.1,
+        1.8,
+        0.0
+       ],
+       "size": [
+        0.3,
+        3.6,
+        4.0
+       ]
+      }
+     ],
+     "points_to_win": 2,
+     "medals": [
+      200,
+      300,
+      380
+     ]
+    }
+   ]
+  },
+  {
+   "id": "demolicion",
+   "title": "Demolición",
+   "scene": "res://scenes/minigames/demolicion.tscn",
+   "status": "Implementado",
+   "description": "Derribá los bloques rojos de la mesa con tiros limitados. Los blancos no se tocan.",
+   "levels": [
+    {
+     "title": "Torre",
+     "objective": "Tirá la torre roja de la mesa (o volcá cada bloque). Tenés 3 tiros; cada tiro de sobra suma.",
+     "distance": 16.0,
+     "shots": 3,
+     "figures": [
+      {
+       "type": "tower",
+       "n": 5,
+       "at": [
+        0,
+        0,
+        0
+       ],
+       "size": [
+        0.45,
+        0.45,
+        0.45
+       ],
+       "kind": "target",
+       "mass": 1.0
+      }
+     ],
+     "medals": [
+      300,
+      440,
+      560
+     ]
+    },
+    {
+     "title": "Pirámide",
+     "objective": "Derribá la pirámide entera (6 bloques): sacalos de la mesa o volcalos. 4 tiros.",
+     "distance": 17.0,
+     "shots": 4,
+     "figures": [
+      {
+       "type": "pyramid",
+       "n": 3,
+       "at": [
+        0,
+        0,
+        0
+       ],
+       "size": [
+        0.45,
+        0.45,
+        0.45
+       ],
+       "kind": "target",
+       "mass": 1.0
+      }
+     ],
+     "medals": [
+      400,
+      600,
+      720
+     ]
+    },
+    {
+     "title": "Reacción en cadena",
+     "objective": "Las fichas están en fila hacia el fondo: volteá la primera y caen en cadena. Dos tiros.",
+     "distance": 15.0,
+     "shots": 2,
+     "table_depth": 3.8,
+     "table_width": 4.0,
+     "figures": [
+      {
+       "type": "dominoes",
+       "n": 6,
+       "at": [
+        -1.3,
+        0,
+        0
+       ],
+       "step": [
+        0.5,
+        0,
+        0
+       ],
+       "size": [
+        0.12,
+        0.9,
+        0.6
+       ],
+       "kind": "target",
+       "mass": 0.8
+      }
+     ],
+     "medals": [
+      400,
+      600,
+      660
+     ]
+    },
+    {
+     "title": "Precisión",
+     "objective": "Volteá solo los rojos: cada blanco que tires resta puntos. 3 tiros.",
+     "distance": 16.0,
+     "shots": 3,
+     "blocks": [
+      {
+       "pos": [
+        0,
+        0.3,
+        -1.2
+       ],
+       "size": [
+        0.4,
+        0.6,
+        0.4
+       ],
+       "kind": "target"
+      },
+      {
+       "pos": [
+        0,
+        0.3,
+        0.0
+       ],
+       "size": [
+        0.4,
+        0.6,
+        0.4
+       ],
+       "kind": "keep"
+      },
+      {
+       "pos": [
+        0,
+        0.3,
+        1.2
+       ],
+       "size": [
+        0.4,
+        0.6,
+        0.4
+       ],
+       "kind": "target"
+      },
+      {
+       "pos": [
+        0,
+        0.3,
+        -0.6
+       ],
+       "size": [
+        0.4,
+        0.6,
+        0.4
+       ],
+       "kind": "keep"
+      },
+      {
+       "pos": [
+        0,
+        0.3,
+        0.6
+       ],
+       "size": [
+        0.4,
+        0.6,
+        0.4
+       ],
+       "kind": "keep"
+      }
+     ],
+     "medals": [
+      140,
+      200,
+      260
+     ]
+    },
+    {
+     "title": "Muro",
+     "objective": "Un muro de 9 bloques: tiralo todo en 4 tiros.",
+     "distance": 17.0,
+     "shots": 4,
+     "figures": [
+      {
+       "type": "wall",
+       "rows": 3,
+       "cols": 3,
+       "at": [
+        0,
+        0,
+        0
+       ],
+       "size": [
+        0.4,
+        0.4,
+        0.55
+       ],
+       "kind": "target",
+       "mass": 0.6
+      }
+     ],
+     "medals": [
+      600,
+      900,
+      1000
+     ]
+    },
+    {
+     "title": "Torre inestable",
+     "objective": "Una torre alta y fina con un bloque rojo arriba: hacelo caer sin voltear los blancos de la base. 2 tiros.",
+     "distance": 18.0,
+     "shots": 2,
+     "blocks": [
+      {
+       "pos": [
+        0,
+        0.35,
+        0
+       ],
+       "size": [
+        0.35,
+        0.7,
+        0.35
+       ],
+       "kind": "keep"
+      },
+      {
+       "pos": [
+        0,
+        1.05,
+        0
+       ],
+       "size": [
+        0.35,
+        0.7,
+        0.35
+       ],
+       "kind": "keep"
+      },
+      {
+       "pos": [
+        0,
+        1.6,
+        0
+       ],
+       "size": [
+        0.3,
+        0.4,
+        0.3
+       ],
+       "kind": "target",
+       "mass": 0.6
+      }
+     ],
+     "medals": [
+      100,
+      130,
+      160
+     ]
+    }
+   ]
+  },
+  {
+   "id": "enceste",
+   "title": "Enceste",
+   "scene": "res://scenes/minigames/enceste.tscn",
+   "status": "Implementado",
+   "description": "Meté la pelota en el aro: cuenta solo si entra de arriba hacia abajo. Con tablero, tapa, aro móvil y doble aro.",
+   "levels": [
+    {
+     "title": "Primer aro",
+     "objective": "Meté la pelota en el aro (de arriba hacia abajo). Cuatro tiros; limpia (sin tocar el aro) suma más.",
+     "shots": 4,
+     "hoops": [
+      {
+       "pos": [
+        12.0,
+        3.05,
+        0.0
+       ],
+       "radius": 0.36
+      }
+     ],
+     "medals": [
+      100,
+      190,
+      250
+     ]
+    },
+    {
+     "title": "Por el tablero",
+     "objective": "Una tapa transparente cubre el frente del aro: hacé rebotar la pelota en el tablero. Cuatro tiros.",
+     "shots": 4,
+     "hoops": [
+      {
+       "pos": [
+        12.0,
+        3.05,
+        0.0
+       ],
+       "radius": 0.36,
+       "lid": 1.0
+      }
+     ],
+     "medals": [
+      100,
+      180,
+      220
+     ]
+    },
+    {
+     "title": "Aro lejano",
+     "objective": "El aro está a 18 m. Cinco tiros.",
+     "shots": 5,
+     "hoops": [
+      {
+       "pos": [
+        18.0,
+        3.05,
+        0.0
+       ],
+       "radius": 0.36
+      }
+     ],
+     "medals": [
+      100,
+      200,
+      290
+     ]
+    },
+    {
+     "title": "Aro móvil",
+     "objective": "El aro va y viene: calculá dónde va a estar. Cinco tiros.",
+     "shots": 5,
+     "hoops": [
+      {
+       "pos": [
+        13.0,
+        3.05,
+        0.0
+       ],
+       "radius": 0.38,
+       "move": {
+        "axis": [
+         0,
+         0,
+         1
+        ],
+        "amp": 1.6,
+        "speed": 1.1
+       }
+      }
+     ],
+     "medals": [
+      100,
+      200,
+      290
+     ]
+    },
+    {
+     "title": "Doble aro",
+     "objective": "Dos aros: encestá en los dos. Seis tiros.",
+     "shots": 6,
+     "hoops": [
+      {
+       "pos": [
+        12.0,
+        2.6,
+        -2.0
+       ],
+       "radius": 0.36
+      },
+      {
+       "pos": [
+        15.0,
+        3.4,
+        2.2
+       ],
+       "radius": 0.36
+      }
+     ],
+     "need": 2,
+     "medals": [
+      200,
+      320,
+      460
+     ]
+    }
+   ]
+  }
+ ]
 }

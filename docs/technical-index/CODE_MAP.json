@@ -6225,7 +6225,7 @@
     {
       "id": "setpiece.minigames",
       "system": "SETPIECE",
-      "description": "Minijuegos arcade por turnos: Minigame (base compartida: estados con salida siempre, turnos, puntos, reinicio, IA con la misma fisica via ShotSolver, intenciones serializables para jugar en linea mas adelante, records y medallas en PlayerProgress; reutiliza ShotGesture, GestureShotModel, TrajectoryPreview, SpShooter, SpCamera y SpHud), MinigameCatalog (datos en resources/minigames/minigames.json, desbloqueo por bronce) y BotonCaida (dos plataformas sobre el vacio, boton fisico que solo se aprieta con un golpe real, trampilla que se abre, 8 niveles, IA que adelanta botones moviles, espera su momento con obstaculos moviles y aprende de sus fallos).",
+      "description": "Minijuegos arcade por turnos: Minigame (base compartida: estados con salida siempre, turnos, puntos, reinicio, IA con la misma fisica via ShotSolver, intenciones serializables para jugar en linea mas adelante, records y medallas en PlayerProgress; reutiliza ShotGesture, GestureShotModel, TrajectoryPreview, SpShooter, SpCamera y SpHud), MinigameCatalog (datos en resources/minigames/minigames.json, desbloqueo por bronce) y BotonCaida (dos plataformas sobre el vacio, boton fisico que solo se aprieta con un golpe real, trampilla que se abre, 8 niveles, IA que adelanta botones moviles, espera su momento con obstaculos moviles y aprende de sus fallos). Demolicion (un jugador, tiros limitados: derribar bloques rigidos de una mesa: torre, piramide, domino en cadena, precision con bloques prohibidos, muro y torre inestable; derribado = fuera de la mesa o volcado). Enceste (un jugador: aro fisico de esferas con tablero; cuenta solo si la pelota cruza el aro bajando y por dentro; aro lejano, tapa que obliga al tablero, aro movil y doble aro).",
       "keywords": [
         "minijuego",
         "minijuegos",
@@ -6244,7 +6244,21 @@
         "minigame",
         "button",
         "platform",
-        "trapdoor"
+        "trapdoor",
+        "demolicion",
+        "destruccion",
+        "bloques",
+        "torre",
+        "piramide",
+        "domino",
+        "cadena",
+        "muro",
+        "enceste",
+        "canasta",
+        "aro",
+        "tablero",
+        "basquet",
+        "rebote"
       ],
       "files": [
         "scripts/minigames/minigame.gd",
@@ -6252,7 +6266,13 @@
         "scripts/minigames/boton_caida.gd",
         "scenes/minigames/boton_caida.tscn",
         "resources/minigames/minigames.json",
-        "tests/test_boton_caida.gd"
+        "tests/test_boton_caida.gd",
+        "scripts/minigames/demolicion.gd",
+        "scenes/minigames/demolicion.tscn",
+        "tests/test_demolicion.gd",
+        "scripts/minigames/enceste.gd",
+        "scenes/minigames/enceste.tscn",
+        "tests/test_enceste.gd"
       ],
       "symbols": [],
       "parameters": [],

@@ -11,6 +11,21 @@ Formato de entrada: **fecha — título** · commit · qué cambió · archivos 
 
 ---
 
+## 2026-11-09 — Primera colección arcade: «Demolición» y «Enceste»
+
+- **Demolición** (`scripts/minigames/demolicion.gd`, 6 niveles): bloques rígidos sobre una mesa (torre, pirámide, dominó en
+  cadena, precisión con bloques que no hay que tocar, muro, torre inestable). Error encontrado con render y corregido:
+  «derribado» contaba un bloque que solo había bajado un piso en la torre (decía «¡TODO ABAJO!» con la torre en pie);
+  ahora es «fuera de la mesa o volcado más de 50°». Balance: pirámide con 4 tiros y muro de 9 bloques (con 3 tiros y 12
+  bloques ninguna forma simple de apuntar limpiaba el nivel).
+- **Enceste** (`scripts/minigames/enceste.gd`, 5 niveles): aro físico con tablero; cuenta solo si la pelota baja por
+  dentro del aro (probado: subir por el aro no cuenta; caer sobre el aro lo toca y rebota).
+- Base: `Minigame._settling` (el tiro espera a que los objetos se asienten).
+- Pruebas: `test_demolicion` (3: nada se cae solo, cada nivel se limpia con alguna forma de apuntar, sin premio por
+  participar, reinicio), `test_enceste` (2: regla del enceste y una solución por aro hallada con la física real).
+
+---
+
 ## 2026-11-09 — Correcciones de jugabilidad: arquero del tiro libre, ciclo de la jugada, festejos, opciones visuales y «Botón de caída»
 
 - **Arquero del tiro libre (`SpKeeper._watch_step`, `KeeperPlanner.plan_save` con `tau_cost`, `SpSettings.keeper_spin_read`

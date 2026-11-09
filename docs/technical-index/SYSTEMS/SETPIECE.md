@@ -96,6 +96,17 @@ muro, móvil, chico, desnivel, obstáculos en movimiento, varios rebotes); los o
 plataformas. IA: apunta al botón (o al truco del nivel, `ai.aim`), adelanta el botón móvil con el tiempo de vuelo previsto,
 espera su momento con obstáculos móviles (mira dónde van a estar) y corrige parte de su fallo anterior (`CPU_LEARN`).
 
+`Demolicion` (un jugador, tiros limitados): bloques `RigidBody3D` sobre una mesa (torre, pirámide, dominó en cadena,
+precisión con bloques blancos que no hay que tocar, muro, torre inestable). Derribado = el centro quedó bajo la tapa de la
+mesa o el bloque quedó volcado más de 50°; bajar un piso dentro de la torre no cuenta. El tiro termina cuando la pelota
+se frena y los bloques se asientan (`Minigame._settling`). Puntaje: 100 por objetivo, −60 por blanco tirado, +60 por
+tiro de sobra si se limpia; sin objetivos derribados no hay puntos ni medalla.
+
+`Enceste` (un jugador, tiros limitados): aro físico (16 esferas en anillo, la pelota rebota en él) con tablero; cuenta
+solo si el centro de la pelota cruza el plano del aro bajando y dentro del anillo. Niveles: primer aro, por el tablero
+(tapa transparente al frente), aro lejano (18 m), aro móvil y doble aro. Puntaje: 100 por enceste, +50 limpio, +40 por
+tiro de sobra al completar.
+
 ## Parámetros del trazo
 
 <!-- AUTO:params:GestureTuning -->

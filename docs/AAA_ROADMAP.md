@@ -513,11 +513,20 @@ entrega.
 `MinigameCatalog` (datos, desbloqueo por bronce, récords y medallas en `PlayerProgress`), pestaña «Arcade» y tarjeta
 ARCADE en el menú. Reutiliza el trazo, la vista previa, el tirador animado, la cámara y la interfaz.
 
-## Etapa 7 — Primera colección
+## Etapa 7 — Primera colección (en curso)
 
-En esta entrega quedó jugable el primero («Botón de caída»). El resto de la colección pedida (destrucción y mecanismos,
-minigolf, arqueros por turnos, desafíos de habilidad) sigue en el orden de «Primera colección» de arriba, sobre la misma
-base; ninguno se da por hecho hasta tener pruebas.
+| Minijuego | Tipo | Niveles | Estado | Pruebas |
+|---|---|---|---|---|
+| Botón de caída | Versus por turnos contra la IA | 8 | Implementado · Pendiente de balance | `test_boton_caida` |
+| Demolición | Física y destrucción (un jugador, tiros limitados) | 6: torre, pirámide, reacción en cadena, precisión, muro, torre inestable | Implementado · Pendiente de balance | `test_demolicion` |
+| Enceste | Desafío de habilidad (aro físico, rebote en tablero) | 5: primer aro, por el tablero, aro lejano, aro móvil, doble aro | Implementado · Pendiente de balance | `test_enceste` |
+| Minigolf | Golpes, par, penalizaciones | — | Pendiente (necesita apuntar a ras del piso: el trazo actual apunta a un plano vertical) | — |
+| Arqueros por turnos | A patea, B ataja, rondas, desempate, muerte súbita | — | Pendiente (la tanda de penales ya alterna; faltan variantes) | — |
+| Mecanismos y rescate, explosiva, dianas colgantes, circuito de aros | — | — | Pendiente | — |
+
+Cada nivel jugable tiene solución comprobada con la física real (búsqueda automática de un tiro que lo resuelve) y
+puntaje sin premio por participar. Error encontrado y corregido con render en Demolición: un bloque que solo bajaba un piso
+en la torre contaba como derribado. Probado en Android: **no**.
 
 # Complemento «Arcade Football»: catálogo de 43 minijuegos (2026-11-08)
 
@@ -537,7 +546,7 @@ dependencias y sistemas compartidos para desarrollarlos de a poco.
 | S3 Blancos físicos | Paneles con puntaje, dianas colgantes con articulación y resistencia (caen por impulso real, varios impactos), botones físicos, giratorios, que cambian de lugar | Diseñado | `ChallengeTargets` (recuadros, aros, marco, objetos con física) |
 | S4 Plataformas y caídas | Plataformas sobre vacío o agua, pisos que se abren, empujes por impacto (física propia, separada de los modos de tiro) | Implementado (vacío y trampilla; falta agua y empuje) | `BotonCaida` |
 | S5 Control de la pelota | Conducción, recepción, dominadas, primer toque | Idea (auditar) | Conducción del partido viejo (`scripts/gameplay/`, `ai_input.gd`, `touch_foot_ik.gd`); clips de volea y «control y golpe» (48 con rol), golpeos FREESTYLE/FLICKS a revisar |
-| S6 Básquet | Canasta (aro horizontal: enceste = paso físico de la pelota por el aro, de arriba hacia abajo), tableros y planos inclinados | Diseñado | detección de aro de `ChallengeTargets` |
+| S6 Básquet | Canasta (aro horizontal: enceste = paso físico de la pelota por el aro, de arriba hacia abajo), tableros y planos inclinados | Implementado (aro y tablero: `Enceste`; falta plano inclinado) | detección de aro de `ChallengeTargets` |
 | S7 Escenarios | Variantes reutilizables (estadio, barrio, entrenamiento, arena de precisión, vacío, agua, urbano, nocturno, futurista, fútbol-básquet, arco con dianas) con distancia, tamaño de blancos, velocidad, obstáculos, tiempo, balones y superficie configurables | Idea | `Stadium11`, `PitchConfig` |
 | S8 En línea | Partida rápida y privada, código, revancha, torneos, historial, clasificación por minijuego; un solo emparejamiento para todos; el servidor valida resultados y recompensas (repite el tiro desde sus parámetros) | Idea (fase posterior, con aprobación) | — |
 | S9 Repeticiones | Registro por estados (ver fase 9) | Diseñado | `Ball.capture_state` |
@@ -557,7 +566,7 @@ dependencias y sistemas compartidos para desarrollarlos de a poco.
 | 9 | Tiros con efecto | Implementado (individual) | Academia nivel 4 (postes), Arena (maniquíes) | S3 |
 | 10 | Objetivo sorpresa | Implementado (individual, parcial) | Blancos que desaparecen; falta cambiar de lugar entre tiros | S3 |
 | 11 | Bolos de fútbol | Implementado (individual) | Conos, botellas, bloques con física | S1, S3 |
-| 12 | Derribar la torre | Implementado (individual) | Torre; premia los intentos de sobra | S3 |
+| 12 | Derribar la torre | Implementado (individual) | Torre de la Arena y «Demolición» (6 niveles: torre, pirámide, dominó, precisión, muro, torre inestable) | S3 |
 | 13 | Billar futbolístico | Idea | Varias pelotas con física | S3, S7 |
 | 14 | Rebote obligatorio | Implementado (parcial) | Rebote en el piso; faltan paredes | S3, S7 |
 | 15 | Circuito de aros | Diseñado | Un aro existe; falta «todos en un mismo tiro» | S3 |
@@ -587,7 +596,7 @@ dependencias y sistemas compartidos para desarrollarlos de a poco.
 | 39 | Plataformas destructibles | Idea | — | S4 |
 | 40 | Duelo de rebotes | Idea | — | S1, S3 |
 | 41 | Dominadas y enceste | Idea (investigar) | Necesita dominadas (#20) y canasta | S5, S6 |
-| 42 | Enceste por rebote | Diseñado | Plano inclinado + canasta con paso físico por el aro | S6, S3 |
+| 42 | Enceste por rebote | Implementado · Pendiente de balance | «Enceste» (5 niveles, aro físico y tablero; tercera entrega); falta plano inclinado | S6, S3 |
 | 43 | Dianas y blancos desmontables | Diseñado | Paneles con puntaje, dianas colgantes con articulación y resistencia, móviles y giratorias; solo colisiones reales | S3, S1 |
 
 ## Primera colección (orden propuesto por dependencias, cuando terminen las prioridades técnicas)

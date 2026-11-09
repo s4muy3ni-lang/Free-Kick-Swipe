@@ -102,6 +102,11 @@ func _shot_ctx(s: int) -> Dictionary:
 func _flight_check(_delta: float) -> String:
 	return ""
 
+## Algo del nivel todavia se mueve despues del tiro (bloques cayendo): la pelota quieta no termina el tiro; sigue
+## valiendo el tope de vuelo.
+func _settling() -> bool:
+	return false
+
 ## Resultado de un tiro terminado (puntos, mecanismos). La base ya conto el tiro.
 func _on_resolved(_s: int, _result: String) -> void:
 	pass
@@ -393,7 +398,7 @@ func _flight_watchdog(delta: float) -> String:
 		return "vacio"
 	if _t > MAX_FLIGHT:
 		return "tiempo"
-	if _t > 0.5 and ball.linear_velocity.length() < SLOW_SPEED:
+	if _t > 0.5 and ball.linear_velocity.length() < SLOW_SPEED and not _settling():
 		_slow_t += delta
 		if _slow_t >= SLOW_TIME:
 			return "quieta"
