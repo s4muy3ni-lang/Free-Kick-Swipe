@@ -528,6 +528,17 @@ Cada nivel jugable tiene solución comprobada con la física real (búsqueda aut
 puntaje sin premio por participar. Error encontrado y corregido con render en Demolición: un bloque que solo bajaba un piso
 en la torre contaba como derribado. Probado en Android: **no**.
 
+## APK de la tercera entrega
+
+Corrida 15 de GitHub Actions, verde (pruebas headless y con render, APK firmada de depuración y verificación de que los
+JSON de la Academia, la Arena y los minijuegos estén dentro):
+https://github.com/s4muy3ni-lang/Free-Kick-Swipe/actions/runs/42581243230 — artefacto `futbol5-apk` (vence el
+2026-11-23). La corrida 14 (commit anterior, sin Demolición ni Enceste) también salió verde.
+
+**Probado en PC:** suite headless 175 / 0 fallos; render de tiros libres y penales 7 / 0; medición del arquero con render.
+**Probado en Android:** nada (falta que se pruebe en el teléfono: arquero del tiro libre, festejos, opciones visuales y
+minijuegos).
+
 # Complemento «Arcade Football»: catálogo de 43 minijuegos (2026-11-08)
 
 Incorporado al plan **sin interrumpir las prioridades técnicas vigentes** (medición en el teléfono, presentación,
