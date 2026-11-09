@@ -65,6 +65,15 @@ static func keeper_perception_deg() -> float:
 static func keeper_read_probability() -> float:
 	return [0.38, 0.52, 0.66, 0.70, 0.74][level()]
 
+## Cuanto del efecto (giro) de la pelota lee el arquero del tiro libre: rango [min, max] de la fraccion (antes era
+## 0,7-1,0 en todas las dificultades: en Dificil subestimaba la curva hasta un 30 %).
+static func keeper_spin_read() -> Vector2:
+	return [Vector2(0.55, 0.9), Vector2(0.75, 1.0), Vector2(0.88, 1.0), Vector2(0.92, 1.0), Vector2(0.95, 1.0)][level()]
+
+## Velocidad (m/s) de los pasos laterales del arquero para acomodarse mientras la pelota viene.
+static func keeper_step_speed() -> float:
+	return [2.0, 2.5, 3.0, 3.2, 3.4][level()]
+
 static func keeper_catch_speed() -> float:
 	return [15.0, 18.0, 21.0, 22.5, 24.0][level()]
 

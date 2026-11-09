@@ -5,7 +5,7 @@
 - **Responsabilidad exacta:** capa de interfaz del partido (`CanvasLayer` en `layer = 10`): marcador «LOC x - y VIS», reloj `mm:ss`, mensajes grandes (saque, gol, fin), controles táctiles (ver [INPUTS](INPUTS.md)), superposición de diagnóstico (ver [PERFORMANCE](PERFORMANCE.md)) y menú de pausa con: continuar, reiniciar jugada, reiniciar partido, ciclo de perfil gráfico, ciclo de nivel de asistencia de pase/tiro/presión, interruptor de diagnóstico, «Práctica de animaciones» (abre la sala de práctica, señal `practice_requested`) y salir (cierra el juego cuando el partido es la escena actual). Los botones van en una cuadrícula de 2 columnas. Desde el 2026-10-29 también **«Zoom de cámara»** (`_cycle_camera_zoom`: Muy cerca / Cerca / Media / Lejos, `Tuning.camera_zoom`, ver [CAMERA](CAMERA.md)) y **«Sonido: Sí/No»** (`_toggle_sound`: `Tuning.sound_on` y `Sfx.set_enabled`, ver [AUDIO](AUDIO.md)) y **«Modo de juego»** (`_cycle_gameplay_mode`: recorre `Tuning.PLAYABLE_MODES`; **desde el 2026-10-30 solo el modo 4 es jugable y el botón no se muestra**, para no ofrecer los modos descartados; `Tuning.gameplay_mode`; emite `gameplay_mode_changed` y `MatchScene` recarga el partido porque el modelo cambia, ver [ANIMATION_PACK](ANIMATION_PACK.md#modo-2-de-jugabilidad-mocap-pack-05-soccer-2026-10-29)); se guardan en `user://settings.cfg`.
 - **Estado:** implementado; el menú se construye por código y **solo se prueba el HUD táctil**, no el menú de pausa ni los textos.
 - **Última verificación:** <!-- AUTO:verified -->
-2026-11-08
+2026-11-09
 <!-- /AUTO -->
 
 ## Archivos responsables

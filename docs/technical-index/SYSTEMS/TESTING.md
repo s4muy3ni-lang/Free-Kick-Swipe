@@ -5,7 +5,7 @@
 - **Responsabilidad exacta:** verificar la simulación (física de la pelota, locomoción, conducción, pases, tiros, presión, patada sincronizada, reglas de partido, controles táctiles, modelo) **sin pantalla ni dependencias externas**, con un marco propio de ~150 líneas. Cada método `test_*` de una subclase de `TestCase` es una prueba.
 - **Estado:** operativo. **Última ejecución completa (2026-10-26):** headless con las librerías del pack: **121 pruebas, 0 fallidas, 2 omitidas (necesitan render), 686 comprobaciones, 0 `SCRIPT ERROR`, ~92 s**. Con render (`xvfb-run`, por filtro): `gameplay_feel` 10/33, `control_and_keeper` 7/26, `goalkeeper` 5/25, `pack_motion` 2/24, `player_actions` 4/13, `practice` 4/37, todas 0 fallidas y 0 omitidas. La suite completa con render **no se terminó**: *test_ai_match (eliminada en la reforma)* simula partidos de 120 s con 10 personajes animados y con `llvmpipe` tarda decenas de minutos. **Sin** las librerías del pack: las pruebas del pack, arquero, práctica, sensación de juego e IA se omiten.
 - **Última verificación:** <!-- AUTO:verified -->
-2026-11-08
+2026-11-09
 <!-- /AUTO -->
 
 ## Archivos responsables

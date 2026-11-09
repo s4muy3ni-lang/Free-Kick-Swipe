@@ -108,6 +108,16 @@ var _result_t: float = 0.0
 var _keeper_react_at: float = -1.0
 ## El arquero ya solto o saco la pelota que tenia en las manos en esta jugada.
 var _keeper_ball_done: bool = false
+## Festejos y lamentos de todos despues del tiro (SpCelebration).
+var celebration: SpCelebration
+## Penal: lugar de cada jugador del circulo central (vuelven ahi en cada turno: salen a festejar).
+var _bench_home: Array = []
+## Gol: la camara de juego se queda quieta GOAL_LIVE_T s (los compañeros corren al autor, con temblor suave) y despues,
+## si nadie salta el festejo, el primer plano del autor durante GOAL_CINEMATIC_T s.
+const GOAL_LIVE_T := 2.6
+const GOAL_CINEMATIC_T := 2.8
+const GOAL_SHAKE := 0.6
+var _cinematic_on: bool = false
 var _committed: bool = false
 var _runup_t: float = 0.0
 var _keeper_zone := Vector3.INF
@@ -152,6 +162,9 @@ func _ready() -> void:
 	loose.name = "LooseBall"
 	add_child(loose)
 	loose.setup(ball, gx)
+	celebration = SpCelebration.new()
+	celebration.name = "Celebration"
+	add_child(celebration)
 	recording = PlayRecording.new()
 	recording.name = "PlayRecording"
 	add_child(recording)
@@ -266,6 +279,7 @@ func _build_people() -> void:
 			var a: SpActor = _actor(SpSettings.USER_KIT if team == 0 else SpSettings.CPU_KIT, team, "Bench%d" % i)
 			a.global_position = Vector3(-1.0 + 0.2 * float(i % 3), 0.0, (-3.5 if team == 0 else 1.2) + 1.0 * float(i % 3))
 			a.set_facing(Vector3(1, 0, 0))
+			_bench_home.append(a.global_position)
 			var idles: Array[StringName] = SpClips.by_role(&"idle_ready", false)
 			if not idles.is_empty():
 				a.play_loop(idles[(i * 3) % idles.size()], 0.2, rng.randf_range(0.85, 1.1))
@@ -353,8 +367,15 @@ func _start_penalty_turn() -> void:
 		user_shooter.foot = SpSettings.foot
 	cur_shooter.stance(ball_spot, Vector3(1, 0, 0), PEN_STANCE.x, PEN_STANCE.y)
 	cur_keeper.reset(Vector3(gx - 0.12, 0.0, 0.0))
-	for b in bench:
-		var idles: Array[StringName] = SpClips.by_role(&"idle_ready", false)
+	# Los del circulo central vuelven a su lugar (pudieron salir a festejar; la camara de juego no los ve ahi).
+	celebration.clear()
+	var idles: Array[StringName] = SpClips.by_role(&"idle_ready", false)
+	for i in bench.size():
+		var b: SpActor = bench[i]
+		b.stop_moving()
+		if i < _bench_home.size():
+			b.global_position = _bench_home[i]
+		b.set_facing(Vector3(1, 0, 0))
 		b.play_loop(idles[rng.randi() % idles.size()], 0.3)
 	var round_n: int = shootout.kicks(PenaltyShootout.USER if user_shooting else PenaltyShootout.CPU) + 1
 	var round_txt: String = ("Muerte súbita" if shootout.in_sudden_death() else "Penal %d de %d" % [round_n, PenaltyShootout.REGULAR])
@@ -508,6 +529,11 @@ func _aim_camera() -> void:
 
 func _reset_play() -> void:
 	outcome = ""
+	_cinematic_on = false
+	if celebration != null:
+		celebration.clear()
+	if cam != null:
+		cam.stop_shake()
 	_goal_scored = false
 	_post_hit = false
 	_wall_hit = false
@@ -653,6 +679,11 @@ func _physics_process(delta: float) -> void:
 		Phase.RESULT:
 			_result_t += delta
 			var wait: float = 0.2 if fast else (2.4 if mode == Mode.CHALLENGE else 3.6)
+			# Gol: festejo en la camara de juego y despues el primer plano del autor (si nadie lo salta).
+			if not fast and mode != Mode.CHALLENGE and outcome == "goal":
+				wait = GOAL_LIVE_T + GOAL_CINEMATIC_T
+				if _result_t >= GOAL_LIVE_T and not _cinematic_on:
+					_goal_cinematic()
 			# Penal: si el arquero esta yendo a recoger la pelota suelta o todavia se levanta para reaccionar, se le deja
 			# terminar (hasta 6 s): antes el turno siguiente cortaba la reaccion de un arquero que tardaba en levantarse.
 			# Cuando su reaccion empieza, se ve al menos 1,2 s.
@@ -786,25 +817,17 @@ func _finish(why: String) -> void:
 	cur_shooter.react(goal_ok)
 	if mode == Mode.FREE_KICK and chaser != cur_keeper.actor:
 		cur_keeper.react(not goal_ok)
-	if wall != null:
-		wall.react(goal_ok, chaser)
-	if field != null:
-		field.react(goal_ok, chaser)
-	for b in bench:
-		var team_scored: bool = goal_ok == (b.team == (0 if user_shooting else 1))
-		var id: StringName = SpReactions.pick(SpReactions.GOAL_TEAM if team_scored else SpReactions.SAD, rng, 1.2, 1.0)
-		if id != &"":
-			b.play_here(id, 0.3)
-	# Camara del festejo: primer plano del protagonista.
+	_start_celebration(why)
+	# La camara se queda en la vista de juego (sin cinematica automatica). Gol: temblor suave mientras corren al autor y,
+	# pasado GOAL_LIVE_T, el primer plano (si no se salta).
+	cam.follow = null
+	if goal_ok and not fast:
+		cam.shake(GOAL_SHAKE, 1.8)
+	var acts: Array = [[&"replay", "Repetición"]]
 	if not fast:
-		if goal_ok:
-			var f: Vector3 = cur_shooter.actor.facing()
-			cam.follow_node(cur_shooter.actor, f * 4.2 + SpClips.right_of(f) * 1.6 + Vector3.UP * 1.7, 1.1, 0.6)
-		elif why == "save":
-			var g: Vector3 = cur_keeper.actor.global_position
-			cam.frame(g + Vector3(-5.0, 1.8, 1.5), g + Vector3.UP * 0.9, 45.0, false, 0.6)
+		acts.push_front([&"skip", "Saltar"])
+	hud.set_actions(acts)
 	if mode == Mode.PENALTY:
-		hud.set_actions([[&"replay", "Repetición"]])
 		shootout.record(PenaltyShootout.USER if user_shooting else PenaltyShootout.CPU, goal_ok)
 		hud.set_shootout(shootout.results[0], shootout.results[1], PenaltyShootout.REGULAR)
 		hud.set_score_text("%d - %d" % [shootout.goals(0), shootout.goals(1)])
@@ -813,6 +836,86 @@ func _finish(why: String) -> void:
 		if goal_ok:
 			fk_goals += 1
 		hud.set_score_text("Goles %d / %d" % [fk_goals, fk_shots])
+
+## Festejos y lamentos por resultado (SpCelebration). Gol: los compañeros del autor corren hacia el (en el penal salen del
+## circulo central y el autor va hacia ellos); los rivales se lamentan en el sitio. Sin gol: el equipo que defendio corre
+## a festejar hacia donde termino la jugada (el arquero si atajo, la barrera si la paro, el punto por donde salio la pelota
+## si fue al palo o afuera, el que despejo) y el que pateo se lamenta. El que fue por la pelota suelta no festeja: juega.
+func _start_celebration(why: String) -> void:
+	var goal_ok: bool = why == "goal"
+	var shoot_team: int = 0 if user_shooting else 1
+	var mates: Array[SpActor] = []
+	var rivals: Array[SpActor] = []
+	if mode == Mode.FREE_KICK:
+		mates.append_array(field.attackers)
+		rivals.append_array(field.defenders)
+		rivals.append_array(wall.players)
+	else:
+		for b in bench:
+			if b.team == shoot_team:
+				mates.append(b)
+			else:
+				rivals.append(b)
+	celebration.rng.seed = rng.randi()
+	if goal_ok:
+		celebration.goal(cur_shooter.actor, mates, mode == Mode.PENALTY)
+		for a in rivals:
+			celebration.react_here(a, SpReactions.SAD)
+		return
+	for a in mates:
+		celebration.react_here(a, SpReactions.SAD)
+	var center: Vector3 = _celebration_center(why)
+	var runners: Array[SpActor] = []
+	for a in rivals:
+		if a == chaser:
+			continue
+		# La barrera que paro el tiro festeja ahi mismo; en el penal el circulo central esta a ~40 m: salen unos metros.
+		if why == "wall" and wall != null and wall.players.has(a):
+			celebration.react_here(a, SpReactions.HAPPY_DEFENDER)
+		else:
+			runners.append(a)
+	for i in runners.size():
+		var c: Vector3 = center
+		if mode == Mode.PENALTY:
+			var home: Vector3 = runners[i].global_position
+			c = home + (Vector3(center.x, 0.0, center.z) - home).normalized() * 7.0
+		celebration.gather(runners[i], c, SpReactions.HAPPY_DEFENDER, i, runners.size())
+
+## Donde festeja el equipo que defendio: el arquero que atajo, la barrera, el que despejo o el punto (dentro de la cancha,
+## frente al arco) por donde salio o pego la pelota. Sin acercarse a la pelota suelta: el que va por ella la juega.
+func _celebration_center(why: String) -> Vector3:
+	var b: Vector3 = ball.global_position
+	match why:
+		"save":
+			var k: Vector3 = cur_keeper.actor.global_position
+			return Vector3(k.x - 2.2, 0.0, k.z)
+		"wall":
+			var c := Vector3.ZERO
+			for a in wall.players:
+				c += a.global_position
+			c /= float(maxi(wall.players.size(), 1))
+			return Vector3(c.x + 1.5, 0.0, c.z)
+		"cleared":
+			if chaser != null:
+				return Vector3(chaser.global_position.x - 3.0, 0.0, chaser.global_position.z)
+	var p := Vector3(minf(b.x, gx - 2.5), 0.0, clampf(b.z, -half_goal - 6.0, half_goal + 6.0))
+	if chaser != null and p.distance_to(Vector3(chaser.global_position.x, 0.0, chaser.global_position.z)) < 3.0:
+		p.x -= 3.0
+	return p
+
+## Primer plano del autor del gol (despues de la vista de juego).
+func _goal_cinematic() -> void:
+	_cinematic_on = true
+	var f: Vector3 = cur_shooter.actor.facing()
+	cam.follow_node(cur_shooter.actor, f * 4.2 + SpClips.right_of(f) * 1.6 + Vector3.UP * 1.7, 1.1, 0.6)
+
+## Saltar el festejo: la jugada siguiente enseguida (una sola vez; el gol ya esta contado).
+func skip_celebration() -> void:
+	if phase != Phase.RESULT:
+		return
+	cam.stop_shake()
+	cam.follow = null
+	_after_result()
 
 ## Con la jugada terminada y el arquero de pie con la pelota en las manos: en el penal la suelta a un costado y festeja;
 ## en el tiro libre la suelta y la saca lejos con el pie (SpLooseBall: golpeo del banco, impulso solo si el pie llega).
@@ -936,7 +1039,14 @@ func end_replay() -> void:
 	if phase == Phase.OVER and mode == Mode.FREE_KICK:
 		hud.set_actions([[&"again", "Otra vez"], [&"move", "Mover balón"], [&"replay", "Repetición"]])
 	elif phase == Phase.RESULT:
-		hud.set_actions([[&"replay", "Repetición"]])
+		hud.set_actions([[&"skip", "Saltar"], [&"replay", "Repetición"]])
+		# Vuelve la camara del momento: el primer plano si ya habia empezado, si no la vista de juego.
+		_cinematic_on = false
+		if not (outcome == "goal" and _result_t >= GOAL_LIVE_T):
+			var f: Array = SpCamera.behind_ball(ball_spot, goal_center(), zoom if _fk_like() else 1.0, _penalty_like())
+			if mode == Mode.PENALTY and not user_shooting:
+				f = SpCamera.behind_goal(Vector3(gx, 0.0, 0.0), ball_spot)
+			cam.frame(f[0], f[1], f[2], false, 0.4)
 	else:
 		hud.set_actions([])
 
@@ -990,6 +1100,8 @@ func _after_result() -> void:
 			_setup_challenge_attempt()
 	else:
 		phase = Phase.OVER
+		cam.follow = null
+		cam.stop_shake()
 		hud.set_actions([[&"again", "Otra vez"], [&"move", "Mover balón"], [&"replay", "Repetición"]])
 		hud.set_hint("")
 
@@ -1231,7 +1343,12 @@ func _update_preview(delta: float) -> void:
 		return
 	var p: ShotParams = GestureShotModel.build(f, gesture.last_px(), cam, ball_spot, shot_context(), gesture.tuning)
 	GestureShotModel.solve(p, ball_spot, shot_context(), true)
-	preview.show_path(p.trajectory, gx, p.power, cam.global_position, p.crossing)
+	# «Mostrar linea de destino» apagada: no se dibuja la trayectoria ni el aro (la fisica y el tiro son los mismos; el
+	# rastro del dedo y los medidores siguen).
+	if GraphicsSettings.show_aim_line:
+		preview.show_path(p.trajectory, gx, p.power, cam.global_position, p.crossing)
+	else:
+		preview.hide_path()
 	hud.show_gesture(p.power, p.target.y / goal_h, clampf(p.lateral_spin / gesture.tuning.spin_max, -1.0, 1.0), _type_label(p.gesture_type))
 
 static func _type_label(t: String) -> String:
@@ -1348,6 +1465,8 @@ func _on_action(id: StringName) -> void:
 			_start_penalty_turn()
 		&"replay":
 			start_replay()
+		&"skip":
+			skip_celebration()
 		&"replay_cam":
 			replay_angle = (replay_angle + 1) % REPLAY_ANGLES.size()
 			_replay_actions()

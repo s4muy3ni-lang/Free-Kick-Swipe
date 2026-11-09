@@ -65,6 +65,37 @@ acumulados). Un intento solo cuenta si la pelota sale a la velocidad pedida (`mi
 bronce en la mitad de los ejercicios del anterior; la Arena abre cada dificultad con bronce en la anterior. La práctica
 libre abre todo y no registra.
 
+## Ciclo de la jugada, festejos y lamentos
+
+Todo resultado tiene salida y nadie queda en una pose: `SpActor.rest_loop` (bucle de reposo de cada jugador) se reproduce
+solo al terminar un clip de una vez, al llegar de una carrera (`move_to`) o al frenarlo (`stop_moving`); el arquero con la
+pelota en las manos pide `freeze_on_finish` (mantiene la pose hasta soltarla). `SpCelebration` arma los festejos:
+
+| Resultado | Cámara | Equipo que pateó | Equipo que defendió |
+|---|---|---|---|
+| Gol | Vista de juego `GOAL_LIVE_T` (2,6 s) con temblor suave (`SpCamera.shake`), después primer plano del autor `GOAL_CINEMATIC_T` (2,8 s) | Compañeros corren al autor y festejan alrededor (penal: salen del círculo central y el autor va hacia ellos) | Lamento en el sitio |
+| Atajada, palo, afuera, barrera, despeje | Vista de juego (sin cinemática) | Lamento en el sitio | Corren a festejar hacia donde terminó: el arquero, la barrera, el punto de salida o el que despejó (`SetPieceGame._celebration_center`); el que va por la pelota suelta no festeja |
+
+«Saltar» (`SetPieceGame.skip_celebration`) pasa a la jugada siguiente una sola vez (el resultado ya se contó). Opciones
+visuales (`GraphicsSettings`, se guardan): «Mostrar línea de destino de la pelota» (oculta `TrajectoryPreview`; la física y
+el rastro del dedo no cambian) y «Temblor de cámara» (No / Suave / Normal).
+
+## Minijuegos arcade
+
+Base compartida `Minigame` (`scripts/minigames/minigame.gd`): estados INTRO → AIM → RUNUP → FLIGHT → RESOLVE → AIM/OVER con
+topes (carrera 6 s, vuelo 7 s, pelota quieta 0,7 s, caída al vacío, tope de turnos), turnos de uno o dos lados, puntos,
+reinicio, final con medalla y récord (`PlayerProgress`, grupo `arcade`), IA con `cpu_shot` (mismo `ShotSolver` que el
+usuario, con error en grados) e intenciones serializables (`apply_intent`, lista `intents`, semilla del partido) para jugar
+en línea más adelante (no implementado). Reutiliza el trazo, la vista previa, el tirador animado, la cámara y la interfaz
+del juego. `MinigameCatalog` lee `resources/minigames/minigames.json` (niveles, objetivo breve, medallas, desbloqueo por
+bronce); el menú de desafíos tiene la pestaña «Arcade».
+
+`BotonCaida`: dos plataformas sobre el vacío; botón físico (pared o piso) que se aprieta solo con un impacto contra su cara
+de al menos `PRESS_SPEED` (2,5 m/s); se abre la trampilla y el jugador cae. 8 niveles (a la vista, custodiado, detrás del
+muro, móvil, chico, desnivel, obstáculos en movimiento, varios rebotes); los obstáculos se arman iguales en las dos
+plataformas. IA: apunta al botón (o al truco del nivel, `ai.aim`), adelanta el botón móvil con el tiempo de vuelo previsto,
+espera su momento con obstáculos móviles (mira dónde van a estar) y corrige parte de su fallo anterior (`CPU_LEARN`).
+
 ## Parámetros del trazo
 
 <!-- AUTO:params:GestureTuning -->
@@ -74,23 +105,23 @@ libre abre todo y no registra.
 | `min_step` | `0.004` | 0.0, 0.02 | `scripts/setpiece/gesture_tuning.gd:15` | `scripts/setpiece/shot_gesture.gd:45`, `scripts/setpiece/shot_gesture.gd:55` | Distancia minima entre muestras (alturas de pantalla): ignora micro movimientos involuntarios. (Captura y filtro) |
 | `max_samples` | `96` | 16, 256 | `scripts/setpiece/gesture_tuning.gd:17` | `scripts/setpiece/shot_gesture.gd:25`, `scripts/setpiece/shot_gesture.gd:26`, `scripts/setpiece/shot_gesture.gd:31`, `scripts/setpiece/shot_gesture.gd:32` (+1) | Muestras como maximo (al llenarse se diezma de a dos). (Captura y filtro) |
 | `min_length` | `0.07` | 0.02, 0.3 | `scripts/setpiece/gesture_tuning.gd:19` | `scripts/setpiece/gesture_shot_model.gd:65` | Largo minimo para que el trazo sea un tiro (alturas de pantalla). (Captura y filtro) |
-| `speed_slow` | `0.9` | 0.2, 3.0 | `scripts/setpiece/gesture_tuning.gd:23` | `scripts/setpiece/gesture_shot_model.gd:24`, `scripts/setpiece/gesture_tuning.gd:93`, `scripts/setpiece/setpiece_game.gd:1293` | Velocidad del dedo para potencia minima y maxima (alturas de pantalla / s). (Potencia (velocidad del dedo)) |
-| `speed_fast` | `4.4` | 1.0, 10.0 | `scripts/setpiece/gesture_tuning.gd:24` | `scripts/setpiece/gesture_shot_model.gd:24`, `scripts/setpiece/gesture_tuning.gd:93`, `scripts/setpiece/setpiece_game.gd:1293` |  (Potencia (velocidad del dedo)) |
+| `speed_slow` | `0.9` | 0.2, 3.0 | `scripts/setpiece/gesture_tuning.gd:23` | `scripts/setpiece/gesture_shot_model.gd:24`, `scripts/setpiece/gesture_tuning.gd:93`, `scripts/setpiece/setpiece_game.gd:1410` | Velocidad del dedo para potencia minima y maxima (alturas de pantalla / s). (Potencia (velocidad del dedo)) |
+| `speed_fast` | `4.4` | 1.0, 10.0 | `scripts/setpiece/gesture_tuning.gd:24` | `scripts/setpiece/gesture_shot_model.gd:24`, `scripts/setpiece/gesture_tuning.gd:93`, `scripts/setpiece/setpiece_game.gd:1410` |  (Potencia (velocidad del dedo)) |
 | `peak_weight` | `0.35` | 0.0, 1.0 | `scripts/setpiece/gesture_tuning.gd:26` | `scripts/setpiece/gesture_shot_model.gd:23`, `scripts/setpiece/gesture_tuning.gd:94` | Peso de la velocidad maxima frente a la media (un latigazo final cuenta). (Potencia (velocidad del dedo)) |
 | `power_curve` | `1.2` | 0.05, 4.0 | `scripts/setpiece/gesture_tuning.gd:28` | `scripts/setpiece/gesture_shot_model.gd:25`, `scripts/setpiece/gesture_tuning.gd:94` | Curva de respuesta: potencia = min + (max - min) * (1 - exp(-g x)) / (1 - exp(-g)); g > 0 satura los trazos muy rapidos. (Potencia (velocidad del dedo)) |
 | `power_min` | `0.05` | 0.0, 0.5 | `scripts/setpiece/gesture_tuning.gd:29` | `scripts/setpiece/gesture_shot_model.gd:27` |  (Potencia (velocidad del dedo)) |
 | `power_max` | `1.0` | 0.5, 1.0 | `scripts/setpiece/gesture_tuning.gd:30` | `scripts/setpiece/gesture_shot_model.gd:27` |  (Potencia (velocidad del dedo)) |
 | `descend_drop` | `0.6` | 0.0, 1.5 | `scripts/setpiece/gesture_tuning.gd:34` | `scripts/setpiece/gesture_shot_model.gd:44`, `scripts/setpiece/gesture_tuning.gd:94` | Trazo que termina bajando: baja el punto de llegada (m) y agrega efecto hacia delante (la pelota cae). (Altura) |
 | `ascend_lift` | `0.25` | 0.0, 1.0 | `scripts/setpiece/gesture_tuning.gd:36` | `scripts/setpiece/gesture_shot_model.gd:46` | Trazo que termina subiendo con fuerza: sube el punto de llegada (m). (Altura) |
-| `curve_deadzone` | `0.025` | 0.0, 0.1 | `scripts/setpiece/gesture_tuning.gd:40` | `scripts/setpiece/gesture_shot_model.gd:50`, `scripts/setpiece/gesture_shot_model.gd:69`, `scripts/setpiece/gesture_tuning.gd:95`, `scripts/setpiece/setpiece_game.gd:1300` | Curvatura por debajo de la cual no hay efecto (zona muerta). (Efecto (curvatura)) |
-| `spin_gain` | `280.0` | 50.0, 600.0 | `scripts/setpiece/gesture_tuning.gd:42` | `scripts/setpiece/gesture_shot_model.gd:52`, `scripts/setpiece/gesture_tuning.gd:95`, `scripts/setpiece/setpiece_game.gd:1302` | Giro (rad/s) por unidad de curvatura y giro maximo. (Efecto (curvatura)) |
-| `spin_max` | `70.0` | 10.0, 150.0 | `scripts/setpiece/gesture_tuning.gd:43` | `scripts/setpiece/gesture_shot_model.gd:52`, `scripts/setpiece/gesture_tuning.gd:95`, `scripts/setpiece/setpiece_game.gd:1302` |  (Efecto (curvatura)) |
+| `curve_deadzone` | `0.025` | 0.0, 0.1 | `scripts/setpiece/gesture_tuning.gd:40` | `scripts/setpiece/gesture_shot_model.gd:50`, `scripts/setpiece/gesture_shot_model.gd:69`, `scripts/setpiece/gesture_tuning.gd:95`, `scripts/setpiece/setpiece_game.gd:1417` | Curvatura por debajo de la cual no hay efecto (zona muerta). (Efecto (curvatura)) |
+| `spin_gain` | `280.0` | 50.0, 600.0 | `scripts/setpiece/gesture_tuning.gd:42` | `scripts/setpiece/gesture_shot_model.gd:52`, `scripts/setpiece/gesture_tuning.gd:95`, `scripts/setpiece/setpiece_game.gd:1419` | Giro (rad/s) por unidad de curvatura y giro maximo. (Efecto (curvatura)) |
+| `spin_max` | `70.0` | 10.0, 150.0 | `scripts/setpiece/gesture_tuning.gd:43` | `scripts/setpiece/gesture_shot_model.gd:52`, `scripts/setpiece/gesture_tuning.gd:95`, `scripts/setpiece/setpiece_game.gd:1419` |  (Efecto (curvatura)) |
 | `topspin` | `18.0` | 0.0, 40.0 | `scripts/setpiece/gesture_tuning.gd:45` | `scripts/setpiece/gesture_shot_model.gd:110`, `scripts/setpiece/gesture_shot_model.gd:111` | Efecto hacia delante (topspin, rad/s) de los tiros potentes y altos. (Efecto (curvatura)) |
-| `error_base` | `0.35` | 0.0, 2.0 | `scripts/setpiece/gesture_tuning.gd:49` | `scripts/setpiece/gesture_shot_model.gd:56`, `scripts/setpiece/gesture_shot_model.gd:57`, `scripts/setpiece/gesture_shot_model.gd:58`, `scripts/setpiece/setpiece_game.gd:1304` | Error (grados) base, por potencia (x potencia^2), por trazo irregular (x (1 - suavidad)) y por trazo corto. (Precision) |
-| `error_power` | `1.5` | 0.0, 4.0 | `scripts/setpiece/gesture_tuning.gd:50` | `scripts/setpiece/gesture_shot_model.gd:56`, `scripts/setpiece/gesture_shot_model.gd:57`, `scripts/setpiece/gesture_tuning.gd:96`, `scripts/setpiece/setpiece_game.gd:1304` |  (Precision) |
+| `error_base` | `0.35` | 0.0, 2.0 | `scripts/setpiece/gesture_tuning.gd:49` | `scripts/setpiece/gesture_shot_model.gd:56`, `scripts/setpiece/gesture_shot_model.gd:57`, `scripts/setpiece/gesture_shot_model.gd:58`, `scripts/setpiece/setpiece_game.gd:1421` | Error (grados) base, por potencia (x potencia^2), por trazo irregular (x (1 - suavidad)) y por trazo corto. (Precision) |
+| `error_power` | `1.5` | 0.0, 4.0 | `scripts/setpiece/gesture_tuning.gd:50` | `scripts/setpiece/gesture_shot_model.gd:56`, `scripts/setpiece/gesture_shot_model.gd:57`, `scripts/setpiece/gesture_tuning.gd:96`, `scripts/setpiece/setpiece_game.gd:1421` |  (Precision) |
 | `error_rough` | `1.6` | 0.0, 5.0 | `scripts/setpiece/gesture_tuning.gd:51` | `scripts/setpiece/gesture_shot_model.gd:56`, `scripts/setpiece/gesture_shot_model.gd:57`, `scripts/setpiece/gesture_tuning.gd:96` |  (Precision) |
 | `error_short` | `0.8` | 0.0, 3.0 | `scripts/setpiece/gesture_tuning.gd:52` | `scripts/setpiece/gesture_shot_model.gd:56`, `scripts/setpiece/gesture_shot_model.gd:57` |  (Precision) |
-| `length_full` | `0.45` | 0.1, 1.0 | `scripts/setpiece/gesture_tuning.gd:54` | `scripts/setpiece/gesture_shot_model.gd:55`, `scripts/setpiece/gesture_shot_model.gd:77`, `scripts/setpiece/gesture_tuning.gd:96`, `scripts/setpiece/setpiece_game.gd:1293` (+1) | Largo (alturas de pantalla) a partir del cual el trazo da el control completo de la direccion. (Precision) |
+| `length_full` | `0.45` | 0.1, 1.0 | `scripts/setpiece/gesture_tuning.gd:54` | `scripts/setpiece/gesture_shot_model.gd:55`, `scripts/setpiece/gesture_shot_model.gd:77`, `scripts/setpiece/gesture_tuning.gd:96`, `scripts/setpiece/setpiece_game.gd:1410` (+1) | Largo (alturas de pantalla) a partir del cual el trazo da el control completo de la direccion. (Precision) |
 | `rough_ref` | `0.35` | 0.05, 1.0 | `scripts/setpiece/gesture_tuning.gd:56` | `scripts/setpiece/shot_gesture.gd:194` | Irregularidad de referencia (rad de cambio de direccion entre muestras, RMS) que deja la suavidad en 0. (Precision) |
 | `lob_max_power` | `0.2` | 0.05, 0.5 | `scripts/setpiece/gesture_tuning.gd:60` | `scripts/setpiece/gesture_shot_model.gd:67`, `scripts/setpiece/gesture_shot_model.gd:92` | Potencia por debajo de la cual un trazo alto es un globo / vaselina. (Tipos de disparo) |
 | `high_height` | `1.35` | 0.8, 2.4 | `scripts/setpiece/gesture_tuning.gd:62` | `scripts/setpiece/gesture_shot_model.gd:67`, `scripts/setpiece/gesture_shot_model.gd:75` | Altura de llegada (m) por encima de la cual el tiro es «elevado» o globo. (Tipos de disparo) |
@@ -137,38 +168,38 @@ libre abre todo y no registra.
 |---|---|---|
 | `SpKeeper.setup(a: SpActor, b: Ball, gx: float, half: float, height: float)` | 101 |  |
 | `SpKeeper.reset(home_pos: Vector3)` | 116 | Coloca al arquero en su sitio, mirando al campo, en espera. |
-| `SpKeeper.shuffle_to(p: Vector3, speed: float = 1.4)` | 147 | Paso lateral hacia una posicion (antes del tiro): sigue a la pelota sin dejar el arco. |
-| `SpKeeper._yaw()` | 156 |  |
-| `SpKeeper.read_shot(_ball_pos: Vector3, _velocity: Vector3, _spin: Vector3)` | 179 |  |
-| `SpKeeper._watch_step(delta: float)` | 190 |  |
-| `SpKeeper._cancel_dive()` | 259 | Estirada agendada que ya no tiene sentido (la pelota no viene): vuelve a la espera mirando la pelota. |
-| `SpKeeper.commit_to(point: Vector3, ball_pos: Vector3, lead: float, speed_guess: float = 22.0)` | 275 |  |
-| `SpKeeper.on_kick(ball_pos: Vector3, velocity: Vector3)` | 289 | La pelota salio y ya habia elegido zona sin anticipar: planifica hacia esa zona con la velocidad que ve. |
-| `SpKeeper._line_traj(ball_pos: Vector3, point: Vector3, speed: float, wait: float)` | 315 | Trayectoria supuesta: la pelota quieta `wait` segundos y despues en linea (con un poco de comba) hasta el punto. |
-| `SpKeeper.guess_penalty(cue_point: Vector3, ball_pos: Vector3, lead: float, speed_guess: float = 22.0)` | 331 | IA en un penal: elige donde lanzarse con la lectura del cuerpo del tirador. cue_point: hacia donde apuntan la carrera y la cadera del tirado |
-| `SpKeeper._plan_with(traj: PackedVector3Array, min_delay: float)` | 349 |  |
-| `SpKeeper._make_plan(traj: PackedVector3Array, min_delay: float)` | 355 |  |
-| `SpKeeper._adopt(pl: Dictionary)` | 360 | Toma el plan: espera su demora y se tira (o se tira ya). |
-| `SpKeeper._start_dive()` | 367 |  |
-| `SpKeeper._physics_process(delta: float)` | 376 |  |
-| `SpKeeper._check_contact(delta: float)` | 402 |  |
-| `SpKeeper.contact_along(b0: Vector3, b1: Vector3, c0: Vector3, c1: Vector3, r: float)` | 446 | Primer contacto entre la pelota (de b0 a b1) y una esfera que se mueve (de c0 a c1) en un paso, con radio sumado r. Devuelve [s en 0..1, cen |
-| `SpKeeper._resolve(part: Array, c: Vector3, q: Vector3, parts_now: Dictionary, delta: float)` | 467 | c: centro de la esfera en el contacto; q: centro de la pelota en el contacto. La normal del choque va de c a q. |
-| `SpKeeper.rebound(v: Vector3, part_v: Vector3, n: Vector3, e: float, grip: float = BODY_GRIP)` | 503 | Velocidad de la pelota despues del choque con una parte del cuerpo que se mueve a part_v, con normal n (de la parte a la pelota) y restituci |
-| `SpKeeper.glove_normal(n: Vector3, vr: Vector3, keeper_facing: Vector3)` | 515 | Guante: no es una esfera sino una superficie ancha que el arquero pone con la palma hacia la pelota. Si la pelota llega de frente (desde el  |
-| `SpKeeper._pick_up()` | 523 |  |
-| `SpKeeper._can_catch(q: Vector3, vr: Vector3, parts_now: Dictionary)` | 533 | Atrapa si la pelota llega a las dos manos, no va demasiado rapida y viene de frente a una altura atrapable. |
-| `SpKeeper._on_clip_finished(_id: StringName)` | 544 |  |
-| `SpKeeper.idle()` | 569 | Vuelve a la espera en su sitio actual (despues de que otro sistema lo manejo). |
-| `SpKeeper._back_to_idle(blend: float)` | 574 | De pie y libre: juega la reaccion pendiente o vuelve a la espera (o sigue buscando la pelota suelta). |
-| `SpKeeper._getup()` | 590 |  |
-| `SpKeeper.react(happy: bool)` | 606 | Festejo (atajo) o lamento (le hicieron gol) en el sitio, cuando ya esta de pie. Si todavia se esta tirando o levantando, queda pendiente y s |
-| `SpKeeper.collect(keep_reaction: bool = false)` | 629 | Va a buscar la pelota suelta (rebote, tiro flojo que se frena) y la recoge con las manos: arranca en cuanto esta de pie (despues de la estir |
-| `SpKeeper.drop_ball(v: Vector3)` | 646 | De pie con la pelota en las manos (despues de atraparla o recogerla): la suelta delante con velocidad v (cae de las manos) y vuelve a la esp |
-| `SpKeeper.is_collecting()` | 656 |  |
-| `SpKeeper._collect_step(delta: float)` | 659 |  |
-| `SpKeeper.reaction_pending()` | 692 | Tiene una reaccion pendiente: todavia se tira o se levanta y la juega al terminar. |
-| `SpKeeper.is_busy()` | 695 |  |
+| `SpKeeper.shuffle_to(p: Vector3, speed: float = 1.4)` | 149 | Paso lateral hacia una posicion (antes del tiro): sigue a la pelota sin dejar el arco. |
+| `SpKeeper._yaw()` | 158 |  |
+| `SpKeeper.read_shot(_ball_pos: Vector3, _velocity: Vector3, _spin: Vector3)` | 189 |  |
+| `SpKeeper._watch_step(delta: float)` | 201 |  |
+| `SpKeeper._cancel_dive()` | 292 | Estirada agendada que ya no tiene sentido (la pelota no viene): vuelve a la espera mirando la pelota. |
+| `SpKeeper.commit_to(point: Vector3, ball_pos: Vector3, lead: float, speed_guess: float = 22.0)` | 308 |  |
+| `SpKeeper.on_kick(ball_pos: Vector3, velocity: Vector3)` | 322 | La pelota salio y ya habia elegido zona sin anticipar: planifica hacia esa zona con la velocidad que ve. |
+| `SpKeeper._line_traj(ball_pos: Vector3, point: Vector3, speed: float, wait: float)` | 348 | Trayectoria supuesta: la pelota quieta `wait` segundos y despues en linea (con un poco de comba) hasta el punto. |
+| `SpKeeper.guess_penalty(cue_point: Vector3, ball_pos: Vector3, lead: float, speed_guess: float = 22.0)` | 364 | IA en un penal: elige donde lanzarse con la lectura del cuerpo del tirador. cue_point: hacia donde apuntan la carrera y la cadera del tirado |
+| `SpKeeper._plan_with(traj: PackedVector3Array, min_delay: float)` | 382 |  |
+| `SpKeeper._make_plan(traj: PackedVector3Array, min_delay: float)` | 388 |  |
+| `SpKeeper._adopt(pl: Dictionary)` | 393 | Toma el plan: espera su demora y se tira (o se tira ya). |
+| `SpKeeper._start_dive()` | 400 |  |
+| `SpKeeper._physics_process(delta: float)` | 409 |  |
+| `SpKeeper._check_contact(delta: float)` | 435 |  |
+| `SpKeeper.contact_along(b0: Vector3, b1: Vector3, c0: Vector3, c1: Vector3, r: float)` | 479 | Primer contacto entre la pelota (de b0 a b1) y una esfera que se mueve (de c0 a c1) en un paso, con radio sumado r. Devuelve [s en 0..1, cen |
+| `SpKeeper._resolve(part: Array, c: Vector3, q: Vector3, parts_now: Dictionary, delta: float)` | 500 | c: centro de la esfera en el contacto; q: centro de la pelota en el contacto. La normal del choque va de c a q. |
+| `SpKeeper.rebound(v: Vector3, part_v: Vector3, n: Vector3, e: float, grip: float = BODY_GRIP)` | 537 | Velocidad de la pelota despues del choque con una parte del cuerpo que se mueve a part_v, con normal n (de la parte a la pelota) y restituci |
+| `SpKeeper.glove_normal(n: Vector3, vr: Vector3, keeper_facing: Vector3)` | 549 | Guante: no es una esfera sino una superficie ancha que el arquero pone con la palma hacia la pelota. Si la pelota llega de frente (desde el  |
+| `SpKeeper._pick_up()` | 557 |  |
+| `SpKeeper._can_catch(q: Vector3, vr: Vector3, parts_now: Dictionary)` | 568 | Atrapa si la pelota llega a las dos manos, no va demasiado rapida y viene de frente a una altura atrapable. |
+| `SpKeeper._on_clip_finished(_id: StringName)` | 579 |  |
+| `SpKeeper.idle()` | 604 | Vuelve a la espera en su sitio actual (despues de que otro sistema lo manejo). |
+| `SpKeeper._back_to_idle(blend: float)` | 609 | De pie y libre: juega la reaccion pendiente o vuelve a la espera (o sigue buscando la pelota suelta). |
+| `SpKeeper._getup()` | 625 |  |
+| `SpKeeper.react(happy: bool)` | 641 | Festejo (atajo) o lamento (le hicieron gol) en el sitio, cuando ya esta de pie. Si todavia se esta tirando o levantando, queda pendiente y s |
+| `SpKeeper.collect(keep_reaction: bool = false)` | 664 | Va a buscar la pelota suelta (rebote, tiro flojo que se frena) y la recoge con las manos: arranca en cuanto esta de pie (despues de la estir |
+| `SpKeeper.drop_ball(v: Vector3)` | 681 | De pie con la pelota en las manos (despues de atraparla o recogerla): la suelta delante con velocidad v (cae de las manos) y vuelve a la esp |
+| `SpKeeper.is_collecting()` | 692 |  |
+| `SpKeeper._collect_step(delta: float)` | 695 |  |
+| `SpKeeper.reaction_pending()` | 728 | Tiene una reaccion pendiente: todavia se tira o se levanta y la juega al terminar. |
+| `SpKeeper.is_busy()` | 731 |  |
 <!-- /AUTO -->
 
 ## Pruebas
@@ -230,8 +261,12 @@ Capturas: `xvfb-run -a godot --display-driver x11 --rendering-driver opengl3 --f
 - El arquero en un penal elige el lado antes del golpe (adivina o elige el usuario) y no arranca la estirada más de 0,12 s
   antes del golpe: si acierta el lado puede atajar; un rincón a más de ~2,2 m del centro o alto suele ser inalcanzable
   con los clips de estirada medidos (medido en PC: con la zona exacta ataja 6 de 18; la IA, 3 de 18).
-- El arquero del tiro libre todavía planifica con el radio del partido (no con `PLAN_RADIUS_SCALE`): pendiente medir el
-  balance antes de cambiarlo (`docs/AAA_ROADMAP.md`, fase 1).
+- El arquero del tiro libre planifica con el radio del partido (no con el de los penales): no se tira mientras ningún clip
+  llegue (se acomoda con pasos laterales) y solo se tira «desesperado» si casi llega (`DESPERATE_REACH`) y es el momento de
+  arrancar. Medido en PC con 18 tiros fijos por dificultad (`docs/AAA_ROADMAP.md`, tercera entrega); en el teléfono no se
+  probó.
+- Minijuegos: el balance de la IA de «Botón de caída» está medido en PC (12 tiros por nivel y dificultad) y queda
+  pendiente de ajuste con partidas reales.
 - `BallPredictor` sobrestima la rodadura de una pelota pateada sin efecto (no modela el deslizamiento inicial): para la
   decisión anticipada del resultado es conservador; la pelota suelta se vuelve a predecir en cada paso.
 - En el tiro libre el arquero vuelve a leer la pelota real cada 0,05 s y se tira en el último instante útil; aun con un plan

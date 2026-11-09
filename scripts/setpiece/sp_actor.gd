@@ -53,6 +53,17 @@ var _move_natural: float = 3.0
 var turn_rate: float = 6.0
 var _face_target := Vector3.ZERO
 
+## Reposo propio (bucle en el sitio): al llegar a destino o al terminar un clip de una vez sin que nadie le de otro, el
+## actor vuelve aqui mezclando (antes quedaba trotando en el sitio despues de llegar, o congelado en la ultima pose de
+## un festejo). Lo fija quien lo maneja (stance, barrera, arquero) o se elige uno al construirlo.
+var rest_loop: StringName = &""
+## Cuantas veces volvio solo al reposo (diagnostico y pruebas).
+var rest_returns: int = 0
+## Mantener la ultima pose al terminar un clip (el arquero con la pelota en las manos: un reposo le separaria las manos).
+var freeze_on_finish: bool = false
+## Altura del piso donde esta parado (0 en la cancha; los minijuegos con plataformas la cambian, y una caida la baja).
+var ground_y: float = 0.0
+
 var _bones: Dictionary = {}
 var collider: AnimatableBody3D = null
 var _collider_height: float = 1.75
@@ -74,6 +85,9 @@ func build(kit: Dictionary) -> void:
 	for key in libs:
 		anim_player.add_animation_library(key, libs[key])
 	set_kit(kit)
+	var idles: Array[StringName] = SpClips.by_role(&"idle_ready", false)
+	if not idles.is_empty():
+		rest_loop = idles[get_instance_id() % idles.size()]
 
 func set_kit(kit: Dictionary) -> void:
 	if model == null:
@@ -185,6 +199,9 @@ func move_to(target: Vector3, speed: float, loop_id: StringName, face: Vector3 =
 
 func stop_moving() -> void:
 	_moving = false
+	# Si lo frenan corriendo y nadie le da otro clip, no queda trotando en el sitio.
+	if looping and clip_id == _move_loop and rest_loop != &"" and rest_loop != _move_loop:
+		play_loop(rest_loop, 0.25)
 
 func is_moving() -> bool:
 	return _moving
@@ -249,7 +266,12 @@ func _physics_process(delta: float) -> void:
 		_apply_root(_clip_time)
 		if not running or wrapped or _clip_time >= SpClips.length(clip_id) - 0.001:
 			_finished_emitted = true
-			clip_finished.emit(clip_id)
+			var done_id: StringName = clip_id
+			clip_finished.emit(done_id)
+			# Nadie le dio otro clip ni un bucle: vuelve a su reposo (transicion natural, no se congela).
+			if not looping and _finished_emitted and clip_id == done_id and rest_loop != &"" and not freeze_on_finish:
+				rest_returns += 1
+				play_loop(rest_loop, 0.35)
 	elif _moving:
 		var to: Vector3 = _move_target - Vector3(global_position.x, 0.0, global_position.z)
 		var d: float = to.length()
@@ -257,6 +279,10 @@ func _physics_process(delta: float) -> void:
 		if d <= step or d < 0.02:
 			global_position = Vector3(_move_target.x, global_position.y, _move_target.z)
 			_moving = false
+			# Llego: deja de trotar en el sitio y vuelve a su reposo.
+			if looping and clip_id == _move_loop and rest_loop != &"" and rest_loop != _move_loop:
+				rest_returns += 1
+				play_loop(rest_loop, 0.3)
 		else:
 			global_position += to / d * step
 			var want: Vector3 = _move_face if _move_face != Vector3.ZERO else to / d
@@ -278,5 +304,5 @@ func _turn_towards(want: Vector3, delta: float) -> void:
 
 func _apply_root(t: float) -> void:
 	var r: Array = body_at(clip_id, t, frame_origin, frame_facing)
-	global_position = Vector3((r[0] as Vector3).x, 0.0, (r[0] as Vector3).z)
+	global_position = Vector3((r[0] as Vector3).x, ground_y, (r[0] as Vector3).z)
 	rotation.y = SpClips.yaw_of(r[1])

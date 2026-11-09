@@ -222,8 +222,8 @@ func test_shooter_and_keeper_react_after_finishing_their_move() -> void:
 	cleanup()
 
 ## Tiro libre (semillas fijas, de los 16 de test_fk_balance_measure): el arquero no se tira a una pelota que freno la
-## barrera, ataja el tiro flojo al centro y no es invencible en los angulos. Medido: de 16 tiros, 3 atajadas, 5 goles,
-## 6 en la barrera (docs/AAA_ROADMAP.md, segunda entrega).
+## barrera, ataja el tiro flojo al centro y no es invencible en los angulos. Balance medido con 18 tiros por dificultad
+## en docs/AAA_ROADMAP.md (tercera entrega).
 func test_free_kick_keeper_reads_deflections_and_is_beatable() -> void:
 	if _needs_render():
 		return

@@ -215,10 +215,13 @@ static func _bbox(id: StringName, hp: PackedVector3Array) -> Array:
 ## Devuelve {} o {clip, speed, k, tau, delay, arrive, dist, radius, travel}.
 ## radius_scale: escala extra del radio de contacto de las manos (1 = el del partido). Los modos de tiros libres y penales
 ## resuelven el contacto con esferas en los huesos (mas chicas que el radio del partido) y piden planes mas justos.
+## tau_cost: costo por segundo entre el arranque del clip y el contacto (0 = el del partido): con mas, entre los clips que
+## llegan prefiere las estiradas rapidas, que arrancan mas tarde (el arquero del tiro libre lee la pelota mas tiempo).
 static func plan_save(origin: Vector3, yaw: float, traj: PackedVector3Array, step: float, min_delay: float,
-		_ball_speed: float, pickup: bool, speeds: Array = [1.0, 1.4], human: Vector2 = Vector2.ZERO, radius_scale: float = 1.0) -> Dictionary:
+		_ball_speed: float, pickup: bool, speeds: Array = [1.0, 1.4], human: Vector2 = Vector2.ZERO, radius_scale: float = 1.0,
+		tau_cost: float = 0.0) -> Dictionary:
 	Prof.begin(&"arquero (plan de atajada)")
-	var plan: Dictionary = _plan_save(origin, yaw, traj, step, min_delay, pickup, speeds, human, radius_scale)
+	var plan: Dictionary = _plan_save(origin, yaw, traj, step, min_delay, pickup, speeds, human, radius_scale, tau_cost)
 	Prof.end(&"arquero (plan de atajada)")
 	return plan
 
@@ -227,7 +230,7 @@ static func plan_save(origin: Vector3, yaw: float, traj: PackedVector3Array, ste
 static var trace_reasons: Dictionary = {}
 
 static func _plan_save(origin: Vector3, yaw: float, traj: PackedVector3Array, step: float, min_delay: float, pickup: bool,
-		speeds: Array, human: Vector2, radius_scale: float = 1.0) -> Dictionary:
+		speeds: Array, human: Vector2, radius_scale: float = 1.0, tau_cost: float = 0.0) -> Dictionary:
 	if AnimTrace.enabled:
 		trace_reasons = {}
 	var best: Dictionary = {}
@@ -382,7 +385,7 @@ static func _plan_save(origin: Vector3, yaw: float, traj: PackedVector3Array, st
 							if dist <= rad * 0.85:
 								# Entre los que llegan, los cortos (se recupera antes: no se tira al suelo por una pelota mansa).
 								score = style + 0.03 * travel + (0.05 if sp > 1.0 else 0.0) + 0.2 * dist / rad \
-									+ DURATION_COST * duration / sp
+									+ DURATION_COST * duration / sp + tau_cost * tau / sp
 							else:
 								score = 5.0 + dist
 							if score < best_score:

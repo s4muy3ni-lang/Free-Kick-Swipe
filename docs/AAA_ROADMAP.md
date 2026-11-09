@@ -415,6 +415,110 @@ cambiaron están en el CHANGELOG con la razón física).
 
 ---
 
+# Tercera entrega (2026-11-09): correcciones de jugabilidad, festejos y primer minijuego
+
+Pedido: «PROMPT MAESTRO — correcciones de jugabilidad, celebraciones y expansión arcade», a partir de pruebas en el
+teléfono. Todo lo de abajo se probó **en PC** (Linux, render por software llvmpipe); **nada se probó en Android** en esta
+entrega.
+
+## Etapa 1 — Arquero del tiro libre (hecha; pendiente de balance en el teléfono)
+
+- **Problema:** demasiado fácil incluso en Difícil; se tiraba antes; la pelota seguía entrando.
+- **Causa técnica (medida):** cuando ningún clip llegaba, `_watch_step` adoptaba igual el plan «forzado» con demora 0 y se
+  tiraba en la primera lectura (con la pelota a ~20 m). En la medición de referencia 8 de 13 (Fácil), 8 de 15 (Normal) y 7
+  de 15 (Difícil) estiradas fueron a pelotas que no alcanzaba. Además, una vez corregido eso, un diagnóstico cuadro a
+  cuadro mostró que esperar a «falta poco» empeoraba el alcance: la mejor estirada pasaba a 0,57 → 0,73 → 0,96 m de la
+  pelota en tres lecturas seguidas.
+- **Cambio:** sin plan que llegue no se tira; se acomoda con pasos laterales (`SpSettings.keeper_step_speed`) y relee
+  cada 0,1 s. Se tira «desesperado» solo si casi llega (`DESPERATE_REACH` 1,3 × radio) **y** es el momento de arrancar
+  esa estirada (su demora ≤ 0,15 s) o la pelota está encima (≤ 0,55 s). Prefiere la estirada rápida
+  (`KeeperPlanner.plan_save` con `tau_cost` 0,25) y lee mejor el efecto en dificultades altas (`keeper_spin_read`). No usa
+  el radio de planificación de los penales. Las dificultades bajas conservan los errores de percepción y reacción.
+- **Sistemas reutilizados:** `KeeperPlanner` (planes por trayectorias medidas de las manos), `BallPredictor`, el contacto
+  real del guante (sin tocar la pelota por código).
+- **Medición** (`tests/test_fk_balance_measure.gd medir difs=0,1,2`, con render, semillas fijas; 18 tiros por
+  dificultad: centro fuerte y débil, los dos ángulos, rasantes, altos, efecto hacia adentro y hacia afuera, cerca del
+  poste, débil colocado, al cuerpo, fuera de alcance alto y bajo, desde 4 puntos con barrera):
+
+| Dificultad | Versión | Goles | Atajadas | Palo | Afuera | Barrera | Estiradas | Sin llegar | Anticipación media |
+|---|---|---|---|---|---|---|---|---|---|
+| Fácil | antes | 10 | 1 | 0 | 2 | 5 | 13 | 8 | 0,41 s |
+| Fácil | ahora | 9 | 1 | 1 | 2 | 5 | 6 | 1 | 0,34 s |
+| Normal | antes | 7 | 4 | 0 | 2 | 5 | 15 | 8 | 0,53 s |
+| Normal | ahora | 5 | 5 | 0 | 2 | 6 | 9 | 3 | 0,57 s* |
+| Difícil | antes | 7 | 3 | 0 | 2 | 6 | 15 | 7 | 0,54 s |
+| Difícil | ahora | 5 | 5 | 0 | 2 | 6 | 10 | 1 | 0,38 s |
+
+  *Incluye una lectura de 2,35 s en un tiro que desvió la barrera. «Antes» se midió con el código anterior en una copia
+  aparte (mismo conjunto, mismas semillas). En Difícil ataja la mitad de los tiros que van al arco (5 de 10, antes 3 de
+  10) y ya no se tira a pelotas imposibles; sigue sin alcanzar los ángulos lejanos (es justo: ver «fuera de alcance»).
+- **Pendiente:** Normal y Difícil atajan lo mismo en este conjunto (18 tiros es poco para separarlos); ajustar con el
+  informe del teléfono. Probado en Android: **no**.
+
+## Etapa 2 — Ciclo de la jugada sin bucles (hecha)
+
+- **Problema:** jugadores en bucle después de cada tiro. **Causa:** un clip de una vez terminado dejaba al jugador
+  congelado en la última pose, y un bucle de carrera seguía al llegar (trotaba en el sitio).
+- **Cambio:** `SpActor.rest_loop` (cada jugador tiene su reposo: tirador, arquero, barrera, sueltos) que vuelve solo al
+  terminar un clip, al llegar o al frenarlo; `freeze_on_finish` para las poses que deben mantenerse (arquero con la
+  pelota). Todos los resultados tienen salida: preparación → ejecución → vuelo → contacto → resultado → reacciones →
+  festejo o lamento → recuperación de la pelota → jugada siguiente (topes ya existentes: carrera 6 s, vuelo 5,5 s,
+  resultado 3,6–6 s).
+- **Pruebas:** `test_play_lifecycle` (penal: gol, atajada, afuera; tiro libre: barrera, gol, afuera): nadie queda
+  congelado ni trotando en el sitio 5 s después y la jugada siguiente llega.
+
+## Etapa 3 — Festejos y lamentos (hecha)
+
+- **Gol:** la cámara se queda en la vista de juego `GOAL_LIVE_T` = 2,6 s con temblor suave; los compañeros corren al
+  autor (medido en tiro libre: de 16,0 / 12,8 / 15,6 m a 1,9 / 1,8 / 1,8 m, los tres llegan) y festejan alrededor; la
+  pelota sigue su física. Después, si no se salta, el primer plano del autor (2,8 s). «Saltar» pasa a la jugada siguiente
+  una sola vez (el gol se cuenta una vez: probado).
+- **Contradicción informada (penal):** en una tanda los compañeros esperan en el círculo central, a ~40 m del punto
+  penal; correr esa distancia lleva ~6 s. Decisión (no destructiva): salen a buscarlo y el autor, al terminar su
+  festejo, corre hacia ellos; se encuentran en el camino (medido: a 2,0 m en 5,4 s). En el turno siguiente vuelven a su
+  lugar (fuera de cámara).
+- **Sin gol:** sin cinemática; el equipo que defendió corre a festejar hacia donde terminó la jugada (arquero si atajó,
+  barrera si la paró, punto de salida si fue al palo o afuera, el que despejó) y el que pateó se lamenta. El que va por
+  la pelota suelta sigue jugando.
+- **Pruebas:** `test_celebrations` (5 pruebas). Probado en Android: **no**.
+
+## Etapa 4 — Temblor de cámara y línea de destino (hecha)
+
+- `SpCamera.shake` corre la imagen (`h_offset`/`v_offset`) sin mover la cámara ni el encuadre; máximo 0,11 m, medido
+  0,057 m de pico en «Normal»; se apaga solo. Ajuste «Temblor de cámara: No / Suave / Normal».
+- «Mostrar línea de destino de la pelota»: oculta la trayectoria prevista y el aro de llegada; no cambia la física ni el
+  tiro; el rastro del dedo y los medidores siguen. Ambas en el panel «Visual» del menú y se guardan
+  (`user://graphics.cfg`).
+
+## Etapa 5 — «Botón de caída» (hecho; pendiente de balance)
+
+- Dos plataformas sobre el vacío; botón físico en la plataforma rival (pared o piso) que se aprieta solo si la pelota lo
+  golpea contra su cara a ≥ 2,5 m/s (un roce o una pelota lenta no: probado); se abre la trampilla y el rival cae. Turnos
+  alternados contra la IA; gana el primero que hace caer 2 veces al otro; tope de 24 turnos.
+- 8 niveles: a la vista, custodiado (postes y bloque), detrás del muro (botón en el piso), botón móvil, botón chico,
+  desnivel (alturas y giros distintos), obstáculos en movimiento, varios rebotes (techo y muro bajo). Cada uno tiene
+  solución hallada **con la física real** (búsqueda en una grilla de puntos y velocidades; se anota el tiro encontrado).
+- IA con las mismas reglas y la misma física: apunta al botón (o al truco del nivel), adelanta el botón móvil con el
+  tiempo de vuelo previsto y su carrera, espera su momento con obstáculos móviles y corrige parte de su fallo anterior.
+  Balance medido (12 tiros por dificultad, Fácil / Normal / Difícil): nivel 1: 4 / 5 / 8; nivel 4 (móvil): 6 / 8 / 8;
+  nivel 5 (chico): 3 / 3 / 4; nivel 7 (obstáculos móviles): 1 / 2 / 2.
+- Cámara alta detrás del que patea; en su turno sus propios obstáculos se ven translúcidos (no tapan la pelota; la
+  colisión no cambia) y una señal sobre el botón rival indica dónde está aunque lo tape un muro.
+- Pruebas: `test_boton_caida` (6). Probado en Android: **no**.
+
+## Etapa 6 — Arquitectura compartida de minijuegos (hecha)
+
+`Minigame` (id único, reglas propias por subclase, ganar/perder, turnos, puntaje, reinicio, estados con topes, IA con
+`cpu_shot`, intenciones serializables y semilla para en línea más adelante — sin implementar en línea ni emparejamiento),
+`MinigameCatalog` (datos, desbloqueo por bronce, récords y medallas en `PlayerProgress`), pestaña «Arcade» y tarjeta
+ARCADE en el menú. Reutiliza el trazo, la vista previa, el tirador animado, la cámara y la interfaz.
+
+## Etapa 7 — Primera colección
+
+En esta entrega quedó jugable el primero («Botón de caída»). El resto de la colección pedida (destrucción y mecanismos,
+minigolf, arqueros por turnos, desafíos de habilidad) sigue en el orden de «Primera colección» de arriba, sobre la misma
+base; ninguno se da por hecho hasta tener pruebas.
+
 # Complemento «Arcade Football»: catálogo de 43 minijuegos (2026-11-08)
 
 Incorporado al plan **sin interrumpir las prioridades técnicas vigentes** (medición en el teléfono, presentación,
@@ -428,10 +532,10 @@ dependencias y sistemas compartidos para desarrollarlos de a poco.
 
 | Sistema | Qué es | Estado | Base que ya existe |
 |---|---|---|---|
-| S1 Competición | Definición común (id, objetivo, jugadores, individual/versus/cooperativo, IA, en línea, duración, rondas, puntuación, condición de victoria, dificultad, escenario, recompensas, récord, estadísticas) y un orquestador de rondas y turnos (alternancia justa, simultáneo con eventos validados) | Diseñado | `ChallengeCatalog`/`ChallengeRunner` (un jugador, intentos), `PenaltyShootout` (alternancia y muerte súbita) |
-| S2 IA rival que patea | La IA usa el MISMO modelo del tiro (`ShotParams` + `GestureShotModel.solve`) con error por dificultad (fácil, normal, difícil, experto); nunca toca la pelota fuera de su golpe | Diseñado | `SetPieceGame._cpu_penalty` (ya lo hace en los penales) |
+| S1 Competición | Definición común (id, objetivo, jugadores, individual/versus/cooperativo, IA, en línea, duración, rondas, puntuación, condición de victoria, dificultad, escenario, recompensas, récord, estadísticas) y un orquestador de rondas y turnos (alternancia justa, simultáneo con eventos validados) | Implementado (por turnos: `Minigame`) | `ChallengeCatalog`/`ChallengeRunner` (un jugador, intentos), `PenaltyShootout` (alternancia y muerte súbita) |
+| S2 IA rival que patea | La IA usa el MISMO modelo del tiro (`ShotParams` + `GestureShotModel.solve`) con error por dificultad (fácil, normal, difícil, experto); nunca toca la pelota fuera de su golpe | Implementado (`Minigame.cpu_shot`) | `SetPieceGame._cpu_penalty` (ya lo hace en los penales) |
 | S3 Blancos físicos | Paneles con puntaje, dianas colgantes con articulación y resistencia (caen por impulso real, varios impactos), botones físicos, giratorios, que cambian de lugar | Diseñado | `ChallengeTargets` (recuadros, aros, marco, objetos con física) |
-| S4 Plataformas y caídas | Plataformas sobre vacío o agua, pisos que se abren, empujes por impacto (física propia, separada de los modos de tiro) | Idea | — |
+| S4 Plataformas y caídas | Plataformas sobre vacío o agua, pisos que se abren, empujes por impacto (física propia, separada de los modos de tiro) | Implementado (vacío y trampilla; falta agua y empuje) | `BotonCaida` |
 | S5 Control de la pelota | Conducción, recepción, dominadas, primer toque | Idea (auditar) | Conducción del partido viejo (`scripts/gameplay/`, `ai_input.gd`, `touch_foot_ik.gd`); clips de volea y «control y golpe» (48 con rol), golpeos FREESTYLE/FLICKS a revisar |
 | S6 Básquet | Canasta (aro horizontal: enceste = paso físico de la pelota por el aro, de arriba hacia abajo), tableros y planos inclinados | Diseñado | detección de aro de `ChallengeTargets` |
 | S7 Escenarios | Variantes reutilizables (estadio, barrio, entrenamiento, arena de precisión, vacío, agua, urbano, nocturno, futurista, fútbol-básquet, arco con dianas) con distancia, tamaño de blancos, velocidad, obstáculos, tiempo, balones y superficie configurables | Idea | `Stadium11`, `PitchConfig` |
@@ -443,7 +547,7 @@ dependencias y sistemas compartidos para desarrollarlos de a poco.
 | # | Modo | Estado | Existe / falta | Usa |
 |---|---|---|---|---|
 | 1 | Duelo de precisión | Diseñado | Blancos y puntaje existen; falta versus por turnos | S1, S2, S3 |
-| 2 | Botón de caída | Idea | Plataformas con botón físico que abre el piso | S1, S2, S3, S4 |
+| 2 | Botón de caída | Implementado · Pendiente de balance | 8 niveles contra la IA (tercera entrega); falta en línea | S1, S2, S3, S4 |
 | 3 | Caída al vacío por impactos | Idea | Empuje por impacto real | S1, S2, S4 |
 | 4 | Caída al agua | Idea | Escenario sobre agua | S1, S2, S4, S7 |
 | 5 | Rey del travesaño | Implementado (individual) | Arena «Travesaño»; falta puntos acumulados por sesión y versus | S1, S3 |

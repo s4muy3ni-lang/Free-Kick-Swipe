@@ -49,6 +49,13 @@ var shadows_mode: int = -1
 ## (media de AUTO_WINDOW s por encima de AUTO_SLOW_MS), como mucho uno cada AUTO_COOLDOWN s. No sube solo (evita que
 ## oscile). Heuristica a validar con las mediciones del telefono (docs/ANDROID_MEDICION.md).
 var auto_mode: bool = true
+## Opciones visuales (se guardan con los graficos). Linea de destino: la trayectoria prevista y el aro de llegada mientras
+## se apunta (TrajectoryPreview); apagarla NO cambia la fisica ni el tiro, y el rastro del dedo sigue. Temblor de camara:
+## el sacudon suave del festejo (SpCamera.shake), con tres niveles.
+var show_aim_line: bool = true
+const SHAKE_NAMES: Array[String] = ["No", "Suave", "Normal"]
+const SHAKE_SCALE: Array[float] = [0.0, 0.55, 1.0]
+var camera_shake: int = 1
 const AUTO_WINDOW := 3.0
 const AUTO_SLOW_MS := 22.0
 const AUTO_COOLDOWN := 8.0
@@ -101,6 +108,20 @@ func cycle_menu_choice() -> void:
 	apply()
 	save_settings()
 	profile_changed.emit(profile)
+
+## Interruptor de la linea de destino (se guarda).
+func toggle_aim_line() -> void:
+	show_aim_line = not show_aim_line
+	save_settings()
+
+## No -> Suave -> Normal -> No (se guarda).
+func cycle_camera_shake() -> void:
+	camera_shake = (camera_shake + 1) % SHAKE_NAMES.size()
+	save_settings()
+
+## Multiplicador del temblor de camara (0 = apagado).
+func shake_scale() -> float:
+	return SHAKE_SCALE[clampi(camera_shake, 0, SHAKE_SCALE.size() - 1)]
 
 ## Heuristica de perfil inicial segun la plataforma y el hardware. No sustituye a medir.
 func detect_default_profile() -> int:
@@ -178,6 +199,8 @@ func save_settings() -> void:
 	cfg.set_value("graphics", "fps_cap", fps_cap)
 	cfg.set_value("graphics", "shadows_mode", shadows_mode)
 	cfg.set_value("graphics", "auto", auto_mode)
+	cfg.set_value("visual", "show_aim_line", show_aim_line)
+	cfg.set_value("visual", "camera_shake", camera_shake)
 	var err: int = cfg.save(SETTINGS_PATH)
 	if err != OK:
 		push_warning("No se pudo guardar %s (error %d)" % [SETTINGS_PATH, err])
@@ -194,6 +217,8 @@ func load_settings() -> void:
 	shadows_mode = clampi(int(cfg.get_value("graphics", "shadows_mode", -1)), -1, 1)
 	# Configuraciones guardadas antes del modo automatico: el perfil que eligio la persona se respeta.
 	auto_mode = bool(cfg.get_value("graphics", "auto", false))
+	show_aim_line = bool(cfg.get_value("visual", "show_aim_line", true))
+	camera_shake = clampi(int(cfg.get_value("visual", "camera_shake", 1)), 0, SHAKE_NAMES.size() - 1)
 
 func _has_saved_settings() -> bool:
 	return FileAccess.file_exists(SETTINGS_PATH)

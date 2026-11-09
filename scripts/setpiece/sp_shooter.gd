@@ -66,6 +66,8 @@ func stance(ball_pos: Vector3, aim: Vector3, back: float, side: float) -> void:
 			if SpClips.root_travel(SpClips.meta(id)) < 0.3:
 				pool.append(id)
 	_idle_clip = pool[rng.randi() % pool.size()] if not pool.is_empty() else &""
+	if _idle_clip != &"":
+		actor.rest_loop = _idle_clip
 	actor.play_loop(_idle_clip, 0.25)
 
 ## Ejecuta el tiro: e = golpeo elegido, shot_dir = direccion horizontal del tiro, v y w = salida de la pelota.

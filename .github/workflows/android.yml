@@ -219,6 +219,10 @@ jobs:
           # Modos de tiros libres y penales: catalogo de golpeos medidos (sin el no hay golpeos) y catalogo de bancos.
           unzip -p "$APK" "assets/resources/setpiece/shot_clips.json" | cmp -s - resources/setpiece/shot_clips.json || { echo "::error::resources/setpiece/shot_clips.json no esta en la APK o difiere"; exit 1; }
           unzip -l "$APK" | grep -q "resources/animation/catalogo_bancos.json" || { echo "::error::falta el catalogo de bancos en la APK"; exit 1; }
+          # Datos de la Academia, la Arena y los minijuegos (JSON: solo entran si estan en include_filter).
+          for f in resources/challenges/challenges.json resources/minigames/minigames.json; do
+            unzip -p "$APK" "assets/$f" | cmp -s - "$f" || { echo "::error::$f no esta en la APK o difiere"; exit 1; }
+          done
           if unzip -l "$APK" | grep -E -q "\.fbx"; then echo "::error::la APK contiene FBX fuente"; exit 1; fi
 
           # Integridad y arquitectura reales del binario (no solo lo que declara el manifiesto).

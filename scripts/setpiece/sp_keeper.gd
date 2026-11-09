@@ -139,6 +139,8 @@ func reset(home_pos: Vector3) -> void:
 	var idles: Array[StringName] = SpClips.by_role(&"gk_idle", false)
 	idles.append_array(SpClips.by_role(&"gk_idle_var", false))
 	_idle_clip = idles[rng.randi() % idles.size()] if not idles.is_empty() else &""
+	actor.rest_loop = _idle_clip
+	actor.freeze_on_finish = false
 	actor.play_loop(_idle_clip, 0.2)
 	if ball != null:
 		_prev_ball = ball.global_position
@@ -162,6 +164,14 @@ func _yaw() -> float:
 ## jugadores) lee la trayectoria nueva. No conoce el resultado: si lee mal o no llega, no la toca.
 ## Cada cuanto vuelve a leer la pelota (s): el plan cuesta varios ms en un telefono.
 const READ_EVERY := 0.1
+## Preferencia por las estiradas rapidas (costo por segundo entre el arranque y el contacto): arranca mas tarde y lee mas.
+## Ultima lectura del tiro libre (diagnostico y pruebas): plan, tiempo de llegada y cruce que leyo.
+var last_read: Dictionary = {}
+const QUICK_DIVE_COST := 0.25
+## Estirada desesperada: solo si el mejor plan deja las manos a menos de este multiplo del radio de contacto, y solo en el
+## ultimo instante (la pelota llega al arquero en menos de LAST_CHANCE s). Mas lejos no se tira (no llega).
+const DESPERATE_REACH := 1.3
+const LAST_CHANCE := 0.55
 ## Radio de contacto que pide el plan del tiro libre (lectura de la pelota real) respecto del partido.
 var watch_radius_scale: float = 1.0
 var _watching: bool = false
@@ -185,7 +195,8 @@ func read_shot(_ball_pos: Vector3, _velocity: Vector3, _spin: Vector3) -> void:
 	var err: float = SpSettings.keeper_perception_deg()
 	_err_yaw = deg_to_rad(rng.randfn(0.0, err))
 	_err_pitch = deg_to_rad(rng.randfn(0.0, err * 0.7))
-	_spin_seen = rng.randf_range(0.7, 1.0)
+	var sr: Vector2 = SpSettings.keeper_spin_read()
+	_spin_seen = rng.randf_range(sr.x, sr.y)
 
 func _watch_step(delta: float) -> void:
 	if not _watching or not (state == State.IDLE or state == State.WAIT_DIVE):
@@ -227,7 +238,16 @@ func _watch_step(delta: float) -> void:
 			actor.face_towards(Vector3(bp.x, 0, bp.z) - actor.global_position)
 			return
 	var human := Vector2(Tuning.keeper.hand_latency, Tuning.keeper.hand_speed) if Tuning.keeper != null else Vector2.ZERO
-	var pl: Dictionary = KeeperPlanner.plan_save(actor.global_position, _yaw(), traj, 1.0 / 30.0, 0.0, bv.length(), false, [1.0, 1.25], human, watch_radius_scale)
+	var pl: Dictionary = KeeperPlanner.plan_save(actor.global_position, _yaw(), traj, 1.0 / 30.0, 0.0, bv.length(), false, [1.0, 1.25], human,
+		watch_radius_scale, QUICK_DIVE_COST)
+	# Tiempo hasta que la pelota llega a la altura del arquero (segun lo que lee).
+	var t_reach: float = INF
+	var kx: float = actor.global_position.x - 0.3
+	for i in traj.size():
+		if traj[i].x >= kx:
+			t_reach = float(i) / 30.0
+			break
+	last_read = {"plan": pl, "t_reach": t_reach, "cross": cross}
 	if state == State.WAIT_DIVE:
 		# Lectura mas cercana (menos error): si el plan nuevo llega, reemplaza al agendado.
 		if not pl.is_empty() and float(pl["dist"]) <= float(pl["radius"]):
@@ -238,12 +258,25 @@ func _watch_step(delta: float) -> void:
 				_start_dive()
 		return
 	if pl.is_empty() or float(pl.get("dist", 0.0)) > float(pl.get("radius", 0.5)):
-		# Todavia no llega con ningun clip: se acomoda caminando de costado hacia donde va la pelota (pelotas lentas).
+		# Todavia no llega con ningun clip: NO se tira (antes arrancaba la estirada mas cercana apenas leia la pelota, con
+		# la pelota a 20 m: se tiraba antes de tiempo y la pelota entraba). Se acomoda con pasos laterales hacia donde va la
+		# pelota y sigue leyendo; solo en el ultimo instante, si casi llega, se tira desesperado.
 		if cross != Vector3.INF:
 			var z: float = clampf(cross.z, -half_goal + 0.4, half_goal - 0.4)
-			shuffle_to(Vector3(actor.global_position.x, 0.0, z), 2.6)
+			shuffle_to(Vector3(actor.global_position.x, 0.0, z), SpSettings.keeper_step_speed())
 		if pl.is_empty():
 			return
+		# Casi llega y su estirada tiene que arrancar YA (el plan lo dice: esperar solo la aleja, medido: 0,57 -> 0,73 ->
+		# 0,96 m en tres lecturas) o la pelota ya esta encima: se tira. Si no casi llega, no se tira a la nada.
+		var near: bool = float(pl["dist"]) <= float(pl["radius"]) * DESPERATE_REACH
+		var now: bool = float(pl["delay"]) <= READ_EVERY * 1.5 or t_reach <= LAST_CHANCE
+		if not (near and now):
+			return
+	elif cross != Vector3.INF and t_reach > LAST_CHANCE and float(pl["delay"]) > READ_EVERY * 3.0:
+		# Llega, pero falta: se acomoda hacia el cruce mientras espera (pasos cortos; el plan se rehace en cada lectura).
+		var dz: float = clampf(cross.z, -half_goal + 0.4, half_goal - 0.4) - actor.global_position.z
+		if absf(dz) > 0.5:
+			shuffle_to(Vector3(actor.global_position.x, 0.0, actor.global_position.z + signf(dz) * minf(absf(dz) * 0.5, 0.8)), SpSettings.keeper_step_speed())
 	plan = pl
 	# Espera mientras pueda: se tira cuando la estirada tiene que empezar ya (o si ya no llega de ninguna forma, al final).
 	if float(pl["delay"]) <= READ_EVERY * 1.5:
@@ -478,6 +511,7 @@ func _resolve(part: Array, c: Vector3, q: Vector3, parts_now: Dictionary, delta:
 		return
 	var is_hand: bool = bool(part[2])
 	if is_hand and (_can_catch(q, vr, parts_now) or (_collecting and vr.length() < 9.0)):
+		actor.freeze_on_finish = true
 		ball.hold(_anchor, actor)
 		_anchor.global_position = q
 		state = State.HOLD
@@ -521,6 +555,7 @@ static func glove_normal(n: Vector3, vr: Vector3, keeper_facing: Vector3) -> Vec
 	return (n + incoming * PALM_BIAS).normalized()
 
 func _pick_up() -> void:
+	actor.freeze_on_finish = true
 	ball.hold(_anchor, actor)
 	_anchor.global_position = actor.hands_mid() + facing * 0.08
 	state = State.HOLD
@@ -647,6 +682,7 @@ func drop_ball(v: Vector3) -> void:
 	if not (ball.is_held() and ball.holder == actor):
 		return
 	ready_with_ball = false
+	actor.freeze_on_finish = false
 	ball.release(actor, v)
 	_prev_ball = ball.global_position
 	_last_contact_ms = Time.get_ticks_msec()

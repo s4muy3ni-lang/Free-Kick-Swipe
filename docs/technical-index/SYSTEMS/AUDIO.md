@@ -9,7 +9,7 @@
 - **Estado:** implementado desde el 2026-10-29 (prueba03: el juego no tenía ningún sonido). Interruptor «Sonido: Sí/No»
   en el menú de pausa (`Tuning.sound_on` → `Sfx.set_enabled`, se guarda).
 - **Última verificación:** <!-- AUTO:verified -->
-2026-11-08
+2026-11-09
 <!-- /AUTO -->
 
 ## Archivos responsables

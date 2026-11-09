@@ -5,7 +5,7 @@
 - **Responsabilidad exacta:** el autoload `Tuning` es el **único punto de acceso** a los parámetros de balance (`Tuning.ball`, `Tuning.player`, `Tuning.assist`, `Tuning.keeper`, `Tuning.pitch`) y a las preferencias del usuario (niveles de asistencia, diagnóstico, duración, botones táctiles, zoom de cámara `camera_zoom`, sonido `sound_on` y modo de jugabilidad `gameplay_mode`: 1 pack actual, 2 mocap de fútbol con el modelo Newton, 3 solo Tripo, 4 Json). **Desde el 2026-10-30 el modo 4 es el predeterminado (`DEFAULT_GAMEPLAY_MODE`) y el único jugable (`PLAYABLE_MODES = [4]`)**: una instalación nueva arranca en el 4 y unas preferencias guardadas con 1-3 (el 1 era el predeterminado y se guardaba con cualquier ajuste) pasan al 4 conservando el resto de la configuración. Los modos 1-3 siguen en el código (pruebas y sistemas compartidos) hasta que se autorice quitarlos. Intenta cargar un `.tres` por clase desde `resources/tuning/`; **si no existe, usa los valores por defecto escritos en la propia clase**.
 - **Estado:** implementado. **`resources/tuning/` existe pero está vacío**: hoy el balance vive en los valores por defecto de las clases.
 - **Última verificación:** <!-- AUTO:verified -->
-2026-11-08
+2026-11-09
 <!-- /AUTO -->
 
 ## Archivos responsables

@@ -9,7 +9,7 @@
   - **Modelo de error** (`KickModel`): ruido gaussiano acotado que depende de distancia, potencia, equilibrio, orientación, velocidad, pierna de golpeo y atributos.
 - **Estado:** implementado y probado (sin compañeros reales en la escena de juego: las pruebas los crean).
 - **Última verificación:** <!-- AUTO:verified -->
-2026-11-08
+2026-11-09
 <!-- /AUTO -->
 
 ## Archivos responsables
@@ -149,7 +149,7 @@ Fórmulas tal como están en el código (2026-10-26). `asistencia` = nivel 0–1
   - **Modelo de error** (`KickModel`): ruido gaussiano acotado que depende de distancia, potencia, equilibrio, orientación, velocidad, pierna de golpeo y atributos.
 - **Estado:** implementado y probado (sin compañeros reales en la escena de juego: las pruebas los crean).
 - **Última verificación:** <!-- AUTO:verified -->
-2026-11-08
+2026-11-09
 <!-- /AUTO -->
 
 ## Archivos responsables

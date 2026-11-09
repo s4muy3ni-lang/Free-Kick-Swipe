@@ -1,8 +1,8 @@
 class_name MainMenu
 extends Node3D
-## Menu principal (horizontal): el estadio de fondo con la camara girando despacio alrededor del arco, el titulo y las dos
-## modalidades: PENALES y TIRO LIBRE. Abajo, el pie habil y la dificultad (se guardan) y el acceso al banco de pruebas de
-## animaciones (desarrollo).
+## Menu principal (horizontal): el estadio de fondo con la camara girando despacio alrededor del arco, el titulo y las
+## modalidades: PENALES, TIRO LIBRE, ACADEMIA, DESAFIOS y ARCADE (minijuegos). Abajo, el pie habil, la dificultad, el
+## arco, los graficos y los ajustes visuales (se guardan) y el acceso al banco de pruebas de animaciones (desarrollo).
 
 const SCENE := "res://scenes/setpiece/main_menu.tscn"
 const BENCH_SCENE := "res://scenes/dev/anim_bank_bench.tscn"
@@ -15,6 +15,9 @@ var _foot_button: Button
 var _diff_button: Button
 var _goal_button: Button
 var _gfx_button: Button
+var _visual_panel: PanelContainer
+var _aim_line_button: Button
+var _shake_button: Button
 var _keeper: SpActor
 var _player: SpActor
 
@@ -112,14 +115,16 @@ func _build_ui() -> void:
 	var cards := HBoxContainer.new()
 	cards.add_theme_constant_override("separation", 18)
 	vb.add_child(cards)
-	cards.add_child(_card("PENALES", "Tanda contra la CPU:\nun tiro y una atajada\npor ronda.",
+	cards.add_child(_card("PENALES", "Tanda contra\nla CPU: tirás\ny atajás.",
 		Color(0.08, 0.30, 0.75), func() -> void: _start(SetPieceGame.Mode.PENALTY)))
-	cards.add_child(_card("TIRO LIBRE", "Poné la pelota donde\nquieras: barrera\ny arquero.",
+	cards.add_child(_card("TIRO LIBRE", "Elegí dónde\npatear: barrera\ny arquero.",
 		Color(0.75, 0.16, 0.12), func() -> void: _start(SetPieceGame.Mode.FREE_KICK)))
-	cards.add_child(_card("ACADEMIA", "8 niveles para aprender:\nprecisión, potencia,\nefecto, penales...",
+	cards.add_child(_card("ACADEMIA", "8 niveles:\nprecisión,\npotencia, efecto.",
 		Color(0.10, 0.50, 0.22), func() -> void: _open_challenges("academia")))
-	cards.add_child(_card("DESAFÍOS", "Postes, aros, conos,\ntorres, distancia\ny más.",
+	cards.add_child(_card("DESAFÍOS", "Postes, aros,\nconos, torres\ny distancia.",
 		Color(0.48, 0.18, 0.62), func() -> void: _open_challenges("arena")))
+	cards.add_child(_card("ARCADE", "Minijuegos:\nbotón de caída\ny más.",
+		Color(0.85, 0.45, 0.05), func() -> void: _open_challenges("arcade")))
 	var spacer := Control.new()
 	spacer.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	vb.add_child(spacer)
@@ -147,19 +152,63 @@ func _build_ui() -> void:
 		GraphicsSettings.cycle_menu_choice()
 		_refresh())
 	row.add_child(_gfx_button)
+	var vis: Button = _small("Visual", func() -> void: _visual_panel.visible = not _visual_panel.visible)
+	vis.custom_minimum_size = Vector2(130, 60)
+	row.add_child(vis)
 	var sp2 := Control.new()
 	sp2.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	row.add_child(sp2)
 	row.add_child(_small("Banco de animaciones", func() -> void: get_tree().change_scene_to_file(BENCH_SCENE)))
+	_build_visual_panel(root)
 	_refresh()
+
+## Ajustes visuales: linea de destino de la pelota y temblor de camara (se guardan con los graficos).
+func _build_visual_panel(root: Control) -> void:
+	_visual_panel = PanelContainer.new()
+	_visual_panel.set_anchors_preset(Control.PRESET_CENTER)
+	_visual_panel.grow_horizontal = Control.GROW_DIRECTION_BOTH
+	_visual_panel.grow_vertical = Control.GROW_DIRECTION_BOTH
+	var sb := StyleBoxFlat.new()
+	sb.bg_color = Color(0.03, 0.05, 0.1, 0.94)
+	sb.border_color = Color(1.0, 0.84, 0.28, 0.9)
+	sb.set_border_width_all(3)
+	sb.set_corner_radius_all(18)
+	sb.set_content_margin_all(24)
+	_visual_panel.add_theme_stylebox_override("panel", sb)
+	root.add_child(_visual_panel)
+	var vb := VBoxContainer.new()
+	vb.add_theme_constant_override("separation", 14)
+	_visual_panel.add_child(vb)
+	var t := Label.new()
+	t.text = "Ajustes visuales"
+	t.add_theme_font_size_override("font_size", 30)
+	t.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	vb.add_child(t)
+	_aim_line_button = _small("", func() -> void:
+		GraphicsSettings.toggle_aim_line()
+		_refresh())
+	_aim_line_button.custom_minimum_size = Vector2(520, 60)
+	vb.add_child(_aim_line_button)
+	_shake_button = _small("", func() -> void:
+		GraphicsSettings.cycle_camera_shake()
+		_refresh())
+	_shake_button.custom_minimum_size = Vector2(520, 60)
+	vb.add_child(_shake_button)
+	var note := Label.new()
+	note.text = "La línea de destino solo es una ayuda: apagarla no cambia el tiro.\nEl rastro del dedo se sigue viendo."
+	note.add_theme_font_size_override("font_size", 18)
+	note.add_theme_color_override("font_color", Color(0.8, 0.85, 0.95))
+	vb.add_child(note)
+	vb.add_child(_small("Listo", func() -> void: _visual_panel.visible = false))
+	_visual_panel.visible = false
 
 func _card(t: String, desc: String, color: Color, cb: Callable) -> Button:
 	var b := Button.new()
-	b.custom_minimum_size = Vector2(282, 230)
+	b.custom_minimum_size = Vector2(205, 230)
 	b.focus_mode = Control.FOCUS_NONE
 	b.alignment = HORIZONTAL_ALIGNMENT_LEFT
 	b.text = "%s\n\n%s" % [t, desc]
-	b.add_theme_font_size_override("font_size", 22)
+	b.add_theme_font_size_override("font_size", 20)
 	for st in ["normal", "hover", "pressed", "focus"]:
 		var sb := StyleBoxFlat.new()
 		var c: Color = color
@@ -195,6 +244,8 @@ func _refresh() -> void:
 	_diff_button.text = "Dificultad: %s" % SpSettings.DIFFICULTY_NAMES[SpSettings.difficulty]
 	_goal_button.text = "Arco: %s" % SpSettings.GOAL_STYLE_NAMES[SpSettings.goal_style]
 	_gfx_button.text = "Gráficos: %s" % GraphicsSettings.menu_choice_name()
+	_aim_line_button.text = "Mostrar línea de destino de la pelota: %s" % ("Sí" if GraphicsSettings.show_aim_line else "No")
+	_shake_button.text = "Temblor de cámara: %s" % GraphicsSettings.SHAKE_NAMES[GraphicsSettings.camera_shake]
 
 var _loading: Label = null
 

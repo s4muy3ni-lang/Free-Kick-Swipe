@@ -4,7 +4,7 @@
 > El índice documenta el código **real**: lo que cambia con el código (líneas, valores por defecto, listas de
 > funciones, pruebas, acciones de entrada) lo regenera `tools/docs_index.py`; nunca se escribe a mano.
 > Última sincronización: <!-- AUTO:verified -->
-2026-11-08
+2026-11-09
 <!-- /AUTO -->
 
 ## Cómo ir de una petición al código (3 pasos)

@@ -11,6 +11,35 @@ Formato de entrada: **fecha — título** · commit · qué cambió · archivos 
 
 ---
 
+## 2026-11-09 — Correcciones de jugabilidad: arquero del tiro libre, ciclo de la jugada, festejos, opciones visuales y «Botón de caída»
+
+- **Arquero del tiro libre (`SpKeeper._watch_step`, `KeeperPlanner.plan_save` con `tau_cost`, `SpSettings.keeper_spin_read`
+  y `keeper_step_speed`):** causa medida: con un plan que no llegaba se tiraba igual en la primera lectura (8 de 13–15
+  estiradas por dificultad eran a pelotas que no alcanzaba). Ahora no se tira mientras ningún clip llegue: se acomoda con
+  pasos laterales y relee; solo se tira «desesperado» si casi llega y su estirada tiene que arrancar ya. Prefiere la
+  estirada rápida y lee el efecto mejor en dificultades altas. No usa el radio de los penales. Medición con render, 18
+  tiros fijos × 3 dificultades (`tests/test_fk_balance_measure.gd`, a pedido): estiradas sin llegar 8/8/7 → 1/3/1;
+  atajadas 1/4/3 → 1/5/5; goles 10/7/7 → 9/5/5 (Fácil/Normal/Difícil).
+- **Ciclo de la jugada (`SpActor.rest_loop`, `freeze_on_finish`, `ground_y`):** al terminar un clip de una vez, al llegar
+  de una carrera o al frenarlo, cada jugador vuelve a su reposo (antes podía quedar congelado o trotando en el sitio).
+- **Festejos (`SpCelebration`, `SetPieceGame._start_celebration`, `skip_celebration`):** gol: cámara de juego 2,6 s con
+  temblor suave mientras los compañeros corren al autor, después el primer plano (salteable, sin contar dos veces);
+  sin gol: sin cinemática, el rival corre a festejar hacia donde terminó la jugada y el que pateó se lamenta.
+- **Opciones visuales (`GraphicsSettings.show_aim_line`, `camera_shake`; panel «Visual» del menú):** ocultar la línea de
+  destino (no el rastro del dedo) y temblor de cámara No/Suave/Normal; se guardan.
+- **Minijuegos:** base `Minigame`, `MinigameCatalog` (pestaña «Arcade», tarjeta ARCADE en el menú) y «Botón de caída»
+  (`BotonCaida`, 8 niveles, IA con la misma física). Cada nivel tiene solución hallada con la física real.
+- Archivos: `scripts/setpiece/{sp_keeper,sp_actor,sp_shooter,sp_wall,sp_settings,sp_camera,setpiece_game,main_menu,sp_celebration}.gd`,
+  `scripts/goalkeeper/keeper_planner.gd`, `scripts/diagnostics/graphics_settings.gd`, `scripts/challenges/challenge_menu.gd`,
+  `scripts/minigames/*`, `scenes/minigames/boton_caida.tscn`, `resources/minigames/minigames.json`.
+- **APK:** `resources/challenges/*.json` no estaba en `include_filter` (los JSON solo se exportan si se listan): la
+  Academia y la Arena podían quedar vacías en el teléfono. Se agregó junto con `resources/minigames/*.json` y la CI
+  verifica que los dos archivos estén en la APK y sean iguales al repositorio.
+- Pruebas nuevas: `test_play_lifecycle` (2), `test_celebrations` (5), `test_boton_caida` (6). Suite headless 170 / 1692 /
+  0 fallos (21 omitidas: necesitan render); `test_setpiece_render` con render 7 / 45 / 0. **Android: no probado.**
+
+---
+
 ## 2026-11-08 — Arreglo: jugadores trabados repitiendo una reacción en bucle
 
 - **Causa (medida):** 19 de los 280 clips de reacción del banco (festejos, lamentos, gestos) son bucles. Reproducidos

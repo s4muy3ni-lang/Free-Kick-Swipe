@@ -15,6 +15,14 @@ var _look := Vector3.ZERO
 var follow: Node3D = null
 var follow_offset := Vector3(3.0, 1.6, 0.0)
 var follow_look_height: float = 1.1
+## Temblor (festejo, golpes fuertes): corre la imagen con h_offset/v_offset de la camara, sin mover su posicion ni el
+## encuadre, con dos senos por eje (sin azar: igual en cada maquina) y una envolvente que entra en 0,08 s y se apaga
+## sola. La amplitud maxima (SHAKE_MAX m con fuerza 1) se escala con GraphicsSettings.shake_scale(): 0 lo apaga.
+const SHAKE_MAX := 0.11
+var _shake_amp: float = 0.0
+var _shake_t: float = 0.0
+var _shake_left: float = 0.0
+var _shake_total: float = 0.0
 
 func _ready() -> void:
 	keep_aspect = Camera3D.KEEP_HEIGHT
@@ -41,7 +49,47 @@ func follow_node(n: Node3D, offset: Vector3, look_h: float = 1.1, hl: float = 0.
 	follow_look_height = look_h
 	halflife = hl
 
+## Temblor de fuerza 0..1 durante duration segundos (no se suma: el mas fuerte manda).
+func shake(strength: float, duration: float) -> void:
+	var amp: float = clampf(strength, 0.0, 1.0) * SHAKE_MAX * GraphicsSettings.shake_scale()
+	if amp <= 0.0 or duration <= 0.0:
+		return
+	if shaking() and _shake_amp * _envelope() >= amp:
+		return
+	_shake_amp = amp
+	_shake_total = duration
+	_shake_left = duration
+	_shake_t = 0.0
+
+func stop_shake() -> void:
+	_shake_left = 0.0
+	h_offset = 0.0
+	v_offset = 0.0
+
+func shaking() -> bool:
+	return _shake_left > 0.0
+
+func _envelope() -> float:
+	if _shake_total <= 0.0:
+		return 0.0
+	var fade_in: float = clampf((_shake_total - _shake_left) / 0.08, 0.0, 1.0)
+	return fade_in * clampf(_shake_left / _shake_total, 0.0, 1.0)
+
+func _shake_step(delta: float) -> void:
+	if _shake_left <= 0.0:
+		return
+	_shake_left -= delta
+	_shake_t += delta
+	if _shake_left <= 0.0:
+		stop_shake()
+		return
+	var a: float = _shake_amp * _envelope()
+	var t: float = _shake_t
+	h_offset = a * (0.6 * sin(t * 17.0) + 0.4 * sin(t * 31.0 + 1.3))
+	v_offset = a * 0.7 * (0.6 * sin(t * 23.0 + 0.7) + 0.4 * sin(t * 13.0 + 2.1))
+
 func _process(delta: float) -> void:
+	_shake_step(delta)
 	if follow != null and is_instance_valid(follow):
 		# Sigue la cadera (el nodo del cuerpo puede quedar atras si el clip lleva la cadera).
 		var fp: Vector3 = follow.global_position

@@ -69,6 +69,8 @@ func arrange(actors: Array[SpActor], ball: Vector3, goal_x: float, half_goal: fl
 		a.global_position = _center + side * off + jitter
 		a.set_facing(_face.rotated(Vector3.UP, rng.randf_range(-0.12, 0.12)))
 		var st: StringName = _stand[(i + rng.randi()) % _stand.size()] if not _stand.is_empty() else &""
+		if st != &"":
+			a.rest_loop = st
 		a.play_loop(st, 0.2, rng.randf_range(0.85, 1.15))
 		_jump_at.append(-1.0)
 		a.visible = true

@@ -7,13 +7,14 @@ extends Control
 const SCENE := "res://scenes/challenges/challenge_menu.tscn"
 const MEDAL_COLORS := [Color(0.55, 0.58, 0.65), Color(0.80, 0.52, 0.25), Color(0.80, 0.82, 0.88), Color(1.0, 0.82, 0.25)]
 
-## Pestaña abierta (se recuerda al volver): "academia" o "arena".
+## Pestaña abierta (se recuerda al volver): "academia", "arena" o "arcade" (minijuegos, MinigameCatalog).
 static var tab: String = "academia"
 static var practice: bool = false
 
 var _list: VBoxContainer
 var _tab_a: Button
 var _tab_r: Button
+var _tab_m: Button
 var _practice_btn: Button
 var _player: Label
 
@@ -55,6 +56,8 @@ func _ready() -> void:
 	top.add_child(_tab_a)
 	_tab_r = _btn("ARENA DE DESAFÍOS", func() -> void: _set_tab("arena"), 300)
 	top.add_child(_tab_r)
+	_tab_m = _btn("ARCADE", func() -> void: _set_tab("arcade"), 170)
+	top.add_child(_tab_m)
 	var sp := Control.new()
 	sp.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	top.add_child(sp)
@@ -94,12 +97,15 @@ func _refresh() -> void:
 		c.queue_free()
 	_tab_a.disabled = tab == "academia"
 	_tab_r.disabled = tab == "arena"
+	_tab_m.disabled = tab == "arcade"
 	_practice_btn.text = "Práctica libre: %s" % ("Sí" if practice else "No")
 	var lv: int = PlayerProgress.level()
 	_player.text = "Nivel de jugador %d · %d de experiencia%s" % [lv, PlayerProgress.xp,
 		" · práctica libre: todo abierto, no cuenta para el progreso" if practice else ""]
 	if tab == "academia":
 		_build_academia()
+	elif tab == "arcade":
+		_build_arcade()
 	else:
 		_build_arena()
 
@@ -178,6 +184,22 @@ func _build_arena() -> void:
 					opened = dif
 			info = "Hasta %s · %s" % [SpSettings.ALL_DIFFICULTY_NAMES[opened], ChallengeScore.MEDAL_NAMES[best_medal]]
 			row.add_child(_card(String(d["title"]), info, best_medal, true, _pick_difficulty.bind(d)))
+
+## Arcade: cada minijuego con sus niveles (el siguiente se abre con bronce en el anterior; en practica libre, todos).
+func _build_arcade() -> void:
+	for g in MinigameCatalog.games():
+		_header(String(g["title"]), String(g.get("description", "")))
+		var row: HFlowContainer = _row()
+		for d in MinigameCatalog.levels(String(g["id"])):
+			var id: String = String(d["id"])
+			var open: bool = practice or MinigameCatalog.is_unlocked(d)
+			var info: String = _medal_text(PlayerProgress.medal(id), PlayerProgress.best(id)) if open else "Bloqueado: bronce en el nivel %d" % (int(d["level"]) - 1)
+			row.add_child(_card("%d · %s" % [int(d["level"]), d["title"]], info, PlayerProgress.medal(id), open, _start_minigame.bind(d)))
+
+func _start_minigame(d: Dictionary) -> void:
+	var dd: Dictionary = d.duplicate(true)
+	dd["practice"] = practice
+	MinigameCatalog.start(get_tree(), dd)
 
 ## Arena: elegir la dificultad (las abiertas; en practica libre, todas).
 func _pick_difficulty(d: Dictionary) -> void:
