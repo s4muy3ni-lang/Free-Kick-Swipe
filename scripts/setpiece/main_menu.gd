@@ -16,6 +16,8 @@ var _diff_button: Button
 var _goal_button: Button
 var _gfx_button: Button
 var _visual_panel: PanelContainer
+var _player_panel: PanelContainer
+var _custom_buttons: Dictionary = {}
 var _aim_line_button: Button
 var _shake_button: Button
 var _keeper: SpActor
@@ -23,6 +25,7 @@ var _player: SpActor
 
 func _ready() -> void:
 	SpSettings.load_settings()
+	PlayerCustom.load_custom()
 	stadium = Stadium11.new()
 	add_child(stadium)
 	stadium.build(PitchConfig.football11(SpSettings.goal_style))
@@ -42,7 +45,8 @@ func _ready() -> void:
 		_keeper.play_loop(gk[0])
 	_player = SpActor.new()
 	add_child(_player)
-	_player.build(SpSettings.USER_KIT)
+	_player.build(PlayerCustom.kit())
+	_player.set_back_number(PlayerCustom.number)
 	_player.global_position = Vector3(gx - 14.0, 0, -1.6)
 	_player.set_facing(Vector3(1, 0, 0.45))
 	var idles: Array[StringName] = SpClips.by_role(&"idle_ready", false)
@@ -155,12 +159,111 @@ func _build_ui() -> void:
 	var vis: Button = _small("Visual", func() -> void: _visual_panel.visible = not _visual_panel.visible)
 	vis.custom_minimum_size = Vector2(130, 60)
 	row.add_child(vis)
+	var pl: Button = _small("Jugador", func() -> void:
+		_player_panel.visible = not _player_panel.visible
+		if _player_panel.visible:
+			_refresh_custom())
+	pl.custom_minimum_size = Vector2(150, 60)
+	row.add_child(pl)
 	var sp2 := Control.new()
 	sp2.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	row.add_child(sp2)
 	row.add_child(_small("Banco de animaciones", func() -> void: get_tree().change_scene_to_file(BENCH_SCENE)))
 	_build_visual_panel(root)
+	_build_player_panel(root)
 	_refresh()
+
+## Personalizacion del jugador: cada opcion es un boton que pasa a la siguiente; el jugador del menu la muestra en vivo.
+func _build_player_panel(root: Control) -> void:
+	_player_panel = PanelContainer.new()
+	_player_panel.set_anchors_preset(Control.PRESET_CENTER_RIGHT)
+	_player_panel.grow_horizontal = Control.GROW_DIRECTION_BEGIN
+	_player_panel.grow_vertical = Control.GROW_DIRECTION_BOTH
+	var sb := StyleBoxFlat.new()
+	sb.bg_color = Color(0.03, 0.05, 0.1, 0.94)
+	sb.border_color = Color(1.0, 0.84, 0.28, 0.9)
+	sb.set_border_width_all(3)
+	sb.set_corner_radius_all(18)
+	sb.set_content_margin_all(18)
+	_player_panel.add_theme_stylebox_override("panel", sb)
+	root.add_child(_player_panel)
+	var vb := VBoxContainer.new()
+	vb.add_theme_constant_override("separation", 8)
+	_player_panel.add_child(vb)
+	var t := Label.new()
+	t.text = "Tu jugador"
+	t.add_theme_font_size_override("font_size", 26)
+	t.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	vb.add_child(t)
+	var grid := GridContainer.new()
+	grid.columns = 2
+	grid.add_theme_constant_override("h_separation", 10)
+	grid.add_theme_constant_override("v_separation", 8)
+	vb.add_child(grid)
+	for k in ["jersey", "shorts", "socks", "boots", "skin", "hair", "number", "style", "run_style", "follow_style", "celebration"]:
+		var b: Button = _small("", _cycle_custom.bind(k, 1))
+		b.custom_minimum_size = Vector2(255, 50)
+		b.add_theme_font_size_override("font_size", 17)
+		grid.add_child(b)
+		_custom_buttons[k] = b
+	var done: Button = _small("Listo", func() -> void: _player_panel.visible = false)
+	done.custom_minimum_size = Vector2(200, 50)
+	vb.add_child(done)
+	_player_panel.visible = false
+
+func _cycle_custom(k: String, dir: int) -> void:
+	var sizes := {"jersey": PlayerCustom.JERSEYS.size(), "shorts": PlayerCustom.SHORTS.size(), "socks": PlayerCustom.SOCKS.size(),
+		"boots": PlayerCustom.BOOTS.size(), "skin": PlayerCustom.SKINS.size(), "hair": PlayerCustom.HAIRS.size(),
+		"style": PlayerCustom.STYLE_NAMES.size(), "run_style": PlayerCustom.RUN_NAMES.size(),
+		"follow_style": PlayerCustom.FOLLOW_NAMES.size(), "celebration": PlayerCustom.CELEB_LOCKS.size() + 1}
+	match k:
+		"number":
+			PlayerCustom.number = PlayerCustom.number % 99 + 1
+		"jersey":
+			PlayerCustom.jersey = (PlayerCustom.jersey + dir) % sizes[k]
+		"shorts":
+			PlayerCustom.shorts = (PlayerCustom.shorts + dir) % sizes[k]
+		"socks":
+			PlayerCustom.socks = (PlayerCustom.socks + dir) % sizes[k]
+		"boots":
+			PlayerCustom.boots = (PlayerCustom.boots + dir) % sizes[k]
+		"skin":
+			PlayerCustom.skin = (PlayerCustom.skin + dir) % sizes[k]
+		"hair":
+			PlayerCustom.hair = (PlayerCustom.hair + dir) % sizes[k]
+		"style":
+			PlayerCustom.style = (PlayerCustom.style + dir) % sizes[k]
+		"run_style":
+			PlayerCustom.run_style = (PlayerCustom.run_style + dir) % sizes[k]
+		"follow_style":
+			PlayerCustom.follow_style = (PlayerCustom.follow_style + dir) % sizes[k]
+		"celebration":
+			PlayerCustom.celebration = (PlayerCustom.celebration + dir) % sizes[k]
+			var clip: StringName = PlayerCustom.celebration_clip()
+			if clip != &"":
+				_player.play_here(clip, 0.2)
+	PlayerCustom.save_custom()
+	_player.set_kit(PlayerCustom.kit())
+	_player.set_back_number(PlayerCustom.number)
+	_refresh_custom()
+
+func _refresh_custom() -> void:
+	var locked_boot: bool = not PlayerCustom.unlocked(PlayerCustom.BOOT_LOCKS[PlayerCustom.boots])
+	var cel: int = PlayerCustom.celebration
+	var locked_cel: bool = cel > 0 and not PlayerCustom.unlocked(PlayerCustom.CELEB_LOCKS[cel - 1])
+	var texts := {"jersey": "Camiseta: %s" % PlayerCustom.JERSEY_NAMES[PlayerCustom.jersey],
+		"shorts": "Short: %s" % PlayerCustom.SHORT_NAMES[PlayerCustom.shorts],
+		"socks": "Medias: %s" % PlayerCustom.SOCK_NAMES[PlayerCustom.socks],
+		"boots": "Botines: %s%s" % [PlayerCustom.BOOT_NAMES[PlayerCustom.boots], " 🔒 (logro)" if locked_boot else ""],
+		"skin": "Piel: %s" % PlayerCustom.SKIN_NAMES[PlayerCustom.skin],
+		"hair": "Pelo: %s" % PlayerCustom.HAIR_NAMES[PlayerCustom.hair],
+		"number": "Número: %d" % PlayerCustom.number,
+		"style": "Golpeo: %s" % PlayerCustom.STYLE_NAMES[PlayerCustom.style],
+		"run_style": "Carrera: %s" % PlayerCustom.RUN_NAMES[PlayerCustom.run_style],
+		"follow_style": "Tras el tiro: %s" % PlayerCustom.FOLLOW_NAMES[PlayerCustom.follow_style],
+		"celebration": "Festejo: %s%s" % [PlayerCustom.celebration_name(cel), " 🔒 (logro)" if locked_cel else ""]}
+	for k in _custom_buttons:
+		(_custom_buttons[k] as Button).text = texts[k]
 
 ## Ajustes visuales: linea de destino de la pelota y temblor de camara (se guardan con los graficos).
 func _build_visual_panel(root: Control) -> void:

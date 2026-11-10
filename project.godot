@@ -17,6 +17,7 @@ config/icon="res://icon.svg"
 Tuning="*res://scripts/gameplay/tuning.gd"
 GraphicsSettings="*res://scripts/diagnostics/graphics_settings.gd"
 Sfx="*res://scripts/audio/sfx.gd"
+Toasts="*res://scripts/ui/toasts.gd"
 
 [display]
 

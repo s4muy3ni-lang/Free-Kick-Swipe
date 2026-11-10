@@ -130,6 +130,7 @@ var fast: bool = false
 
 func _ready() -> void:
 	SpSettings.load_settings()
+	PlayerCustom.load_custom()
 	rng.randomize()
 	mode = next_mode
 	stadium = Stadium11.new()
@@ -253,8 +254,11 @@ func _build_people() -> void:
 	user_shooter = SpShooter.new()
 	user_shooter.name = "UserShooter"
 	add_child(user_shooter)
-	user_shooter.setup(_actor(SpSettings.USER_KIT, 0, "UserShooterBody"), ball)
+	user_shooter.setup(_actor(PlayerCustom.kit(), 0, "UserShooterBody"), ball)
 	user_shooter.foot = foot
+	user_shooter.actor.set_back_number(PlayerCustom.number)
+	user_shooter.celebration = PlayerCustom.celebration_clip()
+	user_shooter.follow_run = PlayerCustom.follow_style == 1
 	user_shooter.contact.connect(_on_contact)
 	cpu_keeper = SpKeeper.new()
 	cpu_keeper.name = "CpuKeeper"
@@ -270,7 +274,8 @@ func _build_people() -> void:
 		user_keeper = SpKeeper.new()
 		user_keeper.name = "UserKeeper"
 		add_child(user_keeper)
-		user_keeper.setup(_actor(SpSettings.USER_KEEPER_KIT, 0, "UserKeeperBody"), ball, gx, half_goal, goal_h)
+		user_keeper.setup(_actor(PlayerCustom.keeper_kit(), 0, "UserKeeperBody"), ball, gx, half_goal, goal_h)
+		user_keeper.actor.set_back_number(PlayerCustom.number)
 		user_keeper.ai = false
 		user_keeper.touched_ball.connect(_on_keeper_touch)
 		# Los demas jugadores esperan en el circulo central (como en una tanda real) y reaccionan a cada penal.
@@ -563,6 +568,9 @@ func _take_shot(shooter: SpShooter, p: ShotParams, error_deg: float) -> void:
 		GestureShotModel.solve(p, ball_spot, shot_context(), false)
 	if p.velocity == Vector3.ZERO:
 		return
+	# Estilo de golpeo del usuario: solo sesga la eleccion del clip (la salida de la pelota ya esta resuelta y no cambia).
+	if shooter == user_shooter:
+		PlayerCustom.bias(p)
 	var v: Vector3 = ShotSolver.perturb(p.velocity, error_deg, rng)
 	var traj: PackedVector3Array = BallPredictor.trajectory(ball_spot, v, 3.5, 1.0 / 60.0, p.spin, true)
 	var cross: Vector3 = ShotSolver.crossing(traj, gx)
@@ -682,6 +690,10 @@ func _physics_process(delta: float) -> void:
 			# Gol: festejo en la camara de juego y despues el primer plano del autor (si nadie lo salta).
 			if not fast and mode != Mode.CHALLENGE and outcome == "goal":
 				wait = GOAL_LIVE_T + GOAL_CINEMATIC_T
+				# Si los compañeros todavia corren al autor (el circulo central esta lejos en el penal), el festejo no se
+				# corta a mitad de camino: se espera a que se encuentren (tope 8,5 s; «Saltar» sigue disponible).
+				if celebration.active():
+					wait = maxf(wait, 8.5)
 				if _result_t >= GOAL_LIVE_T and not _cinematic_on:
 					_goal_cinematic()
 			# Penal: si el arquero esta yendo a recoger la pelota suelta o todavia se levanta para reaccionar, se le deja
@@ -794,6 +806,13 @@ func _finish(why: String) -> void:
 		texts["save"] = ["¡LA ATAJASTE!", Color(0.35, 1.0, 0.45)]
 		texts["goal"] = ["GOL DE LA CPU", Color(1.0, 0.45, 0.45)]
 	hud.show_banner(texts[why][0], texts[why][1], sub)
+	# Logros y desafios diarios (no en partidas rapidas de prueba).
+	if not fast:
+		if goal_ok and user_shooting:
+			Achievements.event(&"gol")
+			Achievements.event(&"gol_tl" if mode == Mode.FREE_KICK else &"gol_penal")
+		elif why == "save" and mode == Mode.PENALTY and not user_shooting:
+			Achievements.event(&"atajada")
 	if goal_ok:
 		_cheer = 1.0
 		Sfx.play(&"cheer", 0.9)
@@ -1213,6 +1232,10 @@ func _show_challenge_end() -> void:
 	acts.append([&"menu", "Menú"])
 	hud.set_actions([])
 	hud.show_overlay(title, "\n".join(lines), acts)
+	if not bool(r["practice"]) and not fast and medal >= 1:
+		Achievements.event(&"desafio")
+		if medal >= 3:
+			Achievements.event(&"oro")
 	if medal >= 1:
 		_cheer = 1.0
 
@@ -1247,6 +1270,8 @@ func _show_end() -> void:
 		[[&"rematch", "Revancha"], [&"menu", "Menú"]])
 	if w == PenaltyShootout.USER:
 		_cheer = 1.0
+		if not fast:
+			Achievements.event(&"tanda")
 
 func _on_goal_scored(g: Goal, pos: Vector3) -> void:
 	if g == goal and phase == Phase.FLIGHT:

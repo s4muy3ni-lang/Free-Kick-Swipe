@@ -5,7 +5,7 @@
 - **Responsabilidad:** un arquero por equipo (`Goalkeeper`, `CharacterBody3D` en `Ball.LAYER_KEEPERS`) que se posiciona sobre el arco, anticipa los disparos con la trayectoria predicha de la pelota, **planifica la atajada con la trayectoria de manos medida de cada clip** (`KeeperPlanner`), la ejecuta con el clip y el movimiento de raíz reales y solo cuenta el contacto si las manos llegan a la pelota. Después bloquea o desvía por impulso, sostiene la pelota (`Ball.hold`) y la saca con la mano o con el pie.
 - **Estado real:** operativo en el partido (`MatchScene.with_keepers`, un arquero por equipo, registrado con `MatchContext.register_keeper`). Usa los 37 clips de `pack_keeper.res` (atajadas, estiradas, bloqueos, recogida, saques, reposo, festejos propios).
 - **Última verificación:** <!-- AUTO:verified -->
-2026-11-09
+2026-11-10
 <!-- /AUTO -->
 
 ## Cómo funciona

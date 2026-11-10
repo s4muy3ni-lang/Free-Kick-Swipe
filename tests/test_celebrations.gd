@@ -93,13 +93,16 @@ func test_penalty_goal_can_be_skipped_once_and_mates_meet_the_scorer() -> void:
 	game = await _game(SetPieceGame.Mode.PENALTY)
 	game.rng.seed = 2026
 	game.cpu_keeper.rng.seed = 11
+	# El festejo del autor sale de su rng: semilla fija para que el encuentro sea reproducible.
+	game.user_shooter.rng.seed = 5
+	game.celebration.rng.seed = 9
 	game.shoot(Vector3(game.gx, 0.6, 2.9), 0.8, 0.0)
 	await _wait_result(game)
 	var scorer: SpActor = game.cur_shooter.actor
 	var mates: Array = game.bench.filter(func(b: SpActor) -> bool: return b.team == 0)
 	var best: float = INF
 	var n: int = 0
-	while game.phase == SetPieceGame.Phase.RESULT and n < 60 * 8:
+	while game.phase == SetPieceGame.Phase.RESULT and n < 60 * 11:
 		await tree.physics_frame
 		n += 1
 		for m in mates:

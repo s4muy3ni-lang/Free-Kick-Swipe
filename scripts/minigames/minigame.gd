@@ -163,7 +163,9 @@ func _ready() -> void:
 		var a := SpActor.new()
 		a.name = "Player%d" % s
 		add_child(a)
-		a.build(SpSettings.USER_KIT if s == 0 else SpSettings.CPU_KIT)
+		a.build(PlayerCustom.kit() if s == 0 else SpSettings.CPU_KIT)
+		if s == 0:
+			a.set_back_number(PlayerCustom.number)
 		a.team = s
 		a.enable_collider()
 		sh.setup(a, ball)
@@ -454,6 +456,8 @@ func _end_match(w: int) -> void:
 	var rec: Dictionary = {}
 	if not bool(def.get("practice", false)) and def.has("id"):
 		rec = PlayerProgress.record(def, score, medal)
+		if not fast:
+			_report_achievements(w, medal)
 	var won: bool = w == Side.USER
 	var t: String = ("¡GANASTE!" if won else "PERDISTE") if sides > 1 else ("¡SUPERADO!" if medal > 0 else "SIN MEDALLA")
 	var info: String = "Puntos: %d · %s" % [score, ChallengeScore.MEDAL_NAMES[medal]]
@@ -461,6 +465,13 @@ func _end_match(w: int) -> void:
 		info += " · ¡Nuevo récord!"
 	hud.set_hint("")
 	hud.show_overlay(t, info, [[&"retry", "Otra vez"], [&"next", "Siguiente nivel"], [&"menu", "Menú"]])
+
+## Logros y desafios diarios del resultado (las subclases agregan los suyos). Solo fuera de practica y de pruebas.
+func _report_achievements(w: int, medal: int) -> void:
+	if (sides > 1 and w == Side.USER) or (sides == 1 and medal > 0):
+		Achievements.event(&"arcade")
+	if medal >= 3:
+		Achievements.event(&"oro")
 
 ## Medalla del puntaje con los umbrales del nivel ([bronce, plata, oro]).
 func medal_for(score: int) -> int:

@@ -38,6 +38,9 @@ var _approach_target := Vector3.ZERO
 var _pending_react: int = -1
 ## Distancia maxima pie-pelota (m) para que el golpe salga (0 = siempre sale: tiros a pelota quieta).
 var require_touch: float = 0.0
+## Personalizacion del usuario: festejo fijo (&"" = aleatorio) y si acompaña el tiro unos pasos tras patear.
+var celebration: StringName = &""
+var follow_run: bool = false
 
 const IDLE_ROLES: Array = [&"idle_ready", &"idle"]
 
@@ -182,6 +185,12 @@ func _on_clip_finished(_id: StringName) -> void:
 				react(g)
 				if state == State.REACT:
 					return
+			# «Acompaña el tiro»: trota unos pasos detras de la pelota y vuelve solo a su reposo al llegar.
+			if follow_run and ball != null and not ball.is_held():
+				var d := Vector3(ball.global_position.x - actor.global_position.x, 0.0, ball.global_position.z - actor.global_position.z)
+				if d.length() > 4.0:
+					actor.move_to(actor.global_position + d.normalized() * 2.5, 3.0, _loop_for(3.0))
+					return
 			actor.play_loop(_idle_clip, 0.3)
 		State.REACT:
 			state = State.AFTER
@@ -195,7 +204,12 @@ func react(goal: bool) -> void:
 	if state == State.APPROACH or (state == State.KICK and not follow_done):
 		_pending_react = 1 if goal else 0
 		return
-	var id: StringName = SpReactions.pick(SpReactions.GOAL_SCORER, rng, 2.5, 1.5) if goal else SpReactions.pick(SpReactions.MISS_SHOOTER, rng, 1.6, 1.2)
+	var id: StringName
+	if goal:
+		# Festejo elegido en la personalizacion (si hay); si no, uno del banco.
+		id = celebration if celebration != &"" and SpClips.has(celebration) else SpReactions.pick(SpReactions.GOAL_SCORER, rng, 2.5, 1.5)
+	else:
+		id = SpReactions.pick(SpReactions.MISS_SHOOTER, rng, 1.6, 1.2)
 	if id == &"":
 		return
 	state = State.REACT

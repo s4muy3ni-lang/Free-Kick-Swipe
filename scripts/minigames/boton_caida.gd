@@ -552,6 +552,11 @@ func final_score() -> int:
 		s += 50
 	return s if winner == Side.USER else mini(s, 100 * int(points[0]))
 
+func _report_achievements(w: int, medal: int) -> void:
+	super._report_achievements(w, medal)
+	if int(points[0]) > 0:
+		Achievements.event(&"boton", int(points[0]))
+
 func _result_text(r: String) -> Array:
 	match r:
 		"boton":

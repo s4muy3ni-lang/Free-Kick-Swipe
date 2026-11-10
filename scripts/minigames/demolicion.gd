@@ -192,6 +192,14 @@ func final_score() -> int:
 		s += maxi(shots_max - int(shots[0]), 0) * SPARE_SHOT
 	return maxi(s, 0)
 
+func _report_achievements(w: int, medal: int) -> void:
+	super._report_achievements(w, medal)
+	Achievements.event(&"derribo", count("target", true) + count("keep", true))
+	if count("target", false) == 0:
+		Achievements.event(&"demolicion_limpia")
+		if int(shots[0]) == 1:
+			Achievements.event(&"demolicion_un_tiro")
+
 func _result_text(_r: String) -> Array:
 	var left: int = count("target", false)
 	var keep_down: int = count("keep", true)

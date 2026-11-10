@@ -5,7 +5,7 @@
 - **Responsabilidad exacta:** todo lo que el jugador (o, en el futuro, una IA o la red) puede *pedir* a un futbolista. Una `InputSource` produce un `InputFrame` por paso de física; el futbolista solo conoce el `InputFrame`. Los controles táctiles **inyectan acciones reales de `InputMap`** (`Input.action_press`), de modo que teclado, táctil y pruebas comparten el mismo camino.
 - **Estado:** implementado y probado (teclado, táctil multitoque con joystick flotante, entrada programada). No hay mapeo de gamepad (ver «Limitaciones»).
 - **Última verificación:** <!-- AUTO:verified -->
-2026-11-09
+2026-11-10
 <!-- /AUTO -->
 
 ## Archivos responsables
@@ -28,18 +28,18 @@
 <!-- AUTO:inputs -->
 | Acción | Zona muerta | Teclas (código físico) | `project.godot` |
 |---|---|---|---|
-| `move_left` | 0.15 | A | línea 31 |
-| `move_right` | 0.15 | D | línea 36 |
-| `move_up` | 0.15 | W | línea 41 |
-| `move_down` | 0.15 | S | línea 46 |
-| `pass` | 0.5 | J | línea 51 |
-| `shoot` | 0.5 | K | línea 56 |
-| `sprint` | 0.5 | Shift | línea 61 |
-| `lob` | 0.5 | I | línea 66 |
-| `skill` | 0.5 | 85 | línea 71 |
-| `press` | 0.5 | L | línea 76 |
-| `switch_player` | 0.5 | Q | línea 81 |
-| `pause_game` | 0.5 | Esc | línea 86 |
+| `move_left` | 0.15 | A | línea 32 |
+| `move_right` | 0.15 | D | línea 37 |
+| `move_up` | 0.15 | W | línea 42 |
+| `move_down` | 0.15 | S | línea 47 |
+| `pass` | 0.5 | J | línea 52 |
+| `shoot` | 0.5 | K | línea 57 |
+| `sprint` | 0.5 | Shift | línea 62 |
+| `lob` | 0.5 | I | línea 67 |
+| `skill` | 0.5 | 85 | línea 72 |
+| `press` | 0.5 | L | línea 77 |
+| `switch_player` | 0.5 | Q | línea 82 |
+| `pause_game` | 0.5 | Esc | línea 87 |
 <!-- /AUTO -->
 
 ### Constantes del joystick y botones táctiles

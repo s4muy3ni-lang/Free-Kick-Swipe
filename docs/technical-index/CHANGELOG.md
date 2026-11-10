@@ -11,6 +11,21 @@ Formato de entrada: **fecha — título** · commit · qué cambió · archivos 
 
 ---
 
+## 2026-11-10 — Personalización del jugador y sistema de logros con desafíos diarios/semanales
+
+- **Personalización (`PlayerCustom`, panel «Jugador» del menú con vista en vivo):** camiseta, short, medias, botines,
+  piel, pelo, número en la espalda (Label3D que sigue la columna; el modelo compartido no se toca), estilo de golpeo y
+  carrera (sesgos SOLO sobre la elección del clip: probado que la salida de la pelota no cambia), «tras el tiro» (mira la
+  pelota o la acompaña unos pasos) y festejo elegido. Aplicada de verdad en penales, tiros libres y minijuegos (tirador y
+  arquero del usuario). Botines dorados/cromados y festejos 5–6 se abren con logros.
+- **Logros (`Achievements` + autoload `Toasts`):** 14 permanentes (con cosméticos), 3 diarios y 2 semanales con rotación
+  determinística por fecha, progreso por período, premio una sola vez (probado el anti-exploit), historial con fechas,
+  carteles al completar y pestaña LOGROS. Eventos cableados en penales, tiro libre, tanda, desafíos y minijuegos; nunca
+  en práctica libre ni partidas rápidas.
+- Pruebas nuevas: `test_customization` (4), `test_achievements` (5). **Android: no probado.**
+
+---
+
 ## 2026-11-09 — Primera colección arcade: «Demolición» y «Enceste»
 
 - **Demolición** (`scripts/minigames/demolicion.gd`, 6 niveles): bloques rígidos sobre una mesa (torre, pirámide, dominó en

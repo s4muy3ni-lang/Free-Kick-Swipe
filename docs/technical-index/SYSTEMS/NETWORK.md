@@ -5,7 +5,7 @@
 - **Responsabilidad exacta:** los datos puros y serializables que un servidor autoritativo y los clientes intercambiarían: `InputFrame` (intención del jugador, ver [INPUTS](INPUTS.md)), `GameEvent` (hechos del partido) y `BallState` (instantánea de la pelota). Son clases `RefCounted` sin dependencia de nodos ni de la presentación.
 - **Estado:** **parcial / solo contratos.** No existe servidor, transporte, replicación, predicción, reconciliación, validación de acciones, reconexión, emparejamiento ni identidad de jugador. No hay `MultiplayerAPI`, `ENet` ni `WebSocket` en el código.
 - **Última verificación:** <!-- AUTO:verified -->
-2026-11-09
+2026-11-10
 <!-- /AUTO -->
 
 ## Archivos responsables

@@ -223,6 +223,13 @@ func final_score() -> int:
 		s += maxi(shots_max - int(shots[0]), 0) * SPARE_SHOT
 	return s
 
+func _report_achievements(w: int, medal: int) -> void:
+	super._report_achievements(w, medal)
+	if baskets > 0:
+		Achievements.event(&"enceste", baskets)
+	if swishes > 0:
+		Achievements.event(&"enceste_limpio", swishes)
+
 func _result_text(r: String) -> Array:
 	var sub: String = "Encestes %d de %d · tiros %d de %d" % [baskets, need, int(shots[0]), shots_max]
 	if r == "canasta":

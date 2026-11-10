@@ -63,6 +63,8 @@ var rest_returns: int = 0
 var freeze_on_finish: bool = false
 ## Altura del piso donde esta parado (0 en la cancha; los minijuegos con plataformas la cambian, y una caida la baja).
 var ground_y: float = 0.0
+## Numero en la espalda (personalizacion): Label3D que sigue la columna del esqueleto (no toca el modelo compartido).
+var _number: Label3D = null
 
 var _bones: Dictionary = {}
 var collider: AnimatableBody3D = null
@@ -88,6 +90,24 @@ func build(kit: Dictionary) -> void:
 	var idles: Array[StringName] = SpClips.by_role(&"idle_ready", false)
 	if not idles.is_empty():
 		rest_loop = idles[get_instance_id() % idles.size()]
+
+## Numero en la espalda (0 lo quita). Se ubica cada paso detras de la columna, mirando hacia atras.
+func set_back_number(n: int) -> void:
+	if n <= 0:
+		if _number != null:
+			_number.queue_free()
+			_number = null
+		return
+	if _number == null:
+		_number = Label3D.new()
+		_number.font_size = 150
+		_number.pixel_size = 0.0016
+		_number.outline_size = 24
+		_number.modulate = Color(0.97, 0.97, 0.98)
+		_number.outline_modulate = Color(0.05, 0.05, 0.1, 0.9)
+		_number.top_level = true
+		add_child(_number)
+	_number.text = str(n)
 
 func set_kit(kit: Dictionary) -> void:
 	if model == null:
@@ -289,6 +309,11 @@ func _physics_process(delta: float) -> void:
 			_turn_towards(want, delta)
 	if _face_target != Vector3.ZERO and looping and not _moving:
 		_turn_towards(_face_target, delta)
+	if _number != null and visible:
+		var sp: Vector3 = bone_world("mixamorig_Spine1")
+		var f: Vector3 = facing()
+		_number.global_position = sp - f * 0.17 + Vector3.UP * 0.10
+		_number.look_at(_number.global_position + f, Vector3.UP)
 	if collider != null:
 		var hips: Vector3 = bone_world(HIPS)
 		var feet: float = minf(bone_world(TOE_L).y, bone_world(TOE_R).y)

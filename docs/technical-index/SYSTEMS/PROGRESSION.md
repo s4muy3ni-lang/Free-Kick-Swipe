@@ -5,7 +5,7 @@
 - **Responsabilidad exacta (lo implementado):** `PlayerAttributes` (`Resource`): 23 atributos de campo y 8 de arquero en escala 1–100, separados de la identidad y la apariencia. Los atributos **no sustituyen la física**: escalan parámetros, tolerancias y errores dentro de límites (`factor(clave, spread)` → 1.0 con valor 50; `norm(clave)` → 0..1).
 - **Estado real: parcial.** No hay experiencia, niveles, entrenamiento, recompensas, estadísticas por jugador, editor de personaje (`scenes/character_creator/` está vacío), guardado/carga de jugadores ni economía. No hay monetización con dinero real ni existe código para ella.
 - **Última verificación:** <!-- AUTO:verified -->
-2026-11-09
+2026-11-10
 <!-- /AUTO -->
 
 ## Archivos responsables
@@ -63,6 +63,15 @@ Constantes: `MIN_VALUE = 1`, `MAX_VALUE = 100`, `DEFAULT_ROOKIE = 40` (valor ini
 | `spread` en cada `factor(clave, spread)` | Es el rango de influencia de cada atributo en su sitio de uso (en `Locomotion`, `BallHandler`, `PassAssist`…). Subirlo hace que los atributos dominen la física. |
 | `DEFAULT_ROOKIE` / `reset_to(55)` | Cambia el comportamiento base de **todos** los jugadores del partido; varias pruebas fijan atributos explícitos (10, 50, 100) y no se ven afectadas, otras usan 50. |
 | Claves de atributos | Se usan como cadenas en el código (`attributes.factor("speed", …)`): renombrar una exige actualizar todos los usos (la tabla anterior los enumera) y `from_dict`. |
+
+## Personalización y logros (2026-11-10)
+
+- `PlayerCustom` (`scripts/progression/player_custom.gd`): paletas de uniforme/piel/pelo (shader del kit), número en la
+  espalda (`SpActor.set_back_number`), estilo de golpeo y carrera (pesos sobre `ShotCatalog`, sin tocar la física),
+  seguimiento tras el tiro, festejo elegido; cosméticos bloqueados hasta ganarlos. `user://custom.cfg`.
+- `Achievements` (`scripts/progression/achievements.gd`): logros permanentes + 3 diarios y 2 semanales (rotación por
+  fecha, progreso por período, premio único por período, historial). Avisos: autoload `Toasts`. `user://achievements.cfg`.
+- Pestaña LOGROS en `ChallengeMenu`; panel «Jugador» en el menú principal.
 
 ## Mapa de funciones
 

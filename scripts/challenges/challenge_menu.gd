@@ -15,6 +15,7 @@ var _list: VBoxContainer
 var _tab_a: Button
 var _tab_r: Button
 var _tab_m: Button
+var _tab_l: Button
 var _practice_btn: Button
 var _player: Label
 
@@ -58,6 +59,8 @@ func _ready() -> void:
 	top.add_child(_tab_r)
 	_tab_m = _btn("ARCADE", func() -> void: _set_tab("arcade"), 170)
 	top.add_child(_tab_m)
+	_tab_l = _btn("LOGROS", func() -> void: _set_tab("logros"), 170)
+	top.add_child(_tab_l)
 	var sp := Control.new()
 	sp.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	top.add_child(sp)
@@ -98,6 +101,7 @@ func _refresh() -> void:
 	_tab_a.disabled = tab == "academia"
 	_tab_r.disabled = tab == "arena"
 	_tab_m.disabled = tab == "arcade"
+	_tab_l.disabled = tab == "logros"
 	_practice_btn.text = "Práctica libre: %s" % ("Sí" if practice else "No")
 	var lv: int = PlayerProgress.level()
 	_player.text = "Nivel de jugador %d · %d de experiencia%s" % [lv, PlayerProgress.xp,
@@ -106,6 +110,8 @@ func _refresh() -> void:
 		_build_academia()
 	elif tab == "arcade":
 		_build_arcade()
+	elif tab == "logros":
+		_build_logros()
 	else:
 		_build_arena()
 
@@ -200,6 +206,45 @@ func _start_minigame(d: Dictionary) -> void:
 	var dd: Dictionary = d.duplicate(true)
 	dd["practice"] = practice
 	MinigameCatalog.start(get_tree(), dd)
+
+## Logros permanentes, desafios diarios y semanales (Achievements) y el historial.
+func _build_logros() -> void:
+	Achievements.load_state()
+	_header("Desafíos de hoy", "Se renuevan cada día")
+	var row: HFlowContainer = _row()
+	for d in Achievements.todays_daily():
+		var key: String = "%s@%d" % [d[0], Achievements.day_index()]
+		var p: int = Achievements.progress_of(d[2], int(d[3]), "dia")
+		var dn: bool = Achievements.is_done(key)
+		row.add_child(_card(String(d[1]), "✔ Completado · +%d XP" % Achievements.DAILY_XP if dn else "%d / %d · +%d XP" % [p, int(d[3]), Achievements.DAILY_XP],
+			3 if dn else 0, true, func() -> void: pass))
+	_header("Desafíos de la semana")
+	var row2: HFlowContainer = _row()
+	for d in Achievements.this_weeks():
+		var key2: String = "%s@s%d" % [d[0], Achievements.week_index()]
+		var p2: int = Achievements.progress_of(d[2], int(d[3]), "semana")
+		var dn2: bool = Achievements.is_done(key2)
+		row2.add_child(_card(String(d[1]), "✔ Completado · +%d XP" % Achievements.WEEKLY_XP if dn2 else "%d / %d · +%d XP" % [p2, int(d[3]), Achievements.WEEKLY_XP],
+			3 if dn2 else 0, true, func() -> void: pass))
+	_header("Logros")
+	var row3: HFlowContainer = _row()
+	for d in Achievements.PERMANENT:
+		var dn3: bool = Achievements.is_done(String(d[0]))
+		var p3: int = Achievements.progress_of(d[3], int(d[4]))
+		var info: String = "✔ %s · +%d XP" % [Achievements.done_date(String(d[0])), int(d[5])] if dn3 else "%s · %d / %d" % [d[2], p3, int(d[4])]
+		if String(d[6]) != "" and not dn3:
+			info += " · abre un cosmético"
+		row3.add_child(_card(String(d[1]), info, 3 if dn3 else 0, true, func() -> void: pass))
+	var hist: Array = Achievements.history()
+	if not hist.is_empty():
+		_header("Historial")
+		var l := Label.new()
+		var lines: PackedStringArray = []
+		for h in hist.slice(0, 12):
+			lines.append("%s — %s%s" % [h["date"], h["title"], " (desafío)" if bool(h["periodic"]) else ""])
+		l.text = "\n".join(lines)
+		l.add_theme_font_size_override("font_size", 18)
+		_list.add_child(l)
 
 ## Arena: elegir la dificultad (las abiertas; en practica libre, todas).
 func _pick_difficulty(d: Dictionary) -> void:
