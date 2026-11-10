@@ -11,6 +11,29 @@ Formato de entrada: **fecha — título** · commit · qué cambió · archivos 
 
 ---
 
+## 2026-11-10 — Minigolf, arqueros por turnos y mecanismos físicos (dianas colgantes y rescate)
+
+- **Minigolf (`Minigolf`, 6 hoyos):** el gesto apunta A RAS DEL PISO (el final del trazo marca un punto del piso; potencia
+  por velocidad del trazo; elevación opcional hasta 20°; vista previa con la misma física). Hoyo que captura solo a la
+  pelota lenta (la rápida lo salta, probado), arena que frena (8,0 m → 3,6 m con el mismo golpe), fuera de límites = +1
+  golpe y reposición, par/golpes/puntos/récords. Los 6 hoyos embocados con la física real siguiendo la guía del nivel
+  (incluye rampa a plataforma elevada, túnel, obstáculos móviles y curva).
+- **Arqueros por turnos:** variante «Ráfaga de 5» (bloques de 5 tiros por lado con corte temprano y muerte súbita
+  alternada: `PenaltyShootout.block_size`) y «Contra reloj» (el usuario SOLO ataja una serie de la IA; puntaje por
+  atajadas con récord y medalla). Entradas en la pestaña Arcade.
+- **Dianas colgantes (`Dianas`, 5 niveles):** placas rígidas colgadas con PinJoint3D (de barra fija o carrusel que gira);
+  se balancean con el golpe (péndulo medido: 0,17 m con un roce), un roce no las desprende, las resistentes aguantan 2
+  golpes y la cadena placa-placa cuenta. Corregido: el impacto se mide con las velocidades de ANTES del choque (la
+  respuesta ya había empujado a la placa cuando llega la señal).
+- **Rescate (`Rescate`, 4 niveles):** botón de impacto que quita la traba (una pelota dormida no se despierta al abrir una
+  traba: la dorada no duerme), rampa que la hace rodar a la zona, empujón directo por transferencia de impulso y dominó
+  que la tira del pedestal (medido: el dominó empuja fuerte a la altura de su caída, no al ras del piso). Resistencia a
+  la rodadura en el pasto para que pare en la zona.
+- Base `Minigame`: `add_mover`/`mover_at` compartidos (Botón de caída migrado) y tiempo del nivel que se reinicia.
+- Pruebas nuevas: `test_minigolf` (5), `test_keeper_duel` (2), `test_dianas_rescate` (5). **Android: no probado.**
+
+---
+
 ## 2026-11-10 — Personalización del jugador y sistema de logros con desafíos diarios/semanales
 
 - **Personalización (`PlayerCustom`, panel «Jugador» del menú con vista en vivo):** camiseta, short, medias, botines,

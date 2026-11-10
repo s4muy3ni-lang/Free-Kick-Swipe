@@ -29,6 +29,10 @@ static var next_mode: int = Mode.PENALTY
 ## es practica libre (no registra el progreso).
 static var next_challenge: Dictionary = {}
 static var next_practice: bool = false
+## Variante de la tanda (arqueros por turnos): {} clasica; {"id": "rafaga"} bloques de 5;
+## {"id": "reloj", "shots": 8} el usuario SOLO ataja una serie rapida de la IA (puntaje por atajadas).
+static var next_shootout: Dictionary = {}
+var duel: Dictionary = {}
 const CHALLENGE_MENU_SCENE := "res://scenes/challenges/challenge_menu.tscn"
 
 var mode: int = Mode.PENALTY
@@ -210,7 +214,15 @@ func _ready() -> void:
 		Sfx.crowd(true)
 	GraphicsSettings.apply()
 	if mode == Mode.PENALTY:
-		hud.set_title("PENALES")
+		duel = next_shootout
+		next_shootout = {}
+		if String(duel.get("id", "")) == "rafaga":
+			shootout.block_size = PenaltyShootout.REGULAR
+			hud.set_title("RÁFAGA DE 5")
+		elif String(duel.get("id", "")) == "reloj":
+			hud.set_title("CONTRA RELOJ")
+		else:
+			hud.set_title("PENALES")
 		_start_penalty_turn()
 	elif mode == Mode.CHALLENGE:
 		var d: Dictionary = next_challenge if not next_challenge.is_empty() else ChallengeCatalog.academia()[0]
@@ -351,10 +363,17 @@ func _start_penalty_turn() -> void:
 	hud.set_zoom_visible(false)
 	hud.set_shootout(shootout.results[0], shootout.results[1], PenaltyShootout.REGULAR)
 	hud.set_score_text("%d - %d" % [shootout.goals(0), shootout.goals(1)])
-	if shootout.finished():
+	if String(duel.get("id", "")) == "reloj":
+		# Contra reloj: el usuario solo ataja; la serie termina a los N tiros de la IA.
+		if shootout.kicks(PenaltyShootout.CPU) >= int(duel.get("shots", 8)):
+			_show_end_reloj()
+			return
+		user_shooting = false
+	elif shootout.finished():
 		_show_end()
 		return
-	user_shooting = shootout.next_team() == PenaltyShootout.USER
+	else:
+		user_shooting = shootout.next_team() == PenaltyShootout.USER
 	_zone_marker.visible = false
 	ball_spot = Vector3(gx - Stadium11.PENALTY_MARK, ball.radius, 0.0)
 	_reset_play()
@@ -1272,6 +1291,24 @@ func _show_end() -> void:
 		_cheer = 1.0
 		if not fast:
 			Achievements.event(&"tanda")
+
+## Fin del contra reloj: puntaje por atajadas, record y medalla (como un nivel arcade).
+func _show_end_reloj() -> void:
+	phase = Phase.OVER
+	var saves: int = shootout.kicks(PenaltyShootout.CPU) - shootout.goals(PenaltyShootout.CPU)
+	var score: int = saves * 100
+	var d := {"id": "arqueros_reloj", "group": "arcade", "medals": [200, 300, 400]}
+	var medal: int = ChallengeScore.medal_for(score, d["medals"])
+	var rec: Dictionary = PlayerProgress.record(d, score, medal)
+	if not fast and medal >= 1:
+		Achievements.event(&"arcade")
+	var info: String = "Atajaste %d de %d · %d puntos · %s" % [saves, shootout.kicks(PenaltyShootout.CPU), score, ChallengeScore.MEDAL_NAMES[medal]]
+	if bool(rec.get("new_best", false)):
+		info += " · ¡Nuevo récord!"
+	hud.set_hint("")
+	hud.show_overlay("FIN DE LA SERIE", info, [[&"rematch", "Otra vez"], [&"menu", "Menú"]])
+	if saves >= 3:
+		_cheer = 1.0
 
 func _on_goal_scored(g: Goal, pos: Vector3) -> void:
 	if g == goal and phase == Phase.FLIGHT:

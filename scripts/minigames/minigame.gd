@@ -61,6 +61,10 @@ var fast: bool = false
 var runup_time: float = 1.2
 ## La IA ya espero lo maximo: tiene que patear en este paso.
 var cpu_force: bool = false
+## Tiempo del nivel (s) y objetos que van y vienen o giran (compartidos por los minijuegos): cada entrada es
+## {body, base (Transform3D), axis, amp, speed, phase, spin_axis, spin} (+ lo que agregue el minijuego).
+var level_time: float = 0.0
+var movers: Array = []
 
 var ball: Ball
 var cam: SpCamera
@@ -119,9 +123,27 @@ func _check_winner() -> int:
 func _cpu_intent() -> Dictionary:
 	return {}
 
-## Movimiento del nivel (obstaculos, boton) en cada paso.
+## Movimiento del nivel (mecanismos propios) en cada paso; los `movers` ya se movieron.
 func _level_step(_delta: float) -> void:
 	pass
+
+## Registra un objeto que va y viene (axis/amp/speed/phase, en el mundo) o gira (spin_axis/spin rad/s).
+func add_mover(body: Node3D, axis: Vector3, amp: float, speed: float, phase: float = 0.0,
+		spin_axis: Vector3 = Vector3.RIGHT, spin: float = 0.0) -> Dictionary:
+	var m := {"body": body, "base": body.global_transform, "axis": axis.normalized() if axis != Vector3.ZERO else Vector3.ZERO,
+		"amp": amp, "speed": speed, "phase": phase, "spin_axis": spin_axis.normalized(), "spin": spin}
+	movers.append(m)
+	return m
+
+## Donde esta (o va a estar) un objeto movil en el instante t: su vaiven es deterministico, la IA puede mirarlo.
+func mover_at(m: Dictionary, t: float) -> Transform3D:
+	var base: Transform3D = m["base"]
+	var x := base
+	if float(m["spin"]) != 0.0:
+		x.basis = Basis(m["spin_axis"], t * float(m["spin"])) * base.basis
+	if (m["axis"] as Vector3) != Vector3.ZERO:
+		x.origin = base.origin + (m["axis"] as Vector3) * float(m["amp"]) * sin(t * float(m["speed"]) + float(m["phase"]))
+	return x
 
 ## Puntaje final del usuario (para record y medalla).
 func final_score() -> int:
@@ -255,6 +277,7 @@ func start_match() -> void:
 	turn_n = 0
 	winner = -1
 	intents = []
+	level_time = 0.0
 	side = Side.USER
 	reset_level()
 	_start_turn()
@@ -364,6 +387,9 @@ func _on_contact(_entry: Dictionary) -> void:
 	_ball_start = ball.global_position
 
 func _physics_process(delta: float) -> void:
+	level_time += delta
+	for m in movers:
+		(m["body"] as Node3D).global_transform = mover_at(m, level_time)
 	_level_step(delta)
 	_t += delta
 	match state:

@@ -9,12 +9,20 @@ const USER := 0
 const CPU := 1
 
 var results: Array = [[], []]
+## Variante «rafaga» (arqueros por turnos): primero el usuario patea block_size tiros seguidos (la IA ataja), despues la
+## IA patea los suyos (ataja el usuario); el desempate sigue alternado. 0 = tanda clasica alternada.
+var block_size: int = 0
 
 func reset() -> void:
 	results = [[], []]
 
-## Equipo al que le toca tirar (empieza el usuario).
+## Equipo al que le toca tirar (empieza el usuario). En «rafaga», bloques seguidos y desempate alternado.
 func next_team() -> int:
+	if block_size > 0:
+		if kicks(USER) < block_size:
+			return USER
+		if kicks(CPU) < block_size:
+			return CPU
 	return USER if (results[USER] as Array).size() <= (results[CPU] as Array).size() else CPU
 
 func record(team: int, goal: bool) -> void:

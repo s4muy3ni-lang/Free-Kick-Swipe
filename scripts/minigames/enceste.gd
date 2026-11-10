@@ -23,7 +23,6 @@ var swishes: int = 0
 var _rim_touched: bool = false
 var _prev_p := Vector3.ZERO
 var _scored_now: bool = false
-var level_time: float = 0.0
 
 func game_id() -> String:
 	return "enceste"
@@ -151,8 +150,7 @@ func _aim_point(_s: int) -> Vector3:
 func _shot_ctx(_s: int) -> Dictionary:
 	return GestureShotModel.context(_aim_point(0).x, Vector2(9.0, 26.0), false, 4.0, 5.0, ball.radius)
 
-func _level_step(delta: float) -> void:
-	level_time += delta
+func _level_step(_delta: float) -> void:
 	for h in hoops:
 		var mv: Dictionary = h["move"]
 		if mv.is_empty():
@@ -168,7 +166,6 @@ func _level_step(delta: float) -> void:
 func reset_level() -> void:
 	baskets = 0
 	swishes = 0
-	level_time = 0.0
 	for h in hoops:
 		h["scored"] = false
 		(h["body"] as Node3D).global_transform = h["base"]

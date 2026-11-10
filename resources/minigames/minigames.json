@@ -744,6 +744,897 @@
      ]
     }
    ]
+  },
+  {
+   "id": "minigolf",
+   "title": "Minigolf",
+   "scene": "res://scenes/minigames/minigolf.tscn",
+   "status": "Implementado",
+   "description": "Meté la pelota en el hoyo con la menor cantidad de golpes: rampas, túneles, arena y obstáculos móviles.",
+   "levels": [
+    {
+     "title": "Recto",
+     "objective": "Hoyo derecho: llegá en 2 golpes (par 2). Despacio: el hoyo solo captura la pelota lenta.",
+     "par": 2,
+     "tee": [
+      0,
+      0,
+      0
+     ],
+     "hole": [
+      12,
+      0,
+      0
+     ],
+     "bounds": [
+      -3,
+      -4,
+      16,
+      4
+     ],
+     "guide": [
+      [
+       12,
+       0,
+       0
+      ]
+     ],
+     "medals": [
+      15,
+      30,
+      45
+     ]
+    },
+    {
+     "title": "Pared y rebote",
+     "objective": "Un muro tapa el camino directo: rodeálo o usá el rebote. Par 3.",
+     "par": 3,
+     "tee": [
+      0,
+      0,
+      0
+     ],
+     "hole": [
+      14,
+      0,
+      -3
+     ],
+     "bounds": [
+      -3,
+      -6,
+      18,
+      6
+     ],
+     "walls": [
+      {
+       "pos": [
+        9,
+        0.3,
+        -1.4
+       ],
+       "size": [
+        0.4,
+        0.6,
+        9.2
+       ]
+      },
+      {
+       "pos": [
+        4.5,
+        0.3,
+        6.0
+       ],
+       "size": [
+        9.4,
+        0.6,
+        0.4
+       ]
+      },
+      {
+       "pos": [
+        4.5,
+        0.3,
+        -6.0
+       ],
+       "size": [
+        9.4,
+        0.6,
+        0.4
+       ]
+      }
+     ],
+     "guide": [
+      [
+       8,
+       0,
+       4.2
+      ],
+      [
+       14,
+       0,
+       -3
+      ]
+     ],
+     "medals": [
+      15,
+      30,
+      45
+     ]
+    },
+    {
+     "title": "Rampa",
+     "objective": "El hoyo está en una plataforma elevada: subí por la rampa con potencia. Par 3.",
+     "par": 3,
+     "tee": [
+      0,
+      0,
+      0
+     ],
+     "hole": [
+      15,
+      0,
+      0
+     ],
+     "hole_y": 1.0,
+     "bounds": [
+      -3,
+      -5,
+      20,
+      5
+     ],
+     "platforms": [
+      {
+       "pos": [
+        15,
+        0.5,
+        0
+       ],
+       "size": [
+        6,
+        1.0,
+        8
+       ]
+      }
+     ],
+     "ramps": [
+      {
+       "pos": [
+        9.75,
+        0.44,
+        0
+       ],
+       "size": [
+        4.7,
+        0.25,
+        3.0
+       ],
+       "roll": 12.5
+      }
+     ],
+     "guide": [
+      [
+       15.0,
+       0,
+       0
+      ]
+     ],
+     "medals": [
+      15,
+      30,
+      45
+     ]
+    },
+    {
+     "title": "Túnel",
+     "objective": "El único paso es el túnel. Par 3.",
+     "par": 3,
+     "tee": [
+      0,
+      0,
+      0
+     ],
+     "hole": [
+      16,
+      0,
+      0
+     ],
+     "bounds": [
+      -3,
+      -5,
+      20,
+      5
+     ],
+     "tunnels": [
+      {
+       "pos": [
+        9,
+        0,
+        0
+       ],
+       "len": 3.0,
+       "width": 1.1,
+       "h": 0.9
+      }
+     ],
+     "walls": [
+      {
+       "pos": [
+        9,
+        0.45,
+        3.1
+       ],
+       "size": [
+        0.4,
+        0.9,
+        3.8
+       ]
+      },
+      {
+       "pos": [
+        9,
+        0.45,
+        -3.1
+       ],
+       "size": [
+        0.4,
+        0.9,
+        3.8
+       ]
+      }
+     ],
+     "guide": [
+      [
+       12,
+       0,
+       0
+      ],
+      [
+       16,
+       0,
+       0
+      ]
+     ],
+     "medals": [
+      15,
+      30,
+      45
+     ]
+    },
+    {
+     "title": "Guardia móvil",
+     "objective": "Dos bloques patrullan el paso: elegí el momento. Par 3.",
+     "par": 3,
+     "tee": [
+      0,
+      0,
+      0
+     ],
+     "hole": [
+      15,
+      0,
+      0
+     ],
+     "bounds": [
+      -3,
+      -5,
+      19,
+      5
+     ],
+     "movers": [
+      {
+       "pos": [
+        8,
+        0.4,
+        1.4
+       ],
+       "size": [
+        0.6,
+        0.8,
+        2.2
+       ],
+       "axis": [
+        0,
+        0,
+        1
+       ],
+       "amp": 2.2,
+       "speed": 1.4
+      },
+      {
+       "pos": [
+        10.5,
+        0.4,
+        -1.4
+       ],
+       "size": [
+        0.6,
+        0.8,
+        2.2
+       ],
+       "axis": [
+        0,
+        0,
+        1
+       ],
+       "amp": 2.2,
+       "speed": 1.1
+      }
+     ],
+     "guide": [
+      [
+       15,
+       0,
+       0
+      ]
+     ],
+     "medals": [
+      15,
+      30,
+      45
+     ]
+    },
+    {
+     "title": "Arena y curva",
+     "objective": "La arena frena la pelota y el hoyo está tras la curva. Par 4.",
+     "par": 4,
+     "tee": [
+      0,
+      0,
+      0
+     ],
+     "hole": [
+      16,
+      0,
+      4.0
+     ],
+     "bounds": [
+      -3,
+      -6,
+      20,
+      7
+     ],
+     "walls": [
+      {
+       "pos": [
+        9.5,
+        0.3,
+        0.6
+       ],
+       "size": [
+        13,
+        0.6,
+        0.4
+       ]
+      }
+     ],
+     "sand": [
+      [
+       4.0,
+       -4.5,
+       8.0,
+       -0.5
+      ]
+     ],
+     "guide": [
+      [
+       17.6,
+       0,
+       -1.6
+      ],
+      [
+       16,
+       0,
+       4.0
+      ]
+     ],
+     "medals": [
+      10,
+      25,
+      45
+     ]
+    }
+   ]
+  },
+  {
+   "id": "dianas",
+   "title": "Dianas colgantes",
+   "scene": "res://scenes/minigames/dianas.tscn",
+   "status": "Implementado",
+   "description": "Placas colgadas de verdad: se balancean con el golpe y se desprenden si les pegás fuerte.",
+   "levels": [
+    {
+     "title": "Colgantes",
+     "objective": "Desprendé las 3 dianas: un golpe fuerte alcanza; un roce, no. 3 tiros.",
+     "shots": 3,
+     "plates": [
+      {
+       "pos": [
+        12,
+        0,
+        -1.6
+       ]
+      },
+      {
+       "pos": [
+        12,
+        0,
+        0
+       ]
+      },
+      {
+       "pos": [
+        12,
+        0,
+        1.6
+       ]
+      }
+     ],
+     "medals": [
+      200,
+      300,
+      380
+     ]
+    },
+    {
+     "title": "Resistentes",
+     "objective": "Las doradas aguantan 2 golpes. 6 tiros.",
+     "shots": 6,
+     "plates": [
+      {
+       "pos": [
+        12,
+        0,
+        -1.6
+       ],
+       "hits": 2
+      },
+      {
+       "pos": [
+        12,
+        0,
+        0
+       ]
+      },
+      {
+       "pos": [
+        12,
+        0,
+        1.6
+       ],
+       "hits": 2
+      }
+     ],
+     "medals": [
+      200,
+      300,
+      420
+     ]
+    },
+    {
+     "title": "Carrusel",
+     "objective": "La barra gira: calculá dónde va a estar cada diana. 4 tiros.",
+     "shots": 4,
+     "carousel": {
+      "x": 12.0,
+      "len": 4.4,
+      "speed": 0.5
+     },
+     "plates": [
+      {
+       "pos": [
+        12,
+        0,
+        -1.7
+       ]
+      },
+      {
+       "pos": [
+        12,
+        0,
+        0
+       ]
+      },
+      {
+       "pos": [
+        12,
+        0,
+        1.7
+       ]
+      }
+     ],
+     "medals": [
+      200,
+      300,
+      380
+     ]
+    },
+    {
+     "title": "En cadena",
+     "objective": "Cuelgan pegadas: una placa que vuela fuerte puede desmontar a la vecina. 4 tiros.",
+     "shots": 4,
+     "plates": [
+      {
+       "pos": [
+        12,
+        0,
+        -0.75
+       ],
+       "hang": 0.7
+      },
+      {
+       "pos": [
+        12,
+        0,
+        -0.25
+       ],
+       "hang": 0.7
+      },
+      {
+       "pos": [
+        12,
+        0,
+        0.25
+       ],
+       "hang": 0.7
+      },
+      {
+       "pos": [
+        12,
+        0,
+        0.75
+       ],
+       "hang": 0.7
+      }
+     ],
+     "medals": [
+      250,
+      400,
+      480
+     ]
+    },
+    {
+     "title": "Tras el muro",
+     "objective": "Un muro tapa el tiro directo bajo: pasala por arriba. 4 tiros.",
+     "shots": 4,
+     "walls": [
+      {
+       "pos": [
+        8,
+        1.0,
+        0
+       ],
+       "size": [
+        0.3,
+        2.0,
+        4.5
+       ]
+      }
+     ],
+     "plates": [
+      {
+       "pos": [
+        12.5,
+        0,
+        -1.4
+       ]
+      },
+      {
+       "pos": [
+        12.5,
+        0,
+        0
+       ]
+      },
+      {
+       "pos": [
+        12.5,
+        0,
+        1.4
+       ]
+      }
+     ],
+     "medals": [
+      200,
+      300,
+      380
+     ]
+    }
+   ]
+  },
+  {
+   "id": "rescate",
+   "title": "Rescate",
+   "scene": "res://scenes/minigames/rescate.tscn",
+   "status": "Implementado",
+   "description": "Una pelota dorada está atrapada: botones, compuertas, empujones y dominós para llevarla a la zona verde.",
+   "levels": [
+    {
+     "title": "La compuerta",
+     "objective": "Pegale FUERTE al botón rojo: la traba se abre y la dorada rueda sola a la zona verde. 3 tiros.",
+     "shots": 3,
+     "prisoner": [
+      13.0,
+      1.45,
+      0
+     ],
+     "zone": [
+      2.0,
+      -3,
+      9.5,
+      3
+     ],
+     "platforms": [
+      {
+       "pos": [
+        12,
+        0.5,
+        0
+       ],
+       "size": [
+        3,
+        1,
+        3
+       ]
+      }
+     ],
+     "slopes": [
+      {
+       "pos": [
+        11.85,
+        1.16,
+        0
+       ],
+       "size": [
+        3.0,
+        0.15,
+        1.2
+       ],
+       "roll": 8
+      }
+     ],
+     "latches": [
+      {
+       "pos": [
+        10.42,
+        1.38,
+        0
+       ],
+       "size": [
+        0.1,
+        0.4,
+        1.2
+       ]
+      }
+     ],
+     "buttons": [
+      {
+       "pos": [
+        10.4,
+        0.6,
+        1.0
+       ],
+       "latch": 0
+      }
+     ],
+     "solution": [
+      {
+       "at": "button:0",
+       "speed": 13
+      }
+     ],
+     "medals": [
+      150,
+      200,
+      250
+     ]
+    },
+    {
+     "title": "El empujón",
+     "objective": "La dorada está sobre el pilar: pegale directo con tu pelota y empujala hasta la zona. 3 tiros.",
+     "shots": 3,
+     "prisoner": [
+      13,
+      0.72,
+      0
+     ],
+     "zone": [
+      13.5,
+      -4,
+      26,
+      4
+     ],
+     "platforms": [
+      {
+       "pos": [
+        13,
+        0.3,
+        0
+       ],
+       "size": [
+        0.8,
+        0.6,
+        0.8
+       ]
+      }
+     ],
+     "solution": [
+      {
+       "at": "prisoner",
+       "speed": 13.3
+      }
+     ],
+     "medals": [
+      150,
+      200,
+      250
+     ]
+    },
+    {
+     "title": "Dominó",
+     "objective": "Tirá la primera ficha: la última, al caer, empuja a la dorada de su pedestal hacia la zona. 3 tiros.",
+     "shots": 3,
+     "prisoner": [
+      11.75,
+      0.72,
+      0
+     ],
+     "zone": [
+      12.2,
+      -2.5,
+      16.5,
+      2.5
+     ],
+     "dominoes": [
+      {
+       "pos": [
+        8.8,
+        0,
+        0
+       ],
+       "n": 5,
+       "step": [
+        0.55,
+        0,
+        0
+       ],
+       "size": [
+        0.12,
+        0.95,
+        0.5
+       ]
+      }
+     ],
+     "solution": [
+      {
+       "at": "domino:0",
+       "speed": 12
+      }
+     ],
+     "medals": [
+      150,
+      200,
+      250
+     ],
+     "platforms": [
+      {
+       "pos": [
+        11.75,
+        0.3,
+        0
+       ],
+       "size": [
+        0.35,
+        0.6,
+        0.35
+       ]
+      }
+     ]
+    },
+    {
+     "title": "Doble llave",
+     "objective": "Dos trabas sostienen la compuerta: apretá LOS DOS botones. 4 tiros.",
+     "shots": 4,
+     "prisoner": [
+      13.0,
+      1.45,
+      0
+     ],
+     "zone": [
+      2.0,
+      -3,
+      9.5,
+      3
+     ],
+     "platforms": [
+      {
+       "pos": [
+        12,
+        0.5,
+        0
+       ],
+       "size": [
+        3,
+        1,
+        3
+       ]
+      }
+     ],
+     "slopes": [
+      {
+       "pos": [
+        11.85,
+        1.16,
+        0
+       ],
+       "size": [
+        3.0,
+        0.15,
+        1.2
+       ],
+       "roll": 8
+      }
+     ],
+     "latches": [
+      {
+       "pos": [
+        10.42,
+        1.38,
+        0.3
+       ],
+       "size": [
+        0.1,
+        0.4,
+        0.62
+       ]
+      },
+      {
+       "pos": [
+        10.42,
+        1.38,
+        -0.3
+       ],
+       "size": [
+        0.1,
+        0.4,
+        0.62
+       ]
+      }
+     ],
+     "buttons": [
+      {
+       "pos": [
+        10.4,
+        0.6,
+        1.0
+       ],
+       "latch": 0
+      },
+      {
+       "pos": [
+        10.4,
+        0.6,
+        -1.0
+       ],
+       "latch": 1
+      }
+     ],
+     "solution": [
+      {
+       "at": "button:0",
+       "speed": 13
+      },
+      {
+       "at": "button:1",
+       "speed": 13
+      }
+     ],
+     "medals": [
+      200,
+      280,
+      350
+     ]
+    }
+   ]
   }
  ]
 }

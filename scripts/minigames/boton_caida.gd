@@ -39,8 +39,6 @@ var fallen: Array = [false, false]
 var pressed: int = -1
 var weak_touch: bool = false
 ## Obstaculos y botones que se mueven: {body, base (Transform3D en el mundo), axis, amp, speed, phase, spin_axis, spin}
-var movers: Array = []
-var level_time: float = 0.0
 var closest: Array = [INF, INF]
 var _ai_bias := Vector3.ZERO
 var _ai_aim := Vector3.INF
@@ -351,9 +349,8 @@ func _fade_own(shooter_side: int) -> void:
 func _add_mover_if(moving: bool, body: Node3D, mv: Dictionary, s: int) -> void:
 	if not moving:
 		return
-	movers.append({"body": body, "base": body.global_transform, "axis": frames[s].basis * _vec(mv.get("axis", [0, 0, 1])).normalized(),
-		"amp": float(mv.get("amp", 1.5)), "speed": float(mv.get("speed", 1.0)), "phase": float(mv.get("phase", 0.0)),
-		"spin_axis": frames[s].basis * _vec(mv.get("spin_axis", [1, 0, 0])).normalized(), "spin": float(mv.get("spin", 0.0))})
+	add_mover(body, frames[s].basis * _vec(mv.get("axis", [0, 0, 1])), float(mv.get("amp", 1.5)), float(mv.get("speed", 1.0)),
+		float(mv.get("phase", 0.0)), frames[s].basis * _vec(mv.get("spin_axis", [1, 0, 0])), float(mv.get("spin", 0.0)))
 
 ## Obstaculo en el marco de la plataforma s: "box", "post" (cilindro), "wall"; con "move" (va y viene) o "spin" (gira).
 func _build_obstacle(s: int, od: Dictionary) -> void:
@@ -384,7 +381,6 @@ func _ready() -> void:
 	super._ready()
 
 func _level_step(delta: float) -> void:
-	level_time += delta
 	for s in shooters.size():
 		var a: SpActor = shooters[s].actor
 		if fallen[s] or not a.visible:
@@ -393,8 +389,6 @@ func _level_step(delta: float) -> void:
 		if loc.x > -EDGE_STOP:
 			loc.x = -EDGE_STOP
 			a.global_position = frames[s] * loc
-	for m in movers:
-		(m["body"] as Node3D).global_transform = _mover_at(m, level_time)
 	for s in 2:
 		var bc: MeshInstance3D = buttons[s].get("beacon")
 		if bc != null:
@@ -630,16 +624,9 @@ func _path_clear(traj: PackedVector3Array, delay: float) -> bool:
 		var half: Vector3 = m["half"]
 		for i in traj.size():
 			var t: float = level_time + delay + float(i) * ShotSolver.STEP
-			var x: Transform3D = _mover_at(m, t)
+			var x: Transform3D = mover_at(m, t)
 			var q: Vector3 = x.affine_inverse() * traj[i]
 			if absf(q.x) <= half.x + r and absf(q.y) <= half.y + r and absf(q.z) <= half.z + r:
 				return false
 	return true
 
-func _mover_at(m: Dictionary, t: float) -> Transform3D:
-	var base: Transform3D = m["base"]
-	var x := base
-	if float(m["spin"]) != 0.0:
-		x.basis = Basis(m["spin_axis"], t * float(m["spin"])) * base.basis
-	x.origin = base.origin + (m["axis"] as Vector3) * float(m["amp"]) * sin(t * float(m["speed"]) + float(m["phase"]))
-	return x

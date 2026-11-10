@@ -193,6 +193,13 @@ func _build_arena() -> void:
 
 ## Arcade: cada minijuego con sus niveles (el siguiente se abre con bronce en el anterior; en practica libre, todos).
 func _build_arcade() -> void:
+	_header("Arqueros por turnos", "La tanda clásica está en el menú principal (PENALES)")
+	var duo: HFlowContainer = _row()
+	var best_r: int = PlayerProgress.best("arqueros_reloj")
+	duo.add_child(_card("Ráfaga de 5", "Pateás 5 seguidos y después atajás 5; desempate a muerte súbita", 0, true,
+		func() -> void: _start_duel({"id": "rafaga"})))
+	duo.add_child(_card("Contra reloj", _medal_text(PlayerProgress.medal("arqueros_reloj"), best_r) + " · atajá la serie de 8 de la IA",
+		PlayerProgress.medal("arqueros_reloj"), true, func() -> void: _start_duel({"id": "reloj", "shots": 8})))
 	for g in MinigameCatalog.games():
 		_header(String(g["title"]), String(g.get("description", "")))
 		var row: HFlowContainer = _row()
@@ -201,6 +208,11 @@ func _build_arcade() -> void:
 			var open: bool = practice or MinigameCatalog.is_unlocked(d)
 			var info: String = _medal_text(PlayerProgress.medal(id), PlayerProgress.best(id)) if open else "Bloqueado: bronce en el nivel %d" % (int(d["level"]) - 1)
 			row.add_child(_card("%d · %s" % [int(d["level"]), d["title"]], info, PlayerProgress.medal(id), open, _start_minigame.bind(d)))
+
+func _start_duel(v: Dictionary) -> void:
+	SetPieceGame.next_mode = SetPieceGame.Mode.PENALTY
+	SetPieceGame.next_shootout = v
+	get_tree().change_scene_to_file(SetPieceGame.SCENE)
 
 func _start_minigame(d: Dictionary) -> void:
 	var dd: Dictionary = d.duplicate(true)
