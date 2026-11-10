@@ -1635,6 +1635,85 @@
      ]
     }
    ]
+  },
+  {
+   "id": "que_no_caiga",
+   "title": "Que no caiga",
+   "scene": "res://scenes/minigames/que_no_caiga.tscn",
+   "status": "Implementado",
+   "description": "Pases aéreos 1 contra 1: pierde el último que la tocó si la pelota pica. Control con pecho, muslo, cabeza o pie.",
+   "levels": [
+    {
+     "title": "A 3 puntos",
+     "objective": "Pasásela por el aire a la IA y que no caiga: pierde el punto el último que la tocó. Podés amortiguar UNA vez y después pasarla (el tercer toque es falta). Trazá con el dedo hacia dónde va tu pase.",
+     "gap": 7.0,
+     "points_to_win": 3,
+     "medals": [
+      250,
+      330,
+      400
+     ]
+    },
+    {
+     "title": "A 5 puntos",
+     "objective": "Lo mismo, a 5 puntos y un poco más lejos.",
+     "gap": 8.5,
+     "points_to_win": 5,
+     "medals": [
+      400,
+      520,
+      650
+     ]
+    }
+   ]
+  },
+  {
+   "id": "futbol_tenis",
+   "title": "Fútbol-tenis",
+   "scene": "res://scenes/minigames/futbol_tenis.tscn",
+   "status": "Implementado",
+   "description": "Cancha dividida por una red física: un pique por campo, dos toques por lado, y la marca te muestra dónde va a picar.",
+   "levels": [
+    {
+     "title": "A 3 puntos",
+     "objective": "Cruzá la red: un pique permitido en cada campo, dos toques por lado (control y golpe). La marca amarilla muestra dónde va a picar. Trazá con el dedo hacia dónde la mandás.",
+     "half": 5.5,
+     "width": 3.2,
+     "net_h": 0.95,
+     "points_to_win": 3,
+     "medals": [
+      250,
+      330,
+      400
+     ]
+    },
+    {
+     "title": "Red alta",
+     "objective": "La red es más alta: levantá la pelota. A 3 puntos.",
+     "half": 5.5,
+     "width": 3.2,
+     "net_h": 1.35,
+     "points_to_win": 3,
+     "medals": [
+      250,
+      330,
+      400
+     ]
+    },
+    {
+     "title": "Cancha chica",
+     "objective": "Menos lugar para que pique: afiná la puntería. A 5 puntos.",
+     "half": 4.4,
+     "width": 2.4,
+     "net_h": 0.95,
+     "points_to_win": 5,
+     "medals": [
+      400,
+      520,
+      650
+     ]
+    }
+   ]
   }
  ]
 }

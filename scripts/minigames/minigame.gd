@@ -61,6 +61,8 @@ var fast: bool = false
 var runup_time: float = 1.2
 ## La IA ya espero lo maximo: tiene que patear en este paso.
 var cpu_force: bool = false
+## true: el minijuego lleva su propio flujo por paso (_custom_step) en vez de la maquina AIM/RUNUP/FLIGHT.
+var custom_flow: bool = false
 ## Tiempo del nivel (s) y objetos que van y vienen o giran (compartidos por los minijuegos): cada entrada es
 ## {body, base (Transform3D), axis, amp, speed, phase, spin_axis, spin} (+ lo que agregue el minijuego).
 var level_time: float = 0.0
@@ -122,6 +124,10 @@ func _check_winner() -> int:
 ## Intencion de la IA para su turno (misma forma que la del usuario).
 func _cpu_intent() -> Dictionary:
 	return {}
+
+## Paso propio de los modos con flujo custom (custom_flow = true).
+func _custom_step(_delta: float) -> void:
+	pass
 
 ## Movimiento del nivel (mecanismos propios) en cada paso; los `movers` ya se movieron.
 func _level_step(_delta: float) -> void:
@@ -392,6 +398,11 @@ func _physics_process(delta: float) -> void:
 		(m["body"] as Node3D).global_transform = mover_at(m, level_time)
 	_level_step(delta)
 	_t += delta
+	if custom_flow:
+		# Modos de peloteo: llevan su propio flujo (la base sigue dando movers, HUD, puntaje y final de partida).
+		_custom_step(delta)
+		_prev_v = ball.linear_velocity
+		return
 	match state:
 		State.AIM:
 			if side == Side.CPU and _t >= (0.05 if fast else CPU_THINK):

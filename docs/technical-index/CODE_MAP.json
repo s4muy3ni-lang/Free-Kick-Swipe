@@ -6377,6 +6377,48 @@
       ],
       "documentation": "docs/technical-index/SYSTEMS/PROGRESSION.md",
       "last_verified": "2026-11-10"
+    },
+    {
+      "id": "setpiece.rally",
+      "system": "SETPIECE",
+      "description": "Modos de peloteo (RallyBase + RallyPlayer): «Que no caiga» (pases aereos 1v1: pierde el ultimo que la toco si pica; un control permitido, el tercer toque es falta) y Futbol-tenis (red fisica, un pique por campo, dos toques por lado, afuera, pique adentro sin devolucion = punto del que pego, marca de pique predicha que sigue la fisica y se compara con el pique real). El receptor corre a la caida PREVISTA (BallPredictor), elige el clip por la altura real (cabeza, pecho, muslo, pie, volea) y el toque sale SOLO si la pelota entra en el alcance de esa parte (huesos del esqueleto); mal parado devuelve desviado y flojo. La IA juega con las mismas reglas (error de posicionamiento, retardo y punteria por dificultad). El gesto de siempre: el final del trazo marca el punto del piso del pase; potencia y elevacion salen del trazo. Las velocidades de salida se pasan explicitas (el impulso recien se integra al paso siguiente).",
+      "keywords": [
+        "peloteo",
+        "que no caiga",
+        "futbol-tenis",
+        "tenis",
+        "red",
+        "pique",
+        "rebote",
+        "recepcion",
+        "pecho",
+        "muslo",
+        "cabeza",
+        "volea",
+        "control",
+        "pase aereo",
+        "marca",
+        "caida",
+        "rally"
+      ],
+      "files": [
+        "scripts/minigames/rally_player.gd",
+        "scripts/minigames/rally_base.gd",
+        "scripts/minigames/que_no_caiga.gd",
+        "scripts/minigames/futbol_tenis.gd",
+        "scenes/minigames/que_no_caiga.tscn",
+        "scenes/minigames/futbol_tenis.tscn",
+        "tests/test_rally.gd"
+      ],
+      "symbols": [],
+      "parameters": [],
+      "dependencies": [
+        "SETPIECE",
+        "BALL",
+        "ANIMATIONS"
+      ],
+      "documentation": "docs/technical-index/SYSTEMS/SETPIECE.md",
+      "last_verified": "2026-11-10"
     }
   ]
 }

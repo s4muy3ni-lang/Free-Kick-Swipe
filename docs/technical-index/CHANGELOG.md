@@ -11,6 +11,24 @@ Formato de entrada: **fecha — título** · commit · qué cambió · archivos 
 
 ---
 
+## 2026-11-10 — Modos de equipo: «Que no caiga» y Fútbol-tenis (recepciones con contacto real)
+
+- **RallyPlayer:** el receptor corre a la caída PREVISTA (BallPredictor), elige el clip por la altura real a la que llega
+  la pelota (cabeza / pecho / muslo / pie / volea) y el toque sale SOLO si la pelota entra de verdad en el alcance de esa
+  parte del cuerpo (huesos del esqueleto): nada se pega ni se toca a distancia (probado: con la IA lejos, la pelota pica).
+  Mal parado, el toque sale flojo y desviado. Control = amortiguar (la pelota sube cerca del cuerpo).
+- **Que no caiga (2 niveles):** pierde el último que la tocó si pica; un control permitido y el tercer toque es falta;
+  saca el que perdió el punto. Partidos completos contra la IA terminan con peloteo real.
+- **Fútbol-tenis (3 niveles):** red FÍSICA (pegarle y volver = «no cruzó»), un pique por campo, dos toques por lado,
+  afuera, y «picó adentro y se fue» = punto del que pegó. Marca de pique en el piso que sigue la predicción física
+  (medido contra el pique real: 0,06 m) y se actualiza tras cada toque y cada pique.
+- El gesto de siempre para pasar: el final del trazo marca el punto del piso; potencia y elevación salen del trazo.
+- Corrección de base: las velocidades de salida se pasan explícitas a la predicción (el impulso del toque recién se
+  integra en el paso físico siguiente; antes la caída se calculaba con la velocidad vieja).
+- Pruebas nuevas: `test_rally` (6). **Android: no probado.**
+
+---
+
 ## 2026-11-10 — Minigolf, arqueros por turnos y mecanismos físicos (dianas colgantes y rescate)
 
 - **Minigolf (`Minigolf`, 6 hoyos):** el gesto apunta A RAS DEL PISO (el final del trazo marca un punto del piso; potencia
