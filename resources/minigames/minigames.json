@@ -3205,6 +3205,48 @@
      ]
     }
    ]
+  },
+  {
+   "id": "piedras",
+   "title": "Piedras saltarinas",
+   "scene": "res://scenes/minigames/piedras.tscn",
+   "status": "Implementado",
+   "description": "Pateá rasante sobre el lago: si entra con poco ángulo y rápido, pica en el agua. Contá los piques.",
+   "levels": [
+    {
+     "title": "Lago calmo",
+     "objective": "5 tiros rasantes: tu mejor tiro por cantidad de piques (y metros).",
+     "rule": "piques",
+     "shots": 5,
+     "medals": [
+      110,
+      200,
+      300
+     ]
+    },
+    {
+     "title": "Lejos",
+     "objective": "Mejor distancia del último pique. 5 tiros.",
+     "rule": "distancia",
+     "shots": 5,
+     "medals": [
+      150,
+      250,
+      320
+     ]
+    },
+    {
+     "title": "Serie",
+     "objective": "Sumá los piques de 6 tiros.",
+     "rule": "suma",
+     "shots": 6,
+     "medals": [
+      300,
+      600,
+      900
+     ]
+    }
+   ]
   }
  ],
  "categories": [
@@ -3382,6 +3424,10 @@
     {
      "type": "game",
      "game": "salto_alto"
+    },
+    {
+     "type": "game",
+     "game": "piedras"
     }
    ]
   }

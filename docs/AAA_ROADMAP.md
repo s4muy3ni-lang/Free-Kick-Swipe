@@ -519,7 +519,7 @@ ARCADE en el menú. Reutiliza el trazo, la vista previa, el tirador animado, la 
 |---|---|---|---|---|
 | Botón de caída | Versus por turnos contra la IA | 8 | Implementado · Pendiente de balance | `test_boton_caida` |
 | Demolición | Física y destrucción (un jugador, tiros limitados) | 6: torre, pirámide, reacción en cadena, precisión, muro, torre inestable | Implementado · Pendiente de balance | `test_demolicion` |
-| Enceste | Desafío de habilidad (aro físico, rebote en tablero) | 5: primer aro, por el tablero, aro lejano, aro móvil, doble aro | Implementado · Pendiente de balance | `test_enceste`, `test_salto_fg`, `test_aros_fuego` |
+| Enceste | Desafío de habilidad (aro físico, rebote en tablero) | 5: primer aro, por el tablero, aro lejano, aro móvil, doble aro | Implementado · Pendiente de balance | `test_enceste`, `test_salto_fg`, `test_aros_fuego`, `test_piedras` |
 | Minigolf | Golpes, par, penalizaciones | — | Pendiente (necesita apuntar a ras del piso: el trazo actual apunta a un plano vertical) | — |
 | Arqueros por turnos | A patea, B ataja, rondas, desempate, muerte súbita | — | Pendiente (la tanda de penales ya alterna; faltan variantes) | — |
 | Mecanismos y rescate, explosiva, dianas colgantes, circuito de aros | — | — | Pendiente | — |
@@ -579,7 +579,7 @@ Pedido «REORGANIZACIÓN, ELIMINACIÓN Y EXPANSIÓN DE MINIJUEGOS ARCADE». Esta
 | 4 | Demolición: escenarios, materiales, estructuras complejas | **Hecha**: 13 niveles; materiales con física (vidrio que se rompe); jenga, casita, columnata; obra, castillo y almacén | `test_demolicion` |
 | 5 | Botón de caída: el jugador que cae atraviesa la base | **Hecha**: causa medida (clips de caída con desplazamiento de raíz); solo caídas que caben, hueco 2,3 m, pies sobre el centro | `test_boton_caida_fall` |
 | 6 | Duelo del guante | **Hecha**: 4 niveles; botones grande/mediano/chico, barra persistente, pistón con resorte que empuja al rival; IA por valor esperado | `test_guante` |
-| 7 | Doce modos nuevos (Royal Flush, Dardos, Curling, Béisbol, Bowling a 10 cuadros, Fútbol de precisión, Básquet, Salto en alto, Salto de esquí, Piedras saltarinas, Aros de fuego, Field Goal) | En curso: **Royal Flush, Dardos, Curling, Béisbol, Bowling a 10 cuadros, Fútbol de precisión, Básquet, Salto en alto, Field Goal y Aros de fuego hechos** | `test_royal_flush`, `test_dardos`, `test_curling`, `test_beisbol`, `test_bowling` |
+| 7 | Doce modos nuevos (Royal Flush, Dardos, Curling, Béisbol, Bowling a 10 cuadros, Fútbol de precisión, Básquet, Salto en alto, Salto de esquí, Piedras saltarinas, Aros de fuego, Field Goal) | En curso: **Royal Flush, Dardos, Curling, Béisbol, Bowling a 10 cuadros, Fútbol de precisión, Básquet, Salto en alto, Field Goal, Aros de fuego y Piedras saltarinas hechos** | `test_royal_flush`, `test_dardos`, `test_curling`, `test_beisbol`, `test_bowling` |
 | 8 | Integración, CI, APK | Pendiente | — |
 
 **Navegación.** El menú principal tiene tres tarjetas; cada sección muestra solo lo suyo y se sale con «‹ Volver»:

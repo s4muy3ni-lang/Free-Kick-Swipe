@@ -11,6 +11,25 @@ Formato de entrada: **fecha — título** · commit · qué cambió · archivos 
 
 ---
 
+## 2026-11-11 — Etapa 7.10: Piedras saltarinas
+
+- **Modo nuevo** `Piedras` (HABILIDAD, 3 niveles: piques, distancia y suma). Se patea desde la orilla de un lago. El
+  agua no tiene colisión: el juego decide cada contacto con la superficie.
+- **Pique:** con un ángulo de entrada de 20° o menos y velocidad horizontal de 5 m/s o más, el agua da un impulso a la
+  pelota:
+  - la vertical sale con el 75 % o con la sustentación 0,12 × v_h (la mayor);
+  - la horizontal conserva el 85 %;
+  - un contacto cuenta como pique solo después de 0,12 s en el aire; si va rozando, cada contacto igual le saca
+    velocidad.
+- **Clavada:** con más ángulo o menos velocidad se clava; el agua la frena (arrastre) y la hace flotar (empuje). Cada
+  pique deja una onda.
+- **Medido:** 22 m/s a 8° → 6 piques y 29 m; a 40° se clava sin picar y queda flotando. Sin la sustentación por
+  velocidad solo daba 2 piques.
+- Escenario: lago con agua animada, playa, muelle, boyas cada 10 m con carteles de distancia, árboles y montañas.
+- Pruebas (`test_piedras`, 2). Captura revisada en PC.
+
+---
+
 ## 2026-11-11 — Etapa 7.11: Aros de fuego
 
 - **Modo nuevo** `ArosFuego` (DESAFÍOS DE ARCO, 4 niveles): aros verticales colgados, de frente al jugador.
