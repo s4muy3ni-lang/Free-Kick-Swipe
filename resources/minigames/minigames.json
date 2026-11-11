@@ -3247,6 +3247,55 @@
      ]
     }
    ]
+  },
+  {
+   "id": "salto_esqui",
+   "title": "Salto de esquí",
+   "scene": "res://scenes/minigames/salto_esqui.tscn",
+   "status": "Implementado",
+   "description": "La pelota baja por el trampolín de nieve y vuela: más lejos que la línea K. Fuerza, dirección y efecto.",
+   "levels": [
+    {
+     "title": "Trampolín chico",
+     "objective": "3 saltos: empujá la pelota suave hacia la pista (si la pateás fuerte rebota y pierde velocidad). Pasá la línea K.",
+     "height": 14.0,
+     "k": 28.0,
+     "hs": 34.0,
+     "shots": 3,
+     "medals": [
+      40,
+      60,
+      75
+     ]
+    },
+    {
+     "title": "Trampolín grande",
+     "objective": "Desde 22 m de alto. K 36, HS 44. 3 saltos.",
+     "height": 22.0,
+     "k": 36.0,
+     "hs": 44.0,
+     "shots": 3,
+     "medals": [
+      40,
+      60,
+      75
+     ]
+    },
+    {
+     "title": "Viento en contra",
+     "objective": "El viento frena el vuelo: más fuerza y efecto hacia atrás. 3 saltos.",
+     "height": 20.0,
+     "k": 27.0,
+     "hs": 35.0,
+     "wind": -1.5,
+     "shots": 3,
+     "medals": [
+      40,
+      60,
+      75
+     ]
+    }
+   ]
   }
  ],
  "categories": [
@@ -3428,6 +3477,10 @@
     {
      "type": "game",
      "game": "piedras"
+    },
+    {
+     "type": "game",
+     "game": "salto_esqui"
     }
    ]
   }

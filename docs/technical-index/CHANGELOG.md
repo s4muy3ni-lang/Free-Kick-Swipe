@@ -11,6 +11,25 @@ Formato de entrada: **fecha — título** · commit · qué cambió · archivos 
 
 ---
 
+## 2026-11-11 — Etapa 7.9: Salto de esquí
+
+- **Modo nuevo** `SaltoEsqui` (HABILIDAD, 3 niveles: trampolín chico, grande y con viento en contra).
+- **Trampolín de nieve** hecho de segmentos físicos: plataforma ancha de salida, arranque redondeado, pista de 32°,
+  transición curva hasta la mesa de despegue, colina de caída de 34°, curva y zona plana, con bandas.
+- **La pelota se empuja desde arriba y baja por gravedad.** En la nieve desliza como un trineo, sin girar, y frena
+  0,12 m/s² (misma técnica que el hielo del Curling: se devuelve la rodadura de césped que sobra).
+- **Distancia:** horizontal desde el borde de la mesa hasta el primer apoyo, después de al menos 0,15 s de vuelo.
+  Líneas K (verde) y HS (roja) en la colina, y marca del aterrizaje. Viento como impulso por paso en el vuelo.
+- **Problemas medidos y corregidos:**
+  - un quiebre de 10° en la transición hacía rebotar la pelota y salir volando antes de la mesa;
+  - con el giro de rodadura caía a 16 m/s² por Magnus (pasó de 17 a 38 m);
+  - patear fuerte despega la pelota en la plataforma y pierde velocidad. Es correcto: la habilidad es salir suave.
+- **Puntaje:** 60 en el punto K, ±2 por metro. Las líneas K salen de lo medido: 28, 36 y 27 m.
+- Pruebas (`test_salto_esqui`, 2): vuela desde la mesa (38 m); una salida suave llega más lejos que una patada que
+  rebota; los 3 niveles llegan al bronce. Capturas revisadas en PC.
+
+---
+
 ## 2026-11-11 — Etapa 7.10: Piedras saltarinas
 
 - **Modo nuevo** `Piedras` (HABILIDAD, 3 niveles: piques, distancia y suma). Se patea desde la orilla de un lago. El
