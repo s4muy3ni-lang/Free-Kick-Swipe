@@ -90,6 +90,9 @@ func test_a_real_goal_feeds_the_daily() -> void:
 	await physics_frames(10)
 	game.rng.seed = 2026
 	game.cpu_keeper.rng.seed = 11
+	# Esta prueba necesita un gol (cuenta logros/festejos, no mide al arquero): sin la zona segura, el arquero de la IA
+	# queda como antes (la zona segura se mide en test_keeper_zones).
+	game.cpu_keeper.sure_zones = false
 	var before: int = int(Achievements.life.get(&"gol", 0))
 	game.shoot(Vector3(game.gx, 0.6, 2.9), 0.8, 0.0)
 	var n: int = 0

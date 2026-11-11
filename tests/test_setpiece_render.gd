@@ -60,6 +60,10 @@ func test_the_keeper_touches_what_he_reaches_and_not_what_he_does_not() -> void:
 			game._start_penalty_turn()
 			await physics_frames(5)
 			var zone: Vector3 = target if correct else Vector3(target.x, target.y, -target.z)
+			# Con las zonas seguras (KeeperZones) «el otro lado» tiene que ser OTRA zona: un tiro cerca del centro y su
+			# espejo caen en la misma zona del medio; ahi se tira al rincon opuesto de arriba/abajo.
+			if not correct and KeeperZones.zone_of(zone, 3.66, 2.44) == KeeperZones.zone_of(target, 3.66, 2.44):
+				zone = Vector3(target.x, 2.0 if target.y < 1.22 else 0.4, 2.6 if target.z < 0.0 else -2.6)
 			game._keeper_zone = zone
 			game._pick_t = 1.0
 			# La CPU patea a `target` (sin error de precision) a velocidad media.

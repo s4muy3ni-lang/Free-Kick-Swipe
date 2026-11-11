@@ -91,7 +91,11 @@ func _run() -> void:
 		game._start_penalty_turn()
 		await _frames(40)
 		await _shot("20_arquero_elegir")
-		game._keeper_zone = Vector3(game.gx, 0.6, -2.6)
+		# Toca la pantalla donde se ve ese rincon: solo se ve la marca del punto (la zona es interna).
+		game._pick_zone(game.cam.unproject_position(Vector3(game.gx, 0.6, -2.6)))
+		log_lines.append("zona interna del punto tocado: %s" % KeeperZones.name_of(KeeperZones.zone_of(game._keeper_zone, game.half_goal, game.goal_h)))
+		await _frames(5)
+		await _shot("20b_arquero_zona")
 		await _wait_phase(SetPieceGame.Phase.FLIGHT, 900)
 		await _frames(14)
 		await _shot("21_arquero_estirada")

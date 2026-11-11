@@ -123,6 +123,10 @@ func reset(home_pos: Vector3) -> void:
 	_dive_in = -1.0
 	_zone = Vector3.INF
 	_commit_point = Vector3.INF
+	committed_zone = -1
+	sure = false
+	_sure_drift = Vector3.ZERO
+	_sure_extra = 0.0
 	_watching = false
 	_plan_v = Vector3.ZERO
 	cancelled_dives = 0
@@ -134,6 +138,7 @@ func reset(home_pos: Vector3) -> void:
 	paused = false
 	_prev_parts.clear()
 	actor.stop_moving()
+	actor.ground_y = 0.0
 	actor.global_position = home
 	actor.set_facing(facing)
 	var idles: Array[StringName] = SpClips.by_role(&"gk_idle", false)
@@ -305,11 +310,46 @@ var _zone := Vector3.INF
 ## Zona a la que se jugo antes del golpe (para ajustar el momento de la estirada al ver salir la pelota).
 var _commit_point := Vector3.INF
 
+## Zona segura (pedido del usuario: «si me tiro abajo a la derecha y el tiro va ahi, es atajada»). El arco se divide en
+## zonas (KeeperZones, 3 x 2); si el arquero se jugo a una zona y el tiro REAL cruza la linea en esa zona, al salir la
+## pelota replanifica con la trayectoria real eligiendo entre todos sus clips (SURE_SPEEDS, sin latencia humana), y
+## durante la estirada predice donde va a estar la pelota cuando lleguen las manos y corrige el marco del clip hacia ella
+## (hasta SURE_MAX_DRIFT en el piso). Lo que falte (sobre todo en altura) lo cubre el guante con un alcance extra
+## (hasta SURE_MAX_EXTRA). El manotazo saca la pelota hacia afuera (SURE_PARRY_*): la pelota solo cambia por el impulso
+## del choque (Ball.kick), nunca se la mueve a las manos.
+const SURE_SPEEDS := [1.0, 1.2, 1.4, 1.6]
+const SURE_MAX_DRIFT := 1.3
+const SURE_MAX_EXTRA := 0.7
+## Cuanto puede elevarse el cuerpo en la estirada asegurada (m; vuelve al piso despues) y entre que ritmos puede ir el
+## clip para que las manos lleguen justo.
+const SURE_MAX_LIFT := 0.5
+const SURE_RATE := Vector2(0.5, 2.2)
+## Superficie entre las dos palmas (centro entre las manos, radio) que cuenta como mano en la atajada segura.
+const SURE_PALMS := ["palms", 0.2, true]
+const SURE_PARRY_RESTITUTION := 0.35
+const SURE_PARRY_IN := 0.8
+const SURE_PARRY_OUT := 0.45
+const SURE_PARRY_UP := 0.15
+## Zonas seguras activas (penales: arquero del usuario y de la IA).
+var sure_zones: bool = true
+## Zona a la que se jugo (KeeperZones; -1 = ninguna).
+var committed_zone: int = -1
+## Esta jugada la ataja seguro (el tiro va a su zona) hasta que la toca.
+var sure: bool = false
+var sure_saves: int = 0
+var _sure_drift := Vector3.ZERO
+var _sure_extra: float = 0.0
+var _sure_k: int = 0
+## Diagnostico de la ultima atajada asegurada: pasos de seguimiento y menor distancia prevista manos-pelota que quedo.
+var sure_steps: int = 0
+var sure_gap: float = INF
+
 func commit_to(point: Vector3, ball_pos: Vector3, lead: float, speed_guess: float = 22.0) -> void:
 	if state != State.IDLE:
 		return
 	actor.stop_moving()
 	_commit_point = point
+	committed_zone = KeeperZones.zone_of(point, half_goal, goal_height)
 	if lead <= 0.01:
 		_zone = point
 		return
@@ -343,6 +383,83 @@ func on_kick(ball_pos: Vector3, velocity: Vector3) -> void:
 	var z: Vector3 = _zone
 	_zone = Vector3.INF
 	_plan_with(_line_traj(ball_pos, z, speed_seen, 0.0), 0.05)
+
+## Al salir la pelota (penal): si el tiro REAL (traj, muestras cada `step` s desde el golpe) cruza la linea en la zona a
+## la que se jugo, la atajada es segura: replanifica con esa trayectoria y la sigue en la estirada (ver «Zona segura»).
+## Devuelve true si esta jugada queda asegurada.
+func sure_save_check(traj: PackedVector3Array, step: float) -> bool:
+	sure = false
+	_sure_drift = Vector3.ZERO
+	_sure_extra = 0.0
+	if not sure_zones or committed_zone < 0 or traj.size() < 2:
+		return false
+	if state != State.IDLE and state != State.WAIT_DIVE and state != State.DIVE:
+		return false
+	var cross: Vector3 = ShotSolver.crossing(traj, goal_x)
+	if KeeperZones.zone_of(cross, half_goal, goal_height) != committed_zone:
+		return false
+	var every: int = maxi(int(round((1.0 / 30.0) / step)), 1)
+	var t30 := PackedVector3Array()
+	for i in range(0, traj.size(), every):
+		t30.append(traj[i])
+	var pl: Dictionary = KeeperPlanner.plan_save(actor.global_position, _yaw(), t30, 1.0 / 30.0, 0.0, 20.0, false, SURE_SPEEDS, Vector2.ZERO, PLAN_RADIUS_SCALE)
+	if pl.is_empty():
+		return false
+	# Si ya arranco la estirada hacia el centro de la zona (hasta PENALTY_ANTICIPATION antes del golpe), sigue desde donde
+	# esta con el clip que mejor llega a la pelota real.
+	state = State.IDLE
+	_zone = Vector3.INF
+	_sure_k = int(pl["k"])
+	sure = true
+	sure_steps = 0
+	sure_gap = INF
+	_adopt(pl)
+	return true
+
+## Estirada asegurada (cada paso, mientras se tira): toma donde estaran las manos en la muestra _sure_k del clip (con la
+## diferencia medida entre la trayectoria del clip y los huesos reales), calcula cuando la pelota llega a esa profundidad
+## y donde estara, y: ajusta el ritmo del clip para que las manos lleguen en ese instante (SURE_RATE), corre el marco del
+## clip de costado hacia la pelota (SURE_MAX_DRIFT) y eleva el cuerpo si va alta (SURE_MAX_LIFT), todo de a poco. Lo que
+## falte queda como alcance extra del guante (SURE_MAX_EXTRA).
+func _sure_steer(delta: float) -> void:
+	if plan.is_empty():
+		return
+	var clip: StringName = plan["clip"]
+	var yaw: float = Locomotion.yaw_from_dir(actor.frame_facing)
+	var ct: float = actor.clip_time()
+	var tau: float = float(_sure_k) / 30.0
+	var k_now: int = int(round(ct * 30.0))
+	var fix: Vector3 = actor.hands_mid() - KeeperPlanner.hands_world(clip, k_now, actor.frame_origin, yaw) - Vector3.UP * actor.ground_y
+	var hands: Vector3 = KeeperPlanner.hands_world(clip, _sure_k, actor.frame_origin, yaw) + fix + Vector3.UP * actor.ground_y
+	var v: Vector3 = ball.linear_velocity
+	var rate: float = actor.clip_rate()
+	var t_clip: float = (tau - ct) / maxf(actor.clip_speed * rate, 0.05)
+	var t_ball: float = t_clip
+	if absf(v.x) > 0.5:
+		t_ball = (hands.x - ball.global_position.x) / v.x
+	if t_ball > 0.03 and tau > ct:
+		var want: float = (tau - ct) / maxf(actor.clip_speed, 0.05) / t_ball
+		rate = clampf(want, SURE_RATE.x, SURE_RATE.y)
+		actor.set_clip_rate(rate)
+	var tr: float = maxf(t_ball, 0.0)
+	var pred: Vector3 = ball.global_position + v * tr + Vector3.DOWN * (4.905 * tr * tr)
+	var off: Vector3 = pred - hands
+	if t_ball > 0.0:
+		var f: float = clampf(delta / maxf(t_ball, delta), 0.0, 1.0)
+		var move := Vector3(0.0, 0.0, off.z) * f
+		var total: Vector3 = _sure_drift + move
+		if total.length() > SURE_MAX_DRIFT:
+			total = total.normalized() * SURE_MAX_DRIFT
+			move = total - _sure_drift
+		actor.frame_origin += move
+		_sure_drift = total
+		off -= move
+		var lift: float = clampf(actor.ground_y + off.y * f, 0.0, SURE_MAX_LIFT)
+		off.y -= lift - actor.ground_y
+		actor.ground_y = lift
+	_sure_extra = clampf(off.length(), 0.0, SURE_MAX_EXTRA)
+	sure_steps += 1
+	sure_gap = off.length()
 
 ## Trayectoria supuesta: la pelota quieta `wait` segundos y despues en linea (con un poco de comba) hasta el punto.
 static func _line_traj(ball_pos: Vector3, point: Vector3, speed: float, wait: float) -> PackedVector3Array:
@@ -413,6 +530,11 @@ func _physics_process(delta: float) -> void:
 		_dive_in -= delta
 		if _dive_in <= 0.0:
 			_start_dive()
+	if sure and state == State.DIVE and not _collecting:
+		_sure_steer(delta)
+	elif actor.ground_y > 0.0:
+		# Despues de la estirada elevada, el cuerpo vuelve al piso (cae).
+		actor.ground_y = move_toward(actor.ground_y, 0.0, 3.0 * delta)
 	_watch_step(delta)
 	if _collect_wanted and state == State.IDLE:
 		_collect_wanted = false
@@ -445,16 +567,21 @@ func _check_contact(delta: float) -> void:
 	var parts_now: Dictionary = {}
 	var best_s: float = INF
 	var best: Array = []
-	for part in PARTS:
-		var c: Vector3 = actor.bone_world(part[0])
-		if bool(part[2]):
+	var parts: Array = PARTS
+	if sure:
+		# Atajada segura: las dos manos juntas tapan el hueco entre los guantes (una pelota de 22 cm no pasa entre las
+		# palmas abiertas de un arquero).
+		parts = PARTS + [SURE_PALMS]
+	for part in parts:
+		var c: Vector3 = actor.hands_mid() if part[0] == SURE_PALMS[0] else actor.bone_world(part[0])
+		if bool(part[2]) and part[0] != SURE_PALMS[0]:
 			var fore: Vector3 = actor.bone_world("mixamorig_LeftForeArm" if String(part[0]).contains("Left") else "mixamorig_RightForeArm")
 			var dir: Vector3 = c - fore
 			if dir.length() > 0.01:
 				c += dir.normalized() * HAND_REACH
 		parts_now[part[0]] = c
 		var c0: Vector3 = _prev_parts.get(part[0], c)
-		var r: float = float(part[1]) + ball.radius
+		var r: float = float(part[1]) + ball.radius + (_sure_extra if sure and bool(part[2]) else 0.0)
 		# Paso que paso (contacto que ya ocurrio) y paso que viene (se resuelve antes de que la pelota atraviese la mano):
 		# s en [0, 2] a lo largo de los dos.
 		var hit: Array = contact_along(p0, p1, c0, c, r)
@@ -510,6 +637,11 @@ func _resolve(part: Array, c: Vector3, q: Vector3, parts_now: Dictionary, delta:
 	if vn >= 0.0:
 		return
 	var is_hand: bool = bool(part[2])
+	var was_sure: bool = sure and not _collecting
+	if was_sure:
+		sure = false
+		_sure_extra = 0.0
+		sure_saves += 1
 	if is_hand and (_can_catch(q, vr, parts_now) or (_collecting and vr.length() < 9.0)):
 		actor.freeze_on_finish = true
 		ball.hold(_anchor, actor)
@@ -522,10 +654,21 @@ func _resolve(part: Array, c: Vector3, q: Vector3, parts_now: Dictionary, delta:
 		last_contact["v_out"] = Vector3.ZERO
 		touched_ball.emit(&"catch")
 		return
-	if is_hand:
+	var e: float = HAND_RESTITUTION if is_hand else BODY_RESTITUTION
+	if was_sure:
+		# Atajada segura: manotazo con la palma contra la pelota que llega, hacia afuera (al palo de su lado) y un poco
+		# arriba: la saca del arco aunque la toque con la punta de los dedos.
+		n = sure_parry_normal(vr, q.z - home.z)
+		e = SURE_PARRY_RESTITUTION
+		last_contact["normal"] = n
+		last_contact["sure"] = true
+	elif is_hand:
 		n = glove_normal(n, vr, facing)
 		last_contact["normal"] = n
-	var v_new: Vector3 = rebound(v, part_v, n, HAND_RESTITUTION if is_hand else BODY_RESTITUTION, GLOVE_GRIP if is_hand else BODY_GRIP)
+	var v_new: Vector3 = rebound(v, part_v, n, e, GLOVE_GRIP if is_hand else BODY_GRIP)
+	if was_sure:
+		# El manotazo la despide por la normal (afuera del arco), con lo que trae amortiguado por el guante.
+		v_new = n * maxf(vr.length() * SURE_PARRY_RESTITUTION, 5.0)
 	ball.kick(v_new, ball.angular_velocity * 0.3, actor)
 	last_contact["v_out"] = v_new
 	touch_kind = &"parry" if is_hand else &"body"
@@ -553,6 +696,13 @@ static func glove_normal(n: Vector3, vr: Vector3, keeper_facing: Vector3) -> Vec
 	if incoming.dot(keeper_facing) < 0.3:
 		return n
 	return (n + incoming * PALM_BIAS).normalized()
+
+## Normal del manotazo de una atajada segura: contra la pelota que llega (vr: velocidad relativa), hacia el costado de la
+## pelota (side: z de la pelota respecto del arquero) y algo hacia arriba.
+static func sure_parry_normal(vr: Vector3, side: float) -> Vector3:
+	var incoming: Vector3 = -vr.normalized() if vr.length() > 0.1 else Vector3(-1, 0, 0)
+	var out := Vector3(0, 0, signf(side) if absf(side) > 0.05 else 1.0)
+	return (incoming * SURE_PARRY_IN + out * SURE_PARRY_OUT + Vector3.UP * SURE_PARRY_UP).normalized()
 
 func _pick_up() -> void:
 	actor.freeze_on_finish = true

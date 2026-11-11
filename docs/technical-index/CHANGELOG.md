@@ -11,6 +11,43 @@ Formato de entrada: **fecha — título** · commit · qué cambió · archivos 
 
 ---
 
+## 2026-11-11 — Arquero: zona segura en penales (6 zonas internas)
+
+Pedido del usuario: si el arquero se tiró a una zona y el tiro va a esa zona, es atajada. Antes había que acertar el punto
+exacto: un tiro abajo a la derecha, apenas más arriba de donde se tiró, le pasaba por las manos o la cabeza.
+
+- **Zonas** (`scripts/setpiece/keeper_zones.gd`, `KeeperZones`):
+  - el arco en 3 columnas × 2 alturas = 6 zonas de 2,44 × 1,22 m;
+  - se eligieron 6 y no 9 porque las estiradas del banco son bajas o altas, cada zona es fácil de tocar en el teléfono y
+    cada costado queda entero en una zona;
+  - las zonas son internas y no se dibujan (pedido del usuario): se ve solo la marca donde tocó, como antes.
+- **Arquero** (`SpKeeper`):
+  - `commit_to` guarda la zona del punto elegido (`committed_zone`);
+  - al salir la pelota, `sure_save_check(traj)` mira dónde cruza el tiro REAL; si es la misma zona, replanifica con esa
+    trayectoria entre todos sus clips (velocidades 1–1,6, sin latencia humana);
+  - durante la estirada, `_sure_steer` predice dónde estará la pelota cuando lleguen las manos (corrige la diferencia
+    entre la trayectoria del clip y los huesos reales) y:
+    - ajusta el ritmo del clip (`SpActor.set_clip_rate`, 0,5–2,2) para que las manos lleguen justo;
+    - corre el marco del clip de costado (hasta 1,3 m) y eleva el cuerpo si la pelota va alta (hasta 0,5 m; después
+      vuelve al piso);
+    - lo que falte lo cubre el guante con alcance extra (hasta 0,7 m), y el hueco entre las palmas cuenta como mano;
+  - el manotazo (`sure_parry_normal`) la despide afuera del arco; si llega a las dos manos y no va rápida, la atrapa;
+  - la pelota solo cambia por el impulso del choque (`Ball.kick`).
+- **Alcance:** vale para el arquero del usuario y para el de la IA en penales (y en los desafíos tipo penal): cuando la IA
+  adivina la zona, ataja, así que también cuesta más meter goles. El tiro libre sigue igual: la IA lee el tiro después
+  del golpe y no se juega a una zona.
+- **Pruebas:**
+  - `tests/test_keeper_zones.gd` (render, agregada a CI): **48 de 48** tiros a los rincones de las 6 zonas a 19 y 27 m/s
+    atajados; a otra zona, gol y sin atajada segura; la IA atajó las 10 veces que adivinó; zonas y nombres.
+  - `tests/test_setpiece_render.gd`: el caso «al otro lado» elige ahora una zona distinta (un tiro cerca del centro y su
+    espejo caían en la misma zona del medio). Con la zona correcta toca 6 de 6 (antes 3–4), con la otra 0; la estirada
+    sigue sin arrancar más de 0,13 s antes del golpe.
+  - `tests/test_achievements.gd` y `tests/test_celebrations.gd` necesitan un penal que sea gol para medir logros y
+    festejos: el arquero de la IA (semilla fija) adivinaba la zona y ahora lo atajaba. En esos penales se apaga su zona
+    segura (`sure_zones = false`), así queda el mismo gol de antes; no miden al arquero.
+  - Captura revisada a ojo (`tools/setpiece/captures.gd`, caso keeper): solo se ve el círculo donde se tocó.
+  - **No probado en teléfono.**
+
 ## 2026-11-11 — Público 2D animado, tribunas estilo caja y vacío con torre de hierro
 
 Pedido del usuario: el público como PNG que se mueve y festeja, en vez de cubos 3D; tribunas, concreto y decoración

@@ -312,6 +312,7 @@ func _build_people() -> void:
 		field.setup(att, dfn, ball, gx)
 
 func _build_markers() -> void:
+	# Donde toco el usuario para tirarse (solo esa marca: las zonas de KeeperZones son internas, no se dibujan).
 	_zone_marker = MeshInstance3D.new()
 	var tm := TorusMesh.new()
 	tm.inner_radius = 0.22
@@ -623,6 +624,7 @@ func _on_contact(_entry: Dictionary) -> void:
 				if not _committed:
 					_commit_keeper(0.0)
 				cur_keeper.on_kick(ball_spot, last_shot["velocity"])
+				cur_keeper.sure_save_check(last_shot["traj"], 1.0 / 60.0)
 			else:
 				cur_keeper.read_shot(ball_spot, last_shot["velocity"], last_shot["spin"])
 		if not wall.players.is_empty() and wall.players[0].visible:
@@ -635,6 +637,8 @@ func _on_contact(_entry: Dictionary) -> void:
 		if not _committed:
 			_commit_keeper(0.0)
 		cur_keeper.on_kick(ball_spot, last_shot["velocity"])
+		# Zona segura: si el tiro real va a la zona a la que se jugo el arquero, la ataja.
+		cur_keeper.sure_save_check(last_shot["traj"], 1.0 / 60.0)
 
 ## Penal: el arquero se juega antes del contacto (lead = segundos que faltan).
 func _commit_keeper(lead: float) -> void:
@@ -1403,6 +1407,8 @@ func _pick_zone(screen: Vector2) -> void:
 	p.x = gx
 	p.y = clampf(p.y, 0.25, goal_h - 0.2)
 	p.z = clampf(p.z, -half_goal + 0.2, half_goal - 0.2)
+	# El arquero se juega a este punto; la zona del arco que lo contiene (KeeperZones, interna, no se dibuja) decide la
+	# atajada segura: cualquier tiro que entre en esa zona lo ataja.
 	_keeper_zone = p
 	_pick_t = 0.0
 	_zone_marker.visible = true

@@ -145,6 +145,7 @@ func play_loop(id: StringName, blend: float = BLEND, speed: float = 1.0) -> void
 	clip_speed = speed
 	looping = true
 	_finished_emitted = true
+	anim_player.speed_scale = 1.0
 	# El bucle lo maneja el actor (se vuelve a empezar al terminar): las Animation son compartidas por todos los jugadores y
 	# no se modifican (cambiarlas obliga a cada reproductor conectado a reconstruir su cache).
 	anim_player.play(SpClips.path(id), blend, speed)
@@ -166,10 +167,19 @@ func play_clip(id: StringName, origin: Vector3, face: Vector3, blend: float = BL
 	_clip_started_at = start_at
 	_clip_time = start_at
 	_finished_emitted = false
+	anim_player.speed_scale = 1.0
 	anim_player.play(SpClips.path(id), blend, clip_speed)
 	if start_at > 0.0:
 		anim_player.seek(start_at, true)
 	_apply_root(_clip_time)
+
+## Ritmo del clip en curso (multiplica su velocidad; 1 = la elegida al empezar). Lo usa el arquero para que las manos
+## lleguen justo cuando pasa la pelota. Cada clip o bucle nuevo vuelve a 1.
+func set_clip_rate(rate: float) -> void:
+	anim_player.speed_scale = maxf(rate, 0.05)
+
+func clip_rate() -> float:
+	return anim_player.speed_scale
 
 ## Clip de una vez en el sitio actual (festejos, lamentos, reacciones): el marco es la posicion y mirada actuales.
 func play_here(id: StringName, blend: float = BLEND, speed: float = 1.0) -> void:

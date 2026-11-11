@@ -75,6 +75,9 @@ func test_penalty_goal_can_be_skipped_once_and_mates_meet_the_scorer() -> void:
 	var game: SetPieceGame = await _game(SetPieceGame.Mode.PENALTY)
 	game.rng.seed = 2026
 	game.cpu_keeper.rng.seed = 11
+	# Esta prueba necesita un gol (cuenta logros/festejos, no mide al arquero): sin la zona segura, el arquero de la IA
+	# queda como antes (la zona segura se mide en test_keeper_zones).
+	game.cpu_keeper.sure_zones = false
 	game.shoot(Vector3(game.gx, 0.6, 2.9), 0.8, 0.0)
 	await _wait_result(game)
 	check(game.outcome == "goal", "el penal de prueba es gol (%s)" % game.outcome)
@@ -96,6 +99,7 @@ func test_penalty_goal_can_be_skipped_once_and_mates_meet_the_scorer() -> void:
 	# El festejo del autor sale de su rng: semilla fija para que el encuentro sea reproducible.
 	game.user_shooter.rng.seed = 5
 	game.celebration.rng.seed = 9
+	game.cpu_keeper.sure_zones = false
 	game.shoot(Vector3(game.gx, 0.6, 2.9), 0.8, 0.0)
 	await _wait_result(game)
 	var scorer: SpActor = game.cur_shooter.actor
