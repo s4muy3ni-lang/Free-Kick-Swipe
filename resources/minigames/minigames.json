@@ -1158,10 +1158,10 @@
   },
   {
    "id": "enceste",
-   "title": "Enceste",
+   "title": "Básquet",
    "scene": "res://scenes/minigames/enceste.tscn",
    "status": "Implementado",
-   "description": "Meté la pelota en el aro: cuenta solo si entra de arriba hacia abajo. Con tablero, tapa, aro móvil y doble aro.",
+   "description": "Aros físicos a distintas alturas: cuenta solo si la pelota pasa de arriba hacia abajo. Los aros altos valen más.",
    "levels": [
     {
      "title": "Primer aro",
@@ -1280,6 +1280,86 @@
       200,
       320,
       460
+     ]
+    },
+    {
+     "title": "Tres alturas",
+     "objective": "Tres aros a 2,4 m, 3,05 m y 3,8 m (x1, x2, x3): encestá en los tres. 7 tiros.",
+     "shots": 7,
+     "need": 3,
+     "hoops": [
+      {
+       "pos": [
+        11.0,
+        2.4,
+        -2.6
+       ],
+       "radius": 0.38,
+       "value": 1
+      },
+      {
+       "pos": [
+        13.0,
+        3.05,
+        0.0
+       ],
+       "radius": 0.36,
+       "value": 2
+      },
+      {
+       "pos": [
+        15.0,
+        3.8,
+        2.6
+       ],
+       "radius": 0.36,
+       "value": 3
+      }
+     ],
+     "medals": [
+      200,
+      500,
+      750
+     ]
+    },
+    {
+     "title": "Ronda de tiros",
+     "objective": "8 tiros: cada tiro podés volver a meterla en cualquier aro. El de arriba vale x3.",
+     "shots": 8,
+     "repeat": true,
+     "hoops": [
+      {
+       "pos": [
+        11.0,
+        2.4,
+        -2.6
+       ],
+       "radius": 0.38,
+       "value": 1
+      },
+      {
+       "pos": [
+        13.0,
+        3.05,
+        0.0
+       ],
+       "radius": 0.36,
+       "value": 2
+      },
+      {
+       "pos": [
+        15.0,
+        3.8,
+        2.6
+       ],
+       "radius": 0.36,
+       "value": 3
+      }
+     ],
+     "medals": [
+      300,
+      900,
+      1500
      ]
     }
    ]

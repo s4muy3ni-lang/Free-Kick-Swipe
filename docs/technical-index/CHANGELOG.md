@@ -11,6 +11,21 @@ Formato de entrada: **fecha — título** · commit · qué cambió · archivos 
 
 ---
 
+## 2026-11-11 — Etapa 7.7: Básquet (Enceste ampliado, sin duplicar)
+
+- «Enceste» pasa a llamarse **Básquet** (mismo id, se conservan récords). Sigue contando el enceste solo si el centro de
+  la pelota cruza el plano del aro de arriba hacia abajo, dentro del anillo físico.
+- Cada aro tiene su valor (`value`: multiplica los 100 del enceste) y con `repeat` los aros se pueden volver a
+  encestar en cada tiro.
+- Niveles nuevos:
+  - «Tres alturas»: aros a 2,4, 3,05 y 3,8 m, que valen ×1, ×2 y ×3; hay que meterla en los tres en 7 tiros.
+  - «Ronda de tiros»: 8 tiros por puntos.
+- Cancha de básquet como escenario: parquet, líneas, círculo central, tribunas y cartel.
+- Pruebas (`test_enceste`, 3): la búsqueda física encuentra solución para cada aro de los 7 niveles (incluido el de
+  3,8 m, encestado limpio); valores y ronda repetible. Captura revisada en PC.
+
+---
+
 ## 2026-11-11 — Etapa 7.6: Fútbol de precisión
 
 - **Modo nuevo** `Precision` (DESAFÍOS DE ARCO, 4 niveles). Arco gigante (9 × 3,6 m; 6 × 2,6 m en «Arco chico») con

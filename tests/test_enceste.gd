@@ -101,3 +101,22 @@ func test_every_level_has_a_solution_and_scores_are_fair() -> void:
 			check(done, "nivel %d, aro %d: tiene solucion" % [lv, hi + 1])
 		note("nivel %d (%s): %s en %d intentos" % [lv, g.def["title"], str(found), tries])
 		cleanup()
+
+## Básquet: los aros mas altos valen mas y en la ronda de tiros se puede volver a encestar en el mismo aro.
+func test_hoop_values_and_repeat_round() -> void:
+	var lv: int = MinigameCatalog.levels("enceste").size()
+	var g: Enceste = await _game(lv)
+	check(g.repeat and g.hoops.size() == 3, "ronda de tiros: tres aros que se repiten")
+	var heights: Array = []
+	for h in g.hoops:
+		heights.append((h["center"] as Vector3).y)
+	check(heights[0] < heights[1] and heights[1] < heights[2] and int(g.hoops[2]["value"]) == 3, "tres alturas distintas; el mas alto vale x3")
+	# Suma directa: un enceste en el aro x3 vale 300 (+50 si es limpio), dos veces seguidas en tiros distintos.
+	for k in 2:
+		g._start_turn()
+		check(not bool(g.hoops[2]["scored"]), "en cada tiro el aro vuelve a estar disponible")
+		g.hoops[2]["scored"] = true
+		g.baskets += 1
+		g.basket_pts += Enceste.BASKET_POINTS * int(g.hoops[2]["value"])
+	check(g.basket_pts == 600, "dos encestes en el x3 suman 600")
+	cleanup()
