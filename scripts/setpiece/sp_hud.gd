@@ -120,6 +120,8 @@ func _build_top() -> void:
 	diag.custom_minimum_size = Vector2(90, 56)
 	diag.add_theme_font_size_override("font_size", 18)
 	diag.pressed.connect(func() -> void: diag_pressed.emit())
+	# Solo en builds de desarrollo (DevFlags).
+	diag.visible = DevFlags.tools_enabled()
 	top.add_child(diag)
 	var menu := Button.new()
 	menu.text = "Menú"

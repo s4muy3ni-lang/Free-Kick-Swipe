@@ -85,4 +85,10 @@ static func kit_material(body_path: String, kit: Dictionary) -> ShaderMaterial:
 	for key in ["jersey", "shorts", "socks", "boots", "skin", "hair"]:
 		if kit.has(key):
 			mat.set_shader_parameter("%s_color" % key, kit[key])
+	# Diseños de la personalizacion (solo el cuerpo comun los tiene).
+	for key in ["jersey_pattern", "shorts_pattern", "socks_pattern", "sock_height"]:
+		if kit.has(key):
+			mat.set_shader_parameter(key, int(kit[key]))
+	if kit.has("jersey2"):
+		mat.set_shader_parameter("jersey_color2", kit["jersey2"])
 	return mat

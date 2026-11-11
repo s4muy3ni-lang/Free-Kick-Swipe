@@ -66,6 +66,8 @@ var _auto_cool: float = 2.0
 
 func _ready() -> void:
 	load_settings()
+	if not DevFlags.tools_enabled():
+		show_aim_line = false
 	if not _has_saved_settings() or auto_mode:
 		profile = detect_default_profile()
 	apply()
@@ -111,7 +113,7 @@ func cycle_menu_choice() -> void:
 
 ## Interruptor de la linea de destino (se guarda).
 func toggle_aim_line() -> void:
-	show_aim_line = not show_aim_line
+	show_aim_line = not show_aim_line and DevFlags.tools_enabled()
 	save_settings()
 
 ## No -> Suave -> Normal -> No (se guarda).
@@ -218,6 +220,9 @@ func load_settings() -> void:
 	# Configuraciones guardadas antes del modo automatico: el perfil que eligio la persona se respeta.
 	auto_mode = bool(cfg.get_value("graphics", "auto", false))
 	show_aim_line = bool(cfg.get_value("visual", "show_aim_line", true))
+	# Build publica: sin linea de destino (solo el rastro del dedo); el ajuste solo existe en desarrollo.
+	if not DevFlags.tools_enabled():
+		show_aim_line = false
 	camera_shake = clampi(int(cfg.get_value("visual", "camera_shake", 1)), 0, SHAKE_NAMES.size() - 1)
 
 func _has_saved_settings() -> bool:

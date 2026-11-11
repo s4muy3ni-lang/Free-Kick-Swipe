@@ -23,6 +23,20 @@ var _aim_line_button: Button
 var _shake_button: Button
 var _keeper: SpActor
 var _player: SpActor
+var screens: MenuScreens
+var _profile_label: Label
+var _xp_bar: ProgressBar
+var _coins_label: Label
+var _season_label: Label
+var _server_label: Label
+## Personalizar: la camara se acerca al jugador y arrastrar lo gira.
+var _customizing: bool = false
+var _spin: float = 0.0
+## Fondo cinematografico: un tiro libre en camara lenta que se repite (solo visual: la pelota del fondo no tiene fisica).
+var _cine_t: float = 0.0
+var _cine_ball: MeshInstance3D
+var _cine_from := Vector3.ZERO
+var _cine_to := Vector3.ZERO
 
 func _ready() -> void:
 	SpSettings.load_settings()
@@ -68,10 +82,18 @@ func _exit_tree() -> void:
 func _process(delta: float) -> void:
 	_t += delta
 	var gx: float = stadium.half_length()
-	var center := Vector3(gx - 8.0, 0.0, 0.0)
-	var ang: float = 2.6 + sin(_t * 0.12) * 0.55
-	cam.global_position = center + Vector3(cos(ang) * 15.0, 4.2 + sin(_t * 0.2) * 0.6, sin(ang) * 15.0)
-	cam.look_at(Vector3(gx - 3.0, 1.0, 0.0), Vector3.UP)
+	if _customizing:
+		# Personalizar: primer plano del jugador; arrastrar lo gira.
+		var f := Vector3(1, 0, 0).rotated(Vector3.UP, _spin)
+		_player.set_facing(f)
+		_cine_ball.visible = false
+		var target: Vector3 = _player.global_position + Vector3(0, 1.0, 0)
+		# Camara a un costado: el jugador queda a la izquierda de la pantalla (el panel ocupa la derecha).
+		var want: Vector3 = target + Vector3(3.0, 0.3, -1.1)
+		cam.global_position = want if cam.global_position.distance_to(want) > 6.0 else cam.global_position.lerp(want, minf(delta * 3.0, 1.0))
+		cam.look_at(target + Vector3(0, -0.1, -1.15), Vector3.UP)
+		return
+	_cinematic(delta, gx)
 
 func _build_ui() -> void:
 	var layer := CanvasLayer.new()
@@ -102,35 +124,65 @@ func _build_ui() -> void:
 	var vb := VBoxContainer.new()
 	vb.add_theme_constant_override("separation", 14)
 	margin.add_child(vb)
+	# Barra de perfil: nombre, nivel con barra de XP, monedas, puntos de temporada y estado del servidor.
+	var top := HBoxContainer.new()
+	top.add_theme_constant_override("separation", 14)
+	vb.add_child(top)
+	top.add_child(MenuIcon.new("perfil", Color(1.0, 0.84, 0.28), 56))
+	var pv := VBoxContainer.new()
+	_profile_label = Label.new()
+	_profile_label.add_theme_font_size_override("font_size", 24)
+	pv.add_child(_profile_label)
+	_xp_bar = ProgressBar.new()
+	_xp_bar.custom_minimum_size = Vector2(260, 14)
+	_xp_bar.show_percentage = false
+	pv.add_child(_xp_bar)
+	top.add_child(pv)
+	var tsp := Control.new()
+	tsp.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	top.add_child(tsp)
 	var title := Label.new()
 	title.text = "FREE KICK SWIPE"
-	title.add_theme_font_size_override("font_size", 72)
+	title.add_theme_font_size_override("font_size", 46)
 	title.add_theme_color_override("font_color", Color(1.0, 0.84, 0.28))
 	title.add_theme_color_override("font_outline_color", Color(0.05, 0.05, 0.1))
-	title.add_theme_constant_override("outline_size", 14)
-	vb.add_child(title)
-	var sub := Label.new()
-	sub.text = "Penales y tiros libres · deslizá el dedo para patear"
-	sub.add_theme_font_size_override("font_size", 26)
-	sub.add_theme_color_override("font_color", Color(0.85, 0.9, 1.0))
-	vb.add_child(sub)
-	var gap := Control.new()
-	gap.custom_minimum_size = Vector2(0, 18)
-	vb.add_child(gap)
-	var cards := HBoxContainer.new()
-	cards.add_theme_constant_override("separation", 18)
-	vb.add_child(cards)
-	# Juegos principales primero: Penales y Tiro libre (no van dentro de la Academia).
-	cards.add_child(_card("PENALES", "Tanda contra\nla CPU: tirás\ny atajás.",
-		Color(0.08, 0.30, 0.75), func() -> void: _start(SetPieceGame.Mode.PENALTY)))
-	cards.add_child(_card("TIRO LIBRE", "Elegí dónde\npatear: barrera\ny arquero.",
-		Color(0.75, 0.16, 0.12), func() -> void: _start(SetPieceGame.Mode.FREE_KICK)))
-	cards.add_child(_card("ACADEMIA", "Práctica y\nentrenamiento:\n8 niveles para\naprender.",
-		Color(0.10, 0.50, 0.22), func() -> void: _open_challenges("academia")))
-	cards.add_child(_card("DESAFÍOS", "Logros, diarios\ny semanales,\nmedallas, récords\ny experiencia.",
-		Color(0.48, 0.18, 0.62), func() -> void: _open_challenges("desafios")))
-	cards.add_child(_card("MINIJUEGOS\nARCADE", "Categorías,\nniveles y\ndificultades.",
-		Color(0.85, 0.45, 0.05), func() -> void: _open_challenges("arcade")))
+	title.add_theme_constant_override("outline_size", 12)
+	top.add_child(title)
+	var tsp2 := Control.new()
+	tsp2.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	top.add_child(tsp2)
+	top.add_child(MenuIcon.new("coin", Color.WHITE, 44))
+	_coins_label = Label.new()
+	_coins_label.add_theme_font_size_override("font_size", 28)
+	top.add_child(_coins_label)
+	top.add_child(MenuIcon.new("temporada", Color.WHITE, 40))
+	_season_label = Label.new()
+	_season_label.add_theme_font_size_override("font_size", 22)
+	top.add_child(_season_label)
+	_server_label = Label.new()
+	_server_label.add_theme_font_size_override("font_size", 16)
+	_server_label.add_theme_color_override("font_color", Color(0.75, 0.82, 1.0))
+	vb.add_child(_server_label)
+	# Las diez entradas del menu (pedido del usuario), cada una con su icono.
+	var grid := GridContainer.new()
+	grid.columns = 5
+	grid.add_theme_constant_override("h_separation", 14)
+	grid.add_theme_constant_override("v_separation", 14)
+	vb.add_child(grid)
+	screens = MenuScreens.new()
+	var tiles := [
+		["JUGAR ONLINE", "Rivales reales o IA", "online", Color(0.85, 0.2, 0.25), func() -> void: screens.open_online()],
+		["JUGAR OFFLINE", "Penales y tiro libre", "offline", Color(0.08, 0.30, 0.75), func() -> void: screens.open_offline()],
+		["ACADEMIA", "Práctica y entrenamiento", "academia", Color(0.10, 0.50, 0.22), func() -> void: _open_challenges("academia")],
+		["DESAFÍOS", "Diarios, semanales, logros", "desafios", Color(0.48, 0.18, 0.62), func() -> void: _open_challenges("desafios")],
+		["MINIJUEGOS ARCADE", "Categorías y niveles", "arcade", Color(0.85, 0.45, 0.05), func() -> void: _open_challenges("arcade")],
+		["PERSONALIZAR", "Uniforme, botines, balón", "personalizar", Color(0.15, 0.55, 0.65), func() -> void: screens.open_customize()],
+		["TIENDA", "Cosméticos y consumibles", "tienda", Color(0.70, 0.55, 0.10), func() -> void: screens.open_shop()],
+		["TEMPORADA", "Pase y recompensas", "temporada", Color(0.40, 0.18, 0.70), func() -> void: screens.open_season()],
+		["EVENTOS", "Copas y festivales", "eventos", Color(0.20, 0.42, 0.80), func() -> void: screens.open_events()],
+		["PERFIL", "Identidad, atributos, ranking", "perfil", Color(0.30, 0.32, 0.40), func() -> void: screens.open_profile()]]
+	for t in tiles:
+		grid.add_child(_tile(t[0], t[1], t[2], t[3], t[4]))
 	var spacer := Control.new()
 	spacer.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	vb.add_child(spacer)
@@ -170,9 +222,29 @@ func _build_ui() -> void:
 	var sp2 := Control.new()
 	sp2.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	row.add_child(sp2)
-	row.add_child(_small("Banco de animaciones", func() -> void: get_tree().change_scene_to_file(BENCH_SCENE)))
+	var bench: Button = _small("Banco de animaciones", func() -> void: get_tree().change_scene_to_file(BENCH_SCENE))
+	# Herramienta de desarrollo: no aparece en la build publica (DevFlags).
+	bench.visible = DevFlags.tools_enabled()
+	row.add_child(bench)
 	_build_visual_panel(root)
 	_build_player_panel(root)
+	root.add_child(screens)
+	screens.play_offline.connect(_start)
+	screens.customize_changed.connect(_apply_custom)
+	screens.customize_mode.connect(func(on: bool) -> void:
+		_customizing = on
+		# Personalizar: se oculta el menu y el jugador posa quieto en un lugar fijo, de frente a la camara.
+		margin.visible = not on
+		if on:
+			_spin = 0.0
+			var gx2: float = stadium.half_length()
+			_player.global_position = Vector3(gx2 - 14.0, 0, 0)
+			var idl: Array[StringName] = SpClips.by_role(&"idle_ready", false)
+			if not idl.is_empty():
+				_player.play_loop(idl[0], 0.2)
+			_cine_t = 0.0)
+	Online.state_changed.connect(_refresh_profile)
+	_refresh_profile()
 	_refresh()
 
 ## Personalizacion del jugador: cada opcion es un boton que pasa a la siguiente; el jugador del menu la muestra en vivo.
@@ -382,3 +454,139 @@ func _start(m: int) -> void:
 	await get_tree().process_frame
 	await get_tree().process_frame
 	get_tree().change_scene_to_file(SetPieceGame.SCENE)
+
+func _tile(t: String, sub: String, icon: String, color: Color, cb: Callable) -> Button:
+	var b := Button.new()
+	b.custom_minimum_size = Vector2(226, 150)
+	b.focus_mode = Control.FOCUS_NONE
+	for st in ["normal", "hover", "pressed", "focus"]:
+		var sb := StyleBoxFlat.new()
+		var c: Color = color.lightened(0.12) if st == "hover" else (color.darkened(0.2) if st == "pressed" else color)
+		sb.bg_color = Color(c.r, c.g, c.b, 0.88)
+		sb.border_color = Color(1.0, 0.84, 0.28, 0.95) if st != "normal" else Color(1, 1, 1, 0.3)
+		sb.set_border_width_all(3)
+		sb.set_corner_radius_all(20)
+		sb.shadow_color = Color(0, 0, 0, 0.45)
+		sb.shadow_size = 10
+		b.add_theme_stylebox_override(st, sb)
+	var v := VBoxContainer.new()
+	v.set_anchors_preset(Control.PRESET_FULL_RECT)
+	v.offset_left = 14
+	v.offset_top = 10
+	v.offset_right = -10
+	v.offset_bottom = -8
+	v.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	v.add_child(MenuIcon.new(icon, Color.WHITE, 56))
+	var l := Label.new()
+	l.text = t
+	l.add_theme_font_size_override("font_size", 22)
+	l.add_theme_color_override("font_outline_color", Color(0, 0, 0, 0.6))
+	l.add_theme_constant_override("outline_size", 6)
+	l.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	v.add_child(l)
+	var s2 := Label.new()
+	s2.text = sub
+	s2.add_theme_font_size_override("font_size", 15)
+	s2.add_theme_color_override("font_color", Color(0.92, 0.94, 1.0))
+	s2.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	v.add_child(s2)
+	b.add_child(v)
+	# El texto del boton (oculto por el contenido) identifica la entrada.
+	b.text = t
+	b.add_theme_color_override("font_color", Color(0, 0, 0, 0))
+	b.add_theme_color_override("font_hover_color", Color(0, 0, 0, 0))
+	b.add_theme_color_override("font_pressed_color", Color(0, 0, 0, 0))
+	b.pressed.connect(cb)
+	return b
+
+func _refresh_profile() -> void:
+	if _profile_label == null:
+		return
+	var p: Dictionary = Online.profile()
+	var xp: int = int(p.get("xp", 0))
+	var lv: int = PlayerProgress.level_for(xp)
+	var acc: int = 0
+	var need: int = 150
+	for i in lv - 1:
+		acc += need
+		need += 150
+	_profile_label.text = "%s · Nivel %d" % [p.get("display_name", "Jugador"), lv]
+	_xp_bar.max_value = need
+	_xp_bar.value = xp - acc
+	_coins_label.text = "%d" % Online.coins()
+	var st: Variant = Online.state.get("season")
+	_season_label.text = "%d" % int((st as Dictionary).get("points", 0)) if st is Dictionary else "-"
+	_server_label.text = Online.backend_label()
+	var ap: Variant = p.get("appearance")
+	if ap is Dictionary and not (ap as Dictionary).is_empty():
+		PlayerCustom.apply_appearance(ap, BackendConfig.seed().get("catalog_items", []))
+		_apply_custom()
+
+func _apply_custom() -> void:
+	if _player != null:
+		_player.set_kit(PlayerCustom.kit())
+		_player.set_back_number(PlayerCustom.number)
+
+func _unhandled_input(e: InputEvent) -> void:
+	if _customizing and (e is InputEventScreenDrag or (e is InputEventMouseMotion and (e as InputEventMouseMotion).button_mask & MOUSE_BUTTON_MASK_LEFT)):
+		_spin += (e as InputEventMouseMotion).relative.x * 0.01 if e is InputEventMouseMotion else (e as InputEventScreenDrag).relative.x * 0.01
+
+## Fondo: tiro libre en camara lenta. El tirador hace su golpeo a 0,35 de velocidad, la pelota del fondo (solo visual,
+## sin fisica) viaja en curva al angulo y la camara la acompaña; despues vuelve a empezar.
+const CINE_LEN := 9.0
+func _cinematic(delta: float, gx: float) -> void:
+	if _cine_ball == null:
+		_cine_ball = MeshInstance3D.new()
+		var sm := SphereMesh.new()
+		sm.radius = 0.11
+		sm.height = 0.22
+		_cine_ball.mesh = sm
+		var m := StandardMaterial3D.new()
+		m.albedo_color = Color(0.97, 0.97, 0.97)
+		m.emission_enabled = true
+		m.emission = Color(1.0, 0.85, 0.5)
+		m.emission_energy_multiplier = 0.4
+		_cine_ball.material_override = m
+		add_child(_cine_ball)
+		ball.visible = false
+		_cine_from = Vector3(gx - 20.0, 0.11, -6.0)
+		_cine_to = Vector3(gx + 0.3, 2.1, 2.9)
+		var sparks := CPUParticles3D.new()
+		sparks.amount = 40
+		sparks.lifetime = 4.0
+		sparks.emission_shape = CPUParticles3D.EMISSION_SHAPE_BOX
+		sparks.emission_box_extents = Vector3(14, 5, 10)
+		sparks.gravity = Vector3(0, 0.15, 0)
+		sparks.initial_velocity_min = 0.0
+		sparks.initial_velocity_max = 0.2
+		sparks.scale_amount_min = 0.03
+		sparks.scale_amount_max = 0.06
+		var qm := QuadMesh.new()
+		qm.size = Vector2(1, 1)
+		var pm := StandardMaterial3D.new()
+		pm.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+		pm.billboard_mode = BaseMaterial3D.BILLBOARD_ENABLED
+		pm.billboard_keep_scale = true
+		pm.albedo_color = Color(1.0, 0.9, 0.6, 0.7)
+		pm.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+		qm.material = pm
+		sparks.mesh = qm
+		sparks.position = Vector3(gx - 10.0, 4.0, 0.0)
+		add_child(sparks)
+	_cine_ball.visible = true
+	_cine_t = fmod(_cine_t + delta, CINE_LEN)
+	var kick_at: float = 2.2
+	if _cine_t < delta * 1.5:
+		_player.global_position = _cine_from + Vector3(-1.4, -0.11, -0.6)
+		_player.set_facing((_cine_to - _cine_from).normalized())
+		var kicks: Array[StringName] = SpClips.by_role(&"kick_shot", false)
+		if not kicks.is_empty():
+			_player.play_clip(kicks[0], _player.global_position, Vector3(_cine_to.x - _cine_from.x, 0, _cine_to.z - _cine_from.z).normalized(), 0.2, 0.35, 0.0)
+	var u: float = clampf((_cine_t - kick_at) / 3.6, 0.0, 1.0)
+	var mid: Vector3 = (_cine_from + _cine_to) * 0.5 + Vector3(0, 2.4, -3.0)
+	var p: Vector3 = _cine_from.lerp(mid, u).lerp(mid.lerp(_cine_to, u), u)
+	_cine_ball.global_position = p
+	var focus: Vector3 = p if u > 0.0 else _player.global_position + Vector3(0, 1.0, 0)
+	var side := Vector3(-3.5, 1.6, -4.2).rotated(Vector3.UP, sin(_t * 0.1) * 0.3)
+	cam.global_position = cam.global_position.lerp(focus + side, minf(delta * 1.5, 1.0))
+	cam.look_at(focus.lerp(Vector3(gx, 1.2, 0), 0.35), Vector3.UP)

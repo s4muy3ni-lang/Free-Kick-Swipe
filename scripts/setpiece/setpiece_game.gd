@@ -122,7 +122,8 @@ var _committed: bool = false
 var _runup_t: float = 0.0
 var _keeper_zone := Vector3.INF
 ## Partida online (OnlineMatch) que maneja turnos, reloj y servidor; null = partida offline.
-var online_match: Node = null
+var online_match: OnlineMatch = null
+var _online_pick_sent: bool = false
 var _pick_t: float = 0.0
 var _zone_marker: MeshInstance3D
 var _place_marker: MeshInstance3D
@@ -213,6 +214,14 @@ func _ready() -> void:
 	GraphicsSettings.apply()
 	if mode == Mode.PENALTY:
 		hud.set_title("PENALES")
+		if not OnlineMatch.pending.is_empty():
+			# Partida online (la dejo el lobby): el servidor manda los turnos y los resultados.
+			var om := OnlineMatch.new()
+			om.name = "OnlineMatch"
+			om.setup(self, OnlineMatch.pending)
+			online_match = om
+			add_child(om)
+			hud.set_title("PENALES ONLINE")
 		_start_penalty_turn()
 	elif mode == Mode.CHALLENGE:
 		var d: Dictionary = next_challenge if not next_challenge.is_empty() else ChallengeCatalog.academia()[0]
@@ -354,10 +363,14 @@ func _start_penalty_turn() -> void:
 	hud.set_zoom_visible(false)
 	hud.set_shootout(shootout.results[0], shootout.results[1], PenaltyShootout.REGULAR)
 	hud.set_score_text("%d - %d" % [shootout.goals(0), shootout.goals(1)])
-	if shootout.finished():
+	# Online el final lo decide el servidor (mismas reglas; ademas corta en empate al tope de tiros).
+	if (online_match.server_done() if online_match != null else shootout.finished()):
 		_show_end()
 		return
 	user_shooting = shootout.next_team() == PenaltyShootout.USER
+	if online_match != null:
+		user_shooting = online_match.my_shot()
+		_online_pick_sent = false
 	_zone_marker.visible = false
 	ball_spot = Vector3(gx - Stadium11.PENALTY_MARK, ball.radius, 0.0)
 	_reset_play()
@@ -401,6 +414,8 @@ func _start_penalty_turn() -> void:
 		_keeper_zone = Vector3.INF
 		_zone_marker.visible = false
 		hud.set_hint("%s · Atajás vos: tocá el arco donde te vas a tirar" % round_txt)
+	if online_match != null:
+		online_match.on_turn_start(user_shooting)
 
 var _framed_once: bool = false
 func _first_frame() -> bool:
@@ -610,7 +625,11 @@ func _take_shot(shooter: SpShooter, p: ShotParams, error_deg: float) -> void:
 	_launch_measure = -1
 	# Penal: el arquero se juega YA (lo pesado se calcula al soltar el trazo, no en el golpe), con el tiempo exacto que
 	# falta para el contacto.
-	if _penalty_like() and cur_keeper != null and cur_keeper.actor.visible:
+	if online_match != null and shooter == user_shooter:
+		# Online: el arquero rival se juega a su zona cuando el servidor la revela (al recibir este tiro).
+		_committed = true
+		online_match.on_user_shot(cross, cls)
+	elif _penalty_like() and cur_keeper != null and cur_keeper.actor.visible:
 		_commit_keeper(maxf(shooter.time_to_contact(), 0.0))
 
 func _on_contact(_entry: Dictionary) -> void:
@@ -673,7 +692,12 @@ func _physics_process(delta: float) -> void:
 	match phase:
 		Phase.KEEPER_PICK:
 			_pick_t += delta
-			if (_keeper_zone != Vector3.INF and _pick_t > 0.5) or _pick_t > 6.0:
+			if online_match != null:
+				# Online: la eleccion va al servidor (oculta para el rival) y despues patea el rival (bot o humano).
+				if _keeper_zone != Vector3.INF and _pick_t > 0.5 and not _online_pick_sent:
+					_online_pick_sent = true
+					online_match.on_user_keeper_pick(_keeper_zone)
+			elif (_keeper_zone != Vector3.INF and _pick_t > 0.5) or _pick_t > 6.0:
 				if _keeper_zone == Vector3.INF:
 					_keeper_zone = Vector3(gx, 1.0, 0.0)
 				_cpu_penalty()
@@ -787,6 +811,9 @@ func _path_reaches_goal(traj: PackedVector3Array) -> bool:
 func _finish(why: String) -> void:
 	if phase != Phase.FLIGHT:
 		return
+	if online_match != null:
+		why = online_match.outcome_for(why)
+		online_match.after_result(why, user_shooting)
 	outcome = why
 	phase = Phase.RESULT
 	_result_t = 0.0
@@ -1270,10 +1297,15 @@ func next_challenge_def() -> Dictionary:
 func _show_end() -> void:
 	phase = Phase.OVER
 	var w: int = shootout.winner()
-	var t: String = "¡GANASTE!" if w == PenaltyShootout.USER else "PERDISTE"
+	if online_match != null:
+		var uw: Variant = online_match.server_user_won()
+		w = -1 if uw == null else (PenaltyShootout.USER if bool(uw) else PenaltyShootout.CPU)
+	var t: String = "¡GANASTE!" if w == PenaltyShootout.USER else ("EMPATE" if w == -1 else "PERDISTE")
 	hud.set_hint("")
 	hud.show_overlay(t, "Tanda de penales  %d - %d" % [shootout.goals(0), shootout.goals(1)],
-		[[&"rematch", "Revancha"], [&"menu", "Menú"]])
+		[[&"menu", "Menú"]] if online_match != null else [[&"rematch", "Revancha"], [&"menu", "Menú"]])
+	if online_match != null:
+		online_match.on_end(w == PenaltyShootout.USER)
 	if w == PenaltyShootout.USER:
 		_cheer = 1.0
 		if not fast:
