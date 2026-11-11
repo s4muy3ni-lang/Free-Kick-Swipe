@@ -1308,14 +1308,14 @@
   },
   {
    "id": "dianas",
-   "title": "Dianas colgantes",
+   "title": "Dianas",
    "scene": "res://scenes/minigames/dianas.tscn",
    "status": "Implementado",
-   "description": "Placas colgadas de verdad: se balancean con el golpe y se desprenden si les pegás fuerte.",
+   "description": "Dianas 3D que miran al jugador: colgantes que se desprenden con un golpe fuerte y tableros con zonas que suman según dónde pega la pelota.",
    "levels": [
     {
      "title": "Colgantes",
-     "objective": "Desprendé las 3 dianas: un golpe fuerte alcanza; un roce, no. 3 tiros.",
+     "objective": "Desprendé las 3 dianas: un golpe fuerte alcanza; un roce, no. El centro suma más. 3 tiros.",
      "shots": 3,
      "plates": [
       {
@@ -1341,14 +1341,14 @@
       }
      ],
      "medals": [
-      200,
-      300,
-      380
+      100,
+      150,
+      175
      ]
     },
     {
      "title": "Resistentes",
-     "objective": "Las doradas aguantan 2 golpes. 6 tiros.",
+     "objective": "Las de aro dorado aguantan 2 golpes. 6 tiros.",
      "shots": 6,
      "plates": [
       {
@@ -1376,9 +1376,9 @@
       }
      ],
      "medals": [
-      200,
-      300,
-      420
+      100,
+      170,
+      230
      ]
     },
     {
@@ -1414,53 +1414,60 @@
       }
      ],
      "medals": [
-      200,
-      300,
-      380
+      100,
+      160,
+      200
      ]
     },
     {
      "title": "En cadena",
-     "objective": "Cuelgan pegadas: una placa que vuela fuerte puede desmontar a la vecina. 4 tiros.",
+     "objective": "Cuelgan una detrás de otra: la de adelante, si sale volando, se lleva a la siguiente. 4 tiros.",
      "shots": 4,
+     "bar_axis": "x",
+     "bar_x": 13.05,
+     "bar_len": 3.0,
      "plates": [
       {
        "pos": [
-        12,
+        12.0,
         0,
-        -0.75
+        0
        ],
-       "hang": 0.7
+       "hang": 1.25,
+       "r": 0.3
       },
       {
        "pos": [
-        12,
+        12.7,
         0,
-        -0.25
+        0
        ],
-       "hang": 0.7
+       "hang": 1.0,
+       "r": 0.3
       },
       {
        "pos": [
-        12,
+        13.4,
         0,
-        0.25
+        0
        ],
-       "hang": 0.7
+       "hang": 0.75,
+       "r": 0.3
       },
       {
        "pos": [
-        12,
+        14.1,
         0,
-        0.75
+        0
        ],
-       "hang": 0.7
+       "hang": 0.5,
+       "r": 0.3
       }
      ],
      "medals": [
-      250,
-      400,
-      480
+      120,
+      200,
+      260
      ]
     },
     {
@@ -1505,9 +1512,125 @@
       }
      ],
      "medals": [
-      200,
-      300,
-      380
+      100,
+      160,
+      190
+     ]
+    },
+    {
+     "title": "Tablero de arco",
+     "objective": "Tablero del tamaño de un arco: esquinas de arriba 10, centro 5, abajo 1. Sumá con 5 tiros.",
+     "shots": 5,
+     "goal": "puntos",
+     "plates": [
+      {
+       "kind": "fixed",
+       "shape": "panel",
+       "pos": [
+        14,
+        1.15,
+        0
+       ],
+       "size": [
+        3.2,
+        2.1
+       ]
+      }
+     ],
+     "medals": [
+      15,
+      30,
+      42
+     ]
+    },
+    {
+     "title": "Tiro con arco",
+     "objective": "Tres dianas a distinta distancia y altura: el centro dorado vale 10. 6 tiros.",
+     "shots": 6,
+     "goal": "puntos",
+     "plates": [
+      {
+       "kind": "fixed",
+       "pos": [
+        12,
+        1.0,
+        -2.0
+       ],
+       "r": 0.5
+      },
+      {
+       "kind": "fixed",
+       "pos": [
+        15,
+        1.5,
+        0.4
+       ],
+       "r": 0.5
+      },
+      {
+       "kind": "fixed",
+       "pos": [
+        18,
+        2.0,
+        2.4
+       ],
+       "r": 0.5
+      }
+     ],
+     "medals": [
+      18,
+      32,
+      45
+     ]
+    },
+    {
+     "title": "Dianas móviles",
+     "objective": "Van y vienen sobre rieles: adelantate a su movimiento. 6 tiros.",
+     "shots": 6,
+     "goal": "puntos",
+     "plates": [
+      {
+       "kind": "fixed",
+       "pos": [
+        13,
+        1.1,
+        0
+       ],
+       "r": 0.5,
+       "move": {
+        "axis": [
+         0,
+         0,
+         1
+        ],
+        "amp": 1.6,
+        "speed": 1.1
+       }
+      },
+      {
+       "kind": "fixed",
+       "pos": [
+        16.5,
+        1.7,
+        0
+       ],
+       "r": 0.5,
+       "move": {
+        "axis": [
+         0,
+         0,
+         1
+        ],
+        "amp": 1.8,
+        "speed": 0.9,
+        "phase": 3.14
+       }
+      }
+     ],
+     "medals": [
+      12,
+      26,
+      38
      ]
     }
    ]

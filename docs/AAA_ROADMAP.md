@@ -575,7 +575,7 @@ Pedido «REORGANIZACIÓN, ELIMINACIÓN Y EXPANSIÓN DE MINIJUEGOS ARCADE». Esta
 |---|---|---|---|
 | 1 | Auditoría; eliminar Arqueros por turnos, FootPool, Rebotes de ingenio, Que no caiga y Fútbol-tenis; tres secciones (Academia, Desafíos, Minijuegos arcade) con «Volver»; categorías y dificultades Fácil/Normal/Difícil/Experto | **Hecha** | `test_challenges`, `test_bowling` |
 | 2 | Cámara anterior recuperada de Git (`05c100e`) + panel por minijuego (distancia, altura, encuadre, seguimiento, restablecer) | **Hecha** | `test_minigame_camera` |
-| 3 | Desafíos de arco: dianas de frente, 3D, puntaje por zona por impacto real, más configuraciones | Pendiente | — |
+| 3 | Desafíos de arco: dianas de frente, 3D, puntaje por zona por impacto real, más configuraciones | **Hecha**: 8 niveles (colgantes, resistentes, carrusel, en cadena, tras el muro, tablero de arco 10/5/1, tiro con arco, móviles); zonas configurables; dificultad cambia tamaño y velocidad | `test_dianas_rescate` |
 | 4 | Demolición: escenarios, materiales, estructuras complejas | Pendiente | — |
 | 5 | Botón de caída: el jugador que cae atraviesa la base | Pendiente | — |
 | 6 | Duelo del guante | Pendiente | — |

@@ -11,6 +11,35 @@ Formato de entrada: **fecha — título** · commit · qué cambió · archivos 
 
 ---
 
+## 2026-11-11 — Etapa 3: Desafíos de arco — dianas de frente, en 3D y con puntaje por zona de impacto
+
+- **Orientación corregida:** las placas eran cajas finas en Z con el tiro en +X, así que el jugador las veía de canto.
+  Ahora cada blanco gira para que su cara mire al punto de tiro (prueba: desvío máximo 1,3° en los 8 niveles).
+- **Dianas 3D** (`Dianas`): respaldo de madera, anillos de colores en relieve (dorado, rojo, azul, negro, blanco), aro de
+  metal (dorado en las resistentes), números por zona. Tablero rectangular con zonas pintadas y marco. Escenario
+  propio con `ArcadeLook` (césped a franjas, tribuna de madera, cartel, vallas laterales, banderas; texturas de ruido de
+  128 px compartidas; lo decorativo no tiene colisión y queda fuera de la línea de tiro).
+- **Puntaje por zona configurable y por impacto real:** anillos `[[fracción del radio, puntos], ...]` o rectángulos
+  `[[x0, y0, x1, y1, puntos], ...]` por blanco (por defecto: anillos 10/7/5/3/1; tablero con esquinas de arriba 10,
+  centro 5, franja baja 1 y el resto 2, el ejemplo del pedido). El punto se calcula cruzando la trayectoria de la
+  pelota antes del choque con el plano de la cara del blanco (en el marco del blanco, aunque se hamaque o se mueva). Un
+  impacto lento (< 3 m/s) no suma; cada blanco suma una vez por tiro; la pelota daña una placa una vez por tiro (al
+  pegar de frente podía tocarla dos veces en el mismo rebote).
+- **Tipos y objetivos:** colgantes (`hang`, se desprenden), fijos o sobre riel (`fixed` + `move`); barra en Z, en X
+  (con pórticos fuera de la línea de tiro) o carrusel; objetivo `derribar` o `puntos`.
+- **Niveles:** 8 (antes 5). «En cadena» rehecho: cuelgan una detrás de otra y la de adelante se lleva a las demás.
+  Nuevos: «Tablero de arco», «Tiro con arco» (3 dianas a distinta distancia y altura) y «Dianas móviles».
+- **Dificultad:** blancos ×1,15 / 1 / 0,92 / 0,85 y lo que se mueve ×0,8 / 1 / 1,15 / 1,3 (Fácil → Experto), además
+  del tiro de más o de menos común. Medallas recalibradas con los puntajes medidos.
+- Pruebas (`test_dianas_rescate`): `test_targets_face_the_shooter`,
+  `test_zone_points_come_from_the_real_impact_point` (5 tiros al tablero: 10/10/5/1/2 con el impacto medido a menos
+  de 0,12 m del apuntado; diana redonda: centro 10, borde 1, por arriba 0) y `test_every_dianas_level_is_beatable`
+  (los 8 niveles llegan al bronce con tiros del modelo). 7 pruebas, 0 fallos.
+- Herramienta nueva: `tools/minigame_snap.tscn` (capturas de niveles con la cámara del juego). Capturas revisadas en
+  PC; **Android: no probado.**
+
+---
+
 ## 2026-11-11 — Reorganización: tres secciones, cinco modos eliminados, categorías y cámara recuperada con ajustes
 
 - **Eliminados por pedido** (con sus menús, escenas, scripts, datos y pruebas; antes se comprobó que no tenían

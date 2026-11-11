@@ -46,7 +46,8 @@ func test_plates_swing_and_detach_only_with_strong_hits() -> void:
 	var rest: Vector3 = plate.global_position
 	# Un roce (pelota lenta): se mueve apenas y NO se desprende.
 	g.state = Minigame.State.FLIGHT
-	g.ball.reset_at(rest - Vector3(0.5, 0, 0))
+	# (La cara mira al jugador: la pelota sale a 0,22 m de la placa para tocarla antes de caer.)
+	g.ball.reset_at(rest - Vector3(0.22, 0, 0))
 	await physics_frames(2)
 	g.ball.kick(Vector3(1.2, 0, 0), Vector3.ZERO, null)
 	await physics_frames(50)
@@ -85,45 +86,110 @@ func test_tough_plates_need_two_hits_and_carousel_moves() -> void:
 	check(not bool(g.plates[0]["detached"]), "sin que se caigan solas")
 	cleanup()
 
+## Punto a apuntar para que la pelota pegue en el punto `face` (x a la derecha, y arriba) de la cara del blanco e: el
+## centro de la pelota debe cruzar el plano que esta a th/2 + radio por delante de la cara.
+func _face_target(g: Dianas, e: Dictionary, face: Vector2, xf: Transform3D) -> Vector3:
+	return xf * Vector3(-float(e["th"]) * 0.5 - g.ball.radius, face.y, face.x)
+
+func test_targets_face_the_shooter() -> void:
+	for lv in range(1, MinigameCatalog.levels("dianas").size() + 1):
+		var g: Dianas = await _dianas(lv)
+		var worst: float = 0.0
+		for e in g.plates:
+			var xf: Transform3D = (e["body"] as Node3D).global_transform
+			var normal: Vector3 = xf.basis * Vector3(-1, 0, 0)
+			var to_tee: Vector3 = g._ball_spot(0) - xf.origin
+			to_tee.y = 0.0
+			worst = maxf(worst, rad_to_deg(Vector3(normal.x, 0, normal.z).angle_to(to_tee)))
+		note("dianas %d: la cara de cada blanco se desvia como mucho %.1f grados del punto de tiro" % [lv, worst])
+		check(worst < 3.0, "nivel %d: todos los blancos miran al jugador (no de costado)" % lv)
+		cleanup()
+
+func test_zone_points_come_from_the_real_impact_point() -> void:
+	# Tablero (el ejemplo del pedido: esquinas de arriba 10, centro 5, abajo 1): un tiro a cada zona.
+	var expect := [[Vector2(-1.25, 0.75), 10], [Vector2(1.25, 0.75), 10], [Vector2(0.0, 0.05), 5], [Vector2(0.4, -0.75), 1], [Vector2(-0.9, 0.0), 2]]
+	var got: Array = []
+	for c in expect:
+		var g: Dianas = await _dianas(6)
+		var e: Dictionary = g.plates[0]
+		var it: Dictionary = g.cpu_shot(_face_target(g, e, c[0], (e["body"] as Node3D).global_transform), 17.0, 0.0, 0.0)
+		await g.launch(it["v"], it["w"])
+		await _fly(g)
+		var hit: Vector2 = g.last_hit.get("point", Vector2.INF)
+		got.append("%s->%d (impacto %.2f, %.2f)" % [str(c[0]), g.zone_points, hit.x, hit.y])
+		check(g.zone_points == int(c[1]), "tablero: tiro a %s suma %d (sumo %d)" % [str(c[0]), int(c[1]), g.zone_points])
+		check(hit != Vector2.INF and hit.distance_to(c[0]) < 0.12, "el punto de impacto medido es el apuntado (%.2f m)" % (hit.distance_to(c[0]) if hit != Vector2.INF else 99.0))
+		cleanup()
+	note("tablero: %s" % str(got))
+	# Diana redonda: al centro dorado 10; al borde 1; un tiro que no la toca no suma nada.
+	var g2: Dianas = await _dianas(7)
+	var e2: Dictionary = g2.plates[0]
+	var it2: Dictionary = g2.cpu_shot(_face_target(g2, e2, Vector2.ZERO, (e2["body"] as Node3D).global_transform), 17.0, 0.0, 0.0)
+	await g2.launch(it2["v"], it2["w"])
+	await _fly(g2)
+	check(g2.zone_points == 10, "diana redonda: al centro suma 10 (sumo %d)" % g2.zone_points)
+	var r: float = float(e2["r"])
+	it2 = g2.cpu_shot(_face_target(g2, e2, Vector2(0, r * 0.9), (e2["body"] as Node3D).global_transform), 17.0, 0.0, 0.0)
+	await g2.launch(it2["v"], it2["w"])
+	await _fly(g2)
+	check(g2.zone_points == 11, "al anillo de afuera suma 1 (total %d)" % g2.zone_points)
+	it2 = g2.cpu_shot(_face_target(g2, e2, Vector2(0, r + 0.6), (e2["body"] as Node3D).global_transform), 17.0, 0.0, 0.0)
+	await g2.launch(it2["v"], it2["w"])
+	await _fly(g2)
+	check(g2.zone_points == 11, "un tiro que pasa por arriba no suma (total %d)" % g2.zone_points)
+	cleanup()
+
 func test_every_dianas_level_is_beatable() -> void:
 	for lv in range(1, MinigameCatalog.levels("dianas").size() + 1):
 		var g: Dianas = await _dianas(lv)
-		while g.state != Minigame.State.OVER:
-			var target := Vector3.INF
-			for e in g.plates:
-				if not bool(e["fallen"]) and not bool(e["detached"]):
-					target = (e["body"] as RigidBody3D).global_position
-					break
-			if target == Vector3.INF:
-				break
-			# Si la placa quedo hamacandose por un golpe anterior, espera a que se calme (como haria una persona).
-			if g._carousel == null:
-				var calm: int = 0
+		var n: int = 0
+		while g.state != Minigame.State.OVER and n < 12:
+			n += 1
+			var aim := Vector3.INF
+			if g.goal == "derribar":
 				var tb: RigidBody3D = null
 				for e in g.plates:
 					if not bool(e["fallen"]) and not bool(e["detached"]):
 						tb = e["body"]
 						break
-				while tb != null and tb.linear_velocity.length() > 0.5 and calm < 60 * 7:
+				if tb == null:
+					break
+				# Si la placa quedo hamacandose por un golpe anterior, espera a que se calme (como haria una persona).
+				var calm: int = 0
+				while g._carousel == null and tb.linear_velocity.length() > 0.5 and calm < 60 * 7:
 					await tree.physics_frame
 					calm += 1
-				if tb != null:
-					target = tb.global_position
-			if g._carousel != null:
-				# Adelanta el giro: donde va a estar la placa cuando llegue la pelota.
-				var post := Vector3(float((g.def["carousel"] as Dictionary).get("x", 12.0)), 0, 0)
-				var spin: float = float((g.def["carousel"] as Dictionary).get("speed", 0.9))
-				var tof: float = g.runup_time + target.distance_to(g._ball_spot(0)) / 14.0
-				var rel: Vector3 = Vector3(target.x - post.x, 0, target.z - post.z).rotated(Vector3.UP, spin * tof)
-				target = Vector3(post.x + rel.x, target.y, rel.z)
+				aim = tb.global_position
+				if g._carousel != null:
+					# Adelanta el giro: donde va a estar la placa cuando llegue la pelota.
+					var post := Vector3(float((g.def["carousel"] as Dictionary).get("x", 12.0)), 0, 0)
+					var spin: float = float((g.def["carousel"] as Dictionary).get("speed", 0.9))
+					var tof: float = g.runup_time + aim.distance_to(g._ball_spot(0)) / 14.0
+					var rel: Vector3 = Vector3(aim.x - post.x, 0, aim.z - post.z).rotated(Vector3.UP, spin * tof)
+					aim = Vector3(post.x + rel.x, aim.y, rel.z)
+			else:
+				# Puntos: rota entre los blancos y apunta a la mejor zona (centro, o la esquina de 10 del tablero);
+				# si se mueve, a donde va a estar cuando llegue la pelota.
+				var e: Dictionary = g.plates[(n - 1) % g.plates.size()]
+				var face: Vector2 = Vector2.ZERO
+				if String(e["shape"]) == "panel":
+					face = Vector2(-0.78, 0.75) * (e["size"] as Vector2) * 0.5
+				var xf: Transform3D = (e["body"] as Node3D).global_transform
+				for m in g.movers:
+					if m["body"] == e["body"]:
+						var tof2: float = xf.origin.distance_to(g._ball_spot(0)) / 15.0 + 2.0 / 60.0
+						xf = g.mover_at(m, g.level_time + tof2)
+				aim = _face_target(g, e, face, xf)
 			# Tras el muro: tiro mas lento = arco mas alto (la fisica obliga a pasarla por arriba).
-			var it: Dictionary = g.cpu_shot(target, 11.5 if lv == 5 else 16.0, 0.0, 0.0)
+			var it: Dictionary = g.cpu_shot(aim, 11.5 if lv == 5 else (16.0 if g.goal == "derribar" else 15.0), 0.0, 0.0)
 			await g.launch(it["v"], it["w"])
 			await _fly(g)
-			if g.state == Minigame.State.OVER:
-				break
-		note("dianas %d (%s): %d/%d caidas en %d tiros" % [lv, g.def["title"], g.fallen_count(), g.plates.size(), g.shots[0]])
-		check(g.hanging() == 0, "nivel %d: todas las dianas se pueden desprender" % lv)
+		var medals: Array = g.def.get("medals", [1, 2, 3])
+		var sc: int = g.final_score()
+		note("dianas %d (%s): %d/%d caidas, %d puntos de zona, puntaje %d en %d tiros (medallas %s)" % [lv, g.def["title"], g.fallen_count(), g.hang_count(), g.zone_points, sc, g.shots[0], str(medals)])
+		if g.goal == "derribar":
+			check(g.hanging() == 0, "nivel %d: todas las dianas se pueden desprender" % lv)
+		check(sc >= int(medals[0]), "nivel %d: se llega al bronce (%d >= %d)" % [lv, sc, int(medals[0])])
 		cleanup()
 
 func test_rescue_mechanisms_are_physical() -> void:
