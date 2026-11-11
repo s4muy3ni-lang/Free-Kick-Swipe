@@ -11,6 +11,28 @@ Formato de entrada: **fecha — título** · commit · qué cambió · archivos 
 
 ---
 
+## 2026-11-11 — Etapas 7.8 y 7.12: Salto en alto y Field Goal
+
+- **Salto en alto** `SaltoAlto` (HABILIDAD, 3 niveles):
+  - La varilla es un cuerpo rígido suelto apoyado en dos tacos: un golpe real la tira (medido: quedó a 3,78 m del
+    taco).
+  - Vale si la pelota cruza el plano de los parantes por encima de la varilla, entre los parantes, y la varilla sigue
+    en su lugar.
+  - Tres intentos por altura; pasarla la sube (20 o 15 cm); tres nulos terminan la serie. Tope 3,2 m (los parantes
+    miden 3,4 m).
+  - Escenario: pista de atletismo con andariveles, colchoneta, parantes con escala y cartel.
+- **Field Goal** `FieldGoal` (DESAFÍOS DE ARCO, 3 niveles):
+  - Palos en Y físicos (travesaño a 3,05 m, verticales a 5,64 m y 9 m de alto).
+  - Serie de patadas desde distancias y ángulos del nivel, que valen 3 puntos, o 5 desde 40 m.
+  - Viento lateral opcional, aplicado como impulso por paso mientras la pelota vuela.
+  - Cuenta el cruce del plano por arriba del travesaño y entre los verticales.
+  - Cancha de fútbol americano con líneas de yardas, zona de anotación, tribunas y cámara recomendada propia.
+- Pruebas (`test_salto_fg`, 3): el golpe tira la varilla; por debajo es nulo; por arriba sube; los 3 niveles de salto
+  terminan y llegan al bronce. Por debajo del travesaño no vale; los 3 niveles de field goal llegan al bronce, con
+  viento incluido. Capturas revisadas en PC.
+
+---
+
 ## 2026-11-11 — Etapa 7.7: Básquet (Enceste ampliado, sin duplicar)
 
 - «Enceste» pasa a llamarse **Básquet** (mismo id, se conservan récords). Sigue contando el enceste solo si el centro de

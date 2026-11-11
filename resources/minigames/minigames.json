@@ -2924,6 +2924,151 @@
      ]
     }
    ]
+  },
+  {
+   "id": "salto_alto",
+   "title": "Salto en alto",
+   "scene": "res://scenes/minigames/salto_alto.tscn",
+   "status": "Implementado",
+   "description": "Pasá la pelota por encima de la varilla sin tirarla: tres intentos por altura y la varilla sube.",
+   "levels": [
+    {
+     "title": "Primeras alturas",
+     "objective": "Desde 1,20 m, sube 20 cm por salto. Tres nulos seguidos terminan la serie.",
+     "start": 1.2,
+     "step": 0.2,
+     "distance": 9.0,
+     "medals": [
+      180,
+      250,
+      320
+     ]
+    },
+    {
+     "title": "Más cerca",
+     "objective": "La varilla está a 6 m: hay que levantarla rápido. Desde 1,40 m.",
+     "start": 1.4,
+     "step": 0.2,
+     "distance": 6.0,
+     "medals": [
+      180,
+      250,
+      320
+     ]
+    },
+    {
+     "title": "Varilla corta",
+     "objective": "Parantes a 2,5 m: además de alto, preciso. Desde 1,30 m.",
+     "start": 1.3,
+     "step": 0.15,
+     "distance": 9.0,
+     "span": 2.5,
+     "medals": [
+      180,
+      250,
+      320
+     ]
+    }
+   ]
+  },
+  {
+   "id": "field_goal",
+   "title": "Field Goal",
+   "scene": "res://scenes/minigames/field_goal.tscn",
+   "status": "Implementado",
+   "description": "Palos en Y: por arriba del travesaño y entre los verticales. Patadas cada vez más lejos.",
+   "levels": [
+    {
+     "title": "Serie corta",
+     "objective": "5 patadas de 20 a 40 m, con ángulo. 3 puntos cada una; desde 40 m, 5.",
+     "kicks": [
+      [
+       20,
+       0
+      ],
+      [
+       25,
+       -4
+      ],
+      [
+       30,
+       4
+      ],
+      [
+       35,
+       0
+      ],
+      [
+       40,
+       -3
+      ]
+     ],
+     "medals": [
+      60,
+      120,
+      170
+     ]
+    },
+    {
+     "title": "Con viento",
+     "objective": "Viento cruzado: la pelota se abre en el aire. 5 patadas.",
+     "kicks": [
+      [
+       22,
+       0
+      ],
+      [
+       28,
+       3
+      ],
+      [
+       32,
+       -3
+      ],
+      [
+       36,
+       0
+      ],
+      [
+       40,
+       2
+      ]
+     ],
+     "wind": 1.6,
+     "medals": [
+      60,
+      120,
+      170
+     ]
+    },
+    {
+     "title": "Larga distancia",
+     "objective": "De 40 a 50 m: solo para piernas fuertes. 4 patadas.",
+     "kicks": [
+      [
+       40,
+       0
+      ],
+      [
+       44,
+       -3
+      ],
+      [
+       47,
+       3
+      ],
+      [
+       50,
+       0
+      ]
+     ],
+     "medals": [
+      50,
+      150,
+      200
+     ]
+    }
+   ]
   }
  ],
  "categories": [
@@ -3009,6 +3154,10 @@
       "r_dis_1",
       "r_dis_3"
      ]
+    },
+    {
+     "type": "game",
+     "game": "field_goal"
     }
    ]
   },
@@ -3089,6 +3238,10 @@
     {
      "type": "game",
      "game": "curling"
+    },
+    {
+     "type": "game",
+     "game": "salto_alto"
     }
    ]
   }

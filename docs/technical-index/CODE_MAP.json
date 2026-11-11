@@ -6225,7 +6225,7 @@
     {
       "id": "setpiece.minigames",
       "system": "SETPIECE",
-      "description": "Minijuegos arcade (MINIJUEGOS ARCADE: categorias -> modalidades -> niveles -> dificultad Facil/Normal/Dificil/Experto). Minigame (base: estados con topes, turnos, puntaje, reinicio, IA con la misma fisica, intenciones, records y medallas por dificultad, movers compartidos, camara con valores recomendados por minijuego + ajustes del usuario guardados por minijuego: CameraPrefs), MinigameCatalog (datos, categorias, dificultad: tiros y multiplicador de puntaje) y los juegos: Boton de caida, Demolicion, Enceste, Minigolf, Dianas (blancos 3D de frente al jugador, colgantes o fijos/moviles, puntaje por zona en el punto de impacto real), Rescate y Bowling. ArcadeLook: materiales con textura procedural, cesped, carteles y decoracion compartidos (sin colision). Eliminados por pedido (2026-11-11): Arqueros por turnos, FootPool, Rebotes de ingenio, Que no caiga, Futbol-tenis. Demolicion (2026-11-11): materiales con fisica propia (madera, cajon, ladrillo, piedra, metal, vidrio que se rompe en esquirlas por impacto real), figuras jenga/casita/columnata, objetivo por altura (down_h) y escenarios obra/castillo/almacen. Duelo del guante (GuanteDuel): maquinas con 3 botones (grande/mediano/chico, carga configurable), barra persistente, piston con resorte y masa que choca con el cuerpo del rival (consulta de forma barrida) y lo empuja con impulso y rozamiento; IA por valor esperado. Royal Flush (RoyalFlush): cartas-paleta que giran sobre su eje con detente y traba; mano de poker con las primeras 5 dadas vuelta. Dardos: diana gigante (malla con colores por vertice), puntaje por el punto de impacto real, reglas puntos/sector/301/duelo. Curling: hielo (compensa la rodadura de cesped dejando ICE_DECEL), piedras que quedan y se desplazan, tabla de deslizamiento medida, IA que deja o saca. Beisbol: bate mecanico (barra con inercia sobre un pivote, sensor que lo suelta, choque newtoniano barrido en 16 subpasos), distancia y jonron sobre la cerca. Precision: arco gigante con sectores (cruce real de la linea) y arquero de carton movil fisico.",
+      "description": "Minijuegos arcade (MINIJUEGOS ARCADE: categorias -> modalidades -> niveles -> dificultad Facil/Normal/Dificil/Experto). Minigame (base: estados con topes, turnos, puntaje, reinicio, IA con la misma fisica, intenciones, records y medallas por dificultad, movers compartidos, camara con valores recomendados por minijuego + ajustes del usuario guardados por minijuego: CameraPrefs), MinigameCatalog (datos, categorias, dificultad: tiros y multiplicador de puntaje) y los juegos: Boton de caida, Demolicion, Enceste, Minigolf, Dianas (blancos 3D de frente al jugador, colgantes o fijos/moviles, puntaje por zona en el punto de impacto real), Rescate y Bowling. ArcadeLook: materiales con textura procedural, cesped, carteles y decoracion compartidos (sin colision). Eliminados por pedido (2026-11-11): Arqueros por turnos, FootPool, Rebotes de ingenio, Que no caiga, Futbol-tenis. Demolicion (2026-11-11): materiales con fisica propia (madera, cajon, ladrillo, piedra, metal, vidrio que se rompe en esquirlas por impacto real), figuras jenga/casita/columnata, objetivo por altura (down_h) y escenarios obra/castillo/almacen. Duelo del guante (GuanteDuel): maquinas con 3 botones (grande/mediano/chico, carga configurable), barra persistente, piston con resorte y masa que choca con el cuerpo del rival (consulta de forma barrida) y lo empuja con impulso y rozamiento; IA por valor esperado. Royal Flush (RoyalFlush): cartas-paleta que giran sobre su eje con detente y traba; mano de poker con las primeras 5 dadas vuelta. Dardos: diana gigante (malla con colores por vertice), puntaje por el punto de impacto real, reglas puntos/sector/301/duelo. Curling: hielo (compensa la rodadura de cesped dejando ICE_DECEL), piedras que quedan y se desplazan, tabla de deslizamiento medida, IA que deja o saca. Beisbol: bate mecanico (barra con inercia sobre un pivote, sensor que lo suelta, choque newtoniano barrido en 16 subpasos), distancia y jonron sobre la cerca. Precision: arco gigante con sectores (cruce real de la linea) y arquero de carton movil fisico. Salto en alto (varilla suelta sobre tacos, 3 intentos por altura, tope 3,2 m) y Field Goal (palos en Y fisicos, serie de patadas, viento).",
       "keywords": [
         "minijuego",
         "minijuegos",
@@ -6331,7 +6331,12 @@
         "cerca",
         "precision",
         "sectores",
-        "arquero de carton"
+        "arquero de carton",
+        "salto en alto",
+        "varilla",
+        "field goal",
+        "palos en y",
+        "viento"
       ],
       "files": [
         "scripts/minigames/minigame.gd",
@@ -6378,7 +6383,12 @@
         "tests/test_beisbol.gd",
         "scripts/minigames/precision.gd",
         "scenes/minigames/precision.tscn",
-        "tests/test_precision.gd"
+        "tests/test_precision.gd",
+        "scripts/minigames/salto_alto.gd",
+        "scenes/minigames/salto_alto.tscn",
+        "scripts/minigames/field_goal.gd",
+        "scenes/minigames/field_goal.tscn",
+        "tests/test_salto_fg.gd"
       ],
       "symbols": [],
       "parameters": [],
