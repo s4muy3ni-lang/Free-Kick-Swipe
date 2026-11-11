@@ -3069,6 +3069,142 @@
      ]
     }
    ]
+  },
+  {
+   "id": "aros_fuego",
+   "title": "Aros de fuego",
+   "scene": "res://scenes/minigames/aros_fuego.tscn",
+   "status": "Implementado",
+   "description": "Aros colgados que arden: pasá la pelota por adentro. Las secuencias valen el doble si las pasás todas en un tiro.",
+   "levels": [
+    {
+     "title": "Primer aro",
+     "objective": "Pasá la pelota por el aro de fuego. 4 tiros, 100 cada vez.",
+     "shots": 4,
+     "rings": [
+      {
+       "pos": [
+        10,
+        1.8,
+        0
+       ],
+       "r": 0.75
+      }
+     ],
+     "medals": [
+      100,
+      200,
+      300
+     ]
+    },
+    {
+     "title": "Tres alturas",
+     "objective": "Tres aros a distinta altura: 100, 200 y 300. 6 tiros.",
+     "shots": 6,
+     "rings": [
+      {
+       "pos": [
+        8,
+        1.2,
+        -2.2
+       ],
+       "r": 0.7,
+       "value": 100
+      },
+      {
+       "pos": [
+        11,
+        2.4,
+        0
+       ],
+       "r": 0.7,
+       "value": 200
+      },
+      {
+       "pos": [
+        14,
+        3.4,
+        2.2
+       ],
+       "r": 0.7,
+       "value": 300
+      }
+     ],
+     "medals": [
+      300,
+      700,
+      1000
+     ]
+    },
+    {
+     "title": "Secuencia",
+     "objective": "Tres aros en fila: pasá por los tres en el mismo tiro (valen el doble). 5 tiros.",
+     "shots": 5,
+     "sequences": [
+      [
+       {
+        "pos": [
+         7,
+         1.45,
+         0
+        ],
+        "r": 0.8
+       },
+       {
+        "pos": [
+         10,
+         1.75,
+         0
+        ],
+        "r": 0.8
+       },
+       {
+        "pos": [
+         13,
+         1.75,
+         0
+        ],
+        "r": 0.8
+       }
+      ]
+     ],
+     "medals": [
+      300,
+      600,
+      1200
+     ]
+    },
+    {
+     "title": "Aro que sube y baja",
+     "objective": "El aro sube y baja colgado de su cadena: elegí el momento. 5 tiros.",
+     "shots": 5,
+     "rings": [
+      {
+       "pos": [
+        11,
+        2.2,
+        0
+       ],
+       "r": 0.7,
+       "value": 200,
+       "move": {
+        "axis": [
+         0,
+         1,
+         0
+        ],
+        "amp": 0.9,
+        "speed": 1.3
+       }
+      }
+     ],
+     "medals": [
+      200,
+      400,
+      600
+     ]
+    }
+   ]
   }
  ],
  "categories": [
@@ -3158,6 +3294,10 @@
     {
      "type": "game",
      "game": "field_goal"
+    },
+    {
+     "type": "game",
+     "game": "aros_fuego"
     }
    ]
   },

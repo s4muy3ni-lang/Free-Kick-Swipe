@@ -11,6 +11,20 @@ Formato de entrada: **fecha — título** · commit · qué cambió · archivos 
 
 ---
 
+## 2026-11-11 — Etapa 7.11: Aros de fuego
+
+- **Modo nuevo** `ArosFuego` (DESAFÍOS DE ARCO, 4 niveles): aros verticales colgados, de frente al jugador.
+- **Aro físico:** anillo de 18 esferas, así que la pelota rebota en el borde (medido: al borde vuelve a −8,4 m/s y no
+  suma). Pasar es que el centro de la pelota cruce el plano del aro por dentro.
+- **Secuencias:** fila de aros que vale doble solo si en el mismo tiro se pasa por todos, en orden. También hay aros con
+  valor propio y un aro que sube y baja.
+- **Fuego liviano para Android:** 12 lenguas cónicas emisivas por aro que titilan por escala, sin partículas ni luces.
+  Escenario de circo con pista, borde a franjas, postes y lonas.
+- Pruebas (`test_aros_fuego`, 2): por el centro suma y al borde rebota sin sumar; los 4 niveles llegan al bronce (la
+  secuencia se completó en 5 de 5 tiros del modelo). Captura revisada en PC.
+
+---
+
 ## 2026-11-11 — Etapas 7.8 y 7.12: Salto en alto y Field Goal
 
 - **Salto en alto** `SaltoAlto` (HABILIDAD, 3 niveles):
