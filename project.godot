@@ -7,7 +7,7 @@ config_version=5
 
 config/name="Free Kick Swipe"
 config/description="Penales y tiros libres con el dedo: fisica real de la pelota, red de tela, arquero y barrera."
-run/main_scene="res://scenes/setpiece/main_menu.tscn"
+run/main_scene="res://scenes/online/welcome.tscn"
 config/features=PackedStringArray("4.7", "GL Compatibility")
 run/max_fps=0
 config/icon="res://icon.svg"
@@ -18,6 +18,7 @@ Tuning="*res://scripts/gameplay/tuning.gd"
 GraphicsSettings="*res://scripts/diagnostics/graphics_settings.gd"
 Sfx="*res://scripts/audio/sfx.gd"
 Toasts="*res://scripts/ui/toasts.gd"
+Online="*res://scripts/online/online.gd"
 
 [display]
 

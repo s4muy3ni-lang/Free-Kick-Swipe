@@ -1,0 +1,1437 @@
+{
+    "caps": {
+        "bot_coins": 600,
+        "offline_xp": 1500,
+        "max_timeouts": 3,
+        "grace_seconds": 5,
+        "offline_coins": 800,
+        "offline_season": 300,
+        "result_seconds": 8,
+        "bot_wait_seconds": 8,
+        "chat_min_seconds": 2,
+        "chat_max_per_match": 30
+    },
+    "events": [
+        {
+            "id": "copa_penales_1",
+            "art": {
+                "icon": "penal",
+                "color": "#2f6fe0"
+            },
+            "mode": "penales",
+            "rules": "Cada partida suma puntos; ganar suma más.",
+            "title": "Copa de Penales",
+            "ends_at": "2026-11-23T00:00:00+00:00",
+            "rewards": {
+                "tiers": [
+                    [
+                        100,
+                        {
+                            "coins": 300
+                        }
+                    ],
+                    [
+                        300,
+                        {
+                            "item": "jersey_copa_penales"
+                        }
+                    ]
+                ],
+                "per_win_points": 30,
+                "per_play_points": 10
+            },
+            "missions": [
+                {
+                    "id": "g10",
+                    "text": "Meté 10 goles"
+                },
+                {
+                    "id": "w5",
+                    "text": "Ganá 5 partidas"
+                }
+            ],
+            "subtitle": "Dos semanas de tandas",
+            "starts_at": "2026-11-08T00:00:00+00:00"
+        },
+        {
+            "id": "festival_tl_1",
+            "art": {
+                "icon": "tiro_libre",
+                "color": "#1f9d55"
+            },
+            "mode": "tiros_libres",
+            "rules": "Cada partida suma puntos.",
+            "title": "Festival de Tiros Libres",
+            "ends_at": "2026-11-26T00:00:00+00:00",
+            "rewards": {
+                "tiers": [
+                    [
+                        100,
+                        {
+                            "coins": 300
+                        }
+                    ],
+                    [
+                        300,
+                        {
+                            "item": "ball_estrellas"
+                        }
+                    ]
+                ],
+                "per_win_points": 30,
+                "per_play_points": 10
+            },
+            "missions": [
+                {
+                    "id": "fk30",
+                    "text": "Meté un gol desde 30 m"
+                }
+            ],
+            "subtitle": "Desde lejos vale más",
+            "starts_at": "2026-11-11T00:00:00+00:00"
+        },
+        {
+            "id": "copa_arcade_1",
+            "art": {
+                "icon": "arcade",
+                "color": "#9b3fb8"
+            },
+            "mode": null,
+            "rules": "Cualquier partida online suma.",
+            "title": "Copa Arcade",
+            "ends_at": "2026-12-02T00:00:00+00:00",
+            "rewards": {
+                "tiers": [
+                    [
+                        150,
+                        {
+                            "coins": 400
+                        }
+                    ],
+                    [
+                        400,
+                        {
+                            "item": "boots_cromados"
+                        }
+                    ]
+                ],
+                "per_win_points": 20,
+                "per_play_points": 8
+            },
+            "missions": [
+            ],
+            "subtitle": "Todos los minijuegos online suman",
+            "starts_at": "2026-11-11T00:00:00+00:00"
+        },
+        {
+            "id": "desafio_dianas_1",
+            "art": {
+                "icon": "diana",
+                "color": "#2fb3c0"
+            },
+            "mode": "diana",
+            "rules": "Cada partida suma puntos.",
+            "title": "Desafío de Dianas",
+            "ends_at": "2026-11-30T00:00:00+00:00",
+            "rewards": {
+                "tiers": [
+                    [
+                        100,
+                        {
+                            "coins": 300
+                        }
+                    ]
+                ],
+                "per_win_points": 30,
+                "per_play_points": 10
+            },
+            "missions": [
+            ],
+            "subtitle": "Precisión pura",
+            "starts_at": "2026-11-16T00:00:00+00:00"
+        }
+    ],
+    "seasons": [
+        {
+            "id": "t1",
+            "name": "Temporada 1: Noche de Estadio",
+            "theme": {
+                "art": "estadio_noche",
+                "color": "#6a2fb8",
+                "accent": "#ffc23a"
+            },
+            "ends_at": "2027-02-01T00:00:00+00:00",
+            "starts_at": "2026-11-01T00:00:00+00:00"
+        }
+    ],
+    "game_modes": [
+        {
+            "id": "penales",
+            "art": {
+                "icon": "penal",
+                "color": "#2f6fe0"
+            },
+            "kind": "penales",
+            "name": "Penales",
+            "sort": 1,
+            "rules": "Alternan tirador y arquero. El arquero elige dónde tirarse antes del tiro: si el tiro va a esa zona, ataja. 20 s por tiro.",
+            "online": true,
+            "rounds": 5,
+            "scene_def": {
+                "mode": "penalty"
+            },
+            "entry_fees": [
+                0,
+                50,
+                100,
+                200
+            ],
+            "description": "Uno patea, el otro ataja. Cinco cada uno y muerte súbita.",
+            "turn_seconds": 20,
+            "max_points_per_turn": 1
+        },
+        {
+            "id": "tiros_libres",
+            "art": {
+                "icon": "tiro_libre",
+                "color": "#1f9d55"
+            },
+            "kind": "tiros_libres",
+            "name": "Tiros libres",
+            "sort": 2,
+            "rules": "Alternan tirador y arquero. Cada ronda se elige la distancia (más lejos, más difícil). 20 s por tiro.",
+            "online": true,
+            "rounds": 5,
+            "scene_def": {
+                "mode": "free_kick",
+                "distances": [
+                    18,
+                    22,
+                    26,
+                    30
+                ]
+            },
+            "entry_fees": [
+                0,
+                50,
+                100,
+                200
+            ],
+            "description": "Elegí la distancia, superá la barrera y al arquero.",
+            "turn_seconds": 20,
+            "max_points_per_turn": 1
+        },
+        {
+            "id": "a_la_vista",
+            "art": {
+                "icon": "vacio",
+                "color": "#9b3fb8"
+            },
+            "kind": "minijuego",
+            "name": "A la vista",
+            "sort": 3,
+            "rules": "Por turnos. Cada botón acertado es un punto; gana el primero a 3.",
+            "online": true,
+            "rounds": 10,
+            "scene_def": {
+                "game": "boton_caida",
+                "level": 1,
+                "target": 3
+            },
+            "entry_fees": [
+                0,
+                50,
+                100
+            ],
+            "description": "Plataformas enfrentadas: pegale al botón del rival y tiralo al vacío.",
+            "turn_seconds": 20,
+            "max_points_per_turn": 1
+        },
+        {
+            "id": "guante",
+            "art": {
+                "icon": "guante",
+                "color": "#d33b3b"
+            },
+            "kind": "minijuego",
+            "name": "Guante",
+            "sort": 4,
+            "rules": "Por turnos. Cada guantazo es un punto; gana el primero a 2.",
+            "online": true,
+            "rounds": 12,
+            "scene_def": {
+                "game": "guante",
+                "level": 1,
+                "target": 2
+            },
+            "entry_fees": [
+                0,
+                50,
+                100
+            ],
+            "description": "Cargá tu guante pegándole a los botones; al 100 % sale y vuela el rival.",
+            "turn_seconds": 20,
+            "max_points_per_turn": 1
+        },
+        {
+            "id": "dardos",
+            "art": {
+                "icon": "dardos",
+                "color": "#e0a12f"
+            },
+            "kind": "minijuego",
+            "name": "Dardos",
+            "sort": 5,
+            "rules": "Por turnos, 5 tiros cada uno. Suma el punto real del impacto.",
+            "online": true,
+            "rounds": 5,
+            "scene_def": {
+                "game": "dardos",
+                "level": 1
+            },
+            "entry_fees": [
+                0,
+                50,
+                100
+            ],
+            "description": "Diana gigante: sectores, dobles, triples y centro.",
+            "turn_seconds": 20,
+            "max_points_per_turn": 60
+        },
+        {
+            "id": "basket",
+            "art": {
+                "icon": "basket",
+                "color": "#e06a2f"
+            },
+            "kind": "minijuego",
+            "name": "Basket",
+            "sort": 6,
+            "rules": "Por turnos, 5 tiros cada uno. Tocar el aro no cuenta.",
+            "online": true,
+            "rounds": 5,
+            "scene_def": {
+                "game": "enceste",
+                "level": 1
+            },
+            "entry_fees": [
+                0,
+                50,
+                100
+            ],
+            "description": "Aros de 10, 15 y 20: la pelota tiene que entrar por arriba.",
+            "turn_seconds": 20,
+            "max_points_per_turn": 20
+        },
+        {
+            "id": "diana",
+            "art": {
+                "icon": "diana",
+                "color": "#2fb3c0"
+            },
+            "kind": "minijuego",
+            "name": "Diana de precisión",
+            "sort": 7,
+            "rules": "Por turnos, 5 tiros cada uno. Cuenta el primer pique.",
+            "online": true,
+            "rounds": 5,
+            "scene_def": {
+                "game": "dianas",
+                "level": "Diana en el suelo"
+            },
+            "entry_fees": [
+                0,
+                50,
+                100
+            ],
+            "description": "Diana gigante en el suelo, lejos: marca donde pica la pelota.",
+            "turn_seconds": 20,
+            "max_points_per_turn": 100
+        }
+    ],
+    "season_tiers": [
+        {
+            "tier": 1,
+            "season_id": "t1",
+            "free_reward": {
+                "coins": 55
+            },
+            "premium_reward": {
+                "xp": 50,
+                "coins": 110
+            },
+            "points_required": 100
+        },
+        {
+            "tier": 2,
+            "season_id": "t1",
+            "free_reward": {
+                "coins": 60
+            },
+            "premium_reward": {
+                "xp": 50,
+                "coins": 120
+            },
+            "points_required": 200
+        },
+        {
+            "tier": 3,
+            "season_id": "t1",
+            "free_reward": {
+                "coins": 65
+            },
+            "premium_reward": {
+                "xp": 50,
+                "coins": 130
+            },
+            "points_required": 300
+        },
+        {
+            "tier": 4,
+            "season_id": "t1",
+            "free_reward": {
+                "coins": 70
+            },
+            "premium_reward": {
+                "xp": 50,
+                "coins": 140
+            },
+            "points_required": 400
+        },
+        {
+            "tier": 5,
+            "season_id": "t1",
+            "free_reward": {
+                "item": "ball_t1"
+            },
+            "premium_reward": {
+                "coins": 500
+            },
+            "points_required": 500
+        },
+        {
+            "tier": 6,
+            "season_id": "t1",
+            "free_reward": {
+                "coins": 80
+            },
+            "premium_reward": {
+                "xp": 50,
+                "coins": 160
+            },
+            "points_required": 600
+        },
+        {
+            "tier": 7,
+            "season_id": "t1",
+            "free_reward": {
+                "coins": 85
+            },
+            "premium_reward": {
+                "xp": 50,
+                "coins": 170
+            },
+            "points_required": 700
+        },
+        {
+            "tier": 8,
+            "season_id": "t1",
+            "free_reward": {
+                "coins": 90
+            },
+            "premium_reward": {
+                "xp": 50,
+                "coins": 180
+            },
+            "points_required": 800
+        },
+        {
+            "tier": 9,
+            "season_id": "t1",
+            "free_reward": {
+                "coins": 95
+            },
+            "premium_reward": {
+                "xp": 50,
+                "coins": 190
+            },
+            "points_required": 900
+        },
+        {
+            "tier": 10,
+            "season_id": "t1",
+            "free_reward": {
+                "item": "jersey_noche_t1"
+            },
+            "premium_reward": {
+                "coins": 500
+            },
+            "points_required": 1000
+        },
+        {
+            "tier": 11,
+            "season_id": "t1",
+            "free_reward": {
+                "coins": 105
+            },
+            "premium_reward": {
+                "xp": 50,
+                "coins": 210
+            },
+            "points_required": 1100
+        },
+        {
+            "tier": 12,
+            "season_id": "t1",
+            "free_reward": {
+                "coins": 110
+            },
+            "premium_reward": {
+                "xp": 50,
+                "coins": 220
+            },
+            "points_required": 1200
+        },
+        {
+            "tier": 13,
+            "season_id": "t1",
+            "free_reward": {
+                "coins": 115
+            },
+            "premium_reward": {
+                "xp": 50,
+                "coins": 230
+            },
+            "points_required": 1300
+        },
+        {
+            "tier": 14,
+            "season_id": "t1",
+            "free_reward": {
+                "coins": 120
+            },
+            "premium_reward": {
+                "xp": 50,
+                "coins": 240
+            },
+            "points_required": 1400
+        },
+        {
+            "tier": 15,
+            "season_id": "t1",
+            "free_reward": {
+                "item": "num_mitico_7"
+            },
+            "premium_reward": {
+                "coins": 500
+            },
+            "points_required": 1500
+        },
+        {
+            "tier": 16,
+            "season_id": "t1",
+            "free_reward": {
+                "coins": 130
+            },
+            "premium_reward": {
+                "xp": 50,
+                "coins": 260
+            },
+            "points_required": 1600
+        },
+        {
+            "tier": 17,
+            "season_id": "t1",
+            "free_reward": {
+                "coins": 135
+            },
+            "premium_reward": {
+                "xp": 50,
+                "coins": 270
+            },
+            "points_required": 1700
+        },
+        {
+            "tier": 18,
+            "season_id": "t1",
+            "free_reward": {
+                "coins": 140
+            },
+            "premium_reward": {
+                "xp": 50,
+                "coins": 280
+            },
+            "points_required": 1800
+        },
+        {
+            "tier": 19,
+            "season_id": "t1",
+            "free_reward": {
+                "coins": 145
+            },
+            "premium_reward": {
+                "xp": 50,
+                "coins": 290
+            },
+            "points_required": 1900
+        },
+        {
+            "tier": 20,
+            "season_id": "t1",
+            "free_reward": {
+                "item": "boots_cromados"
+            },
+            "premium_reward": {
+                "coins": 500
+            },
+            "points_required": 2000
+        },
+        {
+            "tier": 21,
+            "season_id": "t1",
+            "free_reward": {
+                "coins": 155
+            },
+            "premium_reward": {
+                "xp": 50,
+                "coins": 310
+            },
+            "points_required": 2100
+        },
+        {
+            "tier": 22,
+            "season_id": "t1",
+            "free_reward": {
+                "coins": 160
+            },
+            "premium_reward": {
+                "xp": 50,
+                "coins": 320
+            },
+            "points_required": 2200
+        },
+        {
+            "tier": 23,
+            "season_id": "t1",
+            "free_reward": {
+                "coins": 165
+            },
+            "premium_reward": {
+                "xp": 50,
+                "coins": 330
+            },
+            "points_required": 2300
+        },
+        {
+            "tier": 24,
+            "season_id": "t1",
+            "free_reward": {
+                "coins": 170
+            },
+            "premium_reward": {
+                "xp": 50,
+                "coins": 340
+            },
+            "points_required": 2400
+        },
+        {
+            "tier": 25,
+            "season_id": "t1",
+            "free_reward": {
+                "item": "ball_estrellas"
+            },
+            "premium_reward": {
+                "coins": 500
+            },
+            "points_required": 2500
+        },
+        {
+            "tier": 26,
+            "season_id": "t1",
+            "free_reward": {
+                "coins": 180
+            },
+            "premium_reward": {
+                "xp": 50,
+                "coins": 360
+            },
+            "points_required": 2600
+        },
+        {
+            "tier": 27,
+            "season_id": "t1",
+            "free_reward": {
+                "coins": 185
+            },
+            "premium_reward": {
+                "xp": 50,
+                "coins": 370
+            },
+            "points_required": 2700
+        },
+        {
+            "tier": 28,
+            "season_id": "t1",
+            "free_reward": {
+                "coins": 190
+            },
+            "premium_reward": {
+                "xp": 50,
+                "coins": 380
+            },
+            "points_required": 2800
+        },
+        {
+            "tier": 29,
+            "season_id": "t1",
+            "free_reward": {
+                "coins": 195
+            },
+            "premium_reward": {
+                "xp": 50,
+                "coins": 390
+            },
+            "points_required": 2900
+        },
+        {
+            "tier": 30,
+            "season_id": "t1",
+            "free_reward": {
+                "item": "jersey_copa_penales"
+            },
+            "premium_reward": {
+                "coins": 500
+            },
+            "points_required": 3000
+        }
+    ],
+    "catalog_items": [
+        {
+            "id": "ball_clasico",
+            "data": {
+                "design": "clasico"
+            },
+            "kind": "ball",
+            "name": "Balón clásico",
+            "sort": 1,
+            "active": true,
+            "rarity": "comun",
+            "unlock": "free",
+            "min_level": 1,
+            "description": "Gajos blancos y negros.",
+            "price_coins": null
+        },
+        {
+            "id": "ball_moderno",
+            "data": {
+                "design": "moderno"
+            },
+            "kind": "ball",
+            "name": "Balón moderno",
+            "sort": 2,
+            "active": true,
+            "rarity": "comun",
+            "unlock": "free",
+            "min_level": 1,
+            "description": "Diseño actual.",
+            "price_coins": null
+        },
+        {
+            "id": "ball_competicion",
+            "data": {
+                "design": "competicion"
+            },
+            "kind": "ball",
+            "name": "Balón de competición",
+            "sort": 3,
+            "active": true,
+            "rarity": "raro",
+            "unlock": "progression",
+            "min_level": 4,
+            "description": "",
+            "price_coins": null
+        },
+        {
+            "id": "ball_noche",
+            "data": {
+                "glow": true,
+                "design": "noche"
+            },
+            "kind": "ball",
+            "name": "Balón nocturno",
+            "sort": 4,
+            "active": true,
+            "rarity": "epico",
+            "unlock": "shop",
+            "min_level": 2,
+            "description": "Brilla en la noche.",
+            "price_coins": 700
+        },
+        {
+            "id": "ball_llamas",
+            "data": {
+                "trail": "fuego",
+                "design": "llamas"
+            },
+            "kind": "ball",
+            "name": "Balón en llamas",
+            "sort": 5,
+            "active": true,
+            "rarity": "legendario",
+            "unlock": "shop",
+            "min_level": 6,
+            "description": "Deja una estela de fuego.",
+            "price_coins": 2000
+        },
+        {
+            "id": "ball_t1",
+            "data": {
+                "design": "temporada_1"
+            },
+            "kind": "ball",
+            "name": "Balón Temporada 1",
+            "sort": 6,
+            "active": true,
+            "rarity": "epico",
+            "unlock": "season",
+            "min_level": 1,
+            "description": "Edición de temporada.",
+            "price_coins": null
+        },
+        {
+            "id": "ball_estrellas",
+            "data": {
+                "trail": "estrellas",
+                "design": "estrellas"
+            },
+            "kind": "ball",
+            "name": "Balón estrellado",
+            "sort": 7,
+            "active": true,
+            "rarity": "epico",
+            "unlock": "event",
+            "min_level": 1,
+            "description": "Recompensa de evento.",
+            "price_coins": null
+        },
+        {
+            "id": "boots_clasicos",
+            "data": {
+                "color": 1,
+                "model": "clasico"
+            },
+            "kind": "boots",
+            "name": "Clásicos",
+            "sort": 1,
+            "active": true,
+            "rarity": "comun",
+            "unlock": "free",
+            "min_level": 1,
+            "description": "Cuero negro de toda la vida.",
+            "price_coins": null
+        },
+        {
+            "id": "boots_modernos",
+            "data": {
+                "color": 0,
+                "model": "moderno"
+            },
+            "kind": "boots",
+            "name": "Modernos",
+            "sort": 2,
+            "active": true,
+            "rarity": "comun",
+            "unlock": "free",
+            "min_level": 1,
+            "description": "Livianos y de color.",
+            "price_coins": null
+        },
+        {
+            "id": "boots_pro",
+            "data": {
+                "color": 3,
+                "model": "pro"
+            },
+            "kind": "boots",
+            "name": "Profesionales",
+            "sort": 3,
+            "active": true,
+            "rarity": "raro",
+            "unlock": "progression",
+            "min_level": 5,
+            "description": "Para los que ya saben.",
+            "price_coins": null
+        },
+        {
+            "id": "boots_relampago",
+            "data": {
+                "glow": true,
+                "color": 5,
+                "model": "pro"
+            },
+            "kind": "boots",
+            "name": "Relámpago",
+            "sort": 4,
+            "active": true,
+            "rarity": "epico",
+            "unlock": "shop",
+            "min_level": 3,
+            "description": "Edición especial.",
+            "price_coins": 900
+        },
+        {
+            "id": "boots_dorados",
+            "data": {
+                "color": 6,
+                "model": "pro"
+            },
+            "kind": "boots",
+            "name": "Dorados",
+            "sort": 5,
+            "active": true,
+            "rarity": "legendario",
+            "unlock": "shop",
+            "min_level": 5,
+            "description": "Edición especial.",
+            "price_coins": 1500
+        },
+        {
+            "id": "boots_cromados",
+            "data": {
+                "color": 7,
+                "model": "pro"
+            },
+            "kind": "boots",
+            "name": "Cromados",
+            "sort": 6,
+            "active": true,
+            "rarity": "legendario",
+            "unlock": "event",
+            "min_level": 1,
+            "description": "Diseño exclusivo de evento.",
+            "price_coins": null
+        },
+        {
+            "id": "cel_1",
+            "data": {
+                "index": 1
+            },
+            "kind": "celebration",
+            "name": "Festejo 1",
+            "sort": 1,
+            "active": true,
+            "rarity": "comun",
+            "unlock": "free",
+            "min_level": 1,
+            "description": "",
+            "price_coins": null
+        },
+        {
+            "id": "cel_2",
+            "data": {
+                "index": 2
+            },
+            "kind": "celebration",
+            "name": "Festejo 2",
+            "sort": 2,
+            "active": true,
+            "rarity": "comun",
+            "unlock": "free",
+            "min_level": 1,
+            "description": "",
+            "price_coins": null
+        },
+        {
+            "id": "cel_3",
+            "data": {
+                "index": 3
+            },
+            "kind": "celebration",
+            "name": "Festejo 3",
+            "sort": 3,
+            "active": true,
+            "rarity": "comun",
+            "unlock": "free",
+            "min_level": 1,
+            "description": "",
+            "price_coins": null
+        },
+        {
+            "id": "cel_4",
+            "data": {
+                "index": 4
+            },
+            "kind": "celebration",
+            "name": "Festejo 4",
+            "sort": 4,
+            "active": true,
+            "rarity": "comun",
+            "unlock": "free",
+            "min_level": 1,
+            "description": "",
+            "price_coins": null
+        },
+        {
+            "id": "cel_5",
+            "data": {
+                "index": 5
+            },
+            "kind": "celebration",
+            "name": "Festejo 5",
+            "sort": 5,
+            "active": true,
+            "rarity": "raro",
+            "unlock": "progression",
+            "min_level": 8,
+            "description": "",
+            "price_coins": null
+        },
+        {
+            "id": "cel_6",
+            "data": {
+                "index": 6
+            },
+            "kind": "celebration",
+            "name": "Festejo 6",
+            "sort": 6,
+            "active": true,
+            "rarity": "epico",
+            "unlock": "progression",
+            "min_level": 12,
+            "description": "",
+            "price_coins": null
+        },
+        {
+            "id": "energizante_monedas",
+            "data": {
+                "boost": "coins_x2",
+                "matches": 3
+            },
+            "kind": "consumable",
+            "name": "Energizante de monedas",
+            "sort": 1,
+            "active": true,
+            "rarity": "raro",
+            "unlock": "shop",
+            "min_level": 1,
+            "description": "Duplica las monedas de tus próximas 3 partidas.",
+            "price_coins": 300
+        },
+        {
+            "id": "energizante_xp",
+            "data": {
+                "boost": "xp_x2",
+                "minutes": 60
+            },
+            "kind": "consumable",
+            "name": "Energizante de experiencia",
+            "sort": 2,
+            "active": true,
+            "rarity": "raro",
+            "unlock": "shop",
+            "min_level": 1,
+            "description": "Duplica la XP ganada durante 60 minutos.",
+            "price_coins": 300
+        },
+        {
+            "id": "escudo_racha",
+            "data": {
+                "boost": "streak_shield",
+                "matches": 1
+            },
+            "kind": "consumable",
+            "name": "Escudo de racha",
+            "sort": 3,
+            "active": true,
+            "rarity": "raro",
+            "unlock": "shop",
+            "min_level": 3,
+            "description": "Protege tu racha de victorias de una derrota.",
+            "price_coins": 250
+        },
+        {
+            "id": "emote_basicos",
+            "data": {
+                "set": [
+                    "😀",
+                    "😂",
+                    "😮",
+                    "👏",
+                    "⚽",
+                    "🧤"
+                ]
+            },
+            "kind": "emote",
+            "name": "Emojis básicos",
+            "sort": 1,
+            "active": true,
+            "rarity": "comun",
+            "unlock": "free",
+            "min_level": 1,
+            "description": "",
+            "price_coins": null
+        },
+        {
+            "id": "emote_fuego",
+            "data": {
+                "set": [
+                    "🔥",
+                    "😎",
+                    "💪",
+                    "🙌"
+                ]
+            },
+            "kind": "emote",
+            "name": "Emojis de fuego",
+            "sort": 2,
+            "active": true,
+            "rarity": "raro",
+            "unlock": "shop",
+            "min_level": 1,
+            "description": "",
+            "price_coins": 250
+        },
+        {
+            "id": "jersey_liso",
+            "data": {
+                "pattern": "liso"
+            },
+            "kind": "jersey",
+            "name": "Lisa",
+            "sort": 1,
+            "active": true,
+            "rarity": "comun",
+            "unlock": "free",
+            "min_level": 1,
+            "description": "Camiseta de un color.",
+            "price_coins": null
+        },
+        {
+            "id": "jersey_rayas",
+            "data": {
+                "pattern": "rayas"
+            },
+            "kind": "jersey",
+            "name": "A rayas",
+            "sort": 2,
+            "active": true,
+            "rarity": "comun",
+            "unlock": "free",
+            "min_level": 1,
+            "description": "Rayas verticales de dos colores.",
+            "price_coins": null
+        },
+        {
+            "id": "jersey_banda",
+            "data": {
+                "pattern": "banda"
+            },
+            "kind": "jersey",
+            "name": "Banda",
+            "sort": 3,
+            "active": true,
+            "rarity": "comun",
+            "unlock": "free",
+            "min_level": 1,
+            "description": "Banda diagonal.",
+            "price_coins": null
+        },
+        {
+            "id": "jersey_aros",
+            "data": {
+                "pattern": "aros"
+            },
+            "kind": "jersey",
+            "name": "Aros",
+            "sort": 4,
+            "active": true,
+            "rarity": "raro",
+            "unlock": "progression",
+            "min_level": 3,
+            "description": "Franjas horizontales.",
+            "price_coins": null
+        },
+        {
+            "id": "jersey_mitad",
+            "data": {
+                "pattern": "mitad"
+            },
+            "kind": "jersey",
+            "name": "Mitad y mitad",
+            "sort": 5,
+            "active": true,
+            "rarity": "raro",
+            "unlock": "progression",
+            "min_level": 6,
+            "description": "Dos mitades de color.",
+            "price_coins": null
+        },
+        {
+            "id": "jersey_degradado",
+            "data": {
+                "pattern": "degradado"
+            },
+            "kind": "jersey",
+            "name": "Degradé",
+            "sort": 6,
+            "active": true,
+            "rarity": "epico",
+            "unlock": "shop",
+            "min_level": 1,
+            "description": "Degradé de un color al otro.",
+            "price_coins": 800
+        },
+        {
+            "id": "jersey_clasica_retro",
+            "data": {
+                "colors": [
+                    0,
+                    2
+                ],
+                "pattern": "rayas_finas",
+                "official": true
+            },
+            "kind": "jersey",
+            "name": "Clásica retro",
+            "sort": 7,
+            "active": true,
+            "rarity": "epico",
+            "unlock": "shop",
+            "min_level": 2,
+            "description": "Equipación clásica (línea oficial del juego).",
+            "price_coins": 1200
+        },
+        {
+            "id": "jersey_moderna_26",
+            "data": {
+                "colors": [
+                    3,
+                    5
+                ],
+                "pattern": "banda",
+                "official": true
+            },
+            "kind": "jersey",
+            "name": "Moderna 26",
+            "sort": 8,
+            "active": true,
+            "rarity": "epico",
+            "unlock": "shop",
+            "min_level": 2,
+            "description": "Equipación moderna (línea oficial del juego).",
+            "price_coins": 1200
+        },
+        {
+            "id": "jersey_noche_t1",
+            "data": {
+                "colors": [
+                    6,
+                    3
+                ],
+                "season": "t1",
+                "pattern": "degradado",
+                "official": true
+            },
+            "kind": "jersey",
+            "name": "Noche de Estadio",
+            "sort": 9,
+            "active": true,
+            "rarity": "legendario",
+            "unlock": "season",
+            "min_level": 1,
+            "description": "Edición de la Temporada 1.",
+            "price_coins": null
+        },
+        {
+            "id": "jersey_copa_penales",
+            "data": {
+                "colors": [
+                    5,
+                    0
+                ],
+                "limited": true,
+                "pattern": "aros",
+                "official": true
+            },
+            "kind": "jersey",
+            "name": "Copa de Penales",
+            "sort": 10,
+            "active": true,
+            "rarity": "legendario",
+            "unlock": "event",
+            "min_level": 1,
+            "description": "Edición limitada del evento.",
+            "price_coins": null
+        },
+        {
+            "id": "cambio_nombre",
+            "data": {
+            },
+            "kind": "name_change",
+            "name": "Cambio de nombre",
+            "sort": 1,
+            "active": false,
+            "rarity": "comun",
+            "unlock": "shop",
+            "min_level": 1,
+            "description": "Preparado; sin cobrar hasta definir la política.",
+            "price_coins": null
+        },
+        {
+            "id": "num_clasico",
+            "data": {
+                "style": "clasico"
+            },
+            "kind": "number_style",
+            "name": "Número clásico",
+            "sort": 1,
+            "active": true,
+            "rarity": "comun",
+            "unlock": "free",
+            "min_level": 1,
+            "description": "",
+            "price_coins": null
+        },
+        {
+            "id": "num_oro",
+            "data": {
+                "style": "oro"
+            },
+            "kind": "number_style",
+            "name": "Número dorado",
+            "sort": 2,
+            "active": true,
+            "rarity": "raro",
+            "unlock": "shop",
+            "min_level": 1,
+            "description": "",
+            "price_coins": 600
+        },
+        {
+            "id": "num_mitico_10",
+            "data": {
+                "only": [
+                    10
+                ],
+                "style": "mitico"
+            },
+            "kind": "number_style",
+            "name": "El 10 mítico",
+            "sort": 3,
+            "active": true,
+            "rarity": "legendario",
+            "unlock": "progression",
+            "min_level": 10,
+            "description": "Diseño especial para el 10.",
+            "price_coins": null
+        },
+        {
+            "id": "num_mitico_7",
+            "data": {
+                "only": [
+                    7
+                ],
+                "style": "mitico"
+            },
+            "kind": "number_style",
+            "name": "El 7 mítico",
+            "sort": 4,
+            "active": true,
+            "rarity": "legendario",
+            "unlock": "season",
+            "min_level": 1,
+            "description": "Diseño especial para el 7.",
+            "price_coins": null
+        },
+        {
+            "id": "shorts_liso",
+            "data": {
+                "pattern": "liso"
+            },
+            "kind": "shorts",
+            "name": "Short liso",
+            "sort": 1,
+            "active": true,
+            "rarity": "comun",
+            "unlock": "free",
+            "min_level": 1,
+            "description": "",
+            "price_coins": null
+        },
+        {
+            "id": "shorts_franja",
+            "data": {
+                "pattern": "franja"
+            },
+            "kind": "shorts",
+            "name": "Short con franja",
+            "sort": 2,
+            "active": true,
+            "rarity": "comun",
+            "unlock": "free",
+            "min_level": 1,
+            "description": "",
+            "price_coins": null
+        },
+        {
+            "id": "shorts_ribete",
+            "data": {
+                "pattern": "ribete"
+            },
+            "kind": "shorts",
+            "name": "Short con ribete",
+            "sort": 3,
+            "active": true,
+            "rarity": "raro",
+            "unlock": "shop",
+            "min_level": 1,
+            "description": "",
+            "price_coins": 300
+        },
+        {
+            "id": "socks_lisas",
+            "data": {
+                "pattern": "liso"
+            },
+            "kind": "socks",
+            "name": "Medias lisas",
+            "sort": 1,
+            "active": true,
+            "rarity": "comun",
+            "unlock": "free",
+            "min_level": 1,
+            "description": "",
+            "price_coins": null
+        },
+        {
+            "id": "socks_rayas",
+            "data": {
+                "pattern": "rayas"
+            },
+            "kind": "socks",
+            "name": "Medias a rayas",
+            "sort": 2,
+            "active": true,
+            "rarity": "comun",
+            "unlock": "free",
+            "min_level": 1,
+            "description": "",
+            "price_coins": null
+        },
+        {
+            "id": "socks_ribete",
+            "data": {
+                "pattern": "ribete"
+            },
+            "kind": "socks",
+            "name": "Medias con ribete",
+            "sort": 3,
+            "active": true,
+            "rarity": "raro",
+            "unlock": "progression",
+            "min_level": 4,
+            "description": "",
+            "price_coins": null
+        }
+    ]
+}

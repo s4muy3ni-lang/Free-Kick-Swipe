@@ -114,4 +114,7 @@ static func record(def: Dictionary, score: int, medal_won: int, difficulty: int 
 	records[id] = r
 	xp += gained
 	save_progress()
+	# Al servidor: que se jugo y con que medalla (el monto lo decide el servidor, con topes diarios).
+	OnlineHooks.reward("academia" if String(def.get("group", "")) == "academia" else "arcade",
+		{"id": id, "medal": medal_won, "score": score})
 	return {"new_best": score > prev_best, "prev_best": prev_best, "prev_medal": prev_medal, "xp_gained": gained, "cosmetic": cosmetic}

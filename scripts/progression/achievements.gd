@@ -155,6 +155,7 @@ static func event(stat: StringName, n: int = 1) -> Array:
 		if StringName(d[3]) == stat and not done.has(String(d[0])) and int(life.get(stat, 0)) >= int(d[4]):
 			done[String(d[0])] = today
 			_grant(int(d[5]), String(d[6]))
+			OnlineHooks.reward("logro", {"id": String(d[0])})
 			_toast("🏆 Logro: %s" % d[1], "%s · +%d XP" % [d[2], int(d[5])])
 			completed.append(String(d[1]))
 	for d in todays_daily():
@@ -162,6 +163,7 @@ static func event(stat: StringName, n: int = 1) -> Array:
 		if StringName(d[2]) == stat and not done.has(key) and int(daily_stats.get(stat, 0)) >= int(d[3]):
 			done[key] = today
 			_grant(DAILY_XP, "")
+			OnlineHooks.reward("desafio_diario", {"id": key})
 			_toast("✅ Desafío diario", "%s · +%d XP" % [d[1], DAILY_XP])
 			completed.append(String(d[1]))
 	for d in this_weeks():
@@ -169,6 +171,7 @@ static func event(stat: StringName, n: int = 1) -> Array:
 		if StringName(d[2]) == stat and not done.has(key2) and int(weekly_stats.get(stat, 0)) >= int(d[3]):
 			done[key2] = today
 			_grant(WEEKLY_XP, "")
+			OnlineHooks.reward("desafio_semanal", {"id": key2})
 			_toast("📅 Desafío semanal", "%s · +%d XP" % [d[1], WEEKLY_XP])
 			completed.append(String(d[1]))
 	save_state()

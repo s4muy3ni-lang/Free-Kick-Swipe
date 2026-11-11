@@ -37,3 +37,6 @@ scratch/
 # Salidas de la firma/exportacion Android
 *.keystore.base64.txt
 node_modules/
+
+# Configuracion del servidor generada por CI (clave publica)
+/config/backend.json

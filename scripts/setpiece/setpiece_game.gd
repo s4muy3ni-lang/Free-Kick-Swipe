@@ -121,6 +121,8 @@ var _cinematic_on: bool = false
 var _committed: bool = false
 var _runup_t: float = 0.0
 var _keeper_zone := Vector3.INF
+## Partida online (OnlineMatch) que maneja turnos, reloj y servidor; null = partida offline.
+var online_match: Node = null
 var _pick_t: float = 0.0
 var _zone_marker: MeshInstance3D
 var _place_marker: MeshInstance3D
@@ -1276,6 +1278,9 @@ func _show_end() -> void:
 		_cheer = 1.0
 		if not fast:
 			Achievements.event(&"tanda")
+	if not fast and online_match == null:
+		# Partida offline: al servidor solo va si gano (el premio lo calcula el servidor).
+		OnlineHooks.reward("offline_match", {"mode": "penales", "won": w == PenaltyShootout.USER})
 
 func _on_goal_scored(g: Goal, pos: Vector3) -> void:
 	if g == goal and phase == Phase.FLIGHT:

@@ -127,7 +127,9 @@ func test_reference_kick_happens_at_the_clip_contact() -> void:
 ## Entrada del juego (decision del usuario 2026-11-08): el menu principal con los dos modos (penales y tiro libre) y un acceso
 ## al banco de pruebas de animaciones; el modo de futbol 5 sigue fuera.
 func test_main_menu_is_the_entry_and_the_5_a_side_mode_is_gone() -> void:
-	check(String(ProjectSettings.get_setting("application/run/main_scene")) == MainMenu.SCENE, "la entrada del juego es el menu principal")
+	# Desde el ecosistema online (2026-11-11) la entrada es la bienvenida: hay que iniciar sesion y despues se pasa al menu.
+	check(String(ProjectSettings.get_setting("application/run/main_scene")) == WelcomeScreen.SCENE, "la entrada del juego es la bienvenida (inicio de sesion)")
+	check(ResourceLoader.exists(MainMenu.SCENE), "y lleva al menu principal")
 	check(ResourceLoader.exists(MainMenu.BENCH_SCENE), "existe la escena del banco de pruebas")
 	check(not ResourceLoader.exists("res://scenes/main/match.tscn"), "el modo de futbol 5 se quito (sin escena de partido)")
 	var m: MainMenu = (load(MainMenu.SCENE) as PackedScene).instantiate()
