@@ -298,9 +298,22 @@ func _place_shooter(s: int) -> void:
 	var spot: Vector3 = _ball_spot(s)
 	var aim: Vector3 = Vector3(_aim_point(s).x - spot.x, 0.0, _aim_point(s).z - spot.z).normalized()
 	sh.actor.visible = true
+	if sh.actor.collider != null:
+		sh.actor.collider.collision_layer = Ball.LAYER_PLAYERS
 	sh.actor.ground_y = spot.y - ball.radius
 	sh.stance(spot, aim, STANCE.x, STANCE.y)
 	sh.actor.global_position.y = sh.actor.ground_y
+
+## true en los modos donde los dos jugadores estan en escena a la vez (duelos cara a cara).
+func shows_both_players() -> bool:
+	return false
+
+## Saca de escena al jugador s (relevo): invisible y sin colision con la pelota.
+func _bench(s: int) -> void:
+	var a: SpActor = shooters[s].actor
+	a.visible = false
+	if a.collider != null:
+		a.collider.collision_layer = 0
 
 ## Donde espera cada jugador (su lugar al costado de la pelota).
 func stance_point(s: int) -> Vector3:
@@ -315,6 +328,12 @@ func _start_turn() -> void:
 		return
 	last_result = ""
 	_place_shooter(side)
+	# Por turnos, en escena solo el que patea (relevo): el otro sale y su cuerpo no choca con la pelota. Solo los duelos
+	# cara a cara (Boton de caida, Duelo del guante) muestran a los dos.
+	if not shows_both_players():
+		for s in shooters.size():
+			if s != side:
+				_bench(s)
 	var spot: Vector3 = _ball_spot(side)
 	ball.reset_at(spot)
 	_frame_camera(true)

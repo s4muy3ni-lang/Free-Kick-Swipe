@@ -16,7 +16,8 @@ signal target_hit(index: int, precision: float)
 
 const ZONE_COLOR := Color(1.0, 0.86, 0.25)
 const HIT_COLOR := Color(0.35, 1.0, 0.45)
-const OFF_COLOR := Color(0.6, 0.6, 0.65)
+## Blancos que todavia no tocan (secuencias): bien visibles, en azul claro (no grises que se pierden contra la red).
+const OFF_COLOR := Color(0.45, 0.75, 1.0)
 
 var def: Dictionary = {}
 var ball: Ball
@@ -143,6 +144,39 @@ func _make_target(t: Dictionary) -> Dictionary:
 			mi.global_position = e["base"]
 			e["node"] = mi
 			e["mat"] = mat
+		"goal":
+			# El blanco es el arco entero: se dibuja un marco que brilla por dentro de los palos (antes no se dibujaba nada
+			# y el jugador veia «un arco vacio»).
+			var root := Node3D.new()
+			add_child(root)
+			var w: float = half_goal * 2.0 - 0.3
+			var h: float = goal_h - 0.15
+			var mat: StandardMaterial3D = _mat(ZONE_COLOR)
+			var th: float = 0.06
+			for seg in [[Vector3(0, h * 0.5, 0), Vector3(th, th, w + th)], [Vector3(0, -h * 0.5, 0), Vector3(th, th, w + th)],
+					[Vector3(0, 0, w * 0.5), Vector3(th, h, th)], [Vector3(0, 0, -w * 0.5), Vector3(th, h, th)]]:
+				var mi := MeshInstance3D.new()
+				var bm := BoxMesh.new()
+				bm.size = seg[1]
+				mi.mesh = bm
+				mi.material_override = mat
+				mi.position = seg[0]
+				mi.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+				root.add_child(mi)
+			var fill := MeshInstance3D.new()
+			var qm := QuadMesh.new()
+			qm.size = Vector2(w, h)
+			fill.mesh = qm
+			fill.rotation.y = PI * 0.5
+			var fm: StandardMaterial3D = _mat(ZONE_COLOR, 0.08)
+			fill.material_override = fm
+			fill.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+			root.add_child(fill)
+			e["base"] = Vector3(gx + 0.25, h * 0.5 + 0.07, 0.0)
+			root.global_position = e["base"]
+			e["node"] = root
+			e["mat"] = mat
+			e["fill"] = fm
 		"post_left", "post_right", "crossbar":
 			var mi := MeshInstance3D.new()
 			var mat: StandardMaterial3D = _mat(ZONE_COLOR, 0.55)
@@ -333,7 +367,8 @@ func _animate(i: int) -> void:
 		var bl: Dictionary = t["blink"]
 		var cyc: float = float(bl["on"]) + float(bl["off"])
 		e["visible"] = fmod(_t, cyc) < float(bl["on"])
-		(e["node"] as Node3D).visible = e["visible"]
+		# Apagado no desaparece: queda tenue (se ve donde esta; solo cuenta encendido).
+		_dim(i, not bool(e["visible"]))
 
 func _check_zone(i: int, a: Vector3, b: Vector3) -> void:
 	var e: Dictionary = targets[i]
@@ -391,6 +426,15 @@ func _hit(i: int, precision: float) -> void:
 	_attempt_hits[i] = precision
 	_paint(i, true)
 	target_hit.emit(i, precision)
+
+func _dim(i: int, off: bool) -> void:
+	var e: Dictionary = targets[i]
+	if e["mat"] == null:
+		return
+	var m: StandardMaterial3D = e["mat"]
+	m.emission_energy_multiplier = 0.12 if off else 0.6
+	m.albedo_color.a = 0.3 if off else 1.0
+	m.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA if off else BaseMaterial3D.TRANSPARENCY_DISABLED
 
 func _paint(i: int, hit: bool) -> void:
 	var e: Dictionary = targets[i]

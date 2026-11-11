@@ -57,6 +57,10 @@ var _own_meshes: Array = [[], []]
 ## Pruebas y mediciones: error de la IA en grados (-1 = el de la dificultad).
 var cpu_error_deg: float = -1.0
 
+## Duelo cara a cara: los dos jugadores en escena.
+func shows_both_players() -> bool:
+	return true
+
 func game_id() -> String:
 	return "boton_caida"
 

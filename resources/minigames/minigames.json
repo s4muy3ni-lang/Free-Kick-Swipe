@@ -2804,63 +2804,6 @@
    ]
   },
   {
-   "id": "beisbol",
-   "title": "Béisbol",
-   "scene": "res://scenes/minigames/beisbol.tscn",
-   "status": "Implementado",
-   "description": "Pateá la pelota a la zona de strike: el bate mecánico la devuelve con un golpe real. Distancia y jonrones.",
-   "levels": [
-    {
-     "title": "Práctica de bateo",
-     "objective": "5 tiros: pasá la pelota por la zona amarilla y sumá metros.",
-     "rule": "distancia",
-     "shots": 5,
-     "fence": 42.0,
-     "medals": [
-      60,
-      140,
-      200
-     ]
-    },
-    {
-     "title": "Derby de jonrones",
-     "objective": "7 tiros: ¿cuántos jonrones sacás por encima de la cerca?",
-     "rule": "jonrones",
-     "shots": 7,
-     "fence": 42.0,
-     "medals": [
-      80,
-      250,
-      400
-     ]
-    },
-    {
-     "title": "Cerca lejana",
-     "objective": "La cerca está a 50 m. 6 tiros.",
-     "rule": "jonrones",
-     "shots": 6,
-     "fence": 50.0,
-     "medals": [
-      60,
-      200,
-      320
-     ]
-    },
-    {
-     "title": "Duelo",
-     "objective": "5 tiros cada uno contra la CPU: más jonrones gana.",
-     "rule": "duelo",
-     "shots": 5,
-     "fence": 44.0,
-     "medals": [
-      150,
-      300,
-      420
-     ]
-    }
-   ]
-  },
-  {
    "id": "precision",
    "title": "Fútbol de precisión",
    "scene": "res://scenes/minigames/precision.tscn",
@@ -3413,10 +3356,6 @@
     {
      "type": "game",
      "game": "rescate"
-    },
-    {
-     "type": "game",
-     "game": "beisbol"
     }
    ]
   },

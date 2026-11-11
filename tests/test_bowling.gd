@@ -111,3 +111,15 @@ func test_bowling_match_vs_ai_ends() -> void:
 
 ## Cada nivel de Rebotes tiene alguna solucion con la fisica real (busqueda en grilla de puntos de apuntado y velocidades,
 ## sin pistas por nivel). Se anota el tiro encontrado.
+## Por turnos, en escena solo el que patea (relevo): el que espera sale y su cuerpo no choca con la pelota.
+func test_only_the_shooter_is_on_stage() -> void:
+	var g: Bowling = await _bowl()
+	check(g.shooters[0].actor.visible and not g.shooters[1].actor.visible, "turno del usuario: la CPU no esta en escena")
+	g.side = Minigame.Side.CPU
+	g.frame_owner = Minigame.Side.CPU
+	g._start_turn()
+	await physics_frames(2)
+	check(g.shooters[1].actor.visible and not g.shooters[0].actor.visible, "turno de la CPU: el usuario sale de escena")
+	var col: AnimatableBody3D = g.shooters[0].actor.collider
+	check(col == null or col.collision_layer == 0, "y su cuerpo no choca con la pelota")
+	cleanup()

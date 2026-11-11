@@ -181,12 +181,6 @@ func _medal_text(m: int, best: int) -> String:
 # --- ACADEMIA -----------------------------------------------------------------------------------------------------------
 
 func _build_academia() -> void:
-	_header("Práctica de tiros", "Patea con el trazo de siempre: tanda de penales contra la CPU o tiros libres desde donde quieras.")
-	var pr: HFlowContainer = _row()
-	pr.add_child(_card("Penales", "Tanda contra la CPU: tirás y atajás", 0, true, func() -> void: _play_set_piece(SetPieceGame.Mode.PENALTY),
-		Color(0.08, 0.30, 0.75)))
-	pr.add_child(_card("Tiro libre", "Elegí dónde: barrera y arquero", 0, true, func() -> void: _play_set_piece(SetPieceGame.Mode.FREE_KICK),
-		Color(0.75, 0.16, 0.12)))
 	for lv in ChallengeCatalog.levels():
 		var defs: Array = ChallengeCatalog.level_defs(lv)
 		var open: bool = PlayerProgress.is_unlocked(defs[0])

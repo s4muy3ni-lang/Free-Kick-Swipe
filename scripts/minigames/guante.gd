@@ -67,6 +67,10 @@ var cpu_error_deg: float = -1.0
 var _press_t: float = 0.0
 var last_choice: Dictionary = {}
 
+## Duelo cara a cara: los dos jugadores en escena.
+func shows_both_players() -> bool:
+	return true
+
 func game_id() -> String:
 	return "guante"
 

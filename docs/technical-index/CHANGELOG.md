@@ -11,6 +11,24 @@ Formato de entrada: **fecha — título** · commit · qué cambió · archivos 
 
 ---
 
+## 2026-11-11 — Correcciones pedidas sobre la marcha (menú, relevo, Academia, Béisbol)
+
+- **Béisbol eliminado** por pedido (script, escena, datos y pruebas). La entrada 7.4 de abajo queda como historia.
+- **Penales y Tiro libre vuelven al menú principal** como juegos principales (PENALES, TIRO LIBRE, ACADEMIA, DESAFÍOS,
+  MINIJUEGOS ARCADE). La Academia queda para práctica y entrenamiento (sus 8 niveles).
+- **Relevo en los minijuegos por turnos:** en escena solo el que patea; el otro sale (invisible y sin colisión con la
+  pelota). Antes la IA quedaba parada y la pelota le pegaba. Excepciones: Botón de caída y Duelo del guante
+  (`Minigame.shows_both_players`). Prueba: `test_only_the_shooter_is_on_stage`.
+- **Academia, blancos que «desaparecían»:**
+  - los ejercicios con blanco «arco entero» no dibujaban nada (se veía un arco vacío); ahora el arco tiene un marco
+    que brilla por dentro de los palos;
+  - los blancos intermitentes, apagados, quedan tenues en vez de desaparecer (solo cuentan encendidos);
+  - los blancos de una secuencia que todavía no tocan se ven en azul claro (antes gris, se perdían contra la red).
+  - Pendiente de confirmar en el teléfono: el mensaje «arrastre» no aparece en ningún texto del juego (no se pudo
+    reproducir).
+
+---
+
 ## 2026-11-11 — Etapa 7.9: Salto de esquí
 
 - **Modo nuevo** `SaltoEsqui` (HABILIDAD, 3 niveles: trampolín chico, grande y con viento en contra).
@@ -132,7 +150,7 @@ Formato de entrada: **fecha — título** · commit · qué cambió · archivos 
 
 ## 2026-11-11 — Etapa 7.4: Béisbol con bate mecánico
 
-- **Modo nuevo** `Beisbol` (DESTRUCCIÓN Y MECANISMOS, 4 niveles): el jugador patea desde el montículo a la zona de
+- **Modo nuevo** Beisbol (eliminado después por pedido; DESTRUCCIÓN Y MECANISMOS, 4 niveles): el jugador patea desde el montículo a la zona de
   strike del home. Ahí, una máquina bateadora.
 - **Bate:** barra rígida de 2,5 kg y 1,05 m con inercia m L²/3, que gira sobre su pivote a 30 rad/s.
   - Un sensor ve pasar la pelota a 3,5 m del home, mide su velocidad y suelta el bate con el retraso justo.
@@ -147,7 +165,7 @@ Formato de entrada: **fecha — título** · commit · qué cambió · archivos 
 - **Reglas:** distancia (suma de metros), jonrones, y duelo contra la IA (más jonrones; desempata la distancia).
 - Estadio: césped, caminos de tierra, bases, líneas de foul, cerca física en arco de 90° con tribunas, cartel de
   distancia y «JONRÓN». Tras el golpe, la cámara pasa a un plano alto desde el home mirando el jardín.
-- Pruebas (`test_beisbol`, 3): golpe real con salida > 18 m/s y distancia; pelota alta = strike; los 4 niveles llegan
+- Pruebas (test_beisbol, eliminada con el modo, 3): golpe real con salida > 18 m/s y distancia; pelota alta = strike; los 4 niveles llegan
   al bronce. Captura revisada en PC.
 
 ---
