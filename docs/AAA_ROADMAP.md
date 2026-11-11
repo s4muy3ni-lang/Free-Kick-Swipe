@@ -578,7 +578,7 @@ Pedido «REORGANIZACIÓN, ELIMINACIÓN Y EXPANSIÓN DE MINIJUEGOS ARCADE». Esta
 | 3 | Desafíos de arco: dianas de frente, 3D, puntaje por zona por impacto real, más configuraciones | **Hecha**: 8 niveles (colgantes, resistentes, carrusel, en cadena, tras el muro, tablero de arco 10/5/1, tiro con arco, móviles); zonas configurables; dificultad cambia tamaño y velocidad | `test_dianas_rescate` |
 | 4 | Demolición: escenarios, materiales, estructuras complejas | **Hecha**: 13 niveles; materiales con física (vidrio que se rompe); jenga, casita, columnata; obra, castillo y almacén | `test_demolicion` |
 | 5 | Botón de caída: el jugador que cae atraviesa la base | **Hecha**: causa medida (clips de caída con desplazamiento de raíz); solo caídas que caben, hueco 2,3 m, pies sobre el centro | `test_boton_caida_fall` |
-| 6 | Duelo del guante | Pendiente | — |
+| 6 | Duelo del guante | **Hecha**: 4 niveles; botones grande/mediano/chico, barra persistente, pistón con resorte que empuja al rival; IA por valor esperado | `test_guante` |
 | 7 | Doce modos nuevos (Royal Flush, Dardos, Curling, Béisbol, Bowling a 10 cuadros, Fútbol de precisión, Básquet, Salto en alto, Salto de esquí, Piedras saltarinas, Aros de fuego, Field Goal) | Pendiente | — |
 | 8 | Integración, CI, APK | Pendiente | — |
 

@@ -2391,6 +2391,91 @@
      ]
     }
    ]
+  },
+  {
+   "id": "guante",
+   "title": "Duelo del guante",
+   "scene": "res://scenes/minigames/guante.tscn",
+   "status": "Implementado",
+   "description": "Cargá tu máquina pegándole a sus botones: grande carga poco, chico carga mucho. Al 100 % el guante sale disparado contra el rival.",
+   "levels": [
+    {
+     "title": "Primer round",
+     "objective": "Pegale a los botones de tu máquina (al lado del rival) para llenar la barra. Al 100 % tu guante lo golpea. Ganás con 2 golpes.",
+     "gap": 14.0,
+     "punches": 2,
+     "medals": [
+      200,
+      330,
+      420
+     ]
+    },
+    {
+     "title": "Más lejos",
+     "objective": "Las máquinas están más lejos: el botón chico es más difícil. 2 golpes.",
+     "gap": 17.0,
+     "punches": 2,
+     "medals": [
+      200,
+      320,
+      410
+     ]
+    },
+    {
+     "title": "Botón chico móvil",
+     "objective": "El botón chico va y viene: adelantate. 2 golpes.",
+     "gap": 14.0,
+     "punches": 2,
+     "buttons": [
+      {
+       "size": "grande",
+       "r": 0.42,
+       "gain": 0.2,
+       "z": -0.75,
+       "y": 1.0
+      },
+      {
+       "size": "mediano",
+       "r": 0.28,
+       "gain": 0.34,
+       "z": 0.05,
+       "y": 1.0
+      },
+      {
+       "size": "chico",
+       "r": 0.16,
+       "gain": 0.6,
+       "z": 0.6,
+       "y": 1.0,
+       "move": {
+        "axis": [
+         0,
+         1,
+         0
+        ],
+        "amp": 0.35,
+        "speed": 1.6
+       }
+      }
+     ],
+     "medals": [
+      200,
+      320,
+      410
+     ]
+    },
+    {
+     "title": "Tres golpes",
+     "objective": "Pelea larga: gana el primero que conecta 3 golpes.",
+     "gap": 15.0,
+     "punches": 3,
+     "medals": [
+      300,
+      460,
+      560
+     ]
+    }
+   ]
   }
  ],
  "categories": [
@@ -2512,6 +2597,10 @@
     {
      "type": "game",
      "game": "boton_caida"
+    },
+    {
+     "type": "game",
+     "game": "guante"
     }
    ]
   },

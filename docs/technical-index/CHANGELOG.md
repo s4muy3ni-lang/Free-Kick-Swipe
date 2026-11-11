@@ -11,6 +11,39 @@ Formato de entrada: **fecha — título** · commit · qué cambió · archivos 
 
 ---
 
+## 2026-11-11 — Etapa 6: Duelo del guante (por turnos contra la IA)
+
+- **Modo nuevo** `GuanteDuel` (`scenes/minigames/guante.tscn`, categoría DUELOS, 4 niveles).
+  - Dos jugadores frente a frente en una tarima con tribunas y luces. Cada uno tiene su máquina junto al rival: un
+    gabinete con tres botones que miran a su dueño y un pistón con guante frente al pecho del rival.
+  - Botones por defecto (configurables por nivel): grande, r 0,42 m, +20 %; mediano, r 0,28 m, +34 %; chico,
+    r 0,16 m, +55 %.
+  - La carga solo llega cuando la pelota aprieta un botón de la máquina propia con más de 2,5 m/s contra su cara. La
+    barra de cada jugador persiste entre turnos y no pasa de 100 %: lo que sobra se pierde, por eso el chico no siempre
+    conviene.
+- **Guante físico:**
+  - con la carga, el resorte se comprime y el guante se retrae hasta 0,5 m;
+  - al 100 % se suelta y el pistón se integra como masa con resorte (x'' = 11 (2,6 − x) − 0,6 x');
+  - el choque con el cuerpo del rival se detecta con una consulta de forma barrida cada 0,06 m del recorrido (sin
+    túneles a 9 m/s);
+  - el impulso sale de las masas (guante 20 kg, jugador 75 kg, restitución 0,3) y el jugador se desliza hacia atrás
+    frenado por rozamiento (0,55), con un tropezón; en el golpe final, una caída que entra en el lugar.
+  - Medido: el guante choca a 8,7 m/s y el rival sale despedido 0,77 m.
+- **IA:** elige el botón por valor esperado: probabilidad de acertar con su error (dispersión gaussiana a esa
+  distancia) por la carga útil, con premio si completa la barra. Con error de 1,8° va al grande; con 0,55°, al
+  mediano; si le falta poco, al grande. Adelanta el botón que se mueve y patea con la misma física. Nunca carga sin
+  apretar un botón.
+- **Interfaz:**
+  - botón «Apunto: …» (rota grande → mediano → chico): solo resalta el objetivo; la carga la da el golpe;
+  - barras 3D sobre cada gabinete y marcador «Vos % · golpes · CPU %»;
+  - en PC, el mouse emula el toque (configuración del proyecto).
+- Récords, medallas y dificultad por el sistema común. Sin tienda ni pagos.
+- Pruebas (`test_guante`, 5): la carga solo llega por golpe real y persiste; el guante se retrae, sale, conecta y
+  empuja; la IA elige por valor esperado; los 4 niveles se ganan y llegan al bronce. Suite headless completa: 212
+  pruebas, 0 fallos (21 omitidas). Capturas revisadas en PC. **Android: no probado.**
+
+---
+
 ## 2026-11-11 — Etapa 5: Botón de caída — el que cae ya no atraviesa la plataforma
 
 - **Causa (medida, no supuesta):** el hueco de la trampilla se arma bajo el lugar de partida, pero la caída elegía al
