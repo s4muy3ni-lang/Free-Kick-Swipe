@@ -551,24 +551,56 @@ dedo (ningún modo tiene joystick, botones de dirección ni cañón automático)
 | Personalización (fase 7) | Diseñada | **Hecha**: uniforme, piel, pelo, número, estilo de golpeo y carrera (pesos sobre el catálogo), tras el tiro, festejo; cosméticos bloqueados por logros | `test_customization` |
 | Logros y desafíos diarios/semanales (fase 8) | Diseñados | **Hechos**: 14 logros, 3 diarios, 2 semanales, historial, carteles, anti-exploit | `test_achievements` |
 | Minigolf | Pendiente (faltaba apuntar a ras) | **Hecho**: 6 hoyos, gesto a ras del piso, hoyo que captura solo la pelota lenta, arena, rampa, túnel, móviles | `test_minigolf` |
-| Arqueros por turnos | Parcial (tanda) | **Hecho**: Ráfaga de 5 y Contra reloj (récord y medalla) | `test_keeper_duel` |
+| Arqueros por turnos | Parcial (tanda) | **Eliminado** (2026-11-11, pedido del usuario) | — |
 | Mecanismos, rescate, dianas colgantes (#43) | Pendientes | **Hechos**: Dianas (5) con articulaciones reales; Rescate (4) con botones, trabas, empujón y dominó | `test_dianas_rescate` |
-| Que no caiga | Nuevo | **Hecho**: 1v1 contra la IA, recepciones por altura con contacto real; arquitectura para equipos | `test_rally` |
-| Fútbol-tenis | Nuevo | **Hecho** (alternativa B, red física): un pique por campo, dos toques por lado, marca de pique predicha (error 0,06 m) | `test_rally` |
-| Bowling | Nuevo | **Hecho**: 4 niveles, cuadros con strike y spare, contra la IA | `test_bowling_footpool` |
-| FootPool | Nuevo | **Hecho**: 2 niveles, bandas, bocas, carambolas, turno extra, IA por punto fantasma | `test_bowling_footpool` |
-| Rebotes de ingenio | Nuevo | **Hecho**: 3 niveles con solución indirecta comprobada (un cuarto se quitó por no tener solución) | `test_bowling_footpool` |
+| Que no caiga | Nuevo | **Eliminado** (2026-11-11, pedido del usuario) | — |
+| Fútbol-tenis | Nuevo | **Eliminado** (2026-11-11, pedido del usuario) | — |
+| Bowling | Nuevo | **Hecho**: 4 niveles, cuadros con strike y spare, contra la IA | `test_bowling` |
+| FootPool | Nuevo | **Eliminado** (2026-11-11, pedido del usuario) | — |
+| Rebotes de ingenio | Nuevo | **Eliminado** (2026-11-11, pedido del usuario) | — |
 | Demolición ampliada | 6 niveles | **8 niveles** (barriles, soportes) | `test_demolicion` |
-| Cámara de minijuegos | Fija por juego | **Automática**: encuadra todo en los 50 niveles | `test_minigame_camera` |
+| Cámara de minijuegos | Fija por juego | Se volvió a la anterior (recuperada de Git) + ajustes por minijuego (ver «Reorganización del arcade») | `test_minigame_camera` |
 
 ## Pendiente (próxima etapa, después del análisis en el teléfono)
 
-- Fútbol-tenis alternativa A (cancha dividida sin red) y equipos de 2 a 5 en peloteo (la arquitectura lo permite; falta
-  la IA de compañeros).
-- Variantes de arqueros: tiros sorpresa, objetivos específicos, distintas distancias y reacción.
 - Pantallas de presentación con identidad propia por modo (hoy: objetivo breve + escenario propio de cada juego).
 - Balance de todos los minijuegos con partidas reales en el teléfono.
 - En línea, emparejamiento, tienda y pagos: no implementados (requieren aprobación).
+
+## Reorganización del arcade (2026-11-11, en curso por etapas)
+
+Pedido «REORGANIZACIÓN, ELIMINACIÓN Y EXPANSIÓN DE MINIJUEGOS ARCADE». Estado por etapa (se actualiza con cada entrega):
+
+| Etapa | Contenido | Estado | Pruebas |
+|---|---|---|---|
+| 1 | Auditoría; eliminar Arqueros por turnos, FootPool, Rebotes de ingenio, Que no caiga y Fútbol-tenis; tres secciones (Academia, Desafíos, Minijuegos arcade) con «Volver»; categorías y dificultades Fácil/Normal/Difícil/Experto | **Hecha** | `test_challenges`, `test_bowling` |
+| 2 | Cámara anterior recuperada de Git (`05c100e`) + panel por minijuego (distancia, altura, encuadre, seguimiento, restablecer) | **Hecha** | `test_minigame_camera` |
+| 3 | Desafíos de arco: dianas de frente, 3D, puntaje por zona por impacto real, más configuraciones | Pendiente | — |
+| 4 | Demolición: escenarios, materiales, estructuras complejas | Pendiente | — |
+| 5 | Botón de caída: el jugador que cae atraviesa la base | Pendiente | — |
+| 6 | Duelo del guante | Pendiente | — |
+| 7 | Doce modos nuevos (Royal Flush, Dardos, Curling, Béisbol, Bowling a 10 cuadros, Fútbol de precisión, Básquet, Salto en alto, Salto de esquí, Piedras saltarinas, Aros de fuego, Field Goal) | Pendiente | — |
+| 8 | Integración, CI, APK | Pendiente | — |
+
+**Navegación.** El menú principal tiene tres tarjetas; cada sección muestra solo lo suyo y se sale con «‹ Volver»:
+- ACADEMIA: práctica de tiros (Penales y Tiro libre) y los 8 niveles de enseñanza.
+- DESAFÍOS: diarios, semanales, logros, medallas, récords por minijuego, experiencia e historial.
+- MINIJUEGOS ARCADE: categorías → modalidades → niveles → dificultad. Las categorías son datos
+  (`resources/minigames/minigames.json`, clave `categories`): DESAFÍOS DE ARCO (Dianas y los 17 desafíos de la Arena
+  agrupados en postes, aros, ventanas, derribar, pique y distancia), DESTRUCCIÓN Y MECANISMOS (Demolición, Bowling,
+  Rescate), DUELOS (Botón de caída) y HABILIDAD (Minigolf, Enceste).
+
+**Dificultad en arcade.** Cada nivel se juega en Fácil, Normal, Difícil o Experto; una dificultad se abre con bronce en la
+anterior (o siempre en modo práctica). Juegos de un jugador: Fácil +1 tiro, Experto −1 (mínimo 1); multiplicador del
+puntaje 1 / 1,2 / 1,4 / 1,7. Duelos: la dificultad es la de la IA. Récords y medallas se guardan por dificultad.
+
+**Cámara (valores recomendados, recuperados de Git).** General: 10,5 m detrás de la pelota, 5,4 m de alto, mira 5,5 m
+por delante, 44°, seguimiento 0,45 s. Botón de caída: 6 / 6,5 / 6 m, 50°, sube 0,4 hacia el botón. El usuario ajusta
+por minijuego en el botón «Cámara» (pasos: distancia 0,75 m, altura 0,5 m, encuadre 0,75 m, seguimiento 0,1 s; con
+límites); «Restablecer» vuelve al recomendado de ese minijuego. Aviso: con la cámara recuperada, en Botón de caída el
+jugador queda cortado abajo (igual que antes del cambio).
+
+**Idea futura (no implementada, por pedido):** puntos de atributos que el jugador reparte al subir de nivel.
 
 # Complemento «Arcade Football»: catálogo de 43 minijuegos (2026-11-08)
 
@@ -609,7 +641,7 @@ dependencias y sistemas compartidos para desarrollarlos de a poco.
 | 10 | Objetivo sorpresa | Implementado (individual, parcial) | Blancos que desaparecen; falta cambiar de lugar entre tiros | S3 |
 | 11 | Bolos de fútbol | Implementado (individual) | Conos, botellas, bloques con física | S1, S3 |
 | 12 | Derribar la torre | Implementado (individual) | Torre de la Arena y «Demolición» (6 niveles: torre, pirámide, dominó, precisión, muro, torre inestable) | S3 |
-| 13 | Billar futbolístico | Implementado (FootPool) | Varias pelotas con física | S3, S7 |
+| 13 | Billar futbolístico | Eliminado (FootPool, 2026-11-11) | Varias pelotas con física | S3, S7 |
 | 14 | Rebote obligatorio | Implementado (parcial) | Rebote en el piso; faltan paredes | S3, S7 |
 | 15 | Circuito de aros | Diseñado | Un aro existe; falta «todos en un mismo tiro» | S3 |
 | 16 | Carrera de obstáculos | Idea | Conducción | S5, S7 |

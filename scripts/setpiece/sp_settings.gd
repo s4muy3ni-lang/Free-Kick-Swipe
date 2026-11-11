@@ -48,7 +48,7 @@ static func foot_name() -> String:
 ## Dificultad que imponen los desafios mientras se juegan (-1: la del menu). Los desafios usan cinco niveles: los tres del
 ## menu mas Profesional y Extremo (solo desafios).
 static var override_difficulty: int = -1
-const ALL_DIFFICULTY_NAMES := ["Fácil", "Normal", "Difícil", "Profesional", "Extremo"]
+const ALL_DIFFICULTY_NAMES := ["Fácil", "Normal", "Difícil", "Experto", "Extremo"]
 
 static func level() -> int:
 	return override_difficulty if override_difficulty >= 0 else difficulty

@@ -1808,85 +1808,6 @@
    ]
   },
   {
-   "id": "que_no_caiga",
-   "title": "Que no caiga",
-   "scene": "res://scenes/minigames/que_no_caiga.tscn",
-   "status": "Implementado",
-   "description": "Pases aéreos 1 contra 1: pierde el último que la tocó si la pelota pica. Control con pecho, muslo, cabeza o pie.",
-   "levels": [
-    {
-     "title": "A 3 puntos",
-     "objective": "Pasásela por el aire a la IA y que no caiga: pierde el punto el último que la tocó. Podés amortiguar UNA vez y después pasarla (el tercer toque es falta). Trazá con el dedo hacia dónde va tu pase.",
-     "gap": 7.0,
-     "points_to_win": 3,
-     "medals": [
-      250,
-      330,
-      400
-     ]
-    },
-    {
-     "title": "A 5 puntos",
-     "objective": "Lo mismo, a 5 puntos y un poco más lejos.",
-     "gap": 8.5,
-     "points_to_win": 5,
-     "medals": [
-      400,
-      520,
-      650
-     ]
-    }
-   ]
-  },
-  {
-   "id": "futbol_tenis",
-   "title": "Fútbol-tenis",
-   "scene": "res://scenes/minigames/futbol_tenis.tscn",
-   "status": "Implementado",
-   "description": "Cancha dividida por una red física: un pique por campo, dos toques por lado, y la marca te muestra dónde va a picar.",
-   "levels": [
-    {
-     "title": "A 3 puntos",
-     "objective": "Cruzá la red: un pique permitido en cada campo, dos toques por lado (control y golpe). La marca amarilla muestra dónde va a picar. Trazá con el dedo hacia dónde la mandás.",
-     "half": 5.5,
-     "width": 3.2,
-     "net_h": 0.95,
-     "points_to_win": 3,
-     "medals": [
-      250,
-      330,
-      400
-     ]
-    },
-    {
-     "title": "Red alta",
-     "objective": "La red es más alta: levantá la pelota. A 3 puntos.",
-     "half": 5.5,
-     "width": 3.2,
-     "net_h": 1.35,
-     "points_to_win": 3,
-     "medals": [
-      250,
-      330,
-      400
-     ]
-    },
-    {
-     "title": "Cancha chica",
-     "objective": "Menos lugar para que pique: afiná la puntería. A 5 puntos.",
-     "half": 4.4,
-     "width": 2.4,
-     "net_h": 0.95,
-     "points_to_win": 5,
-     "medals": [
-      400,
-      520,
-      650
-     ]
-    }
-   ]
-  },
-  {
    "id": "bowling",
    "title": "Bowling",
    "scene": "res://scenes/minigames/bowling.tscn",
@@ -1979,229 +1900,147 @@
      ]
     }
    ]
-  },
+  }
+ ],
+ "categories": [
   {
-   "id": "footpool",
-   "title": "FootPool",
-   "scene": "res://scenes/minigames/footpool.tscn",
-   "status": "Implementado",
-   "description": "Billar de fútbol sin taco: tus pelotas azules a cualquiera de las dos bocas; carambolas, bandas y turno extra.",
-   "levels": [
+   "id": "arco",
+   "title": "DESAFÍOS DE ARCO",
+   "description": "Precisión contra el arco: dianas, postes, aros, ventanas, objetos para derribar y tiros con pique.",
+   "color": [
+    0.85,
+    0.25,
+    0.15
+   ],
+   "items": [
     {
-     "title": "Partida",
-     "objective": "Meté tus 3 AZULES en cualquiera de las dos bocas pateando tu pelota. Propia adentro: +100 y turno extra. Del rival: +100 para él. Tu pelota adentro: se repone y pasa el turno. Carambola (tocás 2 o más): +20.",
-     "len": 11.0,
-     "width": 6.5,
-     "medals": [
-      300,
-      400,
-      520
+     "type": "game",
+     "game": "dianas"
+    },
+    {
+     "type": "arena",
+     "id": "arco_postes",
+     "title": "Postecitos y travesaño",
+     "description": "Pegale a los palos y al travesaño.",
+     "ids": [
+      "r_pre_1",
+      "r_pre_2",
+      "r_pre_3"
      ]
     },
     {
-     "title": "Mesa chica",
-     "objective": "Menos lugar: las bandas importan más.",
-     "len": 9.0,
-     "width": 5.0,
-     "medals": [
-      300,
-      400,
-      520
+     "type": "arena",
+     "id": "arco_aros",
+     "title": "Aros",
+     "description": "Pasala por el aro colgado del arco.",
+     "ids": [
+      "r_pre_4",
+      "r_dis_2"
+     ]
+    },
+    {
+     "type": "arena",
+     "id": "arco_ventanas",
+     "title": "Ventanas y círculos",
+     "description": "Ventanas chicas, blancos que se mueven, secuencias y blancos que desaparecen.",
+     "ids": [
+      "r_pre_5",
+      "r_pre_6",
+      "r_pre_7",
+      "r_esp_1",
+      "r_esp_3"
+     ]
+    },
+    {
+     "type": "arena",
+     "id": "arco_derribar",
+     "title": "Derribar objetivos",
+     "description": "Conos, botellas, pirámide de bloques y torres.",
+     "ids": [
+      "r_obj_1",
+      "r_obj_2",
+      "r_obj_3",
+      "r_obj_4"
+     ]
+    },
+    {
+     "type": "arena",
+     "id": "arco_pique",
+     "title": "Tiros con pique",
+     "description": "Hacela picar antes del blanco.",
+     "ids": [
+      "r_esp_2"
+     ]
+    },
+    {
+     "type": "arena",
+     "id": "arco_distancia",
+     "title": "Distancia y obstáculos",
+     "description": "Desde muy lejos y por encima del obstáculo.",
+     "ids": [
+      "r_dis_1",
+      "r_dis_3"
      ]
     }
    ]
   },
   {
-   "id": "rebotes",
-   "title": "Rebotes de ingenio",
-   "scene": "res://scenes/minigames/rebotes.tscn",
-   "status": "Implementado",
-   "description": "Los objetivos están escondidos: calculá rebotes reales en paredes y techos para llegar.",
-   "levels": [
+   "id": "destruccion",
+   "title": "DESTRUCCIÓN Y MECANISMOS",
+   "description": "Estructuras que se derrumban, bolos y rescates con física real.",
+   "color": [
+    0.9,
+    0.55,
+    0.1
+   ],
+   "items": [
     {
-     "title": "Detrás del muro",
-     "objective": "El bloque rojo está tapado por un muro: doblá el tiro con la pared lateral o pasala por arriba. Cada rebote suma ingenio.",
-     "distance": 14.0,
-     "shots": 3,
-     "table_h": 0.0,
-     "table_depth": 0.1,
-     "table_width": 0.1,
-     "walls": [
-      {
-       "pos": [
-        10.0,
-        1.6,
-        0
-       ],
-       "size": [
-        0.3,
-        3.2,
-        3.4
-       ]
-      },
-      {
-       "pos": [
-        7.0,
-        1.2,
-        -4.0
-       ],
-       "size": [
-        8.0,
-        2.4,
-        0.3
-       ],
-       "bounce": 0.8
-      }
-     ],
-     "blocks": [
-      {
-       "pos": [
-        0.0,
-        0.4,
-        0.0
-       ],
-       "size": [
-        0.3,
-        0.8,
-        0.3
-       ],
-       "kind": "target",
-       "mass": 0.5
-      }
-     ],
-     "solution_hint": "pared lateral en z=-4",
-     "medals": [
-      100,
-      125,
-      160
-     ]
+     "type": "game",
+     "game": "demolicion"
     },
     {
-     "title": "Por el techo",
-     "objective": "Un muro cierra todo el frente: hacela picar por encima y que baje del techo inclinado al objetivo.",
-     "distance": 13.0,
-     "shots": 3,
-     "table_h": 0.0,
-     "table_depth": 0.1,
-     "table_width": 0.1,
-     "walls": [
-      {
-       "pos": [
-        9.5,
-        1.1,
-        0
-       ],
-       "size": [
-        0.3,
-        2.2,
-        6.0
-       ]
-      },
-      {
-       "pos": [
-        12.5,
-        3.0,
-        0
-       ],
-       "size": [
-        4.0,
-        0.25,
-        6.0
-       ],
-       "pitch": 0,
-       "roll": -18,
-       "bounce": 0.5
-      }
-     ],
-     "blocks": [
-      {
-       "pos": [
-        0.0,
-        0.4,
-        0.0
-       ],
-       "size": [
-        0.3,
-        0.8,
-        0.3
-       ],
-       "kind": "target",
-       "mass": 0.5
-      }
-     ],
-     "medals": [
-      100,
-      125,
-      160
-     ]
+     "type": "game",
+     "game": "bowling"
     },
     {
-     "title": "Ranura",
-     "objective": "Solo hay una ranura baja (70 cm de ancho y 45 de alto) entre los muros: pasala por ahí con un tiro raso y fuerte.",
-     "distance": 14.0,
-     "shots": 3,
-     "table_h": 0.0,
-     "table_depth": 0.1,
-     "table_width": 0.1,
-     "walls": [
-      {
-       "pos": [
-        9.0,
-        3.0,
-        -2.35
-       ],
-       "size": [
-        0.3,
-        6.0,
-        4.0
-       ]
-      },
-      {
-       "pos": [
-        9.0,
-        3.0,
-        2.35
-       ],
-       "size": [
-        0.3,
-        6.0,
-        4.0
-       ]
-      },
-      {
-       "pos": [
-        9.0,
-        3.225,
-        0
-       ],
-       "size": [
-        0.3,
-        5.55,
-        0.8
-       ]
-      }
-     ],
-     "blocks": [
-      {
-       "pos": [
-        0.0,
-        0.4,
-        0.0
-       ],
-       "size": [
-        0.3,
-        0.8,
-        0.3
-       ],
-       "kind": "target",
-       "mass": 0.5
-      }
-     ],
-     "medals": [
-      100,
-      125,
-      160
-     ]
+     "type": "game",
+     "game": "rescate"
+    }
+   ]
+  },
+  {
+   "id": "duelos",
+   "title": "DUELOS",
+   "description": "Uno contra uno, por turnos, contra la IA.",
+   "color": [
+    0.5,
+    0.2,
+    0.75
+   ],
+   "items": [
+    {
+     "type": "game",
+     "game": "boton_caida"
+    }
+   ]
+  },
+  {
+   "id": "habilidad",
+   "title": "HABILIDAD",
+   "description": "Golpes medidos: minigolf y básquet.",
+   "color": [
+    0.15,
+    0.6,
+    0.35
+   ],
+   "items": [
+    {
+     "type": "game",
+     "game": "minigolf"
+    },
+    {
+     "type": "game",
+     "game": "enceste"
     }
    ]
   }

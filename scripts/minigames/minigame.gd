@@ -323,7 +323,7 @@ func _start_turn() -> void:
 	turn_started.emit(side)
 	if side == Side.USER:
 		hud.set_hint(String(def.get("hint", "Deslizá el dedo desde la pelota hacia el objetivo")))
-		hud.set_actions([[&"restart", "Reiniciar"]])
+		hud.set_actions([[&"camera", "Cámara"], [&"restart", "Reiniciar"]])
 	else:
 		hud.set_hint("Patea la CPU…")
 		hud.set_actions([])
@@ -333,60 +333,33 @@ func _start_turn() -> void:
 func frame_points() -> Array:
 	return []
 
-const FRAME_FOV := 50.0
-## Margen del encuadre (fraccion de la mitad de la pantalla que se deja libre en los bordes, arriba hay HUD).
-const FRAME_MARGIN := 0.82
+## Camara recomendada del minijuego (valores de antes del cambio que la alejo, recuperados de Git, commit 05c100e:
+## SpCamera.behind_ball de tiro libre: 10,5 m detras, 5,4 m de alto, mira 5,5 m por delante de la pelota, 44 grados).
+## back/height/ahead en metros; lift_aim: cuanto de la altura del objetivo se suma a la mirada; follow: semivida (s).
+func camera_defaults() -> Dictionary:
+	return {"back": 10.5, "height": 5.4, "ahead": 5.5, "lift_aim": 0.0, "fov": 44.0, "follow": 0.45}
 
-## Encuadre automatico: camara detras de la pelota (en la direccion del tiro), elevada, que se aleja y sube de a poco hasta
-## que TODOS los puntos importantes entran en la imagen (jugador, pelota, objetivo y lo que agregue el minijuego). Asi un
-## objetivo alto o lejano no queda fuera de cuadro. Tercera persona siempre; nunca vista lateral 2D.
+## Altura del piso desde el que se mide la camara (plataformas elevadas).
+func camera_base_y() -> float:
+	return 0.0
+
+## Encuadre del turno: detras de la pelota mirando al objetivo, con los valores recomendados del minijuego y los ajustes
+## que el usuario guardo para ESTE minijuego (CameraPrefs).
 func _frame_camera(instant: bool) -> void:
+	var f: Array = camera_frame()
+	cam.frame(f[0], f[1], f[2], instant, f[3])
+
+## [posicion, mirada, fov, seguimiento] de la camara del turno.
+func camera_frame() -> Array:
 	var spot: Vector3 = _ball_spot(side)
 	var aim: Vector3 = _aim_point(side)
-	var pts: Array = [spot, aim]
-	if side < shooters.size():
-		pts.append(stance_point(side))
-		pts.append(stance_point(side) + Vector3.UP * 1.9)
-	pts.append_array(frame_points())
-	var f: Array = auto_frame(spot, aim, pts)
-	cam.frame(f[0], f[1], FRAME_FOV, instant, 0.45)
-
-## [posicion, mirada] de una camara detras de `spot` mirando hacia `aim` que contiene todos `pts`.
-func auto_frame(spot: Vector3, aim: Vector3, pts: Array) -> Array:
+	var c: Dictionary = CameraPrefs.effective(game_id(), camera_defaults())
 	var dir := Vector3(aim.x - spot.x, 0.0, aim.z - spot.z)
 	dir = dir.normalized() if dir.length() > 0.05 else Vector3(1, 0, 0)
-	var vp: Vector2 = get_viewport().get_visible_rect().size if is_inside_tree() else Vector2(1600, 720)
-	var aspect: float = vp.x / maxf(vp.y, 1.0)
-	var tan_v: float = tan(deg_to_rad(FRAME_FOV) * 0.5)
-	var tan_h: float = tan_v * aspect
-	var c := Vector3.ZERO
-	for p in pts:
-		c += (p as Vector3)
-	c /= float(maxi(pts.size(), 1))
-	var back: float = 6.0
-	var height: float = 4.5
-	var pos := Vector3.ZERO
-	var look := Vector3.ZERO
-	for it in 24:
-		pos = Vector3(spot.x, 0.0, spot.z) - dir * back + Vector3.UP * (height + minf(spot.y, aim.y))
-		# Mira al centro de los puntos, un poco por delante de la pelota (la pelota no queda en el borde de abajo).
-		look = c.lerp(spot + dir * 4.0, 0.25)
-		var basis := Basis.looking_at(look - pos, Vector3.UP)
-		var ok: bool = true
-		for p in pts:
-			var q: Vector3 = basis.inverse() * ((p as Vector3) - pos)
-			if q.z > -0.5:
-				ok = false
-				break
-			var depth: float = -q.z
-			if absf(q.x) / depth > tan_h * FRAME_MARGIN or absf(q.y) / depth > tan_v * FRAME_MARGIN * 0.9:
-				ok = false
-				break
-		if ok:
-			break
-		back *= 1.12
-		height *= 1.1
-	return [pos, look]
+	var base := Vector3(spot.x, camera_base_y(), spot.z)
+	var pos: Vector3 = base - dir * float(c["back"]) + Vector3.UP * float(c["height"])
+	var look: Vector3 = base + dir * float(c["ahead"]) + Vector3.UP * (aim.y - camera_base_y()) * float(c["lift_aim"])
+	return [pos, look, float(c["fov"]), float(c["follow"])]
 
 ## Aplica una intencion (usuario, IA o, mas adelante, la red): el tirador corre y patea con esa salida de la pelota.
 func apply_intent(intent: Dictionary) -> void:
@@ -546,11 +519,12 @@ func _end_match(w: int) -> void:
 	state = State.OVER
 	winner = w
 	match_over.emit(w)
-	var score: int = final_score()
+	# La dificultad multiplica el puntaje (menos tiros o una IA mejor valen mas); los umbrales de medalla no cambian.
+	var score: int = int(round(final_score() * (MinigameCatalog.DIFF_SCORE[int(def["difficulty"])] if def.has("difficulty") else 1.0)))
 	var medal: int = medal_for(score) if w == Side.USER or sides == 1 else 0
 	var rec: Dictionary = {}
 	if not bool(def.get("practice", false)) and def.has("id"):
-		rec = PlayerProgress.record(def, score, medal)
+		rec = PlayerProgress.record(def, score, medal, int(def.get("difficulty", -1)))
 		if not fast:
 			_report_achievements(w, medal)
 	var won: bool = w == Side.USER
@@ -581,6 +555,9 @@ func _refresh_score() -> void:
 # --- Entrada -----------------------------------------------------------------------------------------------------------
 
 func _unhandled_input(event: InputEvent) -> void:
+	# Con el panel de camara abierto los toques son para el panel: no se patea.
+	if camera_panel_open():
+		return
 	if event is InputEventScreenTouch:
 		var st := event as InputEventScreenTouch
 		_on_press(st.position, st.pressed)
@@ -658,6 +635,8 @@ func _on_action(id: StringName) -> void:
 	match id:
 		&"play":
 			start_match()
+		&"camera":
+			toggle_camera_panel()
 		&"restart", &"retry":
 			start_match()
 		&"next":
@@ -665,11 +644,111 @@ func _on_action(id: StringName) -> void:
 			if nd.is_empty():
 				_go_menu()
 			else:
+				if def.has("difficulty"):
+					nd = MinigameCatalog.at_difficulty(nd, int(def["difficulty"]))
+				nd["practice"] = bool(def.get("practice", false))
 				next_def = nd
 				get_tree().reload_current_scene()
 		&"menu":
 			_go_menu()
 
+# --- Ajustes de camara de este minijuego -------------------------------------------------------------------------------
+
+var _cam_panel: PanelContainer = null
+var _cam_labels: Dictionary = {}
+
+func camera_panel_open() -> bool:
+	return _cam_panel != null and _cam_panel.visible
+
+## Panel «Camara»: distancia, altura, encuadre y seguimiento con − y +, «Restablecer» (vuelve a los valores recomendados
+## de ESTE minijuego) y «Listo». Cada cambio se ve en el momento y se guarda solo para este minijuego.
+func toggle_camera_panel() -> void:
+	if _cam_panel == null:
+		_build_camera_panel()
+	_cam_panel.visible = not _cam_panel.visible
+	_swiping = false
+	hud.set_trail(PackedVector2Array())
+	_refresh_camera_panel()
+
+func _build_camera_panel() -> void:
+	_cam_panel = PanelContainer.new()
+	_cam_panel.set_anchors_preset(Control.PRESET_CENTER_LEFT)
+	_cam_panel.grow_vertical = Control.GROW_DIRECTION_BOTH
+	_cam_panel.position.x = 16
+	var sb := StyleBoxFlat.new()
+	sb.bg_color = Color(0.03, 0.05, 0.1, 0.92)
+	sb.border_color = Color(1.0, 0.84, 0.28, 0.9)
+	sb.set_border_width_all(2)
+	sb.set_corner_radius_all(14)
+	sb.set_content_margin_all(14)
+	_cam_panel.add_theme_stylebox_override("panel", sb)
+	hud.root.add_child(_cam_panel)
+	var vb := VBoxContainer.new()
+	vb.add_theme_constant_override("separation", 8)
+	_cam_panel.add_child(vb)
+	var t := Label.new()
+	t.text = "Cámara de este minijuego"
+	t.add_theme_font_size_override("font_size", 22)
+	vb.add_child(t)
+	for k in ["back", "height", "ahead", "follow"]:
+		var row := HBoxContainer.new()
+		row.add_theme_constant_override("separation", 8)
+		vb.add_child(row)
+		var minus := Button.new()
+		minus.text = "−"
+		minus.custom_minimum_size = Vector2(64, 52)
+		minus.focus_mode = Control.FOCUS_NONE
+		minus.pressed.connect(func() -> void: _nudge_camera(k, -1))
+		row.add_child(minus)
+		var l := Label.new()
+		l.custom_minimum_size = Vector2(210, 0)
+		l.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		l.add_theme_font_size_override("font_size", 19)
+		row.add_child(l)
+		_cam_labels[k] = l
+		var plus := Button.new()
+		plus.text = "+"
+		plus.custom_minimum_size = Vector2(64, 52)
+		plus.focus_mode = Control.FOCUS_NONE
+		plus.pressed.connect(func() -> void: _nudge_camera(k, 1))
+		row.add_child(plus)
+	var bottom := HBoxContainer.new()
+	bottom.add_theme_constant_override("separation", 8)
+	vb.add_child(bottom)
+	var reset := Button.new()
+	reset.text = "Restablecer"
+	reset.focus_mode = Control.FOCUS_NONE
+	reset.custom_minimum_size = Vector2(170, 52)
+	reset.pressed.connect(func() -> void:
+		CameraPrefs.reset(game_id())
+		_frame_camera(false)
+		_refresh_camera_panel())
+	bottom.add_child(reset)
+	var done := Button.new()
+	done.text = "Listo"
+	done.focus_mode = Control.FOCUS_NONE
+	done.custom_minimum_size = Vector2(170, 52)
+	done.pressed.connect(func() -> void: _cam_panel.visible = false)
+	bottom.add_child(done)
+	_cam_panel.visible = false
+
+func _nudge_camera(key: String, dir: int) -> void:
+	CameraPrefs.nudge(game_id(), key, dir)
+	_frame_camera(false)
+	_refresh_camera_panel()
+
+func _refresh_camera_panel() -> void:
+	if _cam_panel == null:
+		return
+	var o: Dictionary = CameraPrefs.offsets(game_id())
+	var e: Dictionary = CameraPrefs.effective(game_id(), camera_defaults())
+	var txt := {"back": "Distancia %.1f m", "height": "Altura %.1f m", "ahead": "Encuadre %.1f m", "follow": "Seguimiento %.2f s"}
+	for k in _cam_labels:
+		(_cam_labels[k] as Label).text = (txt[k] % float(e[k])) + ("" if absf(float(o[k])) < 0.001 else " *")
+
+## Vuelve a MINIJUEGOS ARCADE (a la modalidad que se estaba jugando).
 func _go_menu() -> void:
+	SpSettings.override_difficulty = -1
 	if is_inside_tree():
-		get_tree().change_scene_to_file(MainMenu.SCENE)
+		ChallengeMenu.section = "arcade"
+		get_tree().change_scene_to_file(ChallengeMenu.SCENE)

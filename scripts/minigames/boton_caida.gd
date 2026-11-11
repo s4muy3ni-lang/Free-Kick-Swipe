@@ -150,12 +150,18 @@ func _stance_world(s: int) -> Vector3:
 	var a := Vector3(aim.x - spot.x, 0.0, aim.z - spot.z).normalized()
 	return Vector3(spot.x, frames[s].origin.y, spot.z) - a * STANCE.x - SpClips.right_of(a) * STANCE.y * float(_foot(s))
 
-## Encuadre: el automatico de la base, con el rival, su boton y la plataforma propia (el desnivel no saca a nadie de
-## cuadro).
+## Camara recomendada de Boton de caida (la de antes del cambio, recuperada de Git: 6 m detras, 6,5 m sobre la plataforma,
+## mira 6 m por delante y sube con el 40 % de la altura del boton rival, 50 grados).
+func camera_defaults() -> Dictionary:
+	return {"back": 6.0, "height": 6.5, "ahead": 6.0, "lift_aim": 0.4, "fov": 50.0, "follow": 0.45}
+
+func camera_base_y() -> float:
+	return frames[side].origin.y
+
+## Puntos del turno que conviene ver (la prueba de camara informa si alguno queda fuera con la camara recomendada).
 func frame_points() -> Array:
 	var o: int = 1 - side
-	var pts: Array = [button_center(o), stance_point(o) + Vector3.UP * 1.9, frames[o].origin, frames[side].origin]
-	return pts
+	return [button_center(o), stance_point(o) + Vector3.UP * 1.9]
 
 func _shot_ctx(s: int) -> Dictionary:
 	var a: Vector3 = _aim_point(s)

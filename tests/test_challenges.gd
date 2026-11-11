@@ -168,28 +168,62 @@ func test_an_exercise_plays_end_to_end() -> void:
 	SetPieceGame.next_challenge = {}
 	SetPieceGame.next_practice = false
 
-## La pantalla de seleccion: los dos grupos, lo bloqueado deshabilitado y la practica libre que abre todo.
+## Las tres secciones: ACADEMIA (practica + ejercicios, lo bloqueado deshabilitado, la practica libre abre todo), DESAFIOS
+## (progresion, sin minijuegos) y MINIJUEGOS ARCADE (categorias; DESAFIOS DE ARCO contiene cada desafio de la antigua
+## Arena exactamente una vez). Sin pestañas para saltar entre secciones.
 func test_the_selection_screen_lists_everything() -> void:
 	PlayerProgress.use_path(TMP_PROGRESS)
 	ChallengeMenu.practice = false
-	ChallengeMenu.tab = "academia"
+	ChallengeMenu.section = "academia"
+	ChallengeMenu.arcade_category = ""
+	ChallengeMenu.arcade_item = ""
 	var m: ChallengeMenu = (load(ChallengeMenu.SCENE) as PackedScene).instantiate()
 	spawn(m)
 	await physics_frames(2)
 	var cards: Array = m.find_children("*", "Button", true, false).filter(func(b: Button) -> bool: return b.text.contains("\n"))
 	var locked: int = cards.filter(func(b: Button) -> bool: return b.disabled).size()
 	note("academia: %d tarjetas, %d bloqueadas" % [cards.size(), locked])
-	check(cards.size() == ChallengeCatalog.academia().size(), "una tarjeta por ejercicio")
+	check(cards.size() == ChallengeCatalog.academia().size() + 2, "una tarjeta por ejercicio + penales y tiro libre")
+	check(str(cards.map(func(b: Button) -> String: return b.text)).contains("Penales"), "la practica de penales esta en Academia")
 	check(locked == ChallengeCatalog.academia().size() - ChallengeCatalog.level_defs(1).size(), "solo el nivel 1 abierto al empezar")
+	var texts: String = str(m.find_children("*", "Button", true, false).map(func(b: Button) -> String: return b.text))
+	check(not texts.contains("ARCADE") and not texts.contains("LOGROS"), "sin pestañas hacia las otras secciones")
 	ChallengeMenu.practice = true
 	m._refresh()
 	await physics_frames(2)
 	cards = m.find_children("*", "Button", true, false).filter(func(b: Button) -> bool: return b.text.contains("\n") and not b.is_queued_for_deletion())
 	check(cards.filter(func(b: Button) -> bool: return b.disabled).is_empty(), "en practica libre todo esta abierto")
-	m._set_tab("arena")
+	ChallengeMenu.practice = false
+	# Arena -> DESAFIOS DE ARCO: cada desafio una sola vez.
+	var seen := {}
+	for c in MinigameCatalog.categories():
+		for it in c["items"]:
+			if String(it["type"]) == "arena":
+				for aid in it["ids"]:
+					seen[aid] = int(seen.get(aid, 0)) + 1
+	var dup: Array = seen.keys().filter(func(k: String) -> bool: return int(seen[k]) > 1)
+	check(seen.size() == ChallengeCatalog.arena().size() and dup.is_empty(), "los %d desafios de arco estan una vez (%d, repetidos %s)" % [ChallengeCatalog.arena().size(), seen.size(), str(dup)])
+	# Navegacion de arcade: categoria -> modalidad -> nivel -> dificultad (4) y «Volver» sube de a un nivel.
+	ChallengeMenu.section = "arcade"
+	m._refresh()
 	await physics_frames(2)
 	cards = m.find_children("*", "Button", true, false).filter(func(b: Button) -> bool: return b.text.contains("\n") and not b.is_queued_for_deletion())
-	check(cards.size() == ChallengeCatalog.arena().size(), "una tarjeta por desafio de la arena (%d)" % cards.size())
-	ChallengeMenu.practice = false
+	check(cards.size() == MinigameCatalog.categories().size(), "arcade muestra solo las categorias (%d)" % cards.size())
+	ChallengeMenu.arcade_category = "arco"
+	ChallengeMenu.arcade_item = "arco_postes"
+	m._refresh()
+	await physics_frames(2)
+	cards = m.find_children("*", "Button", true, false).filter(func(b: Button) -> bool: return b.text.contains("\n") and not b.is_queued_for_deletion())
+	check(cards.size() == 3, "la modalidad Postecitos tiene sus 3 niveles")
+	cards[0].pressed.emit()
+	await physics_frames(2)
+	cards = m.find_children("*", "Button", true, false).filter(func(b: Button) -> bool: return b.text.contains("\n") and not b.is_queued_for_deletion())
+	check(cards.size() == 4, "cuatro dificultades")
+	m._back()
+	m._back()
+	m._back()
+	await physics_frames(2)
+	check(ChallengeMenu.arcade_category == "" and ChallengeMenu.arcade_item == "", "«Volver» sube de a un nivel hasta las categorias")
+	ChallengeMenu.section = "academia"
 	cleanup()
 	PlayerProgress.use_path(PlayerProgress.PATH)

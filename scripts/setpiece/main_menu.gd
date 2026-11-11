@@ -1,7 +1,7 @@
 class_name MainMenu
 extends Node3D
 ## Menu principal (horizontal): el estadio de fondo con la camara girando despacio alrededor del arco, el titulo y las
-## modalidades: PENALES, TIRO LIBRE, ACADEMIA, DESAFIOS y ARCADE (minijuegos). Abajo, el pie habil, la dificultad, el
+## tres secciones: ACADEMIA (practica de penales y tiro libre y los niveles), DESAFIOS (progresion) y MINIJUEGOS ARCADE. Abajo, el pie habil, la dificultad, el
 ## arco, los graficos y los ajustes visuales (se guardan) y el acceso al banco de pruebas de animaciones (desarrollo).
 
 const SCENE := "res://scenes/setpiece/main_menu.tscn"
@@ -119,15 +119,11 @@ func _build_ui() -> void:
 	var cards := HBoxContainer.new()
 	cards.add_theme_constant_override("separation", 18)
 	vb.add_child(cards)
-	cards.add_child(_card("PENALES", "Tanda contra\nla CPU: tirás\ny atajás.",
-		Color(0.08, 0.30, 0.75), func() -> void: _start(SetPieceGame.Mode.PENALTY)))
-	cards.add_child(_card("TIRO LIBRE", "Elegí dónde\npatear: barrera\ny arquero.",
-		Color(0.75, 0.16, 0.12), func() -> void: _start(SetPieceGame.Mode.FREE_KICK)))
-	cards.add_child(_card("ACADEMIA", "8 niveles:\nprecisión,\npotencia, efecto.",
+	cards.add_child(_card("ACADEMIA", "Práctica: penales\ny tiro libre.\n8 niveles para\naprender.",
 		Color(0.10, 0.50, 0.22), func() -> void: _open_challenges("academia")))
-	cards.add_child(_card("DESAFÍOS", "Postes, aros,\nconos, torres\ny distancia.",
-		Color(0.48, 0.18, 0.62), func() -> void: _open_challenges("arena")))
-	cards.add_child(_card("ARCADE", "Minijuegos:\nbotón de caída\ny más.",
+	cards.add_child(_card("DESAFÍOS", "Logros, diarios\ny semanales,\nmedallas, récords\ny experiencia.",
+		Color(0.48, 0.18, 0.62), func() -> void: _open_challenges("desafios")))
+	cards.add_child(_card("MINIJUEGOS\nARCADE", "Categorías,\nniveles y\ndificultades.",
 		Color(0.85, 0.45, 0.05), func() -> void: _open_challenges("arcade")))
 	var spacer := Control.new()
 	spacer.size_flags_vertical = Control.SIZE_EXPAND_FILL
@@ -307,7 +303,7 @@ func _build_visual_panel(root: Control) -> void:
 
 func _card(t: String, desc: String, color: Color, cb: Callable) -> Button:
 	var b := Button.new()
-	b.custom_minimum_size = Vector2(205, 230)
+	b.custom_minimum_size = Vector2(300, 240)
 	b.focus_mode = Control.FOCUS_NONE
 	b.alignment = HORIZONTAL_ALIGNMENT_LEFT
 	b.text = "%s\n\n%s" % [t, desc]
@@ -353,7 +349,7 @@ func _refresh() -> void:
 var _loading: Label = null
 
 func _open_challenges(t: String) -> void:
-	ChallengeMenu.tab = t
+	ChallengeMenu.section = t
 	get_tree().change_scene_to_file(ChallengeMenu.SCENE)
 
 func _start(m: int) -> void:

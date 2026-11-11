@@ -5774,31 +5774,31 @@
         {
           "file": "scripts/setpiece/setpiece_game.gd",
           "name": "SetPieceGame._take_shot",
-          "line": 585,
+          "line": 566,
           "kind": "func"
         },
         {
           "file": "scripts/setpiece/setpiece_game.gd",
           "name": "SetPieceGame.shoot_params",
-          "line": 1460,
+          "line": 1423,
           "kind": "func"
         },
         {
           "file": "scripts/setpiece/setpiece_game.gd",
           "name": "SetPieceGame._finish",
-          "line": 800,
+          "line": 781,
           "kind": "func"
         },
         {
           "file": "scripts/setpiece/setpiece_game.gd",
           "name": "SetPieceGame.clamp_free_kick_spot",
-          "line": 478,
+          "line": 459,
           "kind": "func"
         },
         {
           "file": "scripts/setpiece/penalty_shootout.gd",
           "name": "PenaltyShootout.winner",
-          "line": 48,
+          "line": 40,
           "kind": "func"
         },
         {
@@ -5810,7 +5810,7 @@
         {
           "file": "scripts/setpiece/main_menu.gd",
           "name": "MainMenu._start",
-          "line": 359,
+          "line": 355,
           "kind": "func"
         }
       ],
@@ -6108,7 +6108,7 @@
     {
       "id": "setpiece.challenges",
       "system": "SETPIECE",
-      "description": "Academia de tiros (8 niveles, 37 ejercicios) y Arena de desafios (17, en 5 dificultades) sobre los mismos sistemas del juego: SetPieceGame en modo CHALLENGE con una definicion de datos; blancos (recuadro, aro, postes, travesano, gol), objetos con fisica (conos, botellas, bloques, torre) y obstaculos detectados con la pelota real; puntuacion que premia precision, distancia, potencia, racha y dificultad; medallas, records, experiencia, niveles, desbloqueos y practica libre.",
+      "description": "Academia de tiros (8 niveles, 37 ejercicios) y Arena de desafios (17, en 5 dificultades) sobre los mismos sistemas del juego: SetPieceGame en modo CHALLENGE con una definicion de datos; blancos (recuadro, aro, postes, travesano, gol), objetos con fisica (conos, botellas, bloques, torre) y obstaculos detectados con la pelota real; puntuacion que premia precision, distancia, potencia, racha y dificultad; medallas, records, experiencia, niveles, desbloqueos y practica libre. Navegacion (2026-11-11): tres secciones independientes en ChallengeMenu.section (academia, desafios, arcade) con «Volver»; la Arena vive en MINIJUEGOS ARCADE > DESAFIOS DE ARCO.",
       "keywords": [
         "academia",
         "arena",
@@ -6225,7 +6225,7 @@
     {
       "id": "setpiece.minigames",
       "system": "SETPIECE",
-      "description": "Minijuegos arcade por turnos: Minigame (base compartida: estados con salida siempre, turnos, puntos, reinicio, IA con la misma fisica via ShotSolver, intenciones serializables para jugar en linea mas adelante, records y medallas en PlayerProgress; reutiliza ShotGesture, GestureShotModel, TrajectoryPreview, SpShooter, SpCamera y SpHud), MinigameCatalog (datos en resources/minigames/minigames.json, desbloqueo por bronce) y BotonCaida (dos plataformas sobre el vacio, boton fisico que solo se aprieta con un golpe real, trampilla que se abre, 8 niveles, IA que adelanta botones moviles, espera su momento con obstaculos moviles y aprende de sus fallos). Demolicion (un jugador, tiros limitados: derribar bloques rigidos de una mesa: torre, piramide, domino en cadena, precision con bloques prohibidos, muro y torre inestable; derribado = fuera de la mesa o volcado). Enceste (un jugador: aro fisico de esferas con tablero; cuenta solo si la pelota cruza el aro bajando y por dentro; aro lejano, tapa que obliga al tablero, aro movil y doble aro). Minigolf (gesto a ras del piso: el trazo apunta a un punto del PISO, poca elevacion; hoyo que captura solo pelota lenta, arena que frena, rampas, tunel, moviles; par, golpes, penalizacion por salir, records). Dianas (placas rigidas colgadas con PinJoint3D de una barra o un carrusel que gira: se balancean con el golpe real y se desprenden con impactos fuertes, con resistencia por placa y cadena placa-placa; velocidades previas al choque). Rescate (pelota dorada atrapada: botones de impacto que quitan trabas, rampas, empujon por transferencia de impulso, domino que la tira del pedestal; gana cuando llega fisicamente a la zona). Base: movers compartidos (add_mover/mover_at) y _settling. Bowling (10 bolos rigidos a escala de pelota de futbol, cuadros de dos tiros con retiro de caidos, strike +5 y spare +3, efecto por curvatura del trazo, guardias fijas y moviles, contra la IA). FootPool (cancha con bandas, 3+3 pelotas fisicas, bocas; propia = +100 y turno extra, del rival = puntos para el, blanca adentro = se repone; carambola +20; IA por punto fantasma). Rebotes de ingenio (Demolicion con objetivos escondidos: banda lateral, techo inclinado, ranura baja; bonus por rebote). Demolicion ampliada: barriles y estructura con soportes. Camara automatica compartida (Minigame.auto_frame + frame_points de cada juego): tercera persona detras de la pelota, se aleja y sube hasta que entran la pelota, el jugador, el objetivo y lo propio de cada juego (rival, boton, bolos, aros, placas, zona, cancha); probado en los 50 niveles.",
+      "description": "Minijuegos arcade (MINIJUEGOS ARCADE: categorias -> modalidades -> niveles -> dificultad Facil/Normal/Dificil/Experto). Minigame (base: estados con topes, turnos, puntaje, reinicio, IA con la misma fisica, intenciones, records y medallas por dificultad, movers compartidos, camara con valores recomendados por minijuego + ajustes del usuario guardados por minijuego: CameraPrefs), MinigameCatalog (datos, categorias, dificultad: tiros y multiplicador de puntaje) y los juegos: Boton de caida, Demolicion, Enceste, Minigolf, Dianas, Rescate y Bowling. Eliminados por pedido (2026-11-11): Arqueros por turnos, FootPool, Rebotes de ingenio, Que no caiga, Futbol-tenis.",
       "keywords": [
         "minijuego",
         "minijuegos",
@@ -6285,7 +6285,11 @@
         "barriles",
         "camara",
         "encuadre",
-        "frame"
+        "frame",
+        "categorias",
+        "dificultad",
+        "experto",
+        "ajustes de camara"
       ],
       "files": [
         "scripts/minigames/minigame.gd",
@@ -6309,13 +6313,10 @@
         "tests/test_minigolf.gd",
         "tests/test_dianas_rescate.gd",
         "scripts/minigames/bowling.gd",
-        "scripts/minigames/footpool.gd",
-        "scripts/minigames/rebotes.gd",
         "scenes/minigames/bowling.tscn",
-        "scenes/minigames/footpool.tscn",
-        "scenes/minigames/rebotes.tscn",
-        "tests/test_bowling_footpool.gd",
-        "tests/test_minigame_camera.gd"
+        "tests/test_minigame_camera.gd",
+        "scripts/minigames/camera_prefs.gd",
+        "tests/test_bowling.gd"
       ],
       "symbols": [],
       "parameters": [],
@@ -6398,48 +6399,6 @@
         "PROGRESSION"
       ],
       "documentation": "docs/technical-index/SYSTEMS/PROGRESSION.md",
-      "last_verified": "2026-11-11"
-    },
-    {
-      "id": "setpiece.rally",
-      "system": "SETPIECE",
-      "description": "Modos de peloteo (RallyBase + RallyPlayer): «Que no caiga» (pases aereos 1v1: pierde el ultimo que la toco si pica; un control permitido, el tercer toque es falta) y Futbol-tenis (red fisica, un pique por campo, dos toques por lado, afuera, pique adentro sin devolucion = punto del que pego, marca de pique predicha que sigue la fisica y se compara con el pique real). El receptor corre a la caida PREVISTA (BallPredictor), elige el clip por la altura real (cabeza, pecho, muslo, pie, volea) y el toque sale SOLO si la pelota entra en el alcance de esa parte (huesos del esqueleto); mal parado devuelve desviado y flojo. La IA juega con las mismas reglas (error de posicionamiento, retardo y punteria por dificultad). El gesto de siempre: el final del trazo marca el punto del piso del pase; potencia y elevacion salen del trazo. Las velocidades de salida se pasan explicitas (el impulso recien se integra al paso siguiente).",
-      "keywords": [
-        "peloteo",
-        "que no caiga",
-        "futbol-tenis",
-        "tenis",
-        "red",
-        "pique",
-        "rebote",
-        "recepcion",
-        "pecho",
-        "muslo",
-        "cabeza",
-        "volea",
-        "control",
-        "pase aereo",
-        "marca",
-        "caida",
-        "rally"
-      ],
-      "files": [
-        "scripts/minigames/rally_player.gd",
-        "scripts/minigames/rally_base.gd",
-        "scripts/minigames/que_no_caiga.gd",
-        "scripts/minigames/futbol_tenis.gd",
-        "scenes/minigames/que_no_caiga.tscn",
-        "scenes/minigames/futbol_tenis.tscn",
-        "tests/test_rally.gd"
-      ],
-      "symbols": [],
-      "parameters": [],
-      "dependencies": [
-        "SETPIECE",
-        "BALL",
-        "ANIMATIONS"
-      ],
-      "documentation": "docs/technical-index/SYSTEMS/SETPIECE.md",
       "last_verified": "2026-11-11"
     }
   ]

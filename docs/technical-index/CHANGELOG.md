@@ -11,10 +11,37 @@ Formato de entrada: **fecha — título** · commit · qué cambió · archivos 
 
 ---
 
+## 2026-11-11 — Reorganización: tres secciones, cinco modos eliminados, categorías y cámara recuperada con ajustes
+
+- **Eliminados por pedido** (con sus menús, escenas, scripts, datos y pruebas; antes se comprobó que no tenían
+  dependencias compartidas): Arqueros por turnos (Ráfaga y Contra reloj: se quitó su código de `SetPieceGame` y
+  `PenaltyShootout`; la tanda clásica queda intacta), FootPool, Rebotes de ingenio, Que no caiga y Fútbol-tenis
+  (RallyBase y RallyPlayer eran exclusivos de esos dos y también se quitaron). Las pruebas de Bowling pasan a
+  `test_bowling`.
+- **Tres secciones independientes.** El menú principal muestra ACADEMIA, DESAFÍOS y MINIJUEGOS ARCADE; cada una tiene
+  «‹ Volver» y ninguna pestaña hacia las otras.
+  - Academia: práctica de tiros (Penales y Tiro libre) y los 8 niveles.
+  - Desafíos: diarios, semanales, logros, medallas, récords, experiencia e historial.
+  - Arcade: categorías → modalidades → niveles → dificultad (Fácil, Normal, Difícil, Experto). Los 17 desafíos de la
+    Arena están en DESAFÍOS DE ARCO, cada uno una sola vez (probado).
+  - Dificultad en arcade: Fácil da un tiro más, Experto uno menos; el multiplicador de puntaje es 1 / 1,2 / 1,4 / 1,7.
+    En los duelos manda la IA. Récords y medallas se guardan por dificultad.
+- **Cámara.** Vuelve la configuración anterior al cambio que la alejó, recuperada de Git (`05c100e`):
+  - general: 10,5 m detrás, 5,4 m de alto, mira 5,5 m adelante, 44°;
+  - Botón de caída: 6 / 6,5 / 6 m y 50°.
+  - Nuevo panel «Cámara» en cada minijuego (distancia, altura, encuadre, seguimiento, restablecer), guardado por
+    minijuego (`CameraPrefs`, `user://camera.cfg`). Con el panel abierto el trazo no patea.
+  - Con la cámara recuperada, en Botón de caída el jugador queda cortado abajo (como antes del cambio); se ajusta con
+    el panel.
+- Pruebas: `test_challenges` (navegación nueva) y `test_minigame_camera` (valores recuperados, ajuste por minijuego,
+  restablecer, panel). Suite headless: 201 pruebas, 0 fallos. **Android: no probado.**
+
+---
+
 ## 2026-11-11 — Cámara que encuadra todo en cada minijuego; festejo: compañeros al destino del autor
 
 - **Cámara (pedido del usuario: «que se vean todos los elementos; no me sirve un jugador alto que la cámara no enfoca»):**
-  `Minigame.auto_frame` + `frame_points()` de cada juego. Tercera persona detrás de la pelota; se aleja y sube de a
+  Minigame.auto_frame (eliminado el 2026-11-11) + `frame_points()` de cada juego. Tercera persona detrás de la pelota; se aleja y sube de a
   poco hasta que entran la pelota, el jugador (pies y cabeza), el objetivo y lo propio de cada juego (rival y botón en
   desnivel, bolos, aros, placas, zona de rescate, cancha entera de FootPool). `test_minigame_camera`: en los 50 niveles
   todo queda dentro de la pantalla (el punto más al borde, al 73 % de media pantalla) y la cámara sigue en tercera
@@ -38,7 +65,7 @@ Formato de entrada: **fecha — título** · commit · qué cambió · archivos 
   («Esquina») se quitó porque la búsqueda no le encontró solución.
 - **Demolición ampliada:** barriles (cilindros que ruedan) y estructura con soportes; los 8 niveles se limpian.
 - Base: `Minigame._next_side()` (el bowling repite el lado dentro del cuadro).
-- Pruebas nuevas: `test_bowling_footpool` (7). **Android: no probado.**
+- Pruebas nuevas: test_bowling_footpool (eliminado el 2026-11-11) (7). **Android: no probado.**
 
 ---
 
@@ -56,7 +83,7 @@ Formato de entrada: **fecha — título** · commit · qué cambió · archivos 
 - El gesto de siempre para pasar: el final del trazo marca el punto del piso; potencia y elevación salen del trazo.
 - Corrección de base: las velocidades de salida se pasan explícitas a la predicción (el impulso del toque recién se
   integra en el paso físico siguiente; antes la caída se calculaba con la velocidad vieja).
-- Pruebas nuevas: `test_rally` (6). **Android: no probado.**
+- Pruebas nuevas: test_rally (eliminado el 2026-11-11) (6). **Android: no probado.**
 
 ---
 
@@ -68,7 +95,7 @@ Formato de entrada: **fecha — título** · commit · qué cambió · archivos 
   golpe y reposición, par/golpes/puntos/récords. Los 6 hoyos embocados con la física real siguiendo la guía del nivel
   (incluye rampa a plataforma elevada, túnel, obstáculos móviles y curva).
 - **Arqueros por turnos:** variante «Ráfaga de 5» (bloques de 5 tiros por lado con corte temprano y muerte súbita
-  alternada: `PenaltyShootout.block_size`) y «Contra reloj» (el usuario SOLO ataja una serie de la IA; puntaje por
+  alternada: PenaltyShootout.block_size (eliminado el 2026-11-11)) y «Contra reloj» (el usuario SOLO ataja una serie de la IA; puntaje por
   atajadas con récord y medalla). Entradas en la pestaña Arcade.
 - **Dianas colgantes (`Dianas`, 5 niveles):** placas rígidas colgadas con PinJoint3D (de barra fija o carrusel que gira);
   se balancean con el golpe (péndulo medido: 0,17 m con un roce), un roce no las desprende, las resistentes aguantan 2
@@ -79,7 +106,7 @@ Formato de entrada: **fecha — título** · commit · qué cambió · archivos 
   que la tira del pedestal (medido: el dominó empuja fuerte a la altura de su caída, no al ras del piso). Resistencia a
   la rodadura en el pasto para que pare en la zona.
 - Base `Minigame`: `add_mover`/`mover_at` compartidos (Botón de caída migrado) y tiempo del nivel que se reinicia.
-- Pruebas nuevas: `test_minigolf` (5), `test_keeper_duel` (2), `test_dianas_rescate` (5). **Android: no probado.**
+- Pruebas nuevas: `test_minigolf` (5), test_keeper_duel (eliminado el 2026-11-11) (2), `test_dianas_rescate` (5). **Android: no probado.**
 
 ---
 

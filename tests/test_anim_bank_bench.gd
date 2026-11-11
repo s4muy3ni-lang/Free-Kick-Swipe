@@ -136,7 +136,7 @@ func test_main_menu_is_the_entry_and_the_5_a_side_mode_is_gone() -> void:
 	var texts: Array = []
 	for btn in m.find_children("*", "Button", true, false):
 		texts.append((btn as Button).text)
-	check(str(texts).contains("PENALES") and str(texts).contains("TIRO LIBRE"), "los dos modos estan en el menu (%s)" % str(texts))
+	check(str(texts).contains("ACADEMIA") and str(texts).contains("DESAFÍOS") and str(texts).contains("MINIJUEGOS") and str(texts).contains("ARCADE"), "las tres secciones estan en el menu (%s)" % str(texts))
 	check(str(texts).contains("Banco de animaciones"), "acceso al banco de pruebas")
 	check(str(texts).contains("Arco:"), "selector del tipo de arco")
 	check(not str(texts).contains("fútbol 5"), "ningun acceso al futbol 5")
