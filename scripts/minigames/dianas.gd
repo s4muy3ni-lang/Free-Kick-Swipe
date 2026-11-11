@@ -46,7 +46,23 @@ var _bar: Node3D = null
 var _bp := Vector3.ZERO
 var _bv := Vector3.ZERO
 var _size_mul: float = 1.0
+## Diana en el suelo ("floor": {x, z, r, rings}): cuenta donde PICA la pelota por primera vez (no donde queda).
+var floor_t: Dictionary = {}
+var floor_scored_shot: int = -1
 var _speed_mul: float = 1.0
+
+## Plataforma del jugador elevada (estilo arcade comun).
+func default_deck() -> float:
+	return 2.5
+
+## Camara: con diana en el suelo mira lejos y desde mas arriba (el blanco esta en el piso, a 34-42 m).
+func camera_defaults() -> Dictionary:
+	if def.has("floor"):
+		return {"back": 9.5, "height": 4.6, "ahead": 13.0, "lift_aim": 0.0, "fov": 50.0, "follow": 0.45}
+	return super.camera_defaults()
+
+func uses_night_arena() -> bool:
+	return true
 
 func game_id() -> String:
 	return "dianas"
@@ -73,6 +89,7 @@ func _build_level() -> void:
 		_dress(wall, ArcadeLook.mat(Color(0.78, 0.36, 0.22), "stone", 2.0))
 	for pd in def.get("plates", []):
 		_spawn_target(pd, bar_h)
+	_build_floor_target()
 	ball.body_entered.connect(_on_ball_body)
 
 ## Escenario: cesped a franjas, campo de tiro con vallas, cartel y banderas (solo visual; el piso es el de siempre).
@@ -85,7 +102,9 @@ func _build_stage() -> void:
 	ArcadeLook.deco(self, "cyl", Vector3(0.22, 0.01, 0.22), _ball_spot(0) - Vector3(0, _ball_spot(0).y - 0.007, 0), ArcadeLook.mat(Color(0.95, 0.95, 0.95), "paint"))
 	# Fondo: tribuna baja de madera y un cartel; vallas a los costados del campo de tiro (fuera de la linea de tiro: lo
 	# decorativo no tiene colision, asi que nada decorativo se cruza en el camino de la pelota).
-	var back_x: float = 26.0
+	# (Con diana en el suelo la tribuna va detras de la diana.)
+	var fl: Dictionary = def.get("floor", {})
+	var back_x: float = maxf(26.0, float(fl.get("x", 0.0)) + float(fl.get("r", 0.0)) + 8.0)
 	ArcadeLook.deco(self, "box", Vector3(1.2, 2.2, 30.0), Vector3(back_x, 1.1, 0), ArcadeLook.mat(Color(0.55, 0.38, 0.22), "wood", 3.0))
 	ArcadeLook.deco(self, "box", Vector3(1.2, 1.4, 30.0), Vector3(back_x + 1.2, 2.2, 0), ArcadeLook.mat(Color(0.5, 0.34, 0.2), "wood", 3.0))
 	ArcadeLook.billboard(self, "DIANAS", Vector3(back_x - 0.7, 4.2, 0), 7.0, 1.4)
@@ -95,6 +114,62 @@ func _build_stage() -> void:
 			ArcadeLook.deco(self, "box", Vector3(3.6, 0.8, 0.12), Vector3(2.0 + float(i) * 3.7, 0.4, z), ArcadeLook.mat(c, "paint"))
 		for x in [6.0, 15.0, 24.0]:
 			ArcadeLook.flag(self, Vector3(x, 0, z * 1.04), Color(1.0, 0.82, 0.12) if x == 15.0 else Color(0.95, 0.95, 0.95))
+
+## Diana en el suelo (referencia del usuario: gigante, lejos; marca donde pica la pelota). Anillos [[fraccion, puntos]].
+const FLOOR_RINGS := [[0.33, 100], [0.66, 50], [1.0, 25]]
+const FLOOR_COLORS := [Color(0.9, 0.12, 0.12), Color(0.95, 0.95, 0.95), Color(0.15, 0.4, 0.95)]
+
+func floor_center() -> Vector3:
+	return Vector3(float(floor_t.get("x", 32.0)), 0.0, float(floor_t.get("z", 0.0)))
+
+func floor_radius() -> float:
+	return float(floor_t.get("r", 7.0)) * _size_mul
+
+func _build_floor_target() -> void:
+	floor_t = def.get("floor", {})
+	if floor_t.is_empty():
+		return
+	var c: Vector3 = floor_center()
+	var r: float = floor_radius()
+	var rings: Array = floor_t.get("rings", FLOOR_RINGS)
+	# Anillos pintados de afuera hacia adentro (cada uno un poco mas arriba), borde de luces.
+	for i in range(rings.size() - 1, -1, -1):
+		var rr: float = r * float(rings[i][0])
+		var col: Color = FLOOR_COLORS[i % FLOOR_COLORS.size()]
+		ArcadeLook.deco(self, "cyl", Vector3(rr, 0.02, rr), c + Vector3(0, 0.01 + 0.003 * float(rings.size() - i), 0), ArcadeLook.mat(col, "plastic"))
+	ArcadeLook.deco(self, "cyl", Vector3(r + 0.25, 0.03, r + 0.25), c + Vector3(0, 0.004, 0), ArcadeLook.mat(Color(0.12, 0.12, 0.16), "metal"))
+	for k in 28:
+		var a: float = TAU * float(k) / 28.0
+		ArcadeLook.deco(self, "box", Vector3(0.35, 0.1, 0.18), c + Vector3(cos(a) * (r + 0.15), 0.06, sin(a) * (r + 0.15)), ArcadeLook.glow(Color(1.0, 0.7, 0.25), 2.6), Vector3(0, -a, 0))
+	for i in rings.size():
+		var l := Label3D.new()
+		l.text = str(int(rings[i][1]))
+		l.font_size = 128
+		l.pixel_size = 0.012
+		l.rotation_degrees = Vector3(-90, -90, 0)
+		l.modulate = Color(0.1, 0.1, 0.12) if i == 1 else Color(1, 1, 1)
+		add_child(l)
+		var mid: float = r * (float(rings[i][0]) + (float(rings[i - 1][0]) if i > 0 else 0.0)) * 0.5
+		l.global_position = c + Vector3(-mid if i > 0 else 0.0, 0.05, 0)
+	ball.floor_bounce.connect(_on_floor_bounce)
+
+## Primer pique del tiro: su punto decide los puntos (el anillo que contiene ese punto).
+func _on_floor_bounce(pos: Vector3, _speed: float) -> void:
+	if state != State.FLIGHT or floor_scored_shot == int(shots[0]) or pos.x < 3.0:
+		return
+	floor_scored_shot = int(shots[0])
+	var d: float = Vector2(pos.x - floor_center().x, pos.z - floor_center().z).length() / floor_radius()
+	var pts: int = 0
+	for rg in floor_t.get("rings", FLOOR_RINGS):
+		if d <= float(rg[0]):
+			pts = int(rg[1])
+			break
+	last_hit = {"points": pts, "point": Vector2(pos.z, pos.x), "target": -1, "speed": 0.0, "shot": int(shots[0])}
+	hits_log.append(last_hit)
+	zone_points += pts
+	if pts > 0:
+		_popup(pts, pos + Vector3.UP * 0.5)
+	_refresh_score()
 
 ## Pone un material propio a la malla de una caja de static_box (o la oculta si m es null).
 func _dress(body: Node3D, m: Material) -> void:
@@ -555,9 +630,11 @@ func frame_points() -> Array:
 	return out
 
 func _ball_spot(_s: int) -> Vector3:
-	return Vector3(0, ball.radius if ball != null else 0.11, 0) + BotonCaida._vec(def.get("tee", [0, 0, 0]))
+	return (Vector3(0, ball.radius if ball != null else 0.11, 0) + BotonCaida._vec(def.get("tee", [0, 0, 0]))) + Vector3.UP * deck_y()
 
 func _aim_point(_s: int) -> Vector3:
+	if not floor_t.is_empty():
+		return floor_center()
 	var c := Vector3.ZERO
 	for e in plates:
 		c += (e["home"] as Transform3D).origin
@@ -574,6 +651,13 @@ func _settling() -> bool:
 	return false
 
 func _flight_check(_delta: float) -> String:
+	if not floor_t.is_empty():
+		# Diana en el suelo: el tiro se decide en el primer pique.
+		if floor_scored_shot == int(shots[0]) and _t > 0.3:
+			return "listo"
+		if _t > 0.8 and ball.linear_velocity.length() < SLOW_SPEED:
+			return "listo"
+		return ""
 	if goal == "derribar" and _t > 0.6 and hang_count() > 0 and hanging() == 0:
 		return "todas"
 	if _t > 0.8 and not _settling() and (ball.linear_velocity.length() < SLOW_SPEED or ball.global_position.x > _aim_point(0).x + 10.0):

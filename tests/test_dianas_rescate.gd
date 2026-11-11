@@ -167,6 +167,14 @@ func test_every_dianas_level_is_beatable() -> void:
 					var tof: float = g.runup_time + aim.distance_to(g._ball_spot(0)) / 14.0
 					var rel: Vector3 = Vector3(aim.x - post.x, 0, aim.z - post.z).rotated(Vector3.UP, spin * tof)
 					aim = Vector3(post.x + rel.x, aim.y, rel.z)
+			elif not g.floor_t.is_empty():
+				# Diana en el suelo: que pique en el centro (tiro calibrado con la fisica real).
+				var fv: Vector3 = await _calibrated_bounce(lv, g.floor_center())
+				g = await _dianas(lv)
+				for q in g.shots_max:
+					await g.launch(fv, Vector3.ZERO)
+					await _fly(g)
+				break
 			else:
 				# Puntos: rota entre los blancos y apunta a la mejor zona (centro, o la esquina de 10 del tablero);
 				# si se mueve, a donde va a estar cuando llegue la pelota.
@@ -181,7 +189,7 @@ func test_every_dianas_level_is_beatable() -> void:
 						xf = g.mover_at(m, g.level_time + tof2)
 				aim = _face_target(g, e, face, xf)
 			# Tras el muro: tiro mas lento = arco mas alto (la fisica obliga a pasarla por arriba).
-			var it: Dictionary = g.cpu_shot(aim, 11.5 if lv == 5 else (16.0 if g.goal == "derribar" else 15.0), 0.0, 0.0)
+			var it: Dictionary = g.cpu_shot(aim, 11.5 if lv == 5 else (16.0 if g.goal == "derribar" else (24.0 if not g.floor_t.is_empty() else 15.0)), 0.0, 0.0)
 			await g.launch(it["v"], it["w"])
 			await _fly(g)
 		var medals: Array = g.def.get("medals", [1, 2, 3])
@@ -245,3 +253,79 @@ func test_every_rescue_level_is_beatable() -> void:
 			"rescatada" if g.rescued else "ATRAPADA", g.shots[0], str(g.prisoner.global_position), mind])
 		check(g.rescued, "nivel %d: la dorada llega a la zona con fisica real" % lv)
 		cleanup()
+
+
+## Tiro que hace PICAR la pelota a la distancia del punto p, calibrado con la fisica real del juego (se prueba en una
+## instancia aparte y se ajusta la velocidad hasta que el primer pique cae ahi; la prediccion del modelo no alcanza).
+func _calibrated_bounce(level: int, p: Vector3, angle_deg: float = 28.0) -> Vector3:
+	var g: Dianas = await _dianas(level)
+	var spot: Vector3 = g._ball_spot(0)
+	var dir := Vector3(p.x - spot.x, 0, p.z - spot.z).normalized()
+	var want: float = Vector2(p.x - spot.x, p.z - spot.z).length()
+	var a: float = deg_to_rad(angle_deg)
+	var sp: float = 18.0
+	var bounces: Array = []
+	g.ball.floor_bounce.connect(func(q: Vector3, _s: float) -> void: bounces.append(q))
+	for k in 7:
+		g.shots[0] = 0
+		bounces.clear()
+		var v: Vector3 = dir * cos(a) * sp + Vector3.UP * sin(a) * sp
+		await g.launch(v, Vector3.ZERO)
+		await _fly(g)
+		var got: float = 0.0
+		for q in bounces:
+			if (q as Vector3).x > 3.0:
+				got = Vector2((q as Vector3).x - spot.x, (q as Vector3).z - spot.z).length()
+				break
+		if got <= 0.0:
+			break
+		sp *= sqrt(want / got)
+	cleanup()
+	return dir * cos(a) * sp + Vector3.UP * sin(a) * sp
+
+## Diana en el suelo: cuenta el PRIMER pique (no donde queda la pelota): los puntos de cada tiro son los del anillo
+## donde pico, aunque despues la pelota siga rodando.
+func test_floor_target_scores_where_the_ball_bounces() -> void:
+	var lv: int = MinigameCatalog.levels("dianas").size() - 1
+	var g: Dianas = await _dianas(lv)
+	var c: Vector3 = g.floor_center()
+	var r: float = g.floor_radius()
+	cleanup()
+	var shots: Array = []
+	for off in [0.0, r * 0.5, r * 0.85]:
+		shots.append(await _calibrated_bounce(lv, c + Vector3(-off, 0, 0)))
+	g = await _dianas(lv)
+	var bounces: Array = []
+	g.ball.floor_bounce.connect(func(q: Vector3, _s: float) -> void: bounces.append(q))
+	var got: Array = []
+	var rings_seen: Dictionary = {}
+	for v in shots:
+		bounces.clear()
+		var before: int = g.zone_points
+		await g.launch(v, Vector3.ZERO)
+		var far: Vector3 = Vector3.ZERO
+		var n: int = 0
+		while g.state == Minigame.State.FLIGHT and n < 600:
+			await tree.physics_frame
+			n += 1
+			far = g.ball.global_position
+		if g.state == Minigame.State.RESOLVE:
+			g._after_resolve()
+			await physics_frames(2)
+		var first := Vector3.INF
+		for q in bounces:
+			if (q as Vector3).x > 3.0:
+				first = q
+				break
+		var d: float = Vector2(first.x - c.x, first.z - c.z).length() / r
+		var want: int = 0
+		for rg in Dianas.FLOOR_RINGS:
+			if d <= float(rg[0]):
+				want = int(rg[1])
+				break
+		rings_seen[want] = true
+		got.append("pico a %.1f m del centro: +%d (esperado %d)" % [d * r, g.zone_points - before, want])
+		check(g.zone_points - before == want, "suma el anillo del primer pique (%.1f m del centro)" % (d * r))
+	note(", ".join(got))
+	check(rings_seen.size() >= 2, "tiros a distintos anillos dan puntos distintos")
+	cleanup()

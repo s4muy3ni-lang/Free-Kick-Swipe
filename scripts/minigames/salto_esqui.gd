@@ -26,6 +26,10 @@ var _air_t: float = 0.0
 var jumps: Array = []
 var _land_segs: Array = []
 
+## Arma su propia plataforma (o la pelota cambia de lugar): sin la plataforma comun.
+func has_player_deck() -> bool:
+	return false
+
 func game_id() -> String:
 	return "salto_esqui"
 

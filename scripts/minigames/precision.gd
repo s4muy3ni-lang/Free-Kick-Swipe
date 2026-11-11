@@ -26,6 +26,13 @@ var _crossed: bool = false
 var _prev_p := Vector3.ZERO
 var blocked: bool = false
 
+## Plataforma del jugador elevada (estilo arcade comun).
+func default_deck() -> float:
+	return 1.8
+
+func uses_night_arena() -> bool:
+	return true
+
 func game_id() -> String:
 	return "precision"
 
@@ -226,7 +233,7 @@ func reset_level() -> void:
 	super.reset_level()
 
 func _ball_spot(_s: int) -> Vector3:
-	return Vector3(0, ball.radius if ball != null else 0.11, 0)
+	return (Vector3(0, ball.radius if ball != null else 0.11, 0)) + Vector3.UP * deck_y()
 
 func _aim_point(_s: int) -> Vector3:
 	return Vector3(goal_x, height * 0.5, 0)

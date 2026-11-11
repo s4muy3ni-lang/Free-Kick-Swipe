@@ -32,6 +32,10 @@ var holed: bool = false
 var _spot := Vector3.ZERO
 var _flag: Node3D
 
+## Arma su propia plataforma (o la pelota cambia de lugar): sin la plataforma comun.
+func has_player_deck() -> bool:
+	return false
+
 func game_id() -> String:
 	return "minigolf"
 

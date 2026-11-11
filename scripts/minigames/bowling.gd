@@ -10,10 +10,10 @@ extends Minigame
 ## marcas de cada cuadro (X, /, -). Pistas distintas por nivel: largo, ancho, obstaculos fijos o moviles y formacion.
 
 const SCENE := "res://scenes/minigames/bowling.tscn"
-const PIN_R := 0.09
+const PIN_R := 0.14
 ## Bolos a la escala de una pelota de futbol (0,43 kg): livianos y altos, vuelcan con un golpe a 6-8 m/s (medido:
 ## con 1,3 kg la pelota rebotaba y no caia ninguno).
-const PIN_H := 0.5
+const PIN_H := 0.8
 ## Error de la IA por dificultad (grados sobre la direccion).
 const CPU_ERROR := [4.0, 2.8, 1.8, 1.2, 0.9]
 
@@ -34,6 +34,13 @@ var rolls: Array = [[], []]
 ## Bolos ya caidos (retirados) antes de la bola en curso, en el armado actual.
 var rack_down_before: int = 0
 var _board_labels: Array = []
+
+## Plataforma del jugador elevada (estilo arcade comun).
+func default_deck() -> float:
+	return 2.5
+
+func uses_night_arena() -> bool:
+	return true
 
 func game_id() -> String:
 	return "bowling"
@@ -87,7 +94,7 @@ func _spawn_pins() -> void:
 	pin_home.clear()
 	var base_x: float = lane_len
 	# Separacion corta: un bolo que cae alcanza al vecino (la reaccion en cadena es la del bowling).
-	var gap: float = 0.24
+	var gap: float = 0.37
 	var spots: Array = []
 	match String(def.get("layout", "triangle")):
 		"line":
@@ -104,7 +111,7 @@ func _spawn_pins() -> void:
 					spots.append(Vector3(base_x + float(r) * gap, 0, (float(k) - float(r) * 0.5) * gap))
 	for i in mini(spots.size(), 10):
 		var pin := RigidBody3D.new()
-		pin.mass = 0.3
+		pin.mass = 0.45
 		pin.collision_layer = Ball.LAYER_WORLD
 		pin.collision_mask = Ball.LAYER_WORLD | Ball.LAYER_BALL
 		var pm := PhysicsMaterial.new()
@@ -194,71 +201,23 @@ func frame_points() -> Array:
 	return out
 
 func _ball_spot(_s: int) -> Vector3:
-	return Vector3(0, ball.radius if ball != null else 0.11, 0)
+	return (Vector3(0, ball.radius if ball != null else 0.11, 0)) + Vector3.UP * deck_y()
 
 func _aim_point(_s: int) -> Vector3:
 	return Vector3(lane_len + 0.3, 0.5, 0)
 
 func _shot_ctx(_s: int) -> Dictionary:
-	return GestureShotModel.context(lane_len, Vector2(8.0, 20.0), false, lane_w, 3.0, ball.radius)
+	return GestureShotModel.context(lane_len, Vector2(10.0, 26.0), false, lane_w, 3.0, ball.radius)
 
-# --- Gesto: a ras del piso con efecto ------------------------------------------------------------------------------------
+# --- Tiro: la patada de siempre desde la plataforma alta (pedido del usuario: la misma fisica que el vacio) -----------
 
+## Salida para pegarle a un punto de la pista (pruebas e IA): patada con la fisica de siempre hacia ese punto, a la
+## altura del medio de los bolos, con potencia 0..1 (velocidad 14..22 m/s). curve: giro vertical (efecto) opcional.
 func bowl_velocity(ground_target: Vector3, power: float, curve: float) -> Array:
-	var dir := Vector3(ground_target.x - _ball_spot(0).x, 0, ground_target.z - _ball_spot(0).z)
-	dir = dir.normalized() if dir.length() > 0.05 else Vector3(1, 0, 0)
-	var speed: float = lerpf(8.0, 20.0, clampf(power, 0.0, 1.0))
-	var v: Vector3 = dir * speed + Vector3.UP * 0.4
-	# Efecto: giro vertical (curva el recorrido por Magnus mientras la pelota no rueda pegada).
-	var w: Vector3 = ball.rolling_spin(v) * 0.8 + Vector3.UP * clampf(curve, -1.0, 1.0) * 14.0
-	return [v, w]
-
-func _on_press(pos: Vector2, pressed: bool) -> void:
-	if state != State.AIM or side != Side.USER:
-		return
-	if pressed:
-		_swiping = true
-		gesture.tuning = GestureTuning.current()
-		gesture.begin(pos, _now(), get_viewport().get_visible_rect().size.y if is_inside_tree() else 720.0)
-		_preview_t = 0.0
-	elif _swiping:
-		_swiping = false
-		gesture.finish(pos, _now())
-		hud.set_trail(PackedVector2Array())
-		preview.hide_path()
-		hud.hide_gesture()
-		var f: Dictionary = gesture.features()
-		if float(f["length"]) < gesture.tuning.min_length * 0.6:
-			return
-		var vw: Array = bowl_velocity(_ground(gesture.last_px()), GestureShotModel.power_from(f, gesture.tuning),
-			clampf(float(f["curvature"]) * 2.0, -1.0, 1.0))
-		apply_intent({"side": Side.USER, "v": vw[0], "w": vw[1]})
-
-func _ground(px: Vector2) -> Vector3:
-	var o: Vector3 = cam.project_ray_origin(px)
-	var dd: Vector3 = cam.project_ray_normal(px)
-	if dd.y > -1e-4:
-		return Vector3(lane_len, 0, 0)
-	var t: float = -o.y / dd.y
-	var q: Vector3 = o + dd * t
-	return Vector3(q.x, 0, q.z)
-
-func _update_preview(delta: float) -> void:
-	_preview_t -= delta
-	if _preview_t > 0.0 or gesture.count() < 3:
-		return
-	_preview_t = 1.0 / 15.0
-	var f: Dictionary = gesture.features()
-	if float(f["length"]) < gesture.tuning.min_length * 0.6:
-		preview.hide_path()
-		return
-	var vw: Array = bowl_velocity(_ground(gesture.last_px()), GestureShotModel.power_from(f, gesture.tuning), clampf(float(f["curvature"]) * 2.0, -1.0, 1.0))
-	if GraphicsSettings.show_aim_line:
-		var traj: PackedVector3Array = BallPredictor.trajectory(_ball_spot(0), vw[0], 3.0, 1.0 / 30.0, vw[1], true)
-		preview.show_path(traj, lane_len + 2.0, (vw[0] as Vector3).length() / 20.0, cam.global_position, traj[traj.size() - 1] if not traj.is_empty() else Vector3.ZERO)
-	else:
-		preview.hide_path()
-	hud.show_gesture((vw[0] as Vector3).length() / 20.0, 0.1, clampf(float(f["curvature"]) * 2.0, -1.0, 1.0), "Bola")
+	var target := Vector3(ground_target.x, PIN_H * 0.45, ground_target.z)
+	var sp: float = lerpf(14.0, 22.0, clampf(power, 0.0, 1.0))
+	var it: Dictionary = cpu_shot(target, sp, clampf(curve, -1.0, 1.0) * 8.0, 0.0)
+	return [it["v"], it["w"]]
 
 # --- Reglas ---------------------------------------------------------------------------------------------------------------
 

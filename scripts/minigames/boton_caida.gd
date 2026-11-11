@@ -61,6 +61,16 @@ var cpu_error_deg: float = -1.0
 func shows_both_players() -> bool:
 	return true
 
+func uses_night_arena() -> bool:
+	return true
+
+func arena_floor() -> bool:
+	return false
+
+## Arma su propia plataforma (o la pelota cambia de lugar): sin la plataforma comun.
+func has_player_deck() -> bool:
+	return false
+
 func game_id() -> String:
 	return "boton_caida"
 
@@ -181,7 +191,8 @@ func _shot_ctx(s: int) -> Dictionary:
 ## Piso de la plataforma con el hueco de la trampilla bajo el lugar del jugador (cuatro bloques alrededor) y la trampilla
 ## de dos hojas con bisagra.
 func _build_platform(s: int) -> void:
-	var c: Color = Color(0.2, 0.45, 0.95) if s == 0 else Color(0.9, 0.25, 0.25)
+	# Estilo arcade comun (referencia del usuario): cubierta rosa con un toque del color del equipo.
+	var c: Color = ArcadeLook.DECK_PINK.lerp(Color(0.2, 0.45, 0.95) if s == 0 else Color(0.9, 0.25, 0.25), 0.25)
 	var h: Vector3 = _hole_local[s]
 	var hx0: float = h.x - HOLE * 0.5
 	var hx1: float = h.x + HOLE * 0.5
@@ -201,6 +212,16 @@ func _build_platform(s: int) -> void:
 			continue
 		var center := Vector3((a.x + b.x) * 0.5, -0.5, (a.z + b.z) * 0.5)
 		static_box(size, frames[s] * center, c.darkened(0.15), frames[s].basis.get_euler(), 0.4)
+	# Barandas doradas con postes de luz a los costados y flechas en el piso (solo decoracion).
+	for sz in [-1.0, 1.0]:
+		ArcadeLook.deco(self, "box", Vector3(DEPTH - 1.0, 0.08, 0.08), frames[s] * Vector3(-DEPTH * 0.5 - 0.3, 0.9, sz * (WIDTH * 0.5 - 0.1)), ArcadeLook.mat(ArcadeLook.RAIL_GOLD, "metal"), frames[s].basis.get_euler())
+		for k in 4:
+			var pp: Vector3 = frames[s] * Vector3(-DEPTH + 0.8 + float(k) * (DEPTH - 1.6) / 3.0, 0.45, sz * (WIDTH * 0.5 - 0.1))
+			ArcadeLook.deco(self, "box", Vector3(0.1, 0.9, 0.1), pp, ArcadeLook.mat(ArcadeLook.RAIL_GOLD, "metal"))
+			ArcadeLook.deco(self, "sphere", Vector3(0.08, 0, 0), pp + Vector3.UP * 0.5, ArcadeLook.glow(Color(1.0, 0.85, 0.45), 2.5))
+		for k in 2:
+			for sgn in [-1.0, 1.0]:
+				ArcadeLook.deco(self, "box", Vector3(0.14, 0.012, 0.7), frames[s] * Vector3(-1.4 - float(k) * 0.6, 0.008, sz * (WIDTH * 0.5 - 1.2) + sgn * 0.25), ArcadeLook.mat(Color(1.0, 0.8, 0.1), "paint"), frames[s].basis.get_euler() + Vector3(0, sgn * 0.7, 0))
 	# Borde claro (se lee el limite contra el vacio).
 	var edge := MeshInstance3D.new()
 	var em := BoxMesh.new()

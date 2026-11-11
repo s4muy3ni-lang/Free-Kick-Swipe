@@ -24,6 +24,13 @@ var kick_i: int = 0
 var _crossed: bool = false
 var _prev_p := Vector3.ZERO
 
+func uses_night_arena() -> bool:
+	return true
+
+## Arma su propia plataforma (o la pelota cambia de lugar): sin la plataforma comun.
+func has_player_deck() -> bool:
+	return false
+
 func game_id() -> String:
 	return "field_goal"
 

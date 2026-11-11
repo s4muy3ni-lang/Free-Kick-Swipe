@@ -32,6 +32,17 @@ var _bp := Vector3.ZERO
 var _bv := Vector3.ZERO
 var _scored_shot: int = -1
 
+## Plataforma del jugador elevada (estilo arcade comun).
+func default_deck() -> float:
+	return 2.0
+
+## Camara: la recuperada, mirando un poco hacia arriba (el blanco es alto y esta lejos).
+func camera_defaults() -> Dictionary:
+	return {"back": 10.5, "height": 5.4, "ahead": 5.5, "lift_aim": 0.35, "fov": 44.0, "follow": 0.45}
+
+func uses_night_arena() -> bool:
+	return true
+
 func game_id() -> String:
 	return "dardos"
 
@@ -40,9 +51,13 @@ func _build_level() -> void:
 	sides = 2 if rule == "duelo" else 1
 	shots_each = int(def.get("shots", 6))
 	max_turns = shots_each * sides
-	radius = float(def.get("radius", 1.8))
-	center = Vector3(float(def.get("distance", 13.0)), float(def.get("height", 2.0)), 0.0)
+	# Escala arcade: tablero gigante y lejos (referencia del usuario).
+	radius = float(def.get("radius", 3.0))
+	center = Vector3(float(def.get("distance", 24.0)), float(def.get("height", 4.0)), 0.0)
+	# Los anillos escalan con el tamaño del tablero (los de DEFAULT_RINGS son para 1,8 m).
 	rings = DEFAULT_RINGS.duplicate()
+	for k in rings:
+		rings[k] = float(rings[k]) * radius / 1.8
 	rings.merge(def.get("rings", {}), true)
 	var start: int = int(def.get("start", 301))
 	remaining = [start, start]
@@ -100,16 +115,15 @@ func _build_board() -> void:
 		var l := Label3D.new()
 		l.text = str(ORDER[i])
 		l.font_size = 72
-		l.pixel_size = 0.0042
+		l.pixel_size = 0.0042 * radius / 1.8
 		l.modulate = Color(1, 1, 1)
 		l.double_sided = false
 		l.rotation_degrees = Vector3(0, -90, 0)
 		l.position = Vector3(-0.12, cos(a) * (radius + 0.09), sin(a) * (radius + 0.09))
 		_board.add_child(l)
 	# Pie del tablero.
-	for z in [-0.6, 0.6]:
-		ArcadeLook.deco(self, "box", Vector3(0.14, center.y - radius * 0.4, 0.14), Vector3(center.x + 0.35, (center.y - radius * 0.4) * 0.5, z), ArcadeLook.mat(Color(0.3, 0.2, 0.12), "wood"), Vector3(0, 0, 0))
-	ArcadeLook.deco(self, "box", Vector3(0.8, 0.12, 2.0), Vector3(center.x + 0.4, 0.06, 0), ArcadeLook.mat(Color(0.3, 0.2, 0.12), "wood"))
+	for z in [-radius * 0.4, radius * 0.4]:
+		ArcadeLook.deco(self, "box", Vector3(0.25, center.y - radius * 0.4, 0.25), Vector3(center.x + 0.4, (center.y - radius * 0.4) * 0.5, z), ArcadeLook.mat(Color(0.25, 0.26, 0.3), "metal"))
 
 ## Sector (1..20) y anillo de un angulo/radio. Angulo 0 = arriba, creciendo hacia la DERECHA de quien patea (+Z).
 func _face_mesh() -> ArrayMesh:
@@ -153,31 +167,15 @@ func _quad(st: SurfaceTool, r0: float, r1: float, t0: float, t1: float, c: Color
 		st.add_vertex(v)
 
 func _build_stage() -> void:
-	ArcadeLook.light(self, Color(1.0, 0.9, 0.75), 0.95, Color(0.1, 0.08, 0.06), Color(0.4, 0.28, 0.18), 0.75, Vector3(-45, -25, 0))
-	# Bar de dardos: piso de madera, linea de tiro, pared de ladrillo con la diana y carteles.
-	ArcadeLook.ground(self, Vector2(160, 120), Vector3(10, 0, 0), Color(0.45, 0.3, 0.17), "wood", 60.0)
-	ArcadeLook.deco(self, "box", Vector3(0.1, 0.012, 3.0), Vector3(-0.5, 0.007, 0), ArcadeLook.mat(Color(0.95, 0.75, 0.2), "metal"))
-	ArcadeLook.deco(self, "box", Vector3(0.6, 8.0, 30.0), Vector3(center.x + 1.6, 4.0, 0), ArcadeLook.mat(Color(0.55, 0.26, 0.18), "stone", 8.0))
-	for z in [-5.5, 5.5]:
-		ArcadeLook.deco(self, "box", Vector3(0.1, 1.6, 2.4), Vector3(center.x + 1.25, 2.4, z), ArcadeLook.mat(Color(0.12, 0.12, 0.12), "paint"))
-		var l := Label3D.new()
-		l.text = "301" if z < 0.0 else "DARDOS"
-		l.font_size = 96
-		l.pixel_size = 0.008
-		l.modulate = Color(1.0, 0.95, 0.85)
-		l.rotation_degrees = Vector3(0, -90, 0)
-		add_child(l)
-		l.global_position = Vector3(center.x + 1.18, 2.4, z)
-	# Lamparas de bar sobre la diana (brillan).
-	for z in [-1.4, 1.4]:
-		ArcadeLook.deco(self, "cyl", Vector3(0.02, 2.0, 0.02), Vector3(center.x - 0.8, 6.0, z), ArcadeLook.mat(Color(0.2, 0.2, 0.2), "metal"))
-		ArcadeLook.deco(self, "cyl", Vector3(0.12, 0.25, 0.4), Vector3(center.x - 0.8, 4.9, z), ArcadeLook.mat(Color(0.1, 0.3, 0.15), "metal"))
-		ArcadeLook.deco(self, "sphere", Vector3(0.12, 0, 0), Vector3(center.x - 0.8, 4.75, z), ArcadeLook.glow(Color(1.0, 0.92, 0.7), 3.0))
-	# Barra y banquetas a un costado.
-	ArcadeLook.deco(self, "box", Vector3(9.0, 1.1, 0.8), Vector3(6.0, 0.55, -7.5), ArcadeLook.mat(Color(0.35, 0.2, 0.1), "wood", 3.0))
-	for k in 5:
-		ArcadeLook.deco(self, "cyl", Vector3(0.22, 0.08, 0.22), Vector3(2.5 + float(k) * 1.8, 0.75, -6.6), ArcadeLook.mat(Color(0.6, 0.1, 0.1), "paint"))
-		ArcadeLook.deco(self, "cyl", Vector3(0.04, 0.7, 0.04), Vector3(2.5 + float(k) * 1.8, 0.35, -6.6), ArcadeLook.mat(Color(0.7, 0.7, 0.72), "metal"))
+	# Pasarela roja hasta el tablero y reticulado con luces alrededor (el estadio lo pone el estilo comun).
+	ArcadeLook.runway(self, 1.6, center.x - 0.5, 6.0)
+	var steel := ArcadeLook.mat(Color(0.5, 0.52, 0.58), "metal")
+	for z in [-radius - 0.8, radius + 0.8]:
+		ArcadeLook.deco(self, "box", Vector3(0.3, center.y + radius + 1.2, 0.3), Vector3(center.x + 0.4, (center.y + radius + 1.2) * 0.5, z), steel)
+		ArcadeLook.deco(self, "sphere", Vector3(0.25, 0, 0), Vector3(center.x + 0.2, center.y + radius + 1.3, z), ArcadeLook.glow(Color(0.9, 0.95, 1.0), 3.0))
+	ArcadeLook.deco(self, "box", Vector3(0.3, 0.3, radius * 2.0 + 1.9), Vector3(center.x + 0.4, center.y + radius + 1.2, 0), steel)
+	for k in 9:
+		ArcadeLook.deco(self, "sphere", Vector3(0.1, 0, 0), Vector3(center.x + 0.2, center.y + radius + 1.0, -radius + float(k) * radius * 0.25), ArcadeLook.glow(Color(1.0, 0.85, 0.4), 2.5))
 
 # --- Puntaje ------------------------------------------------------------------------------------------------------------
 
@@ -289,13 +287,13 @@ func reset_level() -> void:
 	super.reset_level()
 
 func _ball_spot(s: int) -> Vector3:
-	return Vector3(0.0, ball.radius if ball != null else 0.11, 0.0)
+	return (Vector3(0.0, ball.radius if ball != null else 0.11, 0.0)) + Vector3.UP * deck_y()
 
 func _aim_point(_s: int) -> Vector3:
 	return center
 
 func _shot_ctx(_s: int) -> Dictionary:
-	return GestureShotModel.context(center.x - 0.5, Vector2(9.0, 28.0), false, 4.0, 4.0, ball.radius)
+	return GestureShotModel.context(center.x - 0.5, Vector2(12.0, 32.0), false, radius + 1.0, radius * 2.0, ball.radius)
 
 func frame_points() -> Array:
 	return [center + Vector3.UP * (radius + 0.2), center + Vector3.DOWN * (radius + 0.2)]
@@ -356,4 +354,4 @@ func _refresh_score() -> void:
 func _cpu_intent() -> Dictionary:
 	var err: float = cpu_error_deg if cpu_error_deg >= 0.0 else float(CPU_ERROR[clampi(SpSettings.level(), 0, CPU_ERROR.size() - 1)])
 	var pt: Vector2 = aim_face(20, 3) if err <= 0.9 else Vector2.ZERO
-	return cpu_shot(face_world(pt), 16.0, 0.0, err)
+	return cpu_shot(face_world(pt), 21.0, 0.0, err)

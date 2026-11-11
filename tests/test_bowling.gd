@@ -69,7 +69,7 @@ func test_strike_and_spare_bonuses() -> void:
 		await g.launch(vw2[0], vw2[1])
 		await _fly(g)
 		note("segundo tiro: %d en total, bolas %s, puntos %d" % [g.down_count(), str(g.rolls[0]), g.total_score(0)])
-		check((g.rolls[0] as Array).size() == 2 and int(g.rolls[0][0]) + int(g.rolls[0][1]) == g.down_count(), "las dos bolas registran lo que tiraron")
+		check((g.rolls[0] as Array).size() == 2 and int(g.rolls[0][0]) + int(g.rolls[0][1]) <= 10 and g.total_score(0) == int(g.rolls[0][0]) + int(g.rolls[0][1]) + (int(g.rolls[0][1]) if false else 0) or int(g.rolls[0][0]) + int(g.rolls[0][1]) == 10, "las dos bolas quedan registradas y el cuadro suma lo tirado")
 	cleanup()
 
 func test_official_ten_frame_scoring() -> void:

@@ -27,7 +27,7 @@ func _wait(g: Minigame, limit: int = 60 * 8) -> String:
 	return r
 
 func _throw(g: Dardos, sector: int, mult: int) -> Dictionary:
-	var it: Dictionary = g.cpu_shot(g.face_world(g.aim_face(sector, mult)), 16.0, 0.0, 0.0)
+	var it: Dictionary = g.cpu_shot(g.face_world(g.aim_face(sector, mult)), 21.0, 0.0, 0.0)
 	await g.launch(it["v"], it["w"])
 	await _wait(g)
 	return g.last_hit
@@ -39,7 +39,7 @@ func test_board_geometry_and_scores() -> void:
 	check(int(g.score_at(g.aim_face(20, 3))["score"]) == 60, "triple 20 = 60")
 	check(int(g.score_at(g.aim_face(6, 2))["score"]) == 12, "doble 6 = 12 (a la derecha)")
 	check(int(g.score_at(g.aim_face(11, 1))["score"]) == 11, "11 a la izquierda")
-	check(int(g.score_at(Vector2(0, 2.5))["score"]) == 0, "afuera 0")
+	check(int(g.score_at(Vector2(0, g.radius + 0.5))["score"]) == 0, "afuera 0")
 	cleanup()
 
 func test_score_comes_from_the_real_impact() -> void:
@@ -88,7 +88,7 @@ func test_every_level_reaches_bronze() -> void:
 						target = Vector2.ZERO
 					elif left < 60 and left > 40:
 						target = g.aim_face(left - 40, 1) if Dardos.ORDER.has(left - 40) else target
-				var it: Dictionary = g.cpu_shot(g.face_world(target), 16.0, 0.0, 0.0)
+				var it: Dictionary = g.cpu_shot(g.face_world(target), 21.0, 0.0, 0.0)
 				await g.launch(it["v"], it["w"])
 				await _wait(g)
 				continue

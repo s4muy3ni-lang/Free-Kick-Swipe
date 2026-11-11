@@ -22,7 +22,8 @@ func _fly(g: Minigame) -> String:
 	return g.last_result
 
 func test_basket_counts_only_downward_through_the_ring() -> void:
-	var g: Enceste = await _game(1)
+	# «Primer aro» (aro con aire debajo; las gradas tienen escalones bajo los aros).
+	var g: Enceste = await _game(3)
 	var c: Vector3 = g.hoops[0]["center"]
 	# De abajo hacia arriba por el aro (y cae al costado): no cuenta.
 	g.state = Minigame.State.RUNUP
@@ -36,7 +37,7 @@ func test_basket_counts_only_downward_through_the_ring() -> void:
 	check(g.baskets == 0, "subir por el aro no es enceste")
 	cleanup()
 	# Dejarla caer por el centro: cuenta y limpia.
-	g = await _game(1)
+	g = await _game(3)
 	c = g.hoops[0]["center"]
 	g.state = Minigame.State.RUNUP
 	g.ball.reset_at(c + Vector3(0, 1.0, 0))
@@ -48,7 +49,7 @@ func test_basket_counts_only_downward_through_the_ring() -> void:
 	check(r == "canasta" and g.baskets == 1 and g.swishes == 1, "cae por el centro: enceste limpio")
 	cleanup()
 	# Cae sobre el aro: rebota en el (fisico) y no entra por fuera.
-	g = await _game(1)
+	g = await _game(3)
 	c = g.hoops[0]["center"]
 	g.state = Minigame.State.RUNUP
 	g.ball.reset_at(c + Vector3(0, 1.0, float(g.hoops[0]["radius"]) + 0.02))

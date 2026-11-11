@@ -24,6 +24,9 @@ var _crossed: bool = false
 var _prev_p := Vector3.ZERO
 var _bar_home: Transform3D
 
+func uses_night_arena() -> bool:
+	return true
+
 func game_id() -> String:
 	return "salto_alto"
 

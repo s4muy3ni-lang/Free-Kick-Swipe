@@ -184,6 +184,7 @@ func _ready() -> void:
 	gesture = ShotGesture.new(GestureTuning.current(), 720.0)
 	_build_world()
 	_build_level()
+	_dress_arcade()
 	for s in sides:
 		var sh := SpShooter.new()
 		sh.name = "Shooter%d" % s
@@ -304,6 +305,39 @@ func _place_shooter(s: int) -> void:
 	sh.stance(spot, aim, STANCE.x, STANCE.y)
 	sh.actor.global_position.y = sh.actor.ground_y
 
+# --- Estilo arcade comun (plataforma del jugador y estadio de noche) ----------------------------------------------------
+
+## Altura de la plataforma del jugador en este minijuego (0 = a nivel del piso). Cada modo da la suya; el nivel la puede
+## cambiar con "deck_h". Los modos que la usan suman deck_y() a su lugar de la pelota.
+func default_deck() -> float:
+	return 0.0
+
+func deck_y() -> float:
+	return float(def.get("deck_h", default_deck()))
+
+## false en los modos que arman su propia plataforma (Boton de caida, Duelo del guante).
+func has_player_deck() -> bool:
+	return true
+
+## true en los modos que usan el estadio de noche comun (tribunas, torres de luces, banderas).
+func uses_night_arena() -> bool:
+	return false
+
+## false en los modos con vacio debajo (Boton de caida): el estadio sin piso.
+func arena_floor() -> bool:
+	return true
+
+func _dress_arcade() -> void:
+	if ball == null:
+		return
+	var spot: Vector3 = _ball_spot(0)
+	if uses_night_arena():
+		var aim: Vector3 = _aim_point(0)
+		var c := Vector3((spot.x + aim.x) * 0.5, 0, (spot.z + aim.z) * 0.5)
+		ArcadeLook.night_arena(self, c, absf(aim.x - spot.x) + 20.0, 18.0, arena_floor())
+	if has_player_deck():
+		ArcadeLook.player_deck(self, spot, spot.y - ball.radius, ball.radius)
+
 ## true en los modos donde los dos jugadores estan en escena a la vez (duelos cara a cara).
 func shows_both_players() -> bool:
 	return false
@@ -360,7 +394,8 @@ func camera_defaults() -> Dictionary:
 
 ## Altura del piso desde el que se mide la camara (plataformas elevadas).
 func camera_base_y() -> float:
-	return 0.0
+	# La altura de la pelota (sobre la plataforma del jugador, si esta elevada).
+	return _ball_spot(side).y - (ball.radius if ball != null else 0.11)
 
 ## Encuadre del turno: detras de la pelota mirando al objetivo, con los valores recomendados del minijuego y los ajustes
 ## que el usuario guardo para ESTE minijuego (CameraPrefs).

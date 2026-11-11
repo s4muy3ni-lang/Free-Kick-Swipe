@@ -30,6 +30,13 @@ var repeat: bool = false
 ## Puntos de enceste acumulados (100 x valor del aro, + limpia).
 var basket_pts: int = 0
 
+## Plataforma del jugador elevada (estilo arcade comun).
+func default_deck() -> float:
+	return 3.0
+
+func uses_night_arena() -> bool:
+	return true
+
 func game_id() -> String:
 	return "enceste"
 
@@ -42,6 +49,7 @@ func _build_level() -> void:
 		if c is MeshInstance3D:
 			(c as MeshInstance3D).visible = false
 	_build_court()
+	_build_tiers()
 	for h in def.get("hoops", [{}]):
 		_build_hoop(h)
 	repeat = bool(def.get("repeat", false))
@@ -63,7 +71,12 @@ func _build_hoop(h: Dictionary) -> void:
 	pm.bounce = 0.55
 	pm.friction = 0.5
 	body.physics_material_override = pm
-	var rim_mat := color_mat(Color(1.0, 0.45, 0.1), 0.3)
+	# Color del aro segun lo que vale (referencia: azul 10, rojo 15, amarillo 20).
+	var pts: int = int(h.get("points", 100 * int(h.get("value", 1))))
+	var rim_c: Color = Color(1.0, 0.45, 0.1)
+	if h.has("points"):
+		rim_c = Color(1.0, 0.82, 0.15) if pts >= 200 else (Color(0.95, 0.2, 0.2) if pts >= 150 else Color(0.2, 0.5, 1.0))
+	var rim_mat := color_mat(rim_c, 0.5)
 	for i in RIM_SPHERES:
 		var a: float = TAU * float(i) / float(RIM_SPHERES)
 		var cs := CollisionShape3D.new()
@@ -147,17 +160,17 @@ func _build_hoop(h: Dictionary) -> void:
 	add_child(post)
 	post.global_position = Vector3(pos.x + r + 0.5, (pos.y + 0.4) * 0.5, pos.z)
 	hoops.append({"body": body, "center": pos, "radius": r, "base": body.global_transform, "move": h.get("move", {}),
-		"scored": false, "post": post, "value": int(h.get("value", 1))})
-	if int(h.get("value", 1)) > 1:
+		"scored": false, "post": post, "value": int(h.get("value", 1)), "points": int(h.get("points", BASKET_POINTS * int(h.get("value", 1))))})
+	if h.has("points") or int(h.get("value", 1)) > 1:
 		var vl := Label3D.new()
-		vl.text = "x%d" % int(h.get("value", 1))
+		vl.text = (str(int(h["points"]) / 10)) if h.has("points") else ("x%d" % int(h.get("value", 1)))
 		vl.font_size = 96
 		vl.pixel_size = 0.006
 		vl.modulate = Color(1.0, 0.85, 0.3)
 		vl.outline_size = 10
 		vl.billboard = BaseMaterial3D.BILLBOARD_FIXED_Y
 		add_child(vl)
-		vl.global_position = pos + Vector3(r + 0.4, 1.35, 0)
+		vl.global_position = pos + Vector3(0.0, 0.85, 0)
 
 ## Encuadre: cada aro con su tablero.
 func frame_points() -> Array:
@@ -168,7 +181,7 @@ func frame_points() -> Array:
 	return out
 
 func _ball_spot(_s: int) -> Vector3:
-	return Vector3(0.0, ball.radius if ball != null else 0.11, 0.0)
+	return (Vector3(0.0, ball.radius if ball != null else 0.11, 0.0)) + Vector3.UP * deck_y()
 
 func _aim_point(_s: int) -> Vector3:
 	var c := Vector3.ZERO
@@ -225,7 +238,7 @@ func _flight_check(_delta: float) -> String:
 				h["scored"] = true
 				_scored_now = true
 				baskets += 1
-				basket_pts += BASKET_POINTS * int(h.get("value", 1))
+				basket_pts += int(h.get("points", BASKET_POINTS * int(h.get("value", 1))))
 				if not _rim_touched:
 					swishes += 1
 					basket_pts += SWISH
@@ -275,6 +288,24 @@ func _refresh_score() -> void:
 		hud.set_score_text("Encestes %d / %d · tiros %d / %d" % [baskets, need, int(shots[0]), shots_max])
 
 ## Cancha: parquet, lineas, tribunas y cartel (decoracion sin colision).
+## Gradas (nivel "tiers": [[x0, x1, alto], ...]): escalones fisicos rosas con borde dorado y flechas, donde se apoyan
+## los aros (referencia del usuario).
+func _build_tiers() -> void:
+	for t in def.get("tiers", []):
+		var x0: float = float(t[0])
+		var x1: float = float(t[1])
+		var top: float = float(t[2])
+		var w: float = float(def.get("tier_w", 9.0))
+		var b := static_box(Vector3(x1 - x0, top, w), Vector3((x0 + x1) * 0.5, top * 0.5, 0), Color(0.8, 0.3, 0.5), Vector3.ZERO, 0.4)
+		for c in b.get_children():
+			if c is MeshInstance3D:
+				(c as MeshInstance3D).material_override = ArcadeLook.mat(Color(0.72, 0.26, 0.46), "paint", 2.0)
+		ArcadeLook.deco(self, "box", Vector3(0.12, 0.08, w + 0.05), Vector3(x0 + 0.02, top + 0.01, 0), ArcadeLook.glow(ArcadeLook.RAIL_GOLD, 1.6))
+		for sz in [-1.0, 1.0]:
+			ArcadeLook.deco(self, "sphere", Vector3(0.12, 0, 0), Vector3(x0 + 0.1, top + 0.15, sz * (w * 0.5 - 0.2)), ArcadeLook.glow(Color(1.0, 0.8, 0.4), 3.0))
+			for k in 2:
+				ArcadeLook.deco(self, "box", Vector3(0.1, 0.012, 0.6), Vector3(x0 - 0.05, top * (0.35 + float(k) * 0.3), sz * (w * 0.5 - 0.6)), ArcadeLook.mat(Color(1.0, 0.8, 0.1), "paint"), Vector3(0, 0, PI * 0.5))
+
 func _build_court() -> void:
 	ArcadeLook.light(self, Color(1.0, 0.95, 0.88), 1.0, Color(0.12, 0.12, 0.2), Color(0.45, 0.4, 0.45), 0.8, Vector3(-62, -30, 0))
 	ArcadeLook.ground(self, Vector2(160, 120), Vector3(10, -0.002, 0), Color(0.2, 0.2, 0.26), "stone", 40.0)
@@ -290,4 +321,4 @@ func _build_court() -> void:
 			for k in 16:
 				var cc: Color = [Color(0.9, 0.2, 0.2), Color(0.2, 0.45, 0.95), Color(0.95, 0.85, 0.2), Color(0.9, 0.9, 0.9)][(k + row) % 4]
 				ArcadeLook.deco(self, "box", Vector3(0.35, 0.55, 0.3), Vector3(-5.0 + float(k) * 2.0 + float(row % 2) * 0.6, 0.78 + float(row) * 0.5, z + signf(z) * float(row) * 1.2), ArcadeLook.mat(cc, "paint"))
-	ArcadeLook.billboard(self, "BÁSQUET", Vector3(28.0, 4.6, 0), 6.0, 1.1, Color(0.35, 0.12, 0.05), Color(1.0, 0.85, 0.3))
+	ArcadeLook.billboard(self, "BÁSQUET", Vector3(28.0, 7.2, 0), 6.0, 1.1, Color(0.35, 0.12, 0.05), Color(1.0, 0.85, 0.3))

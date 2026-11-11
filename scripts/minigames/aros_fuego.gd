@@ -23,6 +23,13 @@ var seq_done: int = 0
 var _prev_p := Vector3.ZERO
 var _flames: Array = []
 
+## Plataforma del jugador elevada (estilo arcade comun).
+func default_deck() -> float:
+	return 2.0
+
+func uses_night_arena() -> bool:
+	return true
+
 func game_id() -> String:
 	return "aros_fuego"
 
@@ -216,7 +223,7 @@ func reset_level() -> void:
 	super.reset_level()
 
 func _ball_spot(_s: int) -> Vector3:
-	return Vector3(0, ball.radius if ball != null else 0.11, 0)
+	return (Vector3(0, ball.radius if ball != null else 0.11, 0)) + Vector3.UP * deck_y()
 
 func _aim_point(_s: int) -> Vector3:
 	if rings.is_empty():

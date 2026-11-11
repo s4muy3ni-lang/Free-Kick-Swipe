@@ -57,14 +57,14 @@ func test_cards_flip_only_with_a_real_hit() -> void:
 	cleanup()
 	# Un tiro que pasa por arriba del tablero no da vuelta nada.
 	g = await _game(1)
-	var it: Dictionary = g.cpu_shot(Vector3(g.board_x, 5.0, 0), 16.0, 0.0, 0.0)
+	var it: Dictionary = g.cpu_shot(Vector3(g.board_x, 12.0, 0), 22.0, 0.0, 0.0)
 	await g.launch(it["v"], it["w"])
 	await _wait(g)
 	check(g.revealed.is_empty(), "sin tocar cartas no hay cartas en la mano")
 	# Un golpe fuerte arriba de la mitad: gira y pasa la traba.
 	e = g.cards[7]
 	p = (e["body"] as Node3D).global_position
-	it = g.cpu_shot(p + Vector3(-RoyalFlush.CARD_T * 0.5 - g.ball.radius, RoyalFlush.CARD_H * 0.3, 0), 16.0, 0.0, 0.0)
+	it = g.cpu_shot(p + Vector3(-g.CARD_T * 0.5 - g.ball.radius, g.CARD_H * 0.3, 0), 16.0, 0.0, 0.0)
 	await g.launch(it["v"], it["w"])
 	await _wait(g)
 	await physics_frames(60)
@@ -86,7 +86,7 @@ func test_every_level_reaches_bronze() -> void:
 			if e.is_empty():
 				break
 			var p: Vector3 = (e["body"] as Node3D).global_position
-			var it: Dictionary = g.cpu_shot(p + Vector3(-RoyalFlush.CARD_T * 0.5 - g.ball.radius, RoyalFlush.CARD_H * 0.3, 0), 16.0, 0.0, 0.0)
+			var it: Dictionary = g.cpu_shot(p + Vector3(-g.CARD_T * 0.5 - g.ball.radius, g.CARD_H * 0.3, 0), 16.0, 0.0, 0.0)
 			await g.launch(it["v"], it["w"])
 			await _wait(g)
 			k += 1

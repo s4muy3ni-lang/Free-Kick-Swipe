@@ -11,6 +11,38 @@ Formato de entrada: **fecha — título** · commit · qué cambió · archivos 
 
 ---
 
+## 2026-11-11 — Estilo arcade común (referencias visuales del usuario)
+
+- **Kit visual compartido** (`ArcadeLook`), sin cambiar mecánicas:
+  - `night_arena`: estadio de noche con tribunas de público en una sola malla múltiple (un draw call), torres de luces,
+    banderas «FREE KICK SWIPE» y piso oscuro;
+  - `player_deck`: plataforma del jugador rosa con borde de luces, barandas doradas, flechas, aro de luz en la pelota y
+    emblema al frente;
+  - `runway`: pasarela roja con franjas y cajas con estrellas.
+- **Integración en la base `Minigame`:**
+  - cada modo da la altura de su plataforma (`default_deck`, por nivel `deck_h`) y la base la arma debajo de la
+    pelota;
+  - `uses_night_arena` / `arena_floor` / `has_player_deck` deciden el resto;
+  - la cámara toma la altura de la pelota como base (`camera_base_y`).
+- **Plataforma elevada:** Dianas 2,5 m, Póker 2 m, Dardos 2 m, Básquet 3 m, Precisión 1,8 m, Aros 2 m, Bowling 2,5 m.
+  Estadio de noche también en Salto en alto, Field Goal y Botón de caída (este último sin piso, para que se vea el
+  vacío, y con plataformas rosas con barandas doradas).
+- **Escala grande:**
+  - Dardos: tablero de 3 m de radio a 24 m, anillos a escala, sobre la pasarela roja con reticulado de luces;
+  - Póker: cartas ×1,9 a 22 m (masa y resortes de la paleta escalados), sobre la pasarela.
+- **Básquet en gradas** (niveles «Gradas» y «Gradas: todos»): tres escalones físicos rosas con aros grandes (r 0,75 m):
+  azules 10, rojos 15 y el amarillo de arriba 20.
+- **Diana en el suelo** (Dianas, niveles «Diana en el suelo» a 34 m y «Diana lejana» a 42 m): gigante; marca donde pica
+  la pelota por primera vez (señal `Ball.floor_bounce`), no donde queda. Anillos 100/50/25.
+- **Bowling:** patada normal desde la plataforma alta (la misma física que el vacío), con bolos más grandes (0,8 m).
+- **Ajustes medidos:**
+  - el pórtico de «En cadena» sube a 3,4 m (desde la plataforma tapaba la última placa);
+  - la «Secuencia» de Aros se realineó con la trayectoria medida desde la plataforma;
+  - la diana del piso se prueba con tiros calibrados con la física real (la predicción del modelo picaba 6 m de más).
+- Pruebas: suite completa verde después de los ajustes; capturas revisadas en PC. **Android: no probado.**
+
+---
+
 ## 2026-11-11 — Correcciones pedidas sobre la marcha (menú, relevo, Academia, Béisbol)
 
 - **Béisbol eliminado** por pedido (script, escena, datos y pruebas). La entrada 7.4 de abajo queda como historia.

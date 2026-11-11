@@ -71,6 +71,10 @@ var last_choice: Dictionary = {}
 func shows_both_players() -> bool:
 	return true
 
+## Arma su propia plataforma (o la pelota cambia de lugar): sin la plataforma comun.
+func has_player_deck() -> bool:
+	return false
+
 func game_id() -> String:
 	return "guante"
 

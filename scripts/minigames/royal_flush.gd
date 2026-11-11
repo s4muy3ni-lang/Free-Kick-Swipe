@@ -12,11 +12,18 @@ extends Minigame
 ## shots, medals. Palos: S picas, H corazones, D diamantes, C treboles.
 
 const SCENE := "res://scenes/minigames/royal_flush.tscn"
-const CARD_W := 0.62
-const CARD_H := 0.86
-const CARD_T := 0.04
-const GAP_W := 0.16
-const GAP_H := 0.2
+const BASE_CARD_W := 0.62
+const BASE_CARD_H := 0.86
+const BASE_CARD_T := 0.04
+const BASE_GAP_W := 0.16
+const BASE_GAP_H := 0.2
+## Escala arcade (referencia del usuario: cartas grandes y lejos). "scale" del nivel; por defecto 1,9.
+var card_scale: float = 1.9
+var CARD_W: float = BASE_CARD_W
+var CARD_H: float = BASE_CARD_H
+var CARD_T: float = BASE_CARD_T
+var GAP_W: float = BASE_GAP_W
+var GAP_H: float = BASE_GAP_H
 ## Traba: pasado este angulo la carta queda dada vuelta.
 const LATCH := 2.1
 ## Rigidez del detente (N·m) y de la traba.
@@ -35,6 +42,17 @@ var shots_max: int = 5
 var board_x: float = 14.0
 var _board: StaticBody3D
 
+## Plataforma del jugador elevada (estilo arcade comun).
+func default_deck() -> float:
+	return 2.0
+
+## Camara: la recuperada, mirando un poco hacia arriba (el blanco es alto y esta lejos).
+func camera_defaults() -> Dictionary:
+	return {"back": 10.5, "height": 5.4, "ahead": 5.5, "lift_aim": 0.3, "fov": 44.0, "follow": 0.45}
+
+func uses_night_arena() -> bool:
+	return true
+
 func game_id() -> String:
 	return "royal_flush"
 
@@ -42,7 +60,13 @@ func _build_level() -> void:
 	sides = 1
 	shots_max = int(def.get("shots", 5))
 	max_turns = shots_max
-	board_x = float(def.get("distance", 14.0))
+	board_x = float(def.get("distance", 22.0))
+	card_scale = float(def.get("scale", 1.9))
+	CARD_W = BASE_CARD_W * card_scale
+	CARD_H = BASE_CARD_H * card_scale
+	CARD_T = BASE_CARD_T * 1.5
+	GAP_W = BASE_GAP_W * card_scale
+	GAP_H = BASE_GAP_H * card_scale
 	var ground := static_box(Vector3(80, 1, 40), Vector3(10, -0.5, 0), Color(0.3, 0.05, 0.08), Vector3.ZERO, 0.45)
 	for c in ground.get_children():
 		if c is MeshInstance3D:
@@ -104,7 +128,7 @@ func _deck(n: int) -> Array:
 
 func _spawn_card(pos: Vector3, card: String) -> void:
 	var rb := RigidBody3D.new()
-	rb.mass = 0.3
+	rb.mass = 0.3 * card_scale
 	rb.collision_layer = Ball.LAYER_WORLD
 	rb.collision_mask = Ball.LAYER_WORLD | Ball.LAYER_BALL
 	# Solo gira sobre el eje horizontal del ancho de la carta (Z): la paleta del tablero.
@@ -126,7 +150,7 @@ func _spawn_card(pos: Vector3, card: String) -> void:
 	# Dorso (hacia el jugador): rojo con marco dorado.
 	ArcadeLook.part(rb, "box", Vector3(CARD_T, CARD_H, CARD_W), Vector3.ZERO, ArcadeLook.mat(Color(0.65, 0.08, 0.12), "paint"))
 	ArcadeLook.part(rb, "box", Vector3(0.004, CARD_H - 0.12, CARD_W - 0.12), Vector3(-CARD_T * 0.5 - 0.002, 0, 0), ArcadeLook.mat(Color(0.78, 0.14, 0.18), "paint"))
-	ArcadeLook.part(rb, "box", Vector3(0.004, 0.16, 0.16), Vector3(-CARD_T * 0.5 - 0.004, 0, 0), ArcadeLook.mat(Color(0.95, 0.75, 0.25), "metal"), Vector3(PI * 0.25, 0, 0))
+	ArcadeLook.part(rb, "box", Vector3(0.004, 0.16 * card_scale, 0.16 * card_scale), Vector3(-CARD_T * 0.5 - 0.004, 0, 0), ArcadeLook.mat(Color(0.95, 0.75, 0.25), "metal"), Vector3(PI * 0.25, 0, 0))
 	# Frente (hacia el tablero): blanco, valor y palo.
 	ArcadeLook.part(rb, "box", Vector3(0.004, CARD_H - 0.04, CARD_W - 0.04), Vector3(CARD_T * 0.5 + 0.002, 0, 0), ArcadeLook.mat(Color(0.97, 0.96, 0.92), "plastic"))
 	var red: bool = card.ends_with("H") or card.ends_with("D")
@@ -136,14 +160,19 @@ func _spawn_card(pos: Vector3, card: String) -> void:
 		var l := Label3D.new()
 		l.text = rank
 		l.font_size = 96
-		l.pixel_size = 0.0022
+		l.pixel_size = 0.0022 * card_scale
 		l.modulate = ink
 		l.outline_size = 0
 		l.double_sided = false
 		l.rotation_degrees = Vector3(0, 90, 0)
 		l.position = Vector3(CARD_T * 0.5 + 0.006, 0, 0) + corner
 		rb.add_child(l)
-	_suit_mesh(rb, card.substr(card.length() - 1), ink, Vector3(CARD_T * 0.5 + 0.006, 0, 0))
+	# El palo se dibuja a escala de la carta (un nodo escalado con las piezas).
+	var holder := Node3D.new()
+	rb.add_child(holder)
+	holder.position = Vector3(CARD_T * 0.5 + 0.006, 0, 0)
+	holder.scale = Vector3(1, card_scale, card_scale)
+	_suit_mesh(holder, card.substr(card.length() - 1), ink, Vector3.ZERO)
 	add_child(rb)
 	rb.global_position = pos
 	cards.append({"body": rb, "card": card, "revealed": false, "order": -1})
@@ -174,12 +203,7 @@ func _suit_mesh(parent: Node3D, suit: String, ink: Color, at: Vector3) -> void:
 			ArcadeLook.part(parent, "box", Vector3(0.006, 0.12, 0.03), at + Vector3(0, -0.09, 0), m)
 
 func _build_stage() -> void:
-	ArcadeLook.light(self, Color(1.0, 0.9, 0.78), 0.9, Color(0.06, 0.04, 0.12), Color(0.3, 0.12, 0.22), 0.7, Vector3(-50, -20, 0))
-	ArcadeLook.ground(self, Vector2(160, 120), Vector3(10, 0, 0), Color(0.42, 0.06, 0.1), "paint", 50.0)
-	# Pasillo de alfombra con borde dorado hacia el tablero.
-	ArcadeLook.deco(self, "box", Vector3(board_x + 2.0, 0.01, 3.2), Vector3(board_x * 0.5, 0.006, 0), ArcadeLook.mat(Color(0.12, 0.1, 0.3), "paint", 6.0))
-	for z in [-1.65, 1.65]:
-		ArcadeLook.deco(self, "box", Vector3(board_x + 2.0, 0.012, 0.1), Vector3(board_x * 0.5, 0.007, z), ArcadeLook.mat(Color(0.95, 0.75, 0.25), "metal"))
+	ArcadeLook.runway(self, 1.6, board_x - 0.5, 7.0)
 	# Pared del fondo con columnas y cartel; mesas de casino a los costados (decoracion).
 	ArcadeLook.deco(self, "box", Vector3(0.6, 9.0, 40.0), Vector3(board_x + 6.0, 4.5, 0), ArcadeLook.mat(Color(0.25, 0.06, 0.1), "paint", 4.0))
 	for z in [-8.0, -4.5, 4.5, 8.0]:
@@ -212,9 +236,9 @@ func _level_step(_delta: float) -> void:
 		# Detente (estable boca abajo y dada vuelta) o traba (solo dada vuelta).
 		var tq: float
 		if bool(e["revealed"]):
-			tq = -LATCH_K * sin(a - (PI if a > 0.0 else -PI))
+			tq = -LATCH_K * card_scale * card_scale * card_scale * sin(a - (PI if a > 0.0 else -PI))
 		else:
-			tq = -DETENT_K * 2.0 * sin(2.0 * a)
+			tq = -DETENT_K * card_scale * card_scale * card_scale * 2.0 * sin(2.0 * a)
 		rb.apply_torque(Vector3(0, 0, tq))
 
 func _settling() -> bool:
@@ -234,7 +258,7 @@ func reset_level() -> void:
 	super.reset_level()
 
 func _ball_spot(_s: int) -> Vector3:
-	return Vector3(0.0, ball.radius if ball != null else 0.11, 0.0)
+	return (Vector3(0.0, ball.radius if ball != null else 0.11, 0.0)) + Vector3.UP * deck_y()
 
 func _aim_point(_s: int) -> Vector3:
 	return Vector3(board_x, 1.4, 0.0)
