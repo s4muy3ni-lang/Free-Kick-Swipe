@@ -539,6 +539,37 @@ https://github.com/s4muy3ni-lang/Free-Kick-Swipe/actions/runs/42581243230 — ar
 **Probado en Android:** nada (falta que se pruebe en el teléfono: arquero del tiro libre, festejos, opciones visuales y
 minijuegos).
 
+# Cuarta entrega (2026-11-10/11): finalización del arcade y modos de fútbol físico
+
+Probado en PC y en CI. **Nada se probó en Android.** Todos los modos son 3D en tercera persona y usan el mismo trazo del
+dedo (ningún modo tiene joystick, botones de dirección ni cañón automático).
+
+## Auditoría inicial (qué faltaba) y estado real ahora
+
+| Elemento | Antes de esta entrega | Ahora | Pruebas |
+|---|---|---|---|
+| Personalización (fase 7) | Diseñada | **Hecha**: uniforme, piel, pelo, número, estilo de golpeo y carrera (pesos sobre el catálogo), tras el tiro, festejo; cosméticos bloqueados por logros | `test_customization` |
+| Logros y desafíos diarios/semanales (fase 8) | Diseñados | **Hechos**: 14 logros, 3 diarios, 2 semanales, historial, carteles, anti-exploit | `test_achievements` |
+| Minigolf | Pendiente (faltaba apuntar a ras) | **Hecho**: 6 hoyos, gesto a ras del piso, hoyo que captura solo la pelota lenta, arena, rampa, túnel, móviles | `test_minigolf` |
+| Arqueros por turnos | Parcial (tanda) | **Hecho**: Ráfaga de 5 y Contra reloj (récord y medalla) | `test_keeper_duel` |
+| Mecanismos, rescate, dianas colgantes (#43) | Pendientes | **Hechos**: Dianas (5) con articulaciones reales; Rescate (4) con botones, trabas, empujón y dominó | `test_dianas_rescate` |
+| Que no caiga | Nuevo | **Hecho**: 1v1 contra la IA, recepciones por altura con contacto real; arquitectura para equipos | `test_rally` |
+| Fútbol-tenis | Nuevo | **Hecho** (alternativa B, red física): un pique por campo, dos toques por lado, marca de pique predicha (error 0,06 m) | `test_rally` |
+| Bowling | Nuevo | **Hecho**: 4 niveles, cuadros con strike y spare, contra la IA | `test_bowling_footpool` |
+| FootPool | Nuevo | **Hecho**: 2 niveles, bandas, bocas, carambolas, turno extra, IA por punto fantasma | `test_bowling_footpool` |
+| Rebotes de ingenio | Nuevo | **Hecho**: 3 niveles con solución indirecta comprobada (un cuarto se quitó por no tener solución) | `test_bowling_footpool` |
+| Demolición ampliada | 6 niveles | **8 niveles** (barriles, soportes) | `test_demolicion` |
+| Cámara de minijuegos | Fija por juego | **Automática**: encuadra todo en los 50 niveles | `test_minigame_camera` |
+
+## Pendiente (próxima etapa, después del análisis en el teléfono)
+
+- Fútbol-tenis alternativa A (cancha dividida sin red) y equipos de 2 a 5 en peloteo (la arquitectura lo permite; falta
+  la IA de compañeros).
+- Variantes de arqueros: tiros sorpresa, objetivos específicos, distintas distancias y reacción.
+- Pantallas de presentación con identidad propia por modo (hoy: objetivo breve + escenario propio de cada juego).
+- Balance de todos los minijuegos con partidas reales en el teléfono.
+- En línea, emparejamiento, tienda y pagos: no implementados (requieren aprobación).
+
 # Complemento «Arcade Football»: catálogo de 43 minijuegos (2026-11-08)
 
 Incorporado al plan **sin interrumpir las prioridades técnicas vigentes** (medición en el teléfono, presentación,
@@ -578,7 +609,7 @@ dependencias y sistemas compartidos para desarrollarlos de a poco.
 | 10 | Objetivo sorpresa | Implementado (individual, parcial) | Blancos que desaparecen; falta cambiar de lugar entre tiros | S3 |
 | 11 | Bolos de fútbol | Implementado (individual) | Conos, botellas, bloques con física | S1, S3 |
 | 12 | Derribar la torre | Implementado (individual) | Torre de la Arena y «Demolición» (6 niveles: torre, pirámide, dominó, precisión, muro, torre inestable) | S3 |
-| 13 | Billar futbolístico | Idea | Varias pelotas con física | S3, S7 |
+| 13 | Billar futbolístico | Implementado (FootPool) | Varias pelotas con física | S3, S7 |
 | 14 | Rebote obligatorio | Implementado (parcial) | Rebote en el piso; faltan paredes | S3, S7 |
 | 15 | Circuito de aros | Diseñado | Un aro existe; falta «todos en un mismo tiro» | S3 |
 | 16 | Carrera de obstáculos | Idea | Conducción | S5, S7 |
