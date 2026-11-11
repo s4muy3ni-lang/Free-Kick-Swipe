@@ -2695,12 +2695,12 @@
    "title": "Duelo del guante",
    "scene": "res://scenes/minigames/guante.tscn",
    "status": "Implementado",
-   "description": "Cargá tu máquina pegándole a sus botones: grande carga poco, chico carga mucho. Al 100 % el guante sale disparado contra el rival.",
+   "description": "Por relevo en la misma plataforma: pegale a los botones del fondo para cargar tu barra; al 100 % el guante vuela al otro.",
    "levels": [
     {
      "title": "Primer round",
-     "objective": "Pegale a los botones de tu máquina (al lado del rival) para llenar la barra. Al 100 % tu guante lo golpea. Ganás con 2 golpes.",
-     "gap": 14.0,
+     "objective": "Pateás vos, el otro espera frente al guante. Pegale a los botones del fondo para cargar tu barra: al 100 % el guante lo hace volar. Ganás con 2 golpes.",
+     "gap": 16.0,
      "punches": 2,
      "medals": [
       200,
@@ -2710,8 +2710,8 @@
     },
     {
      "title": "Más lejos",
-     "objective": "Las máquinas están más lejos: el botón chico es más difícil. 2 golpes.",
-     "gap": 17.0,
+     "objective": "El panel está más lejos: el botón chico es más difícil. 2 golpes.",
+     "gap": 20.0,
      "punches": 2,
      "medals": [
       200,
@@ -2721,37 +2721,37 @@
     },
     {
      "title": "Botón chico móvil",
-     "objective": "El botón chico va y viene: adelantate. 2 golpes.",
-     "gap": 14.0,
+     "objective": "El botón chico sube y baja: adelantate. 2 golpes.",
+     "gap": 16.0,
      "punches": 2,
      "buttons": [
       {
        "size": "grande",
-       "r": 0.42,
+       "r": 0.55,
        "gain": 0.2,
-       "z": -0.75,
-       "y": 1.0
+       "z": -1.4,
+       "y": 1.6
       },
       {
        "size": "mediano",
-       "r": 0.28,
+       "r": 0.36,
        "gain": 0.34,
-       "z": 0.05,
-       "y": 1.0
+       "z": 0.0,
+       "y": 1.6
       },
       {
        "size": "chico",
-       "r": 0.16,
+       "r": 0.2,
        "gain": 0.6,
-       "z": 0.6,
-       "y": 1.0,
+       "z": 1.3,
+       "y": 1.6,
        "move": {
         "axis": [
          0,
          1,
          0
         ],
-        "amp": 0.35,
+        "amp": 0.5,
         "speed": 1.6
        }
       }
@@ -2765,7 +2765,7 @@
     {
      "title": "Tres golpes",
      "objective": "Pelea larga: gana el primero que conecta 3 golpes.",
-     "gap": 15.0,
+     "gap": 17.0,
      "punches": 3,
      "medals": [
       300,

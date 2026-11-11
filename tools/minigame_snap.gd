@@ -28,10 +28,10 @@ func _ready() -> void:
 		for i in 20:
 			await get_tree().process_frame
 		# SNAP_PRESS=N (solo Boton de caida): aprieta el boton del que espera y captura N fotogramas despues.
-		# SNAP_FIRE=N (solo Duelo del guante): suelta el guante de la CPU contra el usuario y captura N fotogramas despues.
+		# SNAP_FIRE=N (solo Duelo del guante): suelta el guante contra el que espera y captura N fotogramas despues.
 		if OS.get_environment("SNAP_FIRE") != "" and g is GuanteDuel:
-			(g as GuanteDuel).charge[1] = 1.0
-			(g as GuanteDuel).fire(1)
+			(g as GuanteDuel).charge[g.side] = 1.0
+			(g as GuanteDuel).fire()
 			for i in int(OS.get_environment("SNAP_FIRE")):
 				await get_tree().physics_frame
 		if OS.get_environment("SNAP_PRESS") != "" and g is BotonCaida:

@@ -11,6 +11,24 @@ Formato de entrada: **fecha — título** · commit · qué cambió · archivos 
 
 ---
 
+## 2026-11-11 — Duelo del guante en relevo (misma plataforma)
+
+- `scripts/minigames/guante.gd` reescrito según la descripción del usuario:
+  - los dos jugadores en **una sola plataforma**: el que patea a la izquierda, el guante a la derecha y el otro esperando
+    delante del guante (`KICK_SPOT`, `WAIT_SPOT`);
+  - **un solo panel** de botones al fondo (grande +20 %, mediano +34 %, chico +55 %), visto desde atrás;
+  - cada jugador tiene su barra (persiste entre turnos, tope 100 %);
+  - el guante se retrae con la carga de quien patea; al 100 % se suelta, choca con el que espera (barrido de forma
+    contra la capa 512) y lo despide en vuelo balístico con el impulso del choque; a los 1,6 s sale de escena;
+  - errar o no completar la barra pasa el turno.
+- Niveles en `resources/minigames/minigames.json` (panel a 16–20 m, botón chico móvil, a 3 golpes).
+- `tools/minigame_snap.gd`: `SNAP_FIRE` usa la API nueva (`fire()`).
+- **Verificación:** `tools/run_tests.sh guante` → 5 pruebas / 23 comprobaciones / 0 fallos.
+  - El golpe al 100 % sale a 12,6 m/s y el rival vuela 18 m y desaparece.
+  - Los 4 niveles se ganan.
+  - Capturas revisadas a ojo (xvfb).
+  - **No probado en teléfono.**
+
 ## 2026-11-11 — Estilo arcade común (referencias visuales del usuario)
 
 - **Kit visual compartido** (`ArcadeLook`), sin cambiar mecánicas:
