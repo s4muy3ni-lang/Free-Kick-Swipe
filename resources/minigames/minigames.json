@@ -2632,6 +2632,88 @@
      ]
     }
    ]
+  },
+  {
+   "id": "curling",
+   "title": "Curling",
+   "scene": "res://scenes/minigames/curling.tscn",
+   "status": "Implementado",
+   "description": "Pista de hielo: deslizá la pelota hasta la casa. Gana la más cercana al centro; podés sacar las del rival.",
+   "levels": [
+    {
+     "title": "Primer end",
+     "objective": "3 pelotas cada uno contra la CPU: dejá la tuya más cerca del centro de la casa.",
+     "shots": 3,
+     "medals": [
+      60,
+      140,
+      220
+     ]
+    },
+    {
+     "title": "Sacá las rojas",
+     "objective": "La CPU ya tiene dos en la casa: sacalas a golpes y dejá la tuya. 3 pelotas.",
+     "shots": 3,
+     "stones": [
+      {
+       "team": 1,
+       "pos": [
+        26.0,
+        0.25
+       ]
+      },
+      {
+       "team": 1,
+       "pos": [
+        25.4,
+        -0.5
+       ]
+      }
+     ],
+     "medals": [
+      60,
+      140,
+      220
+     ]
+    },
+    {
+     "title": "Guardias",
+     "objective": "Dos guardias rojas tapan el camino: pasá por el costado. 4 pelotas.",
+     "shots": 4,
+     "stones": [
+      {
+       "team": 1,
+       "pos": [
+        21.0,
+        0.0
+       ]
+      },
+      {
+       "team": 1,
+       "pos": [
+        22.0,
+        0.6
+       ]
+      }
+     ],
+     "medals": [
+      60,
+      140,
+      220
+     ]
+    },
+    {
+     "title": "Pista larga",
+     "objective": "40 m de hielo: medí bien la fuerza. 4 pelotas.",
+     "shots": 4,
+     "length": 40.0,
+     "medals": [
+      60,
+      140,
+      220
+     ]
+    }
+   ]
   }
  ],
  "categories": [
@@ -2785,6 +2867,10 @@
     {
      "type": "game",
      "game": "dardos"
+    },
+    {
+     "type": "game",
+     "game": "curling"
     }
    ]
   }

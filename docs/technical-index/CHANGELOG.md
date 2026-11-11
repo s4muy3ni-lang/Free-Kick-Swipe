@@ -11,6 +11,30 @@ Formato de entrada: **fecha — título** · commit · qué cambió · archivos 
 
 ---
 
+## 2026-11-11 — Etapa 7.3: Curling
+
+- **Modo nuevo** `Curling` (HABILIDAD, contra la IA, 4 niveles): pista de hielo de 30 m (40 m en «Pista larga») con
+  casa, hog, línea de fondo y bandas.
+- **Gesto:** el mismo trazo a ras del piso que el Bowling (dirección, potencia y efecto), con salida de 1,5 a 5 m/s.
+- **Hielo sin tocar la física común de la pelota:** dentro de la pista se le devuelve en cada paso la rodadura de
+  césped que sobra (`Ball.roll_decel`) y queda `ICE_DECEL` = 0,18 m/s², más una compensación del aire. El giro de
+  rodadura acompaña; si no, el rozamiento con el piso la frenaba igual (medido: 1,4 m/s² antes del arreglo).
+  - Tabla medida de deslizamiento (1,5 m/s → 6,4 m … 4 m/s → 36,5 m) que usan la IA y la línea de ayuda.
+  - Vigilante propio de 40 s: el común cortaba a los 7 s.
+- **Piedras:** cada pelota lanzada, al quedar quieta, pasa a ser una piedra con la misma masa y radio, el aspecto de
+  la pelota y un aro del color del equipo. Las siguientes la chocan y desplazan de verdad (medido: una roja salió
+  despedida 5,3 m).
+  - Se quitan las que no pasan la hog, pasan el fondo o tocan las bandas.
+  - Puntaje del end: piedras dentro de la casa más cerca que la mejor rival.
+- **IA:** si el usuario gana la mano, saca su mejor piedra (4,6 m/s); si no, la deja en el centro con la velocidad de
+  la tabla. Tiene error de dirección y de velocidad según la dificultad. El que espera se para al costado de la pista.
+- Cámara recomendada propia (7,5 m detrás, 4,4 m de alto, mira 9 m adelante): se ven la pelota, el jugador y la casa
+  al fondo (prueba de cámara en verde).
+- Pruebas (`test_curling`, 4): frena en el centro con la tabla (0,05 m); un choque desplaza la rival; puntaje del end;
+  los 4 niveles se ganan y llegan al bronce. Captura revisada en PC.
+
+---
+
 ## 2026-11-11 — Etapa 7.2: Dardos
 
 - **Modo nuevo** `Dardos` (HABILIDAD, 4 niveles).
