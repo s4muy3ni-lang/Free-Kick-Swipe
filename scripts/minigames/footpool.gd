@@ -107,6 +107,12 @@ func reset_level() -> void:
 var _cue := Vector3(0, 0.11, 0)
 
 ## La pelota de juego sigue donde quedo (se repone al centro solo si entro en una boca).
+## Encuadre: la cancha entera (las bocas y las bandas): hay que ver los angulos.
+func frame_points() -> Array:
+	var hl: float = court_l * 0.5
+	var hw: float = court_w * 0.5
+	return [Vector3(-hl, 0, -hw), Vector3(-hl, 0, hw), Vector3(hl, 0, -hw), Vector3(hl, 0, hw)]
+
 func _ball_spot(_s: int) -> Vector3:
 	return _cue
 

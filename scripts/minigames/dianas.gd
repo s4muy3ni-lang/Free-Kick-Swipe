@@ -183,6 +183,14 @@ func reset_level() -> void:
 		e["hits"] = e["hits0"]
 	super.reset_level()
 
+## Encuadre: las placas y su barra.
+func frame_points() -> Array:
+	var out: Array = []
+	for e in plates:
+		out.append(e["anchor"])
+		out.append((e["home"] as Transform3D).origin + Vector3.DOWN * 0.4)
+	return out
+
 func _ball_spot(_s: int) -> Vector3:
 	return Vector3(0, ball.radius if ball != null else 0.11, 0) + BotonCaida._vec(def.get("tee", [0, 0, 0]))
 

@@ -52,6 +52,13 @@ func _build_level() -> void:
 	add_child(_blocks_root)
 	_spawn_blocks()
 
+## Encuadre: todos los objetivos y bloques que hay que cuidar.
+func frame_points() -> Array:
+	var out: Array = []
+	for i in blocks.size():
+		out.append((block_info[i]["start"] as Transform3D).origin + Vector3.UP * 0.3)
+	return out
+
 func _ball_spot(_s: int) -> Vector3:
 	return Vector3(0.0, ball.radius if ball != null else 0.11, float(def.get("ball_z", 0.0)))
 

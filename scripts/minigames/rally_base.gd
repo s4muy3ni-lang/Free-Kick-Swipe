@@ -66,6 +66,10 @@ func _ready() -> void:
 func home(_s: int) -> Vector3:
 	return Vector3.ZERO
 
+## Encuadre: los dos jugadores enteros y la pelota.
+func frame_points() -> Array:
+	return [home(0), home(0) + Vector3.UP * 1.9, home(1), home(1) + Vector3.UP * 1.9]
+
 func points_text() -> String:
 	return "Vos %d - %d CPU" % [points[0], points[1]]
 

@@ -47,7 +47,8 @@ func home(s: int) -> Vector3:
 	return Vector3(-half * 0.6 if s == Side.USER else half * 0.6, 0, 0)
 
 func _ball_spot(s: int) -> Vector3:
-	return home(s) + Vector3(0.45 * (1 if s == Side.USER else -1), ball.radius, 0)
+	# Adelante y un poco al costado del jugador: desde la camara de atras la pelota no queda tapada por el cuerpo.
+	return home(s) + Vector3(0.55 * (1 if s == Side.USER else -1), ball.radius, 0.55 * (1 if s == Side.USER else -1))
 
 func _aim_point(s: int) -> Vector3:
 	return home(1 - s) + Vector3.UP * 1.0

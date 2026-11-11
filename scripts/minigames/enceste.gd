@@ -138,6 +138,14 @@ func _build_hoop(h: Dictionary) -> void:
 	hoops.append({"body": body, "center": pos, "radius": r, "base": body.global_transform, "move": h.get("move", {}),
 		"scored": false, "post": post})
 
+## Encuadre: cada aro con su tablero.
+func frame_points() -> Array:
+	var out: Array = []
+	for h in hoops:
+		out.append((h["center"] as Vector3) + Vector3.UP * 1.0)
+		out.append((h["center"] as Vector3) + Vector3.DOWN * 0.4)
+	return out
+
 func _ball_spot(_s: int) -> Vector3:
 	return Vector3(0.0, ball.radius if ball != null else 0.11, 0.0)
 

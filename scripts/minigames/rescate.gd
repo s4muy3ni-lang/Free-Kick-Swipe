@@ -186,6 +186,13 @@ func reset_level() -> void:
 					(c as CollisionShape3D).disabled = false
 	super.reset_level()
 
+## Encuadre: la prisionera, la zona libre y los botones.
+func frame_points() -> Array:
+	var out: Array = [_prisoner_home.origin + Vector3.UP * 0.4, Vector3(zone.position.x, 0, zone.position.y), Vector3(zone.end.x, 0, zone.end.y)]
+	for b in buttons:
+		out.append((b["home"] as Transform3D).origin)
+	return out
+
 func _ball_spot(_s: int) -> Vector3:
 	return Vector3(0, ball.radius if ball != null else 0.11, 0) + BotonCaida._vec(def.get("tee", [0, 0, 0]))
 

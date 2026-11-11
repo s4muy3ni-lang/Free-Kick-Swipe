@@ -88,12 +88,21 @@ func goal(scorer: SpActor, mates: Array[SpActor], scorer_runs: bool) -> void:
 		if m != null and m.visible and m != scorer:
 			list.append(m)
 	for i in list.size():
-		gather(list[i], _pos(scorer), SpReactions.GOAL_TEAM, i, list.size(), scorer)
+		gather(list[i], _dest(scorer), SpReactions.GOAL_TEAM, i, list.size(), scorer)
 		_runners[_runners.size() - 1]["meet"] = scorer_runs
 	if scorer_runs and not list.is_empty():
 		_scorer = scorer
 		_scorer_mates = list
 		_scorer_running = false
+
+## Donde va a QUEDAR un jugador: si esta en un clip de una vez con recorrido (un festejo que se desplaza), el final de
+## ese recorrido (dato del clip, no adivinanza); si no, donde esta. Los compañeros van ahi y no quedan atras.
+static func _dest(a: SpActor) -> Vector3:
+	if not a.looping and a.is_playing_clip():
+		var b: Array = SpActor.body_at(a.clip_id, SpClips.length(a.clip_id), a.frame_origin, a.frame_facing)
+		var p: Vector3 = b[0]
+		return Vector3(p.x, 0.0, p.z)
+	return _pos(a)
 
 static func _pos(a: SpActor) -> Vector3:
 	var h: Vector3 = a.bone_world(SpActor.HIPS)
@@ -144,7 +153,7 @@ func _physics_process(delta: float) -> void:
 		r["t"] = float(r["t"]) + delta
 		var node: SpActor = r["node"]
 		if node != null and is_instance_valid(node):
-			r["center"] = _pos(node)
+			r["center"] = _dest(node)
 		var c: Vector3 = r["center"]
 		var here := Vector3(a.global_position.x, 0.0, a.global_position.z)
 		var met: bool = bool(r["meet"]) and here.distance_to(c) <= MEET_DIST

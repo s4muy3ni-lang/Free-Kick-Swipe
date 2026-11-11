@@ -328,11 +328,65 @@ func _start_turn() -> void:
 		hud.set_hint("Patea la CPU…")
 		hud.set_actions([])
 
-## Encuadre del turno (las subclases pueden cambiarlo).
+## Puntos que TIENEN que verse en el turno, ademas de la pelota, el jugador que patea y el objetivo (las subclases agregan
+## los suyos: el rival, botones, bolos, aros, placas...).
+func frame_points() -> Array:
+	return []
+
+const FRAME_FOV := 50.0
+## Margen del encuadre (fraccion de la mitad de la pantalla que se deja libre en los bordes, arriba hay HUD).
+const FRAME_MARGIN := 0.82
+
+## Encuadre automatico: camara detras de la pelota (en la direccion del tiro), elevada, que se aleja y sube de a poco hasta
+## que TODOS los puntos importantes entran en la imagen (jugador, pelota, objetivo y lo que agregue el minijuego). Asi un
+## objetivo alto o lejano no queda fuera de cuadro. Tercera persona siempre; nunca vista lateral 2D.
 func _frame_camera(instant: bool) -> void:
 	var spot: Vector3 = _ball_spot(side)
-	var f: Array = SpCamera.behind_ball(spot, _aim_point(side), 1.0, false)
-	cam.frame(f[0], f[1], f[2], instant, 0.45)
+	var aim: Vector3 = _aim_point(side)
+	var pts: Array = [spot, aim]
+	if side < shooters.size():
+		pts.append(stance_point(side))
+		pts.append(stance_point(side) + Vector3.UP * 1.9)
+	pts.append_array(frame_points())
+	var f: Array = auto_frame(spot, aim, pts)
+	cam.frame(f[0], f[1], FRAME_FOV, instant, 0.45)
+
+## [posicion, mirada] de una camara detras de `spot` mirando hacia `aim` que contiene todos `pts`.
+func auto_frame(spot: Vector3, aim: Vector3, pts: Array) -> Array:
+	var dir := Vector3(aim.x - spot.x, 0.0, aim.z - spot.z)
+	dir = dir.normalized() if dir.length() > 0.05 else Vector3(1, 0, 0)
+	var vp: Vector2 = get_viewport().get_visible_rect().size if is_inside_tree() else Vector2(1600, 720)
+	var aspect: float = vp.x / maxf(vp.y, 1.0)
+	var tan_v: float = tan(deg_to_rad(FRAME_FOV) * 0.5)
+	var tan_h: float = tan_v * aspect
+	var c := Vector3.ZERO
+	for p in pts:
+		c += (p as Vector3)
+	c /= float(maxi(pts.size(), 1))
+	var back: float = 6.0
+	var height: float = 4.5
+	var pos := Vector3.ZERO
+	var look := Vector3.ZERO
+	for it in 24:
+		pos = Vector3(spot.x, 0.0, spot.z) - dir * back + Vector3.UP * (height + minf(spot.y, aim.y))
+		# Mira al centro de los puntos, un poco por delante de la pelota (la pelota no queda en el borde de abajo).
+		look = c.lerp(spot + dir * 4.0, 0.25)
+		var basis := Basis.looking_at(look - pos, Vector3.UP)
+		var ok: bool = true
+		for p in pts:
+			var q: Vector3 = basis.inverse() * ((p as Vector3) - pos)
+			if q.z > -0.5:
+				ok = false
+				break
+			var depth: float = -q.z
+			if absf(q.x) / depth > tan_h * FRAME_MARGIN or absf(q.y) / depth > tan_v * FRAME_MARGIN * 0.9:
+				ok = false
+				break
+		if ok:
+			break
+		back *= 1.12
+		height *= 1.1
+	return [pos, look]
 
 ## Aplica una intencion (usuario, IA o, mas adelante, la red): el tirador corre y patea con esa salida de la pelota.
 func apply_intent(intent: Dictionary) -> void:

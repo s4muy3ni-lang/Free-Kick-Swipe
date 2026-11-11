@@ -143,6 +143,11 @@ func _box_from(d: Dictionary, color: Color, bounce: float, animated: bool = fals
 		return body
 	return static_box(size, pos, color, rot, bounce)
 
+## Encuadre: el hoyo con la bandera.
+func frame_points() -> Array:
+	var hy: float = float(def.get("hole_y", 0.0))
+	return [Vector3(hole.x, hy, hole.z), Vector3(hole.x, hy + 1.6, hole.z)]
+
 func _ball_spot(_s: int) -> Vector3:
 	return _spot
 

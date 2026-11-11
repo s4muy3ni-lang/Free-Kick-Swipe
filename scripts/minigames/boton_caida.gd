@@ -150,15 +150,12 @@ func _stance_world(s: int) -> Vector3:
 	var a := Vector3(aim.x - spot.x, 0.0, aim.z - spot.z).normalized()
 	return Vector3(spot.x, frames[s].origin.y, spot.z) - a * STANCE.x - SpClips.right_of(a) * STANCE.y * float(_foot(s))
 
-## Camara: detras y bien arriba del que patea (por encima de su propio tablero), mirando hacia el boton rival.
-func _frame_camera(instant: bool) -> void:
-	var spot: Vector3 = _ball_spot(side)
-	var aim: Vector3 = _aim_point(side)
-	var dir := Vector3(aim.x - spot.x, 0.0, aim.z - spot.z).normalized()
-	var pos: Vector3 = Vector3(spot.x, frames[side].origin.y, spot.z) - dir * 6.0 + Vector3.UP * 6.5
-	# Mira 6 m adelante de la pelota: la pelota abajo (se desliza desde ella) y el boton rival arriba, los dos en cuadro.
-	var look: Vector3 = Vector3(spot.x, frames[side].origin.y, spot.z) + dir * 6.0 + Vector3.UP * (aim.y - frames[side].origin.y) * 0.4
-	cam.frame(pos, look, 50.0, instant, 0.45)
+## Encuadre: el automatico de la base, con el rival, su boton y la plataforma propia (el desnivel no saca a nadie de
+## cuadro).
+func frame_points() -> Array:
+	var o: int = 1 - side
+	var pts: Array = [button_center(o), stance_point(o) + Vector3.UP * 1.9, frames[o].origin, frames[side].origin]
+	return pts
 
 func _shot_ctx(s: int) -> Dictionary:
 	var a: Vector3 = _aim_point(s)

@@ -11,6 +11,19 @@ Formato de entrada: **fecha — título** · commit · qué cambió · archivos 
 
 ---
 
+## 2026-11-11 — Cámara que encuadra todo en cada minijuego; festejo: compañeros al destino del autor
+
+- **Cámara (pedido del usuario: «que se vean todos los elementos; no me sirve un jugador alto que la cámara no enfoca»):**
+  `Minigame.auto_frame` + `frame_points()` de cada juego. Tercera persona detrás de la pelota; se aleja y sube de a
+  poco hasta que entran la pelota, el jugador (pies y cabeza), el objetivo y lo propio de cada juego (rival y botón en
+  desnivel, bolos, aros, placas, zona de rescate, cancha entera de FootPool). `test_minigame_camera`: en los 50 niveles
+  todo queda dentro de la pantalla (el punto más al borde, al 73 % de media pantalla) y la cámara sigue en tercera
+  persona. Fútbol-tenis y Que no caiga: la pelota del saque se corre al costado para que el cuerpo no la tape.
+- **Festejo (lo encontró la CI, corrida 19):** con un festejo del autor que se desplaza, los compañeros quedaban a 3,2–3,5
+  m. Ahora corren al FINAL del recorrido del clip del autor (dato del clip): quedan a 1,7–2,2 m.
+
+---
+
 ## 2026-11-11 — Etapa C: Bowling, FootPool, Rebotes de ingenio y Demolición ampliada
 
 - **Bowling (4 niveles):** 10 bolos rígidos; caen solo por la fuerza recibida (tumbado = más de 40° o fuera de su lugar).

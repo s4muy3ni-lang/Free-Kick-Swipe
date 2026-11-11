@@ -181,6 +181,13 @@ func _clear_fallen() -> void:
 			p.visible = false
 			p.process_mode = Node.PROCESS_MODE_DISABLED
 
+## Encuadre: la formacion completa de bolos.
+func frame_points() -> Array:
+	var out: Array = []
+	for t in pin_home:
+		out.append((t as Transform3D).origin + Vector3.UP * 0.3)
+	return out
+
 func _ball_spot(_s: int) -> Vector3:
 	return Vector3(0, ball.radius if ball != null else 0.11, 0)
 
