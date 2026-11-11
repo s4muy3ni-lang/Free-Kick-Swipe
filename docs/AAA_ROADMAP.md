@@ -555,7 +555,7 @@ dedo (ningún modo tiene joystick, botones de dirección ni cañón automático)
 | Mecanismos, rescate, dianas colgantes (#43) | Pendientes | **Hechos**: Dianas (5) con articulaciones reales; Rescate (4) con botones, trabas, empujón y dominó | `test_dianas_rescate` |
 | Que no caiga | Nuevo | **Eliminado** (2026-11-11, pedido del usuario) | — |
 | Fútbol-tenis | Nuevo | **Eliminado** (2026-11-11, pedido del usuario) | — |
-| Bowling | Nuevo | **Hecho**: 4 niveles, cuadros con strike y spare, contra la IA | `test_bowling` |
+| Bowling | Nuevo | **Hecho**: 4 niveles, cuadros con strike y spare, contra la IA | `test_bowling`, `test_precision` |
 | FootPool | Nuevo | **Eliminado** (2026-11-11, pedido del usuario) | — |
 | Rebotes de ingenio | Nuevo | **Eliminado** (2026-11-11, pedido del usuario) | — |
 | Demolición ampliada | 6 niveles | **8 niveles** (barriles, soportes) | `test_demolicion` |
@@ -579,7 +579,7 @@ Pedido «REORGANIZACIÓN, ELIMINACIÓN Y EXPANSIÓN DE MINIJUEGOS ARCADE». Esta
 | 4 | Demolición: escenarios, materiales, estructuras complejas | **Hecha**: 13 niveles; materiales con física (vidrio que se rompe); jenga, casita, columnata; obra, castillo y almacén | `test_demolicion` |
 | 5 | Botón de caída: el jugador que cae atraviesa la base | **Hecha**: causa medida (clips de caída con desplazamiento de raíz); solo caídas que caben, hueco 2,3 m, pies sobre el centro | `test_boton_caida_fall` |
 | 6 | Duelo del guante | **Hecha**: 4 niveles; botones grande/mediano/chico, barra persistente, pistón con resorte que empuja al rival; IA por valor esperado | `test_guante` |
-| 7 | Doce modos nuevos (Royal Flush, Dardos, Curling, Béisbol, Bowling a 10 cuadros, Fútbol de precisión, Básquet, Salto en alto, Salto de esquí, Piedras saltarinas, Aros de fuego, Field Goal) | En curso: **Royal Flush, Dardos, Curling, Béisbol y Bowling a 10 cuadros hechos** | `test_royal_flush`, `test_dardos`, `test_curling`, `test_beisbol`, `test_bowling` |
+| 7 | Doce modos nuevos (Royal Flush, Dardos, Curling, Béisbol, Bowling a 10 cuadros, Fútbol de precisión, Básquet, Salto en alto, Salto de esquí, Piedras saltarinas, Aros de fuego, Field Goal) | En curso: **Royal Flush, Dardos, Curling, Béisbol, Bowling a 10 cuadros y Fútbol de precisión hechos** | `test_royal_flush`, `test_dardos`, `test_curling`, `test_beisbol`, `test_bowling` |
 | 8 | Integración, CI, APK | Pendiente | — |
 
 **Navegación.** El menú principal tiene tres tarjetas; cada sección muestra solo lo suyo y se sale con «‹ Volver»:

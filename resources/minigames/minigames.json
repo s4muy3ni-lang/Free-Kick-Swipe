@@ -2779,6 +2779,71 @@
      ]
     }
    ]
+  },
+  {
+   "id": "precision",
+   "title": "Fútbol de precisión",
+   "scene": "res://scenes/minigames/precision.tscn",
+   "status": "Implementado",
+   "description": "Arco gigante con sectores: las esquinas de arriba valen 10. Un arquero de cartón va y viene.",
+   "levels": [
+    {
+     "title": "Sin arquero",
+     "objective": "5 tiros al arco gigante: esquinas de arriba 10, arriba al medio 5, abajo 1.",
+     "shots": 5,
+     "medals": [
+      20,
+      35,
+      45
+     ]
+    },
+    {
+     "title": "Arquero de cartón",
+     "objective": "Un arquero de cartón va y viene: si lo tocás, no entra. 5 tiros.",
+     "shots": 5,
+     "keeper": {
+      "amp": 2.6,
+      "speed": 0.8
+     },
+     "medals": [
+      18,
+      32,
+      45
+     ]
+    },
+    {
+     "title": "Arquero rápido",
+     "objective": "El cartón se mueve más rápido y es más ancho. 6 tiros.",
+     "shots": 6,
+     "keeper": {
+      "amp": 2.8,
+      "speed": 1.4,
+      "w": 1.7
+     },
+     "medals": [
+      20,
+      38,
+      52
+     ]
+    },
+    {
+     "title": "Arco chico",
+     "objective": "Arco de 6 × 2,6 m, más lejos y con arquero. 6 tiros.",
+     "shots": 6,
+     "distance": 21.0,
+     "width": 6.0,
+     "height": 2.6,
+     "keeper": {
+      "amp": 1.8,
+      "speed": 1.0
+     },
+     "medals": [
+      18,
+      34,
+      48
+     ]
+    }
+   ]
   }
  ],
  "categories": [
@@ -2795,6 +2860,10 @@
     {
      "type": "game",
      "game": "dianas"
+    },
+    {
+     "type": "game",
+     "game": "precision"
     },
     {
      "type": "arena",

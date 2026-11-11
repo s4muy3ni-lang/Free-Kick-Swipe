@@ -11,6 +11,20 @@ Formato de entrada: **fecha — título** · commit · qué cambió · archivos 
 
 ---
 
+## 2026-11-11 — Etapa 7.6: Fútbol de precisión
+
+- **Modo nuevo** `Precision` (DESAFÍOS DE ARCO, 4 niveles). Arco gigante (9 × 3,6 m; 6 × 2,6 m en «Arco chico») con
+  postes y travesaño redondos físicos y una red estática detrás.
+- **Sectores** configurables (`grid`). Por defecto: esquinas de arriba 10, arriba al medio 5 y 3, medio 3–1, abajo 1–0.
+  Cuenta el sector por donde la pelota cruza la línea, interpolado entre los dos pasos del cruce.
+- **Arquero de cartón:** cuerpo cinemático con colisión, delante de la línea, sobre un riel que va y viene. Si lo toca,
+  la pelota rebota y no suma. Se mide como «atajada».
+- Estadio con tribunas, carteles y paneles de colores translúcidos con el puntaje de cada sector.
+- Pruebas (`test_precision`, 3): cuatro sectores suman su valor por cruce real; el cartón ataja (0 puntos); los 4
+  niveles llegan al bronce. Captura revisada en PC.
+
+---
+
 ## 2026-11-11 — Etapa 7.5: Bowling a 10 cuadros (mejora del existente, sin duplicarlo)
 
 - `Bowling` pasa a una partida de verdad: 10 cuadros por jugador, alternados contra la IA. Puntaje oficial
