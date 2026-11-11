@@ -6053,6 +6053,7 @@
       ],
       "files": [
         "scripts/setpiece/sp_keeper.gd",
+        "scripts/setpiece/keeper_zones.gd",
         "scripts/setpiece/sp_wall.gd",
         "scripts/setpiece/sp_field_players.gd",
         "scripts/setpiece/sp_loose_ball.gd",
