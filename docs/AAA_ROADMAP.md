@@ -700,3 +700,18 @@ arreglo de las reacciones en bucle.
 
 **Probado en PC:** todo lo anterior (suite headless 157 / 0 fallos; render 7/0 y 7/0 sin fugas, localmente y en CI).
 **Probado en Android:** nada todavía (pendiente del informe del teléfono, `docs/ANDROID_MEDICION.md`).
+
+# Ecosistema online (2026-11-11)
+
+Pedido: «CREACIÓN DEL ECOSISTEMA ONLINE, CUENTAS, PERSONALIZACIÓN, IA, PROGRESIÓN, ECONOMÍA Y PREPARACIÓN WEB».
+Arquitectura, estado por etapa y lo que falta: `docs/online/ARQUITECTURA_ONLINE.md`. Servidor y seguridad:
+`docs/online/ESQUEMA_Y_SEGURIDAD.md`. Pagos: `docs/online/PAGOS.md`. Web: `docs/online/WEB.md`. Ficha técnica:
+`docs/technical-index/SYSTEMS/ONLINE.md`.
+
+Resumen:
+- **Hecho:** cuentas obligatorias, servidor con autoridad (probado en PostgreSQL local), menú nuevo con 10 entradas,
+  tienda, temporada, eventos, perfil, personalización con diseños, penales online contra bots con turnos del servidor,
+  chat y reacciones, build pública sin herramientas de desarrollo.
+- **Falta:** conectar el proyecto de Supabase, tiros libres y minijuegos online, efecto de los atributos en el tiro,
+  diseños de balón y números en el juego, repeticiones, pagos reales y exportación Web.
+- Nada se probó en el teléfono.

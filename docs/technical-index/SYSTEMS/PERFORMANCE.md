@@ -79,26 +79,26 @@ teléfono real** (no hay dispositivo en el entorno).
 | Función | Línea | Qué hace |
 |---|---|---|
 | `GraphicsSettings._ready()` | 67 |  |
-| `GraphicsSettings._process(delta: float)` | 73 |  |
-| `GraphicsSettings.menu_choice_name()` | 95 | Opciones del boton «Graficos» del menu: automatico y los perfiles fijos. |
-| `GraphicsSettings.cycle_menu_choice()` | 99 | Automatico -> Muy bajo -> Bajo -> Medio -> Alto -> Automatico. |
-| `GraphicsSettings.toggle_aim_line()` | 113 | Interruptor de la linea de destino (se guarda). |
-| `GraphicsSettings.cycle_camera_shake()` | 118 | No -> Suave -> Normal -> No (se guarda). |
-| `GraphicsSettings.shake_scale()` | 123 | Multiplicador del temblor de camara (0 = apagado). |
-| `GraphicsSettings.detect_default_profile()` | 127 | Heuristica de perfil inicial segun la plataforma y el hardware. No sustituye a medir. |
-| `GraphicsSettings.set_profile(new_profile: int)` | 136 |  |
-| `GraphicsSettings.cycle_resolution()` | 144 | Pasa al siguiente escalon de RESOLUTION_STEPS (boton «Resolucion» del menu de pausa). |
-| `GraphicsSettings.set_resolution_override(value: float)` | 151 |  |
-| `GraphicsSettings.get_params()` | 156 |  |
-| `GraphicsSettings.profile_name()` | 159 |  |
-| `GraphicsSettings.shadows_enabled()` | 162 |  |
-| `GraphicsSettings.cycle_fps_cap()` | 166 | Pasa al siguiente tope de FPS_CAPS. |
-| `GraphicsSettings.cycle_shadows()` | 172 | Sombras: las del perfil -> no -> si -> las del perfil. |
-| `GraphicsSettings.ambient_props_enabled()` | 177 |  |
-| `GraphicsSettings.apply()` | 181 | Aplica el perfil al viewport principal y a las luces registradas en el grupo "sun_light". |
-| `GraphicsSettings.save_settings()` | 195 |  |
-| `GraphicsSettings.load_settings()` | 208 |  |
-| `GraphicsSettings._has_saved_settings()` | 223 |  |
+| `GraphicsSettings._process(delta: float)` | 75 |  |
+| `GraphicsSettings.menu_choice_name()` | 97 | Opciones del boton «Graficos» del menu: automatico y los perfiles fijos. |
+| `GraphicsSettings.cycle_menu_choice()` | 101 | Automatico -> Muy bajo -> Bajo -> Medio -> Alto -> Automatico. |
+| `GraphicsSettings.toggle_aim_line()` | 115 | Interruptor de la linea de destino (se guarda). |
+| `GraphicsSettings.cycle_camera_shake()` | 120 | No -> Suave -> Normal -> No (se guarda). |
+| `GraphicsSettings.shake_scale()` | 125 | Multiplicador del temblor de camara (0 = apagado). |
+| `GraphicsSettings.detect_default_profile()` | 129 | Heuristica de perfil inicial segun la plataforma y el hardware. No sustituye a medir. |
+| `GraphicsSettings.set_profile(new_profile: int)` | 138 |  |
+| `GraphicsSettings.cycle_resolution()` | 146 | Pasa al siguiente escalon de RESOLUTION_STEPS (boton «Resolucion» del menu de pausa). |
+| `GraphicsSettings.set_resolution_override(value: float)` | 153 |  |
+| `GraphicsSettings.get_params()` | 158 |  |
+| `GraphicsSettings.profile_name()` | 161 |  |
+| `GraphicsSettings.shadows_enabled()` | 164 |  |
+| `GraphicsSettings.cycle_fps_cap()` | 168 | Pasa al siguiente tope de FPS_CAPS. |
+| `GraphicsSettings.cycle_shadows()` | 174 | Sombras: las del perfil -> no -> si -> las del perfil. |
+| `GraphicsSettings.ambient_props_enabled()` | 179 |  |
+| `GraphicsSettings.apply()` | 183 | Aplica el perfil al viewport principal y a las luces registradas en el grupo "sun_light". |
+| `GraphicsSettings.save_settings()` | 197 |  |
+| `GraphicsSettings.load_settings()` | 210 |  |
+| `GraphicsSettings._has_saved_settings()` | 228 |  |
 <!-- /AUTO -->
 
 <!-- AUTO:signals:scripts/diagnostics/graphics_settings.gd -->

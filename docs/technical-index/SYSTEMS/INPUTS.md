@@ -28,18 +28,18 @@
 <!-- AUTO:inputs -->
 | Acción | Zona muerta | Teclas (código físico) | `project.godot` |
 |---|---|---|---|
-| `move_left` | 0.15 | A | línea 32 |
-| `move_right` | 0.15 | D | línea 37 |
-| `move_up` | 0.15 | W | línea 42 |
-| `move_down` | 0.15 | S | línea 47 |
-| `pass` | 0.5 | J | línea 52 |
-| `shoot` | 0.5 | K | línea 57 |
-| `sprint` | 0.5 | Shift | línea 62 |
-| `lob` | 0.5 | I | línea 67 |
-| `skill` | 0.5 | 85 | línea 72 |
-| `press` | 0.5 | L | línea 77 |
-| `switch_player` | 0.5 | Q | línea 82 |
-| `pause_game` | 0.5 | Esc | línea 87 |
+| `move_left` | 0.15 | A | línea 33 |
+| `move_right` | 0.15 | D | línea 38 |
+| `move_up` | 0.15 | W | línea 43 |
+| `move_down` | 0.15 | S | línea 48 |
+| `pass` | 0.5 | J | línea 53 |
+| `shoot` | 0.5 | K | línea 58 |
+| `sprint` | 0.5 | Shift | línea 63 |
+| `lob` | 0.5 | I | línea 68 |
+| `skill` | 0.5 | 85 | línea 73 |
+| `press` | 0.5 | L | línea 78 |
+| `switch_player` | 0.5 | Q | línea 83 |
+| `pause_game` | 0.5 | Esc | línea 88 |
 <!-- /AUTO -->
 
 ### Constantes del joystick y botones táctiles

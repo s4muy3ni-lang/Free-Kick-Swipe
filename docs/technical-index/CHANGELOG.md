@@ -11,6 +11,56 @@ Formato de entrada: **fecha — título** · commit · qué cambió · archivos 
 
 ---
 
+## 2026-11-11 — Ecosistema online: cuentas, servidor con autoridad, menú nuevo, economía, penales online contra bots
+
+Pedido del usuario (etapas 1 a 10). Lo hecho y lo que falta, por etapa: `docs/online/ARQUITECTURA_ONLINE.md`.
+
+- **Servidor** (`supabase/migrations/*.sql`):
+  - perfiles, catálogo, inventario, libro de recompensas idempotente, consumibles, modos online, temporada, eventos,
+    estadísticas (con `vs_bots`), presencia, cola, partidas, turnos y chat;
+  - RLS en todas las tablas y ninguna escritura del cliente: todo por funciones SECURITY DEFINER con validación;
+  - topes diarios antiabuso (incluidos los puntos de temporada offline, que se podían granjear y se corrigió al
+    probar), regla de zonas del arquero, zona oculta hasta el tiro, Elo solo entre humanos, bots fuera de los rankings;
+  - pagos reales preparados e inactivos (`grant_purchase` solo para el servicio).
+- **Cliente:**
+  - autoload `Online` (sesión cifrada, modo offline, cola de sincronización), `SupabaseApi` (clave pública) y
+    `LocalBackend` (la misma API sin servidor);
+  - `WelcomeScreen` como entrada obligatoria; premios del juego local (arcade, academia, desafíos, logros, tanda
+    offline) enviados a la cola (`OnlineHooks`).
+- **IA rival:** `BotFactory` (habilidad adaptativa con cambios de a lo sumo 0,1), `BotBrain` (personalidades, error que
+  nunca es cero, no conoce el tiro), `BehaviorMirror` (si el usuario tarda 4 s, el bot tarda de 5 a 10),
+  `ChatFilter` (frases rápidas, emojis, filtro y reacciones por personalidad).
+- **Penales online** (`OnlineMatch` sobre `SetPieceGame`):
+  - el servidor decide quién patea y el resultado de cada tiro (zona de cruce contra la zona oculta del arquero) y
+    cuándo termina;
+  - reloj de 20 s con tiro de penalización alto e impreciso (contado errado);
+  - chat y reacciones; premios mostrados al final.
+- **Menú:**
+  - 10 entradas con íconos dibujados (sin emojis: la fuente no los tiene);
+  - barra de perfil con nivel, XP, monedas, temporada y estado del servidor;
+  - fondo de tiro libre en cámara lenta con partículas;
+  - pantallas de Online (lobby con humanos reales separados de la «actividad del mundo»), Offline, Tienda,
+    Temporada, Eventos, Perfil (identidad, atributos, rankings, cerrar sesión) y Personalizar (jugador que se gira).
+- **Uniforme:** `json_kit.gdshader` con diseños en el espacio del modelo (camiseta: rayas, banda, aros, mitad,
+  degradé, rayas finas; short: franja, ribete; medias: rayas, ribete, altura), revisados con `tools/online/kit_preview.gd`.
+- **Build pública** (`DevFlags`, característica `public` del preset de Android): sin «Diag.», sin línea de destino y
+  sin banco de animaciones. El código de diagnóstico sigue en las builds de desarrollo.
+- **Exportación y CI:**
+  - la APK incluye `resources/online/*.json` y `config/backend.json` (el filtro de exportación no los incluía);
+  - permiso INTERNET (el único permitido);
+  - CI genera `backend.json` desde `SUPABASE_URL` y `SUPABASE_ANON_KEY` y suma el job «servidor» con las pruebas SQL.
+- **Pruebas:**
+  - SQL: 66 comprobaciones OK (PostgreSQL 16 local).
+  - `test_online_client`: 7 pruebas / 61 comprobaciones.
+  - `test_online_match`: 2 pruebas. Tanda contra bot terminada 7-8 en muerte súbita, con marcador local igual al del
+    servidor; tiro por tiempo contado errado.
+- **Pruebas existentes ajustadas:**
+  - `test_anim_bank_bench`: la entrada ahora es la bienvenida, y Penales y Tiro libre están en «JUGAR OFFLINE».
+  - Capturas de menú y pantallas revisadas a ojo (`tools/online/menu_snap.gd`).
+- **No hecho:** proyecto de Supabase conectado (el único visible, «El Maletin App», es de otra aplicación y está
+  pausado), tiros libres y minijuegos online, efecto de los atributos, balones y números en el juego, repeticiones,
+  pagos, exportación Web. **No probado en teléfono.**
+
 ## 2026-11-11 — Arquero: zona segura en penales (6 zonas internas)
 
 Pedido del usuario: si el arquero se tiró a una zona y el tiro va a esa zona, es atajada. Antes había que acertar el punto

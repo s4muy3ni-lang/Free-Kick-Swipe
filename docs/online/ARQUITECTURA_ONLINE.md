@@ -74,4 +74,15 @@ Reglas de autoridad (todas implementadas en SQL):
 
 ## 5. Estado por etapa
 
-Ver la tabla al final de `docs/AAA_ROADMAP.md` («Ecosistema online»), que se actualiza con cada entrega.
+| Etapa | Estado | Qué hay | Qué falta |
+|---|---|---|---|
+| 1. Auditoría | **Hecha** | Este documento. El GLB enviado es el modelo ya integrado. | — |
+| 2. Supabase y cuentas | **Hecha (sin proyecto conectado)** | Esquema con RLS y funciones del servidor; 66 pruebas SQL OK. Cliente: registro, inicio de sesión, recuperación, cierre, recordar sesión (cifrada), modo offline con la sesión guardada, cola de sincronización idempotente; bienvenida obligatoria. | Proyecto de Supabase y GitHub Secrets; verificación de correo y SMTP en Supabase. |
+| 3. Perfil y personalización | **Parcial** | Identidad (nombre, apodo, número, país), cambio de nombre con límite. Camisetas con diseños reales en el juego (rayas, banda, aros, mitad, degradé, rayas finas) y dos colores; short (franja, ribete); medias (rayas, ribete, altura); botines, piel, pelo; vista 3D que se gira; desbloqueos gratis / nivel / temporada / evento / tienda validados por el servidor. | Modelos 3D distintos de botines (hoy cambia el color), diseños visuales de balón y números míticos en el juego (se guardan, no se ven todavía), peinados y bandera. |
+| 4. Online y matchmaking | **Hecha (penales)** | Humanos primero y bot después de 8 s; bots con nombre, avatar, personalidad, habilidad adaptativa e historial; turnos de 20 s; abandono; chat con frases, emojis y moderación; reacciones del bot; lobby con humanos reales y «actividad del mundo» separada. | Probar humano contra humano entre dos dispositivos (el protocolo está probado en SQL). |
+| 5. Penales y tiros libres online | **Penales: hecho. Tiros libres: falta** | Penales online contra bot con el juego real, regla de zonas validada en el servidor y marcador igual al del servidor. | Tiros libres online: elección de distancia y arquero del usuario en el tiro libre. |
+| 6. Minijuegos online | **Falta** | Se muestran «en preparación» (A la vista, Guante, Dardos, Basket, Diana). El servidor ya admite partidas por puntos con tope por turno. | Partida online de cada minijuego. |
+| 7. Progresión y economía | **Parcial** | XP, nivel, monedas, consumibles (sin acumulación), puntos de atributo (2 por nivel), rankings sin bots, topes antiabuso: todo en el servidor. | Efecto de los 6 atributos en la física (hoy se guardan y se gastan, no cambian el tiro). |
+| 8. Tienda y temporada | **Hecha (monedas virtuales)** | Tienda con rarezas y desbloqueos; pase de temporada con 30 niveles (gratis y premium); compras reales preparadas e INACTIVAS; comparación de proveedores (`PAGOS.md`). | Elegir proveedor; webhook; activar pagos (con tu aprobación). |
+| 9. Eventos y presentación | **Parcial** | Eventos configurables desde datos del backend (tarjetas grandes, progreso, recompensas); menú con 10 entradas, íconos propios y fondo de tiro libre en cámara lenta con partículas; público que festeja. | Repeticiones (no se tocaron en esta entrega), más efectos y sonidos de interfaz. |
+| 10. Validación y Web | **Parcial** | Suite completa, CI con job de servidor, APK con permiso INTERNET, build pública sin herramientas de desarrollo, auditoría Web (`WEB.md`). | Exportación Web real y pruebas en el teléfono. |

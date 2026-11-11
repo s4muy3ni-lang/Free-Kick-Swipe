@@ -184,6 +184,21 @@ jobs:
           echo "GODOT_ANDROID_KEYSTORE_RELEASE_USER=androiddebugkey" >> "$GITHUB_ENV"
           echo "GODOT_ANDROID_KEYSTORE_RELEASE_PASSWORD=android" >> "$GITHUB_ENV"
 
+      - name: Configuracion del servidor (clave PUBLICA desde GitHub Secrets)
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+        run: |
+          # Solo la URL y la clave publica (anon/publishable). La service key nunca va en la APK.
+          if [ -n "$SUPABASE_URL" ] && [ -n "$SUPABASE_ANON_KEY" ]; then
+            case "$SUPABASE_ANON_KEY" in sb_secret_*) echo "::error::SUPABASE_ANON_KEY es una clave de servicio"; exit 1;; esac
+            mkdir -p config
+            python3 -c 'import json,os; json.dump({"url": os.environ["SUPABASE_URL"], "anon_key": os.environ["SUPABASE_ANON_KEY"]}, open("config/backend.json", "w"))'
+            echo "backend.json generado: la APK usa el servidor"
+          else
+            echo "::warning::Sin SUPABASE_URL/SUPABASE_ANON_KEY: la APK usa la cuenta local de prueba (sin online real)"
+          fi
+
       - name: Exportar APK firmada
         run: |
           mkdir -p build
@@ -203,7 +218,10 @@ jobs:
           echo "$BADGING" | grep -E "^package:|native-code"
           echo "$BADGING" | grep -q "package: name='com.webmaletin.futbol5' versionCode='${VERSION_CODE}' versionName='${VERSION_NAME}'"
           echo "$BADGING" | grep -q "native-code: 'arm64-v8a'"
-          if echo "$BADGING" | grep -q "uses-permission"; then echo "::error::la APK declara permisos"; exit 1; fi
+          # Unico permiso: INTERNET (cuentas y online). Cualquier otro es un error.
+          echo "$BADGING" | grep -q "uses-permission: name='android.permission.INTERNET'" || { echo "::error::falta el permiso INTERNET (el online no funcionaria)"; exit 1; }
+          OTHER=$(echo "$BADGING" | grep "uses-permission" | grep -v "android.permission.INTERNET" || true)
+          if [ -n "$OTHER" ]; then echo "::error::la APK declara permisos inesperados: $OTHER"; exit 1; fi
 
           # Los bancos borrados (Mixamo y Mocap) no estan en la APK.
           if unzip -l "$APK" | grep -E -q "animations/(pack_clips|pack_keeper|mocap_clips|touch_clips)\.res|characters/mocap/"; then echo "::error::la APK contiene un banco borrado (Mixamo/Mocap)"; exit 1; fi
@@ -220,7 +238,7 @@ jobs:
           unzip -p "$APK" "assets/resources/setpiece/shot_clips.json" | cmp -s - resources/setpiece/shot_clips.json || { echo "::error::resources/setpiece/shot_clips.json no esta en la APK o difiere"; exit 1; }
           unzip -l "$APK" | grep -q "resources/animation/catalogo_bancos.json" || { echo "::error::falta el catalogo de bancos en la APK"; exit 1; }
           # Datos de la Academia, la Arena y los minijuegos (JSON: solo entran si estan en include_filter).
-          for f in resources/challenges/challenges.json resources/minigames/minigames.json; do
+          for f in resources/challenges/challenges.json resources/minigames/minigames.json resources/online/seed.json; do
             unzip -p "$APK" "assets/$f" | cmp -s - "$f" || { echo "::error::$f no esta en la APK o difiere"; exit 1; }
           done
           if unzip -l "$APK" | grep -E -q "\.fbx"; then echo "::error::la APK contiene FBX fuente"; exit 1; fi
@@ -260,3 +278,14 @@ jobs:
             build/${{ env.APK_NAME }}.sha256
           retention-days: 14
           if-no-files-found: error
+
+  # Servidor: las migraciones de Supabase y sus pruebas sobre PostgreSQL (no frena la APK).
+  servidor:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Migraciones y pruebas SQL (RLS, autoridad del servidor)
+        run: |
+          sudo systemctl start postgresql
+          sudo -u postgres env PGHOST=/var/run/postgresql bash supabase/tests/run_local.sh

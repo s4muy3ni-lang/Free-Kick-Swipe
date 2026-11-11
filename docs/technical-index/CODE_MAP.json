@@ -2956,25 +2956,25 @@
         {
           "file": "scripts/diagnostics/graphics_settings.gd",
           "name": "GraphicsSettings.apply",
-          "line": 181,
+          "line": 183,
           "kind": "func"
         },
         {
           "file": "scripts/diagnostics/graphics_settings.gd",
           "name": "GraphicsSettings.set_profile",
-          "line": 136,
+          "line": 138,
           "kind": "func"
         },
         {
           "file": "scripts/diagnostics/graphics_settings.gd",
           "name": "GraphicsSettings.set_resolution_override",
-          "line": 151,
+          "line": 153,
           "kind": "func"
         },
         {
           "file": "scripts/diagnostics/graphics_settings.gd",
           "name": "GraphicsSettings.detect_default_profile",
-          "line": 127,
+          "line": 129,
           "kind": "func"
         },
         {
@@ -5774,25 +5774,25 @@
         {
           "file": "scripts/setpiece/setpiece_game.gd",
           "name": "SetPieceGame._take_shot",
-          "line": 567,
+          "line": 584,
           "kind": "func"
         },
         {
           "file": "scripts/setpiece/setpiece_game.gd",
           "name": "SetPieceGame.shoot_params",
-          "line": 1429,
+          "line": 1466,
           "kind": "func"
         },
         {
           "file": "scripts/setpiece/setpiece_game.gd",
           "name": "SetPieceGame._finish",
-          "line": 785,
+          "line": 811,
           "kind": "func"
         },
         {
           "file": "scripts/setpiece/setpiece_game.gd",
           "name": "SetPieceGame.clamp_free_kick_spot",
-          "line": 460,
+          "line": 477,
           "kind": "func"
         },
         {
@@ -5810,7 +5810,7 @@
         {
           "file": "scripts/setpiece/main_menu.gd",
           "name": "MainMenu._start",
-          "line": 361,
+          "line": 433,
           "kind": "func"
         }
       ],
@@ -6484,6 +6484,103 @@
         "PROGRESSION"
       ],
       "documentation": "docs/technical-index/SYSTEMS/PROGRESSION.md",
+      "last_verified": "2026-11-11"
+    },
+    {
+      "id": "online.ecosystem",
+      "system": "ONLINE",
+      "description": "Ecosistema online: cuentas (Supabase Auth o backend local), sesión cifrada, cola de sincronización idempotente, perfil/inventario/monedas/temporada/eventos con autoridad del servidor (SQL con RLS y funciones SECURITY DEFINER), matchmaking humano→bot, bots con personalidad y dificultad adaptativa, comportamiento espejo, penales online con turnos de 20 s y regla de zonas validada en el servidor, chat moderado, menú principal con 10 entradas, tienda, temporada, eventos, perfil y personalización con diseños del uniforme, herramientas de desarrollo ocultas en la build pública.",
+      "keywords": [
+        "online",
+        "cuenta",
+        "cuentas",
+        "login",
+        "inicio de sesión",
+        "registro",
+        "contraseña",
+        "supabase",
+        "servidor",
+        "backend",
+        "rls",
+        "sesión",
+        "sincronización",
+        "sync",
+        "offline",
+        "matchmaking",
+        "buscar rival",
+        "bot",
+        "bots",
+        "rival ia",
+        "personalidad",
+        "dificultad adaptativa",
+        "espejo",
+        "chat",
+        "emoji",
+        "reacciones",
+        "monedas",
+        "economía",
+        "tienda",
+        "inventario",
+        "consumibles",
+        "energizante",
+        "temporada",
+        "pase",
+        "eventos",
+        "ranking",
+        "rankings",
+        "perfil",
+        "personalizar",
+        "camiseta",
+        "diseño",
+        "botines",
+        "balón",
+        "menú principal",
+        "bienvenida",
+        "diag",
+        "línea de destino",
+        "build pública",
+        "pagos",
+        "web",
+        "bolt"
+      ],
+      "files": [
+        "scripts/online/online.gd",
+        "scripts/online/supabase_api.gd",
+        "scripts/online/local_backend.gd",
+        "scripts/online/backend_config.gd",
+        "scripts/online/online_hooks.gd",
+        "scripts/online/welcome_screen.gd",
+        "scripts/online/online_match.gd",
+        "scripts/online/bot_factory.gd",
+        "scripts/online/bot_brain.gd",
+        "scripts/online/behavior_mirror.gd",
+        "scripts/online/chat_filter.gd",
+        "scripts/ui/menu_screens.gd",
+        "scripts/ui/menu_icon.gd",
+        "scripts/diagnostics/dev_flags.gd",
+        "scenes/online/welcome.tscn",
+        "supabase/migrations/20261111000001_core.sql",
+        "supabase/migrations/20261111000002_matches.sql",
+        "supabase/migrations/20261111000003_functions.sql",
+        "supabase/migrations/20261111000004_match_functions.sql",
+        "supabase/migrations/20261111000005_grants_and_seed.sql",
+        "supabase/tests/test_server.sql",
+        "resources/online/seed.json",
+        "tools/online/export_seed.sh",
+        "tools/online/menu_snap.gd",
+        "tools/online/kit_preview.gd",
+        "tests/test_online_client.gd",
+        "tests/test_online_match.gd"
+      ],
+      "symbols": [],
+      "parameters": [],
+      "dependencies": [
+        "SETPIECE",
+        "PROGRESSION",
+        "UI_HUD",
+        "GOALKEEPER"
+      ],
+      "documentation": "docs/technical-index/SYSTEMS/ONLINE.md",
       "last_verified": "2026-11-11"
     }
   ]

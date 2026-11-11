@@ -52,6 +52,7 @@ Goal._physics_process → Pitch.goal_scored → MatchManager._on_goal → score_
 | `GraphicsSettings` | `scripts/diagnostics/graphics_settings.gd` | línea 18 |
 | `Sfx` | `scripts/audio/sfx.gd` | línea 19 |
 | `Toasts` | `scripts/ui/toasts.gd` | línea 20 |
+| `Online` | `scripts/online/online.gd` | línea 21 |
 <!-- /AUTO -->
 
 Escena principal: *scenes/main/match.tscn (eliminada en la reforma; en el historial de git)* (`project.godot`, `run/main_scene`).
