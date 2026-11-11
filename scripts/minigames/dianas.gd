@@ -683,6 +683,13 @@ func final_score() -> int:
 		s += maxi(shots_max - int(shots[0]), 0) * SPARE_SHOT
 	return s
 
+## El publico festeja solo los tiros que suman (bajan una diana o marcan zona), no el resumen de un tiro errado.
+func crowd_cheer(r: String, txt: Array) -> float:
+	var scored: bool = not last_hit.is_empty() and int(last_hit.get("shot", -2)) == int(shots[0])
+	if r != "todas" and not scored:
+		return 0.0
+	return super(r, txt)
+
 func _result_text(r: String) -> Array:
 	var hit: String = ("+%d en el impacto" % int(last_hit["points"])) if not last_hit.is_empty() and int(last_hit.get("shot", -2)) == int(shots[0]) else "sin puntos de zona"
 	if r == "todas":

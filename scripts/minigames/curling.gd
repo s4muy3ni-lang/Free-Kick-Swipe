@@ -82,12 +82,8 @@ func _build_stage(length: float) -> void:
 		ArcadeLook.deco(self, "box", Vector3(0.06 if x != hog_x else 0.1, 0.004, SHEET_W), Vector3(x, 0.006, 0), ArcadeLook.mat(Color(0.85, 0.12, 0.12) if x == hog_x else Color(0.1, 0.1, 0.12), "paint"))
 	ArcadeLook.deco(self, "box", Vector3(length, 0.004, 0.03), Vector3(length * 0.5, 0.005, 0), ArcadeLook.mat(Color(0.1, 0.1, 0.12), "paint"))
 	# Estadio de hielo: tribunas, publicidad en las bandas exteriores, techo con luces.
+	ArcadeLook.stands(self, length * 0.5, length + 6.0, [-9.0, 9.0], 0.0, 4)
 	for z in [-9.0, 9.0]:
-		for row in 4:
-			ArcadeLook.deco(self, "box", Vector3(length + 6.0, 0.5, 1.2), Vector3(length * 0.5, 0.25 + float(row) * 0.5, z + signf(z) * float(row) * 1.2), ArcadeLook.mat(Color(0.18, 0.2, 0.28), "stone", 4.0))
-			for k in 16:
-				var cc: Color = [Color(0.9, 0.2, 0.2), Color(0.2, 0.45, 0.95), Color(0.95, 0.85, 0.2), Color(0.9, 0.9, 0.9)][(k + row) % 4]
-				ArcadeLook.deco(self, "box", Vector3(0.35, 0.55, 0.3), Vector3(-2.0 + float(k) * (length + 4.0) / 15.0 + float(row % 2) * 0.6, 0.78 + float(row) * 0.5, z + signf(z) * float(row) * 1.2), ArcadeLook.mat(cc, "paint"))
 		for k in 8:
 			ArcadeLook.deco(self, "box", Vector3((length + 4.0) / 8.0 - 0.1, 0.7, 0.1), Vector3(-2.0 + (float(k) + 0.5) * (length + 4.0) / 8.0, 0.35, signf(z) * 3.4), ArcadeLook.mat([Color(0.95, 0.95, 0.97), Color(0.15, 0.35, 0.85), Color(0.85, 0.12, 0.12)][k % 3], "paint"))
 	for x in [0.0, length * 0.33, length * 0.66, length]:

@@ -89,12 +89,7 @@ func _build_stage() -> void:
 			add_child(l)
 			l.global_position = Vector3(post_x - float(k) * 5.0 - 0.8, 0.01, -12.0)
 	ArcadeLook.deco(self, "box", Vector3(10.0, 0.005, 40.0), Vector3(post_x + 5.0, 0.004, 0), ArcadeLook.mat(Color(0.12, 0.25, 0.6), "paint"))
-	for z in [-24.0, 24.0]:
-		for row in 5:
-			ArcadeLook.deco(self, "box", Vector3(80, 0.6, 1.4), Vector3(post_x - 30.0, 0.3 + float(row) * 0.6, z + signf(z) * float(row) * 1.4), ArcadeLook.mat(Color(0.2, 0.22, 0.3), "stone", 4.0))
-			for k in 20:
-				var cc: Color = [Color(0.9, 0.2, 0.2), Color(0.2, 0.45, 0.95), Color(0.95, 0.85, 0.2), Color(0.9, 0.9, 0.9)][(k + row) % 4]
-				ArcadeLook.deco(self, "box", Vector3(0.4, 0.6, 0.35), Vector3(post_x - 68.0 + float(k) * 4.0 + float(row % 2), 0.9 + float(row) * 0.6, z + signf(z) * float(row) * 1.4), ArcadeLook.mat(cc, "paint"))
+	# Tribunas y publico: los del estadio de noche comun (ArcadeLook.night_arena).
 	ArcadeLook.billboard(self, "FIELD GOAL", Vector3(post_x + 12.0, 6.0, 0), 8.0, 1.4, Color(0.1, 0.1, 0.3), Color(1.0, 0.85, 0.2))
 
 func _kick() -> Array:

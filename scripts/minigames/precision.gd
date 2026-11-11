@@ -155,12 +155,7 @@ func _build_keeper(kd: Dictionary) -> void:
 	ArcadeLook.deco(self, "box", Vector3(0.12, 0.05, (float(kd.get("amp", 2.5)) + w * 0.5) * 2.0), Vector3(goal_x - 0.5, 0.025, 0), ArcadeLook.mat(Color(0.3, 0.3, 0.34), "metal"))
 
 func _build_stage() -> void:
-	for z in [-16.0, 16.0]:
-		for row in 4:
-			ArcadeLook.deco(self, "box", Vector3(goal_x + 14.0, 0.5, 1.2), Vector3(goal_x * 0.5 + 2.0, 0.25 + float(row) * 0.5, z + signf(z) * float(row) * 1.2), ArcadeLook.mat(Color(0.22, 0.24, 0.3), "stone", 4.0))
-			for k in 14:
-				var cc: Color = [Color(0.9, 0.2, 0.2), Color(0.2, 0.45, 0.95), Color(0.95, 0.85, 0.2), Color(0.9, 0.9, 0.9)][(k + row) % 4]
-				ArcadeLook.deco(self, "box", Vector3(0.35, 0.55, 0.3), Vector3(-4.0 + float(k) * (goal_x + 12.0) / 13.0 + float(row % 2) * 0.5, 0.78 + float(row) * 0.5, z + signf(z) * float(row) * 1.2), ArcadeLook.mat(cc, "paint"))
+	# Tribunas y publico: los del estadio de noche comun (ArcadeLook.night_arena).
 	for k in 6:
 		ArcadeLook.deco(self, "box", Vector3(0.12, 0.9, 3.4), Vector3(goal_x + 4.5, 0.45, -8.5 + float(k) * 3.4), ArcadeLook.mat([Color(0.1, 0.3, 0.8), Color(0.95, 0.95, 0.95), Color(0.9, 0.15, 0.15)][k % 3], "paint"))
 	ArcadeLook.billboard(self, "PRECISIÓN", Vector3(goal_x + 6.0, height + 1.2, 0), 6.0, 1.0)

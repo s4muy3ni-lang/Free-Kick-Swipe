@@ -31,6 +31,14 @@ const BUTTON_X := -6.2
 const PRESS_SPEED := 2.5
 const DOOR_OPEN_T := 0.35
 const CAP_DEPTH := 0.14
+## Torre de hierro bajo cada plataforma y vacio: profundidad de la torre, angostamiento al pie, alto de cada tramo;
+## niebla oscura por debajo de VOID_FOG_TOP (la torre y las tribunas se pierden en el vacio) y fondo del abismo.
+const TOWER_DEPTH := 30.0
+const TOWER_TAPER := 0.45
+const TOWER_BAY := 3.4
+const VOID_FOG_TOP := -2.5
+const VOID_FOG_DENSITY := 0.11
+const ABYSS_DEPTH := 60.0
 ## Error de la IA por dificultad (grados) y cuanto corrige de su ultimo fallo (aprende como una persona).
 const CPU_ERROR := [1.8, 1.3, 1.0, 0.75, 0.55]
 ## (Con mas ganancia aprenderia del azar y empeoraria: medido.)
@@ -100,24 +108,18 @@ func _build_level() -> void:
 			if od.has("side") and int(od["side"]) != s:
 				continue
 			_build_obstacle(s, od)
-	# Abismo: un piso oscuro muy abajo y columnas bajo las plataformas (se ve que flotan).
+	# Vacio (pedido del usuario: que se sienta la caida): cada plataforma se apoya en una torre de vigas de hierro que
+	# baja y se pierde en una niebla oscura; abajo no hay piso a la vista, solo el fondo del abismo.
 	var abyss := MeshInstance3D.new()
 	var pm := PlaneMesh.new()
 	pm.size = Vector2(400, 400)
 	abyss.mesh = pm
-	abyss.material_override = color_mat(Color(0.04, 0.05, 0.1))
-	abyss.position = Vector3(0, -30, 0)
+	abyss.material_override = color_mat(Color(0.03, 0.03, 0.08))
+	abyss.position = Vector3(0, -ABYSS_DEPTH, 0)
 	add_child(abyss)
 	for s in 2:
-		var col := MeshInstance3D.new()
-		var cm := CylinderMesh.new()
-		cm.top_radius = 2.2
-		cm.bottom_radius = 0.8
-		cm.height = 28.0
-		col.mesh = cm
-		col.material_override = color_mat(Color(0.25, 0.27, 0.34))
-		add_child(col)
-		col.global_position = frames[s] * Vector3(-DEPTH * 0.5, -15.0, 0.0)
+		_build_tower(s)
+	ArcadeLook.void_fog(self, VOID_FOG_TOP, VOID_FOG_DENSITY, Color(0.05, 0.04, 0.13))
 	ball.body_entered.connect(_on_ball_body)
 
 func _button_def(s: int) -> Dictionary:
@@ -190,6 +192,50 @@ func _shot_ctx(s: int) -> Dictionary:
 
 ## Piso de la plataforma con el hueco de la trampilla bajo el lugar del jugador (cuatro bloques alrededor) y la trampilla
 ## de dos hojas con bisagra.
+## Torre de hierro bajo la plataforma s: cuatro patas que se angostan hacia abajo, anillos cada TOWER_BAY metros, cruces
+## en las cuatro caras, vigas bajo el borde de la cubierta y balizas rojas en las patas. Todo en dos mallas (hierro y
+## luces), sin colision: el que cae pasa por adentro de la torre.
+func _build_tower(s: int) -> void:
+	var iron: Array = []
+	var lamps: Array = []
+	var col := Color(0.5, 0.52, 0.58)
+	var dark := Color(0.36, 0.37, 0.43)
+	var hx0: float = -DEPTH + 0.35
+	var hx1: float = -0.35
+	var hz: float = WIDTH * 0.5 - 0.35
+	var cx: float = (hx0 + hx1) * 0.5
+	var top: float = -1.0
+	var bottom: float = -TOWER_DEPTH
+	var corner := func(i: int, y: float) -> Vector3:
+		var u: float = clampf((top - y) / (top - bottom), 0.0, 1.0)
+		var k: float = lerpf(1.0, TOWER_TAPER, u)
+		var lx: float = (hx0 if i == 0 or i == 3 else hx1)
+		var lz: float = (-hz if i < 2 else hz)
+		return frames[s] * Vector3(cx + (lx - cx) * k, y, lz * k)
+	for i in 4:
+		iron.append(ArcadeLook.beam(corner.call(i, top + 0.02), corner.call(i, bottom), 0.42, col))
+	var bays: int = int(ceil((top - bottom) / TOWER_BAY))
+	for b in bays + 1:
+		var y: float = top - float(b) * TOWER_BAY
+		for i in 4:
+			var j: int = (i + 1) % 4
+			iron.append(ArcadeLook.beam(corner.call(i, y), corner.call(j, y), 0.26, col))
+			if b < bays:
+				var y2: float = y - TOWER_BAY
+				iron.append(ArcadeLook.beam(corner.call(i, y), corner.call(j, y2), 0.14, dark))
+				iron.append(ArcadeLook.beam(corner.call(j, y), corner.call(i, y2), 0.14, dark))
+		if b % 2 == 1:
+			for i in 4:
+				lamps.append(["sphere", Vector3(0.13, 0, 0), Transform3D(Basis(), corner.call(i, y) + (corner.call(i, y) - frames[s] * Vector3(cx, y, 0)).normalized() * 0.3), Color(1.0, 0.15, 0.1)])
+	# Vigas bajo el borde de la cubierta (se ven de costado) y mensulas en diagonal hacia las patas.
+	for sz in [-1.0, 1.0]:
+		iron.append(ArcadeLook.beam(frames[s] * Vector3(-DEPTH, top - 0.2, sz * (WIDTH * 0.5 - 0.1)), frames[s] * Vector3(0, top - 0.2, sz * (WIDTH * 0.5 - 0.1)), 0.36, dark))
+	for sx in [-DEPTH, 0.0]:
+		iron.append(ArcadeLook.beam(frames[s] * Vector3(sx, top - 0.2, -WIDTH * 0.5), frames[s] * Vector3(sx, top - 0.2, WIDTH * 0.5), 0.36, dark))
+	var mi: MeshInstance3D = ArcadeLook.merged(self, iron, ArcadeLook.vc_mat("metal", 1.0))
+	mi.name = "TorreHierro%d" % s
+	ArcadeLook.merged(self, lamps, ArcadeLook.led_mat()).name = "Balizas%d" % s
+
 func _build_platform(s: int) -> void:
 	# Estilo arcade comun (referencia del usuario): cubierta rosa con un toque del color del equipo.
 	var c: Color = ArcadeLook.DECK_PINK.lerp(Color(0.2, 0.45, 0.95) if s == 0 else Color(0.9, 0.25, 0.25), 0.25)

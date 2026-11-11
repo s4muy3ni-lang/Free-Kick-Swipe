@@ -11,6 +11,46 @@ Formato de entrada: **fecha — título** · commit · qué cambió · archivos 
 
 ---
 
+## 2026-11-11 — Público 2D animado, tribunas estilo caja y vacío con torre de hierro
+
+Pedido del usuario: el público como PNG que se mueve y festeja, en vez de cubos 3D; tribunas, concreto y decoración
+estilo caja, con pocos triángulos y más livianos para el teléfono y, más adelante, el navegador. En Botón de caída, una
+estructura de hierro debajo de las plataformas y el vacío visible, para que se sienta la caída.
+
+- **Público 2D** (`ArcadeLook.crowd`, `crowd_shader`, `cheer`, `cheer_level`):
+  - hoja de sprites `assets/arcade/crowd_atlas.png`, generada por `tools/gen_crowd_sprites.py`;
+  - cada hincha es un cuadrado (2 triángulos) en una sola MultiMesh (un draw call); gira sobre el eje vertical hacia la
+    cámara;
+  - el shader elige variante y cuadro por instancia: quieto con un leve balanceo, algunos aplauden de a ratos;
+  - con `cheer` se paran primero los más animados: brazos arriba, bufandas y saltos.
+- **Festejo:** `Minigame.crowd_cheer(r, txt)` decide cuánto se festeja:
+  - por defecto, con cartel verde festejan todos; con amarillo (un avance del usuario), solo los más animados; con rojo
+    o naranja, nadie;
+  - Dianas no festeja un tiro que no suma;
+  - al ganar la partida o sacar medalla, festejo largo.
+- **Tribunas estilo caja** (`ArcadeLook.stands`, `merged`, `beam`, `vc_mat`, `led_mat`):
+  - escalones, respaldos de color, cartel LED al frente y muro con línea de luz, todo en dos mallas;
+  - torres de luces en dos mallas para las cuatro.
+  - El estadio de noche pasó de unas 140 mallas a 26 (prueba con presupuesto de 40).
+  - Básquet, Precisión y Field Goal dejan sus tribunas de cubos propias y usan la del estadio; Curling usa
+    `ArcadeLook.stands`.
+- **Botón de caída:**
+  - `_build_tower`: torre de vigas de hierro bajo cada plataforma: cuatro patas que se angostan, anillos cada 3,4 m,
+    cruces en las cuatro caras, vigas bajo el borde y balizas rojas; baja 30 m;
+  - todo en dos mallas, sin colisión; ninguna viga cruza la columna del hueco, así que el que cae pasa por adentro;
+  - `ArcadeLook.void_fog`: niebla solo por debajo de −2,5 m, así que la torre y las tribunas se pierden en el vacío y
+    lo de arriba se ve igual.
+- **Herramientas:** `tools/minigame_snap.gd` suma `SNAP_CHEER`.
+- **Pruebas:** `tests/test_arcade_look.gd` → 4 pruebas / 22 comprobaciones / 0 fallos.
+  - 737 hinchas = 1474 triángulos en una MultiMesh;
+  - 26 mallas en el estadio;
+  - el festejo sube y vuelve a la calma;
+  - la torre baja hasta y = −31,7 sin tapar el hueco;
+  - la niebla es solo de altura.
+  - Capturas revisadas a ojo (xvfb): Dianas, Básquet, Curling, Field Goal, Precisión y Botón de caída, en calma, con
+    festejo y durante la caída.
+  - **No probado en teléfono** (rendimiento real sin medir).
+
 ## 2026-11-11 — Integración final del arcade (suite + APK)
 
 - Verificación local antes del push:

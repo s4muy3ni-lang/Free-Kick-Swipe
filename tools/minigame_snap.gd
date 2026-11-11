@@ -1,6 +1,7 @@
 extends Node
 ## Captura de niveles de minijuego con la camara del juego, para revisar escenarios a ojo.
 ## SNAP_PRESS=N: en Boton de caida aprieta el boton del que espera y captura N fotogramas despues.
+## SNAP_CHEER=N: el publico del estadio festeja y se captura N fotogramas despues.
 ## Uso: SNAP_GAME=dianas SNAP_LEVELS=1,4,6 SNAP_OUT=/tmp/capturas [SNAP_DIFF=1] xvfb-run -a godot --display-driver x11 \
 ##   --rendering-driver opengl3 --fixed-fps 60 --resolution 1600x720 --path . res://tools/minigame_snap.tscn
 
@@ -39,6 +40,11 @@ func _ready() -> void:
 			g.state = Minigame.State.OVER
 			for i in int(OS.get_environment("SNAP_PRESS")):
 				await get_tree().physics_frame
+		# SNAP_CHEER=N: el publico festeja y se captura N fotogramas despues.
+		if OS.get_environment("SNAP_CHEER") != "":
+			ArcadeLook.cheer(g, 1.0)
+			for i in int(OS.get_environment("SNAP_CHEER")):
+				await get_tree().process_frame
 		var path: String = "%s/%s_%s.png" % [out, game, s]
 		get_viewport().get_texture().get_image().save_png(path)
 		print("captura: ", path)

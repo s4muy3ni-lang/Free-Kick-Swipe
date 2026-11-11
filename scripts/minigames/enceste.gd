@@ -315,10 +315,5 @@ func _build_court() -> void:
 		ArcadeLook.deco(self, "box", Vector3(32, 0.004, 0.08), Vector3(10, 0.006, z), line)
 	ArcadeLook.deco(self, "box", Vector3(0.08, 0.004, 16.8), Vector3(10, 0.006, 0), line)
 	ArcadeLook.deco(self, "cyl", Vector3(1.8, 0.004, 1.8), Vector3(10, 0.005, 0), ArcadeLook.mat(Color(0.75, 0.2, 0.15), "paint"))
-	for z in [-12.0, 12.0]:
-		for row in 4:
-			ArcadeLook.deco(self, "box", Vector3(34, 0.5, 1.2), Vector3(10, 0.25 + float(row) * 0.5, z + signf(z) * float(row) * 1.2), ArcadeLook.mat(Color(0.2, 0.22, 0.3), "stone", 4.0))
-			for k in 16:
-				var cc: Color = [Color(0.9, 0.2, 0.2), Color(0.2, 0.45, 0.95), Color(0.95, 0.85, 0.2), Color(0.9, 0.9, 0.9)][(k + row) % 4]
-				ArcadeLook.deco(self, "box", Vector3(0.35, 0.55, 0.3), Vector3(-5.0 + float(k) * 2.0 + float(row % 2) * 0.6, 0.78 + float(row) * 0.5, z + signf(z) * float(row) * 1.2), ArcadeLook.mat(cc, "paint"))
+	# Tribunas y publico: los del estadio de noche comun (ArcadeLook.night_arena).
 	ArcadeLook.billboard(self, "BÁSQUET", Vector3(28.0, 7.2, 0), 6.0, 1.1, Color(0.35, 0.12, 0.05), Color(1.0, 0.85, 0.3))

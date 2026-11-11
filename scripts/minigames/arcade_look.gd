@@ -260,67 +260,325 @@ const ARENA_HORIZON := Color(0.32, 0.2, 0.45)
 const DECK_PINK := Color(0.62, 0.24, 0.44)
 const RAIL_GOLD := Color(1.0, 0.72, 0.18)
 
-## Estadio de noche alrededor de una zona (centro, largo en X, ancho en Z): cielo oscuro, tribunas con publico (una sola
-## malla multiple: un draw call), torres de luces con paneles que brillan, banderas y piso oscuro. Todo sin colision.
+## Estadio de noche alrededor de una zona (centro, largo en X, ancho en Z): cielo oscuro, tribunas estilo caja (todas en
+## una sola malla), publico 2D animado (hoja de sprites PNG en una sola malla multiple), torres de luces (dos mallas para
+## las cuatro), banderas y piso oscuro. Todo sin colision. Pensado para pocos draw calls y pocos triangulos (telefono y
+## navegador). with_floor false (Boton de caida): sin piso, y las tribunas bajan hasta perderse en el vacio.
 static func night_arena(scene: Node3D, center: Vector3, length: float, width: float, with_floor: bool = true) -> void:
 	light(scene, Color(0.85, 0.88, 1.0), 0.95, ARENA_SKY_TOP, ARENA_HORIZON, 0.75, Vector3(-58, -25, 0))
 	if with_floor:
 		ground(scene, Vector2(length + 160.0, width + 160.0), Vector3(center.x, -0.02, center.z), Color(0.1, 0.11, 0.18), "stone", 50.0)
-	# Tribunas: escalones oscuros y publico de colores en una MultiMesh.
-	var mm := MultiMesh.new()
-	mm.transform_format = MultiMesh.TRANSFORM_3D
-	mm.use_colors = true
-	var bm := BoxMesh.new()
-	bm.size = Vector3(0.45, 0.6, 0.4)
-	mm.mesh = bm
-	var seats: Array = []
-	var rows: int = 6
-	for sgn in [-1.0, 1.0]:
-		var z0: float = center.z + sgn * (width * 0.5 + 6.0)
-		for r in rows:
-			var z: float = z0 + sgn * float(r) * 1.3
-			var y: float = 0.6 + float(r) * 0.75
-			deco(scene, "box", Vector3(length + 20.0, 0.7, 1.3), Vector3(center.x, y - 0.35, z), mat(Color(0.14, 0.15, 0.24), "stone", 6.0))
-			var n: int = int((length + 18.0) / 1.1)
-			for k in n:
-				if (k * 7 + r * 3) % 11 == 0:
-					continue
-				seats.append(Transform3D(Basis(), Vector3(center.x - (length + 18.0) * 0.5 + float(k) * 1.1 + float(r % 2) * 0.5, y + 0.3, z)))
-	mm.instance_count = seats.size()
-	var palette: Array = [Color(0.9, 0.2, 0.25), Color(0.2, 0.45, 0.95), Color(0.95, 0.85, 0.2), Color(0.92, 0.92, 0.95), Color(0.55, 0.25, 0.75)]
-	for i in seats.size():
-		mm.set_instance_transform(i, seats[i])
-		mm.set_instance_color(i, palette[(i * 13) % palette.size()])
-	var crowd := MultiMeshInstance3D.new()
-	crowd.multimesh = mm
-	var cm := StandardMaterial3D.new()
-	cm.vertex_color_use_as_albedo = true
-	cm.roughness = 0.8
-	crowd.material_override = cm
-	crowd.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
-	scene.add_child(crowd)
-	# Torres de luces (reticulado + paneles que brillan) en las cuatro esquinas.
+	stands(scene, center.x, length + 20.0, [center.z - (width * 0.5 + 6.0), center.z + (width * 0.5 + 6.0)], center.z, STAND_ROWS, 0.0 if with_floor else -16.0)
+	# Torres de luces (reticulado + paneles que brillan) en las cuatro esquinas: dos mallas en total.
+	var steel: Array = []
+	var panels: Array = []
 	for sx in [-1.0, 1.0]:
 		for sz in [-1.0, 1.0]:
 			var p := Vector3(center.x + sx * (length * 0.5 + 2.0), 0, center.z + sz * (width * 0.5 + 3.5))
-			light_tower(scene, p, 13.0)
+			light_tower(p, 13.0, steel, panels)
+	merged(scene, steel, vc_mat("metal", 1.0)).name = "TorresDeLuz"
+	merged(scene, panels, glow(Color(0.85, 0.92, 1.0), 4.0)).name = "FarolesTorres"
 	# Banderas violetas con la marca del juego.
 	for sz in [-1.0, 1.0]:
 		for k in 2:
 			banner(scene, Vector3(center.x - length * 0.15 + float(k) * length * 0.45, 0, center.z + sz * (width * 0.5 + 2.2)), sz)
 
-static func light_tower(scene: Node3D, p: Vector3, h: float) -> void:
-	var steel := mat(Color(0.55, 0.57, 0.62), "metal")
+## Tribunas estilo caja con publico 2D: escalones, respaldos de color, cartel de luces al frente y muro con linea de luz
+## al fondo, todo en dos mallas; el publico en una MultiMesh. fronts: z del primer escalon de cada tribuna; mid_z: z de la
+## cancha (las tribunas suben alejandose de ella); base_y: hasta donde bajan (negativo en un vacio).
+static func stands(scene: Node3D, cx: float, span: float, fronts: Array, mid_z: float, rows: int = STAND_ROWS, base_y: float = 0.0) -> void:
+	var parts: Array = []
+	var leds: Array = []
+	var seats: Array = []
+	for z0v in fronts:
+		var z0: float = float(z0v)
+		var sgn: float = 1.0 if z0 > mid_z else -1.0
+		# Frente de la tribuna: cartel de luces a franjas (publicidad) sobre un muro.
+		parts.append(["box", Vector3(span, 0.6 - base_y, 0.3), Transform3D(Basis(), Vector3(cx, (0.6 + base_y) * 0.5, z0 - sgn * 0.8)), Color(0.12, 0.12, 0.2)])
+		var seg: int = maxi(1, int(span / 6.0))
+		for k in seg:
+			var c: Color = [Color(0.95, 0.3, 0.6), Color(0.35, 0.3, 0.95), Color(1.0, 0.75, 0.2)][k % 3]
+			leds.append(["box", Vector3(span / float(seg) - 0.15, 0.42, 0.04), Transform3D(Basis(), Vector3(cx - span * 0.5 + (float(k) + 0.5) * span / float(seg), 0.32, z0 - sgn * 0.97)), c])
+		for r in rows:
+			var z: float = z0 + sgn * float(r) * STAND_STEP
+			var top: float = 0.6 + float(r) * STAND_RISE
+			var shade: Color = Color(0.2, 0.21, 0.31) if r % 2 == 0 else Color(0.16, 0.17, 0.26)
+			parts.append(["box", Vector3(span, top - base_y, STAND_STEP), Transform3D(Basis(), Vector3(cx, (top + base_y) * 0.5, z)), shade])
+			# Respaldos de las butacas: una tira de color al fondo de cada escalon.
+			parts.append(["box", Vector3(span, 0.32, 0.1), Transform3D(Basis(), Vector3(cx, top + 0.16, z + sgn * STAND_STEP * 0.42)), Color(0.42, 0.18, 0.5) if r % 2 == 0 else Color(0.22, 0.28, 0.62)])
+			var n: int = int(span / CROWD_GAP)
+			for k in n:
+				seats.append([Vector3(cx - span * 0.5 + (float(k) + 0.5) * CROWD_GAP, top, z - sgn * 0.05), sgn, r])
+		# Muro del fondo con una linea de luz arriba.
+		var back_top: float = 0.6 + float(rows) * STAND_RISE + 2.2
+		var zb: float = z0 + sgn * (float(rows) - 0.4) * STAND_STEP
+		parts.append(["box", Vector3(span, back_top - base_y, 0.4), Transform3D(Basis(), Vector3(cx, (back_top + base_y) * 0.5, zb)), Color(0.1, 0.1, 0.17)])
+		leds.append(["box", Vector3(span, 0.12, 0.08), Transform3D(Basis(), Vector3(cx, back_top - 0.15, zb - sgn * 0.22)), Color(0.85, 0.9, 1.0)])
+	merged(scene, parts, vc_mat("stone", 0.6)).name = "Tribunas"
+	merged(scene, leds, led_mat()).name = "LucesTribunas"
+	crowd(scene, seats)
+
+const STAND_ROWS := 6
+const STAND_STEP := 1.3
+const STAND_RISE := 0.75
+const CROWD_GAP := 0.72
+const CROWD_SIZE := Vector2(0.8, 1.2)
+const CROWD_ATLAS := "res://assets/arcade/crowd_atlas.png"
+const CROWD_GRID := Vector2i(4, 12)
+const CROWD_EMPTY := 0.12
+
+## Publico 2D: cada hincha es un cuadrado con un sprite de la hoja (assets/arcade/crowd_atlas.png, generada por
+## tools/gen_crowd_sprites.py). Una sola MultiMesh (un draw call, 2 triangulos por hincha). Datos por instancia
+## (INSTANCE_CUSTOM): fila del atlas, fase, animo (quien se para primero al festejar) y brillo. seats: [pos, lado, fila].
+static func crowd(scene: Node3D, seats: Array) -> MultiMeshInstance3D:
+	var rng := RandomNumberGenerator.new()
+	rng.seed = 11
+	var keep: Array = []
+	for st in seats:
+		if rng.randf() >= CROWD_EMPTY:
+			keep.append(st)
+	var q := QuadMesh.new()
+	q.size = CROWD_SIZE
+	q.center_offset = Vector3(0, CROWD_SIZE.y * 0.5, 0)
+	var mm := MultiMesh.new()
+	mm.transform_format = MultiMesh.TRANSFORM_3D
+	mm.use_custom_data = true
+	mm.mesh = q
+	mm.instance_count = keep.size()
+	for i in keep.size():
+		var st: Array = keep[i]
+		var sgn: float = float(st[1])
+		# El cuadrado mira a +Z: el lado de +Z gira 180 grados para mirar hacia la cancha.
+		var b := Basis(Vector3.UP, PI if sgn > 0.0 else 0.0)
+		var p: Vector3 = st[0] + Vector3(rng.randf_range(-0.08, 0.08), 0, 0)
+		mm.set_instance_transform(i, Transform3D(b, p))
+		var row: int = rng.randi_range(0, CROWD_GRID.y - 1)
+		mm.set_instance_custom_data(i, Color(float(row) / float(CROWD_GRID.y), rng.randf(), rng.randf(), rng.randf_range(0.82, 1.0)))
+	var mi := MultiMeshInstance3D.new()
+	mi.name = "Publico"
+	mi.multimesh = mm
+	var sm := ShaderMaterial.new()
+	sm.shader = crowd_shader()
+	sm.set_shader_parameter("atlas", load(CROWD_ATLAS))
+	sm.set_shader_parameter("grid", Vector2(CROWD_GRID))
+	sm.set_shader_parameter("cheer", 0.0)
+	mi.material_override = sm
+	mi.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	scene.add_child(mi)
+	var mats: Array = scene.get_meta("crowd_mats", [])
+	mats.append(sm)
+	scene.set_meta("crowd_mats", mats)
+	return mi
+
+static var _crowd_shader: Shader
+
+## Shader del publico: elige la fila del atlas por instancia y el cuadro por tiempo. Quieto: la mayoria mira, algunos
+## aplauden de a ratos y todos se balancean apenas. Con «cheer» (0..1) se paran los mas animados primero: brazos
+## arriba y saltos.
+static func crowd_shader() -> Shader:
+	if _crowd_shader != null:
+		return _crowd_shader
+	_crowd_shader = Shader.new()
+	_crowd_shader.code = """
+shader_type spatial;
+render_mode unshaded, cull_disabled, skip_vertex_transform;
+uniform sampler2D atlas : source_color, filter_linear_mipmap;
+uniform vec2 grid = vec2(4.0, 12.0);
+uniform float cheer = 0.0;
+uniform float brightness = 0.9;
+varying vec2 cell_uv;
+varying float shade;
+void vertex() {
+	vec4 c = INSTANCE_CUSTOM;
+	float phase = c.g * 6.2831;
+	float frame = 0.0;
+	if (cheer > c.b * 0.9 + 0.05) {
+		frame = 2.0 + mod(floor(TIME * 5.0 + c.g * 7.0), 2.0);
+		VERTEX.y += abs(sin(TIME * 8.0 + phase)) * 0.14 * cheer;
+	} else {
+		float clap = step(0.7, c.b) * step(0.55, fract(TIME * 0.35 + c.g));
+		frame = clap * mod(floor(TIME * 4.0 + c.g * 5.0), 2.0);
+		VERTEX.x += sin(TIME * 1.3 + phase) * 0.02;
+	}
+	// Cartel que gira sobre el eje vertical hacia la camara: siempre se ve de frente, aun desde el costado.
+	vec3 origin = MODEL_MATRIX[3].xyz;
+	vec3 to_cam = INV_VIEW_MATRIX[3].xyz - origin;
+	vec2 f = normalize(to_cam.xz + vec2(0.0001, 0.0));
+	vec3 right = vec3(f.y, 0.0, -f.x);
+	vec3 world = origin + right * VERTEX.x + vec3(0.0, VERTEX.y, 0.0);
+	VERTEX = (VIEW_MATRIX * vec4(world, 1.0)).xyz;
+	NORMAL = normalize((VIEW_MATRIX * vec4(f.x, 0.0, f.y, 0.0)).xyz);
+	vec2 uv = UV;
+	if (fract(c.g * 13.0) > 0.5) {
+		uv.x = 1.0 - uv.x;
+	}
+	float row = floor(c.r * grid.y + 0.5);
+	cell_uv = (uv + vec2(frame, row)) / grid;
+	shade = c.a;
+}
+void fragment() {
+	vec4 t = texture(atlas, cell_uv);
+	if (t.a < 0.5) {
+		discard;
+	}
+	ALBEDO = t.rgb * brightness * shade;
+}
+"""
+	return _crowd_shader
+
+## El publico festeja (amount 0..1) durante secs segundos y vuelve a la calma. Sin publico en la escena, no hace nada.
+static func cheer(scene: Node, amount: float, secs: float = 2.5) -> void:
+	if not scene.has_meta("crowd_mats") or not scene.is_inside_tree():
+		return
+	if scene.has_meta("crowd_tween"):
+		var old: Tween = scene.get_meta("crowd_tween")
+		if old != null and old.is_valid():
+			old.kill()
+	var tw: Tween = scene.create_tween()
+	tw.set_parallel(true)
+	for sm in scene.get_meta("crowd_mats"):
+		tw.tween_property(sm, "shader_parameter/cheer", clampf(amount, 0.0, 1.0), 0.25)
+	tw.chain()
+	tw.tween_interval(secs)
+	var first := true
+	for sm in scene.get_meta("crowd_mats"):
+		if first:
+			tw.chain()
+			first = false
+		tw.tween_property(sm, "shader_parameter/cheer", 0.0, 1.2)
+	scene.set_meta("crowd_tween", tw)
+
+## Nivel de festejo actual del publico de la escena (0 .. 1; -1 si no hay publico).
+static func cheer_level(scene: Node) -> float:
+	if not scene.has_meta("crowd_mats"):
+		return -1.0
+	var mats: Array = scene.get_meta("crowd_mats")
+	if mats.is_empty():
+		return -1.0
+	var v: Variant = (mats[0] as ShaderMaterial).get_shader_parameter("cheer")
+	return float(v) if v != null else 0.0
+
+## Une muchas piezas simples en una sola malla (un draw call). parts: [forma, tamano, Transform3D, Color]; forma "box",
+## "cyl" (size.x radio, size.y alto) o "sphere" (size.x radio). El color va por vertice (el material lo usa como albedo).
+static func merged(parent: Node3D, parts: Array, m: Material) -> MeshInstance3D:
+	var verts := PackedVector3Array()
+	var norms := PackedVector3Array()
+	var uvs := PackedVector2Array()
+	var cols := PackedColorArray()
+	var idx := PackedInt32Array()
+	for p in parts:
+		var a: Array = _prim(String(p[0]), p[1]).get_mesh_arrays()
+		var xf: Transform3D = p[2]
+		var col: Color = p[3] if p.size() > 3 else Color.WHITE
+		var nb: Basis = xf.basis.inverse().transposed()
+		var base: int = verts.size()
+		for v in a[Mesh.ARRAY_VERTEX]:
+			verts.append(xf * v)
+			cols.append(col)
+		for n in a[Mesh.ARRAY_NORMAL]:
+			norms.append((nb * n).normalized())
+		uvs.append_array(a[Mesh.ARRAY_TEX_UV])
+		for i in a[Mesh.ARRAY_INDEX]:
+			idx.append(base + i)
+	var arr: Array = []
+	arr.resize(Mesh.ARRAY_MAX)
+	arr[Mesh.ARRAY_VERTEX] = verts
+	arr[Mesh.ARRAY_NORMAL] = norms
+	arr[Mesh.ARRAY_TEX_UV] = uvs
+	arr[Mesh.ARRAY_COLOR] = cols
+	arr[Mesh.ARRAY_INDEX] = idx
+	var am := ArrayMesh.new()
+	if not verts.is_empty():
+		am.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, arr)
+	var mi := MeshInstance3D.new()
+	mi.mesh = am
+	mi.material_override = m
+	mi.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	parent.add_child(mi)
+	return mi
+
+## Pieza recta de a hasta b (viga), de seccion t x t, para merged().
+static func beam(a: Vector3, b: Vector3, t: float, c: Color) -> Array:
+	var d: Vector3 = b - a
+	var y: Vector3 = d.normalized()
+	var ref: Vector3 = Vector3.FORWARD if absf(y.dot(Vector3.FORWARD)) < 0.9 else Vector3.RIGHT
+	var x: Vector3 = ref.cross(y).normalized()
+	var z: Vector3 = x.cross(y).normalized()
+	return ["box", Vector3(t, d.length(), t), Transform3D(Basis(x, y, z), (a + b) * 0.5), c]
+
+static func _prim(shape: String, size: Vector3) -> PrimitiveMesh:
+	match shape:
+		"cyl":
+			var cm := CylinderMesh.new()
+			cm.top_radius = size.x
+			cm.bottom_radius = size.z if size.z > 0.0 else size.x
+			cm.height = size.y
+			cm.radial_segments = 8
+			cm.rings = 1
+			return cm
+		"sphere":
+			var sm := SphereMesh.new()
+			sm.radius = size.x
+			sm.height = size.x * 2.0
+			sm.radial_segments = 8
+			sm.rings = 4
+			return sm
+	var bm := BoxMesh.new()
+	bm.size = size
+	return bm
+
+## Material con textura proyectada (triplanar: no se estira en piezas largas) cuyo color sale del vertice (merged).
+static func vc_mat(finish: String, uv: float) -> StandardMaterial3D:
+	var key := "vc|%s|%.2f" % [finish, uv]
+	if _mats.has(key):
+		return _mats[key]
+	var m: StandardMaterial3D = mat(Color.WHITE, finish, uv).duplicate()
+	m.vertex_color_use_as_albedo = true
+	m.uv1_triplanar = true
+	_mats[key] = m
+	return m
+
+## Luces planas (carteles LED, lineas de luz): sin sombreado, color por vertice.
+static func led_mat() -> StandardMaterial3D:
+	if _mats.has("led"):
+		return _mats["led"]
+	var m := StandardMaterial3D.new()
+	m.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	m.vertex_color_use_as_albedo = true
+	_mats["led"] = m
+	return m
+
+## Agrega a las listas de piezas una torre de luces (reticulado de acero y faroles) con base en p.
+static func light_tower(p: Vector3, h: float, steel: Array, panels: Array) -> void:
+	var c := Color(0.55, 0.57, 0.62)
 	for ox in [-0.35, 0.35]:
 		for oz in [-0.35, 0.35]:
-			deco(scene, "box", Vector3(0.08, h, 0.08), p + Vector3(ox, h * 0.5, oz), steel)
+			steel.append(["box", Vector3(0.08, h, 0.08), Transform3D(Basis(), p + Vector3(ox, h * 0.5, oz)), c])
 	for k in int(h / 1.5):
-		deco(scene, "box", Vector3(0.78, 0.05, 0.05), p + Vector3(0, 1.0 + float(k) * 1.5, -0.35), steel)
-		deco(scene, "box", Vector3(0.78, 0.05, 0.05), p + Vector3(0, 1.0 + float(k) * 1.5, 0.35), steel)
-	deco(scene, "box", Vector3(1.6, 1.0, 0.2), p + Vector3(0, h + 0.4, 0), mat(Color(0.15, 0.15, 0.18), "metal"))
+		for oz in [-0.35, 0.35]:
+			steel.append(["box", Vector3(0.78, 0.05, 0.05), Transform3D(Basis(), p + Vector3(0, 1.0 + float(k) * 1.5, oz)), c])
+	steel.append(["box", Vector3(1.6, 1.0, 0.2), Transform3D(Basis(), p + Vector3(0, h + 0.4, 0)), Color(0.15, 0.15, 0.18)])
 	for i in 3:
 		for j in 2:
-			deco(scene, "box", Vector3(0.42, 0.36, 0.06), p + Vector3(-0.5 + float(i) * 0.5, h + 0.18 + float(j) * 0.42, -0.12), glow(Color(0.85, 0.92, 1.0), 4.0))
+			panels.append(["box", Vector3(0.42, 0.36, 0.06), Transform3D(Basis(), p + Vector3(-0.5 + float(i) * 0.5, h + 0.18 + float(j) * 0.42, -0.12))])
+
+## Niebla de altura para un vacio: por debajo de top todo se oscurece hacia color (densidad por metro), sin tocar lo que
+## esta arriba. Copia el Environment de la escena para no cambiar el de los otros modos.
+static func void_fog(scene: Node, top: float, density: float, color: Color) -> void:
+	for c in scene.get_children():
+		if c is WorldEnvironment:
+			var we := c as WorldEnvironment
+			var e: Environment = we.environment.duplicate()
+			e.fog_enabled = true
+			e.fog_mode = Environment.FOG_MODE_EXPONENTIAL
+			e.fog_density = 0.0
+			e.fog_light_color = color
+			e.fog_light_energy = 1.0
+			e.fog_sun_scatter = 0.0
+			e.fog_sky_affect = 0.0
+			e.fog_height = top
+			e.fog_height_density = density
+			we.environment = e
 
 ## Bandera violeta con marco dorado y el nombre del juego, en un mastil.
 static func banner(scene: Node3D, p: Vector3, side: float) -> void:

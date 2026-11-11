@@ -541,7 +541,23 @@ func _resolve(r: String) -> void:
 	var txt: Array = _result_text(r)
 	if String(txt[0]) != "":
 		hud.show_banner(txt[0], txt[1], String(txt[2]) if txt.size() > 2 else "")
+	var joy: float = crowd_cheer(r, txt)
+	if joy > 0.0:
+		ArcadeLook.cheer(self, joy)
 	_refresh_score()
+
+## Cuanto festeja el publico del estadio este resultado (0 nada .. 1 todos). Por defecto, por el color del cartel: verde
+## (un buen tiro del usuario) festejan todos; amarillo (un avance) solo los mas animados y solo si pateo el usuario; rojo
+## o naranja (error, o un buen tiro de la CPU), nada. Un modo puede decidirlo por su cuenta.
+func crowd_cheer(_r: String, txt: Array) -> float:
+	if String(txt[0]) == "" or txt.size() < 2:
+		return 0.0
+	var c: Color = txt[1]
+	if c.g >= 0.95 and c.r < 0.6:
+		return 1.0
+	if c.g >= 0.8 and c.b < 0.5 and side == Side.USER:
+		return 0.3
+	return 0.0
 
 func _after_resolve() -> void:
 	if state != State.RESOLVE:
@@ -582,6 +598,8 @@ func _end_match(w: int) -> void:
 		if not fast:
 			_report_achievements(w, medal)
 	var won: bool = w == Side.USER
+	if (won and sides > 1) or (sides == 1 and medal > 0):
+		ArcadeLook.cheer(self, 1.0, 4.0)
 	var t: String = ("¡GANASTE!" if won else "PERDISTE") if sides > 1 else ("¡SUPERADO!" if medal > 0 else "SIN MEDALLA")
 	var info: String = "Puntos: %d · %s" % [score, ChallengeScore.MEDAL_NAMES[medal]]
 	if bool(rec.get("new_best", false)):
