@@ -11,6 +11,19 @@ Formato de entrada: **fecha — título** · commit · qué cambió · archivos 
 
 ---
 
+## 2026-11-11 — Integración final del arcade (suite + APK)
+
+- Verificación local antes del push:
+  - suite headless completa: 239 pruebas / 2120 comprobaciones / 0 fallos (21 omitidas: las de render);
+  - pruebas con render (xvfb) `live_kicks`, `pack_motion`, `json_mode`, `directional_kicks`, `test_anim_bank_bench`, `test_setpiece_render`:
+    0 fallos;
+  - `docs_index.py check` sin errores.
+- `docs/AAA_ROADMAP.md`: estado por etapa actualizado (menú con Penales y Tiro libre, relevo, estilo arcade, guante en
+  relevo, categorías).
+- APK generado por CI (`android.yml`) en este push.
+- **Pendiente:** verificación en teléfono de todo lo de esta reforma, incluida la «arrastre» de Academia, que no se
+  reprodujo.
+
 ## 2026-11-11 — Duelo del guante en relevo (misma plataforma)
 
 - `scripts/minigames/guante.gd` reescrito según la descripción del usuario:

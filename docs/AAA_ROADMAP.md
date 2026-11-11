@@ -567,7 +567,7 @@ dedo (ningún modo tiene joystick, botones de dirección ni cañón automático)
 - Balance de todos los minijuegos con partidas reales en el teléfono.
 - En línea, emparejamiento, tienda y pagos: no implementados (requieren aprobación).
 
-## Reorganización del arcade (2026-11-11, en curso por etapas)
+## Reorganización del arcade (2026-11-11)
 
 Pedido «REORGANIZACIÓN, ELIMINACIÓN Y EXPANSIÓN DE MINIJUEGOS ARCADE». Estado por etapa (se actualiza con cada entrega):
 
@@ -578,17 +578,20 @@ Pedido «REORGANIZACIÓN, ELIMINACIÓN Y EXPANSIÓN DE MINIJUEGOS ARCADE». Esta
 | 3 | Desafíos de arco: dianas de frente, 3D, puntaje por zona por impacto real, más configuraciones | **Hecha**: 8 niveles (colgantes, resistentes, carrusel, en cadena, tras el muro, tablero de arco 10/5/1, tiro con arco, móviles); zonas configurables; dificultad cambia tamaño y velocidad | `test_dianas_rescate` |
 | 4 | Demolición: escenarios, materiales, estructuras complejas | **Hecha**: 13 niveles; materiales con física (vidrio que se rompe); jenga, casita, columnata; obra, castillo y almacén | `test_demolicion` |
 | 5 | Botón de caída: el jugador que cae atraviesa la base | **Hecha**: causa medida (clips de caída con desplazamiento de raíz); solo caídas que caben, hueco 2,3 m, pies sobre el centro | `test_boton_caida_fall` |
-| 6 | Duelo del guante | **Hecha**: 4 niveles; botones grande/mediano/chico, barra persistente, pistón con resorte que empuja al rival; IA por valor esperado | `test_guante` |
+| 6 | Duelo del guante | **Hecha y rehecha en relevo**: los dos en la misma plataforma, un solo panel de botones (grande/mediano/chico) al fondo, barra persistente por jugador; al 100 % el guante despide al que espera y este sale de escena; IA por valor esperado | `test_guante` |
 | 7 | Doce modos nuevos (Royal Flush, Dardos, Curling, Béisbol (eliminado después por pedido), Bowling a 10 cuadros, Fútbol de precisión, Básquet, Salto en alto, Salto de esquí, Piedras saltarinas, Aros de fuego, Field Goal) | **Hecha**: los doce, uno por uno, cada uno con escenario 3D, niveles, física real y pruebas | `test_royal_flush`, `test_dardos`, `test_curling`, `test_bowling`, `test_precision`, `test_enceste`, `test_salto_fg`, `test_aros_fuego`, `test_piedras`, `test_salto_esqui` |
-| 8 | Integración, CI, APK | Pendiente | — |
+| 8 | Correcciones con referencias visuales: Penales y Tiro libre al menú principal; relevo (solo el que patea en escena, salvo Guante y Botón); estilo arcade común (plataforma elevada, estadio de noche, objetivos grandes y lejos); Diana en el suelo por pique; Béisbol eliminado; dianas de Academia que no desaparecen | **Hecha** (no probada en teléfono) | `test_main_menu`, `test_bowling`, `test_dianas_rescate`, `test_challenges` |
+| 9 | Integración, CI, APK | Suite completa + APK por CI | toda la suite |
 
-**Navegación.** El menú principal tiene tres tarjetas; cada sección muestra solo lo suyo y se sale con «‹ Volver»:
-- ACADEMIA: práctica de tiros (Penales y Tiro libre) y los 8 niveles de enseñanza.
+**Navegación.** El menú principal tiene cinco tarjetas (PENALES, TIRO LIBRE, ACADEMIA, DESAFÍOS, MINIJUEGOS ARCADE);
+cada sección muestra solo lo suyo y se sale con «‹ Volver»:
+- ACADEMIA: los niveles de práctica y entrenamiento.
 - DESAFÍOS: diarios, semanales, logros, medallas, récords por minijuego, experiencia e historial.
 - MINIJUEGOS ARCADE: categorías → modalidades → niveles → dificultad. Las categorías son datos
   (`resources/minigames/minigames.json`, clave `categories`): DESAFÍOS DE ARCO (Dianas y los 17 desafíos de la Arena
-  agrupados en postes, aros, ventanas, derribar, pique y distancia), DESTRUCCIÓN Y MECANISMOS (Demolición, Bowling,
-  Rescate), DUELOS (Botón de caída) y HABILIDAD (Minigolf, Enceste).
+  agrupados en postes, aros, ventanas, derribar, pique y distancia, más Fútbol de precisión), DESTRUCCIÓN Y MECANISMOS
+  (Demolición, Bowling, Rescate), DUELOS (Botón de caída, Duelo del guante) y HABILIDAD (Minigolf, Básquet, Royal
+  Flush, Dardos, Curling, Salto en alto, Piedras saltarinas y el resto de los modos nuevos).
 
 **Dificultad en arcade.** Cada nivel se juega en Fácil, Normal, Difícil o Experto; una dificultad se abre con bronce en la
 anterior (o siempre en modo práctica). Juegos de un jugador: Fácil +1 tiro, Experto −1 (mínimo 1); multiplicador del
