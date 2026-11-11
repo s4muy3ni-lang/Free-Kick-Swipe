@@ -2576,6 +2576,62 @@
      ]
     }
    ]
+  },
+  {
+   "id": "dardos",
+   "title": "Dardos",
+   "scene": "res://scenes/minigames/dardos.tscn",
+   "status": "Implementado",
+   "description": "Una diana de dardos gigante: sectores, dobles, triples y centro. Cuenta donde pega la pelota.",
+   "levels": [
+    {
+     "title": "Práctica",
+     "objective": "6 tiros: sumá todo lo que puedas. El triple 20 vale 60; el centro, 50.",
+     "rule": "puntos",
+     "shots": 6,
+     "medals": [
+      90,
+      180,
+      260
+     ]
+    },
+    {
+     "title": "Solo el 20",
+     "objective": "Solo cuenta el sector 20 (simple, doble o triple). 6 tiros.",
+     "rule": "sector",
+     "sector": 20,
+     "shots": 6,
+     "medals": [
+      40,
+      100,
+      180
+     ]
+    },
+    {
+     "title": "301",
+     "objective": "Bajá de 301 a 0 exacto en 9 tiros. Si te pasás, ese tiro no cuenta.",
+     "rule": "301",
+     "start": 301,
+     "shots": 9,
+     "medals": [
+      350,
+      480,
+      620
+     ]
+    },
+    {
+     "title": "Duelo",
+     "objective": "5 tiros cada uno contra la CPU: gana el que más suma.",
+     "rule": "duelo",
+     "shots": 5,
+     "distance": 14.0,
+     "medals": [
+      100,
+      200,
+      300
+     ]
+    }
+   ]
   }
  ],
  "categories": [
@@ -2725,6 +2781,10 @@
     {
      "type": "game",
      "game": "royal_flush"
+    },
+    {
+     "type": "game",
+     "game": "dardos"
     }
    ]
   }

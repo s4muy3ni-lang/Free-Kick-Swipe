@@ -11,6 +11,26 @@ Formato de entrada: **fecha — título** · commit · qué cambió · archivos 
 
 ---
 
+## 2026-11-11 — Etapa 7.2: Dardos
+
+- **Modo nuevo** `Dardos` (HABILIDAD, 4 niveles).
+- **La diana:** gigante, de 1,8 m de radio, con los 20 sectores en el orden real (20 arriba, 6 a la derecha). Los
+  anillos (bull 0,12, bull exterior 0,27, triple 0,92–1,10, doble desde 1,58 m) están agrandados para la pelota y se
+  configuran por nivel.
+  - La cara es una sola malla con colores por vértice, sin sombreado (barata en Android); números y aro metálico.
+- **Puntaje por el impacto real:** la trayectoria de antes del choque se cruza con el plano de la cara. La pelota
+  rebota y cuenta el primer impacto del tiro. Medido: triple 20 en (0,00, 0,94), doble 6 en (1,69, −0,06).
+- **Reglas:**
+  - `puntos`: sumar con los tiros;
+  - `sector`: solo cuenta el 20;
+  - `301`: llegar a 0 exacto; si te pasás, el tiro no cuenta;
+  - `duelo`: contra la IA, que va al triple 20 si su error es chico o al centro si es grande.
+- Escenario de bar: piso de madera, pared de ladrillo, lámparas, carteles, barra y banquetas.
+- Pruebas (`test_dardos`, 4): geometría y puntajes; el puntaje sale del impacto (triple 20, centro, doble 6, 3); 301
+  revienta y cierra exacto; regla del sector; los 4 niveles terminan y llegan al bronce. Captura revisada en PC.
+
+---
+
 ## 2026-11-11 — Etapa 7.1: Royal Flush
 
 - **Modo nuevo** `RoyalFlush` (HABILIDAD, 4 niveles). Tablero de casino con cartas boca abajo (5 × 3 o 5 × 4).
