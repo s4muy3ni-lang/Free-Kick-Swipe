@@ -5,7 +5,7 @@
 - **Responsabilidad exacta:** todo lo que *produce o verifica* assets y documentación sin formar parte del juego: inspección y limpieza de GLB, texturas del kit, librería de animaciones, capturas renderizadas (Xvfb), mediciones de marcha, libro de gasto de créditos de Tripo3D y la herramienta del índice técnico.
 - **Estado:** operativo. Las operaciones de pago de Tripo3D **no** forman parte de ninguna tarea de documentación o de mantenimiento: se registran en el libro y requieren decisión explícita.
 - **Última verificación:** <!-- AUTO:verified -->
-2026-11-10
+2026-11-11
 <!-- /AUTO -->
 
 ## Herramientas (`tools/`)

@@ -20,6 +20,7 @@ func test_palettes_save_and_locked_cosmetics() -> void:
 	PlayerCustom.number = 10
 	PlayerCustom.load_custom(true)
 	check(PlayerCustom.jersey == 4 and PlayerCustom.number == 7, "la personalizacion se guarda y se recupera")
+	PlayerCustom.restore_after_tests()
 
 func test_style_biases_clip_choice_only() -> void:
 	PlayerCustom.use_path("user://test_custom.cfg")
@@ -43,6 +44,7 @@ func test_style_biases_clip_choice_only() -> void:
 	PlayerCustom.bias(p)
 	check(p.prefer_short, "carrera corta: prefiere golpeos casi sin carrera")
 	PlayerCustom.run_style = 0
+	PlayerCustom.restore_after_tests()
 
 func test_celebrations_are_valid_clips() -> void:
 	var list: Array[StringName] = PlayerCustom.celebrations()
@@ -58,6 +60,7 @@ func test_celebrations_are_valid_clips() -> void:
 	check(PlayerCustom.celebration_clip() == list[4], "ganado el logro, el festejo 5 se aplica")
 	PlayerCustom.celebration = 1
 	check(PlayerCustom.celebration_clip() == list[0], "el festejo 1 esta abierto")
+	PlayerCustom.restore_after_tests()
 
 func test_customization_shows_up_in_the_game() -> void:
 	PlayerProgress.use_path("user://test_custom_prog.cfg")
@@ -93,3 +96,4 @@ func test_customization_shows_up_in_the_game() -> void:
 	game.user_shooter.react(true)
 	check(game.user_shooter.actor.clip_id == PlayerCustom.celebrations()[0], "festeja con el clip elegido")
 	cleanup()
+	PlayerCustom.restore_after_tests()

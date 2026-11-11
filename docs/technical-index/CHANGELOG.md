@@ -11,6 +11,24 @@ Formato de entrada: **fecha — título** · commit · qué cambió · archivos 
 
 ---
 
+## 2026-11-11 — Etapa C: Bowling, FootPool, Rebotes de ingenio y Demolición ampliada
+
+- **Bowling (4 niveles):** 10 bolos rígidos; caen solo por la fuerza recibida (tumbado = más de 40° o fuera de su lugar).
+  Medido: con bolos de 1,3 kg la pelota de fútbol (0,43 kg) rebotaba sin tirar ninguno; a escala (0,3 kg, 0,5 m, más
+  juntos, pista de 12 m) la bola al centro hace strike físico. Cuadros de dos tiros con retiro de caídos, strike +5,
+  spare +3, efecto por curvatura del trazo, guardias fija y móvil, partido contra la IA.
+- **FootPool (2 niveles):** cancha con bandas y dos bocas, 3 azules y 3 rojas físicas (no se mueven sin impulso: probado);
+  propia = +100 y turno extra, del rival = +100 para él, blanca adentro = se repone y pasa el turno, carambola +20. La IA
+  planifica por punto fantasma.
+- **Rebotes de ingenio (3 niveles):** objetivos escondidos (banda lateral, techo inclinado, ranura baja); el tiro directo
+  no llega y cada nivel tiene una solución hallada con la física real (búsqueda general sin pistas). Un cuarto nivel
+  («Esquina») se quitó porque la búsqueda no le encontró solución.
+- **Demolición ampliada:** barriles (cilindros que ruedan) y estructura con soportes; los 8 niveles se limpian.
+- Base: `Minigame._next_side()` (el bowling repite el lado dentro del cuadro).
+- Pruebas nuevas: `test_bowling_footpool` (7). **Android: no probado.**
+
+---
+
 ## 2026-11-10 — Modos de equipo: «Que no caiga» y Fútbol-tenis (recepciones con contacto real)
 
 - **RallyPlayer:** el receptor corre a la caída PREVISTA (BallPredictor), elige el clip por la altura real a la que llega

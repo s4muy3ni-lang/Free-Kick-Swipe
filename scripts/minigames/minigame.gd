@@ -472,8 +472,12 @@ func _after_resolve() -> void:
 		return
 	turn_n += 1
 	if sides > 1:
-		side = (side + 1) % sides
+		side = _next_side()
 	_start_turn()
+
+## Quien juega el proximo turno (el bowling repite el lado dentro del mismo cuadro).
+func _next_side() -> int:
+	return (side + 1) % sides
 
 ## Empate al llegar al tope de turnos: gana quien mas puntos tiene; si siguen iguales, el usuario no gana (sin premio por
 ## participar).

@@ -391,9 +391,9 @@
     },
     {
      "title": "Pirámide",
-     "objective": "Derribá la pirámide entera (6 bloques): sacalos de la mesa o volcalos. 4 tiros.",
+     "objective": "Derribá la pirámide entera (6 bloques): sacalos de la mesa o volcalos. 5 tiros.",
      "distance": 17.0,
-     "shots": 4,
+     "shots": 5,
      "figures": [
       {
        "type": "pyramid",
@@ -409,7 +409,7 @@
         0.45
        ],
        "kind": "target",
-       "mass": 1.0
+       "mass": 0.8
       }
      ],
      "medals": [
@@ -613,6 +613,177 @@
       100,
       130,
       160
+     ]
+    },
+    {
+     "title": "Barriles",
+     "objective": "Barriles apilados: ruedan y desparraman la pila. Tiralos todos en 4 tiros.",
+     "distance": 16.0,
+     "shots": 4,
+     "blocks": [
+      {
+       "pos": [
+        0,
+        0.3,
+        -0.35
+       ],
+       "size": [
+        0.6,
+        0.6,
+        0.6
+       ],
+       "kind": "target",
+       "shape": "barrel",
+       "mass": 0.6
+      },
+      {
+       "pos": [
+        0,
+        0.3,
+        0.35
+       ],
+       "size": [
+        0.6,
+        0.6,
+        0.6
+       ],
+       "kind": "target",
+       "shape": "barrel",
+       "mass": 0.6
+      },
+      {
+       "pos": [
+        0,
+        0.9,
+        0.0
+       ],
+       "size": [
+        0.6,
+        0.6,
+        0.6
+       ],
+       "kind": "target",
+       "shape": "barrel",
+       "mass": 0.6
+      },
+      {
+       "pos": [
+        0,
+        0.3,
+        1.05
+       ],
+       "size": [
+        0.6,
+        0.6,
+        0.6
+       ],
+       "kind": "target",
+       "shape": "barrel",
+       "mass": 0.6
+      },
+      {
+       "pos": [
+        0,
+        0.3,
+        -1.05
+       ],
+       "size": [
+        0.6,
+        0.6,
+        0.6
+       ],
+       "kind": "target",
+       "shape": "barrel",
+       "mass": 0.6
+      }
+     ],
+     "medals": [
+      400,
+      560,
+      620
+     ]
+    },
+    {
+     "title": "Soportes",
+     "objective": "Los rojos están sobre una tabla apoyada en dos pilares: tirá un pilar y que la estructura haga el resto.",
+     "distance": 16.0,
+     "shots": 2,
+     "blocks": [
+      {
+       "pos": [
+        -0.8,
+        0.45,
+        0
+       ],
+       "size": [
+        0.35,
+        0.9,
+        0.35
+       ],
+       "kind": "block",
+       "mass": 1.0
+      },
+      {
+       "pos": [
+        0.8,
+        0.45,
+        0
+       ],
+       "size": [
+        0.35,
+        0.9,
+        0.35
+       ],
+       "kind": "block",
+       "mass": 1.0
+      },
+      {
+       "pos": [
+        0,
+        0.98,
+        0
+       ],
+       "size": [
+        2.6,
+        0.12,
+        0.8
+       ],
+       "kind": "block",
+       "mass": 1.4
+      },
+      {
+       "pos": [
+        -0.6,
+        1.3,
+        0
+       ],
+       "size": [
+        0.4,
+        0.5,
+        0.4
+       ],
+       "kind": "target",
+       "mass": 0.6
+      },
+      {
+       "pos": [
+        0.6,
+        1.3,
+        0
+       ],
+       "size": [
+        0.4,
+        0.5,
+        0.4
+       ],
+       "kind": "target",
+       "mass": 0.6
+      }
+     ],
+     "medals": [
+      200,
+      260,
+      320
      ]
     }
    ]
@@ -1711,6 +1882,325 @@
       400,
       520,
       650
+     ]
+    }
+   ]
+  },
+  {
+   "id": "bowling",
+   "title": "Bowling",
+   "scene": "res://scenes/minigames/bowling.tscn",
+   "status": "Implementado",
+   "description": "Diez bolos físicos, cuadros de dos tiros, strike y spare; el trazo da dirección, potencia y efecto.",
+   "levels": [
+    {
+     "title": "Clásico",
+     "objective": "3 cuadros contra la IA, dos tiros por cuadro. Strike (10 al primero) suma +5; spare, +3. El trazo curvo da efecto.",
+     "frames": 3,
+     "lane": 12.0,
+     "layout": "triangle",
+     "medals": [
+      200,
+      300,
+      400
+     ]
+    },
+    {
+     "title": "Con guardia",
+     "objective": "Un bloque fijo tapa el centro: entrá por el costado o con efecto.",
+     "frames": 3,
+     "lane": 12.0,
+     "layout": "triangle",
+     "obstacles": [
+      {
+       "pos": [
+        7.5,
+        0.25,
+        0
+       ],
+       "size": [
+        0.45,
+        0.5,
+        0.5
+       ]
+      }
+     ],
+     "medals": [
+      180,
+      280,
+      380
+     ]
+    },
+    {
+     "title": "Guardia móvil",
+     "objective": "El bloque patrulla la pista: elegí el momento.",
+     "frames": 3,
+     "lane": 12.0,
+     "layout": "triangle",
+     "obstacles": [
+      {
+       "pos": [
+        7.5,
+        0.25,
+        0
+       ],
+       "size": [
+        0.45,
+        0.5,
+        0.6
+       ],
+       "move": {
+        "axis": [
+         0,
+         0,
+         1
+        ],
+        "amp": 0.9,
+        "speed": 1.1
+       }
+      }
+     ],
+     "medals": [
+      180,
+      280,
+      380
+     ]
+    },
+    {
+     "title": "Rombo con corona",
+     "objective": "Formación rombo con un bolo arriba de todo: tiralo todo.",
+     "frames": 3,
+     "lane": 12.0,
+     "layout": "diamond",
+     "medals": [
+      200,
+      300,
+      400
+     ]
+    }
+   ]
+  },
+  {
+   "id": "footpool",
+   "title": "FootPool",
+   "scene": "res://scenes/minigames/footpool.tscn",
+   "status": "Implementado",
+   "description": "Billar de fútbol sin taco: tus pelotas azules a cualquiera de las dos bocas; carambolas, bandas y turno extra.",
+   "levels": [
+    {
+     "title": "Partida",
+     "objective": "Meté tus 3 AZULES en cualquiera de las dos bocas pateando tu pelota. Propia adentro: +100 y turno extra. Del rival: +100 para él. Tu pelota adentro: se repone y pasa el turno. Carambola (tocás 2 o más): +20.",
+     "len": 11.0,
+     "width": 6.5,
+     "medals": [
+      300,
+      400,
+      520
+     ]
+    },
+    {
+     "title": "Mesa chica",
+     "objective": "Menos lugar: las bandas importan más.",
+     "len": 9.0,
+     "width": 5.0,
+     "medals": [
+      300,
+      400,
+      520
+     ]
+    }
+   ]
+  },
+  {
+   "id": "rebotes",
+   "title": "Rebotes de ingenio",
+   "scene": "res://scenes/minigames/rebotes.tscn",
+   "status": "Implementado",
+   "description": "Los objetivos están escondidos: calculá rebotes reales en paredes y techos para llegar.",
+   "levels": [
+    {
+     "title": "Detrás del muro",
+     "objective": "El bloque rojo está tapado por un muro: doblá el tiro con la pared lateral o pasala por arriba. Cada rebote suma ingenio.",
+     "distance": 14.0,
+     "shots": 3,
+     "table_h": 0.0,
+     "table_depth": 0.1,
+     "table_width": 0.1,
+     "walls": [
+      {
+       "pos": [
+        10.0,
+        1.6,
+        0
+       ],
+       "size": [
+        0.3,
+        3.2,
+        3.4
+       ]
+      },
+      {
+       "pos": [
+        7.0,
+        1.2,
+        -4.0
+       ],
+       "size": [
+        8.0,
+        2.4,
+        0.3
+       ],
+       "bounce": 0.8
+      }
+     ],
+     "blocks": [
+      {
+       "pos": [
+        0.0,
+        0.4,
+        0.0
+       ],
+       "size": [
+        0.3,
+        0.8,
+        0.3
+       ],
+       "kind": "target",
+       "mass": 0.5
+      }
+     ],
+     "solution_hint": "pared lateral en z=-4",
+     "medals": [
+      100,
+      125,
+      160
+     ]
+    },
+    {
+     "title": "Por el techo",
+     "objective": "Un muro cierra todo el frente: hacela picar por encima y que baje del techo inclinado al objetivo.",
+     "distance": 13.0,
+     "shots": 3,
+     "table_h": 0.0,
+     "table_depth": 0.1,
+     "table_width": 0.1,
+     "walls": [
+      {
+       "pos": [
+        9.5,
+        1.1,
+        0
+       ],
+       "size": [
+        0.3,
+        2.2,
+        6.0
+       ]
+      },
+      {
+       "pos": [
+        12.5,
+        3.0,
+        0
+       ],
+       "size": [
+        4.0,
+        0.25,
+        6.0
+       ],
+       "pitch": 0,
+       "roll": -18,
+       "bounce": 0.5
+      }
+     ],
+     "blocks": [
+      {
+       "pos": [
+        0.0,
+        0.4,
+        0.0
+       ],
+       "size": [
+        0.3,
+        0.8,
+        0.3
+       ],
+       "kind": "target",
+       "mass": 0.5
+      }
+     ],
+     "medals": [
+      100,
+      125,
+      160
+     ]
+    },
+    {
+     "title": "Ranura",
+     "objective": "Solo hay una ranura baja (70 cm de ancho y 45 de alto) entre los muros: pasala por ahí con un tiro raso y fuerte.",
+     "distance": 14.0,
+     "shots": 3,
+     "table_h": 0.0,
+     "table_depth": 0.1,
+     "table_width": 0.1,
+     "walls": [
+      {
+       "pos": [
+        9.0,
+        3.0,
+        -2.35
+       ],
+       "size": [
+        0.3,
+        6.0,
+        4.0
+       ]
+      },
+      {
+       "pos": [
+        9.0,
+        3.0,
+        2.35
+       ],
+       "size": [
+        0.3,
+        6.0,
+        4.0
+       ]
+      },
+      {
+       "pos": [
+        9.0,
+        3.225,
+        0
+       ],
+       "size": [
+        0.3,
+        5.55,
+        0.8
+       ]
+      }
+     ],
+     "blocks": [
+      {
+       "pos": [
+        0.0,
+        0.4,
+        0.0
+       ],
+       "size": [
+        0.3,
+        0.8,
+        0.3
+       ],
+       "kind": "target",
+       "mass": 0.5
+      }
+     ],
+     "medals": [
+      100,
+      125,
+      160
      ]
     }
    ]

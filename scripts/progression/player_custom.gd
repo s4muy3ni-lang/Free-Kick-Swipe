@@ -101,6 +101,12 @@ static func use_path(p: String) -> void:
 	celebration = 0
 	load_custom(true)
 
+## Para las pruebas: vuelve a la ruta real y a los valores por defecto (no borra el archivo del jugador).
+static func restore_after_tests() -> void:
+	use_path("user://test_custom_reset.cfg")
+	path = PATH
+	_loaded = false
+
 static func unlocked(cosmetic: String) -> bool:
 	if cosmetic == "":
 		return true

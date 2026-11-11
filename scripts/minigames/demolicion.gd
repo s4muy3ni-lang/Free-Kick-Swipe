@@ -43,6 +43,10 @@ func _build_level() -> void:
 		static_box(Vector3(tsize.x, table_top, tsize.y), Vector3(table_x, table_top * 0.5, 0), Color(0.45, 0.32, 0.2))
 	# Fondo: una pared lejana para que la pelota no se pierda (rebota y vuelve).
 	static_box(Vector3(0.6, 6, 40), Vector3(table_x + 12.0, 3, 0), Color(0.3, 0.33, 0.4))
+	for w in def.get("walls", []):
+		var wd: Dictionary = w
+		static_box(BotonCaida._vec(wd.get("size", [3, 1.5, 0.3])), BotonCaida._vec(wd.get("pos", [8, 0.75, 0])), Color(0.85, 0.85, 0.9),
+			Vector3(deg_to_rad(float(wd.get("pitch", 0.0))), deg_to_rad(float(wd.get("yaw", 0.0))), deg_to_rad(float(wd.get("roll", 0.0)))), float(wd.get("bounce", 0.6)))
 	_blocks_root = Node3D.new()
 	_blocks_root.name = "Blocks"
 	add_child(_blocks_root)
@@ -115,14 +119,26 @@ func _spawn_blocks() -> void:
 		pm.bounce = 0.1
 		rb.physics_material_override = pm
 		var cs := CollisionShape3D.new()
-		var bs := BoxShape3D.new()
-		bs.size = size
-		cs.shape = bs
-		rb.add_child(cs)
 		var mi := MeshInstance3D.new()
-		var bm := BoxMesh.new()
-		bm.size = size
-		mi.mesh = bm
+		if String(ed.get("shape", "box")) == "barrel":
+			# Barril: cilindro acostado o parado (rueda y se desparrama distinto que una caja).
+			var cyl := CylinderShape3D.new()
+			cyl.radius = size.x * 0.5
+			cyl.height = size.y
+			cs.shape = cyl
+			var cm := CylinderMesh.new()
+			cm.top_radius = cyl.radius
+			cm.bottom_radius = cyl.radius
+			cm.height = size.y
+			mi.mesh = cm
+		else:
+			var bs := BoxShape3D.new()
+			bs.size = size
+			cs.shape = bs
+			var bm := BoxMesh.new()
+			bm.size = size
+			mi.mesh = bm
+		rb.add_child(cs)
 		var c: Color = {"target": Color(0.92, 0.2, 0.15), "keep": Color(0.95, 0.95, 0.97)}.get(kind, Color(0.95, 0.75, 0.2))
 		mi.material_override = color_mat(c)
 		rb.add_child(mi)
