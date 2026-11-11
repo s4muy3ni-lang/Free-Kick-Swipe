@@ -88,3 +88,53 @@ func test_a_miss_wastes_a_shot_and_ends_when_shots_run_out() -> void:
 	check(g.state == Minigame.State.OVER, "sin tiros, termina")
 	check(g.final_score() == 0, "sin premio por participar")
 	cleanup()
+
+func test_glass_breaks_only_with_a_strong_real_impact() -> void:
+	var g: Demolicion = await _game(9)
+	await physics_frames(30)
+	var pane: RigidBody3D = g.blocks[1]
+	# Un toque lento: el panel se mueve apenas y no se rompe.
+	g.state = Minigame.State.FLIGHT
+	g.ball.reset_at(pane.global_position - Vector3(0.3, 0.2, 0))
+	await physics_frames(2)
+	g.ball.kick(Vector3(1.5, 0, 0), Vector3.ZERO, null)
+	await physics_frames(40)
+	check(not bool(g.block_info[1]["broken"]), "un toque lento no rompe el vidrio")
+	cleanup()
+	# Un tiro fuerte: se rompe en esquirlas que heredan su velocidad y el panel cuenta como derribado.
+	g = await _game(9)
+	await physics_frames(30)
+	pane = g.blocks[1]
+	var it: Dictionary = g.cpu_shot(pane.global_position, 20.0, 0.0, 0.0)
+	await g.launch(it["v"], it["w"])
+	# 15 m a 20 m/s: unos 45 fotogramas de vuelo; despues, que las esquirlas salgan.
+	await physics_frames(60)
+	var moving: int = 0
+	for s in g._shards:
+		if is_instance_valid(s) and (s as RigidBody3D).linear_velocity.length() > 0.3:
+			moving += 1
+	note("tiro fuerte al vidrio: rotos %d, esquirlas %d (%d en movimiento)" % [g.broken_count, g._shards.size(), moving])
+	check(bool(g.block_info[1]["broken"]) and g.is_down(1), "un golpe fuerte lo rompe y cuenta como derribado")
+	check(g._shards.size() >= 6 and not g.blocks[1].visible, "el panel se reemplaza por esquirlas")
+	cleanup()
+
+func test_materials_set_mass_friction_and_look() -> void:
+	var g: Demolicion = await _game(10)
+	var brick := -1
+	for i in g.blocks.size():
+		if String(g.block_info[i]["mat"]) == "brick":
+			brick = i
+			break
+	check(brick >= 0, "la casita es de ladrillos")
+	var b: RigidBody3D = g.blocks[brick]
+	var sz: Vector3 = ((b.get_child(0) as CollisionShape3D).shape as BoxShape3D).size
+	var expect: float = sz.x * sz.y * sz.z * Demolicion.BASE_DENSITY * 1.6
+	check(absf(b.mass - expect) < 0.01, "masa del ladrillo por volumen y densidad (%.2f kg)" % b.mass)
+	check(is_equal_approx(b.physics_material_override.friction, 0.85), "rozamiento del ladrillo")
+	cleanup()
+	# Los niveles viejos conservan su fisica medida (sin material: 1,2 kg y madera) aunque cambien de aspecto.
+	g = await _game(4)
+	check(is_equal_approx(g.blocks[0].mass, 1.2) and is_equal_approx(g.blocks[0].physics_material_override.friction, 0.7), "Precision: misma masa y rozamiento que antes")
+	cleanup()
+	for lv in range(1, MinigameCatalog.levels("demolicion").size() + 1):
+		check(["obra", "castillo", "almacen"].has(String(MinigameCatalog.level("demolicion", lv).get("theme", ""))), "nivel %d con escenario propio" % lv)

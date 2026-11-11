@@ -11,6 +11,37 @@ Formato de entrada: **fecha — título** · commit · qué cambió · archivos 
 
 ---
 
+## 2026-11-11 — Etapa 4: Demolición con escenarios, materiales y estructuras complejas
+
+- **Materiales con física propia** (`Demolicion.MATERIALS`): madera, cajón, ladrillo, piedra, metal y vidrio, cada uno
+  con densidad, rozamiento, rebote y aspecto (textura procedural de `ArcadeLook`). Sin `mass`, la masa sale del
+  volumen y la densidad. `material` cambia la física; `look` solo el aspecto, así los 8 niveles viejos conservan la
+  física con la que se probaron (masa 1,2 kg y madera; prueba incluida).
+- **Vidrio que se rompe de verdad:** con un impacto de más de 3 m/s (de la pelota, de otro bloque o contra la mesa o el
+  piso, medido con las velocidades de antes del choque) el panel deja de existir para la física y en su lugar quedan 6
+  esquirlas que heredan su velocidad, con un tope de 48 vivas para Android. El choque de la pelota se toma de la señal
+  de la propia pelota: con detección continua, el panel liviano no siempre lo recibía (medido: 0 roturas por la
+  pelota antes del arreglo).
+- **Estructuras nuevas:** jenga (pisos cruzados), casita (paredes de ladrillo con puerta, losa y cajas en el techo) y
+  columnata (columnas, dinteles y estatuas). Objetivo por altura `down_h`: cuenta lo que quedó por debajo de esa
+  altura sobre la mesa.
+- **Escenarios** (`theme`), con piso, mesa, fondo, decoración y luz propios, sin colisión y fuera del camino de la
+  pelota:
+  - obra: tierra, losa con franjas de peligro, valla de chapa, grúa, conos y vallas;
+  - castillo: empedrado, muralla con almenas, torres, estandartes, antorchas y luz de atardecer;
+  - almacén: hormigón con líneas de pasillo, pared de ladrillo con portón, estanterías con cajones y lámparas.
+- **Niveles:** 13 (antes 8). Nuevos: Vitrina, Casita, Columnata, Jenga y Fortaleza. Medallas fijadas con los
+  puntajes medidos.
+- Pruebas (`test_demolicion`):
+  - los 13 niveles se pueden limpiar;
+  - `test_glass_breaks_only_with_a_strong_real_impact` (un toque lento no lo rompe; un tiro fuerte deja 1 roto y 6
+    esquirlas en movimiento);
+  - `test_materials_set_mass_friction_and_look`.
+  5 pruebas, 0 fallos. Capturas de los tres escenarios revisadas en PC. **Android: no probado** (se cuidó el costo:
+  sin luces extra, texturas de 128 px compartidas).
+
+---
+
 ## 2026-11-11 — Etapa 3: Desafíos de arco — dianas de frente, en 3D y con puntaje por zona de impacto
 
 - **Orientación corregida:** las placas eran cajas finas en Z con el tiro en +X, así que el jugador las veía de canto.

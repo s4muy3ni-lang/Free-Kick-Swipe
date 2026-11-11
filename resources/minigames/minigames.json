@@ -358,7 +358,7 @@
    "title": "Demolición",
    "scene": "res://scenes/minigames/demolicion.tscn",
    "status": "Implementado",
-   "description": "Derribá los bloques rojos de la mesa con tiros limitados. Los blancos no se tocan.",
+   "description": "Derribá estructuras de madera, ladrillo, piedra, metal y vidrio con la pelota real, en una obra, un castillo y un almacén.",
    "levels": [
     {
      "title": "Torre",
@@ -380,14 +380,16 @@
         0.45
        ],
        "kind": "target",
-       "mass": 1.0
+       "mass": 1.0,
+       "look": "crate"
       }
      ],
      "medals": [
       300,
       440,
       560
-     ]
+     ],
+     "theme": "obra"
     },
     {
      "title": "Pirámide",
@@ -409,14 +411,16 @@
         0.45
        ],
        "kind": "target",
-       "mass": 0.8
+       "mass": 0.8,
+       "look": "brick"
       }
      ],
      "medals": [
       400,
       600,
       720
-     ]
+     ],
+     "theme": "obra"
     },
     {
      "title": "Reacción en cadena",
@@ -445,14 +449,16 @@
         0.6
        ],
        "kind": "target",
-       "mass": 0.8
+       "mass": 0.8,
+       "look": "wood"
       }
      ],
      "medals": [
       400,
       600,
       660
-     ]
+     ],
+     "theme": "almacen"
     },
     {
      "title": "Precisión",
@@ -471,7 +477,8 @@
         0.6,
         0.4
        ],
-       "kind": "target"
+       "kind": "target",
+       "look": "stone"
       },
       {
        "pos": [
@@ -484,7 +491,8 @@
         0.6,
         0.4
        ],
-       "kind": "keep"
+       "kind": "keep",
+       "look": "stone"
       },
       {
        "pos": [
@@ -497,7 +505,8 @@
         0.6,
         0.4
        ],
-       "kind": "target"
+       "kind": "target",
+       "look": "stone"
       },
       {
        "pos": [
@@ -510,7 +519,8 @@
         0.6,
         0.4
        ],
-       "kind": "keep"
+       "kind": "keep",
+       "look": "stone"
       },
       {
        "pos": [
@@ -523,14 +533,16 @@
         0.6,
         0.4
        ],
-       "kind": "keep"
+       "kind": "keep",
+       "look": "stone"
       }
      ],
      "medals": [
       140,
       200,
       260
-     ]
+     ],
+     "theme": "castillo"
     },
     {
      "title": "Muro",
@@ -553,14 +565,16 @@
         0.55
        ],
        "kind": "target",
-       "mass": 0.6
+       "mass": 0.6,
+       "look": "brick"
       }
      ],
      "medals": [
       600,
       900,
       1000
-     ]
+     ],
+     "theme": "castillo"
     },
     {
      "title": "Torre inestable",
@@ -579,7 +593,8 @@
         0.7,
         0.35
        ],
-       "kind": "keep"
+       "kind": "keep",
+       "look": "stone"
       },
       {
        "pos": [
@@ -592,7 +607,8 @@
         0.7,
         0.35
        ],
-       "kind": "keep"
+       "kind": "keep",
+       "look": "stone"
       },
       {
        "pos": [
@@ -606,14 +622,16 @@
         0.3
        ],
        "kind": "target",
-       "mass": 0.6
+       "mass": 0.6,
+       "look": "crate"
       }
      ],
      "medals": [
       100,
       130,
       160
-     ]
+     ],
+     "theme": "obra"
     },
     {
      "title": "Barriles",
@@ -634,7 +652,8 @@
        ],
        "kind": "target",
        "shape": "barrel",
-       "mass": 0.6
+       "mass": 0.6,
+       "look": "metal"
       },
       {
        "pos": [
@@ -649,7 +668,8 @@
        ],
        "kind": "target",
        "shape": "barrel",
-       "mass": 0.6
+       "mass": 0.6,
+       "look": "metal"
       },
       {
        "pos": [
@@ -664,7 +684,8 @@
        ],
        "kind": "target",
        "shape": "barrel",
-       "mass": 0.6
+       "mass": 0.6,
+       "look": "metal"
       },
       {
        "pos": [
@@ -679,7 +700,8 @@
        ],
        "kind": "target",
        "shape": "barrel",
-       "mass": 0.6
+       "mass": 0.6,
+       "look": "metal"
       },
       {
        "pos": [
@@ -694,14 +716,16 @@
        ],
        "kind": "target",
        "shape": "barrel",
-       "mass": 0.6
+       "mass": 0.6,
+       "look": "metal"
       }
      ],
      "medals": [
       400,
       560,
       620
-     ]
+     ],
+     "theme": "almacen"
     },
     {
      "title": "Soportes",
@@ -721,7 +745,8 @@
         0.35
        ],
        "kind": "block",
-       "mass": 1.0
+       "mass": 1.0,
+       "look": "metal"
       },
       {
        "pos": [
@@ -735,7 +760,8 @@
         0.35
        ],
        "kind": "block",
-       "mass": 1.0
+       "mass": 1.0,
+       "look": "metal"
       },
       {
        "pos": [
@@ -749,7 +775,8 @@
         0.8
        ],
        "kind": "block",
-       "mass": 1.4
+       "mass": 1.4,
+       "look": "wood"
       },
       {
        "pos": [
@@ -763,7 +790,8 @@
         0.4
        ],
        "kind": "target",
-       "mass": 0.6
+       "mass": 0.6,
+       "look": "crate"
       },
       {
        "pos": [
@@ -777,13 +805,353 @@
         0.4
        ],
        "kind": "target",
-       "mass": 0.6
+       "mass": 0.6,
+       "look": "crate"
       }
      ],
      "medals": [
       200,
       260,
       320
+     ],
+     "theme": "almacen"
+    },
+    {
+     "title": "Vitrina",
+     "theme": "almacen",
+     "objective": "Cuatro paneles de vidrio: un golpe fuerte los rompe en pedazos. 4 tiros.",
+     "distance": 15.0,
+     "shots": 4,
+     "blocks": [
+      {
+       "pos": [
+        0,
+        0.36,
+        -1.05
+       ],
+       "size": [
+        0.08,
+        0.7,
+        0.62
+       ],
+       "kind": "target",
+       "material": "glass"
+      },
+      {
+       "pos": [
+        0,
+        0.36,
+        -0.35
+       ],
+       "size": [
+        0.08,
+        0.7,
+        0.62
+       ],
+       "kind": "target",
+       "material": "glass"
+      },
+      {
+       "pos": [
+        0,
+        0.36,
+        0.35
+       ],
+       "size": [
+        0.08,
+        0.7,
+        0.62
+       ],
+       "kind": "target",
+       "material": "glass"
+      },
+      {
+       "pos": [
+        0,
+        0.36,
+        1.05
+       ],
+       "size": [
+        0.08,
+        0.7,
+        0.62
+       ],
+       "kind": "target",
+       "material": "glass"
+      }
+     ],
+     "medals": [
+      200,
+      400,
+      460
+     ]
+    },
+    {
+     "title": "Casita",
+     "theme": "obra",
+     "objective": "Una casita de ladrillos con dos cajas en el techo: tirá las cajas (o la casa entera). 3 tiros.",
+     "distance": 15.0,
+     "shots": 3,
+     "table_depth": 2.0,
+     "figures": [
+      {
+       "type": "house",
+       "at": [
+        0,
+        0,
+        0
+       ],
+       "size": [
+        0.2,
+        0.25,
+        0.4
+       ],
+       "rows": 3,
+       "bricks": 4,
+       "depth": 1.1,
+       "kind": "block",
+       "material": "brick",
+       "roof_kind": "target",
+       "roof_mass": 0.5
+      }
+     ],
+     "medals": [
+      100,
+      200,
+      260
+     ]
+    },
+    {
+     "title": "Columnata",
+     "theme": "castillo",
+     "objective": "Columnas de piedra con dinteles y tres estatuas arriba: hacé caer las estatuas. 3 tiros.",
+     "distance": 16.0,
+     "shots": 3,
+     "table_width": 5.0,
+     "figures": [
+      {
+       "type": "colonnade",
+       "at": [
+        0,
+        0,
+        0
+       ],
+       "size": [
+        0.3,
+        1.1,
+        0.3
+       ],
+       "cols": 4,
+       "gap": 1.1,
+       "kind": "block",
+       "look": "stone",
+       "mass": 1.2,
+       "top_kind": "target",
+       "top_mass": 0.5,
+       "top_look": "stone"
+      }
+     ],
+     "medals": [
+      100,
+      300,
+      360
+     ]
+    },
+    {
+     "title": "Jenga",
+     "theme": "obra",
+     "objective": "Torre de tablones cruzados: los dos pisos de arriba son rojos. Bajalos a la mesa. 4 tiros.",
+     "distance": 15.0,
+     "shots": 4,
+     "down_h": 0.9,
+     "figures": [
+      {
+       "type": "jenga",
+       "at": [
+        0,
+        0,
+        0
+       ],
+       "size": [
+        1.1,
+        0.18,
+        0.34
+       ],
+       "n": 9,
+       "top": 2,
+       "kind": "block",
+       "top_kind": "target",
+       "look": "wood",
+       "mass": 0.5
+      }
+     ],
+     "medals": [
+      300,
+      600,
+      660
+     ]
+    },
+    {
+     "title": "Fortaleza",
+     "theme": "castillo",
+     "objective": "Dos torres de piedra, un puente de madera con cajas y un vitral en el medio. 4 tiros.",
+     "distance": 17.0,
+     "shots": 4,
+     "blocks": [
+      {
+       "pos": [
+        0,
+        0.25,
+        -1.0
+       ],
+       "size": [
+        0.5,
+        0.5,
+        0.5
+       ],
+       "kind": "block",
+       "look": "stone",
+       "mass": 1.6
+      },
+      {
+       "pos": [
+        0,
+        0.75,
+        -1.0
+       ],
+       "size": [
+        0.5,
+        0.5,
+        0.5
+       ],
+       "kind": "block",
+       "look": "stone",
+       "mass": 1.6
+      },
+      {
+       "pos": [
+        0,
+        1.25,
+        -1.0
+       ],
+       "size": [
+        0.5,
+        0.5,
+        0.5
+       ],
+       "kind": "block",
+       "look": "stone",
+       "mass": 1.6
+      },
+      {
+       "pos": [
+        0,
+        0.25,
+        1.0
+       ],
+       "size": [
+        0.5,
+        0.5,
+        0.5
+       ],
+       "kind": "block",
+       "look": "stone",
+       "mass": 1.6
+      },
+      {
+       "pos": [
+        0,
+        0.75,
+        1.0
+       ],
+       "size": [
+        0.5,
+        0.5,
+        0.5
+       ],
+       "kind": "block",
+       "look": "stone",
+       "mass": 1.6
+      },
+      {
+       "pos": [
+        0,
+        1.25,
+        1.0
+       ],
+       "size": [
+        0.5,
+        0.5,
+        0.5
+       ],
+       "kind": "block",
+       "look": "stone",
+       "mass": 1.6
+      },
+      {
+       "pos": [
+        0,
+        1.56,
+        0
+       ],
+       "size": [
+        0.5,
+        0.12,
+        2.6
+       ],
+       "kind": "block",
+       "look": "wood",
+       "mass": 1.2
+      },
+      {
+       "pos": [
+        0,
+        1.82,
+        -0.6
+       ],
+       "size": [
+        0.4,
+        0.4,
+        0.4
+       ],
+       "kind": "target",
+       "look": "crate",
+       "mass": 0.5
+      },
+      {
+       "pos": [
+        0,
+        1.82,
+        0.6
+       ],
+       "size": [
+        0.4,
+        0.4,
+        0.4
+       ],
+       "kind": "target",
+       "look": "crate",
+       "mass": 0.5
+      },
+      {
+       "pos": [
+        0,
+        0.6,
+        0
+       ],
+       "size": [
+        0.08,
+        1.2,
+        1.2
+       ],
+       "kind": "target",
+       "material": "glass"
+      }
+     ],
+     "medals": [
+      200,
+      300,
+      420
      ]
     }
    ]

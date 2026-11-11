@@ -26,7 +26,7 @@ static func noise_tex(kind: String) -> Texture2D:
 		"rough":
 			n.noise_type = FastNoiseLite.TYPE_CELLULAR
 			n.frequency = 0.06
-			g.set_color(0, Color(0.62, 0.62, 0.62))
+			g.set_color(0, Color(0.78, 0.78, 0.78))
 			g.set_color(1, Color(1, 1, 1))
 		_:
 			n.noise_type = FastNoiseLite.TYPE_SIMPLEX
@@ -191,3 +191,34 @@ static func fence(parent: Node3D, x: float, z0: float, z1: float, colors: Array,
 	for i in n:
 		var c: Color = colors[i % colors.size()]
 		deco(parent, "box", Vector3(0.12, h, w - 0.06), Vector3(x, h * 0.5, z0 + w * (float(i) + 0.5)), mat(c, "paint"))
+
+## Piso visual (plano con textura) apenas sobre el piso de colision.
+static func ground(parent: Node3D, size: Vector2, center: Vector3, c: Color, finish: String = "stone", uv: float = 8.0) -> MeshInstance3D:
+	var mi := MeshInstance3D.new()
+	var pm := PlaneMesh.new()
+	pm.size = size
+	mi.mesh = pm
+	mi.material_override = mat(c, finish, uv)
+	parent.add_child(mi)
+	mi.global_position = center + Vector3.UP * 0.003
+	return mi
+
+## Luz del escenario: tiñe el sol y el cielo del entorno comun del minijuego (sin agregar luces: una sola direccional).
+static func light(scene: Node, sun_color: Color, energy: float, sky_top: Color, horizon: Color, ambient: float = 0.8, sun_rot := Vector3(-52, -35, 0)) -> void:
+	for c in scene.get_children():
+		if c is DirectionalLight3D:
+			var l := c as DirectionalLight3D
+			l.light_color = sun_color
+			l.light_energy = energy
+			l.rotation_degrees = sun_rot
+		elif c is WorldEnvironment:
+			var e: Environment = (c as WorldEnvironment).environment
+			e.ambient_light_energy = ambient
+			var sm: ProceduralSkyMaterial = null
+			if e.sky != null:
+				sm = e.sky.sky_material as ProceduralSkyMaterial
+			if sm != null:
+				sm.sky_top_color = sky_top
+				sm.sky_horizon_color = horizon
+				sm.ground_horizon_color = horizon.darkened(0.3)
+				sm.ground_bottom_color = horizon.darkened(0.6)

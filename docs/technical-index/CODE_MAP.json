@@ -6225,7 +6225,7 @@
     {
       "id": "setpiece.minigames",
       "system": "SETPIECE",
-      "description": "Minijuegos arcade (MINIJUEGOS ARCADE: categorias -> modalidades -> niveles -> dificultad Facil/Normal/Dificil/Experto). Minigame (base: estados con topes, turnos, puntaje, reinicio, IA con la misma fisica, intenciones, records y medallas por dificultad, movers compartidos, camara con valores recomendados por minijuego + ajustes del usuario guardados por minijuego: CameraPrefs), MinigameCatalog (datos, categorias, dificultad: tiros y multiplicador de puntaje) y los juegos: Boton de caida, Demolicion, Enceste, Minigolf, Dianas (blancos 3D de frente al jugador, colgantes o fijos/moviles, puntaje por zona en el punto de impacto real), Rescate y Bowling. ArcadeLook: materiales con textura procedural, cesped, carteles y decoracion compartidos (sin colision). Eliminados por pedido (2026-11-11): Arqueros por turnos, FootPool, Rebotes de ingenio, Que no caiga, Futbol-tenis.",
+      "description": "Minijuegos arcade (MINIJUEGOS ARCADE: categorias -> modalidades -> niveles -> dificultad Facil/Normal/Dificil/Experto). Minigame (base: estados con topes, turnos, puntaje, reinicio, IA con la misma fisica, intenciones, records y medallas por dificultad, movers compartidos, camara con valores recomendados por minijuego + ajustes del usuario guardados por minijuego: CameraPrefs), MinigameCatalog (datos, categorias, dificultad: tiros y multiplicador de puntaje) y los juegos: Boton de caida, Demolicion, Enceste, Minigolf, Dianas (blancos 3D de frente al jugador, colgantes o fijos/moviles, puntaje por zona en el punto de impacto real), Rescate y Bowling. ArcadeLook: materiales con textura procedural, cesped, carteles y decoracion compartidos (sin colision). Eliminados por pedido (2026-11-11): Arqueros por turnos, FootPool, Rebotes de ingenio, Que no caiga, Futbol-tenis. Demolicion (2026-11-11): materiales con fisica propia (madera, cajon, ladrillo, piedra, metal, vidrio que se rompe en esquirlas por impacto real), figuras jenga/casita/columnata, objetivo por altura (down_h) y escenarios obra/castillo/almacen.",
       "keywords": [
         "minijuego",
         "minijuegos",
@@ -6295,7 +6295,14 @@
         "diana",
         "impacto",
         "decoracion",
-        "escenario"
+        "escenario",
+        "vidrio",
+        "materiales",
+        "jenga",
+        "castillo",
+        "obra",
+        "almacen",
+        "esquirlas"
       ],
       "files": [
         "scripts/minigames/minigame.gd",
