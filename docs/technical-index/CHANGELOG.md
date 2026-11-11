@@ -11,6 +11,30 @@ Formato de entrada: **fecha — título** · commit · qué cambió · archivos 
 
 ---
 
+## 2026-11-11 — Etapa 5: Botón de caída — el que cae ya no atraviesa la plataforma
+
+- **Causa (medida, no supuesta):** el hueco de la trampilla se arma bajo el lugar de partida, pero la caída elegía al
+  azar entre los 26 clips de rol «fall». 22 de ellos son caídas «al suelo» con desplazamiento propio de la raíz, de
+  0,8 a 2,5 m en los primeros 0,9 s. El cuerpo se iba de costado mientras bajaba por el espesor de la losa: en la
+  prueba nueva, manos y cabeza entraban hasta 0,58 m en lo sólido, en los 8 niveles.
+  - Además, en el nivel del botón móvil el que espera quedaba corrido 0,24 m del centro del hueco: su lugar seguía al
+    botón, y el hueco no.
+- **Arreglo, sin ocultar ni teletransportar:**
+  - `BotonCaida.fall_clips()` usa solo caídas cuya raíz no se mueve más de 0,15 m en la ventana de la caída, filtradas
+    por sus datos (`root_path`), no por nombre. Quedan 4.
+  - El hueco (y las hojas de la trampilla) pasa de 2,0 a 2,3 m: con los brazos abiertos el cuerpo llega a 0,94 m del
+    centro.
+  - `_place_shooter` deja los pies del que espera sobre el centro del hueco (la mirada sigue al botón).
+  - El resto del juego (botones, IA, turnos, cámara) no cambia.
+- Prueba nueva `test_boton_caida_fall`: mide cadera, cabeza, pies y manos cuadro a cuadro en el marco de la plataforma,
+  con 0,12 m de grosor del cuerpo, contra la losa y contra las hojas que todavía no se abrieron. Casos:
+  - los 8 niveles × los dos lados: 0,00 m (antes, 0,58 m);
+  - cada clip permitido × los dos lados: 0,00 m.
+  Las 8 pruebas de Botón de caída pasan. Captura de la caída revisada en PC. **Android: no probado.**
+- Herramienta: `SNAP_PRESS=N` en `tools/minigame_snap.tscn` captura la caída N cuadros después de apretar.
+
+---
+
 ## 2026-11-11 — Etapa 4: Demolición con escenarios, materiales y estructuras complejas
 
 - **Materiales con física propia** (`Demolicion.MATERIALS`): madera, cajón, ladrillo, piedra, metal y vidrio, cada uno

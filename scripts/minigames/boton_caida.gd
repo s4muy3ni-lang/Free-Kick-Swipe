@@ -15,7 +15,14 @@ extends Minigame
 const SCENE := "res://scenes/minigames/boton_caida.tscn"
 const DEPTH := 7.5
 const WIDTH := 9.0
-const HOLE := 2.0
+## Lado del hueco de la trampilla (m). 2,3 m: el cuerpo que cae con los brazos abiertos llega a 0,94 m del centro (medido
+## en test_boton_caida_fall) y necesita su grosor de margen; con 2,0 m las manos rozaban el borde.
+const HOLE := 2.3
+## Caidas por la trampilla: solo clips de caida SIN desplazamiento de la raiz en la ventana de la caida (la gente que
+## pierde el piso cae derecho; los clips de caida «al suelo» llevan el cuerpo 1 a 3 m de costado y lo hacian atravesar la
+## losa). Se filtran por sus propios datos (root_path), no por nombre.
+const FALL_WINDOW := 0.9
+const FALL_MAX_TRAVEL := 0.15
 const BALL_BACK := 2.2
 ## El jugador no pasa del borde (el seguimiento del golpeo lo llevaria al vacio): tope a EDGE_STOP m del borde.
 const EDGE_STOP := 0.35
@@ -442,13 +449,41 @@ func press(s: int) -> void:
 	if s < shooters.size():
 		var a: SpActor = shooters[s].actor
 		a.stop_moving()
-		var falls: Array[StringName] = SpClips.by_role(&"fall", false)
+		var falls: Array[StringName] = fall_clips()
 		if not falls.is_empty():
 			a.freeze_on_finish = true
 			a.play_here(falls[rng.randi() % falls.size()], 0.1)
 	if not fast:
 		cam.shake(0.45, 0.8)
 		Sfx.play(&"cheer", 0.6)
+
+## Clips de caida que caben en el hueco: su raiz no se mueve mas de FALL_MAX_TRAVEL en FALL_WINDOW s. Si ninguno
+## cumpliera, el de menor recorrido.
+static func fall_clips() -> Array[StringName]:
+	var out: Array[StringName] = []
+	var best: StringName = &""
+	var best_d: float = INF
+	for id in SpClips.by_role(&"fall", false):
+		var m: Dictionary = SpClips.meta(id)
+		var d: float = 0.0
+		for k in int(FALL_WINDOW * 30.0) + 1:
+			d = maxf(d, SpClips.root_at(m, float(k) / 30.0).length())
+		if d <= FALL_MAX_TRAVEL:
+			out.append(id)
+		if d < best_d:
+			best_d = d
+			best = id
+	if out.is_empty() and best != &"":
+		out.append(best)
+	return out
+
+## El que espera se para justo sobre su trampilla (el hueco se arma una vez, con el lugar de partida; si el boton rival
+## se mueve, la mirada sigue al boton pero los pies quedan sobre el centro del hueco).
+func _place_shooter(s: int) -> void:
+	super._place_shooter(s)
+	var a: SpActor = shooters[s].actor
+	var c: Vector3 = frames[s] * _hole_local[s]
+	a.global_position = Vector3(c.x, a.global_position.y, c.z)
 
 ## Respawn: trampillas cerradas, botones sin apretar, jugadores de pie en su lugar.
 func _restore_mechanisms() -> void:
