@@ -6225,7 +6225,7 @@
     {
       "id": "setpiece.minigames",
       "system": "SETPIECE",
-      "description": "Minijuegos arcade (MINIJUEGOS ARCADE: categorias -> modalidades -> niveles -> dificultad Facil/Normal/Dificil/Experto). Minigame (base: estados con topes, turnos, puntaje, reinicio, IA con la misma fisica, intenciones, records y medallas por dificultad, movers compartidos, camara con valores recomendados por minijuego + ajustes del usuario guardados por minijuego: CameraPrefs), MinigameCatalog (datos, categorias, dificultad: tiros y multiplicador de puntaje) y los juegos: Boton de caida, Demolicion, Enceste, Minigolf, Dianas (blancos 3D de frente al jugador, colgantes o fijos/moviles, puntaje por zona en el punto de impacto real), Rescate y Bowling. ArcadeLook: materiales con textura procedural, cesped, carteles y decoracion compartidos (sin colision). Eliminados por pedido (2026-11-11): Arqueros por turnos, FootPool, Rebotes de ingenio, Que no caiga, Futbol-tenis. Demolicion (2026-11-11): materiales con fisica propia (madera, cajon, ladrillo, piedra, metal, vidrio que se rompe en esquirlas por impacto real), figuras jenga/casita/columnata, objetivo por altura (down_h) y escenarios obra/castillo/almacen. Duelo del guante (GuanteDuel): maquinas con 3 botones (grande/mediano/chico, carga configurable), barra persistente, piston con resorte y masa que choca con el cuerpo del rival (consulta de forma barrida) y lo empuja con impulso y rozamiento; IA por valor esperado.",
+      "description": "Minijuegos arcade (MINIJUEGOS ARCADE: categorias -> modalidades -> niveles -> dificultad Facil/Normal/Dificil/Experto). Minigame (base: estados con topes, turnos, puntaje, reinicio, IA con la misma fisica, intenciones, records y medallas por dificultad, movers compartidos, camara con valores recomendados por minijuego + ajustes del usuario guardados por minijuego: CameraPrefs), MinigameCatalog (datos, categorias, dificultad: tiros y multiplicador de puntaje) y los juegos: Boton de caida, Demolicion, Enceste, Minigolf, Dianas (blancos 3D de frente al jugador, colgantes o fijos/moviles, puntaje por zona en el punto de impacto real), Rescate y Bowling. ArcadeLook: materiales con textura procedural, cesped, carteles y decoracion compartidos (sin colision). Eliminados por pedido (2026-11-11): Arqueros por turnos, FootPool, Rebotes de ingenio, Que no caiga, Futbol-tenis. Demolicion (2026-11-11): materiales con fisica propia (madera, cajon, ladrillo, piedra, metal, vidrio que se rompe en esquirlas por impacto real), figuras jenga/casita/columnata, objetivo por altura (down_h) y escenarios obra/castillo/almacen. Duelo del guante (GuanteDuel): maquinas con 3 botones (grande/mediano/chico, carga configurable), barra persistente, piston con resorte y masa que choca con el cuerpo del rival (consulta de forma barrida) y lo empuja con impulso y rozamiento; IA por valor esperado. Royal Flush (RoyalFlush): cartas-paleta que giran sobre su eje con detente y traba; mano de poker con las primeras 5 dadas vuelta.",
       "keywords": [
         "minijuego",
         "minijuegos",
@@ -6310,7 +6310,11 @@
         "carga",
         "boton grande",
         "boton chico",
-        "empujon"
+        "empujon",
+        "royal flush",
+        "poker",
+        "cartas",
+        "mano"
       ],
       "files": [
         "scripts/minigames/minigame.gd",
@@ -6342,7 +6346,10 @@
         "scripts/minigames/guante.gd",
         "scenes/minigames/guante.tscn",
         "tests/test_guante.gd",
-        "tests/test_boton_caida_fall.gd"
+        "tests/test_boton_caida_fall.gd",
+        "scripts/minigames/royal_flush.gd",
+        "scenes/minigames/royal_flush.tscn",
+        "tests/test_royal_flush.gd"
       ],
       "symbols": [],
       "parameters": [],

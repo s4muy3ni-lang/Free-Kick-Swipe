@@ -11,6 +11,29 @@ Formato de entrada: **fecha — título** · commit · qué cambió · archivos 
 
 ---
 
+## 2026-11-11 — Etapa 7.1: Royal Flush
+
+- **Modo nuevo** `RoyalFlush` (HABILIDAD, 4 niveles). Tablero de casino con cartas boca abajo (5 × 3 o 5 × 4).
+- **Mecanismo de la carta:** cada carta es una paleta, un cuerpo rígido con solo el giro sobre su eje horizontal libre
+  (ejes bloqueados en Jolt).
+  - Un golpe real fuera del eje la hace girar. Un detente (par −2k·sen 2θ) la devuelve boca abajo si no pasa de 90°.
+  - Pasados 120°, una traba la deja boca arriba, como un blanco de pinball.
+  - El paño está detrás del recorrido de la paleta (antes chocaba a los 28° y no giraba; medido).
+- **Mano:** las primeras 5 cartas dadas vuelta. Póker evaluado de carta alta a escalera real (10 a 1000 puntos) más 5
+  por carta. Mazo mezclado con la semilla o fijo por nivel («Corazones», «Escalera real»).
+- **Palos dibujados en 3D** (rombos y discos): no dependen de que la fuente tenga ♠♥♦♣. El marcador del HUD usa los
+  símbolos; si la fuente del teléfono no los tuviera se verían como cuadros (**no verificado en Android**).
+- Escenario de casino: alfombra, pasillo con borde dorado, paño con marco y bombitas, columnas, mesas con fichas y
+  cartel.
+- Pruebas (`test_royal_flush`, 3):
+  - evaluación de las 10 manos (y la mejor de 7);
+  - un toque lento no da vuelta la carta: con la pelota apoyada queda a 0,32 rad y el detente la vuelve a 0,06 rad;
+  - un tiro por arriba no suma nada y un golpe fuerte la traba boca arriba;
+  - los 4 niveles arman una mano de 5.
+  Captura revisada en PC.
+
+---
+
 ## 2026-11-11 — Etapa 6: Duelo del guante (por turnos contra la IA)
 
 - **Modo nuevo** `GuanteDuel` (`scenes/minigames/guante.tscn`, categoría DUELOS, 4 niveles).

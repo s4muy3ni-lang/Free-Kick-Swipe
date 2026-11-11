@@ -2476,6 +2476,106 @@
      ]
     }
    ]
+  },
+  {
+   "id": "royal_flush",
+   "title": "Royal Flush",
+   "scene": "res://scenes/minigames/royal_flush.tscn",
+   "status": "Implementado",
+   "description": "Cartas boca abajo en un tablero de casino: pegales arriba o abajo para darlas vuelta y armá la mejor mano de póker con 5 tiros.",
+   "levels": [
+    {
+     "title": "Mano abierta",
+     "objective": "5 tiros: las primeras 5 cartas que das vuelta son tu mano. Par = bronce, doble par = plata, escalera = oro.",
+     "distance": 13.0,
+     "cols": 5,
+     "rows": 3,
+     "shots": 5,
+     "medals": [
+      65,
+      105,
+      225
+     ]
+    },
+    {
+     "title": "Corazones",
+     "objective": "Muchos corazones escondidos: buscá el color. 5 tiros.",
+     "distance": 14.0,
+     "cols": 5,
+     "rows": 3,
+     "shots": 5,
+     "deck": [
+      "AH",
+      "KH",
+      "QH",
+      "JH",
+      "10H",
+      "9H",
+      "8H",
+      "7H",
+      "AS",
+      "KD",
+      "QC",
+      "9S",
+      "4D",
+      "3C",
+      "2H"
+     ],
+     "medals": [
+      65,
+      145,
+      275
+     ]
+    },
+    {
+     "title": "Lejos",
+     "objective": "El tablero está más lejos y las cartas son las mismas de siempre. 5 tiros.",
+     "distance": 17.0,
+     "cols": 5,
+     "rows": 3,
+     "shots": 5,
+     "medals": [
+      65,
+      105,
+      225
+     ]
+    },
+    {
+     "title": "Escalera real",
+     "objective": "Hay una escalera real escondida entre 20 cartas. 6 tiros.",
+     "distance": 14.0,
+     "cols": 5,
+     "rows": 4,
+     "shots": 6,
+     "deck": [
+      "AS",
+      "KS",
+      "QS",
+      "JS",
+      "10S",
+      "9D",
+      "8C",
+      "7H",
+      "6S",
+      "5D",
+      "4C",
+      "3H",
+      "2S",
+      "AH",
+      "KC",
+      "QD",
+      "JD",
+      "9C",
+      "8H",
+      "5S"
+     ],
+     "medals": [
+      65,
+      225,
+      525
+     ]
+    }
+   ]
   }
  ],
  "categories": [
@@ -2621,6 +2721,10 @@
     {
      "type": "game",
      "game": "enceste"
+    },
+    {
+     "type": "game",
+     "game": "royal_flush"
     }
    ]
   }

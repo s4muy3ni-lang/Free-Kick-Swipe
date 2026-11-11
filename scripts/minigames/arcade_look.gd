@@ -222,3 +222,33 @@ static func light(scene: Node, sun_color: Color, energy: float, sky_top: Color, 
 				sm.sky_horizon_color = horizon
 				sm.ground_horizon_color = horizon.darkened(0.3)
 				sm.ground_bottom_color = horizon.darkened(0.6)
+
+## Como deco, pero en coordenadas LOCALES del padre (piezas de un cuerpo que se mueve: cartas, guantes, carteles).
+static func part(parent: Node3D, shape: String, size: Vector3, local_pos: Vector3, m: Material, rot := Vector3.ZERO) -> MeshInstance3D:
+	var mi := MeshInstance3D.new()
+	match shape:
+		"cyl":
+			var cm := CylinderMesh.new()
+			cm.top_radius = size.x
+			cm.bottom_radius = size.z if size.z > 0.0 else size.x
+			cm.height = size.y
+			cm.radial_segments = 16
+			cm.rings = 1
+			mi.mesh = cm
+		"sphere":
+			var sm := SphereMesh.new()
+			sm.radius = size.x
+			sm.height = size.x * 2.0
+			sm.radial_segments = 16
+			sm.rings = 8
+			mi.mesh = sm
+		_:
+			var bm := BoxMesh.new()
+			bm.size = size
+			mi.mesh = bm
+	mi.material_override = m
+	mi.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	mi.position = local_pos
+	mi.rotation = rot
+	parent.add_child(mi)
+	return mi
