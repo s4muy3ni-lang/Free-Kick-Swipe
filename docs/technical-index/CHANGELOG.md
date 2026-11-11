@@ -11,6 +11,28 @@ Formato de entrada: **fecha — título** · commit · qué cambió · archivos 
 
 ---
 
+## 2026-11-11 — Etapa 7.4: Béisbol con bate mecánico
+
+- **Modo nuevo** `Beisbol` (DESTRUCCIÓN Y MECANISMOS, 4 niveles): el jugador patea desde el montículo a la zona de
+  strike del home. Ahí, una máquina bateadora.
+- **Bate:** barra rígida de 2,5 kg y 1,05 m con inercia m L²/3, que gira sobre su pivote a 30 rad/s.
+  - Un sensor ve pasar la pelota a 3,5 m del home, mide su velocidad y suelta el bate con el retraso justo.
+  - El choque se resuelve con el impulso newtoniano (restitución 0,55, masa de la pelota e inercia del bate en el
+    punto de contacto). El bate pierde lo que entrega.
+  - Se busca el primer contacto en 16 subpasos de cada paso. Antes, el bate como cuerpo de Jolt barría 23° por paso y
+    la pelota lo atravesaba sin choque: la detección continua del motor es solo lineal (medido).
+  - Lo que decide el jugador: altura (por encima del eje del bate sale elevada, por debajo un rodado), lugar sobre el
+    bate y fuerza. Fuera de la zona: strike.
+- **Medido:** pelota a 19 m/s → sale a 30,8 m/s → jonrón sobre la cerca de 42 m. Se mide la distancia del primer pique
+  o del cruce de la cerca (jonrón si la pasa por arriba en zona fair, ±45°).
+- **Reglas:** distancia (suma de metros), jonrones, y duelo contra la IA (más jonrones; desempata la distancia).
+- Estadio: césped, caminos de tierra, bases, líneas de foul, cerca física en arco de 90° con tribunas, cartel de
+  distancia y «JONRÓN». Tras el golpe, la cámara pasa a un plano alto desde el home mirando el jardín.
+- Pruebas (`test_beisbol`, 3): golpe real con salida > 18 m/s y distancia; pelota alta = strike; los 4 niveles llegan
+  al bronce. Captura revisada en PC.
+
+---
+
 ## 2026-11-11 — Etapa 7.3: Curling
 
 - **Modo nuevo** `Curling` (HABILIDAD, contra la IA, 4 niveles): pista de hielo de 30 m (40 m en «Pista larga») con
