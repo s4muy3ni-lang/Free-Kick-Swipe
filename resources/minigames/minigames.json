@@ -2303,24 +2303,22 @@
    "title": "Bowling",
    "scene": "res://scenes/minigames/bowling.tscn",
    "status": "Implementado",
-   "description": "Diez bolos físicos, cuadros de dos tiros, strike y spare; el trazo da dirección, potencia y efecto.",
+   "description": "Partida de bowling de verdad: 10 cuadros contra la IA, strike, spare y bolas extra en el décimo. Pistas distintas.",
    "levels": [
     {
      "title": "Clásico",
-     "objective": "3 cuadros contra la IA, dos tiros por cuadro. Strike (10 al primero) suma +5; spare, +3. El trazo curvo da efecto.",
-     "frames": 3,
+     "objective": "Partida de 10 cuadros contra la IA. Strike = 10 + tus dos bolas siguientes; spare = 10 + la siguiente.",
      "lane": 12.0,
      "layout": "triangle",
      "medals": [
-      200,
-      300,
-      400
+      60,
+      100,
+      150
      ]
     },
     {
      "title": "Con guardia",
-     "objective": "Un bloque fijo tapa el centro: entrá por el costado o con efecto.",
-     "frames": 3,
+     "objective": "Un bloque fijo tapa el centro: entrá por el costado o con efecto. 10 cuadros.",
      "lane": 12.0,
      "layout": "triangle",
      "obstacles": [
@@ -2338,15 +2336,14 @@
       }
      ],
      "medals": [
-      180,
-      280,
-      380
+      60,
+      100,
+      150
      ]
     },
     {
      "title": "Guardia móvil",
-     "objective": "El bloque patrulla la pista: elegí el momento.",
-     "frames": 3,
+     "objective": "El bloque patrulla la pista: elegí el momento. 10 cuadros.",
      "lane": 12.0,
      "layout": "triangle",
      "obstacles": [
@@ -2373,21 +2370,32 @@
       }
      ],
      "medals": [
-      180,
-      280,
-      380
+      60,
+      100,
+      150
      ]
     },
     {
      "title": "Rombo con corona",
-     "objective": "Formación rombo con un bolo arriba de todo: tiralo todo.",
-     "frames": 3,
+     "objective": "Formación rombo con un bolo arriba de todo. 10 cuadros.",
      "lane": 12.0,
      "layout": "diamond",
      "medals": [
-      200,
-      300,
-      400
+      60,
+      100,
+      150
+     ]
+    },
+    {
+     "title": "Pista larga y angosta",
+     "objective": "16 m de pista y 1,9 m de ancho: las canaletas están cerca. 10 cuadros.",
+     "lane": 16.0,
+     "lane_w": 1.9,
+     "layout": "triangle",
+     "medals": [
+      50,
+      90,
+      140
      ]
     }
    ]

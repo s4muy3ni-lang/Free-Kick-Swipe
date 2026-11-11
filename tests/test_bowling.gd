@@ -55,7 +55,7 @@ func test_strike_and_spare_bonuses() -> void:
 	var down: int = counted[0] if not counted.is_empty() else 0
 	note("bola al centro a fondo: %d bolos" % down)
 	if down >= 10:
-		check(g.points[0] == 10 + Bowling.STRIKE_BONUS, "strike: 10 + %d" % Bowling.STRIKE_BONUS)
+		check(g.rolls[0] == [10] and g.total_score(0) == 0, "strike: el cuadro espera sus dos bolas de bonus (sin puntos todavia)")
 		check(g.frame_owner == Minigame.Side.CPU, "cuadro cerrado: turno de la IA")
 	else:
 		# Si no fue strike, el spare: segundo tiro a los que quedan.
@@ -68,21 +68,43 @@ func test_strike_and_spare_bonuses() -> void:
 		var vw2: Array = g.bowl_velocity(Vector3(standing.x / n, 0, standing.z / n), 0.9, 0.0)
 		await g.launch(vw2[0], vw2[1])
 		await _fly(g)
-		note("segundo tiro: %d en total, puntos %d" % [g.down_count(), g.points[0]])
-		check(g.points[0] >= g.down_count(), "el cuadro suma lo tirado (con bonus si fue spare)")
+		note("segundo tiro: %d en total, bolas %s, puntos %d" % [g.down_count(), str(g.rolls[0]), g.total_score(0)])
+		check((g.rolls[0] as Array).size() == 2 and int(g.rolls[0][0]) + int(g.rolls[0][1]) == g.down_count(), "las dos bolas registran lo que tiraron")
 	cleanup()
+
+func test_official_ten_frame_scoring() -> void:
+	var perfect: Array = []
+	for k in 12:
+		perfect.append(10)
+	check(Bowling.frame_scores(perfect)[9] == 300, "partida perfecta: 300")
+	var spares: Array = []
+	for k in 21:
+		spares.append(5)
+	check(Bowling.frame_scores(spares)[9] == 150, "todo 5 y spare (y 5 extra): 150")
+	var zeros: Array = []
+	for k in 20:
+		zeros.append(0)
+	check(Bowling.frame_scores(zeros)[9] == 0, "todo canaleta: 0")
+	# Ejemplo clasico: X, 7/, 9-, X, -8, 8/, -6, X, X, X81 = 167.
+	var game: Array = [10, 7, 3, 9, 0, 10, 0, 8, 8, 2, 0, 6, 10, 10, 10, 8, 1]
+	var sc: Array = Bowling.frame_scores(game)
+	note("ejemplo: %s" % str(sc))
+	check(sc == [20, 39, 48, 66, 74, 84, 90, 120, 148, 167], "ejemplo clasico: 167 cuadro a cuadro")
+	check(Bowling.frame_scores([10, 10])[0] == -1, "un strike sin sus dos bolas queda pendiente")
+	check(Bowling.frame_marks([10, 10, 10], true) == "X X X" and Bowling.frame_marks([7, 3], false) == "7 /" and Bowling.frame_marks([9, 0], false) == "9 -", "marcas X, / y -")
 
 func test_bowling_match_vs_ai_ends() -> void:
 	var g: Bowling = await _bowl()
 	var n: int = 0
-	while g.state != Minigame.State.OVER and n < 60 * 240:
+	while g.state != Minigame.State.OVER and n < 60 * 900:
 		if g.state == Minigame.State.AIM and g.side == Minigame.Side.USER:
 			var it: Dictionary = g._cpu_intent()
 			it["side"] = Minigame.Side.USER
 			g.apply_intent(it)
 		await tree.physics_frame
 		n += 1
-	note("bowling: %d - %d (strikes %d/%d, spares %d/%d) en %.0f s" % [g.points[0], g.points[1], g.strikes[0], g.strikes[1], g.spares[0], g.spares[1], n / 60.0])
+	note("bowling 10 cuadros: %d - %d (strikes %d/%d, spares %d/%d) en %.0f s; bolas %s" % [g.total_score(0), g.total_score(1), g.strikes[0], g.strikes[1], g.spares[0], g.spares[1], n / 60.0, str(g.rolls[0])])
+	check(Bowling.frame_scores(g.rolls[0])[9] == g.total_score(0) and g.total_score(0) >= 0, "el total sale de los 10 cuadros")
 	check(g.state == Minigame.State.OVER, "el partido termina")
 	check(g.frames_done[0] == g.frames_total and g.frames_done[1] == g.frames_total, "los dos jugaron todos los cuadros")
 	cleanup()

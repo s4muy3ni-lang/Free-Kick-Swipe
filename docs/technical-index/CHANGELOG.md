@@ -11,6 +11,22 @@ Formato de entrada: **fecha — título** · commit · qué cambió · archivos 
 
 ---
 
+## 2026-11-11 — Etapa 7.5: Bowling a 10 cuadros (mejora del existente, sin duplicarlo)
+
+- `Bowling` pasa a una partida de verdad: 10 cuadros por jugador, alternados contra la IA. Puntaje oficial
+  (`Bowling.frame_scores`): strike = 10 + las dos bolas siguientes; spare = 10 + la siguiente; el décimo cuadro tira
+  las bolas extra (hasta 3), con bolos nuevos después de un strike o de un spare. Máximo 300. Se quitaron los bonus
+  arcade fijos (+5/+3) de la versión anterior.
+- Tablero 3D colgado sobre la pista con las marcas de cada cuadro (X, /, -) y el acumulado de los dos jugadores.
+- Bolera: pista de madera a tablas con flechas, canaletas metálicas, separadores con neón, retorno de bolas, foso y
+  cartel. La física de bolos y pelota no cambia.
+- Pistas: clásica, con guardia, guardia móvil, rombo con corona y una nueva «Pista larga y angosta» (16 m × 1,9 m).
+- Pruebas (`test_bowling`, 4): `test_official_ten_frame_scoring` (300, 150, 0, el ejemplo clásico de 167 cuadro a
+  cuadro, strike pendiente, marcas); los bolos caen solo por impacto; strike y spare con bolas registradas; partida
+  completa de 10 cuadros contra la IA que termina y suma por cuadros.
+
+---
+
 ## 2026-11-11 — Etapa 7.4: Béisbol con bate mecánico
 
 - **Modo nuevo** `Beisbol` (DESTRUCCIÓN Y MECANISMOS, 4 niveles): el jugador patea desde el montículo a la zona de
