@@ -11,6 +11,22 @@ Formato de entrada: **fecha — título** · commit · qué cambió · archivos 
 
 ---
 
+## 2026-11-12 — Defensores que retroceden mirando la pelota: solo con MIXAMO
+
+- **CI** (run 43139198058, commit `45087d0`) falló en `test_setpiece_render::test_free_kick_keeper_reads_deflections_and_is_beatable`.
+  - Salida real: «tiro 15: lo ataja»; el resultado fue gol, con toque «body» y el arquero tirado.
+- **En PC** (xvfb), con el mismo código, la prueba pasa (7/45/0).
+  - Entre corridas varía el toque: el tiro 6 da «body» o «parry», y el tiro 5 cancela 0 o 1 estiradas.
+  - El tiro 15 es una atajada con el cuerpo al límite.
+- **Qué se cambió**:
+  - el único cambio que alteraba ACTUAL en el tiro libre era la marcha direccional de los defensores;
+  - ahora vale solo con MIXAMO (`SpFieldPlayers.on_kick`);
+  - con ACTUAL el código vuelve a ser el de antes, con el mismo orden de números aleatorios.
+  - La prueba no se tocó ni se salteó.
+- **Verificación**: `test_mixamo_bank` 9/178/0, `setpiece` headless 22/151/0, `test_setpiece_render` con render (ACTUAL) 7/45/0. CI: pendiente.
+
+---
+
 ## 2026-11-12 — Biblioteca MIXAMO en el repositorio (sin cifrado)
 
 Decisión del usuario: el juego usa las animaciones de Mixamo; no las distribuye sueltas.
@@ -54,8 +70,8 @@ Pedido del usuario: integrar `animaciones_mixamo.zip` sin borrar ni reemplazar n
     Mixamo;
   - `ShotCatalog` por tipo de tiro, con `shot_clips_mixamo.json`;
   - `KeeperPlanner`: Mixamo primero, actual si ninguna atajada de Mixamo llega;
-  - `SpFieldPlayers`: defensores que llegan marcando (`defend`) y retroceden mirando la pelota (`dir_*`, en las dos
-    bibliotecas);
+  - `SpFieldPlayers`: defensores que llegan marcando (`defend`) y retroceden mirando la pelota (`dir_*`). Primero en las
+    dos bibliotecas; después solo con MIXAMO, para dejar ACTUAL como estaba (ver la entrada siguiente);
   - `SpShooter._loop_for`: carrera y sprint de Mixamo.
   - Con ACTUAL no se carga nada de Mixamo.
 - **Laboratorio** (`scripts/dev/anim_lab.gd`, `scenes/dev/anim_lab.tscn`, botón en el menú solo con herramientas de

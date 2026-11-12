@@ -67,7 +67,7 @@ func _place(a: SpActor, p: Vector3, look: Vector3, role: StringName = &"idle_rea
 		a.play_loop(pool[rng.randi() % pool.size()], 0.2, rng.randf_range(0.85, 1.1))
 	a.visible = true
 
-## Marchas direccionales (bucles con raiz hacia atras, en diagonal o de costado; en las dos bibliotecas).
+## Marchas direccionales (bucles con raiz hacia atras, en diagonal o de costado). Las usan los defensores con MIXAMO.
 const DIR_ROLES: Array[StringName] = [&"dir_back", &"dir_back_diag", &"dir_fwd_diag", &"dir_side"]
 
 static func _is_dir(id: StringName) -> bool:
@@ -105,13 +105,17 @@ func on_kick(traj: PackedVector3Array, step: float) -> void:
 		var tgt := Vector3(goal_x - rng.randf_range(4.0, 7.0), 0.0, clampf(a.global_position.z * 0.6, -6.0, 6.0))
 		a.move_to(tgt, rng.randf_range(3.5, 4.8), jog)
 		if i < defenders.size():
-			# El defensor retrocede mirando la pelota (marcha hacia atras, en diagonal o de costado segun hacia donde va).
 			var d: SpActor = defenders[i]
 			var dt: Vector3 = tgt + Vector3(0.8, 0.0, 0.4)
 			var spd: float = rng.randf_range(3.3, 4.6)
-			var look: Vector3 = ball.global_position - d.global_position
-			var loop: StringName = dir_loop(dt - d.global_position, look, spd)
-			d.move_to(dt, spd, loop, look if loop != jog and _is_dir(loop) else Vector3.ZERO)
+			if AnimBank.is_mixamo():
+				# MIXAMO: el defensor retrocede mirando la pelota con las marchas direccionales de Mixamo (hacia atras, en
+				# diagonal o de costado segun hacia donde va). ACTUAL queda como estaba (trota de frente al destino).
+				var look: Vector3 = ball.global_position - d.global_position
+				var loop: StringName = dir_loop(dt - d.global_position, look, spd)
+				d.move_to(dt, spd, loop, look if loop != jog and _is_dir(loop) else Vector3.ZERO)
+			else:
+				d.move_to(dt, spd, jog)
 	# Despeje de cabeza: el defensor que este a menos de 1,3 m de donde pasa la pelota a la altura de la cabeza.
 	for d in defenders:
 		var p0: Vector3 = d.global_position

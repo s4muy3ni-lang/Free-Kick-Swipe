@@ -98,7 +98,7 @@ los usa, está en [`INVENTARIO_MIXAMO.md`](INVENTARIO_MIXAMO.md), sección 2. Cr
 | `PackLibrary` (arquero, modo partido) | Mismo criterio por rol en copias de las bibliotecas (no en las compartidas). Los nombres del paquete que pide el código («goalkeeper_catch», «Soccer_Pass»...) van al clip de Mixamo de ese nombre; si no existe, a uno del mismo rol. |
 | `ShotCatalog` (golpeo de cada tiro) | Catálogo medido aparte (`shot_clips_mixamo.json`, 14 golpeos de Mixamo). Por TIPO de tiro: potente, normal, colocado y vaselina usan solo Mixamo; el tiro errado (`setpiece_miss`) sigue con el actual (Mixamo no tiene). |
 | `KeeperPlanner` (atajadas) | Primero las atajadas de Mixamo; si ninguna llega con holgura a esa pelota, la actual (respaldo). Sin el respaldo el arquero atajaba ~20 % menos (ver 7). |
-| `SpFieldPlayers` (tiro libre) | Defensores: llegan a su puesto con el clip de marca `defend` (enmarcado para terminar en el puesto, sin patinar) y, al patear, retroceden mirando la pelota con la marcha direccional que corresponde (`dir_back`, diagonales, lateral). La marcha direccional vale en las dos bibliotecas (las dos tienen esos roles). |
+| `SpFieldPlayers` (tiro libre) | Defensores: llegan a su puesto con el clip de marca `defend` (enmarcado para terminar en el puesto, sin patinar) y, al patear, retroceden mirando la pelota con la marcha direccional que corresponde (`dir_back`, diagonales, lateral). Solo con MIXAMO: con ACTUAL los defensores siguen como antes (trotan de frente al destino). |
 | `SpShooter._loop_for` (marchas) | Con MIXAMO suma la carrera y el sprint de Mixamo y prefiere sus clips (el trote de Mixamo llega a 2 m/s). Con ACTUAL, igual que antes. |
 | Menú | Botón «Laboratorio de animaciones» (solo con herramientas de desarrollo). |
 
