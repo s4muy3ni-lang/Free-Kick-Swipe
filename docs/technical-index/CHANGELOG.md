@@ -56,6 +56,8 @@ Pedido del usuario:
     `test_keeper_in_position` 1/4/0;
   - capturas del buscador nuevo con `tools/ui/menu_capture.gd`;
   - sonidos revisados con espectrogramas (no se pudieron escuchar).
+  - CI: run 43219698592 (commit `4dec123`, lanzado a mano) **en verde**, con las pruebas headless y con render y el APK
+    `futbol5-apk`.
   - En el teléfono: no probado.
 
 ---
