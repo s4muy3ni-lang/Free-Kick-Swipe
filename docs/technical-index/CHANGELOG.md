@@ -49,7 +49,14 @@ Pedido del usuario:
   - nuevas: `test_scroll_tap` (2), `test_online_lobby_ui` (1);
   - `test_crowd_mood`: sin abucheo y atajada igual que gol;
   - se borró la prueba de Mixamo (la biblioteca ya no existe).
-- **Verificación**: ver el commit.
+- **Verificación (PC, con la carpeta de usuario limpia, como CI)**:
+  - suite headless 279/2397/0 (9 pruebas menos de Mixamo, 3 nuevas);
+  - con render: `live_kicks` 6/50/0, `pack_motion` 2/24/0, `json_mode` 8/376/0, `directional_kicks` 3/7/0,
+    `test_anim_bank_bench` 7/79/0, `test_setpiece_render` 7/45/0, `test_keeper_zones` 4/27/0,
+    `test_keeper_in_position` 1/4/0;
+  - capturas del buscador nuevo con `tools/ui/menu_capture.gd`;
+  - sonidos revisados con espectrogramas (no se pudieron escuchar).
+  - En el teléfono: no probado.
 
 ---
 
