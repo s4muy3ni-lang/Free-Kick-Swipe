@@ -5,7 +5,7 @@
 - **Responsabilidad:** un arquero por equipo (`Goalkeeper`, `CharacterBody3D` en `Ball.LAYER_KEEPERS`) que se posiciona sobre el arco, anticipa los disparos con la trayectoria predicha de la pelota, **planifica la atajada con la trayectoria de manos medida de cada clip** (`KeeperPlanner`), la ejecuta con el clip y el movimiento de raíz reales y solo cuenta el contacto si las manos llegan a la pelota. Después bloquea o desvía por impulso, sostiene la pelota (`Ball.hold`) y la saca con la mano o con el pie.
 - **Estado real:** operativo en el partido (`MatchScene.with_keepers`, un arquero por equipo, registrado con `MatchContext.register_keeper`). Usa los 37 clips de `pack_keeper.res` (atajadas, estiradas, bloqueos, recogida, saques, reposo, festejos propios).
 - **Última verificación:** <!-- AUTO:verified -->
-2026-11-11
+2026-11-12
 <!-- /AUTO -->
 
 ## Cómo funciona
@@ -68,7 +68,7 @@ Recogida de pelota suelta y lenta dentro de su área (`pickup_*`): solo con clip
 | `perception_time` | `0.25` | float | `scripts/goalkeeper/keeper_tuning.gd:21` | `scripts/goalkeeper/goalkeeper.gd:393`, `scripts/goalkeeper/goalkeeper.gd:443`, `scripts/goalkeeper/goalkeeper.gd:456`, `scripts/goalkeeper/goalkeeper.gd:484` |  (Reaccion) |
 | `spin_read_time` | `0.3` | float | `scripts/goalkeeper/keeper_tuning.gd:24` | `scripts/goalkeeper/goalkeeper.gd:479` | Segundos (reflejos 50) que tarda en leer el efecto del disparo: la curva se percibe al verla desviarse, no al salir (antes preve la pelota casi recta y corrige al replanificar). (Reaccion) |
 | `dive_speed_max` | `1.15` | float | `scripts/goalkeeper/keeper_tuning.gd:27` | `scripts/goalkeeper/goalkeeper.gd:471` | Velocidad maxima (reflejos 50) a la que reproduce un clip de atajada respecto a la captura humana (antes 1.4: estiradas un 40 % mas rapidas que una persona, que llegaban al palo antes que cualquier tiro de 11 m). (Reaccion) |
-| `contact_scale` | `1.0` | float | `scripts/goalkeeper/keeper_tuning.gd:29` | `scripts/goalkeeper/keeper_planner.gd:50`, `scripts/goalkeeper/keeper_planner.gd:156`, `scripts/goalkeeper/keeper_planner.gd:289` | Escala del radio de contacto de las manos de cada clip (KeeperPlanner.radius_of) para planificar y resolver la atajada. (Reaccion) |
+| `contact_scale` | `1.0` | float | `scripts/goalkeeper/keeper_tuning.gd:29` | `scripts/goalkeeper/keeper_planner.gd:52`, `scripts/goalkeeper/keeper_planner.gd:168`, `scripts/goalkeeper/keeper_planner.gd:308` | Escala del radio de contacto de las manos de cada clip (KeeperPlanner.radius_of) para planificar y resolver la atajada. (Reaccion) |
 | `hand_latency` | `0.12` | float | `scripts/goalkeeper/keeper_tuning.gd:32` | `scripts/goalkeeper/goalkeeper.gd:468`, `scripts/setpiece/sp_keeper.gd:245`, `scripts/setpiece/sp_keeper.gd:506` | Limite humano de las manos (reflejos 50): desde que puede moverse, las manos no llegan a un punto antes de hand_latency + distancia desde la posicion de espera / hand_speed (estirada al palo de futsal, ~1.5 m: ~0.45 s). (Reaccion) |
 | `hand_speed` | `4.5` | float | `scripts/goalkeeper/keeper_tuning.gd:33` | `scripts/goalkeeper/goalkeeper.gd:468`, `scripts/setpiece/sp_keeper.gd:245`, `scripts/setpiece/sp_keeper.gd:506` |  (Reaccion) |
 | `anticipation_gain` | `0.05` | float | `scripts/goalkeeper/keeper_tuning.gd:35` | `scripts/goalkeeper/goalkeeper.gd:383` | Segundos adicionales por cada 10 m de distancia al disparo (el arquero lee antes los tiros lejanos). (Reaccion) |

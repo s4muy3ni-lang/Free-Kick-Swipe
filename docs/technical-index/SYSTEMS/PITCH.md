@@ -5,7 +5,7 @@
 - **Responsabilidad exacta:** construir por código la cancha (por defecto, desde 2026-11-05, fútbol 7 de 50 × 30 m con arcos de 5 × 2 m, círculo central de 6 m, área y penal a 8 m; `PitchConfig.futsal()` da la de futsal de 40 × 20 con arcos de 3 × 2 que usan las pruebas de mecánica): superficie, líneas reglamentarias en **una sola malla**, paredes de contención con colisión, baranda visible, iluminación, elementos ambientales; y los **arcos** (postes y travesaño con colisión física, red visible de una malla, red absorbente, detección de gol).
 - **Estado:** implementado. La opción `PitchConfig.boundary_mode` está **declarada pero ningún código la usa**: las paredes siempre se construyen (`OUT_OF_BOUNDS` no existe).
 - **Última verificación:** <!-- AUTO:verified -->
-2026-11-11
+2026-11-12
 <!-- /AUTO -->
 
 ## Archivos responsables
@@ -40,7 +40,7 @@
 | `line_width` | `0.08` | float | `scripts/pitch/pitch_config.gd:31` | `scripts/setpiece/stadium11.gd:112`, `scripts/pitch/pitch.gd:172`, `scripts/pitch/pitch.gd:173`, `scripts/pitch/pitch.gd:174` (+6) |  (Marcas) |
 | `center_circle_radius` | `6.0` | float | `scripts/pitch/pitch_config.gd:32` | `scripts/pitch/pitch.gd:182` |  (Marcas) |
 | `penalty_area_radius` | `8.0` | float | `scripts/pitch/pitch_config.gd:34` | `scripts/ai/ai_input.gd:387`, `scripts/gameplay/match_manager.gd:228`, `scripts/gameplay/match_scene.gd:410`, `scripts/goalkeeper/goalkeeper.gd:563` (+1) | Radio de los cuartos de circulo del area de penal (desde cada poste). (Marcas) |
-| `penalty_mark_distance` | `8.0` | float | `scripts/pitch/pitch_config.gd:35` | `scripts/dev/anim_bank_bench.gd:250`, `scripts/assistance/cross_assist.gd:30`, `scripts/gameplay/match_manager.gd:219`, `scripts/gameplay/match_scene.gd:398` (+1) |  (Marcas) |
+| `penalty_mark_distance` | `8.0` | float | `scripts/pitch/pitch_config.gd:35` | `scripts/dev/anim_bank_bench.gd:250`, `scripts/dev/anim_lab.gd:267`, `scripts/assistance/cross_assist.gd:30`, `scripts/gameplay/match_manager.gd:219` (+2) |  (Marcas) |
 | `second_penalty_mark_distance` | `12.0` | float | `scripts/pitch/pitch_config.gd:37` | `scripts/pitch/pitch.gd:199` | Segundo punto penal (reglamento futsal, falta acumulada; en la cancha de futbol 7 solo se dibuja). (Marcas) |
 | `corner_arc_radius` | `0.25` | float | `scripts/pitch/pitch_config.gd:38` | `scripts/pitch/pitch.gd:205` |  (Marcas) |
 | `substitution_zone_length` | `5.0` | float | `scripts/pitch/pitch_config.gd:39` | `scripts/pitch/pitch.gd:203` |  (Marcas) |

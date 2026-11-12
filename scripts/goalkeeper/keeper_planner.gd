@@ -32,11 +32,13 @@ static func _role(id: StringName) -> StringName:
 	_role_cache[id] = role
 	return role
 
-static func candidates() -> Array[StringName]:
+## fallback: con la biblioteca MIXAMO, los clips ACTUALES de atajada (respaldo de las pelotas que ninguna estirada de Mixamo
+## alcanza: Mixamo trae 12 clips de atajada y el banco actual cubre mas alturas y distancias).
+static func candidates(fallback: bool = false) -> Array[StringName]:
 	var out: Array[StringName] = []
 	if PackLibrary.json_mode():
 		for r in JSON_ROLE_RADIUS:
-			out.append_array(PackLibrary.by_role(r))
+			out.append_array(PackLibrary.actual_by_role(r) if fallback else PackLibrary.by_role(r))
 		return out
 	for id in SAVE_CLIPS:
 		if PackLibrary.has_clip(id):
@@ -133,6 +135,7 @@ static var _role_cache: Dictionary = {}
 ## nombres por clip en cada llamada.
 static var _cand_cache: Array = []
 static var _cand_cache_json: int = -1
+static var _cand_cache_fb: Array = []
 
 ## Vacia los datos calculados con la libreria de clips (cambian al cambiar de modo).
 static func reset_caches() -> void:
@@ -140,6 +143,7 @@ static func reset_caches() -> void:
 	_role_cache = {}
 	_cand_cache = []
 	_cand_cache_json = -1
+	_cand_cache_fb = []
 
 ## Calcula ya los datos fijos de los candidatos (MatchScene al cargar el partido).
 static func warm_cache() -> void:
@@ -147,14 +151,22 @@ static func warm_cache() -> void:
 
 ## Candidatos con sus datos fijos: [id, manos, raiz, radio sin escala, caja de manos (min, max), estilo, duracion, es de
 ## recogida, es scoop del pack].
-static func _candidate_data() -> Array:
+static func _candidate_data(fallback: bool = false) -> Array:
+	if fallback:
+		if _cand_cache_fb.is_empty():
+			_cand_cache_fb = _build_candidate_data(true)
+		return _cand_cache_fb
 	var js: int = 1 if PackLibrary.json_mode() else 0
 	if _cand_cache_json == js:
 		return _cand_cache
-	_cand_cache = []
 	_cand_cache_json = js
+	_cand_cache = _build_candidate_data(false)
+	return _cand_cache
+
+static func _build_candidate_data(fallback: bool) -> Array:
+	var out: Array = []
 	var scale: float = Tuning.keeper.contact_scale if Tuning.keeper != null else 1.0
-	for id in candidates():
+	for id in candidates(fallback):
 		var meta: Dictionary = PackLibrary.meta(id)
 		var hp: PackedVector3Array = meta.get("paths", {}).get("hands", PackedVector3Array())
 		var bb: Array = _bbox(id, hp) if not hp.is_empty() else [Vector3.ZERO, Vector3.ZERO]
@@ -183,11 +195,11 @@ static func _candidate_data() -> Array:
 		for k in hp.size():
 			trav[k] = rp[mini(k, rp.size() - 1)].length() if rp.size() > 0 else 0.0
 			ready_d[k] = (hp[k] - READY_HANDS).length()
-		_cand_cache.append([id, hp, rp, radius_of(id) / maxf(scale, 1e-6), bb[0], bb[1],
+		out.append([id, hp, rp, radius_of(id) / maxf(scale, 1e-6), bb[0], bb[1],
 			style_penalty(id), float(meta.get("duration", 1.0)), PICKUP_CLIPS.has(StringName(String(id).trim_suffix("_mirror"))) \
 				or (PackLibrary.json_mode() and JSON_PICKUP_ROLES.has(_role(id))),
 			String(id).begins_with("goalkeeper_scoop"), klo, khi, trav, ready_d])
-	return _cand_cache
+	return out
 
 ## Tramos de la trayectoria agrupados de a SEG_BLOCK con su caja: plan_save descarta un grupo entero cuando ni su caja
 ## queda dentro del radio ni puede mejorar la mejor distancia (mismo resultado que mirando tramo a tramo).
@@ -222,6 +234,13 @@ static func plan_save(origin: Vector3, yaw: float, traj: PackedVector3Array, ste
 		tau_cost: float = 0.0) -> Dictionary:
 	Prof.begin(&"arquero (plan de atajada)")
 	var plan: Dictionary = _plan_save(origin, yaw, traj, step, min_delay, pickup, speeds, human, radius_scale, tau_cost)
+	# Biblioteca MIXAMO: primero las atajadas de Mixamo; si ninguna llega con holgura, la actual (respaldo documentado en
+	# docs/animaciones/; sin esto el arquero atajaba un 20 % menos: test_shot_keeper con ANIM_BANK=mixamo).
+	if AnimBank.is_mixamo() and PackLibrary.json_mode() and (plan.is_empty() or float(plan["dist"]) > float(plan["radius"]) * 0.85):
+		var fb: Dictionary = _plan_save(origin, yaw, traj, step, min_delay, pickup, speeds, human, radius_scale, tau_cost, true)
+		if not fb.is_empty() and (plan.is_empty() or float(fb["dist"]) < float(plan["dist"])):
+			fb["fallback"] = true
+			plan = fb
 	Prof.end(&"arquero (plan de atajada)")
 	return plan
 
@@ -230,7 +249,7 @@ static func plan_save(origin: Vector3, yaw: float, traj: PackedVector3Array, ste
 static var trace_reasons: Dictionary = {}
 
 static func _plan_save(origin: Vector3, yaw: float, traj: PackedVector3Array, step: float, min_delay: float, pickup: bool,
-		speeds: Array, human: Vector2, radius_scale: float = 1.0, tau_cost: float = 0.0) -> Dictionary:
+		speeds: Array, human: Vector2, radius_scale: float = 1.0, tau_cost: float = 0.0, fallback: bool = false) -> Dictionary:
 	if AnimTrace.enabled:
 		trace_reasons = {}
 	var best: Dictionary = {}
@@ -287,7 +306,7 @@ static func _plan_save(origin: Vector3, yaw: float, traj: PackedVector3Array, st
 		blk_lo[bi] = lo_b
 		blk_hi[bi] = hi_b
 	var scale: float = (Tuning.keeper.contact_scale if Tuning.keeper != null else 1.0) * radius_scale
-	for cd in _candidate_data():
+	for cd in _candidate_data(fallback):
 		var id: StringName = cd[0]
 		var is_pickup_clip: bool = cd[8]
 		if pickup != is_pickup_clip and (pickup or bool(cd[9])):

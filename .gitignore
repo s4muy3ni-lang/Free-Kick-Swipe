@@ -40,3 +40,9 @@ node_modules/
 
 # Configuracion del servidor generada por CI (clave publica)
 /config/backend.json
+
+# Animaciones de Mixamo (licencia: se pueden usar en el juego pero no redistribuir sueltas; el repositorio es publico):
+# los GLB fuente y las bibliotecas derivadas quedan fuera de git. CI las recibe cifradas (assets/animations/mixamo_pack.enc, tools/mixamo/pack_mixamo.sh).
+/assets/animations/source/mixamo/
+/assets/animations/mixamo_*.res
+/resources/setpiece/shot_clips_mixamo.json

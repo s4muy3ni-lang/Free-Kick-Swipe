@@ -5,7 +5,7 @@
 - **Responsabilidad exacta:** todo lo que el jugador (o, en el futuro, una IA o la red) puede *pedir* a un futbolista. Una `InputSource` produce un `InputFrame` por paso de física; el futbolista solo conoce el `InputFrame`. Los controles táctiles **inyectan acciones reales de `InputMap`** (`Input.action_press`), de modo que teclado, táctil y pruebas comparten el mismo camino.
 - **Estado:** implementado y probado (teclado, táctil multitoque con joystick flotante, entrada programada). No hay mapeo de gamepad (ver «Limitaciones»).
 - **Última verificación:** <!-- AUTO:verified -->
-2026-11-11
+2026-11-12
 <!-- /AUTO -->
 
 ## Archivos responsables

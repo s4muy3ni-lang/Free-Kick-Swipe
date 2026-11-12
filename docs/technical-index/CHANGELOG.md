@@ -11,6 +11,64 @@ Formato de entrada: **fecha — título** · commit · qué cambió · archivos 
 
 ---
 
+## 2026-11-12 — Animaciones: bibliotecas ACTUAL y MIXAMO, selector, laboratorio y comparación
+
+Pedido del usuario: integrar `animaciones_mixamo.zip` sin borrar ni reemplazar nada. Informe completo en
+`docs/animaciones/MIXAMO_INTEGRACION.md`; inventario y correspondencias (generado) en `docs/animaciones/INVENTARIO_MIXAMO.md`.
+
+- **Conversión** (`tools/mixamo/`):
+  - los 133 clips (110 de campo + 23 de arquero) pasan al esqueleto del juego: 196 con espejos;
+  - transferencia de proporciones (direcciones de Tripo, longitudes del juego, tobillo apoyado a la altura del juego);
+  - raíz reconstruida desde el pie de apoyo (el paquete no trae raíz) y contacto de los golpeos;
+  - después, el convertidor de siempre.
+  - Pies: de −7 cm a −2,4…+1,3 cm. Velocidades medidas: caminata 1,0 m/s, carrera 2,2, sprint 5,0.
+  - GLB intactos y fuera de git.
+- **Selector** `AnimBank` (`scripts/animation/anim_bank.gd`, `user://anim_bank.cfg`, `ANIM_BANK` para herramientas y
+  pruebas).
+- **Integración con MIXAMO**:
+  - `SpClips` y `PackLibrary` por rol: Mixamo primero, actual de respaldo en 53 roles; los nombres del paquete van a
+    Mixamo;
+  - `ShotCatalog` por tipo de tiro, con `shot_clips_mixamo.json`;
+  - `KeeperPlanner`: Mixamo primero, actual si ninguna atajada de Mixamo llega;
+  - `SpFieldPlayers`: defensores que llegan marcando (`defend`) y retroceden mirando la pelota (`dir_*`, en las dos
+    bibliotecas);
+  - `SpShooter._loop_for`: carrera y sprint de Mixamo.
+  - Con ACTUAL no se carga nada de Mixamo.
+- **Laboratorio** (`scripts/dev/anim_lab.gd`, `scenes/dev/anim_lab.tscn`, botón en el menú solo con herramientas de
+  desarrollo):
+  - ACTUAL, MIXAMO o COMPARAR lado a lado con el mismo reloj, y golpeos alineados al contacto;
+  - 11 categorías y 10 situaciones;
+  - controles e información del clip;
+  - mediciones de pies y del contacto;
+  - «Penal / Tiro libre en el juego» con la biblioteca elegida.
+- **CI**:
+  - `assets/animations/mixamo_pack.enc` (AES-256) y `tools/mixamo/pack_mixamo.sh`;
+  - paso que lo descifra con el secret `MIXAMO_KEY` (sin el secret, la APK sale sin MIXAMO);
+  - verificación de la APK.
+- **Archivos**:
+  - `scripts/animation/anim_bank.gd`, `pack_library.gd`;
+  - `scripts/setpiece/sp_clips.gd`, `shot_catalog.gd`, `sp_field_players.gd`, `sp_shooter.gd`, `main_menu.gd`;
+  - `scripts/goalkeeper/keeper_planner.gd`, `scripts/dev/anim_lab.gd`, `scenes/dev/anim_lab.tscn`;
+  - `tools/mixamo/*`, `tools/setpiece/build_shot_catalog.gd`;
+  - `tests/test_mixamo_bank.gd`;
+  - `.github/workflows/android.yml`, `.gitignore`;
+  - `docs/animaciones/*`, ficha `SYSTEMS/ANIM_BANK.md`.
+- **Verificación**:
+  - **PC headless**, suite completa con la biblioteca por defecto: 265 pruebas, 2408 comprobaciones, 0 fallos (24
+    omitidas: render).
+  - `test_mixamo_bank`: 9/178/0.
+  - Con `ANIM_BANK=mixamo`:
+    - `setpiece`: 15 pruebas, 2 fallos de calidad por la poca variedad de golpeos de Mixamo (sin exterior, pocos ángulos);
+      con ACTUAL, 15/15;
+    - `keeper`: 17, 0 fallos (antes del respaldo del arquero: 2 fallos, atajaba 68 % contra 88 %).
+  - **PC con render** (xvfb, opengl3), ACTUAL: `test_keeper_zones` 4/27/0 y `test_setpiece_render` 7/45/0.
+  - **CI**: pendiente de este push.
+  - **Android**: no probado.
+- **Pendiente**:
+  - el secret `MIXAMO_KEY` en GitHub;
+  - probar en el teléfono el laboratorio y los modos con MIXAMO, y medir la memoria;
+  - decidir si se reemplaza algo (hoy conviven; el juego arranca en ACTUAL).
+
 ## 2026-11-11 — Ecosistema online: cuentas, servidor con autoridad, menú nuevo, economía, penales online contra bots
 
 Pedido del usuario (etapas 1 a 10). Lo hecho y lo que falta, por etapa: `docs/online/ARQUITECTURA_ONLINE.md`.

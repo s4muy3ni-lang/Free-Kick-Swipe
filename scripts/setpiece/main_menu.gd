@@ -226,6 +226,10 @@ func _build_ui() -> void:
 	# Herramienta de desarrollo: no aparece en la build publica (DevFlags).
 	bench.visible = DevFlags.tools_enabled()
 	row.add_child(bench)
+	# Laboratorio de animaciones ACTUAL vs MIXAMO (desarrollo; tambien elige la biblioteca del juego).
+	var lab: Button = _small("Laboratorio de animaciones", func() -> void: get_tree().change_scene_to_file(AnimLab.SCENE))
+	lab.visible = DevFlags.tools_enabled()
+	row.add_child(lab)
 	_build_visual_panel(root)
 	_build_player_panel(root)
 	root.add_child(screens)

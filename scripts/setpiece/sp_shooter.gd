@@ -115,15 +115,24 @@ static func _root_speed(e: Dictionary, t: float) -> float:
 static func _loop_for(speed: float) -> StringName:
 	var best: StringName = &""
 	var best_d: float = INF
-	for role in [&"walk", &"jog", &"loco_jog"]:
-		for id in SpClips.by_role(role, false):
-			var ns: float = float(SpClips.meta(id).get("natural_speed_json", 0.0))
-			if ns <= 0.2:
-				continue
-			var d: float = absf(ns - speed)
-			if d < best_d:
-				best_d = d
-				best = id
+	# Biblioteca MIXAMO: tambien la carrera y el sprint de Mixamo (su trote llega a 2 m/s), y manda Mixamo: un bucle
+	# actual (respaldo de loco_jog) solo si ninguno de Mixamo queda a menos del 50 % de la velocidad pedida.
+	var mx: bool = AnimBank.is_mixamo()
+	var roles_: Array = [&"walk", &"jog", &"loco_jog", &"run", &"loco_sprint", &"sprint"] if mx else [&"walk", &"jog", &"loco_jog"]
+	for pass_ in (2 if mx else 1):
+		for role in roles_:
+			for id in SpClips.by_role(role, false):
+				if mx and pass_ == 0 and not AnimBank.is_mixamo_id(id):
+					continue
+				var ns: float = float(SpClips.meta(id).get("natural_speed_json", 0.0))
+				if ns <= 0.2:
+					continue
+				var d: float = absf(ns - speed)
+				if d < best_d:
+					best_d = d
+					best = id
+		if best != &"" and best_d <= 0.5 * speed:
+			break
 	return best
 
 func _physics_process(_delta: float) -> void:

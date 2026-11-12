@@ -3,6 +3,8 @@ extends Node
 ## velocidad del pie, carrera previa) y guarda resources/setpiece/shot_clips.json, que usa ShotCatalog para elegir el
 ## golpeo segun la direccion del tiro, el pie, la potencia y la altura. No modifica las bibliotecas.
 ##   godot --headless --path . res://tools/setpiece/build_shot_catalog.tscn
+## Biblioteca MIXAMO (AnimBank): ANIM_BANK=mixamo mide los golpeos de Mixamo (y los actuales de los roles que Mixamo no
+## tiene, que son su respaldo) y guarda resources/setpiece/shot_clips_mixamo.json; shot_clips.json no se toca.
 ## (Escena y no --script: los scripts del juego usan el autoload Tuning.)
 
 const OUT := "res://resources/setpiece/shot_clips.json"
@@ -122,10 +124,11 @@ func _run() -> void:
 				"power": String(m.get("power", "")), "tags": tags, "source": String(m.get("source", "")), "roots": roots,
 			})
 	rows.sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return String(a["id"]) < String(b["id"]))
-	var f := FileAccess.open(OUT, FileAccess.WRITE)
+	var out: String = AnimBank.MIXAMO_SHOTS if AnimBank.is_mixamo() else OUT
+	var f := FileAccess.open(out, FileAccess.WRITE)
 	f.store_string(JSON.stringify({"version": 1, "clips": rows}, "\t"))
 	f.close()
-	print("shot_clips: %d golpeos medidos, %d descartados" % [rows.size(), skipped.size()])
+	print("shot_clips (%s -> %s): %d golpeos medidos, %d descartados" % [AnimBank.current_name(), out, rows.size(), skipped.size()])
 	for k in skipped:
 		print("  descartado %s: %s" % [k, skipped[k]])
 	get_tree().quit()

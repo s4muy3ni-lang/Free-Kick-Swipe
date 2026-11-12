@@ -5,7 +5,7 @@
 - **Responsabilidad:** generar una APK instalable de Fútbol 5 para probar en un teléfono, de forma reproducible en GitHub Actions, sin secretos en el repositorio.
 - **Estado real:** la exportación y la firma están verificadas en Linux (ver «Qué se verificó»); el workflow ya se ejecutó en un runner (pruebas, exportación y firma pasan; la subida del artefacto falló por la cuota de almacenamiento de la cuenta, no por el código). **Nada se probó en un teléfono ni en un emulador.**
 - **Última verificación:** <!-- AUTO:verified -->
-2026-11-11
+2026-11-12
 <!-- /AUTO -->
 
 ## Cliente liviano: qué lo hace liviano

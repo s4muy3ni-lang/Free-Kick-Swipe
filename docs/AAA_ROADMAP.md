@@ -715,3 +715,19 @@ Resumen:
 - **Falta:** conectar el proyecto de Supabase, tiros libres y minijuegos online, efecto de los atributos en el tiro,
   diseños de balón y números en el juego, repeticiones, pagos reales y exportación Web.
 - Nada se probó en el teléfono.
+
+## Animaciones: ACTUAL vs MIXAMO (2026-11-12)
+
+Pedido: integrar y comparar las animaciones de `animaciones_mixamo.zip` con las actuales, sin reemplazar nada.
+
+| Etapa | Estado | Dónde |
+|---|---|---|
+| Auditoría e inventarios (ACTUAL 2.024 clips / 111 roles; MIXAMO 133 / 60) | Hecha | `docs/animaciones/INVENTARIO_MIXAMO.md` |
+| Conversión con retargeting (proporciones, raíz reconstruida, contacto) | Hecha | `tools/mixamo/`, `docs/animaciones/MIXAMO_INTEGRACION.md` (3) |
+| Selector ACTUAL/MIXAMO en todos los sistemas, con respaldo por rol | Hecho | `AnimBank`, `SpClips`, `PackLibrary`, `ShotCatalog`, `KeeperPlanner` |
+| Laboratorio con comparación lado a lado y situaciones | Hecho | `scenes/dev/anim_lab.tscn` |
+| Pruebas PC | Hechas | `tests/test_mixamo_bank.gd`; suite completa OK |
+| Entrega cifrada a CI | Hecha (falta el secret `MIXAMO_KEY`) | `tools/mixamo/pack_mixamo.sh`, workflow |
+| Prueba en el teléfono (ZTE V60) | **Pendiente** | — |
+| Decidir reemplazos por rol o sistema | **Pendiente (usuario)** | `MIXAMO_INTEGRACION.md` (11) |
+

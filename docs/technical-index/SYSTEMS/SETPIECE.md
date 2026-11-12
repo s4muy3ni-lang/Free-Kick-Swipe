@@ -160,19 +160,22 @@ tiro de sobra al completar.
 <!-- AUTO:funcs:scripts/setpiece/shot_catalog.gd -->
 | Función | Línea | Qué hace |
 |---|---|---|
-| `ShotCatalog.clips()` | 29 |  |
-| `ShotCatalog.entry(id: StringName)` | 40 |  |
-| `ShotCatalog.rel_angle(c: Dictionary)` | 47 | Angulo (grados, + derecha) entre la carrera y el pie al golpear. |
-| `ShotCatalog.surface_of(c: Dictionary)` | 51 | Superficie del pie con que golpea: "interior", "empeine" o "exterior". |
-| `ShotCatalog.surface_for(kind: int, foot: int, open_side: bool, curled: bool, lateral_spin: float)` | 57 | Superficie que corresponde a un tiro: colocar = interior; potente = empeine; normal = interior al lado abierto y empeine al cruzado; con efe |
-| `ShotCatalog.is_desperate(c: Dictionary)` | 69 |  |
-| `ShotCatalog.kind_of(c: Dictionary)` | 73 | Familia a la que pertenece un golpeo medido. |
-| `ShotCatalog._kind_cost(want: int, have: int)` | 86 | Familias aceptables para un tipo de tiro (la primera es la ideal) y su costo extra. |
-| `ShotCatalog.choose(foot: int, shot_rel_deg: float, kind: int, set_piece: bool, rng: RandomNumberGenerator = null, ball_speed: float = -1.0, prefer_short: bool = false, curled: bool = false, surface: String = "")` | 107 | Elige el golpeo. foot: 1 derecho, -1 izquierdo. shot_rel_deg: angulo (+ derecha) del tiro respecto de la carrera habitual del pie (ver appro |
-| `ShotCatalog.approach_dir(aim: Vector3, foot: int)` | 159 | Direccion de la carrera habitual del pie para tirar hacia `aim` (unit. horizontal): el diestro llega desde su izquierda. |
-| `ShotCatalog.signed_deg(approach: Vector3, shot: Vector3)` | 164 | Angulo (grados, + derecha) de `shot` respecto de `approach` (direcciones horizontales). |
-| `ShotCatalog.frame_for_shot(c: Dictionary, ball: Vector3, shot: Vector3)` | 170 | Marco del clip (origen, mirada) para que el pie llegue a la pelota en `ball` y salga hacia `shot` (horizontal). |
-| `ShotCatalog.start_time_near(c: Dictionary, frame: Array, pos: Vector3, min_lead: float = 0.55)` | 181 | Instante del clip (antes del contacto, con al menos min_lead s de carrera) en que la raiz pasa mas cerca de `pos` (donde espera el tirador): |
+| `ShotCatalog.path()` | 31 | Catalogo de la biblioteca activa (AnimBank): con MIXAMO, el medido sobre los golpeos de Mixamo (con los actuales de respaldo en los roles qu |
+| `ShotCatalog.reload()` | 37 | Fuerza una nueva lectura (cambio de biblioteca, pruebas). |
+| `ShotCatalog.clips()` | 41 |  |
+| `ShotCatalog.mixamo_filter(all: Array)` | 57 | MIXAMO: por TIPO de tiro (potente, normal, colocado, vaselina, error), si hay golpeos de Mixamo de ese tipo se usan solo esos; los actuales  |
+| `ShotCatalog.entry(id: StringName)` | 65 |  |
+| `ShotCatalog.rel_angle(c: Dictionary)` | 72 | Angulo (grados, + derecha) entre la carrera y el pie al golpear. |
+| `ShotCatalog.surface_of(c: Dictionary)` | 76 | Superficie del pie con que golpea: "interior", "empeine" o "exterior". |
+| `ShotCatalog.surface_for(kind: int, foot: int, open_side: bool, curled: bool, lateral_spin: float)` | 82 | Superficie que corresponde a un tiro: colocar = interior; potente = empeine; normal = interior al lado abierto y empeine al cruzado; con efe |
+| `ShotCatalog.is_desperate(c: Dictionary)` | 94 |  |
+| `ShotCatalog.kind_of(c: Dictionary)` | 98 | Familia a la que pertenece un golpeo medido. |
+| `ShotCatalog._kind_cost(want: int, have: int)` | 111 | Familias aceptables para un tipo de tiro (la primera es la ideal) y su costo extra. |
+| `ShotCatalog.choose(foot: int, shot_rel_deg: float, kind: int, set_piece: bool, rng: RandomNumberGenerator = null, ball_speed: float = -1.0, prefer_short: bool = false, curled: bool = false, surface: String = "")` | 132 | Elige el golpeo. foot: 1 derecho, -1 izquierdo. shot_rel_deg: angulo (+ derecha) del tiro respecto de la carrera habitual del pie (ver appro |
+| `ShotCatalog.approach_dir(aim: Vector3, foot: int)` | 184 | Direccion de la carrera habitual del pie para tirar hacia `aim` (unit. horizontal): el diestro llega desde su izquierda. |
+| `ShotCatalog.signed_deg(approach: Vector3, shot: Vector3)` | 189 | Angulo (grados, + derecha) de `shot` respecto de `approach` (direcciones horizontales). |
+| `ShotCatalog.frame_for_shot(c: Dictionary, ball: Vector3, shot: Vector3)` | 195 | Marco del clip (origen, mirada) para que el pie llegue a la pelota en `ball` y salga hacia `shot` (horizontal). |
+| `ShotCatalog.start_time_near(c: Dictionary, frame: Array, pos: Vector3, min_lead: float = 0.55)` | 206 | Instante del clip (antes del contacto, con al menos min_lead s de carrera) en que la raiz pasa mas cerca de `pos` (donde espera el tirador): |
 <!-- /AUTO -->
 
 <!-- AUTO:funcs:scripts/setpiece/sp_keeper.gd -->

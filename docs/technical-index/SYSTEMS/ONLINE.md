@@ -15,7 +15,7 @@
     dispositivos;
   - tiros libres y minijuegos online: «en preparación».
 - **Última verificación:** <!-- AUTO:verified -->
-2026-11-11
+2026-11-12
 <!-- /AUTO -->
 
 ## Archivos responsables
