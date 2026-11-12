@@ -715,6 +715,11 @@ func _resolve(part: Array, c: Vector3, q: Vector3, parts_now: Dictionary, delta:
 	elif is_hand:
 		n = glove_normal(n, vr, facing)
 		last_contact["normal"] = n
+	elif TORSO_PARTS.has(String(part[0])):
+		# Pelotazo de frente a la cabeza, el pecho o la cadera: el cuerpo es una superficie ancha, no una esfera; la normal
+		# se inclina hacia la llegada (como el guante) y la pelota vuelve hacia la cancha en vez de rozar y entrar.
+		n = body_normal(n, vr, facing)
+		last_contact["normal"] = n
 	var v_new: Vector3 = rebound(v, part_v, n, e, GLOVE_GRIP if is_hand else BODY_GRIP)
 	if was_sure:
 		# El manotazo la despide por la normal (afuera del arco), con lo que trae amortiguado por el guante.
@@ -734,6 +739,18 @@ static func rebound(v: Vector3, part_v: Vector3, n: Vector3, e: float, grip: flo
 		return v
 	var vt: Vector3 = vr - n * vn
 	return part_v + vt * grip - n * vn * e
+
+## Partes del tronco (superficie ancha) y cuanto se orienta su normal hacia la pelota que llega de frente.
+const TORSO_PARTS := ["mixamorig_Head", "mixamorig_Spine2", "mixamorig_Hips"]
+const BODY_BIAS := 0.6
+
+static func body_normal(n: Vector3, vr: Vector3, keeper_facing: Vector3) -> Vector3:
+	if vr.length() < 0.5:
+		return n
+	var incoming: Vector3 = -vr.normalized()
+	if incoming.dot(keeper_facing) < 0.3:
+		return n
+	return (n + incoming * BODY_BIAS).normalized()
 
 ## Guante: no es una esfera sino una superficie ancha que el arquero pone con la palma hacia la pelota. Si la pelota llega
 ## de frente (desde el campo), la normal del choque se inclina hacia la direccion de llegada (PALM_BIAS): un toque de

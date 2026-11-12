@@ -11,6 +11,28 @@ Formato de entrada: **fecha — título** · commit · qué cambió · archivos 
 
 ---
 
+## 2026-11-12 — Pelotazo de frente al cuerpo del arquero: rebota hacia la cancha
+
+- **CI** (run 43171844076, commit `caaa799`, con el modelo de Tripo) falló en
+  `test_goal_detection::test_keeper_deflection_decides_by_physics`.
+  - Salida real: «al pecho (1,04 m): toque body en mixamorig_Head, sale a (2,8, −11,8, −1,3), gol 1».
+  - Se reprodujo en PC con la carpeta de usuario limpia, como CI.
+- **Causa**:
+  - el arquero de Tripo, agachado, adelanta la cabeza más que el humanoide;
+  - la pelota tirada al pecho rozaba por debajo la esfera de la cabeza y la física de la esfera la mandaba abajo y
+    adentro.
+- **Arreglo** (`sp_keeper.gd: body_normal, TORSO_PARTS`):
+  - cabeza, pecho y cadera son una superficie ancha;
+  - si la pelota llega de frente, la normal del choque se inclina hacia la llegada (como el guante, BODY_BIAS 0,6) y la
+    pelota vuelve hacia la cancha.
+  - La prueba no se tocó.
+- **Verificación (PC)**:
+  - `test_goal_detection` 3 corridas 6/53/0;
+  - suite completa con carpeta de usuario limpia 271/2454/0;
+  - pruebas con render: ver el commit.
+
+---
+
 ## 2026-11-12 — El modelo de Tripo del usuario es el cuerpo de los jugadores
 
 Pedido del usuario: el GLB del jugador (`assets/characters/player/player_base.glb`, hecho con Tripo3D) tiene que estar en el
