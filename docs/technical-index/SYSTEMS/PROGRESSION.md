@@ -69,6 +69,15 @@ Constantes: `MIN_VALUE = 1`, `MAX_VALUE = 100`, `DEFAULT_ROOKIE = 40` (valor ini
 - `PlayerCustom` (`scripts/progression/player_custom.gd`): paletas de uniforme/piel/pelo (shader del kit), número en la
   espalda (`SpActor.set_back_number`), estilo de golpeo y carrera (pesos sobre `ShotCatalog`, sin tocar la física),
   seguimiento tras el tiro, festejo elegido; cosméticos bloqueados hasta ganarlos. `user://custom.cfg`.
+  - Número de la espalda (2026-11-12, «estaba separado de la camiseta»). Con el cuerpo de Tripo va **impreso en la
+    tela**:
+    - `player_kit.gdshader` proyecta las cifras de `assets/characters/player/number_atlas.png`
+      (`tools/ui/make_number_atlas`) sobre la espalda;
+    - usa la posición de reposo que `build_tripo_body` guarda en CUSTOM0;
+    - contraste automático con la camiseta;
+    - se mantiene al cambiar el uniforme.
+  - Con el humanoide es un `Label3D` que sigue la inclinación del torso, ubicado después de que se actualiza el esqueleto.
+  - Prueba: `test_back_number`; captura: `tools/ui/number_capture`.
 - `Achievements` (`scripts/progression/achievements.gd`): logros permanentes + 3 diarios y 2 semanales (rotación por
   fecha, progreso por período, premio único por período, historial). Avisos: autoload `Toasts`. `user://achievements.cfg`.
 - Pestaña LOGROS en `ChallengeMenu`; panel «Jugador» en el menú principal.

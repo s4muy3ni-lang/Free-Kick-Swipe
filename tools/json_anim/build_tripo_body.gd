@@ -9,6 +9,7 @@ extends Node
 ## los polos bien definidos (rodilla hacia adelante; codo como el del brazo en pose A girado hasta la cruz), deja cada hueso
 ## en reposo con ese marco y recalcula el «bind» de la piel para que la malla quede igual en reposo. Asi las mismas
 ## bibliotecas (ACTUAL y MIXAMO) mueven este cuerpo. Raiz en el origen y sin giro: la pista de la cadera es la del modelo.
+## La malla lleva ademas la posicion de reposo en CUSTOM0 (numero impreso en la espalda y diseños pegados a la tela).
 ## Salida: assets/characters/json/tripo_body.scn. Uso: godot --headless --path . res://tools/json_anim/build_tripo_body.tscn
 
 const SRC := "res://assets/characters/player/player_base.glb"
@@ -70,6 +71,27 @@ func _ready() -> void:
 			bi = sk.find_bone(String(skin.get_bind_name(b)))
 		skin.set_bind_pose(b, (new_g[bi] as Transform3D).affine_inverse() * (old_g[bi] as Transform3D) * skin.get_bind_pose(b))
 	mi.skin = skin
+	# Posicion de REPOSO de cada vertice en CUSTOM0 (xyz) y la X de su normal (w): el shader del uniforme imprime ahi el
+	# numero de la espalda y apoya los diseños, asi quedan pegados a la tela cuando el cuerpo se mueve (pedido 2026-11-12:
+	# «el numero de la camiseta esta separado de la camiseta»). La malla se rearma igual, con ese canal de mas.
+	var am: ArrayMesh = mi.mesh as ArrayMesh
+	var nm := ArrayMesh.new()
+	for si in am.get_surface_count():
+		var arr: Array = am.surface_get_arrays(si)
+		var vv: PackedVector3Array = arr[Mesh.ARRAY_VERTEX]
+		var nn: PackedVector3Array = arr[Mesh.ARRAY_NORMAL]
+		var rest := PackedFloat32Array()
+		rest.resize(vv.size() * 4)
+		for k in vv.size():
+			rest[k * 4] = vv[k].x
+			rest[k * 4 + 1] = vv[k].y
+			rest[k * 4 + 2] = vv[k].z
+			rest[k * 4 + 3] = nn[k].x if k < nn.size() else 0.0
+		arr[Mesh.ARRAY_CUSTOM0] = rest
+		nm.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, arr, [], {}, Mesh.ARRAY_CUSTOM_RGBA_FLOAT << Mesh.ARRAY_FORMAT_CUSTOM0_SHIFT)
+		nm.surface_set_material(si, am.surface_get_material(si))
+		nm.surface_set_name(si, am.surface_get_name(si))
+	mi.mesh = nm
 	mi.name = "TripoBodyMesh"
 	scene.name = "TripoBody"
 	for c in scene.find_children("*", "", true, false):

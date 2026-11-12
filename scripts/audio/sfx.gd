@@ -3,9 +3,13 @@ extends Node
 ## Un grupo de reproductores sin posicion (en el movil el sonido 3D no aporta) y un ambiente de publico en bucle.
 ## Lo conecta MatchScene a la pelota y a los eventos del partido: los golpes (tambien los del arquero) suenan con la
 ## fuerza del impulso real (Ball.impulse), el poste, la red y los botes con su velocidad.
+## 2026-11-12: poste con sintesis modal de un caño de aluminio (tres variantes al azar), tribuna con voces sintetizadas
+## (ambiente que se escucha aun en calma, festejo de gol largo, «ooh» y abucheo nuevo).
 
-const SOUNDS := [&"kick_hard", &"kick_soft", &"touch", &"bounce", &"post", &"net", &"whistle_short", &"whistle_long",
-	&"glove", &"cheer", &"ooh"]
+const SOUNDS := [&"kick_hard", &"kick_soft", &"touch", &"bounce", &"post", &"post2", &"post3", &"net", &"whistle_short",
+	&"whistle_long", &"glove", &"cheer", &"ooh", &"boo"]
+## Variantes del pelotazo en el palo (se elige una al azar: el mismo golpe repetido delata la muestra).
+const POST_SOUNDS := [&"post", &"post2", &"post3"]
 const VOICES := 10
 ## Interruptor (Tuning.sound_on, menu de pausa; las pruebas no lo necesitan apagar: sin audio real no suena nada).
 var enabled: bool = true
@@ -54,9 +58,11 @@ func play(name: StringName, volume: float = 1.0, pitch: float = 1.0) -> void:
 	p.pitch_scale = clampf(pitch, 0.5, 2.0)
 	p.play()
 
-## Intensidad del publico (0 silencio .. 1 estallido): el bucle sube y baja suave hacia ella (CROWD_DB_MIN..MAX).
-const CROWD_DB_MIN := -38.0
-const CROWD_DB_MAX := -9.0
+## Intensidad del publico (0 calma .. 1 estallido): el bucle sube y baja suave hacia ella (CROWD_DB_MIN..MAX). En calma
+## el ambiente se sigue escuchando (pedido 2026-11-12: «si esta quieto el publico esta tranquilo pero se debe escuchar»;
+## antes bajaba a -38 dB y parecia que se callaba).
+const CROWD_DB_MIN := -12.0
+const CROWD_DB_MAX := -1.0
 const CROWD_FADE_DB_S := 18.0
 var crowd_level: float = 0.5
 
@@ -129,7 +135,8 @@ func _on_bounce(_pos: Vector3, speed: float) -> void:
 		play(&"bounce", clampf(speed / 9.0, 0.15, 0.8), randf_range(0.9, 1.1))
 
 func _on_post(_pos: Vector3, speed: float) -> void:
-	play(&"post", clampf(speed / 18.0, 0.35, 1.2))
+	# Mas fuerte y un poco mas grave cuanto mas fuerte pega.
+	play(POST_SOUNDS[randi() % POST_SOUNDS.size()], clampf(speed / 18.0, 0.35, 1.2), randf_range(0.96, 1.04) * lerpf(1.04, 0.97, clampf(speed / 25.0, 0.0, 1.0)))
 	if speed > 8.0:
 		play(&"ooh", 0.8)
 

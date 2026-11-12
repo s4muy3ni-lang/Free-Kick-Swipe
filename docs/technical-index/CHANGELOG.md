@@ -11,6 +11,70 @@ Formato de entrada: **fecha — título** · commit · qué cambió · archivos 
 
 ---
 
+## 2026-11-12 — Público arcade en penales y tiros libres, sonido de la tribuna y del poste, número pegado a la camiseta
+
+Pedido del usuario:
+- «en tiros libres y penales agregá el público de los juegos arcade… debe estar activo y festejar y abuchear»;
+- «el festejo de gol tiene que ser más vivo y largo, lo mismo el abucheo»;
+- «si está quieto el público está tranquilo pero se debe escuchar»;
+- «el ruido del poste es muy falso»;
+- «el número de la camiseta está separado de la camiseta».
+
+- **Público** (`stadium11.gd`, `arcade_look.gd`, `tools/gen_crowd_sprites.py`, `assets/setpiece/crowd.gdshader`):
+  - las tribunas del estadio de 11 llevan el mismo público 2D animado de los minijuegos (`ArcadeLook.crowd`, una sola
+    MultiMesh, ~13 000 hinchas en perfil Alto). La densidad depende del perfil gráfico
+    (`GraphicsSettings.crowd_density`: 0,4 / 0,6 / 0,85 / 1);
+  - la hoja de sprites suma dos cuadros: manos a la cabeza, y silbido con el pulgar abajo (6 × 12);
+  - el shader compartido tiene cuatro estados:
+    - calma: miran, se balancean, aplauden de a ratos y algunos alientan;
+    - tensión: todos quietos en la carrera del penal;
+    - festejo: saltan, brazos arriba, aplauden;
+    - abucheo: manos a la cabeza, silbidos, se sacuden;
+  - `crowd.gdshader` ahora dibuja solo las butacas vacías debajo del público.
+- **Reacciones** (`setpiece_game.gd: crowd_react, set_crowd_mood, _update_crowd`):
+  - la tribuna es la hinchada del usuario:
+    - gol del usuario: festejo a pleno 6,5 s, después baja de a poco (~11 s en total; antes ~4 s);
+    - atajada del usuario: festejo de 4 s;
+    - fallo del usuario o gol de la CPU: abucheo de 3,5 s;
+    - tanda ganada: festejo de 8 s;
+  - los minijuegos abuchean los errores del usuario (`Minigame.crowd_boo`).
+- **Sonido** (`tools/audio/make_sfx.py`, `sfx.gd`):
+  - tribuna sintetizada con voces: pulso glotal con tono y entonación, formantes de las vocales, sílabas y frases, más
+    miles de voces lejanas, aplausos, silbidos y bombo, con reverberación de estadio;
+  - ambiente en bucle de 14 s;
+  - festejo de 9,5 s: grito, silbidos, aplausos y bombo;
+  - «ooh» nuevo;
+  - abucheo nuevo de 5,5 s: silbatina y «uuuh»;
+  - en calma el ambiente se escucha: `CROWD_DB_MIN` pasó de −38 a −12 dB;
+  - poste: síntesis modal de un caño de aluminio (modos de flexión y de la pared en parejas desafinadas que laten,
+    contacto blando, golpe de la pelota, reverberación); tres variantes al azar;
+  - cada sonido tiene su semilla; los filtros por FFT ya no son circulares (dejaban un clic al final).
+- **Número de la espalda** (`player_kit.gdshader`, `build_tripo_body.gd`, `sp_actor.gd`, `anim_bank_catalog.gd`,
+  `tools/ui/make_number_atlas.gd`):
+  - con el cuerpo de Tripo va impreso en la tela:
+    - la malla trae la posición de reposo en CUSTOM0 y el shader proyecta las cifras (`number_atlas.png`) sobre la espalda;
+    - se dobla y se mueve con ella;
+    - cifras oscuras sobre una camiseta clara;
+    - los diseños de la camiseta también usan la posición de reposo y ya no se corren al moverse;
+  - con el humanoide sigue el `Label3D`, pero:
+    - sigue la inclinación del torso, a la distancia de la espalda medida en la malla;
+    - se ubica después de que la animación mueve los huesos (antes, corriendo, quedaba un cuadro atrás, ~10 cm).
+- **CI de `17fa625`** (run 43178863671) falló en `test_setpiece_render::test_free_kick_keeper_reads_deflections_and_is_beatable`:
+  - salida: «tiro 5 (barrera): resultado wall, se tiró true»;
+  - causa: la atajada segura «en el lugar» leía un tiro directo a la barrera como si fuera al arco. Se tiraba o no según
+    el instante de la primera lectura (en PC pasaba);
+  - arreglo (`sp_keeper.gd: wall_blocks`): mientras la pelota va contra el cuerpo de un jugador de la barrera, el arquero
+    espera y la vuelve a leer al pasarla o rebotar;
+  - la prueba no se tocó; en PC ahora «se tiró false, estiradas canceladas 0».
+- **Pruebas**:
+  - nuevas: `test_crowd_mood` (8), `test_back_number` (3), `test_keeper_wall` (1);
+  - `test_arcade_look` espera la hoja de 6 cuadros;
+  - `test_customization` acepta el número impreso (cuerpo de Tripo) o el cartel (humanoide). Antes buscaba solo el
+    `Label3D`, que con Tripo ya no existe.
+- **Verificación**: ver el commit. El sonido se revisó con espectrogramas: no se pudo escuchar. Nada se probó en el teléfono.
+
+---
+
 ## 2026-11-12 — Pelotazo de frente al cuerpo del arquero: rebota hacia la cancha
 
 - **CI** (run 43171844076, commit `caaa799`, con el modelo de Tripo) falló en

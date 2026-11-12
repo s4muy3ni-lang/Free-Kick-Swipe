@@ -30,19 +30,19 @@
 const PROFILES: Dictionary = {
 	Profile.VERY_LOW: {
 		"scale_3d": 0.5, "msaa": Viewport.MSAA_DISABLED, "shadows": false,
-		"shadow_size": 1024, "ambient_props": false, "target_fps": 60,
+		"shadow_size": 1024, "ambient_props": false, "target_fps": 60, "crowd_density": 0.4,
 	},
 	Profile.LOW: {
 		"scale_3d": 0.6, "msaa": Viewport.MSAA_DISABLED, "shadows": false,
-		"shadow_size": 1024, "ambient_props": true, "target_fps": 60,
+		"shadow_size": 1024, "ambient_props": true, "target_fps": 60, "crowd_density": 0.6,
 	},
 	Profile.MEDIUM: {
 		"scale_3d": 0.72, "msaa": Viewport.MSAA_DISABLED, "shadows": true,
-		"shadow_size": 1024, "ambient_props": true, "target_fps": 60,
+		"shadow_size": 1024, "ambient_props": true, "target_fps": 60, "crowd_density": 0.85,
 	},
 	Profile.HIGH: {
 		"scale_3d": 0.9, "msaa": Viewport.MSAA_2X, "shadows": true,
-		"shadow_size": 2048, "ambient_props": true, "target_fps": 60,
+		"shadow_size": 2048, "ambient_props": true, "target_fps": 60, "crowd_density": 1.0,
 	},
 }
 ```
@@ -96,10 +96,11 @@ teléfono real** (no hay dispositivo en el entorno).
 | `GraphicsSettings.cycle_fps_cap()` | 177 | Pasa al siguiente tope de FPS_CAPS. |
 | `GraphicsSettings.cycle_shadows()` | 183 | Sombras: las del perfil -> no -> si -> las del perfil. |
 | `GraphicsSettings.ambient_props_enabled()` | 188 |  |
-| `GraphicsSettings.apply()` | 192 | Aplica el perfil al viewport principal y a las luces registradas en el grupo "sun_light". |
-| `GraphicsSettings.save_settings()` | 206 |  |
-| `GraphicsSettings.load_settings()` | 220 |  |
-| `GraphicsSettings._has_saved_settings()` | 237 |  |
+| `GraphicsSettings.crowd_density()` | 192 | Fraccion de butacas ocupadas por el publico 2D del estadio de penales y tiros libres (Stadium11), por perfil. |
+| `GraphicsSettings.apply()` | 196 | Aplica el perfil al viewport principal y a las luces registradas en el grupo "sun_light". |
+| `GraphicsSettings.save_settings()` | 210 |  |
+| `GraphicsSettings.load_settings()` | 224 |  |
+| `GraphicsSettings._has_saved_settings()` | 241 |  |
 <!-- /AUTO -->
 
 <!-- AUTO:signals:scripts/diagnostics/graphics_settings.gd -->

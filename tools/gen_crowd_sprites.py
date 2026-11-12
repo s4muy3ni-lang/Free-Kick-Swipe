@@ -3,7 +3,9 @@
 festejan, en vez de cubos 3D; mas liviano para el telefono y para el navegador).
 
 Salida: assets/arcade/crowd_atlas.png, una grilla de COLS x ROWS celdas de CELL_W x CELL_H pixeles.
-  - Columnas (cuadros de animacion): 0 quieto, 1 aplaude, 2 brazos arriba, 3 salta con los brazos arriba.
+  - Columnas (cuadros de animacion): 0 quieto, 1 aplaude, 2 brazos arriba, 3 salta con los brazos arriba,
+    4 se lamenta (manos a la cabeza), 5 abuchea (silba con la mano en la boca y el pulgar abajo). Los dos ultimos se
+    sumaron el 2026-11-12 (pedido: el publico de penales y tiros libres festeja y abuchea).
   - Filas (variantes): camiseta, piel, pelo, gorro, bufanda.
 El shader del publico (ArcadeLook.crowd_shader) elige la fila por instancia y el cuadro segun el tiempo y el festejo.
 
@@ -12,7 +14,7 @@ Uso: python3 tools/gen_crowd_sprites.py   (determinista: siempre produce la mism
 import os
 from PIL import Image, ImageDraw
 
-COLS, ROWS = 4, 12
+COLS, ROWS = 6, 12
 CELL_W, CELL_H = 64, 96
 SS = 4  # sobremuestreo para bordes suaves
 
@@ -63,9 +65,17 @@ def draw_fan(d: ImageDraw.ImageDraw, ox: int, oy: int, row: int, frame: int) -> 
     elif frame == 2:
         hands = [(8, 16), (56, 16)]
         elbows = [(11, 38), (53, 38)]
-    else:
+    elif frame == 3:
         hands = [(15, 10), (49, 10)]
         elbows = [(14, 33), (50, 33)]
+    elif frame == 4:
+        # manos a la cabeza
+        hands = [(23, 25), (41, 25)]
+        elbows = [(6, 34), (58, 34)]
+    else:
+        # una mano en la boca (silbido) y el otro brazo afuera con el pulgar abajo
+        hands = [(30, 46), (57, 80)]
+        elbows = [(12, 62), (56, 66)]
     behind = frame == 0
     if behind:
         for sh, el, ha in zip((sh_l, sh_r), elbows, hands):
@@ -95,11 +105,21 @@ def draw_fan(d: ImageDraw.ImageDraw, ox: int, oy: int, row: int, frame: int) -> 
     # cara: ojos y boca (abierta al festejar)
     circ(27.5, 37, 1.6, (25, 20, 20))
     circ(36.5, 37, 1.6, (25, 20, 20))
-    if frame >= 2:
+    if frame == 4:
+        # boca abierta de lamento y cejas caidas
+        d.ellipse([P(29.5, 42), P(34.5, 47)], fill=(120, 20, 30, 255))
+        d.line([P(24.5, 33), P(29.5, 34.5)], fill=(40, 30, 30, 255), width=s(1.2))
+        d.line([P(39.5, 33), P(34.5, 34.5)], fill=(40, 30, 30, 255), width=s(1.2))
+    elif frame == 5:
+        # boca en «o» (silba) y cejas fruncidas
+        circ(32, 44, 2.0, (120, 20, 30))
+        d.line([P(24.5, 32), P(29.5, 34)], fill=(40, 30, 30, 255), width=s(1.4))
+        d.line([P(39.5, 32), P(34.5, 34)], fill=(40, 30, 30, 255), width=s(1.4))
+    elif frame >= 2:
         d.ellipse([P(28.5, 41), P(35.5, 47)], fill=(120, 20, 30, 255))
     else:
         d.line([P(29, 43), P(35, 43)], fill=(110, 40, 40, 255), width=s(1.4))
-    if ex == 2 and frame < 2:
+    if ex == 2 and (frame < 2 or frame >= 4):
         box(22, 50, 42, 56, second, 2)
         box(23, 56, 28, 70, shirt, 1)
     if not behind:
@@ -108,7 +128,10 @@ def draw_fan(d: ImageDraw.ImageDraw, ox: int, oy: int, row: int, frame: int) -> 
             line(el, ha, 7, skin)
         for ha in hands:
             circ(ha[0], ha[1], 4.2, skin)
-    if ex == 2 and frame >= 2:
+        if frame == 5:
+            # pulgar abajo
+            box(hands[1][0] - 1.5, hands[1][1] + 2, hands[1][0] + 1.5, hands[1][1] + 9, skin, 1)
+    if ex == 2 and frame in (2, 3):
         # bufanda estirada entre las manos
         a, b = hands
         top = min(a[1], b[1]) - 2

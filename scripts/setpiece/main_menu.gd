@@ -76,6 +76,8 @@ func _ready() -> void:
 	cam.current = true
 	_build_ui()
 	GraphicsSettings.apply()
+	# Ambiente de estadio de fondo, en calma (el juego lo sube y lo baja segun la jugada).
+	Sfx.set_crowd_level(0.0)
 	Sfx.crowd(true)
 
 func _exit_tree() -> void:

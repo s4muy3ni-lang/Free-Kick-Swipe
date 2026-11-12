@@ -129,7 +129,15 @@ var _online_pick_sent: bool = false
 var _pick_t: float = 0.0
 var _zone_marker: MeshInstance3D
 var _place_marker: MeshInstance3D
+## Animo del publico (0..1, la tribuna es la hinchada del usuario): festejo y abucheo, cada uno con un tiempo a pleno
+## (_hold) antes de apagarse. Pedido 2026-11-12: el publico de los minijuegos arcade tambien aca, que festeje mas vivo y
+## mas largo, que abuchee los fallos y que en calma se siga escuchando.
 var _cheer: float = 0.0
+var _boo: float = 0.0
+var _cheer_hold: float = 0.0
+var _boo_hold: float = 0.0
+const CHEER_DECAY := 0.22
+const BOO_DECAY := 0.3
 ## Pruebas: sin esperas de presentacion (el resultado pasa enseguida).
 var fast: bool = false
 
@@ -309,6 +317,8 @@ func _build_people() -> void:
 		wall = SpWall.new()
 		wall.name = "Wall"
 		add_child(wall)
+		# El arquero sabe donde esta su barrera: no se tira a un tiro que ella va a frenar.
+		cpu_keeper.wall = wall
 		for i in 5:
 			var a: SpActor = _actor(SpSettings.CPU_KIT, 1, "Wall%d" % i)
 			a.enable_collider()
@@ -683,9 +693,7 @@ func _commit_keeper(lead: float) -> void:
 # --- Paso ----------------------------------------------------------------------------------------------------------------
 
 func _physics_process(delta: float) -> void:
-	_cheer = maxf(_cheer - delta * 0.25, 0.0)
-	stadium.set_cheer(_cheer)
-	Sfx.set_crowd_level(crowd_target())
+	_update_crowd(delta)
 	if _launch_measure > 0:
 		_launch_measure -= 1
 		if _launch_measure == 0:
@@ -856,11 +864,7 @@ func _finish(why: String) -> void:
 			Achievements.event(&"gol_tl" if mode == Mode.FREE_KICK else &"gol_penal")
 		elif why == "save" and mode == Mode.PENALTY and not user_shooting:
 			Achievements.event(&"atajada")
-	if goal_ok:
-		_cheer = 1.0
-		Sfx.play(&"cheer", 0.9)
-	else:
-		Sfx.play(&"ooh", 0.8)
+	crowd_react(goal_ok == user_shooting, why)
 	_keeper_ball_done = false
 	# Pelota suelta en el area o cerca: el arquero va a recogerla o un defensor la despeja (ese no reacciona: juega).
 	chaser = null
@@ -995,8 +999,9 @@ func _keeper_with_ball() -> void:
 		cur_keeper.drop_ball(f * 0.9 + Vector3.UP * 1.6)
 		loose.keeper_kick(cur_keeper)
 
-## Intensidad del publico segun la jugada (0..1): silencio antes del penal, tension en la carrera y el vuelo, estallido
-## con el gol (se apaga con _cheer), murmullo despues de una atajada o un fallo.
+## Intensidad del publico segun la jugada (0..1): calma al apuntar (un poco mas baja en la carrera del penal), tension
+## con la pelota en el aire, estallido con el gol y abucheo con un fallo (suben con _cheer y _boo). Sfx.crowd_db la pasa a
+## volumen: aun en 0 el ambiente (murmullo y aliento) se escucha.
 func crowd_target() -> float:
 	var base: float = 0.45
 	match phase:
@@ -1010,7 +1015,50 @@ func crowd_target() -> float:
 			base = 0.35 + clampf(_flight_t * 0.6, 0.0, 0.3)
 		Phase.RESULT, Phase.OVER:
 			base = 0.5
-	return clampf(base + _cheer * 0.5, 0.0, 1.0)
+	return clampf(base + _cheer * 0.5 + _boo * 0.35, 0.0, 1.0)
+
+## Tension de la tribuna (0..1): en la carrera del penal todos quietos mirando.
+func crowd_tension() -> float:
+	if _penalty_like() and (phase == Phase.RUNUP or (phase == Phase.FLIGHT and _flight_t < 0.4)):
+		return 1.0
+	return 0.0
+
+## Fija el animo del publico: festejo y abucheo (0..1) y cuanto tiempo quedan a pleno antes de apagarse.
+func set_crowd_mood(cheer: float, boo: float, hold: float) -> void:
+	_cheer = cheer
+	_boo = boo
+	_cheer_hold = hold if cheer > 0.0 else 0.0
+	_boo_hold = hold if boo > 0.0 else 0.0
+
+## Animo del publico actual: (festejo, abucheo).
+func crowd_mood() -> Vector2:
+	return Vector2(_cheer, _boo)
+
+## Reaccion del publico a un resultado. good: bueno para el usuario (su gol, su atajada, un acierto del desafio); si no,
+## abuchea (su fallo, un gol de la CPU). Festejo largo con el gol, mas corto con una atajada.
+func crowd_react(good: bool, why: String, scale: float = 1.0) -> void:
+	if good:
+		var goal_ok: bool = why == "goal"
+		set_crowd_mood((1.0 if goal_ok else 0.85) * scale, 0.0, (6.5 if goal_ok else 4.0) * scale)
+		Sfx.play(&"cheer", (1.0 if goal_ok else 0.75) * scale)
+	else:
+		set_crowd_mood(0.0, 0.9 * scale, 3.5 * scale)
+		Sfx.play(&"ooh", 0.8 * scale)
+		Sfx.play(&"boo", 0.85 * scale)
+
+func _update_crowd(delta: float) -> void:
+	if _cheer_hold > 0.0:
+		_cheer_hold -= delta
+	else:
+		_cheer = maxf(_cheer - delta * CHEER_DECAY, 0.0)
+	if _boo_hold > 0.0:
+		_boo_hold -= delta
+	else:
+		_boo = maxf(_boo - delta * BOO_DECAY, 0.0)
+	stadium.set_cheer(_cheer)
+	stadium.set_boo(_boo)
+	stadium.set_tension(crowd_tension())
+	Sfx.set_crowd_level(crowd_target())
 
 # --- Repeticion -------------------------------------------------------------------------------------------------------------
 
@@ -1269,11 +1317,7 @@ func _finish_challenge(why: String) -> void:
 	runner.targets.flush()
 	var ev: Dictionary = runner.evaluate(why, last_launch_speed)
 	hud.show_banner(String(ev["text"]), ev["color"], String(ev["sub"]))
-	if bool(ev["hit"]):
-		_cheer = 0.7
-		Sfx.play(&"cheer", 0.6)
-	else:
-		Sfx.play(&"ooh", 0.6)
+	crowd_react(bool(ev["hit"]), why, 0.7)
 	cur_shooter.react(bool(ev["hit"]))
 	if cur_keeper.actor.visible:
 		cur_keeper.react(why != "goal")
@@ -1314,7 +1358,7 @@ func _show_challenge_end() -> void:
 		if medal >= 3:
 			Achievements.event(&"oro")
 	if medal >= 1:
-		_cheer = 1.0
+		set_crowd_mood(1.0, 0.0, 5.0)
 
 ## El siguiente: Academia = el ejercicio que sigue (si esta abierto); Arena = la dificultad siguiente si se abrio, si no
 ## el desafio que sigue en Facil.
@@ -1351,7 +1395,8 @@ func _show_end() -> void:
 	if online_match != null:
 		online_match.on_end(w == PenaltyShootout.USER)
 	if w == PenaltyShootout.USER:
-		_cheer = 1.0
+		set_crowd_mood(1.0, 0.0, 8.0)
+		Sfx.play(&"cheer", 1.0)
 		if not fast:
 			Achievements.event(&"tanda")
 	if not fast and online_match == null:

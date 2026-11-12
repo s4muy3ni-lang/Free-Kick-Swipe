@@ -544,6 +544,10 @@ func _resolve(r: String) -> void:
 	var joy: float = crowd_cheer(r, txt)
 	if joy > 0.0:
 		ArcadeLook.cheer(self, joy)
+	else:
+		var anger: float = crowd_boo(r, txt)
+		if anger > 0.0:
+			ArcadeLook.boo(self, anger, 2.0)
 	_refresh_score()
 
 ## Cuanto festeja el publico del estadio este resultado (0 nada .. 1 todos). Por defecto, por el color del cartel: verde
@@ -557,6 +561,16 @@ func crowd_cheer(_r: String, txt: Array) -> float:
 		return 1.0
 	if c.g >= 0.8 and c.b < 0.5 and side == Side.USER:
 		return 0.3
+	return 0.0
+
+## Cuanto abuchea el publico (0 nada .. 1 todos; manos a la cabeza y silbidos): un error del usuario (cartel rojo o
+## naranja en su turno). Lo mismo que en penales y tiros libres (pedido 2026-11-12). Un modo puede decidirlo por su cuenta.
+func crowd_boo(_r: String, txt: Array) -> float:
+	if String(txt[0]) == "" or txt.size() < 2 or side != Side.USER:
+		return 0.0
+	var c: Color = txt[1]
+	if c.r >= 0.9 and c.g < 0.7:
+		return 0.6
 	return 0.0
 
 func _after_resolve() -> void:

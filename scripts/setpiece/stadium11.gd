@@ -3,7 +3,8 @@ extends Node3D
 ## Estadio de futbol 11 para los modos de tiros libres y penales (no estira la cancha del partido: es una construccion
 ## propia con medidas reglamentarias). Cancha de 105 x 68 m con lineas, areas, puntos penales, semicirculos y arcos de
 ## esquina; arcos de 7,32 x 2,44 m (Goal, con la red de tela de fondo inclinado de GoalNet); carteles LED; tribunas con
-## publico; torres de luz e iluminacion nocturna. Ejes: X = largo (arcos en x = +-52,5), Z = ancho, Y = arriba.
+## el MISMO publico 2D animado de los minijuegos arcade (ArcadeLook.crowd: hoja de sprites, calma, festejo y abucheo;
+## pedido 2026-11-12); torres de luz e iluminacion nocturna. Ejes: X = largo (arcos en x = +-52,5), Z = ancho, Y = arriba.
 
 signal goal_scored(goal: Goal, ball_position: Vector3)
 
@@ -19,6 +20,9 @@ const PENALTY_MARK := 11.0
 const ARC_RADIUS := 9.15
 const BOARD_OFFSET := 5.0
 const STAND_GAP := 9.0
+## Publico 2D en las tribunas: filas a lo largo de la pendiente y separacion entre hinchas (m).
+const CROWD_ROW_STEP := 1.05
+const CROWD_SEAT_GAP := 0.8
 
 var config: PitchConfig
 var goals: Dictionary = {}
@@ -32,6 +36,8 @@ func build(cfg: PitchConfig = null) -> void:
 		c.queue_free()
 	goals.clear()
 	crowd_materials.clear()
+	if has_meta("crowd_mats"):
+		remove_meta("crowd_mats")
 	_build_ground()
 	_build_lines()
 	_build_goals()
@@ -56,10 +62,28 @@ func reset_goal_latches() -> void:
 	for g in goals.values():
 		(g as Goal).reset_latch()
 
-## Festejo del publico (0..1): sube con un gol y baja solo.
+## Festejo del publico (0..1): con un gol se paran, saltan y agitan los brazos.
 func set_cheer(v: float) -> void:
+	_set_mood("cheer", v)
+
+## Abucheo / lamento del publico (0..1): manos a la cabeza y silbidos con el pulgar abajo.
+func set_boo(v: float) -> void:
+	_set_mood("boo", v)
+
+## Tension (0..1): la carrera del penal, todos quietos mirando.
+func set_tension(v: float) -> void:
+	_set_mood("tension", v)
+
+func _set_mood(param: String, v: float) -> void:
 	for m in crowd_materials:
-		m.set_shader_parameter("cheer", clampf(v, 0.0, 1.0))
+		m.set_shader_parameter(param, clampf(v, 0.0, 1.0))
+
+## Hinchas en las tribunas (instancias del publico 2D).
+func crowd_count() -> int:
+	var c: int = 0
+	for mm in find_children("Publico", "MultiMeshInstance3D", true, false):
+		c += (mm as MultiMeshInstance3D).multimesh.instance_count
+	return c
 
 # --- Suelo -------------------------------------------------------------------------------------------------------------
 
@@ -232,7 +256,14 @@ func _build_stands() -> void:
 	var rise: float = 16.0
 	var depth: float = 26.0
 	var concrete := MeshUtil.flat_material(Color(0.20, 0.21, 0.24), 0.9)
-	# Cuatro tribunas inclinadas (publico) con su muro frontal y techo.
+	var seats_mat := ShaderMaterial.new()
+	seats_mat.shader = CROWD_SHADER
+	seats_mat.set_shader_parameter("row", CROWD_ROW_STEP)
+	var seats: Array = []
+	var density: float = GraphicsSettings.crowd_density() if is_inside_tree() else 1.0
+	var rng := RandomNumberGenerator.new()
+	rng.seed = 5
+	# Cuatro tribunas inclinadas (butacas + publico 2D) con su muro frontal y techo.
 	for spec in [[Vector3(0, 0, -hw), Vector3(0, 0, -1), config.length + STAND_GAP * 2.0],
 			[Vector3(0, 0, hw), Vector3(0, 0, 1), config.length + STAND_GAP * 2.0],
 			[Vector3(-hl, 0, 0), Vector3(-1, 0, 0), config.width + STAND_GAP * 2.0],
@@ -253,12 +284,22 @@ func _build_stands() -> void:
 		MeshUtil.add_quad(verts, normals, uvs, idx, a, b, c, d)
 		var mi := MeshInstance3D.new()
 		mi.mesh = MeshUtil.build_mesh(verts, normals, uvs, idx)
-		var mat := ShaderMaterial.new()
-		mat.shader = CROWD_SHADER
-		crowd_materials.append(mat)
-		mi.material_override = mat
+		mi.material_override = seats_mat
 		mi.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 		root.add_child(mi)
+		# Butacas del publico: filas por la pendiente (un poco hundidas en el escalon: se ven de la cintura para arriba).
+		var slope: Vector3 = (d - a)
+		var rows: int = int(slope.length() / CROWD_ROW_STEP)
+		var per_row: int = int((length - 2.0) / CROWD_SEAT_GAP)
+		var sgn: float = 1.0 if (out.z > 0.5 or out.x > 0.5) else -1.0
+		for r in rows:
+			var t: float = (float(r) + 0.35) / float(rows)
+			for k in per_row:
+				if rng.randf() > density:
+					continue
+				var u: float = (float(k) + 0.5) / float(per_row) - 0.5
+				var p: Vector3 = base + Vector3.UP * front_h + along * u * (length - 2.0) + slope * t - Vector3.UP * 0.35
+				seats.append([p, sgn, r])
 		# Muro frontal.
 		var wall := MeshInstance3D.new()
 		var wb := BoxMesh.new()
@@ -277,6 +318,10 @@ func _build_stands() -> void:
 		roof.material_override = MeshUtil.flat_material(Color(0.75, 0.77, 0.8), 0.5)
 		roof.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 		root.add_child(roof)
+	# El publico de los minijuegos arcade (una sola MultiMesh): festeja, abuchea y alienta.
+	ArcadeLook.crowd(self, seats)
+	for m in get_meta("crowd_mats", []):
+		crowd_materials.append(m as ShaderMaterial)
 
 # --- Luces -------------------------------------------------------------------------------------------------------------
 

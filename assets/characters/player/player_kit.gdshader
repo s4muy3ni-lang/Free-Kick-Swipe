@@ -27,11 +27,48 @@ uniform int shorts_pattern = 0;
 uniform int socks_pattern = 0;
 uniform int sock_height = 0;
 uniform vec3 pattern_axis = vec3(0.0, 0.0, 1.0);
+// Numero de la espalda IMPRESO en la tela (pedido 2026-11-12: el numero quedaba separado de la camiseta). El cuerpo de
+// Tripo (tools/json_anim/build_tripo_body) trae en CUSTOM0 la posicion de cada vertice en REPOSO (xyz, en el espacio
+// del modelo: adelante = +X, costado = Z) y en w la componente X de su normal en reposo: el numero se proyecta sobre la
+// espalda en ese espacio, asi que se dobla y se mueve con la piel. number_atlas: cifras 0..9 en fila (R relleno, G borde).
+uniform sampler2D number_atlas : filter_linear_mipmap, repeat_disable;
+uniform int back_number = 0;
+uniform vec3 number_color : source_color = vec3(0.97, 0.97, 0.98);
+uniform vec3 number_edge : source_color = vec3(0.05, 0.05, 0.1);
+// Centro (z, y) de la celda de una cifra y su alto, en el espacio de reposo (1,0 = 1,75 m); paso entre dos cifras.
+uniform vec3 number_box = vec3(-0.0096, 0.665, 0.16);
+uniform float number_step = 0.072;
+// Malla con la posicion de reposo en CUSTOM0 (el cuerpo de Tripo del juego; la pone AnimBankCatalog.kit_material): los
+// diseños tambien usan esa posicion (no se corren cuando el jugador se mueve) y se puede imprimir el numero.
+uniform bool rest_space = false;
 
 varying vec3 mpos;
+varying vec4 rpos;
 
 void vertex() {
-	mpos = VERTEX;
+	rpos = CUSTOM0;
+	mpos = rest_space ? CUSTOM0.xyz : VERTEX;
+}
+
+// Tinta del numero en este punto: x = relleno, y = relleno + borde (0 fuera del numero). g: derivadas de la UV de una celda.
+vec2 number_ink(vec4 gxy) {
+	if (!rest_space || back_number <= 0 || rpos.w > -0.25 || rpos.x > -0.02) { return vec2(0.0); }
+	float cw = number_box.z * 0.6;
+	float v = (number_box.y + number_box.z * 0.5 - rpos.y) / number_box.z;
+	if (v < 0.0 || v > 1.0) { return vec2(0.0); }
+	int tens = back_number / 10;
+	int ones = back_number - tens * 10;
+	vec2 ink = vec2(0.0);
+	for (int k = 0; k < 2; k++) {
+		int digit = k == 0 ? ones : tens;
+		if (k == 1 && tens == 0) { break; }
+		float cz = number_box.x + (tens > 0 ? (k == 0 ? number_step * 0.5 : -number_step * 0.5) : 0.0);
+		float u = (rpos.z - cz) / cw + 0.5;
+		if (u < 0.0 || u > 1.0) { continue; }
+		vec2 auv = vec2((float(digit) + u) / 10.0, v);
+		ink = max(ink, textureGrad(number_atlas, auv, gxy.xy, gxy.zw).rg);
+	}
+	return ink;
 }
 
 vec3 jersey_paint(vec3 base) {
@@ -80,6 +117,13 @@ void fragment() {
 		+ b.g * hair_color * shade(lum, mean_luma_b.y);
 	float wsum = a.r + a.g + a.b + a.a + b.r + b.g;
 	vec3 col = mix(base_lin, tint / max(wsum, 0.0001), clamp(wsum, 0.0, 1.0));
+	// Numero: derivadas tomadas fuera de las ramas (la UV de la celda es continua dentro de una cifra).
+	vec2 cell_uv = vec2(rpos.z / (number_box.z * 6.0), -rpos.y / number_box.z);
+	vec4 gxy = vec4(dFdx(cell_uv), dFdy(cell_uv));
+	vec2 ink = number_ink(gxy) * a.r;
+	float cloth = shade(lum, mean_luma_a.x);
+	col = mix(col, number_edge * cloth, ink.y);
+	col = mix(col, number_color * cloth, ink.x);
 	ALBEDO = col;
 	ROUGHNESS = roughness_value;
 	SPECULAR = 0.25;

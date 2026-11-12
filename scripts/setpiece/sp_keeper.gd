@@ -190,6 +190,15 @@ var _plan_v := Vector3.ZERO
 var cancelled_dives: int = 0
 ## Pelotas sueltas recogidas en esta jugada (diagnostico y pruebas).
 var picked_up: int = 0
+## Barrera de su equipo (la asigna SetPieceGame). Mientras la pelota va CONTRA la barrera (todavia no la paso y su
+## camino cruza el cuerpo de un jugador), el arquero no se compromete: no se tira a una pelota que la barrera va a
+## frenar; la vuelve a leer apenas la pasa o rebota. Arreglo 2026-11-12: la atajada segura «en el lugar» leia un tiro
+## directo a la barrera como si fuera al arco y, segun el instante de la primera lectura, se tiraba igual (fallo de CI).
+var wall: SpWall = null
+## Alcance de un jugador de la barrera para la pelota: radio de la capsula + radio de la pelota + margen (m), y altura
+## de su cabeza con la pelota (por encima de eso la pelota pasa y el arquero la lee como siempre).
+const WALL_REACH := 0.24 + 0.11 + 0.12
+const WALL_TOP := 1.9
 
 func read_shot(_ball_pos: Vector3, _velocity: Vector3, _spin: Vector3) -> void:
 	if state != State.IDLE:
@@ -227,6 +236,9 @@ func _watch_step(delta: float) -> void:
 		if state == State.WAIT_DIVE:
 			# Ya no viene al arco (desviada hacia atras): no se tira a la nada.
 			_cancel_dive()
+		return
+	# Todavia va contra la barrera: espera a ver si la pasa o rebota (no se tira a una pelota que la barrera va a frenar).
+	if wall_blocks(bp, bv):
 		return
 	# Ya esta en el lugar: la pelota no le pasa por arriba ni al lado (pedido del usuario).
 	if in_position_saves and not sure and _in_position_save(bp, bv):
@@ -295,6 +307,27 @@ func _watch_step(delta: float) -> void:
 		_dive_in = float(pl["delay"])
 		if _dive_in <= 0.0:
 			_start_dive()
+
+## true si la pelota (en bp con velocidad bv) va contra un jugador de la barrera que todavia no paso: su camino cruza el
+## cuerpo de alguno (a menos de WALL_REACH de costado y por debajo de WALL_TOP) en el proximo segundo.
+func wall_blocks(bp: Vector3, bv: Vector3) -> bool:
+	if wall == null:
+		return false
+	var h := Vector2(bv.x, bv.z)
+	var hh: float = h.length_squared()
+	if hh < 1.0:
+		return false
+	for a in wall.players:
+		if not a.visible:
+			continue
+		var d := Vector2(a.global_position.x - bp.x, a.global_position.z - bp.z)
+		var t: float = d.dot(h) / hh
+		if t <= 0.0 or t > 1.0:
+			continue
+		var y: float = bp.y + bv.y * t - 4.9 * t * t
+		if (d - h * t).length() < WALL_REACH and y < WALL_TOP:
+			return true
+	return false
 
 ## Tiro libre: si el arquero YA ESTA EN EL LUGAR (la pelota REAL cruza la linea bajo el travesaño a menos de
 ## in_position_lat() m de costado de donde esta parado) y llega en menos de IN_POSITION_T s, la atajada es segura: se tira

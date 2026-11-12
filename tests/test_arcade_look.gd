@@ -30,7 +30,7 @@ func test_crowd_is_2d_sprites_in_one_draw_call() -> void:
 	check(mm.instance_count > 300, "tribunas llenas")
 	var sm: ShaderMaterial = mmi.material_override
 	var tex: Texture2D = sm.get_shader_parameter("atlas")
-	check(tex != null and tex.get_width() == 256 and tex.get_height() == 1152, "usa la hoja de sprites PNG (4 cuadros x 12 variantes)")
+	check(tex != null and tex.get_width() == 384 and tex.get_height() == 1152, "usa la hoja de sprites PNG (6 cuadros x 12 variantes: con lamento y abucheo)")
 	var all: Array = _meshes(root)
 	note("mallas del estadio: %d (presupuesto %d)" % [all.size(), ARENA_MESH_BUDGET])
 	check(all.size() <= ARENA_MESH_BUDGET, "el estadio entra en el presupuesto de mallas")

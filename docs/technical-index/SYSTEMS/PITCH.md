@@ -27,8 +27,8 @@
 <!-- AUTO:params:PitchConfig -->
 | Parámetro | Defecto | Rango / tipo | Definido en | Dónde se usa (accesos reales) | Descripción |
 |---|---|---|---|---|---|
-| `length` | `50.0` | float | `scripts/pitch/pitch_config.gd:11` | `scripts/ai/ai_input.gd:663`, `scripts/ai/ai_input.gd:666`, `scripts/setpiece/stadium11.gd:79`, `scripts/setpiece/stadium11.gd:87` (+9) |  (Dimensiones) |
-| `width` | `30.0` | float | `scripts/pitch/pitch_config.gd:12` | `scripts/ai/ai_input.gd:668`, `scripts/gameplay/match_scene.gd:92`, `scripts/setpiece/stadium11.gd:79`, `scripts/setpiece/stadium11.gd:87` (+10) |  (Dimensiones) |
+| `length` | `50.0` | float | `scripts/pitch/pitch_config.gd:11` | `scripts/ai/ai_input.gd:663`, `scripts/ai/ai_input.gd:666`, `scripts/setpiece/stadium11.gd:103`, `scripts/setpiece/stadium11.gd:111` (+9) |  (Dimensiones) |
+| `width` | `30.0` | float | `scripts/pitch/pitch_config.gd:12` | `scripts/ai/ai_input.gd:668`, `scripts/gameplay/match_scene.gd:92`, `scripts/setpiece/stadium11.gd:103`, `scripts/setpiece/stadium11.gd:111` (+10) |  (Dimensiones) |
 | `goal_width` | `5.0` | float | `scripts/pitch/pitch_config.gd:15` | `scripts/pitch/goal.gd:57`, `scripts/pitch/goal.gd:113`, `scripts/pitch/goal.gd:116`, `scripts/pitch/pitch_config.gd:98` |  (Arco) |
 | `goal_height` | `2.0` | float | `scripts/pitch/pitch_config.gd:16` | `scripts/assistance/shot_assist.gd:229`, `scripts/gameplay/match_manager.gd:200`, `scripts/goalkeeper/goalkeeper.gd:367`, `scripts/pitch/goal.gd:52` (+6) |  (Arco) |
 | `goal_depth` | `1.0` | float | `scripts/pitch/pitch_config.gd:17` | `scripts/pitch/goal.gd:89`, `scripts/pitch/pitch.gd:259`, `scripts/pitch/pitch.gd:260` |  (Arco) |
@@ -37,7 +37,7 @@
 | `goal_supports` | `0` | int | `scripts/pitch/pitch_config.gd:25` | `scripts/pitch/goal.gd:105`, `scripts/pitch/goal.gd:107` | Estructura detras del arco: 0 ninguna, 1 soportes de la red inclinada (barra superior y tirantes), 2 caños en el piso (red de caja, como la de los estadios). (Arco) |
 | `goal_net_cloth` | `false` | bool | `scripts/pitch/pitch_config.gd:27` | `scripts/pitch/goal.gd:97`, `scripts/pitch/goal.gd:100` | Red de tela (ClothNet: nodos, hilos y gravedad) como red visible; la membrana (GoalNet) sigue frenando la pelota. (Arco) |
 | `post_radius` | `0.04` | float | `scripts/pitch/pitch_config.gd:28` | `scripts/gameplay/match_manager.gd:200`, `scripts/pitch/goal.gd:51`, `scripts/pitch/goal.gd:133`, `scripts/pitch/pitch.gd:242` (+2) |  (Arco) |
-| `line_width` | `0.08` | float | `scripts/pitch/pitch_config.gd:31` | `scripts/setpiece/stadium11.gd:112`, `scripts/pitch/pitch.gd:172`, `scripts/pitch/pitch.gd:173`, `scripts/pitch/pitch.gd:174` (+6) |  (Marcas) |
+| `line_width` | `0.08` | float | `scripts/pitch/pitch_config.gd:31` | `scripts/setpiece/stadium11.gd:136`, `scripts/pitch/pitch.gd:172`, `scripts/pitch/pitch.gd:173`, `scripts/pitch/pitch.gd:174` (+6) |  (Marcas) |
 | `center_circle_radius` | `6.0` | float | `scripts/pitch/pitch_config.gd:32` | `scripts/pitch/pitch.gd:182` |  (Marcas) |
 | `penalty_area_radius` | `8.0` | float | `scripts/pitch/pitch_config.gd:34` | `scripts/ai/ai_input.gd:387`, `scripts/gameplay/match_manager.gd:228`, `scripts/gameplay/match_scene.gd:410`, `scripts/goalkeeper/goalkeeper.gd:563` (+1) | Radio de los cuartos de circulo del area de penal (desde cada poste). (Marcas) |
 | `penalty_mark_distance` | `8.0` | float | `scripts/pitch/pitch_config.gd:35` | `scripts/dev/anim_bank_bench.gd:250`, `scripts/dev/anim_lab.gd:267`, `scripts/assistance/cross_assist.gd:30`, `scripts/gameplay/match_manager.gd:219` (+2) |  (Marcas) |

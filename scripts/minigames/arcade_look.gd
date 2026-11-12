@@ -324,7 +324,7 @@ const STAND_RISE := 0.75
 const CROWD_GAP := 0.72
 const CROWD_SIZE := Vector2(0.8, 1.2)
 const CROWD_ATLAS := "res://assets/arcade/crowd_atlas.png"
-const CROWD_GRID := Vector2i(4, 12)
+const CROWD_GRID := Vector2i(6, 12)
 const CROWD_EMPTY := 0.12
 
 ## Publico 2D: cada hincha es un cuadrado con un sprite de la hoja (assets/arcade/crowd_atlas.png, generada por
@@ -362,6 +362,8 @@ static func crowd(scene: Node3D, seats: Array) -> MultiMeshInstance3D:
 	sm.set_shader_parameter("atlas", load(CROWD_ATLAS))
 	sm.set_shader_parameter("grid", Vector2(CROWD_GRID))
 	sm.set_shader_parameter("cheer", 0.0)
+	sm.set_shader_parameter("boo", 0.0)
+	sm.set_shader_parameter("tension", 0.0)
 	mi.material_override = sm
 	mi.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	scene.add_child(mi)
@@ -372,9 +374,13 @@ static func crowd(scene: Node3D, seats: Array) -> MultiMeshInstance3D:
 
 static var _crowd_shader: Shader
 
-## Shader del publico: elige la fila del atlas por instancia y el cuadro por tiempo. Quieto: la mayoria mira, algunos
-## aplauden de a ratos y todos se balancean apenas. Con «cheer» (0..1) se paran los mas animados primero: brazos
-## arriba y saltos.
+## Shader del publico: elige la fila del atlas por instancia y el cuadro por tiempo y animo. Columnas de la hoja
+## (tools/gen_crowd_sprites.py): 0 mira, 1 aplaude, 2 brazos arriba, 3 salta, 4 manos a la cabeza, 5 silba con el pulgar
+## abajo. Estados (uniforms 0..1; los mas animados reaccionan primero):
+##  - calma: la mayoria mira y se balancea, algunos aplauden de a ratos y unos pocos alientan con los brazos arriba;
+##  - «tension» (la carrera del penal): todos quietos mirando;
+##  - «cheer» (gol, atajada): se paran, saltan con los brazos arriba, agitan las bufandas y aplauden;
+##  - «boo» (un fallo propio, un gol en contra): manos a la cabeza y silbidos con el pulgar abajo, sacudiendose.
 static func crowd_shader() -> Shader:
 	if _crowd_shader != null:
 		return _crowd_shader
@@ -383,8 +389,10 @@ static func crowd_shader() -> Shader:
 shader_type spatial;
 render_mode unshaded, cull_disabled, skip_vertex_transform;
 uniform sampler2D atlas : source_color, filter_linear_mipmap;
-uniform vec2 grid = vec2(4.0, 12.0);
+uniform vec2 grid = vec2(6.0, 12.0);
 uniform float cheer = 0.0;
+uniform float boo = 0.0;
+uniform float tension = 0.0;
 uniform float brightness = 0.9;
 varying vec2 cell_uv;
 varying float shade;
@@ -393,12 +401,28 @@ void vertex() {
 	float phase = c.g * 6.2831;
 	float frame = 0.0;
 	if (cheer > c.b * 0.9 + 0.05) {
-		frame = 2.0 + mod(floor(TIME * 5.0 + c.g * 7.0), 2.0);
-		VERTEX.y += abs(sin(TIME * 8.0 + phase)) * 0.14 * cheer;
+		frame = 2.0 + mod(floor(TIME * 5.5 + c.g * 7.0), 2.0);
+		// Algunos aplauden con los brazos arriba en vez de saltar.
+		if (fract(c.g * 31.0) > 0.72) {
+			frame = 1.0 + mod(floor(TIME * 7.0 + c.g * 5.0), 2.0);
+		}
+		VERTEX.y += abs(sin(TIME * 8.5 + phase)) * 0.2 * cheer;
+		VERTEX.x += sin(TIME * 5.0 + phase) * 0.035 * cheer;
+	} else if (boo > c.b * 0.9 + 0.05) {
+		frame = fract(c.g * 17.0) > 0.45 ? 5.0 : 4.0;
+		if (fract(TIME * 0.45 + c.g) > 0.68) {
+			frame = 9.0 - frame;
+		}
+		VERTEX.x += sin(TIME * 12.0 + phase) * 0.03 * boo;
 	} else {
-		float clap = step(0.7, c.b) * step(0.55, fract(TIME * 0.35 + c.g));
+		float act = 1.0 - clamp(tension, 0.0, 1.0);
+		float clap = step(0.7, c.b) * step(0.55, fract(TIME * 0.35 + c.g)) * act;
 		frame = clap * mod(floor(TIME * 4.0 + c.g * 5.0), 2.0);
-		VERTEX.x += sin(TIME * 1.3 + phase) * 0.02;
+		// Unos pocos alientan con los brazos arriba de a ratos (la tribuna nunca esta muerta).
+		if (act > 0.5 && fract(c.g * 7.3) > 0.88 && fract(TIME * 0.11 + c.g * 3.0) > 0.78) {
+			frame = 2.0;
+		}
+		VERTEX.x += sin(TIME * 1.3 + phase) * 0.02 * act;
 	}
 	// Cartel que gira sobre el eje vertical hacia la camara: siempre se ve de frente, aun desde el costado.
 	vec3 origin = MODEL_MATRIX[3].xyz;
@@ -428,16 +452,28 @@ void fragment() {
 
 ## El publico festeja (amount 0..1) durante secs segundos y vuelve a la calma. Sin publico en la escena, no hace nada.
 static func cheer(scene: Node, amount: float, secs: float = 2.5) -> void:
+	_mood(scene, "cheer", amount, secs)
+
+## El publico abuchea (manos a la cabeza, silbidos) durante secs segundos y vuelve a la calma.
+static func boo(scene: Node, amount: float, secs: float = 2.5) -> void:
+	_mood(scene, "boo", amount, secs)
+
+static func _mood(scene: Node, param: String, amount: float, secs: float) -> void:
 	if not scene.has_meta("crowd_mats") or not scene.is_inside_tree():
 		return
-	if scene.has_meta("crowd_tween"):
-		var old: Tween = scene.get_meta("crowd_tween")
+	var key: String = "crowd_tween_" + param
+	if scene.has_meta(key):
+		var old: Tween = scene.get_meta(key)
 		if old != null and old.is_valid():
 			old.kill()
+	# Un animo tapa al otro: si festeja, deja de abuchear (y al reves).
+	var other: String = "boo" if param == "cheer" else "cheer"
+	for sm in scene.get_meta("crowd_mats"):
+		(sm as ShaderMaterial).set_shader_parameter(other, 0.0)
 	var tw: Tween = scene.create_tween()
 	tw.set_parallel(true)
 	for sm in scene.get_meta("crowd_mats"):
-		tw.tween_property(sm, "shader_parameter/cheer", clampf(amount, 0.0, 1.0), 0.25)
+		tw.tween_property(sm, "shader_parameter/" + param, clampf(amount, 0.0, 1.0), 0.25)
 	tw.chain()
 	tw.tween_interval(secs)
 	var first := true
@@ -445,17 +481,24 @@ static func cheer(scene: Node, amount: float, secs: float = 2.5) -> void:
 		if first:
 			tw.chain()
 			first = false
-		tw.tween_property(sm, "shader_parameter/cheer", 0.0, 1.2)
-	scene.set_meta("crowd_tween", tw)
+		tw.tween_property(sm, "shader_parameter/" + param, 0.0, 1.2)
+	scene.set_meta(key, tw)
 
 ## Nivel de festejo actual del publico de la escena (0 .. 1; -1 si no hay publico).
 static func cheer_level(scene: Node) -> float:
+	return _level(scene, "cheer")
+
+## Nivel de abucheo actual del publico de la escena (0 .. 1; -1 si no hay publico).
+static func boo_level(scene: Node) -> float:
+	return _level(scene, "boo")
+
+static func _level(scene: Node, param: String) -> float:
 	if not scene.has_meta("crowd_mats"):
 		return -1.0
 	var mats: Array = scene.get_meta("crowd_mats")
 	if mats.is_empty():
 		return -1.0
-	var v: Variant = (mats[0] as ShaderMaterial).get_shader_parameter("cheer")
+	var v: Variant = (mats[0] as ShaderMaterial).get_shader_parameter(param)
 	return float(v) if v != null else 0.0
 
 ## Une muchas piezas simples en una sola malla (un draw call). parts: [forma, tamano, Transform3D, Color]; forma "box",

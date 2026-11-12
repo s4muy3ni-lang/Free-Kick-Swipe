@@ -2149,7 +2149,7 @@
         {
           "file": "assets/characters/player/player_kit.gdshader",
           "name": "player_kit.gdshader.shade",
-          "line": 64,
+          "line": 101,
           "kind": "func"
         }
       ],
@@ -2956,7 +2956,7 @@
         {
           "file": "scripts/diagnostics/graphics_settings.gd",
           "name": "GraphicsSettings.apply",
-          "line": 192,
+          "line": 196,
           "kind": "func"
         },
         {
@@ -5192,37 +5192,37 @@
         {
           "file": "scripts/audio/sfx.gd",
           "name": "Sfx.play",
-          "line": 43,
+          "line": 47,
           "kind": "func"
         },
         {
           "file": "scripts/audio/sfx.gd",
           "name": "Sfx.impulse_sound",
-          "line": 116,
+          "line": 122,
           "kind": "func"
         },
         {
           "file": "scripts/audio/sfx.gd",
           "name": "Sfx.on_event",
-          "line": 140,
+          "line": 147,
           "kind": "func"
         },
         {
           "file": "scripts/audio/sfx.gd",
           "name": "Sfx.watch_ball",
-          "line": 94,
+          "line": 100,
           "kind": "func"
         },
         {
           "file": "scripts/audio/sfx.gd",
           "name": "Sfx.crowd",
-          "line": 74,
+          "line": 80,
           "kind": "func"
         },
         {
           "file": "scripts/audio/sfx.gd",
           "name": "Sfx.set_enabled",
-          "line": 84,
+          "line": 90,
           "kind": "func"
         },
         {
@@ -5696,7 +5696,7 @@
         {
           "file": "scripts/dev/anim_bank_catalog.gd",
           "name": "AnimBankCatalog.clips",
-          "line": 54,
+          "line": 58,
           "kind": "func"
         },
         {
@@ -5774,25 +5774,25 @@
         {
           "file": "scripts/setpiece/setpiece_game.gd",
           "name": "SetPieceGame._take_shot",
-          "line": 589,
+          "line": 599,
           "kind": "func"
         },
         {
           "file": "scripts/setpiece/setpiece_game.gd",
           "name": "SetPieceGame.shoot_params",
-          "line": 1510,
+          "line": 1555,
           "kind": "func"
         },
         {
           "file": "scripts/setpiece/setpiece_game.gd",
           "name": "SetPieceGame._finish",
-          "line": 821,
+          "line": 829,
           "kind": "func"
         },
         {
           "file": "scripts/setpiece/setpiece_game.gd",
           "name": "SetPieceGame.clamp_free_kick_spot",
-          "line": 482,
+          "line": 492,
           "kind": "func"
         },
         {
@@ -5804,7 +5804,7 @@
         {
           "file": "scripts/setpiece/stadium11.gd",
           "name": "Stadium11.build",
-          "line": 29,
+          "line": 33,
           "kind": "func"
         },
         {
@@ -5884,7 +5884,7 @@
         {
           "file": "scripts/setpiece/sp_actor.gd",
           "name": "SpActor.play_clip",
-          "line": 160,
+          "line": 199,
           "kind": "func"
         },
         {
@@ -6063,19 +6063,19 @@
         {
           "file": "scripts/setpiece/sp_keeper.gd",
           "name": "SpKeeper.read_shot",
-          "line": 194,
+          "line": 203,
           "kind": "func"
         },
         {
           "file": "scripts/setpiece/sp_keeper.gd",
           "name": "SpKeeper.commit_to",
-          "line": 397,
+          "line": 430,
           "kind": "func"
         },
         {
           "file": "scripts/setpiece/sp_keeper.gd",
           "name": "SpKeeper._resolve",
-          "line": 677,
+          "line": 710,
           "kind": "func"
         },
         {

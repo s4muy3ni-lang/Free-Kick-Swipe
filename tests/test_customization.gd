@@ -62,6 +62,13 @@ func test_celebrations_are_valid_clips() -> void:
 	check(PlayerCustom.celebration_clip() == list[0], "el festejo 1 esta abierto")
 	PlayerCustom.restore_after_tests()
 
+## El numero en la espalda: impreso en la camiseta (cuerpo de Tripo, 2026-11-12) o en el cartel (humanoide).
+func _shows_number(a: SpActor, n: int) -> bool:
+	if a.printed_number():
+		var km: ShaderMaterial = a.kit_material()
+		return km != null and int(km.get_shader_parameter("back_number")) == n
+	return a._number != null and a._number.text == str(n)
+
 func test_customization_shows_up_in_the_game() -> void:
 	PlayerProgress.use_path("user://test_custom_prog.cfg")
 	PlayerCustom.use_path("user://test_custom.cfg")
@@ -81,16 +88,21 @@ func test_customization_shows_up_in_the_game() -> void:
 	var got: Variant = mat.get_shader_parameter("jersey_color") if mat != null else null
 	var same: bool = got != null and Vector3(Color(got).r - want.r, Color(got).g - want.g, Color(got).b - want.b).length() < 0.01
 	check(same, "el tirador del usuario viste la camiseta elegida")
-	check(game.user_shooter.actor._number != null and game.user_shooter.actor._number.text == "23", "lleva el numero elegido en la espalda")
-	check(game.user_keeper.actor._number != null and game.user_keeper.actor._number.text == "23", "el arquero del usuario tambien")
+	check(_shows_number(game.user_shooter.actor, 23), "lleva el numero elegido en la espalda")
+	check(_shows_number(game.user_keeper.actor, 23), "el arquero del usuario tambien")
 	check(game.user_shooter.celebration == PlayerCustom.celebrations()[0], "el festejo elegido queda cargado")
 	check(game.user_shooter.follow_run, "y la opcion de acompañar el tiro")
 	await physics_frames(10)
-	var lbl: Label3D = game.user_shooter.actor._number
-	var sp: Vector3 = game.user_shooter.actor.bone_world("mixamorig_Spine1")
-	var behind: float = (lbl.global_position - sp).dot(-game.user_shooter.actor.facing())
-	note("numero: %.2f m detras de la columna" % behind)
-	check(behind > 0.1, "el numero queda en la espalda (detras de la columna)")
+	if game.user_shooter.actor.printed_number():
+		# Cuerpo de Tripo: impreso en la tela, solo en la mitad de atras (rpos.x < 0 en el shader) y con la hoja de cifras.
+		var km: ShaderMaterial = game.user_shooter.actor.kit_material()
+		check(bool(km.get_shader_parameter("rest_space")) and km.get_shader_parameter("number_atlas") != null, "el numero queda impreso en la espalda")
+	else:
+		var lbl: Label3D = game.user_shooter.actor._number
+		var sp: Vector3 = game.user_shooter.actor.bone_world("mixamorig_Spine1")
+		var behind: float = (lbl.global_position - sp).dot(-game.user_shooter.actor.facing())
+		note("numero: %.2f m detras de la columna" % behind)
+		check(behind > 0.1, "el numero queda en la espalda (detras de la columna)")
 	# El festejo elegido se usa al gritar el gol.
 	game.user_shooter.state = SpShooter.State.AFTER
 	game.user_shooter.react(true)

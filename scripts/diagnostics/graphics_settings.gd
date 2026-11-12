@@ -19,19 +19,19 @@ const PROFILE_NAMES: Dictionary = {
 const PROFILES: Dictionary = {
 	Profile.VERY_LOW: {
 		"scale_3d": 0.5, "msaa": Viewport.MSAA_DISABLED, "shadows": false,
-		"shadow_size": 1024, "ambient_props": false, "target_fps": 60,
+		"shadow_size": 1024, "ambient_props": false, "target_fps": 60, "crowd_density": 0.4,
 	},
 	Profile.LOW: {
 		"scale_3d": 0.6, "msaa": Viewport.MSAA_DISABLED, "shadows": false,
-		"shadow_size": 1024, "ambient_props": true, "target_fps": 60,
+		"shadow_size": 1024, "ambient_props": true, "target_fps": 60, "crowd_density": 0.6,
 	},
 	Profile.MEDIUM: {
 		"scale_3d": 0.72, "msaa": Viewport.MSAA_DISABLED, "shadows": true,
-		"shadow_size": 1024, "ambient_props": true, "target_fps": 60,
+		"shadow_size": 1024, "ambient_props": true, "target_fps": 60, "crowd_density": 0.85,
 	},
 	Profile.HIGH: {
 		"scale_3d": 0.9, "msaa": Viewport.MSAA_2X, "shadows": true,
-		"shadow_size": 2048, "ambient_props": true, "target_fps": 60,
+		"shadow_size": 2048, "ambient_props": true, "target_fps": 60, "crowd_density": 1.0,
 	},
 }
 ## Escalones del boton «Resolucion» del menu de pausa (multiplican la escala 3D del perfil).
@@ -187,6 +187,10 @@ func cycle_shadows() -> void:
 
 func ambient_props_enabled() -> bool:
 	return get_params()["ambient_props"]
+
+## Fraccion de butacas ocupadas por el publico 2D del estadio de penales y tiros libres (Stadium11), por perfil.
+func crowd_density() -> float:
+	return float(get_params().get("crowd_density", 0.85))
 
 ## Aplica el perfil al viewport principal y a las luces registradas en el grupo "sun_light".
 func apply() -> void:

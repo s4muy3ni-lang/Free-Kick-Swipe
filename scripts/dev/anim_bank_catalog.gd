@@ -15,6 +15,10 @@ const PLAYER_KIT_SHADER := "res://assets/characters/player/player_kit.gdshader"
 const PLAYER_ALBEDO := "res://assets/characters/player/player_albedo.jpg"
 const PLAYER_MASK_A := "res://assets/characters/player/player_mask_a.png"
 const PLAYER_MASK_B := "res://assets/characters/player/player_mask_b.png"
+## Cifras del numero impreso en la espalda (tools/ui/make_number_atlas) y cuerpo que lo admite (posicion de reposo en
+## CUSTOM0: tools/json_anim/build_tripo_body).
+const NUMBER_ATLAS := "res://assets/characters/player/number_atlas.png"
+const PRINTED_NUMBER_BODY := "res://assets/characters/json/tripo_body.scn"
 ## Escala del cuerpo en el juego (FootballerVisual.MODEL_HEIGHT_SCALE): los metadatos de los clips estan en metros de juego.
 const BODY_SCALE := 1.75
 
@@ -82,6 +86,9 @@ static func kit_material(body_path: String, kit: Dictionary) -> ShaderMaterial:
 		mat.set_shader_parameter("albedo_tex", load(PLAYER_ALBEDO))
 		mat.set_shader_parameter("mask_a", load(PLAYER_MASK_A))
 		mat.set_shader_parameter("mask_b", load(PLAYER_MASK_B))
+		if body_path == PRINTED_NUMBER_BODY:
+			mat.set_shader_parameter("rest_space", true)
+			mat.set_shader_parameter("number_atlas", load(NUMBER_ATLAS))
 	for key in ["jersey", "shorts", "socks", "boots", "skin", "hair"]:
 		if kit.has(key):
 			mat.set_shader_parameter("%s_color" % key, kit[key])
