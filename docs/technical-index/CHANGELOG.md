@@ -26,7 +26,10 @@ Decisión del usuario: el juego usa las animaciones de Mixamo; no las distribuye
   `CODE_MAP.json`, `AAA_ROADMAP.md`.
 - **Verificación**:
   - `test_mixamo_bank` 9/178/0 después del cambio;
-  - con render (xvfb) en MIXAMO, ver el resultado anotado en `MIXAMO_INTEGRACION.md` (8);
+  - **PC con render** (xvfb), MIXAMO:
+    - `test_keeper_zones` 4/27/0;
+    - `test_setpiece_render` 7/45/0;
+    - atajadas seguras: 15 de 48 con Mixamo (todas abajo); las altas usan el banco actual;
   - CI: pendiente (la corrida anterior quedó en cola sin máquina);
   - Android: no probado.
 

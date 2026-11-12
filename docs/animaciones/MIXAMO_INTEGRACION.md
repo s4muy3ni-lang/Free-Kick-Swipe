@@ -157,6 +157,8 @@ saques del arquero): sus clips de Mixamo los usa el modo partido a través de `P
    - Con el respaldo por pelota vuelve a 86 %, y la batería del arquero pasa entera.
    - En la grilla de 28 penales de `test_mixamo_bank`, las dos llegan a 26: con MIXAMO, 16 con estiradas de Mixamo y 8 con
      respaldo actual.
+   - En las atajadas seguras del penal (con render), Mixamo cubre solo las zonas de abajo; las altas son siempre del
+     banco actual.
 5. **Velocidad natural**: el banco actual la trae del dato `ground_speed` de los JSON. Para Mixamo se calcula desde la
    raíz reconstruida; sin eso, la marcha de los jugadores en MIXAMO no tenía velocidad.
 6. **Chilena**: el contacto es por arriba y hacia atrás; el refinado del convertidor no mide velocidad de avance (v = 0).
@@ -185,7 +187,11 @@ Con las bibliotecas de Mixamo presentes.
 - Arquero (`keeper`): 17 pruebas en ACTUAL y en MIXAMO, 0 fallidas, 3 omitidas en headless.
 
 **PC con render (xvfb + opengl3)**:
-- `test_keeper_zones` en ACTUAL: 4/4. Las demás corridas con render están en el CHANGELOG.
+- ACTUAL: `test_keeper_zones` 4/4 (27 comprobaciones) y `test_setpiece_render` 7/7 (45).
+- MIXAMO (`ANIM_BANK=mixamo`): `test_keeper_zones` 4/4 (27) y `test_setpiece_render` 7/7 (45).
+  - Pie en la pelota en el impulso, reacciones y arquero: todo OK.
+  - En las 48 atajadas seguras del penal, 15 usan clips de Mixamo, todas en las zonas de abajo (15 de 24). Las 24 de
+    arriba usan clips actuales: Mixamo no tiene estiradas altas que lleguen a esas zonas.
 
 **CI**: corre la suite completa.
 - Las bibliotecas de Mixamo van en el repositorio: CI corre también las pruebas de Mixamo y verifica que la APK las traiga.
