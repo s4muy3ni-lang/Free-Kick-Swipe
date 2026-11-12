@@ -44,7 +44,13 @@ Pedido del usuario:
     no están, todo usa el cuerpo de Tripo, sin números flotantes);
   - `test_json_mode`: el mensaje dice «el cuerpo del juego»;
   - nueva: `test_crowd_banners` (2).
-- **Verificación**: ver el commit.
+- **Verificación (PC, con la carpeta de usuario limpia, como CI)**:
+  - suite headless 285/2558/0;
+  - con render: `live_kicks` 6/50/0, `pack_motion` 2/24/0, `json_mode` 8/376/0 (después del arreglo de la conducción),
+    `directional_kicks` 3/7/0, `test_anim_bank_bench` 7/79/0, `test_setpiece_render` 7/45/0, `test_keeper_zones`
+    4/27/0, `test_keeper_in_position` 1/4/0;
+  - capturas de las pancartas y del público con `tools/ui/crowd_capture.gd`.
+  - En el teléfono: no probado.
 
 ---
 
@@ -108,7 +114,8 @@ Pedido del usuario:
   - `test_arcade_look` espera la hoja de 6 cuadros;
   - `test_customization` acepta el número impreso (cuerpo de Tripo) o el cartel (humanoide). Antes buscaba solo el
     `Label3D`, que con Tripo ya no existe.
-- **Verificación**: ver el commit. El sonido se revisó con espectrogramas: no se pudo escuchar. Nada se probó en el teléfono.
+- **Verificación**: la misma tanda que la entrada siguiente (más arriba). El sonido se revisó con espectrogramas: no se
+  pudo escuchar. Nada se probó en el teléfono.
 
 ---
 
