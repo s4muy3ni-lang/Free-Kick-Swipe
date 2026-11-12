@@ -6586,7 +6586,7 @@
     {
       "id": "animation.bank_mixamo",
       "system": "ANIM_BANK",
-      "description": "Bibliotecas de animacion ACTUAL y MIXAMO conviviendo: selector persistente (AnimBank), los 133 clips de animaciones_mixamo.zip convertidos al esqueleto del juego con transferencia de proporciones y raiz reconstruida desde el pie de apoyo, integracion por rol con respaldo actual (SpClips, PackLibrary), golpeos por tipo de tiro (ShotCatalog), arquero con respaldo por pelota (KeeperPlanner), defensores con marca y marchas direccionales, laboratorio de animaciones con comparacion lado a lado, paquete cifrado para CI.",
+      "description": "Bibliotecas de animacion ACTUAL y MIXAMO conviviendo: selector persistente (AnimBank), los 133 clips de animaciones_mixamo.zip convertidos al esqueleto del juego con transferencia de proporciones y raiz reconstruida desde el pie de apoyo, integracion por rol con respaldo actual (SpClips, PackLibrary), golpeos por tipo de tiro (ShotCatalog), arquero con respaldo por pelota (KeeperPlanner), defensores con marca y marchas direccionales, laboratorio de animaciones con comparacion lado a lado.",
       "keywords": [
         "mixamo",
         "biblioteca",
@@ -6605,7 +6605,6 @@
         "scripts/dev/anim_lab.gd",
         "tools/mixamo/export_mixamo_joints.gd",
         "tools/mixamo/selection_mixamo.json",
-        "tools/mixamo/pack_mixamo.sh",
         "tests/test_mixamo_bank.gd"
       ],
       "symbols": [

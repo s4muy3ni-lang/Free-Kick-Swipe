@@ -8,7 +8,7 @@
   - integrarlos por rol con respaldo actual (`SpClips`, `PackLibrary`), por tipo de tiro (`ShotCatalog`) y por pelota
     en el arquero (`KeeperPlanner`);
   - el laboratorio de animaciones (`AnimLab`);
-  - el paquete cifrado para CI.
+  - las bibliotecas derivadas y los GLB fuente en el repositorio (los GLB no entran en la APK).
 - **Estado real:**
   - conviven las dos bibliotecas; el juego arranca en ACTUAL;
   - MIXAMO se elige en el laboratorio;
@@ -33,7 +33,6 @@
 | `tools/mixamo/inspect_mixamo.gd` | Inventario de los GLB (huesos, reposo, pistas) |
 | `tools/mixamo/export_mixamo_joints.gd` | GLB → articulaciones del juego (proporciones, raíz reconstruida, contacto, velocidad sobre el suelo) |
 | `tools/mixamo/selection_mixamo.json` | Los 133 clips: rol, biblioteca, espejo, opciones |
-| `tools/mixamo/pack_mixamo.sh` | Paquete cifrado `assets/animations/mixamo_pack.enc` (secret `MIXAMO_KEY`) |
 | `tools/mixamo/dump_inventory.gd`, `make_inventory_doc.py`, `lab_capture.gd` | Inventario por rol, documento generado, capturas con render |
 | `tests/test_mixamo_bank.gd` | Pruebas de la integración |
 
@@ -126,4 +125,4 @@
 - Mixamo tiene pocos golpeos:
   - sin exterior y con pocos ángulos;
   - con ANIM_BANK=mixamo fallan 2 pruebas de calidad de `test_setpiece_modes`.
-- Sin el secret `MIXAMO_KEY`, la APK sale sin MIXAMO; las pruebas de Mixamo se omiten.
+- La APK trae MIXAMO (+3,6 MB) aunque el juego arranque en ACTUAL.

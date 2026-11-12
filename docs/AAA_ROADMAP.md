@@ -727,7 +727,7 @@ Pedido: integrar y comparar las animaciones de `animaciones_mixamo.zip` con las 
 | Selector ACTUAL/MIXAMO en todos los sistemas, con respaldo por rol | Hecho | `AnimBank`, `SpClips`, `PackLibrary`, `ShotCatalog`, `KeeperPlanner` |
 | Laboratorio con comparación lado a lado y situaciones | Hecho | `scenes/dev/anim_lab.tscn` |
 | Pruebas PC | Hechas | `tests/test_mixamo_bank.gd`; suite completa OK |
-| Entrega cifrada a CI | Hecha (falta el secret `MIXAMO_KEY`) | `tools/mixamo/pack_mixamo.sh`, workflow |
+| Bibliotecas en el repositorio y verificación en CI | Hecha | workflow (`android.yml`) |
 | Prueba en el teléfono (ZTE V60) | **Pendiente** | — |
 | Decidir reemplazos por rol o sistema | **Pendiente (usuario)** | `MIXAMO_INTEGRACION.md` (11) |
 

@@ -46,22 +46,13 @@ jobs:
           for f in assets/animations/json_clips.res assets/animations/json_keeper.res assets/animations/json_scenes.res resources/setpiece/shot_clips.json; do
             [ -f "$f" ] || { echo "::error::Falta $f (banco JSON / catalogo de golpeos)."; exit 1; }
           done
+          # Biblioteca MIXAMO (2026-11-12): convive con la actual; la elige el laboratorio de animaciones.
+          for f in assets/animations/mixamo_clips.res assets/animations/mixamo_keeper.res assets/animations/mixamo_scenes.res resources/setpiece/shot_clips_mixamo.json; do
+            [ -f "$f" ] || { echo "::error::Falta $f (biblioteca MIXAMO, tools/mixamo/)."; exit 1; }
+          done
           for f in assets/animations/pack_clips.res assets/animations/pack_keeper.res assets/animations/mocap_clips.res assets/animations/touch_clips.res; do
             [ ! -e "$f" ] || { echo "::error::$f es de un banco borrado (Mixamo/Mocap): no debe volver."; exit 1; }
           done
-
-      # Biblioteca MIXAMO (pedido 2026-11-12): en git solo va el paquete CIFRADO (licencia de Mixamo, repositorio
-      # publico). Con el secret MIXAMO_KEY se descifra y la APK la trae (seleccionable en el laboratorio); sin el secret la
-      # APK sale sin ella y el juego usa ACTUAL (las pruebas de Mixamo se omiten).
-      - name: Biblioteca MIXAMO (paquete cifrado, opcional)
-        env:
-          MIXAMO_KEY: ${{ secrets.MIXAMO_KEY }}
-        run: |
-          if [ -z "${MIXAMO_KEY}" ]; then
-            echo "::notice::Sin el secret MIXAMO_KEY: la APK sale sin la biblioteca MIXAMO (el juego usa ACTUAL)."
-          else
-            tools/mixamo/pack_mixamo.sh decrypt
-          fi
 
       - uses: actions/setup-java@v4
         with:
@@ -239,12 +230,10 @@ jobs:
           # Los bancos borrados (Mixamo y Mocap) no estan en la APK.
           if unzip -l "$APK" | grep -E -q "animations/(pack_clips|pack_keeper|mocap_clips|touch_clips)\.res|characters/mocap/"; then echo "::error::la APK contiene un banco borrado (Mixamo/Mocap)"; exit 1; fi
           # Modo 4 (Json): librerias de clips (identicas a las del repositorio) y el humanoide dentro de la APK.
-          if [ -f assets/animations/mixamo_clips.res ]; then
-            for f in animations/mixamo_clips.res animations/mixamo_keeper.res animations/mixamo_scenes.res setpiece/shot_clips_mixamo.json; do
-              unzip -l "$APK" | grep -q "$f" || { echo "::error::$f (biblioteca MIXAMO) no esta en la APK"; exit 1; }
-            done
-          fi
-          if unzip -l "$APK" | grep -E -q "mixamo_pack\.enc|animations/source/"; then echo "::error::la APK contiene el paquete cifrado o fuentes de Mixamo"; exit 1; fi
+          for f in animations/mixamo_clips.res animations/mixamo_keeper.res animations/mixamo_scenes.res setpiece/shot_clips_mixamo.json; do
+            unzip -l "$APK" | grep -q "$f" || { echo "::error::$f (biblioteca MIXAMO) no esta en la APK"; exit 1; }
+          done
+          if unzip -l "$APK" | grep -E -q "animations/source/"; then echo "::error::la APK contiene los GLB fuente de Mixamo"; exit 1; fi
           for f in animations/json_clips.res animations/json_scenes.res animations/json_keeper.res; do
             unzip -l "$APK" | grep -q "$f" || { echo "::error::$f no esta en la APK"; exit 1; }
             unzip -p "$APK" "assets/assets/$f" | cmp -s - "assets/$f" || { echo "::error::$f de la APK difiere del repositorio"; exit 1; }

@@ -10,8 +10,8 @@ extends RefCounted
 ##   juego usa SOLO los de Mixamo; si no, usa los actuales (fallback_roles() los lista; docs/animaciones/).
 ##   Los ids no chocan: los de Mixamo empiezan con «mx_».
 ##
-## Se guarda en user://anim_bank.cfg. Si las bibliotecas de Mixamo no estan en la build (por ejemplo, una APK de CI sin
-## el secret que las descifra), MIXAMO no esta disponible y el juego queda en ACTUAL.
+## Se guarda en user://anim_bank.cfg. Si las bibliotecas de Mixamo no estuvieran en la build, MIXAMO no esta disponible
+## y el juego queda en ACTUAL.
 
 enum Bank { ACTUAL, MIXAMO }
 const NAMES := ["ACTUAL", "MIXAMO"]

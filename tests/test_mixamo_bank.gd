@@ -4,7 +4,8 @@ extends TestCase
 ## Mixamo tiene usa solo sus clips y el resto sigue con los actuales; los 133 clips (196 con espejos) cargan, tienen rol y
 ## los devuelve su rol (los pide cualquier sistema que pida ese rol); el arquero planifica con Mixamo y usa el actual solo
 ## cuando ninguna estirada de Mixamo llega; el laboratorio arma las dos estaciones y carga solo lo que muestra.
-## Si la build no trae las bibliotecas de Mixamo (CI sin el secret), las pruebas que las necesitan se omiten.
+## Si la build no trae las bibliotecas de Mixamo (no deberia pasar: van en el repositorio), las pruebas que las necesitan
+## se omiten.
 
 const SELECTION := "res://tools/mixamo/selection_mixamo.json"
 

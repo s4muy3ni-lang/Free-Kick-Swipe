@@ -11,6 +11,27 @@ Formato de entrada: **fecha — título** · commit · qué cambió · archivos 
 
 ---
 
+## 2026-11-12 — Biblioteca MIXAMO en el repositorio (sin cifrado)
+
+Decisión del usuario: el juego usa las animaciones de Mixamo; no las distribuye sueltas.
+
+- **Qué cambió**:
+  - las bibliotecas derivadas (`assets/animations/mixamo_*.res`, `resources/setpiece/shot_clips_mixamo.json`) y los GLB
+    fuente (`assets/animations/source/mixamo/`) pasan a git; los GLB no entran en la APK (filtro de exportación);
+  - se quitan `assets/animations/mixamo_pack.enc`, `tools/mixamo/pack_mixamo.sh`, el paso de descifrado y la necesidad
+    del secret `MIXAMO_KEY`;
+  - CI exige las bibliotecas de MIXAMO al empezar y dentro de la APK.
+- **Archivos**: `.gitignore`, `.github/workflows/android.yml`, `scripts/animation/anim_bank.gd` (comentario),
+  `tests/test_mixamo_bank.gd` (comentario), `docs/animaciones/MIXAMO_INTEGRACION.md`, ficha `ANIM_BANK`, `INDEX.md`,
+  `CODE_MAP.json`, `AAA_ROADMAP.md`.
+- **Verificación**:
+  - `test_mixamo_bank` 9/178/0 después del cambio;
+  - con render (xvfb) en MIXAMO, ver el resultado anotado en `MIXAMO_INTEGRACION.md` (8);
+  - CI: pendiente (la corrida anterior quedó en cola sin máquina);
+  - Android: no probado.
+
+---
+
 ## 2026-11-12 — Animaciones: bibliotecas ACTUAL y MIXAMO, selector, laboratorio y comparación
 
 Pedido del usuario: integrar `animaciones_mixamo.zip` sin borrar ni reemplazar nada. Informe completo en
@@ -22,7 +43,7 @@ Pedido del usuario: integrar `animaciones_mixamo.zip` sin borrar ni reemplazar n
   - raíz reconstruida desde el pie de apoyo (el paquete no trae raíz) y contacto de los golpeos;
   - después, el convertidor de siempre.
   - Pies: de −7 cm a −2,4…+1,3 cm. Velocidades medidas: caminata 1,0 m/s, carrera 2,2, sprint 5,0.
-  - GLB intactos y fuera de git.
+  - GLB intactos.
 - **Selector** `AnimBank` (`scripts/animation/anim_bank.gd`, `user://anim_bank.cfg`, `ANIM_BANK` para herramientas y
   pruebas).
 - **Integración con MIXAMO**:
@@ -41,10 +62,7 @@ Pedido del usuario: integrar `animaciones_mixamo.zip` sin borrar ni reemplazar n
   - controles e información del clip;
   - mediciones de pies y del contacto;
   - «Penal / Tiro libre en el juego» con la biblioteca elegida.
-- **CI**:
-  - `assets/animations/mixamo_pack.enc` (AES-256) y `tools/mixamo/pack_mixamo.sh`;
-  - paso que lo descifra con el secret `MIXAMO_KEY` (sin el secret, la APK sale sin MIXAMO);
-  - verificación de la APK.
+- **CI**: en esta primera versión, paquete cifrado con secret (se quitó el mismo día: ver la entrada siguiente).
 - **Archivos**:
   - `scripts/animation/anim_bank.gd`, `pack_library.gd`;
   - `scripts/setpiece/sp_clips.gd`, `shot_catalog.gd`, `sp_field_players.gd`, `sp_shooter.gd`, `main_menu.gd`;
@@ -65,7 +83,6 @@ Pedido del usuario: integrar `animaciones_mixamo.zip` sin borrar ni reemplazar n
   - **CI**: pendiente de este push.
   - **Android**: no probado.
 - **Pendiente**:
-  - el secret `MIXAMO_KEY` en GitHub;
   - probar en el teléfono el laboratorio y los modos con MIXAMO, y medir la memoria;
   - decidir si se reemplaza algo (hoy conviven; el juego arranca en ACTUAL).
 

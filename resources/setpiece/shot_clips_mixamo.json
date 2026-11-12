@@ -1,0 +1,7547 @@
+{
+	"clips": [
+		{
+			"approach": 24.1,
+			"clean": true,
+			"cx": 0.593,
+			"cz": -0.201,
+			"elev": -8.0,
+			"foot": -1,
+			"foot_pitch": -29.4,
+			"foot_speed": 9.1,
+			"foot_turn": 81.0,
+			"id": "jn_kick_lob_0646",
+			"len": 1.05,
+			"power": "",
+			"role": "kick_lob",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.13,
+					0.029
+				],
+				[
+					0.2,
+					0.252,
+					0.078
+				],
+				[
+					0.3,
+					0.3,
+					0.132
+				]
+			],
+			"run": 0.63,
+			"source": "0646_kick_stand_kick_ball_small_chip_forward_to_stand.json",
+			"surface": "interior",
+			"swing": 21.9,
+			"tags": [
+				"KICK",
+				"STAND",
+				"KICK",
+				"BALL",
+				"SMALL",
+				"CHIP",
+				"FWD",
+				"STAND"
+			],
+			"tc": 0.317,
+			"toe_y": 0.045
+		},
+		{
+			"approach": -24.1,
+			"clean": true,
+			"cx": 0.593,
+			"cz": 0.201,
+			"elev": -8.0,
+			"foot": 1,
+			"foot_pitch": -29.4,
+			"foot_speed": 9.1,
+			"foot_turn": 80.9,
+			"id": "jn_kick_lob_0646_mirror",
+			"len": 1.05,
+			"power": "",
+			"role": "kick_lob",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.13,
+					-0.029
+				],
+				[
+					0.2,
+					0.252,
+					-0.078
+				],
+				[
+					0.3,
+					0.3,
+					-0.132
+				]
+			],
+			"run": 0.63,
+			"source": "0646_kick_stand_kick_ball_small_chip_forward_to_stand.json",
+			"surface": "interior",
+			"swing": -21.9,
+			"tags": [
+				"KICK",
+				"STAND",
+				"KICK",
+				"BALL",
+				"SMALL",
+				"CHIP",
+				"FWD",
+				"STAND"
+			],
+			"tc": 0.317,
+			"toe_y": 0.045
+		},
+		{
+			"approach": 0.0,
+			"clean": true,
+			"cx": 0.324,
+			"cz": -0.273,
+			"elev": -2.2,
+			"foot": -1,
+			"foot_pitch": -36.7,
+			"foot_speed": 9.07,
+			"foot_turn": 57.8,
+			"id": "jn_kick_lob_0652",
+			"len": 1.25,
+			"power": "med",
+			"role": "kick_lob",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.031,
+					0.031
+				],
+				[
+					0.2,
+					0.056,
+					0.083
+				],
+				[
+					0.3,
+					0.025,
+					0.106
+				]
+			],
+			"run": 0.42,
+			"source": "0652_kick_stand_kick_left_90_to_stand_medium_lob.json",
+			"surface": "interior",
+			"swing": 31.1,
+			"tags": [
+				"KICK",
+				"STAND",
+				"KICK",
+				"STAND",
+				"MED",
+				"LOB"
+			],
+			"tc": 0.325,
+			"toe_y": 0.006
+		},
+		{
+			"approach": 0.0,
+			"clean": true,
+			"cx": 0.324,
+			"cz": 0.273,
+			"elev": -2.2,
+			"foot": 1,
+			"foot_pitch": -36.7,
+			"foot_speed": 9.08,
+			"foot_turn": 57.8,
+			"id": "jn_kick_lob_0652_mirror",
+			"len": 1.25,
+			"power": "med",
+			"role": "kick_lob",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.031,
+					-0.031
+				],
+				[
+					0.2,
+					0.056,
+					-0.083
+				],
+				[
+					0.3,
+					0.025,
+					-0.106
+				]
+			],
+			"run": 0.42,
+			"source": "0652_kick_stand_kick_left_90_to_stand_medium_lob.json",
+			"surface": "interior",
+			"swing": -31.1,
+			"tags": [
+				"KICK",
+				"STAND",
+				"KICK",
+				"STAND",
+				"MED",
+				"LOB"
+			],
+			"tc": 0.325,
+			"toe_y": 0.006
+		},
+		{
+			"approach": 68.1,
+			"clean": false,
+			"cx": 0.26,
+			"cz": -0.356,
+			"elev": -12.9,
+			"foot": -1,
+			"foot_pitch": -41.8,
+			"foot_speed": 9.94,
+			"foot_turn": 60.9,
+			"id": "jn_kick_lob_0654",
+			"len": 1.15,
+			"power": "med",
+			"role": "kick_lob",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.039,
+					0.037
+				],
+				[
+					0.2,
+					0.075,
+					0.087
+				],
+				[
+					0.3,
+					0.054,
+					0.122
+				]
+			],
+			"run": 0.44,
+			"source": "0654_kick_stand_kick_left_45_to_stand_medium_lob.json",
+			"surface": "empeine",
+			"swing": 16.0,
+			"tags": [
+				"KICK",
+				"STAND",
+				"KICK",
+				"STAND",
+				"MED",
+				"LOB"
+			],
+			"tc": 0.317,
+			"toe_y": 0.034
+		},
+		{
+			"approach": -68.1,
+			"clean": false,
+			"cx": 0.26,
+			"cz": 0.356,
+			"elev": -12.9,
+			"foot": 1,
+			"foot_pitch": -41.8,
+			"foot_speed": 9.93,
+			"foot_turn": 60.9,
+			"id": "jn_kick_lob_0654_mirror",
+			"len": 1.15,
+			"power": "med",
+			"role": "kick_lob",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.039,
+					-0.037
+				],
+				[
+					0.2,
+					0.075,
+					-0.087
+				],
+				[
+					0.3,
+					0.054,
+					-0.122
+				]
+			],
+			"run": 0.44,
+			"source": "0654_kick_stand_kick_left_45_to_stand_medium_lob.json",
+			"surface": "empeine",
+			"swing": -16.0,
+			"tags": [
+				"KICK",
+				"STAND",
+				"KICK",
+				"STAND",
+				"MED",
+				"LOB"
+			],
+			"tc": 0.317,
+			"toe_y": 0.034
+		},
+		{
+			"approach": 11.3,
+			"clean": true,
+			"cx": 0.304,
+			"cz": -0.156,
+			"elev": -7.9,
+			"foot": -1,
+			"foot_pitch": -53.0,
+			"foot_speed": 9.44,
+			"foot_turn": 5.8,
+			"id": "jn_kick_lob_0666",
+			"len": 1.2,
+			"power": "",
+			"role": "kick_lob",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.096,
+					0.01
+				],
+				[
+					0.2,
+					0.184,
+					0.034
+				],
+				[
+					0.3,
+					0.194,
+					0.041
+				]
+			],
+			"run": 0.34,
+			"source": "0666_kick_stand_to_kick_forward_to_stand_lob.json",
+			"surface": "empeine",
+			"swing": -1.8,
+			"tags": [
+				"KICK",
+				"STAND",
+				"KICK",
+				"FWD",
+				"STAND",
+				"LOB"
+			],
+			"tc": 0.325,
+			"toe_y": 0.023
+		},
+		{
+			"approach": -11.3,
+			"clean": true,
+			"cx": 0.304,
+			"cz": 0.156,
+			"elev": -7.9,
+			"foot": 1,
+			"foot_pitch": -53.0,
+			"foot_speed": 9.44,
+			"foot_turn": 5.9,
+			"id": "jn_kick_lob_0666_mirror",
+			"len": 1.2,
+			"power": "",
+			"role": "kick_lob",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.096,
+					-0.01
+				],
+				[
+					0.2,
+					0.184,
+					-0.034
+				],
+				[
+					0.3,
+					0.194,
+					-0.041
+				]
+			],
+			"run": 0.34,
+			"source": "0666_kick_stand_to_kick_forward_to_stand_lob.json",
+			"surface": "empeine",
+			"swing": 1.7,
+			"tags": [
+				"KICK",
+				"STAND",
+				"KICK",
+				"FWD",
+				"STAND",
+				"LOB"
+			],
+			"tc": 0.325,
+			"toe_y": 0.023
+		},
+		{
+			"approach": 14.2,
+			"clean": false,
+			"cx": 0.686,
+			"cz": -0.157,
+			"elev": -9.6,
+			"foot": -1,
+			"foot_pitch": -52.8,
+			"foot_speed": 8.67,
+			"foot_turn": 50.0,
+			"id": "jn_kick_lob_0714",
+			"len": 0.983,
+			"power": "",
+			"role": "kick_lob",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.256,
+					0.053
+				],
+				[
+					0.2,
+					0.472,
+					0.115
+				]
+			],
+			"run": 0.7,
+			"source": "0714_kick_jog_forward_low_chip_to_stand.json",
+			"surface": "empeine",
+			"swing": 12.0,
+			"tags": [
+				"KICK",
+				"JOG",
+				"FWD",
+				"LOW",
+				"CHIP",
+				"STAND"
+			],
+			"tc": 0.292,
+			"toe_y": 0.042
+		},
+		{
+			"approach": -14.2,
+			"clean": false,
+			"cx": 0.686,
+			"cz": 0.157,
+			"elev": -9.6,
+			"foot": 1,
+			"foot_pitch": -52.8,
+			"foot_speed": 8.67,
+			"foot_turn": 50.0,
+			"id": "jn_kick_lob_0714_mirror",
+			"len": 0.983,
+			"power": "",
+			"role": "kick_lob",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.256,
+					-0.053
+				],
+				[
+					0.2,
+					0.472,
+					-0.115
+				]
+			],
+			"run": 0.7,
+			"source": "0714_kick_jog_forward_low_chip_to_stand.json",
+			"surface": "empeine",
+			"swing": -12.0,
+			"tags": [
+				"KICK",
+				"JOG",
+				"FWD",
+				"LOW",
+				"CHIP",
+				"STAND"
+			],
+			"tc": 0.292,
+			"toe_y": 0.042
+		},
+		{
+			"approach": -0.1,
+			"clean": true,
+			"cx": 0.904,
+			"cz": -0.385,
+			"elev": -18.7,
+			"foot": -1,
+			"foot_pitch": -37.7,
+			"foot_speed": 10.33,
+			"foot_turn": 79.1,
+			"id": "jn_kick_lob_0716",
+			"len": 1.017,
+			"power": "",
+			"role": "kick_lob",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.275,
+					-0.015
+				],
+				[
+					0.2,
+					0.549,
+					-0.02
+				],
+				[
+					0.3,
+					0.737,
+					-0.002
+				]
+			],
+			"run": 0.98,
+			"source": "0716_kick_jog_forward_high_chip_to_stand.json",
+			"surface": "interior",
+			"swing": 5.2,
+			"tags": [
+				"KICK",
+				"JOG",
+				"FWD",
+				"HIGH",
+				"CHIP",
+				"STAND"
+			],
+			"tc": 0.317,
+			"toe_y": 0.061
+		},
+		{
+			"approach": 0.1,
+			"clean": true,
+			"cx": 0.904,
+			"cz": 0.385,
+			"elev": -18.7,
+			"foot": 1,
+			"foot_pitch": -37.7,
+			"foot_speed": 10.33,
+			"foot_turn": 79.1,
+			"id": "jn_kick_lob_0716_mirror",
+			"len": 1.017,
+			"power": "",
+			"role": "kick_lob",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.275,
+					0.015
+				],
+				[
+					0.2,
+					0.549,
+					0.02
+				],
+				[
+					0.3,
+					0.737,
+					0.002
+				]
+			],
+			"run": 0.98,
+			"source": "0716_kick_jog_forward_high_chip_to_stand.json",
+			"surface": "interior",
+			"swing": -5.2,
+			"tags": [
+				"KICK",
+				"JOG",
+				"FWD",
+				"HIGH",
+				"CHIP",
+				"STAND"
+			],
+			"tc": 0.317,
+			"toe_y": 0.061
+		},
+		{
+			"approach": 15.9,
+			"clean": true,
+			"cx": 0.848,
+			"cz": -0.245,
+			"elev": -23.5,
+			"foot": -1,
+			"foot_pitch": -50.3,
+			"foot_speed": 10.53,
+			"foot_turn": 62.2,
+			"id": "jn_kick_lob_0718",
+			"len": 1.017,
+			"power": "",
+			"role": "kick_lob",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.269,
+					0.06
+				],
+				[
+					0.2,
+					0.524,
+					0.133
+				],
+				[
+					0.3,
+					0.683,
+					0.196
+				]
+			],
+			"run": 0.88,
+			"source": "0718_kick_jog_left_45_high_chip_to_stand.json",
+			"surface": "empeine",
+			"swing": 6.3,
+			"tags": [
+				"KICK",
+				"JOG",
+				"HIGH",
+				"CHIP",
+				"STAND"
+			],
+			"tc": 0.317,
+			"toe_y": 0.057
+		},
+		{
+			"approach": -15.9,
+			"clean": true,
+			"cx": 0.848,
+			"cz": 0.245,
+			"elev": -23.5,
+			"foot": 1,
+			"foot_pitch": -50.3,
+			"foot_speed": 10.53,
+			"foot_turn": 62.3,
+			"id": "jn_kick_lob_0718_mirror",
+			"len": 1.017,
+			"power": "",
+			"role": "kick_lob",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.269,
+					-0.06
+				],
+				[
+					0.2,
+					0.524,
+					-0.133
+				],
+				[
+					0.3,
+					0.683,
+					-0.196
+				]
+			],
+			"run": 0.88,
+			"source": "0718_kick_jog_left_45_high_chip_to_stand.json",
+			"surface": "empeine",
+			"swing": -6.3,
+			"tags": [
+				"KICK",
+				"JOG",
+				"HIGH",
+				"CHIP",
+				"STAND"
+			],
+			"tc": 0.317,
+			"toe_y": 0.057
+		},
+		{
+			"approach": 0.0,
+			"clean": true,
+			"cx": 0.213,
+			"cz": -0.397,
+			"elev": -16.7,
+			"foot": -1,
+			"foot_pitch": -50.8,
+			"foot_speed": 6.61,
+			"foot_turn": 44.8,
+			"id": "jn_kick_lob_0720",
+			"len": 1.267,
+			"power": "",
+			"role": "kick_lob",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.0,
+					0.0
+				],
+				[
+					0.2,
+					0.0,
+					0.0
+				],
+				[
+					0.3,
+					0.0,
+					0.0
+				]
+			],
+			"run": 0.45,
+			"source": "0720_kick_jog_left_45_low_chip_to_stand.json",
+			"surface": "empeine",
+			"swing": 14.8,
+			"tags": [
+				"KICK",
+				"JOG",
+				"LOW",
+				"CHIP",
+				"STAND"
+			],
+			"tc": 0.308,
+			"toe_y": 0.024
+		},
+		{
+			"approach": 0.0,
+			"clean": true,
+			"cx": 0.213,
+			"cz": 0.397,
+			"elev": -16.8,
+			"foot": 1,
+			"foot_pitch": -50.8,
+			"foot_speed": 6.61,
+			"foot_turn": 44.8,
+			"id": "jn_kick_lob_0720_mirror",
+			"len": 1.267,
+			"power": "",
+			"role": "kick_lob",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.0,
+					0.0
+				],
+				[
+					0.2,
+					0.0,
+					0.0
+				],
+				[
+					0.3,
+					0.0,
+					0.0
+				]
+			],
+			"run": 0.45,
+			"source": "0720_kick_jog_left_45_low_chip_to_stand.json",
+			"surface": "empeine",
+			"swing": -14.8,
+			"tags": [
+				"KICK",
+				"JOG",
+				"LOW",
+				"CHIP",
+				"STAND"
+			],
+			"tc": 0.308,
+			"toe_y": 0.024
+		},
+		{
+			"approach": -40.7,
+			"clean": false,
+			"cx": 0.411,
+			"cz": 0.356,
+			"elev": -10.7,
+			"foot": 1,
+			"foot_pitch": -26.0,
+			"foot_speed": 7.76,
+			"foot_turn": 84.6,
+			"id": "jn_kick_pass_soft_0160",
+			"len": 1.15,
+			"power": "",
+			"role": "kick_pass_soft",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.113,
+					-0.068
+				],
+				[
+					0.2,
+					0.262,
+					-0.169
+				]
+			],
+			"run": 0.54,
+			"source": "0160_kick_noname_kick.json",
+			"surface": "interior",
+			"swing": -10.9,
+			"tags": [
+				"KICK",
+				"NONAME",
+				"KICK"
+			],
+			"tc": 0.283,
+			"toe_y": 0.112
+		},
+		{
+			"approach": 40.7,
+			"clean": false,
+			"cx": 0.411,
+			"cz": -0.356,
+			"elev": -10.7,
+			"foot": -1,
+			"foot_pitch": -26.0,
+			"foot_speed": 7.76,
+			"foot_turn": 84.6,
+			"id": "jn_kick_pass_soft_0160_mirror",
+			"len": 1.15,
+			"power": "",
+			"role": "kick_pass_soft",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.113,
+					0.068
+				],
+				[
+					0.2,
+					0.262,
+					0.169
+				]
+			],
+			"run": 0.54,
+			"source": "0160_kick_noname_kick.json",
+			"surface": "interior",
+			"swing": 10.9,
+			"tags": [
+				"KICK",
+				"NONAME",
+				"KICK"
+			],
+			"tc": 0.283,
+			"toe_y": 0.112
+		},
+		{
+			"approach": -2.2,
+			"clean": false,
+			"cx": 1.325,
+			"cz": -0.039,
+			"elev": -4.7,
+			"foot": 1,
+			"foot_pitch": -43.2,
+			"foot_speed": 9.03,
+			"foot_turn": -55.3,
+			"id": "jn_kick_pass_soft_0164",
+			"len": 1.033,
+			"power": "",
+			"role": "kick_pass_soft",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.281,
+					-0.024
+				],
+				[
+					0.2,
+					0.559,
+					-0.034
+				]
+			],
+			"run": 1.33,
+			"source": "0164_kick_noname_a_kick.json",
+			"surface": "exterior",
+			"swing": 16.1,
+			"tags": [
+				"KICK",
+				"NONAME",
+				"KICK"
+			],
+			"tc": 0.3,
+			"toe_y": 0.078
+		},
+		{
+			"approach": 2.2,
+			"clean": false,
+			"cx": 1.325,
+			"cz": 0.039,
+			"elev": -4.7,
+			"foot": -1,
+			"foot_pitch": -43.2,
+			"foot_speed": 9.03,
+			"foot_turn": -55.3,
+			"id": "jn_kick_pass_soft_0164_mirror",
+			"len": 1.033,
+			"power": "",
+			"role": "kick_pass_soft",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.281,
+					0.024
+				],
+				[
+					0.2,
+					0.559,
+					0.034
+				]
+			],
+			"run": 1.33,
+			"source": "0164_kick_noname_a_kick.json",
+			"surface": "exterior",
+			"swing": -16.1,
+			"tags": [
+				"KICK",
+				"NONAME",
+				"KICK"
+			],
+			"tc": 0.3,
+			"toe_y": 0.078
+		},
+		{
+			"approach": 0.0,
+			"clean": false,
+			"cx": 0.269,
+			"cz": -0.296,
+			"elev": -23.7,
+			"foot": -1,
+			"foot_pitch": -49.8,
+			"foot_speed": 4.83,
+			"foot_turn": 97.4,
+			"id": "jn_kick_pass_soft_0166",
+			"len": 1.05,
+			"power": "",
+			"role": "kick_pass_soft",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.0,
+					0.0
+				],
+				[
+					0.2,
+					0.0,
+					0.0
+				],
+				[
+					0.3,
+					0.0,
+					0.0
+				]
+			],
+			"run": 0.4,
+			"source": "0166_kick_noname_b_kick.json",
+			"surface": "empeine",
+			"swing": 1.9,
+			"tags": [
+				"KICK",
+				"NONAME",
+				"KICK"
+			],
+			"tc": 0.308,
+			"toe_y": 0.081
+		},
+		{
+			"approach": 0.0,
+			"clean": false,
+			"cx": 0.269,
+			"cz": 0.296,
+			"elev": -23.6,
+			"foot": 1,
+			"foot_pitch": -49.8,
+			"foot_speed": 4.83,
+			"foot_turn": 97.4,
+			"id": "jn_kick_pass_soft_0166_mirror",
+			"len": 1.05,
+			"power": "",
+			"role": "kick_pass_soft",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.0,
+					0.0
+				],
+				[
+					0.2,
+					0.0,
+					0.0
+				],
+				[
+					0.3,
+					0.0,
+					0.0
+				]
+			],
+			"run": 0.4,
+			"source": "0166_kick_noname_b_kick.json",
+			"surface": "empeine",
+			"swing": -1.9,
+			"tags": [
+				"KICK",
+				"NONAME",
+				"KICK"
+			],
+			"tc": 0.308,
+			"toe_y": 0.081
+		},
+		{
+			"approach": 51.0,
+			"clean": true,
+			"cx": 0.333,
+			"cz": -0.13,
+			"elev": 2.7,
+			"foot": -1,
+			"foot_pitch": -34.2,
+			"foot_speed": 4.2,
+			"foot_turn": 73.0,
+			"id": "jn_kick_pass_soft_0626",
+			"len": 0.95,
+			"power": "soft",
+			"role": "kick_pass_soft",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.028,
+					0.038
+				],
+				[
+					0.2,
+					0.072,
+					0.078
+				],
+				[
+					0.3,
+					0.093,
+					0.114
+				]
+			],
+			"run": 0.36,
+			"source": "0626_kick_stand_kick_forward_to_stand_soft.json",
+			"surface": "interior",
+			"swing": 15.8,
+			"tags": [
+				"KICK",
+				"STAND",
+				"KICK",
+				"FWD",
+				"STAND",
+				"SOFT"
+			],
+			"tc": 0.358,
+			"toe_y": 0.009
+		},
+		{
+			"approach": -51.0,
+			"clean": true,
+			"cx": 0.333,
+			"cz": 0.13,
+			"elev": 2.7,
+			"foot": 1,
+			"foot_pitch": -34.2,
+			"foot_speed": 4.2,
+			"foot_turn": 73.0,
+			"id": "jn_kick_pass_soft_0626_mirror",
+			"len": 0.95,
+			"power": "soft",
+			"role": "kick_pass_soft",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.028,
+					-0.038
+				],
+				[
+					0.2,
+					0.072,
+					-0.078
+				],
+				[
+					0.3,
+					0.093,
+					-0.114
+				]
+			],
+			"run": 0.36,
+			"source": "0626_kick_stand_kick_forward_to_stand_soft.json",
+			"surface": "interior",
+			"swing": -15.8,
+			"tags": [
+				"KICK",
+				"STAND",
+				"KICK",
+				"FWD",
+				"STAND",
+				"SOFT"
+			],
+			"tc": 0.358,
+			"toe_y": 0.009
+		},
+		{
+			"approach": 0.0,
+			"clean": false,
+			"cx": 0.247,
+			"cz": 0.126,
+			"elev": -4.3,
+			"foot": 1,
+			"foot_pitch": -37.2,
+			"foot_speed": 4.59,
+			"foot_turn": 86.0,
+			"id": "jn_kick_pass_soft_0628",
+			"len": 0.967,
+			"power": "soft",
+			"role": "kick_pass_soft",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					-0.013,
+					-0.016
+				],
+				[
+					0.2,
+					0.005,
+					-0.069
+				],
+				[
+					0.3,
+					-0.013,
+					-0.103
+				]
+			],
+			"run": 0.28,
+			"source": "0628_kick_stand_kick_right_45_to_stand_soft.json",
+			"surface": "interior",
+			"swing": -38.4,
+			"tags": [
+				"KICK",
+				"STAND",
+				"KICK",
+				"STAND",
+				"SOFT"
+			],
+			"tc": 0.317,
+			"toe_y": 0.041
+		},
+		{
+			"approach": 0.0,
+			"clean": false,
+			"cx": 0.247,
+			"cz": -0.126,
+			"elev": -4.3,
+			"foot": -1,
+			"foot_pitch": -37.2,
+			"foot_speed": 4.59,
+			"foot_turn": 86.0,
+			"id": "jn_kick_pass_soft_0628_mirror",
+			"len": 0.967,
+			"power": "soft",
+			"role": "kick_pass_soft",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					-0.013,
+					0.016
+				],
+				[
+					0.2,
+					0.005,
+					0.069
+				],
+				[
+					0.3,
+					-0.013,
+					0.103
+				]
+			],
+			"run": 0.28,
+			"source": "0628_kick_stand_kick_right_45_to_stand_soft.json",
+			"surface": "interior",
+			"swing": 38.4,
+			"tags": [
+				"KICK",
+				"STAND",
+				"KICK",
+				"STAND",
+				"SOFT"
+			],
+			"tc": 0.317,
+			"toe_y": 0.041
+		},
+		{
+			"approach": 0.0,
+			"clean": false,
+			"cx": 0.221,
+			"cz": 0.007,
+			"elev": -18.9,
+			"foot": -1,
+			"foot_pitch": -60.3,
+			"foot_speed": 9.2,
+			"foot_turn": -18.0,
+			"id": "jn_kick_pass_soft_0670",
+			"len": 0.683,
+			"power": "soft",
+			"role": "kick_pass_soft",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				]
+			],
+			"run": 0.22,
+			"source": "0670_kick_jog_kick_soft_right_45_to_jog.json",
+			"surface": "empeine",
+			"swing": -0.1,
+			"tags": [
+				"KICK",
+				"JOG",
+				"KICK",
+				"SOFT",
+				"JOG"
+			],
+			"tc": 0.025,
+			"toe_y": 0.104
+		},
+		{
+			"approach": 0.0,
+			"clean": false,
+			"cx": 0.221,
+			"cz": -0.007,
+			"elev": -18.9,
+			"foot": 1,
+			"foot_pitch": -60.3,
+			"foot_speed": 9.2,
+			"foot_turn": -18.0,
+			"id": "jn_kick_pass_soft_0670_mirror",
+			"len": 0.683,
+			"power": "soft",
+			"role": "kick_pass_soft",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				]
+			],
+			"run": 0.22,
+			"source": "0670_kick_jog_kick_soft_right_45_to_jog.json",
+			"surface": "empeine",
+			"swing": 0.2,
+			"tags": [
+				"KICK",
+				"JOG",
+				"KICK",
+				"SOFT",
+				"JOG"
+			],
+			"tc": 0.025,
+			"toe_y": 0.104
+		},
+		{
+			"approach": -8.8,
+			"clean": true,
+			"cx": 1.301,
+			"cz": 0.236,
+			"elev": 3.0,
+			"foot": 1,
+			"foot_pitch": -20.7,
+			"foot_speed": 7.7,
+			"foot_turn": 62.4,
+			"id": "jn_kick_pass_soft_0674",
+			"len": 0.917,
+			"power": "soft",
+			"role": "kick_pass_soft",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.33,
+					-0.045
+				],
+				[
+					0.2,
+					0.622,
+					-0.096
+				],
+				[
+					0.3,
+					0.82,
+					-0.128
+				]
+			],
+			"run": 1.32,
+			"source": "0674_kick_jog_kick_soft_right_45_to_stand.json",
+			"surface": "interior",
+			"swing": -15.5,
+			"tags": [
+				"KICK",
+				"JOG",
+				"KICK",
+				"SOFT",
+				"STAND"
+			],
+			"tc": 0.317,
+			"toe_y": 0.069
+		},
+		{
+			"approach": 8.8,
+			"clean": true,
+			"cx": 1.301,
+			"cz": -0.236,
+			"elev": 3.0,
+			"foot": -1,
+			"foot_pitch": -20.8,
+			"foot_speed": 7.7,
+			"foot_turn": 62.4,
+			"id": "jn_kick_pass_soft_0674_mirror",
+			"len": 0.917,
+			"power": "soft",
+			"role": "kick_pass_soft",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.33,
+					0.045
+				],
+				[
+					0.2,
+					0.622,
+					0.096
+				],
+				[
+					0.3,
+					0.82,
+					0.128
+				]
+			],
+			"run": 1.32,
+			"source": "0674_kick_jog_kick_soft_right_45_to_stand.json",
+			"surface": "interior",
+			"swing": 15.4,
+			"tags": [
+				"KICK",
+				"JOG",
+				"KICK",
+				"SOFT",
+				"STAND"
+			],
+			"tc": 0.317,
+			"toe_y": 0.069
+		},
+		{
+			"approach": 0.0,
+			"clean": false,
+			"cx": 0.288,
+			"cz": 0.213,
+			"elev": 0.9,
+			"foot": 1,
+			"foot_pitch": -45.3,
+			"foot_speed": 2.62,
+			"foot_turn": 34.2,
+			"id": "jn_kick_pass_soft_0788",
+			"len": 1.233,
+			"power": "",
+			"role": "kick_pass_soft",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.033,
+					0.001
+				],
+				[
+					0.2,
+					0.064,
+					0.004
+				],
+				[
+					0.3,
+					0.098,
+					0.012
+				],
+				[
+					0.4,
+					0.131,
+					0.018
+				]
+			],
+			"run": 0.36,
+			"source": "0788_kick_stand_chest_forward.json",
+			"surface": "empeine",
+			"swing": -14.8,
+			"tags": [
+				"KICK",
+				"STAND",
+				"CHEST",
+				"FWD"
+			],
+			"tc": 0.492,
+			"toe_y": 0.037
+		},
+		{
+			"approach": 0.0,
+			"clean": false,
+			"cx": 0.288,
+			"cz": -0.214,
+			"elev": 0.9,
+			"foot": -1,
+			"foot_pitch": -45.3,
+			"foot_speed": 2.62,
+			"foot_turn": 34.0,
+			"id": "jn_kick_pass_soft_0788_mirror",
+			"len": 1.233,
+			"power": "",
+			"role": "kick_pass_soft",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.033,
+					-0.001
+				],
+				[
+					0.2,
+					0.064,
+					-0.004
+				],
+				[
+					0.3,
+					0.098,
+					-0.012
+				],
+				[
+					0.4,
+					0.131,
+					-0.018
+				]
+			],
+			"run": 0.36,
+			"source": "0788_kick_stand_chest_forward.json",
+			"surface": "empeine",
+			"swing": 14.6,
+			"tags": [
+				"KICK",
+				"STAND",
+				"CHEST",
+				"FWD"
+			],
+			"tc": 0.492,
+			"toe_y": 0.037
+		},
+		{
+			"approach": -14.9,
+			"clean": false,
+			"cx": 0.209,
+			"cz": 0.465,
+			"elev": -1.4,
+			"foot": 1,
+			"foot_pitch": -47.6,
+			"foot_speed": 3.63,
+			"foot_turn": 40.2,
+			"id": "jn_kick_pass_soft_0790",
+			"len": 0.933,
+			"power": "",
+			"role": "kick_pass_soft",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.065,
+					-0.027
+				]
+			],
+			"run": 0.51,
+			"source": "0790_kick_stand_left_90_turn_right_90_chest_forward.json",
+			"surface": "empeine",
+			"swing": 26.7,
+			"tags": [
+				"KICK",
+				"STAND",
+				"TURN",
+				"CHEST",
+				"FWD"
+			],
+			"tc": 0.175,
+			"toe_y": 0.078
+		},
+		{
+			"approach": 14.9,
+			"clean": false,
+			"cx": 0.209,
+			"cz": -0.465,
+			"elev": -1.4,
+			"foot": -1,
+			"foot_pitch": -47.6,
+			"foot_speed": 3.64,
+			"foot_turn": 40.2,
+			"id": "jn_kick_pass_soft_0790_mirror",
+			"len": 0.933,
+			"power": "",
+			"role": "kick_pass_soft",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.065,
+					0.027
+				]
+			],
+			"run": 0.51,
+			"source": "0790_kick_stand_left_90_turn_right_90_chest_forward.json",
+			"surface": "empeine",
+			"swing": -26.6,
+			"tags": [
+				"KICK",
+				"STAND",
+				"TURN",
+				"CHEST",
+				"FWD"
+			],
+			"tc": 0.175,
+			"toe_y": 0.078
+		},
+		{
+			"approach": 9.5,
+			"clean": false,
+			"cx": 0.176,
+			"cz": -0.304,
+			"elev": -0.1,
+			"foot": -1,
+			"foot_pitch": -25.6,
+			"foot_speed": 2.0,
+			"foot_turn": 62.9,
+			"id": "jn_kick_pass_soft_1152",
+			"len": 2.917,
+			"power": "",
+			"role": "kick_pass_soft",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.132,
+					-0.012
+				],
+				[
+					0.2,
+					0.274,
+					-0.038
+				],
+				[
+					0.3,
+					0.425,
+					-0.049
+				],
+				[
+					0.4,
+					0.583,
+					-0.044
+				],
+				[
+					0.5,
+					0.728,
+					-0.049
+				],
+				[
+					0.6,
+					0.813,
+					-0.067
+				],
+				[
+					0.7,
+					0.814,
+					-0.031
+				]
+			],
+			"run": 0.35,
+			"source": "1152_kick_ft_kick_02_andy.json",
+			"surface": "interior",
+			"swing": -69.6,
+			"tags": [
+				"KICK",
+				"KICK"
+			],
+			"tc": 0.75,
+			"toe_y": 0.04
+		},
+		{
+			"approach": -9.5,
+			"clean": false,
+			"cx": 0.176,
+			"cz": 0.304,
+			"elev": -0.1,
+			"foot": 1,
+			"foot_pitch": -25.6,
+			"foot_speed": 2.0,
+			"foot_turn": 62.9,
+			"id": "jn_kick_pass_soft_1152_mirror",
+			"len": 2.917,
+			"power": "",
+			"role": "kick_pass_soft",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.132,
+					0.012
+				],
+				[
+					0.2,
+					0.274,
+					0.038
+				],
+				[
+					0.3,
+					0.425,
+					0.049
+				],
+				[
+					0.4,
+					0.583,
+					0.044
+				],
+				[
+					0.5,
+					0.728,
+					0.049
+				],
+				[
+					0.6,
+					0.813,
+					0.067
+				],
+				[
+					0.7,
+					0.814,
+					0.031
+				]
+			],
+			"run": 0.35,
+			"source": "1152_kick_ft_kick_02_andy.json",
+			"surface": "interior",
+			"swing": 69.6,
+			"tags": [
+				"KICK",
+				"KICK"
+			],
+			"tc": 0.75,
+			"toe_y": 0.04
+		},
+		{
+			"approach": -9.7,
+			"clean": false,
+			"cx": 0.666,
+			"cz": -0.089,
+			"elev": -9.7,
+			"foot": -1,
+			"foot_pitch": -34.4,
+			"foot_speed": 6.35,
+			"foot_turn": -64.2,
+			"id": "jn_kick_pass_soft_1202",
+			"len": 0.9,
+			"power": "",
+			"role": "kick_pass_soft",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.168,
+					-0.026
+				],
+				[
+					0.2,
+					0.349,
+					-0.064
+				]
+			],
+			"run": 0.67,
+			"source": "1202_kick_ft_kick_06.json",
+			"surface": "exterior",
+			"swing": -2.3,
+			"tags": [
+				"KICK",
+				"KICK"
+			],
+			"tc": 0.292,
+			"toe_y": 0.109
+		},
+		{
+			"approach": 9.7,
+			"clean": false,
+			"cx": 0.666,
+			"cz": 0.089,
+			"elev": -9.7,
+			"foot": 1,
+			"foot_pitch": -34.4,
+			"foot_speed": 6.35,
+			"foot_turn": -64.2,
+			"id": "jn_kick_pass_soft_1202_mirror",
+			"len": 0.9,
+			"power": "",
+			"role": "kick_pass_soft",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.168,
+					0.026
+				],
+				[
+					0.2,
+					0.349,
+					0.064
+				]
+			],
+			"run": 0.67,
+			"source": "1202_kick_ft_kick_06.json",
+			"surface": "exterior",
+			"swing": 2.4,
+			"tags": [
+				"KICK",
+				"KICK"
+			],
+			"tc": 0.292,
+			"toe_y": 0.109
+		},
+		{
+			"approach": -13.0,
+			"clean": true,
+			"cx": 0.88,
+			"cz": -0.537,
+			"elev": -13.6,
+			"foot": -1,
+			"foot_pitch": -58.0,
+			"foot_speed": 8.45,
+			"foot_turn": 47.4,
+			"id": "jn_kick_pass_soft_1214",
+			"len": 0.867,
+			"power": "",
+			"role": "kick_pass_soft",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.281,
+					-0.064
+				],
+				[
+					0.2,
+					0.538,
+					-0.121
+				]
+			],
+			"run": 1.03,
+			"source": "1214_kick_ft_kick_08.json",
+			"surface": "empeine",
+			"swing": 4.5,
+			"tags": [
+				"KICK",
+				"KICK"
+			],
+			"tc": 0.25,
+			"toe_y": 0.088
+		},
+		{
+			"approach": 13.0,
+			"clean": true,
+			"cx": 0.88,
+			"cz": 0.537,
+			"elev": -13.5,
+			"foot": 1,
+			"foot_pitch": -58.0,
+			"foot_speed": 8.45,
+			"foot_turn": 47.4,
+			"id": "jn_kick_pass_soft_1214_mirror",
+			"len": 0.867,
+			"power": "",
+			"role": "kick_pass_soft",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.281,
+					0.064
+				],
+				[
+					0.2,
+					0.538,
+					0.121
+				]
+			],
+			"run": 1.03,
+			"source": "1214_kick_ft_kick_08.json",
+			"surface": "empeine",
+			"swing": -4.5,
+			"tags": [
+				"KICK",
+				"KICK"
+			],
+			"tc": 0.25,
+			"toe_y": 0.088
+		},
+		{
+			"approach": -46.3,
+			"clean": true,
+			"cx": 0.644,
+			"cz": -0.055,
+			"elev": -6.4,
+			"foot": 1,
+			"foot_pitch": -30.6,
+			"foot_speed": 6.71,
+			"foot_turn": 99.8,
+			"id": "jn_kick_pass_soft_1596",
+			"len": 0.967,
+			"power": "",
+			"role": "kick_pass_soft",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.081,
+					-0.067
+				],
+				[
+					0.2,
+					0.154,
+					-0.153
+				],
+				[
+					0.3,
+					0.218,
+					-0.228
+				]
+			],
+			"run": 0.65,
+			"source": "1596_kick_stand_pass_forward_02_kick.json",
+			"surface": "interior",
+			"swing": -29.7,
+			"tags": [
+				"KICK",
+				"STANDING",
+				"PASS",
+				"FWD",
+				"KICK"
+			],
+			"tc": 0.325,
+			"toe_y": 0.073
+		},
+		{
+			"approach": 46.3,
+			"clean": true,
+			"cx": 0.644,
+			"cz": 0.055,
+			"elev": -6.4,
+			"foot": -1,
+			"foot_pitch": -30.6,
+			"foot_speed": 6.7,
+			"foot_turn": 99.8,
+			"id": "jn_kick_pass_soft_1596_mirror",
+			"len": 0.967,
+			"power": "",
+			"role": "kick_pass_soft",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.081,
+					0.067
+				],
+				[
+					0.2,
+					0.154,
+					0.153
+				],
+				[
+					0.3,
+					0.218,
+					0.228
+				]
+			],
+			"run": 0.65,
+			"source": "1596_kick_stand_pass_forward_02_kick.json",
+			"surface": "interior",
+			"swing": 29.7,
+			"tags": [
+				"KICK",
+				"STANDING",
+				"PASS",
+				"FWD",
+				"KICK"
+			],
+			"tc": 0.325,
+			"toe_y": 0.073
+		},
+		{
+			"approach": 0.0,
+			"clean": true,
+			"cx": 0.149,
+			"cz": 0.031,
+			"elev": -3.8,
+			"foot": 1,
+			"foot_pitch": -40.6,
+			"foot_speed": 5.82,
+			"foot_turn": 95.8,
+			"id": "jn_kick_pass_soft_1600",
+			"len": 1.25,
+			"power": "",
+			"role": "kick_pass_soft",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.016,
+					-0.045
+				],
+				[
+					0.2,
+					0.042,
+					-0.087
+				],
+				[
+					0.3,
+					0.027,
+					-0.115
+				]
+			],
+			"run": 0.15,
+			"source": "1600_kick_stand_pass_forward_03_max_kick.json",
+			"surface": "empeine",
+			"swing": -39.0,
+			"tags": [
+				"KICK",
+				"STANDING",
+				"PASS",
+				"FWD",
+				"KICK"
+			],
+			"tc": 0.308,
+			"toe_y": 0.087
+		},
+		{
+			"approach": 0.0,
+			"clean": true,
+			"cx": 0.149,
+			"cz": -0.031,
+			"elev": -3.8,
+			"foot": -1,
+			"foot_pitch": -40.5,
+			"foot_speed": 5.82,
+			"foot_turn": 95.8,
+			"id": "jn_kick_pass_soft_1600_mirror",
+			"len": 1.25,
+			"power": "",
+			"role": "kick_pass_soft",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.016,
+					0.045
+				],
+				[
+					0.2,
+					0.042,
+					0.087
+				],
+				[
+					0.3,
+					0.027,
+					0.115
+				]
+			],
+			"run": 0.15,
+			"source": "1600_kick_stand_pass_forward_03_max_kick.json",
+			"surface": "empeine",
+			"swing": 39.0,
+			"tags": [
+				"KICK",
+				"STANDING",
+				"PASS",
+				"FWD",
+				"KICK"
+			],
+			"tc": 0.308,
+			"toe_y": 0.087
+		},
+		{
+			"approach": 7.2,
+			"clean": true,
+			"cx": 0.968,
+			"cz": -0.231,
+			"elev": 0.9,
+			"foot": -1,
+			"foot_pitch": -23.5,
+			"foot_speed": 7.14,
+			"foot_turn": 94.5,
+			"id": "jn_kick_pass_soft_1602",
+			"len": 1.383,
+			"power": "",
+			"role": "kick_pass_soft",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.143,
+					0.002
+				],
+				[
+					0.2,
+					0.296,
+					0.026
+				],
+				[
+					0.3,
+					0.431,
+					0.054
+				]
+			],
+			"run": 0.99,
+			"source": "1602_kick_stand_pass_forward_04_max_kick.json",
+			"surface": "interior",
+			"swing": 31.2,
+			"tags": [
+				"KICK",
+				"STANDING",
+				"PASS",
+				"FWD",
+				"KICK"
+			],
+			"tc": 0.35,
+			"toe_y": 0.081
+		},
+		{
+			"approach": -7.2,
+			"clean": true,
+			"cx": 0.968,
+			"cz": 0.231,
+			"elev": 0.9,
+			"foot": 1,
+			"foot_pitch": -23.5,
+			"foot_speed": 7.14,
+			"foot_turn": 94.5,
+			"id": "jn_kick_pass_soft_1602_mirror",
+			"len": 1.383,
+			"power": "",
+			"role": "kick_pass_soft",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.143,
+					-0.002
+				],
+				[
+					0.2,
+					0.296,
+					-0.026
+				],
+				[
+					0.3,
+					0.431,
+					-0.054
+				]
+			],
+			"run": 0.99,
+			"source": "1602_kick_stand_pass_forward_04_max_kick.json",
+			"surface": "interior",
+			"swing": -31.2,
+			"tags": [
+				"KICK",
+				"STANDING",
+				"PASS",
+				"FWD",
+				"KICK"
+			],
+			"tc": 0.35,
+			"toe_y": 0.081
+		},
+		{
+			"approach": -33.6,
+			"clean": true,
+			"cx": 0.672,
+			"cz": 0.126,
+			"elev": -2.9,
+			"foot": 1,
+			"foot_pitch": -18.9,
+			"foot_speed": 6.51,
+			"foot_turn": 101.4,
+			"id": "jn_kick_pass_soft_1606",
+			"len": 1.217,
+			"power": "",
+			"role": "kick_pass_soft",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.102,
+					-0.051
+				],
+				[
+					0.2,
+					0.195,
+					-0.116
+				],
+				[
+					0.3,
+					0.261,
+					-0.172
+				]
+			],
+			"run": 0.68,
+			"source": "1606_kick_stand_pass_forward_05_kick.json",
+			"surface": "interior",
+			"swing": -26.0,
+			"tags": [
+				"KICK",
+				"STANDING",
+				"PASS",
+				"FWD",
+				"KICK"
+			],
+			"tc": 0.317,
+			"toe_y": 0.081
+		},
+		{
+			"approach": 33.6,
+			"clean": true,
+			"cx": 0.673,
+			"cz": -0.126,
+			"elev": -2.8,
+			"foot": -1,
+			"foot_pitch": -18.9,
+			"foot_speed": 6.52,
+			"foot_turn": 101.4,
+			"id": "jn_kick_pass_soft_1606_mirror",
+			"len": 1.217,
+			"power": "",
+			"role": "kick_pass_soft",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.102,
+					0.051
+				],
+				[
+					0.2,
+					0.195,
+					0.116
+				],
+				[
+					0.3,
+					0.261,
+					0.172
+				]
+			],
+			"run": 0.68,
+			"source": "1606_kick_stand_pass_forward_05_kick.json",
+			"surface": "interior",
+			"swing": 26.0,
+			"tags": [
+				"KICK",
+				"STANDING",
+				"PASS",
+				"FWD",
+				"KICK"
+			],
+			"tc": 0.317,
+			"toe_y": 0.081
+		},
+		{
+			"approach": -7.2,
+			"clean": true,
+			"cx": 0.95,
+			"cz": 0.102,
+			"elev": 6.3,
+			"foot": 1,
+			"foot_pitch": -30.8,
+			"foot_speed": 6.28,
+			"foot_turn": 90.4,
+			"id": "jn_kick_pass_soft_1608",
+			"len": 0.967,
+			"power": "",
+			"role": "kick_pass_soft",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.164,
+					-0.011
+				],
+				[
+					0.2,
+					0.33,
+					-0.034
+				],
+				[
+					0.3,
+					0.454,
+					-0.057
+				]
+			],
+			"run": 0.95,
+			"source": "1608_kick_stand_pass_forward_max_kick.json",
+			"surface": "interior",
+			"swing": -16.3,
+			"tags": [
+				"KICK",
+				"STANDING",
+				"PASS",
+				"FWD",
+				"KICK"
+			],
+			"tc": 0.325,
+			"toe_y": 0.07
+		},
+		{
+			"approach": 7.2,
+			"clean": true,
+			"cx": 0.95,
+			"cz": -0.102,
+			"elev": 6.3,
+			"foot": -1,
+			"foot_pitch": -30.8,
+			"foot_speed": 6.28,
+			"foot_turn": 90.4,
+			"id": "jn_kick_pass_soft_1608_mirror",
+			"len": 0.967,
+			"power": "",
+			"role": "kick_pass_soft",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.164,
+					0.011
+				],
+				[
+					0.2,
+					0.33,
+					0.034
+				],
+				[
+					0.3,
+					0.454,
+					0.057
+				]
+			],
+			"run": 0.95,
+			"source": "1608_kick_stand_pass_forward_max_kick.json",
+			"surface": "interior",
+			"swing": 16.4,
+			"tags": [
+				"KICK",
+				"STANDING",
+				"PASS",
+				"FWD",
+				"KICK"
+			],
+			"tc": 0.325,
+			"toe_y": 0.07
+		},
+		{
+			"approach": -10.7,
+			"clean": true,
+			"cx": 0.906,
+			"cz": 0.213,
+			"elev": -4.8,
+			"foot": 1,
+			"foot_pitch": -27.0,
+			"foot_speed": 8.31,
+			"foot_turn": 89.0,
+			"id": "jn_kick_pass_soft_1616",
+			"len": 1.1,
+			"power": "",
+			"role": "kick_pass_soft",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.2,
+					-0.021
+				],
+				[
+					0.2,
+					0.386,
+					-0.058
+				],
+				[
+					0.3,
+					0.519,
+					-0.096
+				]
+			],
+			"run": 0.93,
+			"source": "1616_kick_stand_pass_45_03_max_kick.json",
+			"surface": "interior",
+			"swing": -20.8,
+			"tags": [
+				"KICK",
+				"STANDING",
+				"PASS",
+				"KICK"
+			],
+			"tc": 0.317,
+			"toe_y": 0.085
+		},
+		{
+			"approach": 10.7,
+			"clean": true,
+			"cx": 0.907,
+			"cz": -0.212,
+			"elev": -4.8,
+			"foot": -1,
+			"foot_pitch": -27.0,
+			"foot_speed": 8.31,
+			"foot_turn": 89.0,
+			"id": "jn_kick_pass_soft_1616_mirror",
+			"len": 1.1,
+			"power": "",
+			"role": "kick_pass_soft",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.2,
+					0.021
+				],
+				[
+					0.2,
+					0.386,
+					0.058
+				],
+				[
+					0.3,
+					0.519,
+					0.096
+				]
+			],
+			"run": 0.93,
+			"source": "1616_kick_stand_pass_45_03_max_kick.json",
+			"surface": "interior",
+			"swing": 20.8,
+			"tags": [
+				"KICK",
+				"STANDING",
+				"PASS",
+				"KICK"
+			],
+			"tc": 0.317,
+			"toe_y": 0.085
+		},
+		{
+			"approach": -45.9,
+			"clean": true,
+			"cx": 0.553,
+			"cz": 0.106,
+			"elev": -9.4,
+			"foot": 1,
+			"foot_pitch": -24.4,
+			"foot_speed": 5.23,
+			"foot_turn": 91.5,
+			"id": "jn_kick_pass_soft_1634",
+			"len": 1.017,
+			"power": "",
+			"role": "kick_pass_soft",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.055,
+					-0.048
+				],
+				[
+					0.2,
+					0.111,
+					-0.11
+				],
+				[
+					0.3,
+					0.164,
+					-0.17
+				]
+			],
+			"run": 0.56,
+			"source": "1634_kick_jog_pass_45_02_kick.json",
+			"surface": "interior",
+			"swing": -13.5,
+			"tags": [
+				"KICK",
+				"JOG",
+				"PASS",
+				"KICK"
+			],
+			"tc": 0.317,
+			"toe_y": 0.133
+		},
+		{
+			"approach": 45.9,
+			"clean": true,
+			"cx": 0.553,
+			"cz": -0.106,
+			"elev": -9.4,
+			"foot": -1,
+			"foot_pitch": -24.4,
+			"foot_speed": 5.23,
+			"foot_turn": 91.5,
+			"id": "jn_kick_pass_soft_1634_mirror",
+			"len": 1.017,
+			"power": "",
+			"role": "kick_pass_soft",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.055,
+					0.048
+				],
+				[
+					0.2,
+					0.111,
+					0.11
+				],
+				[
+					0.3,
+					0.164,
+					0.17
+				]
+			],
+			"run": 0.56,
+			"source": "1634_kick_jog_pass_45_02_kick.json",
+			"surface": "interior",
+			"swing": 13.5,
+			"tags": [
+				"KICK",
+				"JOG",
+				"PASS",
+				"KICK"
+			],
+			"tc": 0.317,
+			"toe_y": 0.133
+		},
+		{
+			"approach": -4.0,
+			"clean": true,
+			"cx": 0.855,
+			"cz": -0.481,
+			"elev": -9.0,
+			"foot": -1,
+			"foot_pitch": -10.8,
+			"foot_speed": 6.35,
+			"foot_turn": 77.4,
+			"id": "jn_kick_pass_soft_1636",
+			"len": 1.117,
+			"power": "",
+			"role": "kick_pass_soft",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.19,
+					-0.021
+				],
+				[
+					0.2,
+					0.352,
+					-0.035
+				],
+				[
+					0.3,
+					0.452,
+					-0.032
+				]
+			],
+			"run": 0.98,
+			"source": "1636_kick_jog_pass_45_04_max_kick.json",
+			"surface": "interior",
+			"swing": 19.2,
+			"tags": [
+				"KICK",
+				"JOG",
+				"PASS",
+				"KICK"
+			],
+			"tc": 0.317,
+			"toe_y": 0.116
+		},
+		{
+			"approach": 4.0,
+			"clean": true,
+			"cx": 0.855,
+			"cz": 0.481,
+			"elev": -9.0,
+			"foot": 1,
+			"foot_pitch": -10.8,
+			"foot_speed": 6.35,
+			"foot_turn": 77.4,
+			"id": "jn_kick_pass_soft_1636_mirror",
+			"len": 1.117,
+			"power": "",
+			"role": "kick_pass_soft",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.19,
+					0.021
+				],
+				[
+					0.2,
+					0.352,
+					0.035
+				],
+				[
+					0.3,
+					0.452,
+					0.032
+				]
+			],
+			"run": 0.98,
+			"source": "1636_kick_jog_pass_45_04_max_kick.json",
+			"surface": "interior",
+			"swing": -19.2,
+			"tags": [
+				"KICK",
+				"JOG",
+				"PASS",
+				"KICK"
+			],
+			"tc": 0.317,
+			"toe_y": 0.116
+		},
+		{
+			"approach": 3.3,
+			"clean": true,
+			"cx": 0.673,
+			"cz": 0.422,
+			"elev": -20.1,
+			"foot": 1,
+			"foot_pitch": -13.1,
+			"foot_speed": 6.18,
+			"foot_turn": 89.8,
+			"id": "jn_kick_pass_soft_1638",
+			"len": 0.567,
+			"power": "",
+			"role": "kick_pass_soft",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.095,
+					0.008
+				],
+				[
+					0.2,
+					0.172,
+					0.01
+				],
+				[
+					0.3,
+					0.225,
+					0.012
+				]
+			],
+			"run": 0.79,
+			"source": "1638_kick_jog_pass_45_05_kick.json",
+			"surface": "interior",
+			"swing": -31.1,
+			"tags": [
+				"KICK",
+				"JOG",
+				"PASS",
+				"KICK"
+			],
+			"tc": 0.308,
+			"toe_y": 0.168
+		},
+		{
+			"approach": -3.3,
+			"clean": true,
+			"cx": 0.673,
+			"cz": -0.421,
+			"elev": -20.1,
+			"foot": -1,
+			"foot_pitch": -13.1,
+			"foot_speed": 6.18,
+			"foot_turn": 89.8,
+			"id": "jn_kick_pass_soft_1638_mirror",
+			"len": 0.567,
+			"power": "",
+			"role": "kick_pass_soft",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.095,
+					-0.008
+				],
+				[
+					0.2,
+					0.172,
+					-0.01
+				],
+				[
+					0.3,
+					0.225,
+					-0.012
+				]
+			],
+			"run": 0.79,
+			"source": "1638_kick_jog_pass_45_05_kick.json",
+			"surface": "interior",
+			"swing": 31.1,
+			"tags": [
+				"KICK",
+				"JOG",
+				"PASS",
+				"KICK"
+			],
+			"tc": 0.308,
+			"toe_y": 0.168
+		},
+		{
+			"approach": 3.1,
+			"clean": false,
+			"cx": 0.761,
+			"cz": 0.529,
+			"elev": -9.3,
+			"foot": 1,
+			"foot_pitch": -16.7,
+			"foot_speed": 5.71,
+			"foot_turn": 95.6,
+			"id": "jn_kick_pass_soft_1640",
+			"len": 1.183,
+			"power": "",
+			"role": "kick_pass_soft",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.128,
+					0.01
+				],
+				[
+					0.2,
+					0.24,
+					0.018
+				],
+				[
+					0.3,
+					0.318,
+					0.016
+				]
+			],
+			"run": 0.93,
+			"source": "1640_kick_jog_pass_45_max_kick.json",
+			"surface": "interior",
+			"swing": -24.7,
+			"tags": [
+				"KICK",
+				"JOG",
+				"PASS",
+				"KICK"
+			],
+			"tc": 0.317,
+			"toe_y": 0.151
+		},
+		{
+			"approach": -3.1,
+			"clean": false,
+			"cx": 0.761,
+			"cz": -0.529,
+			"elev": -9.3,
+			"foot": -1,
+			"foot_pitch": -16.8,
+			"foot_speed": 5.71,
+			"foot_turn": 95.6,
+			"id": "jn_kick_pass_soft_1640_mirror",
+			"len": 1.183,
+			"power": "",
+			"role": "kick_pass_soft",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.128,
+					-0.01
+				],
+				[
+					0.2,
+					0.24,
+					-0.018
+				],
+				[
+					0.3,
+					0.318,
+					-0.016
+				]
+			],
+			"run": 0.93,
+			"source": "1640_kick_jog_pass_45_max_kick.json",
+			"surface": "interior",
+			"swing": 24.7,
+			"tags": [
+				"KICK",
+				"JOG",
+				"PASS",
+				"KICK"
+			],
+			"tc": 0.317,
+			"toe_y": 0.151
+		},
+		{
+			"approach": 0.4,
+			"clean": false,
+			"cx": 1.113,
+			"cz": 0.477,
+			"elev": -9.5,
+			"foot": 1,
+			"foot_pitch": -23.7,
+			"foot_speed": 8.28,
+			"foot_turn": 62.4,
+			"id": "jn_kick_pass_soft_1650",
+			"len": 1.25,
+			"power": "",
+			"role": "kick_pass_soft",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.251,
+					0.009
+				],
+				[
+					0.2,
+					0.5,
+					0.006
+				]
+			],
+			"run": 1.21,
+			"source": "1650_kick_jog_pass_90_kick.json",
+			"surface": "interior",
+			"swing": -18.4,
+			"tags": [
+				"KICK",
+				"JOG",
+				"PASS",
+				"KICK"
+			],
+			"tc": 0.3,
+			"toe_y": 0.147
+		},
+		{
+			"approach": -0.4,
+			"clean": false,
+			"cx": 1.113,
+			"cz": -0.477,
+			"elev": -9.5,
+			"foot": -1,
+			"foot_pitch": -23.7,
+			"foot_speed": 8.28,
+			"foot_turn": 62.4,
+			"id": "jn_kick_pass_soft_1650_mirror",
+			"len": 1.25,
+			"power": "",
+			"role": "kick_pass_soft",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.251,
+					-0.009
+				],
+				[
+					0.2,
+					0.5,
+					-0.006
+				]
+			],
+			"run": 1.21,
+			"source": "1650_kick_jog_pass_90_kick.json",
+			"surface": "interior",
+			"swing": 18.4,
+			"tags": [
+				"KICK",
+				"JOG",
+				"PASS",
+				"KICK"
+			],
+			"tc": 0.3,
+			"toe_y": 0.147
+		},
+		{
+			"approach": -8.9,
+			"clean": false,
+			"cx": 0.801,
+			"cz": -0.369,
+			"elev": 25.3,
+			"foot": -1,
+			"foot_pitch": -25.7,
+			"foot_speed": 4.12,
+			"foot_turn": 50.7,
+			"id": "jn_kick_pass_soft_1660",
+			"len": 1.217,
+			"power": "",
+			"role": "kick_pass_soft",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.116,
+					-0.021
+				],
+				[
+					0.2,
+					0.209,
+					-0.035
+				]
+			],
+			"run": 0.88,
+			"source": "1660_kick_stand_volley_passes_forward_03_max_kick.json",
+			"surface": "interior",
+			"swing": 5.1,
+			"tags": [
+				"KICK",
+				"STANDING",
+				"VOLLEY",
+				"PASSES",
+				"FWD",
+				"KICK"
+			],
+			"tc": 0.3,
+			"toe_y": 0.316
+		},
+		{
+			"approach": 8.9,
+			"clean": false,
+			"cx": 0.801,
+			"cz": 0.37,
+			"elev": 25.3,
+			"foot": 1,
+			"foot_pitch": -25.7,
+			"foot_speed": 4.12,
+			"foot_turn": 50.6,
+			"id": "jn_kick_pass_soft_1660_mirror",
+			"len": 1.217,
+			"power": "",
+			"role": "kick_pass_soft",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.116,
+					0.021
+				],
+				[
+					0.2,
+					0.209,
+					0.035
+				]
+			],
+			"run": 0.88,
+			"source": "1660_kick_stand_volley_passes_forward_03_max_kick.json",
+			"surface": "interior",
+			"swing": -5.0,
+			"tags": [
+				"KICK",
+				"STANDING",
+				"VOLLEY",
+				"PASSES",
+				"FWD",
+				"KICK"
+			],
+			"tc": 0.3,
+			"toe_y": 0.315
+		},
+		{
+			"approach": 64.7,
+			"clean": false,
+			"cx": 0.693,
+			"cz": 0.075,
+			"elev": 14.5,
+			"foot": -1,
+			"foot_pitch": -27.4,
+			"foot_speed": 3.24,
+			"foot_turn": 74.5,
+			"id": "jn_kick_pass_soft_1664",
+			"len": 1.133,
+			"power": "",
+			"role": "kick_pass_soft",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.012,
+					0.05
+				],
+				[
+					0.2,
+					0.02,
+					0.093
+				],
+				[
+					0.3,
+					0.039,
+					0.124
+				]
+			],
+			"run": 0.7,
+			"source": "1664_kick_stand_volley_passes_forward_05_kick.json",
+			"surface": "interior",
+			"swing": 22.6,
+			"tags": [
+				"KICK",
+				"STANDING",
+				"VOLLEY",
+				"PASSES",
+				"FWD",
+				"KICK"
+			],
+			"tc": 0.383,
+			"toe_y": 0.326
+		},
+		{
+			"approach": -64.7,
+			"clean": false,
+			"cx": 0.693,
+			"cz": -0.075,
+			"elev": 14.5,
+			"foot": 1,
+			"foot_pitch": -27.4,
+			"foot_speed": 3.24,
+			"foot_turn": 74.4,
+			"id": "jn_kick_pass_soft_1664_mirror",
+			"len": 1.133,
+			"power": "",
+			"role": "kick_pass_soft",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.012,
+					-0.05
+				],
+				[
+					0.2,
+					0.02,
+					-0.093
+				],
+				[
+					0.3,
+					0.039,
+					-0.124
+				]
+			],
+			"run": 0.7,
+			"source": "1664_kick_stand_volley_passes_forward_05_kick.json",
+			"surface": "interior",
+			"swing": -22.6,
+			"tags": [
+				"KICK",
+				"STANDING",
+				"VOLLEY",
+				"PASSES",
+				"FWD",
+				"KICK"
+			],
+			"tc": 0.383,
+			"toe_y": 0.326
+		},
+		{
+			"approach": 28.7,
+			"clean": false,
+			"cx": 0.37,
+			"cz": -0.518,
+			"elev": -13.1,
+			"foot": -1,
+			"foot_pitch": -37.0,
+			"foot_speed": 6.41,
+			"foot_turn": 90.8,
+			"id": "jn_kick_pass_soft_2176",
+			"len": 1.1,
+			"power": "",
+			"role": "kick_pass_soft",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.143,
+					0.051
+				],
+				[
+					0.2,
+					0.266,
+					0.123
+				]
+			],
+			"run": 0.64,
+			"source": "2176_kick_freestyle_passing_stand_01_all_angles_05.json",
+			"surface": "interior",
+			"swing": 10.6,
+			"tags": [
+				"KICK",
+				"FREESTYLE",
+				"PASSING",
+				"STANDING",
+				"ALL",
+				"ANGLES"
+			],
+			"tc": 0.25,
+			"toe_y": 0.118
+		},
+		{
+			"approach": -28.7,
+			"clean": false,
+			"cx": 0.37,
+			"cz": 0.518,
+			"elev": -13.0,
+			"foot": 1,
+			"foot_pitch": -37.0,
+			"foot_speed": 6.41,
+			"foot_turn": 90.8,
+			"id": "jn_kick_pass_soft_2176_mirror",
+			"len": 1.1,
+			"power": "",
+			"role": "kick_pass_soft",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.143,
+					-0.051
+				],
+				[
+					0.2,
+					0.266,
+					-0.123
+				]
+			],
+			"run": 0.64,
+			"source": "2176_kick_freestyle_passing_stand_01_all_angles_05.json",
+			"surface": "interior",
+			"swing": -10.6,
+			"tags": [
+				"KICK",
+				"FREESTYLE",
+				"PASSING",
+				"STANDING",
+				"ALL",
+				"ANGLES"
+			],
+			"tc": 0.25,
+			"toe_y": 0.118
+		},
+		{
+			"approach": 0.0,
+			"clean": false,
+			"cx": 0.286,
+			"cz": 0.586,
+			"elev": -5.3,
+			"foot": 1,
+			"foot_pitch": -5.6,
+			"foot_speed": 5.32,
+			"foot_turn": 85.1,
+			"id": "jn_kick_pass_soft_2178",
+			"len": 1.183,
+			"power": "",
+			"role": "kick_pass_soft",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.0,
+					0.0
+				],
+				[
+					0.2,
+					0.0,
+					0.0
+				],
+				[
+					0.3,
+					0.0,
+					0.0
+				]
+			],
+			"run": 0.65,
+			"source": "2178_kick_freestyle_passing_stand_01_all_angles_06.json",
+			"surface": "interior",
+			"swing": -18.0,
+			"tags": [
+				"KICK",
+				"FREESTYLE",
+				"PASSING",
+				"STANDING",
+				"ALL",
+				"ANGLES"
+			],
+			"tc": 0.308,
+			"toe_y": 0.155
+		},
+		{
+			"approach": 0.0,
+			"clean": false,
+			"cx": 0.285,
+			"cz": -0.586,
+			"elev": -5.4,
+			"foot": -1,
+			"foot_pitch": -5.6,
+			"foot_speed": 5.32,
+			"foot_turn": 85.1,
+			"id": "jn_kick_pass_soft_2178_mirror",
+			"len": 1.183,
+			"power": "",
+			"role": "kick_pass_soft",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.0,
+					0.0
+				],
+				[
+					0.2,
+					0.0,
+					0.0
+				],
+				[
+					0.3,
+					0.0,
+					0.0
+				]
+			],
+			"run": 0.65,
+			"source": "2178_kick_freestyle_passing_stand_01_all_angles_06.json",
+			"surface": "interior",
+			"swing": 18.0,
+			"tags": [
+				"KICK",
+				"FREESTYLE",
+				"PASSING",
+				"STANDING",
+				"ALL",
+				"ANGLES"
+			],
+			"tc": 0.308,
+			"toe_y": 0.155
+		},
+		{
+			"approach": 35.1,
+			"clean": true,
+			"cx": 0.625,
+			"cz": 0.264,
+			"elev": 2.6,
+			"foot": -1,
+			"foot_pitch": -44.8,
+			"foot_speed": 7.77,
+			"foot_turn": 40.8,
+			"id": "jn_kick_pass_soft_2180",
+			"len": 1.183,
+			"power": "",
+			"role": "kick_pass_soft",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.211,
+					0.164
+				]
+			],
+			"run": 0.68,
+			"source": "2180_kick_freestyle_passing_stand_01_all_angles_07.json",
+			"surface": "empeine",
+			"swing": 20.1,
+			"tags": [
+				"KICK",
+				"FREESTYLE",
+				"PASSING",
+				"STANDING",
+				"ALL",
+				"ANGLES"
+			],
+			"tc": 0.158,
+			"toe_y": 0.044
+		},
+		{
+			"approach": -35.1,
+			"clean": true,
+			"cx": 0.625,
+			"cz": -0.264,
+			"elev": 2.6,
+			"foot": 1,
+			"foot_pitch": -44.8,
+			"foot_speed": 7.77,
+			"foot_turn": 40.9,
+			"id": "jn_kick_pass_soft_2180_mirror",
+			"len": 1.183,
+			"power": "",
+			"role": "kick_pass_soft",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.211,
+					-0.164
+				]
+			],
+			"run": 0.68,
+			"source": "2180_kick_freestyle_passing_stand_01_all_angles_07.json",
+			"surface": "empeine",
+			"swing": -20.2,
+			"tags": [
+				"KICK",
+				"FREESTYLE",
+				"PASSING",
+				"STANDING",
+				"ALL",
+				"ANGLES"
+			],
+			"tc": 0.158,
+			"toe_y": 0.044
+		},
+		{
+			"approach": 11.0,
+			"clean": true,
+			"cx": 0.418,
+			"cz": 0.365,
+			"elev": -29.5,
+			"foot": 1,
+			"foot_pitch": -23.0,
+			"foot_speed": 6.37,
+			"foot_turn": 74.6,
+			"id": "jn_kick_pass_soft_2184",
+			"len": 0.8,
+			"power": "",
+			"role": "kick_pass_soft",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.04,
+					0.016
+				],
+				[
+					0.2,
+					0.088,
+					0.026
+				]
+			],
+			"run": 0.55,
+			"source": "2184_kick_freestyle_passing_stand_01_all_angles.json",
+			"surface": "interior",
+			"swing": -28.3,
+			"tags": [
+				"KICK",
+				"FREESTYLE",
+				"PASSING",
+				"STANDING",
+				"ALL",
+				"ANGLES"
+			],
+			"tc": 0.267,
+			"toe_y": 0.18
+		},
+		{
+			"approach": -11.0,
+			"clean": true,
+			"cx": 0.418,
+			"cz": -0.365,
+			"elev": -29.5,
+			"foot": -1,
+			"foot_pitch": -23.0,
+			"foot_speed": 6.37,
+			"foot_turn": 74.6,
+			"id": "jn_kick_pass_soft_2184_mirror",
+			"len": 0.8,
+			"power": "",
+			"role": "kick_pass_soft",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.04,
+					-0.016
+				],
+				[
+					0.2,
+					0.088,
+					-0.026
+				]
+			],
+			"run": 0.55,
+			"source": "2184_kick_freestyle_passing_stand_01_all_angles.json",
+			"surface": "interior",
+			"swing": 28.3,
+			"tags": [
+				"KICK",
+				"FREESTYLE",
+				"PASSING",
+				"STANDING",
+				"ALL",
+				"ANGLES"
+			],
+			"tc": 0.267,
+			"toe_y": 0.18
+		},
+		{
+			"approach": 36.4,
+			"clean": true,
+			"cx": 1.226,
+			"cz": 0.891,
+			"elev": -3.8,
+			"foot": 1,
+			"foot_pitch": -19.8,
+			"foot_speed": 8.97,
+			"foot_turn": 56.6,
+			"id": "jn_kick_pass_soft_2186",
+			"len": 0.983,
+			"power": "",
+			"role": "kick_pass_soft",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.269,
+					0.223
+				],
+				[
+					0.2,
+					0.513,
+					0.407
+				]
+			],
+			"run": 1.52,
+			"source": "2186_kick_freestyle_passing_moving_02_all_angles_02.json",
+			"surface": "interior",
+			"swing": -1.7,
+			"tags": [
+				"KICK",
+				"FREESTYLE",
+				"PASSING",
+				"MOVING",
+				"ALL",
+				"ANGLES"
+			],
+			"tc": 0.283,
+			"toe_y": 0.135
+		},
+		{
+			"approach": -36.4,
+			"clean": true,
+			"cx": 1.226,
+			"cz": -0.891,
+			"elev": -3.8,
+			"foot": -1,
+			"foot_pitch": -19.9,
+			"foot_speed": 8.97,
+			"foot_turn": 56.6,
+			"id": "jn_kick_pass_soft_2186_mirror",
+			"len": 0.983,
+			"power": "",
+			"role": "kick_pass_soft",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.269,
+					-0.223
+				],
+				[
+					0.2,
+					0.513,
+					-0.407
+				]
+			],
+			"run": 1.52,
+			"source": "2186_kick_freestyle_passing_moving_02_all_angles_02.json",
+			"surface": "interior",
+			"swing": 1.7,
+			"tags": [
+				"KICK",
+				"FREESTYLE",
+				"PASSING",
+				"MOVING",
+				"ALL",
+				"ANGLES"
+			],
+			"tc": 0.283,
+			"toe_y": 0.134
+		},
+		{
+			"approach": -58.3,
+			"clean": true,
+			"cx": 0.579,
+			"cz": -0.088,
+			"elev": -14.4,
+			"foot": 1,
+			"foot_pitch": -36.6,
+			"foot_speed": 6.12,
+			"foot_turn": 98.1,
+			"id": "jn_kick_pass_soft_2188",
+			"len": 0.817,
+			"power": "",
+			"role": "kick_pass_soft",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.065,
+					-0.111
+				],
+				[
+					0.2,
+					0.139,
+					-0.237
+				]
+			],
+			"run": 0.59,
+			"source": "2188_kick_freestyle_passing_moving_02_all_angles_04.json",
+			"surface": "interior",
+			"swing": -19.8,
+			"tags": [
+				"KICK",
+				"FREESTYLE",
+				"PASSING",
+				"MOVING",
+				"ALL",
+				"ANGLES"
+			],
+			"tc": 0.283,
+			"toe_y": 0.212
+		},
+		{
+			"approach": 58.3,
+			"clean": true,
+			"cx": 0.579,
+			"cz": 0.088,
+			"elev": -14.4,
+			"foot": -1,
+			"foot_pitch": -36.6,
+			"foot_speed": 6.12,
+			"foot_turn": 98.1,
+			"id": "jn_kick_pass_soft_2188_mirror",
+			"len": 0.817,
+			"power": "",
+			"role": "kick_pass_soft",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.065,
+					0.111
+				],
+				[
+					0.2,
+					0.139,
+					0.237
+				]
+			],
+			"run": 0.59,
+			"source": "2188_kick_freestyle_passing_moving_02_all_angles_04.json",
+			"surface": "interior",
+			"swing": 19.8,
+			"tags": [
+				"KICK",
+				"FREESTYLE",
+				"PASSING",
+				"MOVING",
+				"ALL",
+				"ANGLES"
+			],
+			"tc": 0.283,
+			"toe_y": 0.212
+		},
+		{
+			"approach": 24.0,
+			"clean": true,
+			"cx": 0.825,
+			"cz": 0.596,
+			"elev": -7.9,
+			"foot": 1,
+			"foot_pitch": -27.3,
+			"foot_speed": 6.89,
+			"foot_turn": 53.7,
+			"id": "jn_kick_pass_soft_2190",
+			"len": 1.017,
+			"power": "",
+			"role": "kick_pass_soft",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.227,
+					0.105
+				],
+				[
+					0.2,
+					0.445,
+					0.199
+				]
+			],
+			"run": 1.02,
+			"source": "2190_kick_freestyle_passing_moving_02_all_angles_05.json",
+			"surface": "interior",
+			"swing": -10.1,
+			"tags": [
+				"KICK",
+				"FREESTYLE",
+				"PASSING",
+				"MOVING",
+				"ALL",
+				"ANGLES"
+			],
+			"tc": 0.275,
+			"toe_y": 0.097
+		},
+		{
+			"approach": -24.0,
+			"clean": true,
+			"cx": 0.825,
+			"cz": -0.596,
+			"elev": -7.9,
+			"foot": -1,
+			"foot_pitch": -27.3,
+			"foot_speed": 6.89,
+			"foot_turn": 53.7,
+			"id": "jn_kick_pass_soft_2190_mirror",
+			"len": 1.017,
+			"power": "",
+			"role": "kick_pass_soft",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.227,
+					-0.105
+				],
+				[
+					0.2,
+					0.445,
+					-0.199
+				]
+			],
+			"run": 1.02,
+			"source": "2190_kick_freestyle_passing_moving_02_all_angles_05.json",
+			"surface": "interior",
+			"swing": 10.0,
+			"tags": [
+				"KICK",
+				"FREESTYLE",
+				"PASSING",
+				"MOVING",
+				"ALL",
+				"ANGLES"
+			],
+			"tc": 0.275,
+			"toe_y": 0.097
+		},
+		{
+			"approach": -26.1,
+			"clean": false,
+			"cx": 0.389,
+			"cz": -0.293,
+			"elev": -19.5,
+			"foot": -1,
+			"foot_pitch": -34.0,
+			"foot_speed": 5.18,
+			"foot_turn": 71.8,
+			"id": "jn_kick_pass_soft_2192",
+			"len": 1.15,
+			"power": "",
+			"role": "kick_pass_soft",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.041,
+					-0.016
+				],
+				[
+					0.2,
+					0.07,
+					-0.039
+				]
+			],
+			"run": 0.49,
+			"source": "2192_kick_freestyle_passing_moving_02_all_angles_06.json",
+			"surface": "interior",
+			"swing": 7.0,
+			"tags": [
+				"KICK",
+				"FREESTYLE",
+				"PASSING",
+				"MOVING",
+				"ALL",
+				"ANGLES"
+			],
+			"tc": 0.292,
+			"toe_y": 0.077
+		},
+		{
+			"approach": 26.1,
+			"clean": false,
+			"cx": 0.389,
+			"cz": 0.293,
+			"elev": -19.5,
+			"foot": 1,
+			"foot_pitch": -34.0,
+			"foot_speed": 5.19,
+			"foot_turn": 71.7,
+			"id": "jn_kick_pass_soft_2192_mirror",
+			"len": 1.15,
+			"power": "",
+			"role": "kick_pass_soft",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.041,
+					0.016
+				],
+				[
+					0.2,
+					0.07,
+					0.039
+				]
+			],
+			"run": 0.49,
+			"source": "2192_kick_freestyle_passing_moving_02_all_angles_06.json",
+			"surface": "interior",
+			"swing": -6.9,
+			"tags": [
+				"KICK",
+				"FREESTYLE",
+				"PASSING",
+				"MOVING",
+				"ALL",
+				"ANGLES"
+			],
+			"tc": 0.292,
+			"toe_y": 0.077
+		},
+		{
+			"approach": 0.0,
+			"clean": false,
+			"cx": 0.069,
+			"cz": 0.016,
+			"elev": -14.4,
+			"foot": -1,
+			"foot_pitch": -53.1,
+			"foot_speed": 4.5,
+			"foot_turn": 102.9,
+			"id": "jn_kick_pass_soft_2224",
+			"len": 1.117,
+			"power": "",
+			"role": "kick_pass_soft",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.043,
+					0.009
+				],
+				[
+					0.2,
+					0.095,
+					0.012
+				],
+				[
+					0.3,
+					0.104,
+					0.036
+				]
+			],
+			"run": 0.07,
+			"source": "2224_kick_skill_pass_01_03.json",
+			"surface": "empeine",
+			"swing": 31.6,
+			"tags": [
+				"KICK",
+				"SKILL",
+				"PASS"
+			],
+			"tc": 0.308,
+			"toe_y": 0.058
+		},
+		{
+			"approach": 0.0,
+			"clean": false,
+			"cx": 0.069,
+			"cz": -0.016,
+			"elev": -14.3,
+			"foot": 1,
+			"foot_pitch": -53.1,
+			"foot_speed": 4.5,
+			"foot_turn": 102.9,
+			"id": "jn_kick_pass_soft_2224_mirror",
+			"len": 1.117,
+			"power": "",
+			"role": "kick_pass_soft",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.043,
+					-0.009
+				],
+				[
+					0.2,
+					0.095,
+					-0.012
+				],
+				[
+					0.3,
+					0.104,
+					-0.036
+				]
+			],
+			"run": 0.07,
+			"source": "2224_kick_skill_pass_01_03.json",
+			"surface": "empeine",
+			"swing": -31.6,
+			"tags": [
+				"KICK",
+				"SKILL",
+				"PASS"
+			],
+			"tc": 0.308,
+			"toe_y": 0.058
+		},
+		{
+			"approach": 0.0,
+			"clean": false,
+			"cx": 0.235,
+			"cz": -0.357,
+			"elev": -41.2,
+			"foot": -1,
+			"foot_pitch": -52.7,
+			"foot_speed": 6.88,
+			"foot_turn": 34.2,
+			"id": "jn_kick_pass_soft_2226",
+			"len": 1.35,
+			"power": "",
+			"role": "kick_pass_soft",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.0,
+					0.0
+				],
+				[
+					0.2,
+					0.0,
+					0.0
+				],
+				[
+					0.3,
+					0.0,
+					0.0
+				],
+				[
+					0.4,
+					0.0,
+					0.0
+				],
+				[
+					0.5,
+					0.0,
+					0.0
+				]
+			],
+			"run": 0.43,
+			"source": "2226_kick_skill_pass_01.json",
+			"surface": "empeine",
+			"swing": -7.2,
+			"tags": [
+				"KICK",
+				"SKILL",
+				"PASS"
+			],
+			"tc": 0.575,
+			"toe_y": 0.201
+		},
+		{
+			"approach": 0.0,
+			"clean": false,
+			"cx": 0.235,
+			"cz": 0.357,
+			"elev": -41.2,
+			"foot": 1,
+			"foot_pitch": -52.7,
+			"foot_speed": 6.88,
+			"foot_turn": 34.2,
+			"id": "jn_kick_pass_soft_2226_mirror",
+			"len": 1.35,
+			"power": "",
+			"role": "kick_pass_soft",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.0,
+					0.0
+				],
+				[
+					0.2,
+					0.0,
+					0.0
+				],
+				[
+					0.3,
+					0.0,
+					0.0
+				],
+				[
+					0.4,
+					0.0,
+					0.0
+				],
+				[
+					0.5,
+					0.0,
+					0.0
+				]
+			],
+			"run": 0.43,
+			"source": "2226_kick_skill_pass_01.json",
+			"surface": "empeine",
+			"swing": 7.2,
+			"tags": [
+				"KICK",
+				"SKILL",
+				"PASS"
+			],
+			"tc": 0.575,
+			"toe_y": 0.201
+		},
+		{
+			"approach": -8.6,
+			"clean": true,
+			"cx": 0.75,
+			"cz": -0.307,
+			"elev": -3.1,
+			"foot": -1,
+			"foot_pitch": -29.8,
+			"foot_speed": 7.05,
+			"foot_turn": 69.8,
+			"id": "jn_kick_pass_soft_2456",
+			"len": 1.033,
+			"power": "soft",
+			"role": "kick_pass_soft",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.136,
+					-0.03
+				],
+				[
+					0.2,
+					0.298,
+					-0.045
+				],
+				[
+					0.3,
+					0.435,
+					-0.065
+				]
+			],
+			"run": 0.81,
+			"source": "2456_kick_soft_00.json",
+			"surface": "interior",
+			"swing": 10.7,
+			"tags": [
+				"KICK",
+				"KICK",
+				"SOFT"
+			],
+			"tc": 0.317,
+			"toe_y": 0.067
+		},
+		{
+			"approach": 8.6,
+			"clean": true,
+			"cx": 0.75,
+			"cz": 0.307,
+			"elev": -3.1,
+			"foot": 1,
+			"foot_pitch": -29.8,
+			"foot_speed": 7.05,
+			"foot_turn": 69.8,
+			"id": "jn_kick_pass_soft_2456_mirror",
+			"len": 1.033,
+			"power": "soft",
+			"role": "kick_pass_soft",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.136,
+					0.03
+				],
+				[
+					0.2,
+					0.298,
+					0.045
+				],
+				[
+					0.3,
+					0.435,
+					0.065
+				]
+			],
+			"run": 0.81,
+			"source": "2456_kick_soft_00.json",
+			"surface": "interior",
+			"swing": -10.7,
+			"tags": [
+				"KICK",
+				"KICK",
+				"SOFT"
+			],
+			"tc": 0.317,
+			"toe_y": 0.067
+		},
+		{
+			"approach": 41.9,
+			"clean": true,
+			"cx": 0.599,
+			"cz": -0.122,
+			"elev": -0.3,
+			"foot": -1,
+			"foot_pitch": -21.9,
+			"foot_speed": 6.79,
+			"foot_turn": 83.5,
+			"id": "jn_kick_pass_soft_2458",
+			"len": 1.05,
+			"power": "soft",
+			"role": "kick_pass_soft",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.08,
+					0.056
+				],
+				[
+					0.2,
+					0.17,
+					0.132
+				],
+				[
+					0.3,
+					0.235,
+					0.209
+				]
+			],
+			"run": 0.61,
+			"source": "2458_kick_soft_01.json",
+			"surface": "interior",
+			"swing": 17.0,
+			"tags": [
+				"KICK",
+				"KICK",
+				"SOFT"
+			],
+			"tc": 0.317,
+			"toe_y": 0.083
+		},
+		{
+			"approach": -41.9,
+			"clean": true,
+			"cx": 0.599,
+			"cz": 0.122,
+			"elev": -0.3,
+			"foot": 1,
+			"foot_pitch": -21.9,
+			"foot_speed": 6.78,
+			"foot_turn": 83.5,
+			"id": "jn_kick_pass_soft_2458_mirror",
+			"len": 1.05,
+			"power": "soft",
+			"role": "kick_pass_soft",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.08,
+					-0.056
+				],
+				[
+					0.2,
+					0.17,
+					-0.132
+				],
+				[
+					0.3,
+					0.235,
+					-0.209
+				]
+			],
+			"run": 0.61,
+			"source": "2458_kick_soft_01.json",
+			"surface": "interior",
+			"swing": -17.0,
+			"tags": [
+				"KICK",
+				"KICK",
+				"SOFT"
+			],
+			"tc": 0.317,
+			"toe_y": 0.083
+		},
+		{
+			"approach": 22.2,
+			"clean": true,
+			"cx": 0.917,
+			"cz": -0.132,
+			"elev": -6.1,
+			"foot": -1,
+			"foot_pitch": -23.9,
+			"foot_speed": 7.47,
+			"foot_turn": 92.6,
+			"id": "jn_kick_pass_soft_2460",
+			"len": 0.917,
+			"power": "soft",
+			"role": "kick_pass_soft",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.179,
+					0.04
+				],
+				[
+					0.2,
+					0.333,
+					0.113
+				],
+				[
+					0.3,
+					0.471,
+					0.186
+				]
+			],
+			"run": 0.93,
+			"source": "2460_kick_soft_02_max.json",
+			"surface": "interior",
+			"swing": 30.2,
+			"tags": [
+				"KICK",
+				"KICK",
+				"SOFT"
+			],
+			"tc": 0.325,
+			"toe_y": 0.059
+		},
+		{
+			"approach": -22.2,
+			"clean": true,
+			"cx": 0.917,
+			"cz": 0.132,
+			"elev": -6.1,
+			"foot": 1,
+			"foot_pitch": -23.9,
+			"foot_speed": 7.47,
+			"foot_turn": 92.6,
+			"id": "jn_kick_pass_soft_2460_mirror",
+			"len": 0.917,
+			"power": "soft",
+			"role": "kick_pass_soft",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.179,
+					-0.04
+				],
+				[
+					0.2,
+					0.333,
+					-0.113
+				],
+				[
+					0.3,
+					0.471,
+					-0.186
+				]
+			],
+			"run": 0.93,
+			"source": "2460_kick_soft_02_max.json",
+			"surface": "interior",
+			"swing": -30.2,
+			"tags": [
+				"KICK",
+				"KICK",
+				"SOFT"
+			],
+			"tc": 0.325,
+			"toe_y": 0.059
+		},
+		{
+			"approach": 45.1,
+			"clean": true,
+			"cx": 0.406,
+			"cz": -0.121,
+			"elev": -0.5,
+			"foot": -1,
+			"foot_pitch": -27.9,
+			"foot_speed": 6.37,
+			"foot_turn": 81.4,
+			"id": "jn_kick_pass_soft_2462",
+			"len": 0.983,
+			"power": "soft",
+			"role": "kick_pass_soft",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.034,
+					0.033
+				],
+				[
+					0.2,
+					0.089,
+					0.076
+				],
+				[
+					0.3,
+					0.111,
+					0.111
+				]
+			],
+			"run": 0.42,
+			"source": "2462_kick_soft_03.json",
+			"surface": "interior",
+			"swing": 11.0,
+			"tags": [
+				"KICK",
+				"KICK",
+				"SOFT"
+			],
+			"tc": 0.317,
+			"toe_y": 0.056
+		},
+		{
+			"approach": -45.1,
+			"clean": true,
+			"cx": 0.406,
+			"cz": 0.121,
+			"elev": -0.5,
+			"foot": 1,
+			"foot_pitch": -27.9,
+			"foot_speed": 6.38,
+			"foot_turn": 81.4,
+			"id": "jn_kick_pass_soft_2462_mirror",
+			"len": 0.983,
+			"power": "soft",
+			"role": "kick_pass_soft",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.034,
+					-0.033
+				],
+				[
+					0.2,
+					0.089,
+					-0.076
+				],
+				[
+					0.3,
+					0.111,
+					-0.111
+				]
+			],
+			"run": 0.42,
+			"source": "2462_kick_soft_03.json",
+			"surface": "interior",
+			"swing": -11.1,
+			"tags": [
+				"KICK",
+				"KICK",
+				"SOFT"
+			],
+			"tc": 0.317,
+			"toe_y": 0.056
+		},
+		{
+			"approach": 0.0,
+			"clean": false,
+			"cx": 0.68,
+			"cz": -0.221,
+			"elev": 38.0,
+			"foot": -1,
+			"foot_pitch": -12.2,
+			"foot_speed": 5.63,
+			"foot_turn": 12.5,
+			"id": "jn_kick_pass_soft_2592",
+			"len": 1.0,
+			"power": "",
+			"role": "kick_pass_soft",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				]
+			],
+			"run": 0.71,
+			"source": "2592_kick_special_04_max.json",
+			"surface": "empeine",
+			"swing": -8.6,
+			"tags": [
+				"KICK",
+				"KICK",
+				"SPECIAL"
+			],
+			"tc": 0.05,
+			"toe_y": 0.274
+		},
+		{
+			"approach": 0.0,
+			"clean": false,
+			"cx": 0.68,
+			"cz": 0.221,
+			"elev": 38.0,
+			"foot": 1,
+			"foot_pitch": -12.2,
+			"foot_speed": 5.63,
+			"foot_turn": 12.5,
+			"id": "jn_kick_pass_soft_2592_mirror",
+			"len": 1.0,
+			"power": "",
+			"role": "kick_pass_soft",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				]
+			],
+			"run": 0.71,
+			"source": "2592_kick_special_04_max.json",
+			"surface": "empeine",
+			"swing": 8.6,
+			"tags": [
+				"KICK",
+				"KICK",
+				"SPECIAL"
+			],
+			"tc": 0.05,
+			"toe_y": 0.274
+		},
+		{
+			"approach": 13.3,
+			"clean": true,
+			"cx": 0.754,
+			"cz": -0.276,
+			"elev": -0.4,
+			"foot": -1,
+			"foot_pitch": -25.0,
+			"foot_speed": 7.2,
+			"foot_turn": 84.5,
+			"id": "jn_kick_pass_soft_3052",
+			"len": 1.033,
+			"power": "",
+			"role": "kick_pass_soft",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.102,
+					0.018
+				],
+				[
+					0.2,
+					0.239,
+					0.047
+				],
+				[
+					0.3,
+					0.343,
+					0.081
+				]
+			],
+			"run": 0.8,
+			"source": "3052_kick_control_stand_00_kick1.json",
+			"surface": "interior",
+			"swing": 6.7,
+			"tags": [
+				"KICK",
+				"CONTROL",
+				"STAND"
+			],
+			"tc": 0.325,
+			"toe_y": 0.072
+		},
+		{
+			"approach": -13.3,
+			"clean": true,
+			"cx": 0.754,
+			"cz": 0.276,
+			"elev": -0.4,
+			"foot": 1,
+			"foot_pitch": -25.0,
+			"foot_speed": 7.2,
+			"foot_turn": 84.5,
+			"id": "jn_kick_pass_soft_3052_mirror",
+			"len": 1.033,
+			"power": "",
+			"role": "kick_pass_soft",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.102,
+					-0.018
+				],
+				[
+					0.2,
+					0.239,
+					-0.047
+				],
+				[
+					0.3,
+					0.343,
+					-0.081
+				]
+			],
+			"run": 0.8,
+			"source": "3052_kick_control_stand_00_kick1.json",
+			"surface": "interior",
+			"swing": -6.7,
+			"tags": [
+				"KICK",
+				"CONTROL",
+				"STAND"
+			],
+			"tc": 0.325,
+			"toe_y": 0.072
+		},
+		{
+			"approach": 0.0,
+			"clean": true,
+			"cx": 0.569,
+			"cz": -0.344,
+			"elev": 25.3,
+			"foot": -1,
+			"foot_pitch": -9.2,
+			"foot_speed": 5.98,
+			"foot_turn": 62.7,
+			"id": "jn_kick_pass_soft_3080",
+			"len": 1.383,
+			"power": "",
+			"role": "kick_pass_soft",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.0,
+					0.0
+				],
+				[
+					0.2,
+					0.0,
+					0.0
+				],
+				[
+					0.3,
+					0.0,
+					0.0
+				],
+				[
+					0.4,
+					0.0,
+					0.0
+				]
+			],
+			"run": 0.66,
+			"source": "3080_kick_control_stand_00_kick02.json",
+			"surface": "interior",
+			"swing": 8.1,
+			"tags": [
+				"KICK",
+				"CONTROL",
+				"STAND"
+			],
+			"tc": 0.417,
+			"toe_y": 0.183
+		},
+		{
+			"approach": 0.0,
+			"clean": true,
+			"cx": 0.569,
+			"cz": 0.344,
+			"elev": 25.3,
+			"foot": 1,
+			"foot_pitch": -9.3,
+			"foot_speed": 5.98,
+			"foot_turn": 62.7,
+			"id": "jn_kick_pass_soft_3080_mirror",
+			"len": 1.383,
+			"power": "",
+			"role": "kick_pass_soft",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.0,
+					0.0
+				],
+				[
+					0.2,
+					0.0,
+					0.0
+				],
+				[
+					0.3,
+					0.0,
+					0.0
+				],
+				[
+					0.4,
+					0.0,
+					0.0
+				]
+			],
+			"run": 0.66,
+			"source": "3080_kick_control_stand_00_kick02.json",
+			"surface": "interior",
+			"swing": -8.1,
+			"tags": [
+				"KICK",
+				"CONTROL",
+				"STAND"
+			],
+			"tc": 0.417,
+			"toe_y": 0.183
+		},
+		{
+			"approach": 136.0,
+			"clean": false,
+			"cx": 0.312,
+			"cz": -0.186,
+			"elev": -10.5,
+			"foot": -1,
+			"foot_pitch": -19.6,
+			"foot_speed": 5.56,
+			"foot_turn": 86.2,
+			"id": "jn_kick_pass_soft_3108",
+			"len": 1.067,
+			"power": "",
+			"role": "kick_pass_soft",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					-0.052,
+					0.034
+				],
+				[
+					0.2,
+					-0.084,
+					0.079
+				],
+				[
+					0.3,
+					-0.107,
+					0.103
+				]
+			],
+			"run": 0.36,
+			"source": "3108_kick_control_move_00_kick1.json",
+			"surface": "interior",
+			"swing": 36.0,
+			"tags": [
+				"KICK",
+				"CONTROL",
+				"MOVE"
+			],
+			"tc": 0.308,
+			"toe_y": 0.136
+		},
+		{
+			"approach": -136.0,
+			"clean": false,
+			"cx": 0.312,
+			"cz": 0.186,
+			"elev": -10.5,
+			"foot": 1,
+			"foot_pitch": -19.6,
+			"foot_speed": 5.57,
+			"foot_turn": 86.2,
+			"id": "jn_kick_pass_soft_3108_mirror",
+			"len": 1.067,
+			"power": "",
+			"role": "kick_pass_soft",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					-0.052,
+					-0.034
+				],
+				[
+					0.2,
+					-0.084,
+					-0.079
+				],
+				[
+					0.3,
+					-0.107,
+					-0.103
+				]
+			],
+			"run": 0.36,
+			"source": "3108_kick_control_move_00_kick1.json",
+			"surface": "interior",
+			"swing": -36.1,
+			"tags": [
+				"KICK",
+				"CONTROL",
+				"MOVE"
+			],
+			"tc": 0.308,
+			"toe_y": 0.136
+		},
+		{
+			"approach": 51.2,
+			"clean": false,
+			"cx": 0.547,
+			"cz": -0.241,
+			"elev": -6.3,
+			"foot": -1,
+			"foot_pitch": -20.9,
+			"foot_speed": 6.82,
+			"foot_turn": 87.8,
+			"id": "jn_kick_pass_soft_3110",
+			"len": 1.3,
+			"power": "",
+			"role": "kick_pass_soft",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.069,
+					0.065
+				],
+				[
+					0.2,
+					0.158,
+					0.143
+				]
+			],
+			"run": 0.6,
+			"source": "3110_kick_control_move_00_kick2.json",
+			"surface": "interior",
+			"swing": 22.3,
+			"tags": [
+				"KICK",
+				"CONTROL",
+				"MOVE"
+			],
+			"tc": 0.3,
+			"toe_y": 0.091
+		},
+		{
+			"approach": -51.2,
+			"clean": false,
+			"cx": 0.547,
+			"cz": 0.241,
+			"elev": -6.3,
+			"foot": 1,
+			"foot_pitch": -20.9,
+			"foot_speed": 6.81,
+			"foot_turn": 87.7,
+			"id": "jn_kick_pass_soft_3110_mirror",
+			"len": 1.3,
+			"power": "",
+			"role": "kick_pass_soft",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.069,
+					-0.065
+				],
+				[
+					0.2,
+					0.158,
+					-0.143
+				]
+			],
+			"run": 0.6,
+			"source": "3110_kick_control_move_00_kick2.json",
+			"surface": "interior",
+			"swing": -22.3,
+			"tags": [
+				"KICK",
+				"CONTROL",
+				"MOVE"
+			],
+			"tc": 0.3,
+			"toe_y": 0.091
+		},
+		{
+			"approach": 18.8,
+			"clean": false,
+			"cx": 1.063,
+			"cz": -0.048,
+			"elev": -1.6,
+			"foot": -1,
+			"foot_pitch": -44.0,
+			"foot_speed": 8.75,
+			"foot_turn": 90.6,
+			"id": "jn_kick_pass_soft_3116",
+			"len": 1.083,
+			"power": "",
+			"role": "kick_pass_soft",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.224,
+					0.069
+				],
+				[
+					0.2,
+					0.498,
+					0.146
+				]
+			],
+			"run": 1.06,
+			"source": "3116_kick_control_move_00_kick5.json",
+			"surface": "empeine",
+			"swing": 4.9,
+			"tags": [
+				"KICK",
+				"CONTROL",
+				"MOVE"
+			],
+			"tc": 0.3,
+			"toe_y": 0.038
+		},
+		{
+			"approach": -18.8,
+			"clean": false,
+			"cx": 1.063,
+			"cz": 0.048,
+			"elev": -1.6,
+			"foot": 1,
+			"foot_pitch": -44.0,
+			"foot_speed": 8.75,
+			"foot_turn": 90.6,
+			"id": "jn_kick_pass_soft_3116_mirror",
+			"len": 1.083,
+			"power": "",
+			"role": "kick_pass_soft",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.224,
+					-0.069
+				],
+				[
+					0.2,
+					0.498,
+					-0.146
+				]
+			],
+			"run": 1.06,
+			"source": "3116_kick_control_move_00_kick5.json",
+			"surface": "empeine",
+			"swing": -4.9,
+			"tags": [
+				"KICK",
+				"CONTROL",
+				"MOVE"
+			],
+			"tc": 0.3,
+			"toe_y": 0.038
+		},
+		{
+			"approach": 12.9,
+			"clean": true,
+			"cx": 1.008,
+			"cz": -0.023,
+			"elev": 25.0,
+			"foot": -1,
+			"foot_pitch": -27.7,
+			"foot_speed": 5.19,
+			"foot_turn": 49.1,
+			"id": "jn_kick_pass_soft_3138",
+			"len": 1.083,
+			"power": "med",
+			"role": "kick_pass_soft",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.107,
+					0.013
+				],
+				[
+					0.2,
+					0.221,
+					0.035
+				],
+				[
+					0.3,
+					0.299,
+					0.064
+				]
+			],
+			"run": 1.01,
+			"source": "3138_kick_control_medium_00_kick3.json",
+			"surface": "interior",
+			"swing": 3.7,
+			"tags": [
+				"KICK",
+				"CONTROL",
+				"MEDIUM"
+			],
+			"tc": 0.358,
+			"toe_y": 0.288
+		},
+		{
+			"approach": -12.9,
+			"clean": true,
+			"cx": 1.008,
+			"cz": 0.024,
+			"elev": 25.0,
+			"foot": 1,
+			"foot_pitch": -27.7,
+			"foot_speed": 5.18,
+			"foot_turn": 49.0,
+			"id": "jn_kick_pass_soft_3138_mirror",
+			"len": 1.083,
+			"power": "med",
+			"role": "kick_pass_soft",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.107,
+					-0.013
+				],
+				[
+					0.2,
+					0.221,
+					-0.035
+				],
+				[
+					0.3,
+					0.299,
+					-0.064
+				]
+			],
+			"run": 1.01,
+			"source": "3138_kick_control_medium_00_kick3.json",
+			"surface": "interior",
+			"swing": -3.7,
+			"tags": [
+				"KICK",
+				"CONTROL",
+				"MEDIUM"
+			],
+			"tc": 0.358,
+			"toe_y": 0.287
+		},
+		{
+			"approach": -40.6,
+			"clean": false,
+			"cx": 0.505,
+			"cz": -0.416,
+			"elev": 6.2,
+			"foot": -1,
+			"foot_pitch": -43.3,
+			"foot_speed": 6.29,
+			"foot_turn": -31.9,
+			"id": "jn_kick_pass_soft_3318",
+			"len": 1.133,
+			"power": "",
+			"role": "kick_pass_soft",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.06,
+					-0.052
+				],
+				[
+					0.2,
+					0.11,
+					-0.094
+				]
+			],
+			"run": 0.65,
+			"source": "3318_kick_special_08.json",
+			"surface": "exterior",
+			"swing": -36.3,
+			"tags": [
+				"KICK",
+				"KICK",
+				"SPECIAL"
+			],
+			"tc": 0.225,
+			"toe_y": 0.075
+		},
+		{
+			"approach": 40.6,
+			"clean": false,
+			"cx": 0.504,
+			"cz": 0.416,
+			"elev": 6.2,
+			"foot": 1,
+			"foot_pitch": -43.3,
+			"foot_speed": 6.29,
+			"foot_turn": -31.9,
+			"id": "jn_kick_pass_soft_3318_mirror",
+			"len": 1.133,
+			"power": "",
+			"role": "kick_pass_soft",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.06,
+					0.052
+				],
+				[
+					0.2,
+					0.11,
+					0.094
+				]
+			],
+			"run": 0.65,
+			"source": "3318_kick_special_08.json",
+			"surface": "exterior",
+			"swing": 36.4,
+			"tags": [
+				"KICK",
+				"KICK",
+				"SPECIAL"
+			],
+			"tc": 0.225,
+			"toe_y": 0.075
+		},
+		{
+			"approach": 15.4,
+			"clean": true,
+			"cx": 0.854,
+			"cz": -0.161,
+			"elev": 1.8,
+			"foot": -1,
+			"foot_pitch": -30.5,
+			"foot_speed": 7.17,
+			"foot_turn": 44.8,
+			"id": "jn_kick_pass_soft_3656",
+			"len": 1.267,
+			"power": "med",
+			"role": "kick_pass_soft",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.147,
+					0.037
+				],
+				[
+					0.2,
+					0.315,
+					0.078
+				],
+				[
+					0.3,
+					0.452,
+					0.12
+				]
+			],
+			"run": 0.87,
+			"source": "3656_kick_medium_03.json",
+			"surface": "interior",
+			"swing": 13.8,
+			"tags": [
+				"KICK",
+				"MEDIUM",
+				"KICK"
+			],
+			"tc": 0.325,
+			"toe_y": 0.033
+		},
+		{
+			"approach": -15.4,
+			"clean": true,
+			"cx": 0.854,
+			"cz": 0.161,
+			"elev": 1.8,
+			"foot": 1,
+			"foot_pitch": -30.5,
+			"foot_speed": 7.17,
+			"foot_turn": 44.8,
+			"id": "jn_kick_pass_soft_3656_mirror",
+			"len": 1.267,
+			"power": "med",
+			"role": "kick_pass_soft",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.147,
+					-0.037
+				],
+				[
+					0.2,
+					0.315,
+					-0.078
+				],
+				[
+					0.3,
+					0.452,
+					-0.12
+				]
+			],
+			"run": 0.87,
+			"source": "3656_kick_medium_03.json",
+			"surface": "interior",
+			"swing": -13.9,
+			"tags": [
+				"KICK",
+				"MEDIUM",
+				"KICK"
+			],
+			"tc": 0.325,
+			"toe_y": 0.033
+		},
+		{
+			"approach": -4.1,
+			"clean": true,
+			"cx": 0.774,
+			"cz": 0.254,
+			"elev": -8.3,
+			"foot": 1,
+			"foot_pitch": -45.9,
+			"foot_speed": 8.21,
+			"foot_turn": 56.8,
+			"id": "jn_kick_pass_soft_3664",
+			"len": 1.017,
+			"power": "med",
+			"role": "kick_pass_soft",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.175,
+					-0.011
+				],
+				[
+					0.2,
+					0.366,
+					-0.022
+				],
+				[
+					0.3,
+					0.544,
+					-0.037
+				]
+			],
+			"run": 0.81,
+			"source": "3664_kick_medium_kick_13.json",
+			"surface": "empeine",
+			"swing": -5.1,
+			"tags": [
+				"KICK",
+				"MEDIUM",
+				"KICK"
+			],
+			"tc": 0.325,
+			"toe_y": 0.03
+		},
+		{
+			"approach": 4.1,
+			"clean": true,
+			"cx": 0.774,
+			"cz": -0.254,
+			"elev": -8.3,
+			"foot": -1,
+			"foot_pitch": -45.9,
+			"foot_speed": 8.21,
+			"foot_turn": 56.8,
+			"id": "jn_kick_pass_soft_3664_mirror",
+			"len": 1.017,
+			"power": "med",
+			"role": "kick_pass_soft",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.175,
+					0.011
+				],
+				[
+					0.2,
+					0.366,
+					0.022
+				],
+				[
+					0.3,
+					0.544,
+					0.037
+				]
+			],
+			"run": 0.81,
+			"source": "3664_kick_medium_kick_13.json",
+			"surface": "empeine",
+			"swing": 5.1,
+			"tags": [
+				"KICK",
+				"MEDIUM",
+				"KICK"
+			],
+			"tc": 0.325,
+			"toe_y": 0.03
+		},
+		{
+			"approach": -4.4,
+			"clean": true,
+			"cx": 0.871,
+			"cz": 0.191,
+			"elev": 1.1,
+			"foot": 1,
+			"foot_pitch": -43.4,
+			"foot_speed": 7.42,
+			"foot_turn": 25.9,
+			"id": "jn_kick_pass_soft_3740",
+			"len": 1.167,
+			"power": "",
+			"role": "kick_pass_soft",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.234,
+					-0.003
+				],
+				[
+					0.2,
+					0.433,
+					-0.021
+				],
+				[
+					0.3,
+					0.574,
+					-0.043
+				]
+			],
+			"run": 0.89,
+			"source": "3740_kick_set_piece_kick_06.json",
+			"surface": "empeine",
+			"swing": -20.7,
+			"tags": [
+				"KICK",
+				"SET",
+				"PIECE",
+				"KICK"
+			],
+			"tc": 0.308,
+			"toe_y": 0.051
+		},
+		{
+			"approach": 4.4,
+			"clean": true,
+			"cx": 0.871,
+			"cz": -0.191,
+			"elev": 1.1,
+			"foot": -1,
+			"foot_pitch": -43.4,
+			"foot_speed": 7.42,
+			"foot_turn": 25.9,
+			"id": "jn_kick_pass_soft_3740_mirror",
+			"len": 1.167,
+			"power": "",
+			"role": "kick_pass_soft",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.234,
+					0.003
+				],
+				[
+					0.2,
+					0.433,
+					0.021
+				],
+				[
+					0.3,
+					0.574,
+					0.043
+				]
+			],
+			"run": 0.89,
+			"source": "3740_kick_set_piece_kick_06.json",
+			"surface": "empeine",
+			"swing": 20.7,
+			"tags": [
+				"KICK",
+				"SET",
+				"PIECE",
+				"KICK"
+			],
+			"tc": 0.308,
+			"toe_y": 0.051
+		},
+		{
+			"approach": -9.6,
+			"clean": true,
+			"cx": 1.032,
+			"cz": 0.156,
+			"elev": -10.8,
+			"foot": 1,
+			"foot_pitch": -33.4,
+			"foot_speed": 8.58,
+			"foot_turn": 84.0,
+			"id": "jn_kick_pass_soft_3748",
+			"len": 0.7,
+			"power": "",
+			"role": "kick_pass_soft",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.25,
+					-0.024
+				],
+				[
+					0.2,
+					0.479,
+					-0.053
+				],
+				[
+					0.3,
+					0.66,
+					-0.105
+				]
+			],
+			"run": 1.04,
+			"source": "3748_kick_set_piece_kick_11.json",
+			"surface": "interior",
+			"swing": -24.3,
+			"tags": [
+				"KICK",
+				"SET",
+				"PIECE",
+				"KICK"
+			],
+			"tc": 0.325,
+			"toe_y": 0.04
+		},
+		{
+			"approach": 9.6,
+			"clean": true,
+			"cx": 1.032,
+			"cz": -0.156,
+			"elev": -10.8,
+			"foot": -1,
+			"foot_pitch": -33.4,
+			"foot_speed": 8.58,
+			"foot_turn": 84.0,
+			"id": "jn_kick_pass_soft_3748_mirror",
+			"len": 0.7,
+			"power": "",
+			"role": "kick_pass_soft",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.25,
+					0.024
+				],
+				[
+					0.2,
+					0.479,
+					0.053
+				],
+				[
+					0.3,
+					0.66,
+					0.105
+				]
+			],
+			"run": 1.04,
+			"source": "3748_kick_set_piece_kick_11.json",
+			"surface": "interior",
+			"swing": 24.3,
+			"tags": [
+				"KICK",
+				"SET",
+				"PIECE",
+				"KICK"
+			],
+			"tc": 0.325,
+			"toe_y": 0.04
+		},
+		{
+			"approach": -24.6,
+			"clean": false,
+			"cx": 0.521,
+			"cz": 0.007,
+			"elev": -17.0,
+			"foot": 1,
+			"foot_pitch": -32.6,
+			"foot_speed": 4.81,
+			"foot_turn": -64.0,
+			"id": "jn_kick_pass_soft_3962",
+			"len": 1.033,
+			"power": "",
+			"role": "kick_pass_soft",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.041,
+					-0.044
+				],
+				[
+					0.2,
+					0.083,
+					-0.061
+				],
+				[
+					0.3,
+					0.134,
+					-0.064
+				]
+			],
+			"run": 0.52,
+			"source": "3962_kick_outside_90_deg_002.json",
+			"surface": "exterior",
+			"swing": 37.7,
+			"tags": [
+				"KICK",
+				"KICK",
+				"OUTSIDE",
+				"DEG"
+			],
+			"tc": 0.308,
+			"toe_y": 0.064
+		},
+		{
+			"approach": 24.6,
+			"clean": false,
+			"cx": 0.521,
+			"cz": -0.007,
+			"elev": -17.0,
+			"foot": -1,
+			"foot_pitch": -32.6,
+			"foot_speed": 4.81,
+			"foot_turn": -64.0,
+			"id": "jn_kick_pass_soft_3962_mirror",
+			"len": 1.033,
+			"power": "",
+			"role": "kick_pass_soft",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.041,
+					0.044
+				],
+				[
+					0.2,
+					0.083,
+					0.061
+				],
+				[
+					0.3,
+					0.134,
+					0.064
+				]
+			],
+			"run": 0.52,
+			"source": "3962_kick_outside_90_deg_002.json",
+			"surface": "exterior",
+			"swing": -37.6,
+			"tags": [
+				"KICK",
+				"KICK",
+				"OUTSIDE",
+				"DEG"
+			],
+			"tc": 0.308,
+			"toe_y": 0.064
+		},
+		{
+			"approach": 0.9,
+			"clean": true,
+			"cx": 0.897,
+			"cz": 0.051,
+			"elev": 9.4,
+			"foot": 1,
+			"foot_pitch": -38.4,
+			"foot_speed": 7.28,
+			"foot_turn": -45.7,
+			"id": "jn_kick_pass_soft_3970",
+			"len": 1.467,
+			"power": "",
+			"role": "kick_pass_soft",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.166,
+					0.007
+				],
+				[
+					0.2,
+					0.349,
+					0.012
+				],
+				[
+					0.3,
+					0.497,
+					0.006
+				]
+			],
+			"run": 0.9,
+			"source": "3970_kick_outside_jog_003.json",
+			"surface": "exterior",
+			"swing": -0.6,
+			"tags": [
+				"KICK",
+				"KICK",
+				"OUTSIDE",
+				"JOG"
+			],
+			"tc": 0.333,
+			"toe_y": 0.043
+		},
+		{
+			"approach": -0.9,
+			"clean": true,
+			"cx": 0.897,
+			"cz": -0.051,
+			"elev": 9.4,
+			"foot": -1,
+			"foot_pitch": -38.4,
+			"foot_speed": 7.28,
+			"foot_turn": -45.7,
+			"id": "jn_kick_pass_soft_3970_mirror",
+			"len": 1.467,
+			"power": "",
+			"role": "kick_pass_soft",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.166,
+					-0.007
+				],
+				[
+					0.2,
+					0.349,
+					-0.012
+				],
+				[
+					0.3,
+					0.497,
+					-0.006
+				]
+			],
+			"run": 0.9,
+			"source": "3970_kick_outside_jog_003.json",
+			"surface": "exterior",
+			"swing": 0.6,
+			"tags": [
+				"KICK",
+				"KICK",
+				"OUTSIDE",
+				"JOG"
+			],
+			"tc": 0.333,
+			"toe_y": 0.043
+		},
+		{
+			"approach": 20.4,
+			"clean": true,
+			"cx": 5.46,
+			"cz": 0.422,
+			"elev": 17.4,
+			"foot": -1,
+			"foot_pitch": -21.8,
+			"foot_speed": 15.58,
+			"foot_turn": 58.3,
+			"id": "jn_setpiece_pass_3330",
+			"len": 2.4,
+			"power": "",
+			"role": "setpiece_miss",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.192,
+					-0.024
+				],
+				[
+					0.2,
+					0.399,
+					-0.04
+				],
+				[
+					0.3,
+					0.66,
+					-0.058
+				],
+				[
+					0.4,
+					0.91,
+					-0.069
+				],
+				[
+					0.5,
+					1.186,
+					-0.06
+				],
+				[
+					0.6,
+					1.507,
+					-0.031
+				],
+				[
+					0.7,
+					1.806,
+					-0.021
+				],
+				[
+					0.8,
+					2.122,
+					0.0
+				],
+				[
+					0.9,
+					2.483,
+					0.023
+				],
+				[
+					1.0,
+					2.79,
+					0.07
+				],
+				[
+					1.1,
+					3.149,
+					0.133
+				],
+				[
+					1.2,
+					3.501,
+					0.182
+				],
+				[
+					1.3,
+					3.819,
+					0.253
+				],
+				[
+					1.4,
+					4.205,
+					0.353
+				],
+				[
+					1.5,
+					4.58,
+					0.474
+				],
+				[
+					1.6,
+					4.8,
+					0.617
+				]
+			],
+			"run": 5.48,
+			"source": "3330_set_piece_02.json",
+			"surface": "interior",
+			"swing": 27.6,
+			"tags": [
+				"KICKSETPIECE",
+				"KICKSETPIECE"
+			],
+			"tc": 1.617,
+			"toe_y": 0.096
+		},
+		{
+			"approach": -20.4,
+			"clean": true,
+			"cx": 5.46,
+			"cz": -0.422,
+			"elev": 17.4,
+			"foot": 1,
+			"foot_pitch": -21.8,
+			"foot_speed": 15.58,
+			"foot_turn": 58.3,
+			"id": "jn_setpiece_pass_3330_mirror",
+			"len": 2.4,
+			"power": "",
+			"role": "setpiece_miss",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.192,
+					0.024
+				],
+				[
+					0.2,
+					0.399,
+					0.04
+				],
+				[
+					0.3,
+					0.66,
+					0.058
+				],
+				[
+					0.4,
+					0.91,
+					0.069
+				],
+				[
+					0.5,
+					1.186,
+					0.06
+				],
+				[
+					0.6,
+					1.507,
+					0.031
+				],
+				[
+					0.7,
+					1.806,
+					0.021
+				],
+				[
+					0.8,
+					2.122,
+					0.0
+				],
+				[
+					0.9,
+					2.483,
+					-0.023
+				],
+				[
+					1.0,
+					2.79,
+					-0.07
+				],
+				[
+					1.1,
+					3.149,
+					-0.133
+				],
+				[
+					1.2,
+					3.501,
+					-0.182
+				],
+				[
+					1.3,
+					3.819,
+					-0.253
+				],
+				[
+					1.4,
+					4.205,
+					-0.353
+				],
+				[
+					1.5,
+					4.58,
+					-0.474
+				],
+				[
+					1.6,
+					4.8,
+					-0.617
+				]
+			],
+			"run": 5.48,
+			"source": "3330_set_piece_02.json",
+			"surface": "interior",
+			"swing": -27.7,
+			"tags": [
+				"KICKSETPIECE",
+				"KICKSETPIECE"
+			],
+			"tc": 1.617,
+			"toe_y": 0.096
+		},
+		{
+			"approach": -6.2,
+			"clean": true,
+			"cx": 4.932,
+			"cz": -0.43,
+			"elev": 1.3,
+			"foot": -1,
+			"foot_pitch": -33.3,
+			"foot_speed": 14.98,
+			"foot_turn": 89.7,
+			"id": "jn_setpiece_pass_3342",
+			"len": 2.433,
+			"power": "",
+			"role": "setpiece_miss",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.164,
+					0.047
+				],
+				[
+					0.2,
+					0.377,
+					0.114
+				],
+				[
+					0.3,
+					0.593,
+					0.178
+				],
+				[
+					0.4,
+					0.806,
+					0.242
+				],
+				[
+					0.5,
+					1.064,
+					0.318
+				],
+				[
+					0.6,
+					1.326,
+					0.369
+				],
+				[
+					0.7,
+					1.594,
+					0.405
+				],
+				[
+					0.8,
+					1.911,
+					0.42
+				],
+				[
+					0.9,
+					2.219,
+					0.42
+				],
+				[
+					1.0,
+					2.504,
+					0.394
+				],
+				[
+					1.1,
+					2.84,
+					0.349
+				],
+				[
+					1.2,
+					3.187,
+					0.293
+				],
+				[
+					1.3,
+					3.505,
+					0.242
+				],
+				[
+					1.4,
+					3.876,
+					0.184
+				],
+				[
+					1.5,
+					4.291,
+					0.095
+				],
+				[
+					1.6,
+					4.631,
+					0.08
+				]
+			],
+			"run": 4.95,
+			"source": "3342_set_piece_08.json",
+			"surface": "interior",
+			"swing": -26.6,
+			"tags": [
+				"KICKSETPIECE",
+				"KICKSETPIECE"
+			],
+			"tc": 1.65,
+			"toe_y": 0.048
+		},
+		{
+			"approach": 6.2,
+			"clean": true,
+			"cx": 4.932,
+			"cz": 0.43,
+			"elev": 1.3,
+			"foot": 1,
+			"foot_pitch": -33.3,
+			"foot_speed": 14.98,
+			"foot_turn": 89.7,
+			"id": "jn_setpiece_pass_3342_mirror",
+			"len": 2.433,
+			"power": "",
+			"role": "setpiece_miss",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.164,
+					-0.047
+				],
+				[
+					0.2,
+					0.377,
+					-0.114
+				],
+				[
+					0.3,
+					0.593,
+					-0.178
+				],
+				[
+					0.4,
+					0.806,
+					-0.242
+				],
+				[
+					0.5,
+					1.064,
+					-0.318
+				],
+				[
+					0.6,
+					1.326,
+					-0.369
+				],
+				[
+					0.7,
+					1.594,
+					-0.405
+				],
+				[
+					0.8,
+					1.911,
+					-0.42
+				],
+				[
+					0.9,
+					2.219,
+					-0.42
+				],
+				[
+					1.0,
+					2.504,
+					-0.394
+				],
+				[
+					1.1,
+					2.84,
+					-0.349
+				],
+				[
+					1.2,
+					3.187,
+					-0.293
+				],
+				[
+					1.3,
+					3.505,
+					-0.242
+				],
+				[
+					1.4,
+					3.876,
+					-0.184
+				],
+				[
+					1.5,
+					4.291,
+					-0.095
+				],
+				[
+					1.6,
+					4.631,
+					-0.08
+				]
+			],
+			"run": 4.95,
+			"source": "3342_set_piece_08.json",
+			"surface": "interior",
+			"swing": 26.6,
+			"tags": [
+				"KICKSETPIECE",
+				"KICKSETPIECE"
+			],
+			"tc": 1.65,
+			"toe_y": 0.048
+		},
+		{
+			"approach": -0.7,
+			"clean": false,
+			"cx": 4.953,
+			"cz": -0.01,
+			"elev": 0.7,
+			"foot": -1,
+			"foot_pitch": -26.4,
+			"foot_speed": 15.0,
+			"foot_turn": 73.8,
+			"id": "jn_setpiece_pass_3346",
+			"len": 2.767,
+			"power": "",
+			"role": "setpiece_miss",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.152,
+					-0.023
+				],
+				[
+					0.2,
+					0.342,
+					-0.007
+				],
+				[
+					0.3,
+					0.557,
+					0.044
+				],
+				[
+					0.4,
+					0.762,
+					0.116
+				],
+				[
+					0.5,
+					0.988,
+					0.201
+				],
+				[
+					0.6,
+					1.233,
+					0.279
+				],
+				[
+					0.7,
+					1.471,
+					0.339
+				],
+				[
+					0.8,
+					1.75,
+					0.416
+				],
+				[
+					0.9,
+					2.055,
+					0.489
+				],
+				[
+					1.0,
+					2.301,
+					0.55
+				],
+				[
+					1.1,
+					2.465,
+					0.582
+				],
+				[
+					1.2,
+					2.613,
+					0.595
+				],
+				[
+					1.3,
+					2.765,
+					0.606
+				],
+				[
+					1.4,
+					2.939,
+					0.618
+				],
+				[
+					1.5,
+					3.155,
+					0.628
+				],
+				[
+					1.6,
+					3.4,
+					0.638
+				],
+				[
+					1.7,
+					3.71,
+					0.63
+				],
+				[
+					1.8,
+					4.068,
+					0.571
+				],
+				[
+					1.9,
+					4.417,
+					0.56
+				]
+			],
+			"run": 4.95,
+			"source": "3346_set_piece_11.json",
+			"surface": "interior",
+			"swing": 2.5,
+			"tags": [
+				"KICKSETPIECE",
+				"KICKSETPIECE"
+			],
+			"tc": 1.983,
+			"toe_y": 0.046
+		},
+		{
+			"approach": 0.7,
+			"clean": false,
+			"cx": 4.953,
+			"cz": 0.01,
+			"elev": 0.7,
+			"foot": 1,
+			"foot_pitch": -26.4,
+			"foot_speed": 15.0,
+			"foot_turn": 73.8,
+			"id": "jn_setpiece_pass_3346_mirror",
+			"len": 2.767,
+			"power": "",
+			"role": "setpiece_miss",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.152,
+					0.023
+				],
+				[
+					0.2,
+					0.342,
+					0.007
+				],
+				[
+					0.3,
+					0.557,
+					-0.044
+				],
+				[
+					0.4,
+					0.762,
+					-0.116
+				],
+				[
+					0.5,
+					0.988,
+					-0.201
+				],
+				[
+					0.6,
+					1.233,
+					-0.279
+				],
+				[
+					0.7,
+					1.471,
+					-0.339
+				],
+				[
+					0.8,
+					1.75,
+					-0.416
+				],
+				[
+					0.9,
+					2.055,
+					-0.489
+				],
+				[
+					1.0,
+					2.301,
+					-0.55
+				],
+				[
+					1.1,
+					2.465,
+					-0.582
+				],
+				[
+					1.2,
+					2.613,
+					-0.595
+				],
+				[
+					1.3,
+					2.765,
+					-0.606
+				],
+				[
+					1.4,
+					2.939,
+					-0.618
+				],
+				[
+					1.5,
+					3.155,
+					-0.628
+				],
+				[
+					1.6,
+					3.4,
+					-0.638
+				],
+				[
+					1.7,
+					3.71,
+					-0.63
+				],
+				[
+					1.8,
+					4.068,
+					-0.571
+				],
+				[
+					1.9,
+					4.417,
+					-0.56
+				]
+			],
+			"run": 4.95,
+			"source": "3346_set_piece_11.json",
+			"surface": "interior",
+			"swing": -2.5,
+			"tags": [
+				"KICKSETPIECE",
+				"KICKSETPIECE"
+			],
+			"tc": 1.983,
+			"toe_y": 0.046
+		},
+		{
+			"approach": 5.4,
+			"clean": true,
+			"cx": 4.702,
+			"cz": 0.922,
+			"elev": -15.4,
+			"foot": 1,
+			"foot_pitch": -63.1,
+			"foot_speed": 15.4,
+			"foot_turn": 53.5,
+			"id": "jn_setpiece_shot_3354",
+			"len": 2.883,
+			"power": "",
+			"role": "setpiece_miss",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.171,
+					-0.076
+				],
+				[
+					0.2,
+					0.384,
+					-0.145
+				],
+				[
+					0.3,
+					0.581,
+					-0.198
+				],
+				[
+					0.4,
+					0.766,
+					-0.236
+				],
+				[
+					0.5,
+					0.981,
+					-0.259
+				],
+				[
+					0.6,
+					1.215,
+					-0.278
+				],
+				[
+					0.7,
+					1.428,
+					-0.275
+				],
+				[
+					0.8,
+					1.632,
+					-0.246
+				],
+				[
+					0.9,
+					1.866,
+					-0.183
+				],
+				[
+					1.0,
+					2.12,
+					-0.083
+				],
+				[
+					1.1,
+					2.363,
+					0.003
+				],
+				[
+					1.2,
+					2.591,
+					0.09
+				],
+				[
+					1.3,
+					2.846,
+					0.203
+				],
+				[
+					1.4,
+					3.134,
+					0.318
+				],
+				[
+					1.5,
+					3.385,
+					0.405
+				],
+				[
+					1.6,
+					3.649,
+					0.471
+				],
+				[
+					1.7,
+					4.023,
+					0.523
+				],
+				[
+					1.8,
+					4.293,
+					0.506
+				]
+			],
+			"run": 4.79,
+			"source": "3354_set_piece_16.json",
+			"surface": "empeine",
+			"swing": -10.1,
+			"tags": [
+				"KICKSETPIECE",
+				"KICKSETPIECE"
+			],
+			"tc": 1.85,
+			"toe_y": 0.065
+		},
+		{
+			"approach": -5.4,
+			"clean": true,
+			"cx": 4.702,
+			"cz": -0.922,
+			"elev": -15.4,
+			"foot": -1,
+			"foot_pitch": -63.1,
+			"foot_speed": 15.4,
+			"foot_turn": 53.5,
+			"id": "jn_setpiece_shot_3354_mirror",
+			"len": 2.883,
+			"power": "",
+			"role": "setpiece_miss",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.171,
+					0.076
+				],
+				[
+					0.2,
+					0.384,
+					0.145
+				],
+				[
+					0.3,
+					0.581,
+					0.198
+				],
+				[
+					0.4,
+					0.766,
+					0.236
+				],
+				[
+					0.5,
+					0.981,
+					0.259
+				],
+				[
+					0.6,
+					1.215,
+					0.278
+				],
+				[
+					0.7,
+					1.428,
+					0.275
+				],
+				[
+					0.8,
+					1.632,
+					0.246
+				],
+				[
+					0.9,
+					1.866,
+					0.183
+				],
+				[
+					1.0,
+					2.12,
+					0.083
+				],
+				[
+					1.1,
+					2.363,
+					-0.003
+				],
+				[
+					1.2,
+					2.591,
+					-0.09
+				],
+				[
+					1.3,
+					2.846,
+					-0.203
+				],
+				[
+					1.4,
+					3.134,
+					-0.318
+				],
+				[
+					1.5,
+					3.385,
+					-0.405
+				],
+				[
+					1.6,
+					3.649,
+					-0.471
+				],
+				[
+					1.7,
+					4.023,
+					-0.523
+				],
+				[
+					1.8,
+					4.293,
+					-0.506
+				]
+			],
+			"run": 4.79,
+			"source": "3354_set_piece_16.json",
+			"surface": "empeine",
+			"swing": 10.1,
+			"tags": [
+				"KICKSETPIECE",
+				"KICKSETPIECE"
+			],
+			"tc": 1.85,
+			"toe_y": 0.065
+		},
+		{
+			"approach": 30.6,
+			"clean": true,
+			"cx": 1.279,
+			"cz": 0.162,
+			"elev": -8.5,
+			"foot": -1,
+			"foot_pitch": -46.2,
+			"foot_speed": 17.14,
+			"foot_turn": 70.6,
+			"id": "jn_setpiece_shot_3856",
+			"len": 1.117,
+			"power": "",
+			"role": "setpiece_miss",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.306,
+					0.147
+				],
+				[
+					0.2,
+					0.624,
+					0.314
+				],
+				[
+					0.3,
+					0.869,
+					0.509
+				]
+			],
+			"run": 1.29,
+			"source": "3856_kick_set_piece_kick_011.json",
+			"surface": "empeine",
+			"swing": 22.0,
+			"tags": [
+				"KICK",
+				"SET",
+				"PIECE",
+				"KICK"
+			],
+			"tc": 0.308,
+			"toe_y": 0.054
+		},
+		{
+			"approach": -30.6,
+			"clean": true,
+			"cx": 1.279,
+			"cz": -0.162,
+			"elev": -8.5,
+			"foot": 1,
+			"foot_pitch": -46.2,
+			"foot_speed": 17.13,
+			"foot_turn": 70.6,
+			"id": "jn_setpiece_shot_3856_mirror",
+			"len": 1.117,
+			"power": "",
+			"role": "setpiece_miss",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.306,
+					-0.147
+				],
+				[
+					0.2,
+					0.624,
+					-0.314
+				],
+				[
+					0.3,
+					0.869,
+					-0.509
+				]
+			],
+			"run": 1.29,
+			"source": "3856_kick_set_piece_kick_011.json",
+			"surface": "empeine",
+			"swing": -22.0,
+			"tags": [
+				"KICK",
+				"SET",
+				"PIECE",
+				"KICK"
+			],
+			"tc": 0.308,
+			"toe_y": 0.054
+		},
+		{
+			"approach": -14.0,
+			"clean": false,
+			"cx": 1.727,
+			"cz": 0.178,
+			"elev": -24.3,
+			"foot": 1,
+			"foot_pitch": -70.5,
+			"foot_speed": 12.49,
+			"foot_turn": 105.5,
+			"id": "mx_chip",
+			"len": 1.667,
+			"power": "",
+			"role": "setpiece_lob",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.307,
+					-0.066
+				],
+				[
+					0.2,
+					0.62,
+					-0.142
+				],
+				[
+					0.3,
+					0.933,
+					-0.217
+				],
+				[
+					0.4,
+					1.246,
+					-0.293
+				]
+			],
+			"run": 1.74,
+			"source": "mx005_Chip.json",
+			"surface": "empeine",
+			"swing": -28.1,
+			"tags": [],
+			"tc": 0.458,
+			"toe_y": 0.295
+		},
+		{
+			"approach": 14.0,
+			"clean": false,
+			"cx": 1.727,
+			"cz": -0.178,
+			"elev": -24.3,
+			"foot": -1,
+			"foot_pitch": -70.5,
+			"foot_speed": 12.49,
+			"foot_turn": 105.5,
+			"id": "mx_chip_mirror",
+			"len": 1.667,
+			"power": "",
+			"role": "setpiece_lob",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.307,
+					0.066
+				],
+				[
+					0.2,
+					0.62,
+					0.142
+				],
+				[
+					0.3,
+					0.933,
+					0.217
+				],
+				[
+					0.4,
+					1.246,
+					0.293
+				]
+			],
+			"run": 1.74,
+			"source": "mx005_Chip.json",
+			"surface": "empeine",
+			"swing": 28.1,
+			"tags": [],
+			"tc": 0.458,
+			"toe_y": 0.295
+		},
+		{
+			"approach": 0.0,
+			"clean": true,
+			"cx": 0.593,
+			"cz": -0.201,
+			"elev": 19.2,
+			"foot": -1,
+			"foot_pitch": -32.1,
+			"foot_speed": 5.58,
+			"foot_turn": 7.8,
+			"id": "mx_kick_soccerball",
+			"len": 0.567,
+			"power": "",
+			"role": "kick_shot",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.016,
+					0.009
+				]
+			],
+			"run": 0.63,
+			"source": "mx088_kick_soccerball.json",
+			"surface": "empeine",
+			"swing": -1.2,
+			"tags": [],
+			"tc": 0.175,
+			"toe_y": 0.054
+		},
+		{
+			"approach": -152.6,
+			"clean": false,
+			"cx": 0.299,
+			"cz": 0.091,
+			"elev": 28.3,
+			"foot": 1,
+			"foot_pitch": -26.3,
+			"foot_speed": 4.67,
+			"foot_turn": -1.8,
+			"id": "mx_kick_soccerball_2",
+			"len": 0.5,
+			"power": "",
+			"role": "kick_shot_hard",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					-0.125,
+					-0.067
+				]
+			],
+			"run": 0.31,
+			"source": "mx089_kick_soccerball_2.json",
+			"surface": "empeine",
+			"swing": 3.0,
+			"tags": [],
+			"tc": 0.142,
+			"toe_y": 0.051
+		},
+		{
+			"approach": 152.6,
+			"clean": false,
+			"cx": 0.299,
+			"cz": -0.091,
+			"elev": 28.3,
+			"foot": -1,
+			"foot_pitch": -26.3,
+			"foot_speed": 4.67,
+			"foot_turn": -1.9,
+			"id": "mx_kick_soccerball_2_mirror",
+			"len": 0.5,
+			"power": "",
+			"role": "kick_shot_hard",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					-0.125,
+					0.067
+				]
+			],
+			"run": 0.31,
+			"source": "mx089_kick_soccerball_2.json",
+			"surface": "empeine",
+			"swing": -3.0,
+			"tags": [],
+			"tc": 0.142,
+			"toe_y": 0.051
+		},
+		{
+			"approach": 0.0,
+			"clean": true,
+			"cx": 0.593,
+			"cz": 0.201,
+			"elev": 19.2,
+			"foot": 1,
+			"foot_pitch": -32.1,
+			"foot_speed": 5.58,
+			"foot_turn": 7.8,
+			"id": "mx_kick_soccerball_mirror",
+			"len": 0.567,
+			"power": "",
+			"role": "kick_shot",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.016,
+					-0.009
+				]
+			],
+			"run": 0.63,
+			"source": "mx088_kick_soccerball.json",
+			"surface": "empeine",
+			"swing": 1.2,
+			"tags": [],
+			"tc": 0.175,
+			"toe_y": 0.054
+		},
+		{
+			"approach": -124.7,
+			"clean": true,
+			"cx": 0.29,
+			"cz": 0.008,
+			"elev": 17.8,
+			"foot": 1,
+			"foot_pitch": -29.1,
+			"foot_speed": 8.67,
+			"foot_turn": 59.6,
+			"id": "mx_soccer_pass",
+			"len": 1.6,
+			"power": "",
+			"role": "kick_pass",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.03,
+					-0.005
+				],
+				[
+					0.2,
+					-0.107,
+					-0.053
+				],
+				[
+					0.3,
+					-0.176,
+					-0.145
+				],
+				[
+					0.4,
+					-0.127,
+					-0.199
+				]
+			],
+			"run": 0.29,
+			"source": "mx046_Soccer_Pass.json",
+			"surface": "interior",
+			"swing": -4.8,
+			"tags": [],
+			"tc": 0.475,
+			"toe_y": 0.101
+		},
+		{
+			"approach": 124.7,
+			"clean": true,
+			"cx": 0.29,
+			"cz": -0.008,
+			"elev": 17.8,
+			"foot": -1,
+			"foot_pitch": -29.1,
+			"foot_speed": 8.67,
+			"foot_turn": 59.6,
+			"id": "mx_soccer_pass_mirror",
+			"len": 1.6,
+			"power": "",
+			"role": "kick_pass",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.03,
+					0.005
+				],
+				[
+					0.2,
+					-0.107,
+					0.053
+				],
+				[
+					0.3,
+					-0.176,
+					0.145
+				],
+				[
+					0.4,
+					-0.127,
+					0.199
+				]
+			],
+			"run": 0.29,
+			"source": "mx046_Soccer_Pass.json",
+			"surface": "interior",
+			"swing": 4.8,
+			"tags": [],
+			"tc": 0.475,
+			"toe_y": 0.101
+		},
+		{
+			"approach": -9.3,
+			"clean": true,
+			"cx": 1.915,
+			"cz": 0.144,
+			"elev": 3.1,
+			"foot": 1,
+			"foot_pitch": -25.3,
+			"foot_speed": 11.52,
+			"foot_turn": 54.0,
+			"id": "mx_soccer_penalty_kick",
+			"len": 1.5,
+			"power": "",
+			"role": "setpiece_shot",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.147,
+					0.01
+				],
+				[
+					0.2,
+					0.294,
+					0.017
+				],
+				[
+					0.3,
+					0.504,
+					0.029
+				],
+				[
+					0.4,
+					0.76,
+					-0.003
+				],
+				[
+					0.5,
+					1.007,
+					-0.037
+				],
+				[
+					0.6,
+					1.259,
+					-0.07
+				],
+				[
+					0.7,
+					1.514,
+					-0.127
+				]
+			],
+			"run": 1.92,
+			"source": "mx096_soccer_penalty_kick.json",
+			"surface": "interior",
+			"swing": -16.5,
+			"tags": [],
+			"tc": 0.733,
+			"toe_y": 0.028
+		},
+		{
+			"approach": 9.3,
+			"clean": true,
+			"cx": 1.915,
+			"cz": -0.144,
+			"elev": 3.1,
+			"foot": -1,
+			"foot_pitch": -25.3,
+			"foot_speed": 11.52,
+			"foot_turn": 53.9,
+			"id": "mx_soccer_penalty_kick_mirror",
+			"len": 1.5,
+			"power": "",
+			"role": "setpiece_shot",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.147,
+					-0.01
+				],
+				[
+					0.2,
+					0.294,
+					-0.017
+				],
+				[
+					0.3,
+					0.504,
+					-0.029
+				],
+				[
+					0.4,
+					0.76,
+					0.003
+				],
+				[
+					0.5,
+					1.007,
+					0.037
+				],
+				[
+					0.6,
+					1.259,
+					0.07
+				],
+				[
+					0.7,
+					1.514,
+					0.127
+				]
+			],
+			"run": 1.92,
+			"source": "mx096_soccer_penalty_kick.json",
+			"surface": "interior",
+			"swing": 16.4,
+			"tags": [],
+			"tc": 0.733,
+			"toe_y": 0.028
+		},
+		{
+			"approach": -10.1,
+			"clean": true,
+			"cx": 1.531,
+			"cz": 0.058,
+			"elev": 14.3,
+			"foot": 1,
+			"foot_pitch": -54.4,
+			"foot_speed": 17.05,
+			"foot_turn": 39.5,
+			"id": "mx_strike_foward_jog",
+			"len": 1.3,
+			"power": "",
+			"role": "setpiece_pass",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.226,
+					-0.045
+				],
+				[
+					0.2,
+					0.451,
+					-0.09
+				],
+				[
+					0.3,
+					0.677,
+					-0.135
+				],
+				[
+					0.4,
+					0.929,
+					-0.169
+				]
+			],
+			"run": 1.53,
+			"source": "mx106_strike_foward_jog.json",
+			"surface": "empeine",
+			"swing": -13.5,
+			"tags": [],
+			"tc": 0.425,
+			"toe_y": 0.048
+		},
+		{
+			"approach": 0.0,
+			"clean": false,
+			"cx": 0.456,
+			"cz": 0.376,
+			"elev": 17.3,
+			"foot": 1,
+			"foot_pitch": -54.4,
+			"foot_speed": 14.19,
+			"foot_turn": 38.2,
+			"id": "mx_strike_foward_jog_inplace",
+			"len": 1.3,
+			"power": "",
+			"role": "kick_shot",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.0,
+					0.0
+				],
+				[
+					0.2,
+					0.0,
+					0.0
+				],
+				[
+					0.3,
+					0.0,
+					0.0
+				],
+				[
+					0.4,
+					0.0,
+					0.0
+				]
+			],
+			"run": 0.59,
+			"source": "mx107_strike_foward_jog_inplace.json",
+			"surface": "empeine",
+			"swing": 3.3,
+			"tags": [],
+			"tc": 0.425,
+			"toe_y": 0.048
+		},
+		{
+			"approach": 0.0,
+			"clean": false,
+			"cx": 0.456,
+			"cz": -0.376,
+			"elev": 17.3,
+			"foot": -1,
+			"foot_pitch": -54.4,
+			"foot_speed": 14.19,
+			"foot_turn": 38.2,
+			"id": "mx_strike_foward_jog_inplace_mirror",
+			"len": 1.3,
+			"power": "",
+			"role": "kick_shot",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.0,
+					0.0
+				],
+				[
+					0.2,
+					0.0,
+					0.0
+				],
+				[
+					0.3,
+					0.0,
+					0.0
+				],
+				[
+					0.4,
+					0.0,
+					0.0
+				]
+			],
+			"run": 0.59,
+			"source": "mx107_strike_foward_jog_inplace.json",
+			"surface": "empeine",
+			"swing": -3.3,
+			"tags": [],
+			"tc": 0.425,
+			"toe_y": 0.048
+		},
+		{
+			"approach": 10.1,
+			"clean": true,
+			"cx": 1.531,
+			"cz": -0.058,
+			"elev": 14.3,
+			"foot": -1,
+			"foot_pitch": -54.4,
+			"foot_speed": 17.05,
+			"foot_turn": 39.6,
+			"id": "mx_strike_foward_jog_mirror",
+			"len": 1.3,
+			"power": "",
+			"role": "setpiece_pass",
+			"roots": [
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.1,
+					0.226,
+					0.045
+				],
+				[
+					0.2,
+					0.451,
+					0.09
+				],
+				[
+					0.3,
+					0.677,
+					0.135
+				],
+				[
+					0.4,
+					0.929,
+					0.169
+				]
+			],
+			"run": 1.53,
+			"source": "mx106_strike_foward_jog.json",
+			"surface": "empeine",
+			"swing": 13.5,
+			"tags": [],
+			"tc": 0.425,
+			"toe_y": 0.048
+		}
+	],
+	"version": 1
+}

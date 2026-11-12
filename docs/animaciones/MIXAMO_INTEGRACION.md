@@ -14,7 +14,7 @@ roles sin equivalente: [`INVENTARIO_MIXAMO.md`](INVENTARIO_MIXAMO.md) (generado 
 | Integración | Por **rol**: con MIXAMO, cada rol que Mixamo tiene usa solo sus clips; los 53 roles que Mixamo no tiene siguen con los actuales (respaldo). Golpeos por **tipo de tiro** y arquero con **respaldo por pelota** (ver 5). |
 | Conectadas | Las 196 animaciones las devuelve su rol (prueba `test_every_mixamo_clip_is_reachable_by_its_role`), es decir, las recibe todo sistema que pide ese rol; el laboratorio muestra las 133. |
 | Laboratorio | `scenes/dev/anim_lab.tscn` (desarrollo, PC y Android; oculto en la build pública). ACTUAL, MIXAMO o COMPARAR lado a lado con el mismo reloj; 11 categorías; 10 situaciones; reproducir, pausa, reiniciar, bucle, velocidad 0,25/0,5/1/1,5, espejo, vistas; información del clip y mediciones en vivo. |
-| Licencia | El repositorio es público: los GLB y las bibliotecas derivadas **no van en claro**. En git va `assets/animations/mixamo_pack.enc` (AES-256); CI lo descifra con el secret `MIXAMO_KEY`. |
+| Repositorio | Las bibliotecas derivadas y los GLB fuente van en git como cualquier asset del juego. El juego USA las animaciones (lo que permite la licencia), no las distribuye sueltas; los GLB fuente no entran en la APK (filtro de exportación `assets/animations/source/*`). |
 | Teléfono | **No probado en el teléfono.** Ver 8. |
 
 ## 2. Auditoría del sistema actual (resumen)
@@ -188,8 +188,7 @@ Con las bibliotecas de Mixamo presentes.
 - `test_keeper_zones` en ACTUAL: 4/4. Las demás corridas con render están en el CHANGELOG.
 
 **CI**: corre la suite completa.
-- Sin el secret `MIXAMO_KEY`, las pruebas que necesitan Mixamo se omiten.
-- Con el secret, se descifra la biblioteca y se prueban.
+- Las bibliotecas de Mixamo van en el repositorio: CI corre también las pruebas de Mixamo y verifica que la APK las traiga.
 
 **Android físico**: **no probado.** Falta probar en el ZTE V60:
 - el laboratorio;
@@ -198,29 +197,29 @@ Con las bibliotecas de Mixamo presentes.
 
 ## 9. Rendimiento (Android: ZTE V60 / Mali-G57)
 
-- Peso: las bibliotecas de Mixamo pesan 3,6 MB (`.res`); el paquete cifrado, 2,4 MB.
+- Peso: las bibliotecas de Mixamo pesan 3,6 MB (`.res`) dentro de la APK; los GLB fuente (9,5 MB con sus texturas) quedan fuera de la APK.
 - Carga:
   - Con ACTUAL (por defecto) no se cargan.
   - Con MIXAMO se cargan además de las actuales, que hacen falta como respaldo de 53 roles.
   - El laboratorio carga solo lo que muestra.
 - Medición: **no se midió en el teléfono** (memoria, tiempo de carga y FPS con MIXAMO). Queda como pendiente.
 
-## 10. Entrega a CI (licencia)
+## 10. Entrega a CI
 
-- `tools/mixamo/pack_mixamo.sh encrypt|decrypt`: tar + AES-256-CBC con PBKDF2 (200.000 iteraciones). Clave en
-  `MIXAMO_KEY` o `MIXAMO_KEY_FILE`; nunca en el repositorio, el chat ni los registros.
-- Workflow, paso «Biblioteca MIXAMO (paquete cifrado, opcional)»:
-  - Con el secret, descifra.
-  - Sin el secret, avisa y la APK sale sin MIXAMO.
-  - La verificación de la APK exige las cuatro piezas cuando se descifraron y prohíbe el `.enc` y las fuentes.
-- **Para activarlo**: crear el secret `MIXAMO_KEY` en GitHub (Settings → Secrets and variables → Actions) con la clave
-  que se entregó aparte.
+- En git (como el resto de los assets):
+  - los GLB fuente (`assets/animations/source/mixamo/`);
+  - las bibliotecas derivadas (`assets/animations/mixamo_*.res`);
+  - el catálogo de golpeos (`resources/setpiece/shot_clips_mixamo.json`).
+- El juego usa las animaciones; no las distribuye sueltas (decisión del usuario, 2026-11-12). La primera entrega subía
+  un paquete cifrado; se quitó.
+- Workflow:
+  - el primer paso exige las cuatro piezas de MIXAMO;
+  - la verificación de la APK exige que estén adentro y que no estén los GLB fuente.
 
 ## 11. Decisiones pendientes (del usuario)
 
 1. Si se reemplaza el banco actual, por rol o por sistema. Hoy conviven y el juego arranca en ACTUAL.
-2. Si la build pública debe traer MIXAMO (hoy la trae si CI tiene el secret, pero el selector solo está en el laboratorio).
-3. Cifrado en el repositorio público, o volverlo privado.
+2. Si la build pública debe traer MIXAMO (hoy la trae, pero el selector solo está en el laboratorio).
 4. Si se quieren más golpeos o atajadas de Mixamo para cubrir lo que falta: exterior, ángulos, potentes, tiros errados.
 5. Revisar en el teléfono los clips con raíz estimada (punto 7.1).
 
@@ -233,7 +232,6 @@ JSON_SRC=$J SELECTION=res://tools/mixamo/selection_mixamo.json OUT_FIELD=res://a
   OUT_KEEPER=res://assets/animations/mixamo_keeper.res OUT_SCENES=res://assets/animations/mixamo_scenes.res OUT=$R \
   godot --headless --path . res://tools/json_anim/build_json_library.tscn
 ANIM_BANK=mixamo godot --headless --path . res://tools/setpiece/build_shot_catalog.tscn
-MIXAMO_KEY_FILE=<clave> tools/mixamo/pack_mixamo.sh encrypt
 INV_BANK=mixamo INV_OUT=$R/inv_mixamo.json godot --headless --path . res://tools/mixamo/dump_inventory.tscn   # (y actual)
 python3 tools/mixamo/make_inventory_doc.py --sel tools/mixamo/selection_mixamo.json --index $J/index.json \
   --build $R/build.log --actual $R/inv_actual.json --mixamo $R/inv_mixamo.json --out docs/animaciones/INVENTARIO_MIXAMO.md
