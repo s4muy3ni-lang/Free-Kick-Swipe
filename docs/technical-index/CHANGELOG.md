@@ -25,6 +25,11 @@ Pedido del usuario:
     (`AnimBankCatalog.COMMON_BODY`, `catalogo_bancos.json`) y las herramientas usan el cuerpo de Tripo con
     `player_kit.gdshader`.
   - El CI exige `tripo_body.scn` y `number_atlas.png` en la APK, y falla si el humanoide vuelve.
+  - Conducción del modo partido JSON (`BallHandler._sample_feet`): el hueso de la punta del pie de Tripo está a mitad
+    del pie; la punta se toma a `JsonRig.FOOT` del tobillo, como `SpActor.toe_tip`.
+    - Antes del arreglo, con render: `test_json_mode::test_live_dribble_keeps_the_ball_with_foot_touches` perdía la
+      pelota en el zigzag (máximo 2,22 m).
+    - Después: 1,14 m (el límite es 1,6). `json_mode` 8/376/0.
 - **Pancartas** (`scripts/setpiece/crowd_banners.gd`, `Stadium11.add_banners`, `SetPieceGame._update_crowd`):
   - trapos de color colgados del alambrado de la tribuna detrás del arco y de los costados de esa mitad (12; 8 y 5 en los
     perfiles bajos), con letreros que llevan el nombre del jugador del usuario (apodo, nombre visible o usuario del

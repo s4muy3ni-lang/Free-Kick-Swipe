@@ -1502,6 +1502,10 @@ func _sample_feet(dt: float) -> void:
 		_toe_prev[i] = _toe_now[i]
 		_toe_now[i] = sk.global_transform * sk.get_bone_global_pose(_toe_ids[i]).origin
 		_ankle_now[i] = sk.global_transform * sk.get_bone_global_pose(_ankle_ids[i]).origin if _ankle_ids.size() == 2 and _ankle_ids[i] >= 0 else _toe_now[i]
+		# Cuerpo de Tripo (el unico desde 2026-11-12): su hueso de la punta esta a mitad del pie; la punta del botin queda
+		# a JsonRig.FOOT del tobillo, como en el esqueleto del juego (lo mismo que SpActor.toe_tip en penales y tiros libres).
+		if v.json_human and _ankle_now[i] != _toe_now[i]:
+			_toe_now[i] = _ankle_now[i] + (_toe_now[i] - _ankle_now[i]).normalized() * JsonRig.FOOT
 		_toe_vel[i] = (_toe_now[i] - _toe_prev[i]) / maxf(dt, 0.001) - body_v
 		var rel: Vector3 = _toe_now[i] - owner.global_position
 		if _toe_now[i].y < FOOT_MAX_Y:

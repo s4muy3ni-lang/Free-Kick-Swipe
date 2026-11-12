@@ -87,7 +87,7 @@ func test_model_builds_and_animates() -> void:
 		return
 	var prev: int = Tuning.gameplay_mode
 	_mode4()
-	for name in ["Humanoide"]:
+	for name in ["Tripo"]:
 		var v: FootballerVisual = _visual()
 		check(not v.is_placeholder and v.json_mode, "%s: se construye el modelo del modo Json" % name)
 		check(v.skeleton != null and v.skeleton.get_bone_count() == 23, "%s: 23 huesos del esqueleto canonico" % name)
@@ -222,7 +222,7 @@ func test_live_dribble_keeps_the_ball_with_foot_touches() -> void:
 	# La secuencia de 9 s llega a la pared de la cancha de futsal de 40 m; el rebote no mide conduccion libre.
 	use_game_pitch()
 	var prev: int = Tuning.gameplay_mode
-	for name in ["Humanoide"]:
+	for name in ["Tripo"]:
 		_mode4()
 		var jog: Dictionary = await _drive(func(_i: int) -> Vector2: return Vector2(0.6, 0.0), false, 7.0)
 		_mode4()
