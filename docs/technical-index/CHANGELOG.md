@@ -50,6 +50,8 @@ Pedido del usuario:
     `directional_kicks` 3/7/0, `test_anim_bank_bench` 7/79/0, `test_setpiece_render` 7/45/0, `test_keeper_zones`
     4/27/0, `test_keeper_in_position` 1/4/0;
   - capturas de las pancartas y del público con `tools/ui/crowd_capture.gd`.
+  - CI: run 43192317560 (commit `d4af317`, lanzado a mano: el push solo tocaba documentación) **en verde**, con las
+    pruebas headless y con render y el APK `futbol5-apk`.
   - En el teléfono: no probado.
 
 ---
