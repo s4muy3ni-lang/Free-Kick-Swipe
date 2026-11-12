@@ -59,7 +59,9 @@ var runner: ChallengeRunner = null
 ## Repeticion de la ultima jugada (registro por estados) y su reproduccion.
 var recording: PlayRecording
 var replay_f: float = -1.0
-var replay_slowmo: bool = true
+## Camara lenta en la repeticion: apagada por defecto (pedido del usuario: la repeticion iba muy lenta); se prende con el
+## boton «Lenta» de la repeticion.
+var replay_slowmo: bool = false
 var replay_angle: int = 0
 const REPLAY_ANGLES := ["TV", "Detrás", "Arco"]
 var _pre_replay: Dictionary = {}
@@ -157,6 +159,9 @@ func _ready() -> void:
 	cam.current = true
 	hud = SpHud.new()
 	add_child(hud)
+	# Camara de TV: solo tiene sentido en los tiros libres.
+	if hud.tv_button != null:
+		hud.tv_button.visible = _fk_like()
 	hud.menu_pressed.connect(_go_menu)
 	hud.action_pressed.connect(_on_action)
 	hud.zoom_changed.connect(func(d: float) -> void: set_zoom(zoom * (1.15 if d > 0.0 else 1.0 / 1.15)))
@@ -702,6 +707,9 @@ func _physics_process(delta: float) -> void:
 					_keeper_zone = Vector3(gx, 1.0, 0.0)
 				_cpu_penalty()
 		Phase.RUNUP:
+			# Camara de TV: al soltar el trazo el plano pasa a la transmision lateral.
+			if _tv_on():
+				_tv_frame(0.35)
 			# Seguro: ningun tiro puede quedar trabado en la carrera.
 			_runup_t += delta
 			if _runup_t > 6.0:
@@ -741,7 +749,9 @@ func _physics_process(delta: float) -> void:
 
 func _flight_tick(delta: float) -> void:
 	_flight_t += delta
-	if _fk_like() and not ball.is_held():
+	if _tv_on() and not ball.is_held():
+		_tv_frame(0.15)
+	elif _fk_like() and not ball.is_held():
 		# Tiro libre: la camara acompaña un poco la pelota (sin moverse de detras del tirador).
 		var f: Array = SpCamera.behind_ball(ball_spot, goal_center(), zoom, false)
 		var look: Vector3 = (f[1] as Vector3).lerp(ball.global_position, 0.35)
@@ -1034,7 +1044,23 @@ func start_replay() -> void:
 	_replay_actions()
 
 func _replay_actions() -> void:
-	hud.set_actions([[&"replay_cam", "Cámara: %s" % REPLAY_ANGLES[replay_angle]], [&"replay_skip", "Saltar"]])
+	hud.set_actions([[&"replay_cam", "Cámara: %s" % REPLAY_ANGLES[replay_angle]],
+		[&"replay_slow", "Lenta: %s" % ("Sí" if replay_slowmo else "No")], [&"replay_skip", "Saltar"]])
+
+## Camara de TV activa en esta jugada (opcion «Camara de TV», tiros libres).
+func _tv_on() -> bool:
+	return GraphicsSettings.tv_camera and _fk_like()
+
+## Plano de transmision de TV: desde la tribuna lateral, alto, encuadrando la pelota y el arco y siguiendo la pelota.
+func _tv_frame(hl: float) -> void:
+	var b: Vector3 = ball.global_position
+	var g: Vector3 = goal_center()
+	var mid: Vector3 = b.lerp(g, 0.45)
+	var span: float = Vector2(b.x - g.x, b.z - g.z).length()
+	var dist: float = clampf(span * 0.75 + 10.0, 16.0, 30.0)
+	var pos: Vector3 = Vector3(mid.x - 3.0, 7.0 + dist * 0.12, mid.z - dist)
+	var fov: float = clampf(rad_to_deg(2.0 * atan((span * 0.5 + 4.0) / dist)), 30.0, 62.0)
+	cam.frame(pos, mid + Vector3.UP * 0.6, fov, false, hl)
 
 func _replay_step() -> void:
 	var n: int = recording.frames()
@@ -1052,9 +1078,8 @@ func _replay_camera() -> void:
 	var b: Vector3 = ball.global_position
 	match replay_angle:
 		0:
-			# Television: de costado, siguiendo la pelota.
-			var mid: Vector3 = b.lerp(Vector3(gx, 0.0, 0.0), 0.35)
-			cam.frame(mid + Vector3(-3.0, 4.5, -16.0), b, 38.0, false, 0.12)
+			# Television: el mismo plano de transmision que la camara de TV del juego.
+			_tv_frame(0.12)
 		1:
 			var f: Array = SpCamera.behind_ball(ball_spot, goal_center(), 1.0, _penalty_like())
 			cam.frame(f[0], b.lerp(goal_center(), 0.3), f[2], false, 0.12)
@@ -1156,6 +1181,25 @@ func _after_result() -> void:
 		cam.stop_shake()
 		hud.set_actions([[&"again", "Otra vez"], [&"move", "Mover balón"], [&"replay", "Repetición"]])
 		hud.set_hint("")
+		if OnlineDuel.is_active() and mode == Mode.FREE_KICK:
+			_online_duel_step()
+
+## Tiros libres online contra bot (OnlineDuel): 5 tiros; despues del ultimo, el resultado contra el puntaje del bot.
+var duel_shots: int = 0
+var duel_goals: int = 0
+
+func _online_duel_step() -> void:
+	duel_shots += 1
+	if outcome == "goal":
+		duel_goals += 1
+	var total: int = int(OnlineDuel.active.get("shots", 5))
+	if duel_shots < total:
+		hud.set_hint("Online contra %s: tiro %d de %d · goles %d (el bot hizo %d)" % [OnlineDuel.bot_name(), duel_shots, total,
+			duel_goals, int(OnlineDuel.active.get("bot_points", 0))])
+		return
+	var od: Array = OnlineDuel.finish(duel_goals)
+	hud.show_banner(String(od[0]), Color(1.0, 0.84, 0.28), String(od[1]))
+	hud.set_actions([[&"menu", "Menú"], [&"replay", "Repetición"]])
 
 # --- Academia y Arena (modo CHALLENGE) ----------------------------------------------------------------------------------
 
@@ -1540,6 +1584,9 @@ func _on_action(id: StringName) -> void:
 			_replay_actions()
 		&"replay_skip":
 			end_replay()
+		&"replay_slow":
+			replay_slowmo = not replay_slowmo
+			_replay_actions()
 		&"retry":
 			if mode == Mode.CHALLENGE:
 				next_challenge = runner.def

@@ -11,6 +11,56 @@ Formato de entrada: **fecha — título** · commit · qué cambió · archivos 
 
 ---
 
+## 2026-11-12 — Pedido del usuario: animaciones en todos los modos, cámara de TV, arquero, Diana gigante, online, menús
+
+- **Animaciones ACTUAL / MIXAMO en todos los modos**:
+  - botón «Animaciones: ACTUAL/MIXAMO» al lado de la dificultad en el menú principal (se guarda y rearma el menú);
+  - el «Laboratorio» queda visible también en la APK;
+  - la fila de ajustes se acomoda en dos renglones (`main_menu.gd`).
+- **Línea de destino amarilla quitada en todas las builds**:
+  - solo queda el rastro del dedo;
+  - la opción se reemplazó por «Cámara de TV en tiros libres» (`graphics_settings.gd`, `main_menu.gd`).
+- **Cámara de TV** (`setpiece_game.gd: _tv_on, _tv_frame`; botón «Cámara TV» en el HUD de los tiros libres):
+  - al soltar el trazo, plano de transmisión lateral alto que sigue la pelota hasta el arco;
+  - la repetición «TV» usa el mismo plano.
+- **Repetición a velocidad normal**:
+  - antes todo el tramo del golpe al resultado iba al 40 %;
+  - ahora la cámara lenta es opcional con el botón «Lenta» (`replay_slowmo`).
+- **Arquero del tiro libre** (`sp_keeper.gd: _in_position_save`):
+  - si ya está en el lugar (la pelota real cruza bajo el travesaño a menos de 0,9–1,6 m de costado según la dificultad, y
+    llega en menos de 0,9 s), la atajada es segura: se tira, guía las manos y la despide afuera;
+  - prueba con render nueva `tests/test_keeper_in_position.gd`:
+    - sin la regla, 3 de 4 tiros a su lugar eran gol;
+    - con la regla, 4 de 4 atajados.
+  - `test_setpiece_render` sigue 7/45/0: los ángulos siguen siendo batibles.
+- **Diana gigante** (reemplaza al Curling en el arcade):
+  - diana enorme en el piso con 5 niveles; se patea por el aire y suma el primer pique (mecánica del piso de `dianas.gd`);
+  - el Curling queda en el código y en su prueba, oculto en el arcade y en los récords;
+  - `resources/minigames/minigames.json`, `challenge_menu.gd`, `tests/test_diana_gigante.gd`.
+- **Online en todas las modalidades contra bots difíciles** (`scripts/online/online_duel.gd`, `bot_brain.gd`,
+  `menu_screens.gd`, `minigame.gd`, `setpiece_game.gd`):
+  - A la vista, Guante y Dardos: por turnos contra la IA en Experto, con el nombre del bot;
+  - Basket, Diana y Tiros libres: duelo por puntaje contra el del bot, en la escala de medallas del nivel o goles en 5
+    tiros;
+  - los bots online tienen habilidad de 0,88 o más;
+  - premio por la cola de recompensas (`offline_match`);
+  - `tests/test_online_duel.gd`.
+- **Personalizar rehecho** (`menu_screens.gd`):
+  - pestañas por prenda;
+  - colores como muestras redondas del color real;
+  - diseños como tarjetas con borde de rareza, el elegido en dorado y el bloqueado con su condición.
+- **Miniaturas de cada modo** (`tools/ui/make_thumbs.tscn` → `assets/ui/thumbs/*.jpg`, 25 imágenes, 0,47 MB):
+  - en las tarjetas del arcade (categorías, modalidades, niveles), la academia, «Jugar offline» y el online.
+  - Herramientas de revisión con render: `tools/ui/menu_capture.tscn`, `tools/ui/tv_capture.tscn`.
+- **Verificación (PC)**:
+  - `test_diana_gigante` 2/19/0, `test_online_duel` 3/–/0, `test_keeper_in_position` (render) 1/4/0,
+    `test_setpiece_render` (render) 7/45/0;
+  - `dianas`, `minigame_camera`, `curling`, `challenges` y `online`: todas OK;
+  - suite completa: ver el commit.
+  - Android: no probado.
+
+---
+
 ## 2026-11-12 — Defensores que retroceden mirando la pelota: solo con MIXAMO
 
 - **CI** (run 43139198058, commit `45087d0`) falló en `test_setpiece_render::test_free_kick_keeper_reads_deflections_and_is_beatable`.

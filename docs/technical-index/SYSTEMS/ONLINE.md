@@ -31,6 +31,7 @@
 | `scripts/online/welcome_screen.gd` | Entrada del juego: iniciar sesión, crear cuenta, recuperar contraseña, crear perfil |
 | `scripts/online/online_match.gd` | Penales online: turnos y resultados del servidor, reloj de 20 s con tiro de penalización, bot, chat |
 | `scripts/online/bot_factory.gd`, `bot_brain.gd`, `behavior_mirror.gd`, `chat_filter.gd` | Rivales IA, decisiones, tiempos espejo, chat y reacciones |
+| `scripts/online/online_duel.gd` | Las demás modalidades online contra un bot difícil (por turnos en A la vista, Guante y Dardos; por puntaje en Basket, Diana y Tiros libres) |
 | `scripts/ui/menu_screens.gd`, `menu_icon.gd`, `scripts/setpiece/main_menu.gd` | Menú con 10 entradas, pantallas, íconos dibujados |
 | `scripts/diagnostics/dev_flags.gd` | Build pública (característica `public`): sin «Diag.», sin línea de destino, sin banco de animaciones |
 

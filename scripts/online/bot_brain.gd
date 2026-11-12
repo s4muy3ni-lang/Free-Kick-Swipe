@@ -25,8 +25,9 @@ func _init(b: Dictionary) -> void:
 	rng.seed = int(b.get("seed", 1))
 	style = STYLE.get(String(b.get("personality", "tranquilo")), STYLE["tranquilo"])
 
+## Los bots online son dificiles de ganar (pedido del usuario): habilidad minima OnlineDuel.HARD_SKILL.
 func skill() -> float:
-	return clampf(float(bot.get("skill", 0.5)), 0.05, 0.98)
+	return clampf(maxf(float(bot.get("skill", 0.5)), OnlineDuel.HARD_SKILL), 0.05, 0.98)
 
 ## Error de punteria (grados) para ShotSolver.perturb: 3,5 grados con habilidad 0 hasta ~0,6 con habilidad 1, por el
 ## estilo; nunca cero.

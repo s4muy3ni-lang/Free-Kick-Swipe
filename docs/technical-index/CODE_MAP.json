@@ -2956,25 +2956,25 @@
         {
           "file": "scripts/diagnostics/graphics_settings.gd",
           "name": "GraphicsSettings.apply",
-          "line": 183,
+          "line": 192,
           "kind": "func"
         },
         {
           "file": "scripts/diagnostics/graphics_settings.gd",
           "name": "GraphicsSettings.set_profile",
-          "line": 138,
+          "line": 147,
           "kind": "func"
         },
         {
           "file": "scripts/diagnostics/graphics_settings.gd",
           "name": "GraphicsSettings.set_resolution_override",
-          "line": 153,
+          "line": 162,
           "kind": "func"
         },
         {
           "file": "scripts/diagnostics/graphics_settings.gd",
           "name": "GraphicsSettings.detect_default_profile",
-          "line": 129,
+          "line": 138,
           "kind": "func"
         },
         {
@@ -5774,25 +5774,25 @@
         {
           "file": "scripts/setpiece/setpiece_game.gd",
           "name": "SetPieceGame._take_shot",
-          "line": 584,
+          "line": 589,
           "kind": "func"
         },
         {
           "file": "scripts/setpiece/setpiece_game.gd",
           "name": "SetPieceGame.shoot_params",
-          "line": 1466,
+          "line": 1510,
           "kind": "func"
         },
         {
           "file": "scripts/setpiece/setpiece_game.gd",
           "name": "SetPieceGame._finish",
-          "line": 811,
+          "line": 821,
           "kind": "func"
         },
         {
           "file": "scripts/setpiece/setpiece_game.gd",
           "name": "SetPieceGame.clamp_free_kick_spot",
-          "line": 477,
+          "line": 482,
           "kind": "func"
         },
         {
@@ -5810,7 +5810,7 @@
         {
           "file": "scripts/setpiece/main_menu.gd",
           "name": "MainMenu._start",
-          "line": 437,
+          "line": 447,
           "kind": "func"
         }
       ],
@@ -6069,13 +6069,13 @@
         {
           "file": "scripts/setpiece/sp_keeper.gd",
           "name": "SpKeeper.commit_to",
-          "line": 347,
+          "line": 397,
           "kind": "func"
         },
         {
           "file": "scripts/setpiece/sp_keeper.gd",
           "name": "SpKeeper._resolve",
-          "line": 627,
+          "line": 677,
           "kind": "func"
         },
         {
@@ -6547,6 +6547,7 @@
         "scripts/online/online.gd",
         "scripts/online/supabase_api.gd",
         "scripts/online/local_backend.gd",
+        "scripts/online/online_duel.gd",
         "scripts/online/backend_config.gd",
         "scripts/online/online_hooks.gd",
         "scripts/online/welcome_screen.gd",

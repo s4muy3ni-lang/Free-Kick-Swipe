@@ -604,6 +604,11 @@ func _end_match(w: int) -> void:
 	var info: String = "Puntos: %d · %s" % [score, ChallengeScore.MEDAL_NAMES[medal]]
 	if bool(rec.get("new_best", false)):
 		info += " · ¡Nuevo récord!"
+	# Online contra bot (OnlineDuel): el resultado del duelo y su premio.
+	if OnlineDuel.is_active() and def.has("online_bot"):
+		var od: Array = OnlineDuel.finish(final_score(), 1 if won else 0)
+		t = String(od[0])
+		info = String(od[1]) + " · " + info
 	hud.set_hint("")
 	hud.show_overlay(t, info, [[&"retry", "Otra vez"], [&"next", "Siguiente nivel"], [&"menu", "Menú"]])
 
@@ -620,7 +625,7 @@ func medal_for(score: int) -> int:
 
 func _refresh_score() -> void:
 	if sides > 1:
-		hud.set_score_text("Vos %d - %d CPU" % [points[0], points[1]])
+		hud.set_score_text("Vos %d - %d %s" % [points[0], points[1], String(def.get("online_bot", "CPU"))])
 	else:
 		hud.set_score_text("Tiros %d" % shots[0])
 

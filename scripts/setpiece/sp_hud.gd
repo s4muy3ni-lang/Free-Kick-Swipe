@@ -123,6 +123,16 @@ func _build_top() -> void:
 	# Solo en builds de desarrollo (DevFlags).
 	diag.visible = DevFlags.tools_enabled()
 	top.add_child(diag)
+	# Camara de transmision de TV (tiros libres): se prende y se apaga en el juego, y se guarda.
+	tv_button = Button.new()
+	tv_button.focus_mode = Control.FOCUS_NONE
+	tv_button.custom_minimum_size = Vector2(150, 56)
+	tv_button.add_theme_font_size_override("font_size", 18)
+	tv_button.pressed.connect(func() -> void:
+		GraphicsSettings.toggle_tv_camera()
+		refresh_tv_button())
+	top.add_child(tv_button)
+	refresh_tv_button()
 	var menu := Button.new()
 	menu.text = "Menú"
 	menu.focus_mode = Control.FOCUS_NONE
@@ -314,6 +324,13 @@ func set_actions(list: Array) -> void:
 		b.custom_minimum_size = Vector2(200, 64)
 		b.pressed.connect(func() -> void: action_pressed.emit(StringName(a[0])))
 		actions.add_child(b)
+
+## Boton de la camara de TV (solo se ve en los modos con tiro libre; lo prende SetPieceGame).
+var tv_button: Button
+
+func refresh_tv_button() -> void:
+	if tv_button != null:
+		tv_button.text = "Cámara TV: %s" % ("Sí" if GraphicsSettings.tv_camera else "No")
 
 func set_zoom_visible(v: bool) -> void:
 	zoom_box.visible = v

@@ -11,8 +11,12 @@ signal customize_mode(on: bool)
 const GOLD := Color(1.0, 0.84, 0.28)
 const RARITY := {"comun": Color(0.75, 0.78, 0.85), "raro": Color(0.35, 0.65, 1.0), "epico": Color(0.75, 0.4, 1.0),
 	"legendario": Color(1.0, 0.7, 0.2)}
-## Modalidades online que ya tienen partida completa en esta version (las demas se muestran «en preparacion»).
-const READY_ONLINE := ["penales"]
+## Modalidades online jugables: penales con el protocolo de turnos del servidor; las demas contra un bot dificil
+## (OnlineDuel; las partidas entre humanos de esas modalidades siguen en preparacion).
+const READY_ONLINE := ["penales", "tiros_libres", "a_la_vista", "guante", "dardos", "basket", "diana"]
+## Miniatura de cada modalidad online (assets/ui/thumbs).
+const ONLINE_THUMBS := {"penales": "penales", "tiros_libres": "tiro_libre", "a_la_vista": "boton_caida", "guante": "guante",
+	"dardos": "dardos", "basket": "enceste", "diana": "diana_gigante"}
 
 var _panel: PanelContainer
 var _content: VBoxContainer
@@ -156,7 +160,16 @@ func open_offline() -> void:
 	var r := _row()
 	for m in [["PENALES", "Tanda contra la CPU: tirás y atajás.", "penal", Color(0.08, 0.3, 0.75), SetPieceGame.Mode.PENALTY],
 			["TIRO LIBRE", "Elegí dónde patear: barrera y arquero.", "tiro_libre", Color(0.1, 0.5, 0.25), SetPieceGame.Mode.FREE_KICK]]:
-		var cb: Array = _card_box(m[3], 360)
+		var cb: Array = _card_box(m[3], 400)
+		# Miniatura del modo (pedido del usuario: cada modo con su imagen).
+		var th: String = ChallengeMenu.thumb_for("penales" if m[4] == SetPieceGame.Mode.PENALTY else "tiro_libre")
+		if th != "":
+			var tr := TextureRect.new()
+			tr.texture = load(th) as Texture2D
+			tr.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+			tr.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+			tr.custom_minimum_size = Vector2(368, 207)
+			cb[1].add_child(tr)
 		var h := HBoxContainer.new()
 		h.add_child(MenuIcon.new(m[2], Color.WHITE, 72))
 		h.add_child(_lbl(m[0], 32, GOLD, false))
@@ -187,6 +200,14 @@ func open_online() -> void:
 		var art: Dictionary = gm.get("art", {}) if gm.get("art") is Dictionary else {}
 		var col: Color = Color.from_string(String(art.get("color", "#335")), Color(0.2, 0.2, 0.3))
 		var cb: Array = _card_box(col.darkened(0.35), 380)
+		var th: String = ChallengeMenu.thumb_for(String(ONLINE_THUMBS.get(String(gm["id"]), "")))
+		if th != "":
+			var tr := TextureRect.new()
+			tr.texture = load(th) as Texture2D
+			tr.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+			tr.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+			tr.custom_minimum_size = Vector2(348, 196)
+			cb[1].add_child(tr)
 		var h := HBoxContainer.new()
 		h.add_theme_constant_override("separation", 12)
 		h.add_child(MenuIcon.new(String(art.get("icon", "ball")), Color.WHITE, 64))
@@ -208,8 +229,8 @@ func open_online() -> void:
 			cb[1].add_child(fee_opt)
 			var mode_id: String = String(gm["id"])
 			cb[1].add_child(_btn("BUSCAR RIVAL", func() -> void: _search(mode_id, fee_opt.get_selected_id())))
-		else:
-			cb[1].add_child(_lbl("Modalidad online en preparación: ya se juega offline en Minijuegos Arcade.", 18, Color(1.0, 0.8, 0.5)))
+			if mode_id != "penales":
+				cb[1].add_child(_lbl("Por ahora contra bots difíciles (las partidas entre humanos de esta modalidad están en preparación).", 16, Color(1.0, 0.8, 0.5)))
 		r.add_child(cb[0])
 
 ## Busca rival: primero humanos (el servidor empareja); despues de la espera, un bot generado por el servidor.
@@ -253,6 +274,8 @@ func _search(mode: String, fee: int) -> void:
 		_search_box.queue_free()
 	if _searching and not view.is_empty():
 		_searching = false
+		if mode != "penales" and OnlineDuel.start(get_tree(), mode, view):
+			return
 		OnlineMatch.pending = view
 		get_tree().change_scene_to_file(SetPieceGame.SCENE)
 	_searching = false
@@ -490,32 +513,156 @@ func open_profile() -> void:
 
 var _pending_appearance: Dictionary = {}
 
+## Pestañas de Personalizar (pedido del usuario: el menu de listas desplegables era feo). Cada una muestra los diseños
+## como tarjetas (con rareza y candado) y los colores como muestras redondas del color real.
+const CUSTOM_TABS := [["Camiseta", "jersey"], ["Short", "shorts"], ["Medias", "socks"], ["Botines", "boots"],
+	["Cuerpo", "body"], ["Balón", "ball"], ["Festejo", "celebration"], ["Número", "number_style"]]
+var _custom_tab: String = "jersey"
+var _custom_box: VBoxContainer
+var _custom_tab_buttons: Dictionary = {}
+
 func open_customize() -> void:
 	current = "personalizar"
 	_clear("PERSONALIZAR")
 	_side_panel()
 	customize_mode.emit(true)
 	_catalog = await Online.catalog("catalog_items")
-	_content.add_child(_lbl("Arrastrá sobre el jugador para girarlo. Los colores son libres; los diseños especiales se desbloquean.", 18))
-	var g := GridContainer.new()
-	g.columns = 2
-	g.add_theme_constant_override("h_separation", 10)
-	g.add_theme_constant_override("v_separation", 8)
-	_content.add_child(g)
-	_option(g, "Camiseta", "jersey")
-	_color(g, "Color camiseta", "jersey_color", PlayerCustom.JERSEY_NAMES, func() -> int: return PlayerCustom.jersey)
-	_color(g, "Segundo color", "jersey_color2", PlayerCustom.JERSEY_NAMES, func() -> int: return PlayerCustom.jersey2)
-	_option(g, "Short", "shorts")
-	_color(g, "Color short", "shorts_color", PlayerCustom.SHORT_NAMES, func() -> int: return PlayerCustom.shorts)
-	_option(g, "Medias", "socks")
-	_color(g, "Color medias", "socks_color", PlayerCustom.SOCK_NAMES, func() -> int: return PlayerCustom.socks)
-	_color(g, "Altura medias", "sock_height", PlayerCustom.SOCK_HEIGHT_NAMES, func() -> int: return PlayerCustom.sock_height)
-	_option(g, "Botines", "boots")
-	_color(g, "Piel", "skin", PlayerCustom.SKIN_NAMES, func() -> int: return PlayerCustom.skin)
-	_color(g, "Pelo", "hair", PlayerCustom.HAIR_NAMES, func() -> int: return PlayerCustom.hair)
-	_option(g, "Balón", "ball")
-	_option(g, "Festejo", "celebration")
-	_option(g, "Número", "number_style")
+	_content.add_child(_lbl("Arrastrá sobre el jugador para girarlo. Los colores son libres; los diseños especiales se desbloquean.", 17, Color(0.8, 0.86, 1.0)))
+	var tabs := HFlowContainer.new()
+	tabs.add_theme_constant_override("h_separation", 8)
+	tabs.add_theme_constant_override("v_separation", 8)
+	_content.add_child(tabs)
+	_custom_tab_buttons = {}
+	for t in CUSTOM_TABS:
+		var b := Button.new()
+		b.text = String(t[0])
+		b.toggle_mode = true
+		b.focus_mode = Control.FOCUS_NONE
+		b.custom_minimum_size = Vector2(118, 50)
+		b.add_theme_font_size_override("font_size", 19)
+		var key: String = String(t[1])
+		b.pressed.connect(func() -> void: _show_custom_tab(key))
+		_custom_tab_buttons[key] = b
+		tabs.add_child(b)
+	_custom_box = VBoxContainer.new()
+	_custom_box.add_theme_constant_override("separation", 12)
+	_content.add_child(_custom_box)
+	_show_custom_tab(_custom_tab)
+
+func _current_appearance() -> Dictionary:
+	return (Online.profile().get("appearance", {}) as Dictionary).merged(_pending_appearance, true)
+
+func _show_custom_tab(key: String) -> void:
+	_custom_tab = key
+	for k in _custom_tab_buttons:
+		(_custom_tab_buttons[k] as Button).set_pressed_no_signal(k == key)
+	for c in _custom_box.get_children():
+		c.queue_free()
+	match key:
+		"jersey":
+			_designs("Diseño", "jersey")
+			_swatches("Color principal", "jersey_color", PlayerCustom.JERSEYS, PlayerCustom.JERSEY_NAMES, PlayerCustom.jersey)
+			_swatches("Segundo color", "jersey_color2", PlayerCustom.JERSEYS, PlayerCustom.JERSEY_NAMES, PlayerCustom.jersey2)
+		"shorts":
+			_designs("Diseño", "shorts")
+			_swatches("Color", "shorts_color", PlayerCustom.SHORTS, PlayerCustom.SHORT_NAMES, PlayerCustom.shorts)
+		"socks":
+			_designs("Diseño", "socks")
+			_swatches("Color", "socks_color", PlayerCustom.SOCKS, PlayerCustom.SOCK_NAMES, PlayerCustom.socks)
+			_chips("Altura", "sock_height", PlayerCustom.SOCK_HEIGHT_NAMES, PlayerCustom.sock_height)
+		"boots":
+			_designs("Botines", "boots")
+		"body":
+			_swatches("Piel", "skin", PlayerCustom.SKINS, PlayerCustom.SKIN_NAMES, PlayerCustom.skin)
+			_swatches("Pelo", "hair", PlayerCustom.HAIRS, PlayerCustom.HAIR_NAMES, PlayerCustom.hair)
+		_:
+			_designs({"ball": "Balón", "celebration": "Festejo", "number_style": "Estilo del número"}.get(key, key), key)
+
+func _section(title: String) -> HFlowContainer:
+	_custom_box.add_child(_lbl(title, 22, GOLD, false))
+	var r := HFlowContainer.new()
+	r.add_theme_constant_override("h_separation", 10)
+	r.add_theme_constant_override("v_separation", 10)
+	_custom_box.add_child(r)
+	return r
+
+## Diseños del catalogo como tarjetas: borde del color de la rareza, dorado y grueso el elegido, candado si no es tuyo.
+func _designs(title: String, kind: String) -> void:
+	var items: Array = _items_of(kind)
+	if items.is_empty():
+		return
+	var r: HFlowContainer = _section(title)
+	var cur: String = String(_current_appearance().get(kind, ""))
+	# Sin eleccion guardada: el primer diseño gratuito es el que tiene puesto.
+	if cur == "":
+		for it0 in items:
+			if String(it0["unlock"]) == "free":
+				cur = String(it0["id"])
+				break
+	for it in items:
+		var id: String = String(it["id"])
+		var ok: bool = _available(it)
+		var sel: bool = id == cur
+		var b := Button.new()
+		b.focus_mode = Control.FOCUS_NONE
+		b.custom_minimum_size = Vector2(170, 92)
+		b.text = String(it["name"]) + ("" if ok else "\n" + unlock_text(it))
+		b.add_theme_font_size_override("font_size", 17)
+		b.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		var rc: Color = RARITY.get(String(it.get("rarity", "comun")), Color.GRAY)
+		for st in ["normal", "hover", "pressed", "disabled"]:
+			var sb := StyleBoxFlat.new()
+			sb.bg_color = Color(0.07, 0.1, 0.18, 0.95) if st != "hover" else Color(0.12, 0.17, 0.3, 0.95)
+			if not ok:
+				sb.bg_color = Color(0.05, 0.05, 0.08, 0.9)
+			sb.border_color = GOLD if sel else rc
+			sb.set_border_width_all(5 if sel else 2)
+			sb.set_corner_radius_all(14)
+			sb.set_content_margin_all(8)
+			b.add_theme_stylebox_override(st, sb)
+		b.disabled = not ok
+		b.pressed.connect(func() -> void:
+			_set_appearance(kind, id)
+			_show_custom_tab(_custom_tab))
+		r.add_child(b)
+
+## Colores como muestras redondas del color real; la elegida con aro blanco grueso.
+func _swatches(title: String, key: String, colors: Array, names: Array, cur: int) -> void:
+	var r: HFlowContainer = _section(title)
+	for i in colors.size():
+		var b := Button.new()
+		b.focus_mode = Control.FOCUS_NONE
+		b.custom_minimum_size = Vector2(62, 62)
+		b.tooltip_text = String(names[i]) if i < names.size() else ""
+		for st in ["normal", "hover", "pressed"]:
+			var sb := StyleBoxFlat.new()
+			sb.bg_color = colors[i]
+			sb.set_corner_radius_all(31)
+			sb.border_color = Color.WHITE if i == cur else Color(1, 1, 1, 0.25)
+			sb.set_border_width_all(5 if i == cur else (3 if st == "hover" else 2))
+			b.add_theme_stylebox_override(st, sb)
+		var idx: int = i
+		b.pressed.connect(func() -> void:
+			_set_appearance(key, idx)
+			_show_custom_tab(_custom_tab))
+		r.add_child(b)
+
+## Opciones cortas (p. ej. altura de las medias) como botones de seleccion.
+func _chips(title: String, key: String, names: Array, cur: int) -> void:
+	var r: HFlowContainer = _section(title)
+	for i in names.size():
+		var b := Button.new()
+		b.text = String(names[i])
+		b.toggle_mode = true
+		b.focus_mode = Control.FOCUS_NONE
+		b.custom_minimum_size = Vector2(130, 48)
+		b.add_theme_font_size_override("font_size", 18)
+		b.set_pressed_no_signal(i == cur)
+		var idx: int = i
+		b.pressed.connect(func() -> void:
+			_set_appearance(key, idx)
+			_show_custom_tab(_custom_tab))
+		r.add_child(b)
 
 func _items_of(kind: String) -> Array:
 	return _catalog.filter(func(it: Dictionary) -> bool: return String(it["kind"]) == kind and bool(it.get("active", true)))

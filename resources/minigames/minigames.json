@@ -2936,7 +2936,7 @@
    "title": "Curling",
    "scene": "res://scenes/minigames/curling.tscn",
    "status": "Implementado",
-   "description": "Pista de hielo: deslizá la pelota hasta la casa. Gana la más cercana al centro; podés sacar las del rival.",
+   "description": "Pista de hielo: deslizá la pelota hasta la casa. Gana la más cercana al centro; podés sacar las del rival. (Oculto: reemplazado en el arcade por «Diana gigante», pedido del usuario 2026-11-12.)",
    "levels": [
     {
      "title": "Primer end",
@@ -3009,6 +3009,93 @@
       60,
       140,
       220
+     ]
+    }
+   ],
+   "hidden": true
+  },
+  {
+   "id": "diana_gigante",
+   "title": "Diana gigante",
+   "scene": "res://scenes/minigames/dianas.tscn",
+   "status": "Implementado",
+   "description": "Una diana enorme pintada en el piso: pateala por el aire. Cuenta donde PICA la pelota: centro 100, medio 50, afuera 25.",
+   "levels": [
+    {
+     "title": "Diana gigante",
+     "objective": "Diana enorme en el piso a 26 m. Pateala por el aire: cuenta el primer pique. 5 tiros.",
+     "shots": 5,
+     "goal": "puntos",
+     "floor": {
+      "x": 26.0,
+      "r": 8.0
+     },
+     "medals": [
+      150,
+      280,
+      400
+     ]
+    },
+    {
+     "title": "Más lejos",
+     "objective": "La misma diana, a 32 m. 5 tiros.",
+     "shots": 5,
+     "goal": "puntos",
+     "floor": {
+      "x": 32.0,
+      "r": 7.0
+     },
+     "medals": [
+      125,
+      250,
+      375
+     ]
+    },
+    {
+     "title": "Corrida al costado",
+     "objective": "A 30 m y corrida a la izquierda: apuntá con el trazo. 5 tiros.",
+     "shots": 5,
+     "goal": "puntos",
+     "floor": {
+      "x": 30.0,
+      "z": -6.0,
+      "r": 6.0
+     },
+     "medals": [
+      100,
+      220,
+      340
+     ]
+    },
+    {
+     "title": "Chica y lejana",
+     "objective": "A 38 m y más chica. 5 tiros.",
+     "shots": 5,
+     "goal": "puntos",
+     "floor": {
+      "x": 38.0,
+      "r": 5.0
+     },
+     "medals": [
+      90,
+      200,
+      320
+     ]
+    },
+    {
+     "title": "Puntería fina",
+     "objective": "A 34 m, corrida a la derecha y chica: hay que clavar el centro. 5 tiros.",
+     "shots": 5,
+     "goal": "puntos",
+     "floor": {
+      "x": 34.0,
+      "z": 5.0,
+      "r": 4.5
+     },
+     "medals": [
+      80,
+      180,
+      300
      ]
     }
    ]
@@ -3617,7 +3704,7 @@
     },
     {
      "type": "game",
-     "game": "curling"
+     "game": "diana_gigante"
     },
     {
      "type": "game",

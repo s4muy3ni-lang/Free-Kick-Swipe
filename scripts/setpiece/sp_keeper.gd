@@ -228,6 +228,9 @@ func _watch_step(delta: float) -> void:
 			# Ya no viene al arco (desviada hacia atras): no se tira a la nada.
 			_cancel_dive()
 		return
+	# Ya esta en el lugar: la pelota no le pasa por arriba ni al lado (pedido del usuario).
+	if in_position_saves and not sure and _in_position_save(bp, bv):
+		return
 	# El error se achica con la distancia que le queda a la pelota.
 	var k: float = clampf((goal_x - bp.x) / 25.0, 0.15, 1.0)
 	var h := Vector3(bv.x, 0.0, bv.z)
@@ -292,6 +295,53 @@ func _watch_step(delta: float) -> void:
 		_dive_in = float(pl["delay"])
 		if _dive_in <= 0.0:
 			_start_dive()
+
+## Tiro libre: si el arquero YA ESTA EN EL LUGAR (la pelota REAL cruza la linea bajo el travesaño a menos de
+## in_position_lat() m de costado de donde esta parado) y llega en menos de IN_POSITION_T s, la atajada es segura: se tira
+## con el clip que mejor llega, lo guia hacia la pelota (como la zona segura del penal) y la despide hacia afuera.
+## Antes, si ningun clip llegaba con holgura, se quedaba parado y la pelota le pasaba por arriba o al lado y entraba.
+## Lejos de el (los angulos) sigue siendo batible.
+const IN_POSITION_T := 0.9
+var in_position_saves: bool = true
+
+static func in_position_lat() -> float:
+	return [0.9, 1.15, 1.4, 1.5, 1.6][SpSettings.level()]
+
+func _in_position_save(bp: Vector3, bv: Vector3) -> bool:
+	if state != State.IDLE and state != State.WAIT_DIVE:
+		return false
+	var real: PackedVector3Array = BallPredictor.trajectory(bp, bv, 2.0, 1.0 / 30.0, ball.angular_velocity, true)
+	var c: Vector3 = ShotSolver.crossing(real, goal_x - 0.2)
+	if c == Vector3.INF or absf(c.z) > half_goal or c.y > goal_height:
+		return false
+	if absf(c.z - actor.global_position.z) > in_position_lat():
+		return false
+	var t_reach: float = INF
+	var kx: float = actor.global_position.x - 0.3
+	for i in real.size():
+		if real[i].x >= kx:
+			t_reach = float(i) / 30.0
+			break
+	if t_reach > IN_POSITION_T:
+		return false
+	var pl: Dictionary = KeeperPlanner.plan_save(actor.global_position, _yaw(), real, 1.0 / 30.0, 0.0, bv.length(), false,
+		SURE_SPEEDS, Vector2.ZERO, PLAN_RADIUS_SCALE)
+	if pl.is_empty():
+		return false
+	actor.stop_moving()
+	_zone = Vector3.INF
+	_sure_k = int(pl["k"])
+	sure = true
+	sure_steps = 0
+	sure_gap = INF
+	_sure_drift = Vector3.ZERO
+	_sure_extra = 0.0
+	in_position_count += 1
+	_adopt(pl)
+	return true
+
+## Atajadas «ya estaba en el lugar» (diagnostico y pruebas).
+var in_position_count: int = 0
 
 ## Estirada agendada que ya no tiene sentido (la pelota no viene): vuelve a la espera mirando la pelota.
 func _cancel_dive() -> void:

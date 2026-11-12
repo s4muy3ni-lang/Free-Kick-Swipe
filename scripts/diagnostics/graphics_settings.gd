@@ -52,7 +52,12 @@ var auto_mode: bool = true
 ## Opciones visuales (se guardan con los graficos). Linea de destino: la trayectoria prevista y el aro de llegada mientras
 ## se apunta (TrajectoryPreview); apagarla NO cambia la fisica ni el tiro, y el rastro del dedo sigue. Temblor de camara:
 ## el sacudon suave del festejo (SpCamera.shake), con tres niveles.
-var show_aim_line: bool = true
+## Linea de destino de la pelota: QUITADA por pedido del usuario (2026-11-12; solo el rastro del dedo). La variable queda
+## para el codigo que la consulta y siempre vale false fuera de las pruebas.
+var show_aim_line: bool = false
+## Camara de transmision de TV en los tiros libres: tras el gesto, plano lateral alto que sigue la pelota hasta el arco
+## (tambien en la repeticion). Se guarda.
+var tv_camera: bool = false
 const SHAKE_NAMES: Array[String] = ["No", "Suave", "Normal"]
 const SHAKE_SCALE: Array[float] = [0.0, 0.55, 1.0]
 var camera_shake: int = 1
@@ -66,8 +71,7 @@ var _auto_cool: float = 2.0
 
 func _ready() -> void:
 	load_settings()
-	if not DevFlags.tools_enabled():
-		show_aim_line = false
+	show_aim_line = false
 	if not _has_saved_settings() or auto_mode:
 		profile = detect_default_profile()
 	apply()
@@ -113,7 +117,12 @@ func cycle_menu_choice() -> void:
 
 ## Interruptor de la linea de destino (se guarda).
 func toggle_aim_line() -> void:
-	show_aim_line = not show_aim_line and DevFlags.tools_enabled()
+	show_aim_line = false
+	save_settings()
+
+## Interruptor de la camara de TV de los tiros libres (se guarda).
+func toggle_tv_camera() -> void:
+	tv_camera = not tv_camera
 	save_settings()
 
 ## No -> Suave -> Normal -> No (se guarda).
@@ -202,6 +211,7 @@ func save_settings() -> void:
 	cfg.set_value("graphics", "shadows_mode", shadows_mode)
 	cfg.set_value("graphics", "auto", auto_mode)
 	cfg.set_value("visual", "show_aim_line", show_aim_line)
+	cfg.set_value("visual", "tv_camera", tv_camera)
 	cfg.set_value("visual", "camera_shake", camera_shake)
 	var err: int = cfg.save(SETTINGS_PATH)
 	if err != OK:
@@ -219,10 +229,9 @@ func load_settings() -> void:
 	shadows_mode = clampi(int(cfg.get_value("graphics", "shadows_mode", -1)), -1, 1)
 	# Configuraciones guardadas antes del modo automatico: el perfil que eligio la persona se respeta.
 	auto_mode = bool(cfg.get_value("graphics", "auto", false))
-	show_aim_line = bool(cfg.get_value("visual", "show_aim_line", true))
-	# Build publica: sin linea de destino (solo el rastro del dedo); el ajuste solo existe en desarrollo.
-	if not DevFlags.tools_enabled():
-		show_aim_line = false
+	# Sin linea de destino en ninguna build (pedido del usuario): solo el rastro del dedo.
+	show_aim_line = false
+	tv_camera = bool(cfg.get_value("visual", "tv_camera", false))
 	camera_shake = clampi(int(cfg.get_value("visual", "camera_shake", 1)), 0, SHAKE_NAMES.size() - 1)
 
 func _has_saved_settings() -> bool:

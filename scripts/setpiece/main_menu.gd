@@ -19,7 +19,8 @@ var _gfx_button: Button
 var _visual_panel: PanelContainer
 var _player_panel: PanelContainer
 var _custom_buttons: Dictionary = {}
-var _aim_line_button: Button
+var _tv_button: Button
+var _anim_button: Button
 var _shake_button: Button
 var _keeper: SpActor
 var _player: SpActor
@@ -186,8 +187,10 @@ func _build_ui() -> void:
 	var spacer := Control.new()
 	spacer.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	vb.add_child(spacer)
-	var row := HBoxContainer.new()
-	row.add_theme_constant_override("separation", 16)
+	# Fila de ajustes: se acomoda en dos renglones si no entra (telefonos angostos).
+	var row := HFlowContainer.new()
+	row.add_theme_constant_override("h_separation", 12)
+	row.add_theme_constant_override("v_separation", 10)
 	vb.add_child(row)
 	_foot_button = _small("", func() -> void:
 		SpSettings.foot = -SpSettings.foot
@@ -199,6 +202,13 @@ func _build_ui() -> void:
 		SpSettings.save_settings()
 		_refresh())
 	row.add_child(_diff_button)
+	# Biblioteca de animaciones de TODOS los modos (pedido del usuario): ACTUAL o MIXAMO. Se rearma el menu para que el
+	# fondo tambien la use.
+	_anim_button = _small("", func() -> void:
+		AnimBank.set_bank(AnimBank.Bank.ACTUAL if AnimBank.is_mixamo() else AnimBank.Bank.MIXAMO)
+		get_tree().change_scene_to_file(SCENE))
+	_anim_button.visible = AnimBank.mixamo_available()
+	row.add_child(_anim_button)
 	_goal_button = _small("", func() -> void:
 		SpSettings.goal_style = (SpSettings.goal_style + 1) % 2
 		SpSettings.save_settings()
@@ -219,16 +229,13 @@ func _build_ui() -> void:
 			_refresh_custom())
 	pl.custom_minimum_size = Vector2(150, 60)
 	row.add_child(pl)
-	var sp2 := Control.new()
-	sp2.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	row.add_child(sp2)
 	var bench: Button = _small("Banco de animaciones", func() -> void: get_tree().change_scene_to_file(BENCH_SCENE))
 	# Herramienta de desarrollo: no aparece en la build publica (DevFlags).
 	bench.visible = DevFlags.tools_enabled()
 	row.add_child(bench)
-	# Laboratorio de animaciones ACTUAL vs MIXAMO (desarrollo; tambien elige la biblioteca del juego).
-	var lab: Button = _small("Laboratorio de animaciones", func() -> void: get_tree().change_scene_to_file(AnimLab.SCENE))
-	lab.visible = DevFlags.tools_enabled()
+	# Laboratorio de animaciones ACTUAL vs MIXAMO: visible tambien en la APK (pedido del usuario: probarlas en el telefono).
+	var lab: Button = _small("Laboratorio", func() -> void: get_tree().change_scene_to_file(AnimLab.SCENE))
+	lab.custom_minimum_size = Vector2(150, 60)
 	row.add_child(lab)
 	_build_visual_panel(root)
 	_build_player_panel(root)
@@ -365,11 +372,13 @@ func _build_visual_panel(root: Control) -> void:
 	t.add_theme_font_size_override("font_size", 30)
 	t.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	vb.add_child(t)
-	_aim_line_button = _small("", func() -> void:
-		GraphicsSettings.toggle_aim_line()
+	# Camara de transmision de TV en los tiros libres (reemplaza a la opcion de la linea de destino, que se quito: solo
+	# queda el rastro del dedo).
+	_tv_button = _small("", func() -> void:
+		GraphicsSettings.toggle_tv_camera()
 		_refresh())
-	_aim_line_button.custom_minimum_size = Vector2(520, 60)
-	vb.add_child(_aim_line_button)
+	_tv_button.custom_minimum_size = Vector2(520, 60)
+	vb.add_child(_tv_button)
 	_shake_button = _small("", func() -> void:
 		GraphicsSettings.cycle_camera_shake()
 		_refresh())
@@ -425,7 +434,8 @@ func _refresh() -> void:
 	_diff_button.text = "Dificultad: %s" % SpSettings.DIFFICULTY_NAMES[SpSettings.difficulty]
 	_goal_button.text = "Arco: %s" % SpSettings.GOAL_STYLE_NAMES[SpSettings.goal_style]
 	_gfx_button.text = "Gráficos: %s" % GraphicsSettings.menu_choice_name()
-	_aim_line_button.text = "Mostrar línea de destino de la pelota: %s" % ("Sí" if GraphicsSettings.show_aim_line else "No")
+	_tv_button.text = "Cámara de TV en tiros libres: %s" % ("Sí" if GraphicsSettings.tv_camera else "No")
+	_anim_button.text = "Animaciones: %s" % AnimBank.current_name()
 	_shake_button.text = "Temblor de cámara: %s" % GraphicsSettings.SHAKE_NAMES[GraphicsSettings.camera_shake]
 
 var _loading: Label = null

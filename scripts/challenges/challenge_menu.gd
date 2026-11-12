@@ -149,11 +149,41 @@ func _row() -> HFlowContainer:
 	_list.add_child(r)
 	return r
 
-func _card(title: String, info: String, medal: int, enabled: bool, cb: Callable, color: Color = Color(0.08, 0.12, 0.18), w: float = 286.0) -> Button:
+## Miniatura de un modo (assets/ui/thumbs/<id>.jpg, tools/ui/make_thumbs.tscn); "" si no hay.
+const THUMBS := "res://assets/ui/thumbs/%s.jpg"
+
+static var _thumb_cache: Dictionary = {}
+
+## Miniatura escalada al ancho de la tarjeta (16:9), una vez por tamaño.
+static func scaled_thumb(path: String, width: int) -> Texture2D:
+	var key: String = "%s@%d" % [path, width]
+	if not _thumb_cache.has(key):
+		var tex: Texture2D = load(path) as Texture2D
+		var img: Image = tex.get_image()
+		img.resize(width, int(round(width * 0.5625)), Image.INTERPOLATE_BILINEAR)
+		_thumb_cache[key] = ImageTexture.create_from_image(img)
+	return _thumb_cache[key]
+
+static func thumb_for(id: String) -> String:
+	var p: String = THUMBS % id
+	return p if ResourceLoader.exists(p) else ""
+
+## Miniatura de un ejercicio de la academia: el penal desde los 12 m, el tiro libre mas lejos.
+static func academy_thumb(d: Dictionary) -> String:
+	var spot: Array = d.get("spot", [20, 0])
+	return thumb_for("penales" if float(spot[0]) <= 12.0 else "tiro_libre")
+
+func _card(title: String, info: String, medal: int, enabled: bool, cb: Callable, color: Color = Color(0.08, 0.12, 0.18), w: float = 286.0, thumb: String = "") -> Button:
 	var b := Button.new()
 	b.text = "%s\n%s" % [title, info]
 	b.focus_mode = Control.FOCUS_NONE
 	b.custom_minimum_size = Vector2(w, 86)
+	# Con miniatura (pedido del usuario: cada modo con una imagen de como es): la imagen arriba y el texto abajo.
+	if thumb != "":
+		b.icon = scaled_thumb(thumb, int(w - 28.0))
+		b.expand_icon = false
+		b.icon_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		b.vertical_icon_alignment = VERTICAL_ALIGNMENT_TOP
 	b.alignment = HORIZONTAL_ALIGNMENT_LEFT
 	b.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	b.add_theme_font_size_override("font_size", 18)
@@ -190,7 +220,8 @@ func _build_academia() -> void:
 		for d in defs:
 			var id: String = String(d["id"])
 			var info: String = "%s · %d intentos" % [_medal_text(PlayerProgress.medal(id), PlayerProgress.best(id)), int(d["attempts"])]
-			row.add_child(_card(String(d["title"]), info, PlayerProgress.medal(id), open or practice, _start_challenge.bind(d, 0)))
+			row.add_child(_card(String(d["title"]), info, PlayerProgress.medal(id), open or practice, _start_challenge.bind(d, 0),
+				Color(0.08, 0.12, 0.18), 286.0, academy_thumb(d)))
 
 func _play_set_piece(m: int) -> void:
 	SetPieceGame.next_mode = m
@@ -247,6 +278,8 @@ func _build_records() -> void:
 	_header("Medallas y récords", "Oro %d · Plata %d · Bronce %d" % [counts[3], counts[2], counts[1]])
 	var row: HFlowContainer = _row()
 	for g in MinigameCatalog.games():
+		if bool(g.get("hidden", false)):
+			continue
 		var best: int = 0
 		var medal: int = 0
 		for d in MinigameCatalog.levels(String(g["id"])):
@@ -280,10 +313,11 @@ func _build_arcade() -> void:
 		var row: HFlowContainer = _row()
 		for c in MinigameCatalog.categories():
 			var col: Array = c.get("color", [0.1, 0.2, 0.3])
+			var first: Dictionary = (c["items"] as Array)[0] if not (c["items"] as Array).is_empty() else {}
 			row.add_child(_card(String(c["title"]), "%s\n%d modalidades" % [c.get("description", ""), (c["items"] as Array).size()], 0, true,
 				func() -> void:
 					arcade_category = String(c["id"])
-					_refresh(), Color(float(col[0]), float(col[1]), float(col[2])).darkened(0.35), 420))
+					_refresh(), Color(float(col[0]), float(col[1]), float(col[2])).darkened(0.35), 420, thumb_for(_item_id(first)) if not first.is_empty() else ""))
 		return
 	var item: Dictionary = {}
 	for it in cat["items"]:
@@ -305,7 +339,7 @@ func _build_arcade() -> void:
 				desc = "%s\n%d niveles" % [it.get("description", ""), (it["ids"] as Array).size()]
 			row2.add_child(_card(t, desc, 0, true, func() -> void:
 				arcade_item = _item_id(it)
-				_refresh(), Color(0.08, 0.12, 0.18), 420))
+				_refresh(), Color(0.08, 0.12, 0.18), 420, thumb_for(_item_id(it))))
 		return
 	# Modalidad: sus niveles (cada uno abre la eleccion de dificultad).
 	if String(item["type"]) == "game":
@@ -319,7 +353,7 @@ func _build_arcade() -> void:
 			var info: String = ChallengeScore.MEDAL_NAMES[m] if open else "Bloqueado: bronce en el nivel %d" % (int(d["level"]) - 1)
 			row3.add_child(_card("%d · %s" % [int(d["level"]), d["title"]], info, m, open, func() -> void:
 				_pending = {"kind": "game", "def": d}
-				_refresh()))
+				_refresh(), Color(0.08, 0.12, 0.18), 286.0, thumb_for(String(item["game"]))))
 	else:
 		_header(String(item["title"]), String(item.get("description", "")))
 		var row4: HFlowContainer = _row()
@@ -334,7 +368,7 @@ func _build_arcade() -> void:
 				bm = maxi(bm, PlayerProgress.medal(PlayerProgress.key(ad, dif)))
 			row4.add_child(_card("%d · %s" % [n, ad["title"]], String(ad.get("explain", "")), bm, true, func() -> void:
 				_pending = {"kind": "arena", "def": ad}
-				_refresh()))
+				_refresh(), Color(0.08, 0.12, 0.18), 286.0, thumb_for(_item_id(item))))
 
 ## Eleccion de dificultad de un nivel: Facil, Normal, Dificil y Experto (cada una abre con bronce en la anterior).
 func _build_difficulty_page() -> void:
