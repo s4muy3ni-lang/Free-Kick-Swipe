@@ -97,15 +97,15 @@
 <!-- AUTO:tests:tests/test_mixamo_bank.gd -->
 | Prueba | Línea |
 |---|---|
-| `test_actual_is_the_default_and_loads_nothing_from_mixamo` | 32 |
-| `test_every_mixamo_clip_loads_with_its_role` | 46 |
-| `test_mixamo_uses_mixamo_per_role_and_actual_as_fallback` | 83 |
-| `test_every_mixamo_clip_is_reachable_by_its_role` | 120 |
-| `test_mixamo_shot_catalog_uses_mixamo_kicks` | 138 |
-| `test_keeper_plans_with_mixamo_and_falls_back_only_when_needed` | 166 |
-| `test_lab_loads_only_what_it_shows_and_compares_the_same_situation` | 203 |
-| `test_switching_bank_at_runtime_plays_a_penalty` | 236 |
-| `test_defenders_track_back_with_directional_loops` | 256 |
+| `test_actual_is_the_default_and_loads_nothing_from_mixamo` | 33 |
+| `test_every_mixamo_clip_loads_with_its_role` | 47 |
+| `test_mixamo_uses_mixamo_per_role_and_actual_as_fallback` | 84 |
+| `test_every_mixamo_clip_is_reachable_by_its_role` | 121 |
+| `test_mixamo_shot_catalog_uses_mixamo_kicks` | 139 |
+| `test_keeper_plans_with_mixamo_and_falls_back_only_when_needed` | 167 |
+| `test_lab_loads_only_what_it_shows_and_compares_the_same_situation` | 204 |
+| `test_switching_bank_at_runtime_plays_a_penalty` | 237 |
+| `test_defenders_track_back_with_directional_loops` | 257 |
 <!-- /AUTO -->
 
 ## Dependencias

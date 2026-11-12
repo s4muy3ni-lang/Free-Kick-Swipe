@@ -18,8 +18,8 @@ Decisión del usuario: el juego usa las animaciones de Mixamo; no las distribuye
 - **Qué cambió**:
   - las bibliotecas derivadas (`assets/animations/mixamo_*.res`, `resources/setpiece/shot_clips_mixamo.json`) y los GLB
     fuente (`assets/animations/source/mixamo/`) pasan a git; los GLB no entran en la APK (filtro de exportación);
-  - se quitan `assets/animations/mixamo_pack.enc`, `tools/mixamo/pack_mixamo.sh`, el paso de descifrado y la necesidad
-    del secret `MIXAMO_KEY`;
+  - se quitan el paquete cifrado (mixamo_pack.enc), su script (pack_mixamo.sh), el paso de descifrado y la necesidad
+    del secret `MIXAMO_KEY` (borrados en este cambio);
   - CI exige las bibliotecas de MIXAMO al empezar y dentro de la APK.
 - **Archivos**: `.gitignore`, `.github/workflows/android.yml`, `scripts/animation/anim_bank.gd` (comentario),
   `tests/test_mixamo_bank.gd` (comentario), `docs/animaciones/MIXAMO_INTEGRACION.md`, ficha `ANIM_BANK`, `INDEX.md`,
