@@ -27,6 +27,12 @@ func _ready() -> void:
 	screens.open_customize()
 	for i in 30:
 		await get_tree().process_frame
+	# Un diseño a rayas con segundo color, para ver los diseños sobre el cuerpo.
+	for it in screens._items_of("jersey"):
+		if String(it["name"]).to_lower().contains("rayas") and String(it["unlock"]) == "free":
+			screens._set_appearance("jersey", String(it["id"]))
+	screens._set_appearance("jersey_color2", 2)
+	screens._show_custom_tab("jersey")
 	await _shot("personalizar_camiseta")
 	screens._show_custom_tab("body")
 	await _shot("personalizar_cuerpo")

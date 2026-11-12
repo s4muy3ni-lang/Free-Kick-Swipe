@@ -11,6 +11,39 @@ Formato de entrada: **fecha — título** · commit · qué cambió · archivos 
 
 ---
 
+## 2026-11-12 — El modelo de Tripo del usuario es el cuerpo de los jugadores
+
+Pedido del usuario: el GLB del jugador (`assets/characters/player/player_base.glb`, hecho con Tripo3D) tiene que estar en el
+juego. Se había descartado en una sesión anterior porque se deformaba con las animaciones (no por licencia).
+
+- **Causa de la deformación**:
+  - en el GLB, piernas y brazos están rectos en reposo (pose T): el eje de la rodilla y del codo quedaba indefinido y los
+    miembros se torcían.
+- **Arreglo** (`tools/json_anim/build_tripo_body.gd` → `assets/characters/json/tripo_body.scn`; el GLB no se toca):
+  - marcos de reposo de cada hueso con la misma función que las animaciones, con polos definidos (rodilla hacia adelante;
+    codo como el del brazo en pose A girado hasta la cruz);
+  - raíz en el origen sin giro;
+  - «bind» de la piel recalculado (la malla queda igual en reposo).
+  - Lo mueven las dos bibliotecas (ACTUAL y MIXAMO).
+- **Proporciones**: los brazos de Tripo son unos 11 cm más cortos y su hueso de la punta del pie está a mitad del pie.
+  - `SpActor.arm_extra` / `hand_point` prolongan la mano hasta el largo de brazo del juego (alcance del guante del
+    arquero);
+  - `SpActor.toe_tip` da la punta del pie (contacto del golpe).
+- **Uniforme**: `player_kit.gdshader` ahora tiene los diseños de Personalizar (rayas, banda, aros, mitad, degradé, ribetes,
+  altura de medias).
+- **Elección**:
+  - `AnimBank.body()` (Tripo por defecto; «Modelo del jugador» en Ajustes visuales; `ANIM_BODY` en pruebas);
+  - `SpActor`, el laboratorio y el menú la usan.
+  - El modo partido sigue con el humanoide.
+- **Verificación (PC)**:
+  - headless con Tripo: `setpiece` 22/151/0, `keeper` 18/105/0, `test_mixamo_bank` 9/178/0, `celebrations` 5/45/0;
+  - con render (xvfb) y el modelo de Tripo: `test_setpiece_render` 7/45/0 (peor distancia pie-pelota en el impulso
+    0,31 m), `test_keeper_in_position` 1/4/0, `test_keeper_zones` 4/27/0;
+  - capturas del laboratorio y del menú con el modelo de Tripo.
+  - Android: no probado.
+
+---
+
 ## 2026-11-12 — Pedido del usuario: animaciones en todos los modos, cámara de TV, arquero, Diana gigante, online, menús
 
 - **Animaciones ACTUAL / MIXAMO en todos los modos**:

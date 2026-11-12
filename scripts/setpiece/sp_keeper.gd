@@ -628,7 +628,7 @@ func _check_contact(delta: float) -> void:
 			var fore: Vector3 = actor.bone_world("mixamorig_LeftForeArm" if String(part[0]).contains("Left") else "mixamorig_RightForeArm")
 			var dir: Vector3 = c - fore
 			if dir.length() > 0.01:
-				c += dir.normalized() * HAND_REACH
+				c += dir.normalized() * (HAND_REACH + actor.arm_extra)
 		parts_now[part[0]] = c
 		var c0: Vector3 = _prev_parts.get(part[0], c)
 		var r: float = float(part[1]) + ball.radius + (_sure_extra if sure and bool(part[2]) else 0.0)

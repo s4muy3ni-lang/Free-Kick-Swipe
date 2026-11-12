@@ -2149,7 +2149,7 @@
         {
           "file": "assets/characters/player/player_kit.gdshader",
           "name": "player_kit.gdshader.shade",
-          "line": 23,
+          "line": 64,
           "kind": "func"
         }
       ],
@@ -5381,13 +5381,13 @@
         {
           "file": "scripts/animation/json_catalog.gd",
           "name": "JsonCatalog.cycles_per_second",
-          "line": 121,
+          "line": 122,
           "kind": "func"
         },
         {
           "file": "scripts/animation/json_catalog.gd",
           "name": "JsonCatalog.kick_candidates",
-          "line": 143,
+          "line": 144,
           "kind": "func"
         },
         {
@@ -5495,7 +5495,7 @@
         {
           "file": "scripts/animation/json_catalog.gd",
           "name": "JsonCatalog.situation_clip",
-          "line": 247,
+          "line": 248,
           "kind": "func"
         },
         {
@@ -5810,7 +5810,7 @@
         {
           "file": "scripts/setpiece/main_menu.gd",
           "name": "MainMenu._start",
-          "line": 447,
+          "line": 455,
           "kind": "func"
         }
       ],
@@ -5884,7 +5884,7 @@
         {
           "file": "scripts/setpiece/sp_actor.gd",
           "name": "SpActor.play_clip",
-          "line": 155,
+          "line": 160,
           "kind": "func"
         },
         {
@@ -6606,6 +6606,7 @@
         "scripts/dev/anim_lab.gd",
         "tools/mixamo/export_mixamo_joints.gd",
         "tools/mixamo/selection_mixamo.json",
+        "tools/json_anim/build_tripo_body.gd",
         "tests/test_mixamo_bank.gd"
       ],
       "symbols": [

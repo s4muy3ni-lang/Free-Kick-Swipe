@@ -154,7 +154,7 @@ func _physics_process(_delta: float) -> void:
 
 func _do_contact() -> void:
 	kicked = true
-	var toe: Vector3 = actor.bone_world(SpActor.TOE_R if int(entry["foot"]) > 0 else SpActor.TOE_L)
+	var toe: Vector3 = actor.toe_tip(int(entry["foot"]) <= 0)
 	contact_gap = Vector2(toe.x - ball.global_position.x, toe.z - ball.global_position.z).length()
 	if require_touch > 0.0 and (contact_gap > require_touch or ball.global_position.y > 0.7 or ball.is_held()):
 		missed.emit()

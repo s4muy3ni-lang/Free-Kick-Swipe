@@ -76,7 +76,8 @@ const DIR_JOG_ROLES: Array[StringName] = [&"dir_back", &"dir_back_diag", &"dir_f
 static func active() -> bool:
 	return PackLibrary.json_mode()
 
-## Modelo del modo: el humanoide propio (el GLB de Tripo adaptado se descarto: se deformaba con estas animaciones).
+## Modelo del modo PARTIDO: el humanoide propio. (En penales, tiros libres, minijuegos y menu el cuerpo lo elige AnimBank:
+## desde 2026-11-12 el modelo de Tripo del usuario, adaptado sin deformarse por tools/json_anim/build_tripo_body.)
 static func model_path() -> String:
 	return HUMAN_SCENE if ResourceLoader.exists(HUMAN_SCENE) else ""
 

@@ -70,12 +70,16 @@ var _bones: Dictionary = {}
 var collider: AnimatableBody3D = null
 var _collider_height: float = 1.75
 
+## Cuerpo con que se armo (AnimBank.body_path(): el modelo de Tripo del usuario o el humanoide JSON).
+var body_path: String = BODY
+
 func build(kit: Dictionary) -> void:
 	model = Node3D.new()
 	model.name = "Rig"
 	model.scale = Vector3.ONE * BODY_SCALE
 	add_child(model)
-	var inst: Node3D = (load(BODY) as PackedScene).instantiate()
+	body_path = AnimBank.body_path()
+	var inst: Node3D = (load(body_path) as PackedScene).instantiate()
 	model.add_child(inst)
 	skeleton = inst.find_child("Skeleton3D", true, false) as Skeleton3D
 	anim_player = AnimationPlayer.new()
@@ -87,6 +91,7 @@ func build(kit: Dictionary) -> void:
 	for key in libs:
 		anim_player.add_animation_library(key, libs[key])
 	set_kit(kit)
+	_measure_body()
 	var idles: Array[StringName] = SpClips.by_role(&"idle_ready", false)
 	if not idles.is_empty():
 		rest_loop = idles[get_instance_id() % idles.size()]
@@ -112,7 +117,7 @@ func set_back_number(n: int) -> void:
 func set_kit(kit: Dictionary) -> void:
 	if model == null:
 		return
-	var mat: ShaderMaterial = AnimBankCatalog.kit_material(BODY, kit)
+	var mat: ShaderMaterial = AnimBankCatalog.kit_material(body_path, kit)
 	for mi in model.find_children("*", "MeshInstance3D", true, false):
 		(mi as MeshInstance3D).material_override = mat
 
@@ -250,7 +255,44 @@ func bone_world(bone_name: String) -> Vector3:
 	return (skeleton.global_transform * skeleton.get_bone_global_pose(idx)).origin
 
 func hands_mid() -> Vector3:
-	return (bone_world(HAND_L) + bone_world(HAND_R)) * 0.5
+	return (hand_point(true) + hand_point(false)) * 0.5
+
+## Modelo de Tripo: sus brazos son mas cortos que los del esqueleto del juego (antebrazo 0,21 m contra 0,33 m) y el hueso
+## de la punta del pie esta a mitad del pie. Las animaciones y sus mediciones (manos de las atajadas, punta del pie en el
+## golpe) son las del esqueleto del juego: arm_extra prolonga la mano hasta el largo de brazo del juego (alcance del guante)
+## y toe_tip() da la punta del pie al largo del pie del juego. Con el humanoide JSON los dos coinciden con los huesos.
+var arm_extra: float = 0.0
+var _tripo: bool = false
+
+func _measure_body() -> void:
+	_tripo = body_path != BODY
+	arm_extra = 0.0
+	if not _tripo or skeleton == null:
+		return
+	var tot: float = 0.0
+	for side in ["Left", "Right"]:
+		var a: Vector3 = skeleton.get_bone_global_rest(skeleton.find_bone("mixamorig_%sArm" % side)).origin
+		var f: Vector3 = skeleton.get_bone_global_rest(skeleton.find_bone("mixamorig_%sForeArm" % side)).origin
+		var h: Vector3 = skeleton.get_bone_global_rest(skeleton.find_bone("mixamorig_%sHand" % side)).origin
+		tot += (a.distance_to(f) + f.distance_to(h)) * BODY_SCALE
+	arm_extra = maxf((JsonRig.UPPER_ARM + JsonRig.FOREARM) - tot * 0.5, 0.0)
+
+## Mano (centro de la palma al largo de brazo del juego).
+func hand_point(left: bool) -> Vector3:
+	var h: Vector3 = bone_world(HAND_L if left else HAND_R)
+	if arm_extra <= 0.0:
+		return h
+	var d: Vector3 = h - bone_world("mixamorig_LeftForeArm" if left else "mixamorig_RightForeArm")
+	return h + d.normalized() * arm_extra if d.length() > 1e-4 else h
+
+## Punta del pie (lo que toca la pelota).
+func toe_tip(left: bool) -> Vector3:
+	var toe: Vector3 = bone_world(TOE_L if left else TOE_R)
+	if not _tripo:
+		return toe
+	var ank: Vector3 = bone_world("mixamorig_LeftFoot" if left else "mixamorig_RightFoot")
+	var d: Vector3 = toe - ank
+	return ank + d.normalized() * JsonRig.FOOT if d.length() > 1e-4 else toe
 
 # --- Colision ---------------------------------------------------------------------------------------------------------------
 

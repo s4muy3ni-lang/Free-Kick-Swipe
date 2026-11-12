@@ -97,3 +97,46 @@ static func reset_for_tests() -> void:
 
 static func is_mixamo_id(id: StringName) -> bool:
 	return String(id).begins_with(ID_PREFIX)
+
+# --- Cuerpo del jugador ---------------------------------------------------------------------------------------------------
+
+## Cuerpo de los jugadores: el modelo de Tripo del usuario (assets/characters/player/player_base.glb adaptado por
+## tools/json_anim/build_tripo_body) o el humanoide JSON de siempre. Lo mueven las mismas bibliotecas. Se guarda junto a la
+## biblioteca; BODY_ENV (TRIPO|HUMANO) lo fuerza en herramientas y pruebas.
+enum Body { TRIPO, HUMANO }
+const BODY_NAMES := ["Tripo", "Humanoide"]
+const BODY_PATHS := ["res://assets/characters/json/tripo_body.scn", "res://assets/characters/json/json_human.scn"]
+static var _body: int = -1
+
+static func body() -> int:
+	if _body < 0:
+		var env: String = OS.get_environment("ANIM_BODY").to_lower()
+		if env == "tripo":
+			_body = Body.TRIPO
+		elif env == "humano":
+			_body = Body.HUMANO
+		else:
+			var cfg := ConfigFile.new()
+			_body = Body.TRIPO
+			if cfg.load(PATH) == OK:
+				_body = clampi(int(cfg.get_value("anim", "body", Body.TRIPO)), 0, Body.size() - 1)
+		if not ResourceLoader.exists(BODY_PATHS[_body]):
+			_body = Body.HUMANO
+	return _body
+
+static func body_path() -> String:
+	return BODY_PATHS[body()]
+
+static func body_name() -> String:
+	return BODY_NAMES[body()]
+
+static func is_tripo_body() -> bool:
+	return body() == Body.TRIPO
+
+static func set_body(b: int, save: bool = true) -> void:
+	_body = clampi(b, 0, Body.size() - 1)
+	if save:
+		var cfg := ConfigFile.new()
+		cfg.load(PATH)
+		cfg.set_value("anim", "body", _body)
+		cfg.save(PATH)

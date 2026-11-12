@@ -85,7 +85,9 @@ static func kit_material(body_path: String, kit: Dictionary) -> ShaderMaterial:
 	for key in ["jersey", "shorts", "socks", "boots", "skin", "hair"]:
 		if kit.has(key):
 			mat.set_shader_parameter("%s_color" % key, kit[key])
-	# Diseños de la personalizacion (solo el cuerpo comun los tiene).
+	# Diseños de la personalizacion (los dos shaders los tienen: humano JSON y modelo de Tripo).
+	if kit.has("shorts") and body_path != COMMON_BODY:
+		mat.set_shader_parameter("trim_color", Color(0.95, 0.95, 0.97))
 	for key in ["jersey_pattern", "shorts_pattern", "socks_pattern", "sock_height"]:
 		if kit.has(key):
 			mat.set_shader_parameter(key, int(kit[key]))

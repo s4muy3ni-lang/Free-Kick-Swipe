@@ -20,6 +20,7 @@ var _visual_panel: PanelContainer
 var _player_panel: PanelContainer
 var _custom_buttons: Dictionary = {}
 var _tv_button: Button
+var _body_button: Button
 var _anim_button: Button
 var _shake_button: Button
 var _keeper: SpActor
@@ -379,6 +380,12 @@ func _build_visual_panel(root: Control) -> void:
 		_refresh())
 	_tv_button.custom_minimum_size = Vector2(520, 60)
 	vb.add_child(_tv_button)
+	# Modelo de los jugadores: el de Tripo del usuario (por defecto) o el humanoide JSON. Se rearma el menu.
+	_body_button = _small("", func() -> void:
+		AnimBank.set_body(AnimBank.Body.HUMANO if AnimBank.is_tripo_body() else AnimBank.Body.TRIPO)
+		get_tree().change_scene_to_file(SCENE))
+	_body_button.custom_minimum_size = Vector2(520, 60)
+	vb.add_child(_body_button)
 	_shake_button = _small("", func() -> void:
 		GraphicsSettings.cycle_camera_shake()
 		_refresh())
@@ -435,6 +442,7 @@ func _refresh() -> void:
 	_goal_button.text = "Arco: %s" % SpSettings.GOAL_STYLE_NAMES[SpSettings.goal_style]
 	_gfx_button.text = "Gráficos: %s" % GraphicsSettings.menu_choice_name()
 	_tv_button.text = "Cámara de TV en tiros libres: %s" % ("Sí" if GraphicsSettings.tv_camera else "No")
+	_body_button.text = "Modelo del jugador: %s" % AnimBank.body_name()
 	_anim_button.text = "Animaciones: %s" % AnimBank.current_name()
 	_shake_button.text = "Temblor de cámara: %s" % GraphicsSettings.SHAKE_NAMES[GraphicsSettings.camera_shake]
 

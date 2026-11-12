@@ -189,7 +189,7 @@ func _station(bank: int) -> Station:
 	var rig := Node3D.new()
 	rig.scale = Vector3.ONE * BODY_SCALE
 	st.body.add_child(rig)
-	var inst: Node3D = (load(BODY) as PackedScene).instantiate()
+	var inst: Node3D = (load(AnimBank.body_path()) as PackedScene).instantiate()
 	rig.add_child(inst)
 	st.skeleton = inst.find_child("Skeleton3D", true, false) as Skeleton3D
 	st.player = AnimationPlayer.new()
@@ -205,7 +205,7 @@ func _station(bank: int) -> Station:
 		for id in lib.get_animation_list():
 			if not st.where.has(id):
 				st.where[id] = key
-	var mat: ShaderMaterial = AnimBankCatalog.kit_material(BODY, KIT_MX if bank == AnimBank.Bank.MIXAMO else KIT)
+	var mat: ShaderMaterial = AnimBankCatalog.kit_material(AnimBank.body_path(), KIT_MX if bank == AnimBank.Bank.MIXAMO else KIT)
 	for mi in inst.find_children("*", "MeshInstance3D", true, false):
 		(mi as MeshInstance3D).material_override = mat
 	st.ball = BALL_SCENE.instantiate()
