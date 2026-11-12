@@ -23,7 +23,12 @@ Formato de entrada: **fecha — título** · commit · qué cambió · archivos 
   - ahora vale solo con MIXAMO (`SpFieldPlayers.on_kick`);
   - con ACTUAL el código vuelve a ser el de antes, con el mismo orden de números aleatorios.
   - La prueba no se tocó ni se salteó.
-- **Verificación**: `test_mixamo_bank` 9/178/0, `setpiece` headless 22/151/0, `test_setpiece_render` con render (ACTUAL) 7/45/0. CI: pendiente.
+- **Verificación**:
+  - PC: `test_mixamo_bank` 9/178/0, `setpiece` headless 22/151/0, `test_setpiece_render` con render (ACTUAL) 7/45/0.
+  - **CI** (run 43145068917, commit `4aefef8`): éxito. Pasaron las pruebas headless (incluidas las de Mixamo, con las
+    bibliotecas en el repositorio), las pruebas con render, el job del servidor y la verificación de la APK.
+  - Artefacto `futbol5-apk` (53,6 MB comprimido).
+  - Android: no probado.
 
 ---
 
