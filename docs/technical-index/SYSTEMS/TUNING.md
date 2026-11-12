@@ -35,7 +35,7 @@
 | `Tuning.MATCH_MINUTES` | `[3, 5, 7, 10]` | 24 | Duracion del partido elegida (minutos): 3, 5, 7 o 10. |
 | `Tuning.CAMERA_ZOOMS` | `[0.55, 0.7, 0.85, 1.0]` | 29 | Zoom de la camara del partido: factor sobre la distancia de MatchCamera (menor = mas cerca). Niveles del menu: muy cerca, cerca (por defecto: la camara a 0.7 de la distancia de la transmision lejana), media y lejos (la transmision de antes). |
 | `Tuning.CAMERA_ZOOM_NAMES` | `["Muy cerca", "Cerca", "Media", "Lejos"]` | 30 |  |
-| `Tuning.GAMEPLAY_MODES` | `[3, 4]` | 38 | Modo de jugabilidad: 4 = Json (las animaciones de animaciones_futbol5_JSON sobre el esqueleto canonico JsonRig, con el humanoide propio json_human.scn), el del juego; 3 = solo Tripo3D (el modelo y sus animaciones prefijadas, patada procedural), respaldo del codigo heredado. Los modos 1 (pack de Mixamo) y 2 (Mocap) se borraron con sus bancos (2026-11-08, pedido del usuario: docs/reforma/MIXAMO_MOCAP_QUITADOS.md). |
+| `Tuning.GAMEPLAY_MODES` | `[3, 4]` | 38 | Modo de jugabilidad: 4 = Json (las animaciones de animaciones_futbol5_JSON sobre el esqueleto canonico JsonRig, con el cuerpo del juego: el modelo de Tripo adaptado, tripo_body.scn; el humanoide propio se elimino el 2026-11-12), el del juego; 3 = solo Tripo3D (el modelo y sus animaciones prefijadas, patada procedural), respaldo del codigo heredado. Los modos 1 (pack de Mixamo) y 2 (Mocap) se borraron con sus bancos (2026-11-08, pedido del usuario: docs/reforma/MIXAMO_MOCAP_QUITADOS.md). |
 | `Tuning.GAMEPLAY_MODE_NAMES` | `{3: "3 · Tripo", 4: "4 · Json"}` | 39 |  |
 | `Tuning.PLAYABLE_MODES` | `[4]` | 41 | Modos que se ofrecen en el menu y que se aceptan de las preferencias guardadas, y el de una instalacion nueva. |
 | `Tuning.DEFAULT_GAMEPLAY_MODE` | `4` | 42 |  |

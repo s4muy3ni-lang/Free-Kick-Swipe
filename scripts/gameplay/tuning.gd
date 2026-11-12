@@ -32,7 +32,7 @@ var camera_zoom: float = 0.7
 ## Sonido del partido (Sfx) encendido.
 var sound_on: bool = true
 ## Modo de jugabilidad: 4 = Json (las animaciones de animaciones_futbol5_JSON sobre el esqueleto canonico JsonRig, con el
-## humanoide propio json_human.scn), el del juego; 3 = solo Tripo3D (el modelo y sus animaciones prefijadas, patada
+## cuerpo del juego: el modelo de Tripo adaptado, tripo_body.scn; el humanoide propio se elimino el 2026-11-12), el del juego; 3 = solo Tripo3D (el modelo y sus animaciones prefijadas, patada
 ## procedural), respaldo del codigo heredado. Los modos 1 (pack de Mixamo) y 2 (Mocap) se borraron con sus bancos
 ## (2026-11-08, pedido del usuario: docs/reforma/MIXAMO_MOCAP_QUITADOS.md).
 const GAMEPLAY_MODES := [3, 4]

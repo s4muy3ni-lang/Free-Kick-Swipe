@@ -7,7 +7,7 @@ extends Node3D
 func _ready() -> void:
 	var model_path: String = OS.get_environment("MODEL")
 	if model_path == "":
-		model_path = "res://assets/characters/json/json_human.scn"
+		model_path = AnimBank.BODY_PATH
 	var out: String = OS.get_environment("OUT")
 	if out == "":
 		out = "/tmp/preview.png"
@@ -47,10 +47,8 @@ func _ready() -> void:
 	var model: Node3D = scene.instantiate()
 	rig.add_child(model)
 	var sk: Skeleton3D = model.find_children("*", "Skeleton3D", true, false)[0]
-	if OS.get_environment("MATERIAL") != "none" and model_path.contains("json_human"):
-		var mat := ShaderMaterial.new()
-		mat.shader = load("res://assets/characters/json/json_kit.gdshader")
-		mat.set_shader_parameter("trim_color", Color(0.05, 0.12, 0.62))
+	if OS.get_environment("MATERIAL") != "none" and model_path == AnimBank.BODY_PATH:
+		var mat: ShaderMaterial = AnimBankCatalog.kit_material(model_path, {"shorts": Color(0.05, 0.12, 0.62)})
 		for mi in model.find_children("*", "MeshInstance3D", true, false):
 			(mi as MeshInstance3D).material_override = mat
 	var cam := Camera3D.new()

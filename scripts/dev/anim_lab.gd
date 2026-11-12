@@ -15,7 +15,7 @@ signal back_requested
 
 const SCENE := "res://scenes/dev/anim_lab.tscn"
 const MENU_SCENE := "res://scenes/setpiece/main_menu.tscn"
-const BODY := "res://assets/characters/json/json_human.scn"
+const BODY := AnimBank.BODY_PATH
 const BALL_SCENE := preload("res://scenes/ball/ball.tscn")
 const BODY_SCALE := 1.75
 const SPEEDS: Array[float] = [0.25, 0.5, 1.0, 1.5]

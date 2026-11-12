@@ -2,7 +2,7 @@ class_name AnimBankBench
 extends Node3D
 ## Banco de pruebas de las animaciones del banco JSON original (el unico del juego desde 2026-11-08: Mixamo y Mocap se
 ## borraron por pedido del usuario, docs/reforma/MIXAMO_MOCAP_QUITADOS.md). Muestra cada clip por categoria de tirador,
-## barrera y arquero sobre el humano JSON, con la pelota, el golpe en el contacto del clip y mediciones en vivo.
+## barrera y arquero sobre el cuerpo del juego (modelo de Tripo), con la pelota, el golpe en el contacto del clip y mediciones en vivo.
 ##
 ## - Golpeos: el jugador se coloca para que el contacto medido del clip caiga sobre la pelota y la pelota recibe un golpe
 ##   de referencia en el instante de contacto del clip; se mide la distancia real punta del pie - pelota en ese instante.
@@ -29,7 +29,7 @@ const VIEW_NAMES := ["Desde el tirador", "Lateral", "Opuesta"]
 
 ## Banco ("json": el unico).
 var bank: String = "json"
-## false: cuerpo comun (humano JSON). true: cuerpo original del banco (diagnostico).
+## false: cuerpo comun (el del juego, modelo de Tripo). true: cuerpo original del banco (diagnostico).
 var original_body: bool = false
 var category: String = "st_setpiece"
 var clip_index: int = 0
@@ -583,7 +583,7 @@ func _refresh_ui() -> void:
 func info_text() -> String:
 	var lines: PackedStringArray = []
 	lines.append("BANCO: %s" % AnimBankCatalog.label(bank))
-	lines.append("Cuerpo: %s" % ("humano JSON (común)" if body_path == AnimBankCatalog.COMMON_BODY else "futbolista (cuerpo original de Mixamo y Mocap)"))
+	lines.append("Cuerpo: %s" % ("modelo de Tripo (el del juego)" if body_path == AnimBankCatalog.COMMON_BODY else "futbolista (cuerpo original de Mixamo y Mocap)"))
 	if current.is_empty():
 		lines.append("")
 		lines.append("Sin clip en este banco para esta acción.")

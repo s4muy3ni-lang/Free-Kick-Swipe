@@ -29,7 +29,7 @@ const LOW_HAND_M := 0.6
 
 const BANKS := {
 	"json": {"label": "JSON original", "libs": ["res://assets/animations/json_clips.res", "res://assets/animations/json_keeper.res", "res://assets/animations/json_scenes.res"],
-		"body": "res://assets/characters/json/json_human.scn"},
+		"body": "res://assets/characters/json/tripo_body.scn"},
 }
 
 ## [id, grupo, etiqueta]

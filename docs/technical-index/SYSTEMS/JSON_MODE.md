@@ -1,4 +1,4 @@
-# JSON_MODE — Modo 4 «Json»: las 2 022 animaciones JSON sobre un esqueleto canónico y el humanoide propio
+# JSON_MODE — Modo 4 «Json»: las 2 022 animaciones JSON sobre un esqueleto canónico y el cuerpo del juego
 
 ## Identificación
 
@@ -7,10 +7,13 @@
   head, l/r_clavicle, l/r_shoulder, l/r_elbow, l/r_wrist, l/r_hip, l/r_knee, l/r_ankle, l/r_toe`, fotogramas clave irregulares a 60 fps,
   trayectoria de la pelvis `root` y meta con golpeo, toques, apoyos, dirección y velocidad) convertidas a **rotaciones** sobre un esqueleto
   canónico de 23 huesos con los nombres del futbolista (`mixamorig_*`).
-- **Modelo:** el humanoide propio (`assets/characters/json/json_human.scn`, ~7 000 triángulos): tubos elípticos que siguen cada
-  miembro, pose A, zonas del kit (camiseta, short, medias, botines, piel, pelo, ojos, suela, ribete, labios) en `COLOR.r` y oclusión en
-  `COLOR.g` (`json_kit.gdshader`). El GLB de Tripo adaptado se **descartó** el 2026-10-30 (se deformaba con estas animaciones; pedido
-  del usuario): ya no hay selector de modelo. Botines de ~0.26 m desde el 2026-11-05: de 6 cm detrás a 18.3 cm delante del
+- **Modelo (desde el 2026-11-12):** el cuerpo del juego, el modelo de Tripo del usuario adaptado al esqueleto
+  (`assets/characters/json/tripo_body.scn`, `tools/json_anim/build_tripo_body.gd`), con `player_kit.gdshader` en la posición de
+  reposo (número impreso, diseños pegados a la tela).
+  - El humanoide propio (`json_human.scn`, `json_kit.gdshader`, `build_json_human.gd`) **se eliminó** del juego y de los
+    archivos por pedido del usuario: «el humanoide no va más, queda el jugador 3D».
+  - Historia: el 2026-10-30 el GLB de Tripo se había descartado porque se deformaba (piernas y codos rectos en reposo). Lo
+    arregló `build_tripo_body` el 2026-11-12 con polos definidos. Botines de ~0.26 m desde el 2026-11-05: de 6 cm detrás a 18.3 cm delante del
   tobillo, un pie real de 1.74 m como en UCS. Antes medían ~0.40 m, 1.8 veces la pelota
   ([E3](../../fases/E3_conduccion_ucs.md#4-qué-cambió)).
 - **Estado (2026-10-30):** las **2 022** animaciones convertidas (3 223 clips contando los espejos) y conectadas por rol; ver «Qué usa

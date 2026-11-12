@@ -1830,55 +1830,55 @@
         {
           "file": "scripts/player/footballer_visual.gd",
           "name": "FootballerVisual.build",
-          "line": 174,
+          "line": 175,
           "kind": "func"
         },
         {
           "file": "scripts/player/footballer_visual.gd",
           "name": "FootballerVisual._setup_animation_tree",
-          "line": 269,
+          "line": 267,
           "kind": "func"
         },
         {
           "file": "scripts/player/footballer_visual.gd",
           "name": "FootballerVisual.play_action",
-          "line": 434,
+          "line": 432,
           "kind": "func"
         },
         {
           "file": "scripts/player/footballer_visual.gd",
           "name": "FootballerVisual.stop_action",
-          "line": 589,
+          "line": 587,
           "kind": "func"
         },
         {
           "file": "scripts/player/footballer_visual.gd",
           "name": "FootballerVisual.update_motion",
-          "line": 626,
+          "line": 624,
           "kind": "func"
         },
         {
           "file": "scripts/player/footballer_visual.gd",
           "name": "FootballerVisual.start_kick",
-          "line": 598,
+          "line": 596,
           "kind": "func"
         },
         {
           "file": "scripts/player/footballer_visual.gd",
           "name": "FootballerVisual.set_kit",
-          "line": 237,
+          "line": 238,
           "kind": "func"
         },
         {
           "file": "scripts/player/footballer_visual.gd",
           "name": "FootballerVisual.default_kit",
-          "line": 158,
+          "line": 159,
           "kind": "func"
         },
         {
           "file": "scripts/player/footballer_visual.gd",
           "name": "FootballerVisual.keeper_kit",
-          "line": 169,
+          "line": 170,
           "kind": "func"
         },
         {
@@ -3490,31 +3490,31 @@
         {
           "file": "scripts/player/footballer_visual.gd",
           "name": "FootballerVisual.play_pack_clip",
-          "line": 542,
+          "line": 540,
           "kind": "func"
         },
         {
           "file": "scripts/player/footballer_visual.gd",
           "name": "FootballerVisual.play_situation",
-          "line": 566,
+          "line": 564,
           "kind": "func"
         },
         {
           "file": "scripts/player/footballer_visual.gd",
           "name": "FootballerVisual.stop_current_action",
-          "line": 577,
+          "line": 575,
           "kind": "func"
         },
         {
           "file": "scripts/player/footballer_visual.gd",
           "name": "FootballerVisual.gait_scale_for",
-          "line": 467,
+          "line": 465,
           "kind": "func"
         },
         {
           "file": "scripts/player/footballer_visual.gd",
           "name": "FootballerVisual.step_interval_for",
-          "line": 518,
+          "line": 516,
           "kind": "func"
         },
         {
@@ -4810,13 +4810,13 @@
         {
           "file": "scripts/player/footballer_visual.gd",
           "name": "FootballerVisual.play_touch",
-          "line": 400,
+          "line": 398,
           "kind": "func"
         },
         {
           "file": "scripts/player/footballer_visual.gd",
           "name": "FootballerVisual.carry_phase",
-          "line": 410,
+          "line": 408,
           "kind": "func"
         }
       ],
@@ -5318,7 +5318,7 @@
         "scripts/gameplay/referee.gd",
         "scripts/gameplay/tuning.gd",
         "tools/json_anim/build_json_library.gd",
-        "tools/json_anim/build_json_human.gd",
+        "tools/json_anim/build_tripo_body.gd",
         "tools/json_anim/json_clip_data.gd",
         "tools/json_anim/make_selection.py",
         "tools/json_anim/retarget_check.gd",
@@ -5326,7 +5326,7 @@
         "tools/json_anim/play_view.gd",
         "tools/json_anim/keeper_view.gd",
         "tools/json_anim/match_shot.gd",
-        "assets/characters/json/json_kit.gdshader",
+        "assets/characters/player/player_kit.gdshader",
         "tests/test_json_mode.gd",
         "scripts/player/json_ball_move.gd",
         "scripts/animation/action_motion.gd",
@@ -5369,25 +5369,25 @@
         {
           "file": "scripts/animation/json_catalog.gd",
           "name": "JsonCatalog.GAIT",
-          "line": 13,
+          "line": 14,
           "kind": "const"
         },
         {
           "file": "scripts/animation/json_catalog.gd",
           "name": "JsonCatalog.CARRY",
-          "line": 17,
+          "line": 18,
           "kind": "const"
         },
         {
           "file": "scripts/animation/json_catalog.gd",
           "name": "JsonCatalog.cycles_per_second",
-          "line": 122,
+          "line": 123,
           "kind": "func"
         },
         {
           "file": "scripts/animation/json_catalog.gd",
           "name": "JsonCatalog.kick_candidates",
-          "line": 144,
+          "line": 145,
           "kind": "func"
         },
         {
@@ -5411,7 +5411,7 @@
         {
           "file": "scripts/player/footballer_visual.gd",
           "name": "FootballerVisual._json_cycle_node",
-          "line": 255,
+          "line": 253,
           "kind": "func"
         },
         {
@@ -5495,7 +5495,7 @@
         {
           "file": "scripts/animation/json_catalog.gd",
           "name": "JsonCatalog.situation_clip",
-          "line": 248,
+          "line": 249,
           "kind": "func"
         },
         {
@@ -5696,7 +5696,7 @@
         {
           "file": "scripts/dev/anim_bank_catalog.gd",
           "name": "AnimBankCatalog.clips",
-          "line": 58,
+          "line": 57,
           "kind": "func"
         },
         {
@@ -5758,6 +5758,7 @@
         "scripts/setpiece/setpiece_game.gd",
         "scripts/setpiece/main_menu.gd",
         "scripts/setpiece/stadium11.gd",
+        "scripts/setpiece/crowd_banners.gd",
         "scripts/setpiece/penalty_shootout.gd",
         "scripts/setpiece/sp_camera.gd",
         "scripts/setpiece/sp_hud.gd",
@@ -5774,25 +5775,25 @@
         {
           "file": "scripts/setpiece/setpiece_game.gd",
           "name": "SetPieceGame._take_shot",
-          "line": 599,
+          "line": 601,
           "kind": "func"
         },
         {
           "file": "scripts/setpiece/setpiece_game.gd",
           "name": "SetPieceGame.shoot_params",
-          "line": 1555,
+          "line": 1559,
           "kind": "func"
         },
         {
           "file": "scripts/setpiece/setpiece_game.gd",
           "name": "SetPieceGame._finish",
-          "line": 829,
+          "line": 831,
           "kind": "func"
         },
         {
           "file": "scripts/setpiece/setpiece_game.gd",
           "name": "SetPieceGame.clamp_free_kick_spot",
-          "line": 492,
+          "line": 494,
           "kind": "func"
         },
         {
@@ -5804,13 +5805,13 @@
         {
           "file": "scripts/setpiece/stadium11.gd",
           "name": "Stadium11.build",
-          "line": 33,
+          "line": 37,
           "kind": "func"
         },
         {
           "file": "scripts/setpiece/main_menu.gd",
           "name": "MainMenu._start",
-          "line": 455,
+          "line": 449,
           "kind": "func"
         }
       ],
@@ -5884,7 +5885,7 @@
         {
           "file": "scripts/setpiece/sp_actor.gd",
           "name": "SpActor.play_clip",
-          "line": 199,
+          "line": 173,
           "kind": "func"
         },
         {

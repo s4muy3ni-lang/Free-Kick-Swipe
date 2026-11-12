@@ -19,7 +19,7 @@ roles sin equivalente: [`INVENTARIO_MIXAMO.md`](INVENTARIO_MIXAMO.md) (generado 
 
 ## 2. Auditoría del sistema actual (resumen)
 
-- Esqueleto canónico `JsonRig` (23 huesos `mixamorig_*`, pose A, 1,0 = 1,75 m); un solo cuerpo (`json_human.scn`).
+- Esqueleto canónico `JsonRig` (23 huesos `mixamorig_*`, pose A, 1,0 = 1,75 m); un solo cuerpo: el modelo de Tripo adaptado (`tripo_body.scn`; el humanoide `json_human.scn` se eliminó el 2026-11-12).
 - Bibliotecas ACTUALES: `json_clips.res`, `json_keeper.res`, `json_scenes.res`: **2.024 clips** (3.223 con espejos) en
   111 roles, convertidos de JSON de 19 articulaciones con `tools/json_anim/build_json_library.gd`.
 - Quién pide clips:

@@ -13,7 +13,7 @@ extends Node3D
 
 signal clip_finished(id: StringName)
 
-const BODY := "res://assets/characters/json/json_human.scn"
+const BODY := AnimBank.BODY_PATH
 ## Escala del humano en el juego (los metadatos de los clips estan en metros de juego).
 const BODY_SCALE := 1.75
 const BLEND := 0.22
@@ -63,14 +63,12 @@ var rest_returns: int = 0
 var freeze_on_finish: bool = false
 ## Altura del piso donde esta parado (0 en la cancha; los minijuegos con plataformas la cambian, y una caida la baja).
 var ground_y: float = 0.0
-## Numero en la espalda (personalizacion): Label3D que sigue la columna del esqueleto (no toca el modelo compartido).
-var _number: Label3D = null
 
 var _bones: Dictionary = {}
 var collider: AnimatableBody3D = null
 var _collider_height: float = 1.75
 
-## Cuerpo con que se armo (AnimBank.body_path(): el modelo de Tripo del usuario o el humanoide JSON).
+## Cuerpo con que se armo (AnimBank.body_path(): el modelo de Tripo del usuario, el unico cuerpo del juego).
 var body_path: String = BODY
 
 func build(kit: Dictionary) -> void:
@@ -96,37 +94,13 @@ func build(kit: Dictionary) -> void:
 	if not idles.is_empty():
 		rest_loop = idles[get_instance_id() % idles.size()]
 
-## Numero en la espalda (0 lo quita). Con el cuerpo de Tripo va IMPRESO en la camiseta (el shader del uniforme lo
-## proyecta sobre la espalda en la posicion de reposo: se dobla y se mueve con la tela). Con el humanoide es un Label3D
-## que sigue el torso (inclinacion incluida) pegado a la espalda medida en la malla.
+## Numero en la espalda (0 lo quita): IMPRESO en la camiseta. El shader del uniforme lo proyecta sobre la espalda en la
+## posicion de reposo (CUSTOM0 del cuerpo de Tripo): se dobla y se mueve con la tela.
 var back_number: int = 0
 
 func set_back_number(n: int) -> void:
 	back_number = maxi(n, 0)
-	if printed_number():
-		_apply_printed_number()
-		if _number != null:
-			_number.queue_free()
-			_number = null
-		return
-	if back_number <= 0:
-		if _number != null:
-			_number.queue_free()
-			_number = null
-		return
-	if _number == null:
-		_number = Label3D.new()
-		_number.font_size = 150
-		_number.pixel_size = 0.0016
-		_number.outline_size = 24
-		_number.modulate = Color(0.97, 0.97, 0.98)
-		_number.outline_modulate = Color(0.05, 0.05, 0.1, 0.9)
-		_number.top_level = true
-		add_child(_number)
-		# Se ubica DESPUES de que la animacion mueve los huesos (si no, corriendo quedaba un cuadro atras, ~10 cm).
-		if skeleton != null and not skeleton.skeleton_updated.is_connected(_on_skeleton_updated):
-			skeleton.skeleton_updated.connect(_on_skeleton_updated)
-	_number.text = str(back_number)
+	_apply_printed_number()
 
 ## true si el numero va impreso en la tela (cuerpo con posicion de reposo en la malla).
 func printed_number() -> bool:
@@ -157,7 +131,7 @@ func set_kit(kit: Dictionary) -> void:
 	var mat: ShaderMaterial = AnimBankCatalog.kit_material(body_path, kit)
 	for mi in model.find_children("*", "MeshInstance3D", true, false):
 		(mi as MeshInstance3D).material_override = mat
-	if back_number > 0 and printed_number():
+	if back_number > 0:
 		_apply_printed_number()
 
 # --- Orientacion ----------------------------------------------------------------------------------------------------------
@@ -299,12 +273,12 @@ func hands_mid() -> Vector3:
 ## Modelo de Tripo: sus brazos son mas cortos que los del esqueleto del juego (antebrazo 0,21 m contra 0,33 m) y el hueso
 ## de la punta del pie esta a mitad del pie. Las animaciones y sus mediciones (manos de las atajadas, punta del pie en el
 ## golpe) son las del esqueleto del juego: arm_extra prolonga la mano hasta el largo de brazo del juego (alcance del guante)
-## y toe_tip() da la punta del pie al largo del pie del juego. Con el humanoide JSON los dos coinciden con los huesos.
+## y toe_tip() da la punta del pie al largo del pie del juego.
 var arm_extra: float = 0.0
 var _tripo: bool = false
 
 func _measure_body() -> void:
-	_tripo = body_path != BODY
+	_tripo = body_path == AnimBank.BODY_PATH
 	arm_extra = 0.0
 	if not _tripo or skeleton == null:
 		return
@@ -315,56 +289,6 @@ func _measure_body() -> void:
 		var h: Vector3 = skeleton.get_bone_global_rest(skeleton.find_bone("mixamorig_%sHand" % side)).origin
 		tot += (a.distance_to(f) + f.distance_to(h)) * BODY_SCALE
 	arm_extra = maxf((JsonRig.UPPER_ARM + JsonRig.FOREARM) - tot * 0.5, 0.0)
-
-## Numero de la espalda del humanoide (Label3D): distancia de la columna a la espalda, medida una vez en la malla en
-## reposo entre Spine1 y Spine2 (m de juego, con 1 cm para que no se hunda en la tela).
-var _back_depth: float = -1.0
-
-func _measure_back() -> float:
-	if skeleton == null:
-		return 0.17
-	var r := func(b: String) -> Vector3: return skeleton.get_bone_global_rest(skeleton.find_bone(b)).origin
-	var up: Vector3 = (r.call("mixamorig_Spine2") - r.call("mixamorig_Spine")).normalized()
-	var lat: Vector3 = r.call("mixamorig_LeftArm") - r.call("mixamorig_RightArm")
-	var fwd: Vector3 = lat.cross(up).normalized()
-	var toe: Vector3 = r.call("mixamorig_LeftToeBase") - r.call("mixamorig_LeftFoot")
-	if fwd.dot(toe) < 0.0:
-		fwd = -fwd
-	var side: Vector3 = up.cross(fwd).normalized()
-	var mid: Vector3 = (r.call("mixamorig_Spine1") + r.call("mixamorig_Spine2")) * 0.5
-	var half_h: float = absf((r.call("mixamorig_Spine2") - r.call("mixamorig_Spine1")).dot(up)) * 0.5
-	var best: float = 0.0
-	for mi in skeleton.find_children("*", "MeshInstance3D", false, false):
-		var m: Mesh = (mi as MeshInstance3D).mesh
-		if m == null:
-			continue
-		for si in m.get_surface_count():
-			for p in (m.surface_get_arrays(si)[Mesh.ARRAY_VERTEX] as PackedVector3Array):
-				var d: Vector3 = p - mid
-				if absf(d.dot(up)) < half_h and absf(d.dot(side)) < 0.03:
-					best = maxf(best, -d.dot(fwd))
-	return best * BODY_SCALE + 0.012 if best > 0.0 else 0.17
-
-func _on_skeleton_updated() -> void:
-	if _number != null and visible:
-		_place_number_label()
-
-## Ubica el Label3D del numero sobre la espalda, con la inclinacion del torso (no solo el rumbo del jugador).
-func _place_number_label() -> void:
-	if _back_depth < 0.0:
-		_back_depth = _measure_back()
-	var s1: Vector3 = bone_world("mixamorig_Spine1")
-	var s2: Vector3 = bone_world("mixamorig_Spine2")
-	var up: Vector3 = (s2 - bone_world("mixamorig_Spine")).normalized()
-	var lat: Vector3 = bone_world("mixamorig_LeftArm") - bone_world("mixamorig_RightArm")
-	var fwd: Vector3 = lat.cross(up).normalized()
-	if fwd.dot(facing()) < 0.0:
-		fwd = -fwd
-	if fwd.length_squared() < 0.5 or up.length_squared() < 0.5:
-		fwd = facing()
-		up = Vector3.UP
-	var pos: Vector3 = (s1 + s2) * 0.5 - fwd * _back_depth
-	_number.global_transform = Transform3D(Basis.looking_at(fwd, up), pos)
 
 ## Mano (centro de la palma al largo de brazo del juego).
 func hand_point(left: bool) -> Vector3:
@@ -450,8 +374,6 @@ func _physics_process(delta: float) -> void:
 			_turn_towards(want, delta)
 	if _face_target != Vector3.ZERO and looping and not _moving:
 		_turn_towards(_face_target, delta)
-	if _number != null and visible:
-		_place_number_label()
 	if collider != null:
 		var hips: Vector3 = bone_world(HIPS)
 		var feet: float = minf(bone_world(TOE_L).y, bone_world(TOE_R).y)

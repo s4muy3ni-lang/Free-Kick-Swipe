@@ -145,8 +145,9 @@ const LEAN_BRAKE_MAX := 0.1
 const CARRY_CROUCH := 0.13
 ## Encorvado extra (rad) que pide una accion con la pelota (BallTurn: rodeando la pelota con toques).
 var turn_crouch: float = 0.0
-## Modo 4 (Json): modelo sobre el esqueleto JsonRig con la libreria de clips JSON (ver JsonCatalog). json_human: el humanoide
-## propio (colores de equipo por zonas en COLOR.r); si no, el Tripo adaptado (misma textura y mascaras que el original).
+## Modo 4 (Json): modelo sobre el esqueleto JsonRig con la libreria de clips JSON (ver JsonCatalog). json_human: el cuerpo
+## del juego (el modelo de Tripo adaptado, tools/json_anim/build_tripo_body; el humanoide propio se elimino el 2026-11-12),
+## con el uniforme en la posicion de reposo (diseños y numero pegados a la tela).
 var json_mode: bool = false
 var json_human: bool = false
 var _kit: Dictionary = {}
@@ -222,13 +223,13 @@ func build(kit: Dictionary) -> bool:
 
 func _apply_kit(kit: Dictionary) -> void:
 	kit_material = ShaderMaterial.new()
+	kit_material.shader = KIT_SHADER
+	kit_material.set_shader_parameter("albedo_tex", load(ALBEDO_PATH))
+	kit_material.set_shader_parameter("mask_a", load(MASK_A_PATH))
+	kit_material.set_shader_parameter("mask_b", load(MASK_B_PATH))
 	if json_human:
-		kit_material.shader = load(JsonCatalog.KIT_SHADER_PATH) as Shader
-	else:
-		kit_material.shader = KIT_SHADER
-		kit_material.set_shader_parameter("albedo_tex", load(ALBEDO_PATH))
-		kit_material.set_shader_parameter("mask_a", load(MASK_A_PATH))
-		kit_material.set_shader_parameter("mask_b", load(MASK_B_PATH))
+		kit_material.set_shader_parameter("rest_space", true)
+		kit_material.set_shader_parameter("number_atlas", load(AnimBankCatalog.NUMBER_ATLAS))
 	set_kit(kit)
 	for mi in mesh_instances:
 		mi.material_override = kit_material
@@ -241,9 +242,6 @@ func set_kit(kit: Dictionary) -> void:
 	for key in ["jersey", "shorts", "socks", "boots", "skin", "hair"]:
 		if kit.has(key):
 			kit_material.set_shader_parameter("%s_color" % key, kit[key])
-	# El ribete (cuello, mangas, borde de las medias) del humanoide lleva el color del short.
-	if json_human and kit.has("shorts"):
-		kit_material.set_shader_parameter("trim_color", kit["shorts"])
 
 func _anim_node(clip: StringName) -> AnimationNodeAnimation:
 	var n := AnimationNodeAnimation.new()

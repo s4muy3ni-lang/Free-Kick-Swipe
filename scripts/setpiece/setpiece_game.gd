@@ -150,6 +150,8 @@ func _ready() -> void:
 	stadium.name = "Stadium"
 	add_child(stadium)
 	stadium.build(PitchConfig.football11(SpSettings.goal_style))
+	# Pancartas de la hinchada con el nombre del jugador del usuario (aliento, festejo y cargadas).
+	stadium.add_banners(CrowdBanners.player_name())
 	gx = stadium.half_length()
 	half_goal = stadium.config.half_goal()
 	goal_h = stadium.config.goal_height
@@ -1058,6 +1060,8 @@ func _update_crowd(delta: float) -> void:
 	stadium.set_cheer(_cheer)
 	stadium.set_boo(_boo)
 	stadium.set_tension(crowd_tension())
+	if stadium.banners != null:
+		stadium.banners.set_mood(CrowdBanners.Mood.BOO if _boo > 0.25 else (CrowdBanners.Mood.GOAL if _cheer > 0.5 else CrowdBanners.Mood.CALM))
 	Sfx.set_crowd_level(crowd_target())
 
 # --- Repeticion -------------------------------------------------------------------------------------------------------------

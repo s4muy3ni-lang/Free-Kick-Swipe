@@ -26714,7 +26714,7 @@
 					"toma": "ANM_STAND_FT0854_STAND_WALL_1_STAND_WALL_1_2_ANDYD"
 				}
 			],
-			"cuerpo_original": "res://assets/characters/json/json_human.scn",
+			"cuerpo_original": "res://assets/characters/json/tripo_body.scn",
 			"etiqueta": "JSON original"
 		}
 	},

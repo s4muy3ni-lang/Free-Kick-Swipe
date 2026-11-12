@@ -85,7 +85,7 @@ las otras 20.
   la prueba 1.6; en el modo 1, 1.2).
 
 - **Modo 4 · Json** (2026-10-29, ampliado el 2026-10-30): las 2 022 animaciones de `animaciones_futbol5_JSON` sobre un esqueleto
-  canónico propio y el humanoide propio; `PackLibrary` en el modo 4 carga `json_clips.res` + `json_scenes.res` / `json_keeper.res`,
+  canónico propio y el cuerpo del juego (modelo de Tripo adaptado; el humanoide propio se eliminó el 2026-11-12); `PackLibrary` en el modo 4 carga `json_clips.res` + `json_scenes.res` / `json_keeper.res`,
   traduce los nombres del pack de Mixamo a clips JSON por alias y los reparte entre los clips de su rol. Ficha completa: [JSON_MODE](JSON_MODE.md).
 
 ## Cómo funciona (un solo sistema)

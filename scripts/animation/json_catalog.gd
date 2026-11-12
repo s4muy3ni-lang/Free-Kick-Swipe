@@ -5,8 +5,9 @@ extends RefCounted
 ## en cada escalon. Cada clip de marcha es UN ciclo que empieza en un apoyo del pie izquierdo, asi que todos se reproducen
 ## con una linea de tiempo comun de un ciclo (AnimationNodeAnimation.use_custom_timeline) y sus fases coinciden al mezclar.
 
-const HUMAN_SCENE := "res://assets/characters/json/json_human.scn"
-const KIT_SHADER_PATH := "res://assets/characters/json/json_kit.gdshader"
+## Cuerpo del modo Json: el del juego (modelo de Tripo adaptado al esqueleto, AnimBank.BODY_PATH). El humanoide JSON
+## propio se elimino el 2026-11-12 (pedido del usuario).
+const HUMAN_SCENE := AnimBank.BODY_PATH
 
 ## Escalones de la marcha sin pelota: [clip, velocidad (m/s) a la que se reproduce a su ritmo natural]. -1 = la velocidad
 ## natural medida del clip (meta natural_speed). El reposo va a velocidad 0.

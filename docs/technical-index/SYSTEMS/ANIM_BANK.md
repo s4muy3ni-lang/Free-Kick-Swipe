@@ -35,7 +35,7 @@
 | `tools/mixamo/selection_mixamo.json` | Los 133 clips: rol, biblioteca, espejo, opciones |
 | `tools/mixamo/dump_inventory.gd`, `make_inventory_doc.py`, `lab_capture.gd` | Inventario por rol, documento generado, capturas con render |
 | `tests/test_mixamo_bank.gd` | Pruebas de la integración |
-| `tools/json_anim/build_tripo_body.gd` → `assets/characters/json/tripo_body.scn` | Cuerpo con el modelo de Tripo del usuario (marcos de reposo con polos, bind recalculado); `AnimBank.body()` lo elige (Tripo por defecto) |
+| `tools/json_anim/build_tripo_body.gd` → `assets/characters/json/tripo_body.scn` | Cuerpo con el modelo de Tripo del usuario (marcos de reposo con polos, bind recalculado); es el único cuerpo del juego (`AnimBank.BODY_PATH`; el humanoide JSON se eliminó el 2026-11-12) |
 
 ## Funciones
 
@@ -51,11 +51,7 @@
 | `AnimBank.set_bank(b: int, save: bool = true)` | 77 | Cambia la biblioteca: guarda la preferencia (save = true), vacia los caches de clips de SpClips, PackLibrary y ShotCatalog y avisa. Los acto |
 | `AnimBank.reset_for_tests()` | 94 | Pruebas: vuelve a leer la preferencia y la disponibilidad. |
 | `AnimBank.is_mixamo_id(id: StringName)` | 98 |  |
-| `AnimBank.body()` | 111 |  |
-| `AnimBank.body_path()` | 127 |  |
-| `AnimBank.body_name()` | 130 |  |
-| `AnimBank.is_tripo_body()` | 133 |  |
-| `AnimBank.set_body(b: int, save: bool = true)` | 136 |  |
+| `AnimBank.body_path()` | 108 |  |
 <!-- /AUTO -->
 
 <!-- AUTO:funcs:scripts/dev/anim_lab.gd -->

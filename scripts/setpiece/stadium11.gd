@@ -20,6 +20,10 @@ const PENALTY_MARK := 11.0
 const ARC_RADIUS := 9.15
 const BOARD_OFFSET := 5.0
 const STAND_GAP := 9.0
+## Tribunas: profundidad y subida de la pendiente, y alto del muro del frente (m).
+const STAND_DEPTH := 26.0
+const STAND_RISE := 16.0
+const STAND_FRONT := 2.2
 ## Publico 2D en las tribunas: filas a lo largo de la pendiente y separacion entre hinchas (m).
 const CROWD_ROW_STEP := 1.05
 const CROWD_SEAT_GAP := 0.8
@@ -36,6 +40,7 @@ func build(cfg: PitchConfig = null) -> void:
 		c.queue_free()
 	goals.clear()
 	crowd_materials.clear()
+	banners = null
 	if has_meta("crowd_mats"):
 		remove_meta("crowd_mats")
 	_build_ground()
@@ -77,6 +82,19 @@ func set_tension(v: float) -> void:
 func _set_mood(param: String, v: float) -> void:
 	for m in crowd_materials:
 		m.set_shader_parameter(param, clampf(v, 0.0, 1.0))
+
+## Pancartas de la hinchada (null hasta add_banners).
+var banners: CrowdBanners = null
+
+## Agrega las pancartas con aliento, festejo y cargadas para `player` (el nombre del jugador del usuario).
+func add_banners(player: String) -> CrowdBanners:
+	if banners != null:
+		banners.queue_free()
+	banners = CrowdBanners.new()
+	banners.name = "Pancartas"
+	add_child(banners)
+	banners.build(self, player)
+	return banners
 
 ## Hinchas en las tribunas (instancias del publico 2D).
 func crowd_count() -> int:
@@ -253,8 +271,8 @@ func _build_stands() -> void:
 	add_child(root)
 	var hl: float = half_length() + STAND_GAP
 	var hw: float = half_width() + STAND_GAP
-	var rise: float = 16.0
-	var depth: float = 26.0
+	var rise: float = STAND_RISE
+	var depth: float = STAND_DEPTH
 	var concrete := MeshUtil.flat_material(Color(0.20, 0.21, 0.24), 0.9)
 	var seats_mat := ShaderMaterial.new()
 	seats_mat.shader = CROWD_SHADER
@@ -272,7 +290,7 @@ func _build_stands() -> void:
 		var out: Vector3 = spec[1]
 		var length: float = spec[2]
 		var along := Vector3(-out.z, 0, out.x)
-		var front_h: float = 2.2
+		var front_h: float = STAND_FRONT
 		var a: Vector3 = base - along * length * 0.5 + Vector3.UP * front_h
 		var b: Vector3 = base + along * length * 0.5 + Vector3.UP * front_h
 		var c: Vector3 = b + out * depth + Vector3.UP * rise

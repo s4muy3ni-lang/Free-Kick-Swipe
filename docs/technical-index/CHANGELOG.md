@@ -11,6 +11,38 @@ Formato de entrada: **fecha — título** · commit · qué cambió · archivos 
 
 ---
 
+## 2026-11-12 — Fuera el humanoide: un solo cuerpo (el modelo de Tripo); pancartas con el nombre del jugador
+
+Pedido del usuario:
+- «el humanoide no va más en el juego, queda el jugador 3D que te pasé, es mejor modelo; eliminalo de los archivos»;
+- «agregá pancartas con letreros con insultos y aliento según el nombre del jugador».
+
+- **Humanoide eliminado**: se borraron «json_human.scn» (humanoide, eliminado), `json_kit.gdshader` y
+  «build_json_human» (gd y tscn).
+  - `AnimBank` ya no elige cuerpo: `BODY_PATH` = `tripo_body.scn`. Se quitó «Modelo del jugador» de Ajustes visuales.
+  - `SpActor`: el número va siempre impreso en la tela; se quitó el `Label3D` y su medición de la espalda.
+  - El modo Json del partido (`JsonCatalog.HUMAN_SCENE`, `FootballerVisual`), el laboratorio, el banco de comparación
+    (`AnimBankCatalog.COMMON_BODY`, `catalogo_bancos.json`) y las herramientas usan el cuerpo de Tripo con
+    `player_kit.gdshader`.
+  - El CI exige `tripo_body.scn` y `number_atlas.png` en la APK, y falla si el humanoide vuelve.
+- **Pancartas** (`scripts/setpiece/crowd_banners.gd`, `Stadium11.add_banners`, `SetPieceGame._update_crowd`):
+  - trapos de color colgados del alambrado de la tribuna detrás del arco y de los costados de esa mitad (12; 8 y 5 en los
+    perfiles bajos), con letreros que llevan el nombre del jugador del usuario (apodo, nombre visible o usuario del
+    perfil; sin cuenta, «EL <número>»);
+  - en calma: aliento («¡VAMOS …!», «AGUANTE …»), con un rincón de hinchada rival con cargadas;
+  - con su gol o atajada: festejo («¡GOLAZO DE …!», «¡… SOS DIOS!»);
+  - con su fallo o un gol de la CPU: cargadas de cancha, sin malas palabras («¡… PECHO FRÍO!», «¡DEVOLVÉ LA PLATA, …!»,
+    «¡…, COMPRATE UN ARCO!»);
+  - al cambiar, los trapos se enrollan y se vuelven a desplegar; flamean un poco.
+- **Pruebas**:
+  - `test_back_number`: la prueba del cartel del humanoide se reemplazó por `test_the_humanoid_is_gone` (los archivos ya
+    no están, todo usa el cuerpo de Tripo, sin números flotantes);
+  - `test_json_mode`: el mensaje dice «el cuerpo del juego»;
+  - nueva: `test_crowd_banners` (2).
+- **Verificación**: ver el commit.
+
+---
+
 ## 2026-11-12 — Público arcade en penales y tiros libres, sonido de la tribuna y del poste, número pegado a la camiseta
 
 Pedido del usuario:
@@ -118,7 +150,7 @@ juego. Se había descartado en una sesión anterior porque se deformaba con las 
 - **Uniforme**: `player_kit.gdshader` ahora tiene los diseños de Personalizar (rayas, banda, aros, mitad, degradé, ribetes,
   altura de medias).
 - **Elección**:
-  - `AnimBank.body()` (Tripo por defecto; «Modelo del jugador» en Ajustes visuales; `ANIM_BODY` en pruebas);
+  - «AnimBank.body()» (después quitado: un solo cuerpo) (Tripo por defecto; «Modelo del jugador» en Ajustes visuales; `ANIM_BODY` en pruebas);
   - `SpActor`, el laboratorio y el menú la usan.
   - El modo partido sigue con el humanoide.
 - **Verificación (PC)**:
@@ -1346,7 +1378,7 @@ Informe completo: [`docs/fases/E3_conduccion_ucs.md`](../fases/E3_conduccion_ucs
   - si ninguno encaja, sigue el toque de rumbo físico;
   - `PlayerActions.start_move` acepta el corte;
   - `JsonBallMove.reset_caches` se llama desde `PackLibrary._reset_caches`.
-- **Cambio, botines** (`tools/json_anim/build_json_human.gd`, `assets/characters/json/json_human.scn` regenerado): de
+- **Cambio, botines** («build_json_human.gd» (eliminado), «json_human.scn» (humanoide, eliminado) regenerado): de
   ~0.40 m a ~0.26 m, de 6 cm detrás a 18.3 cm delante del tobillo. Es el pie de una persona de 1.74 m, la talla del
   esqueleto, que es el de UCS. Mecánica sin cambios: los toques usan los huesos, no la malla.
 - **Medido** (`play_view`, render Xvfb):

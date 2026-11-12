@@ -51,7 +51,7 @@ static var style: int = Style.NATURAL
 static var run_style: int = 0
 static var follow_style: int = 0
 static var celebration: int = 0
-## Diseños (ecosistema online): camiseta 0..6 y su segundo color, short 0..2, medias 0..2 y altura 0..2 (ver json_kit).
+## Diseños (ecosistema online): camiseta 0..6 y su segundo color, short 0..2, medias 0..2 y altura 0..2 (ver player_kit.gdshader).
 static var jersey_pattern: int = 0
 static var jersey2: int = 2
 static var shorts_pattern: int = 0

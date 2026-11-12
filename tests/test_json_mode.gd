@@ -1,7 +1,8 @@
 extends TestCase
 ## Modo 4 de jugabilidad (Json): las animaciones de animaciones_futbol5_JSON (posiciones de 19 articulaciones) convertidas al
 ## esqueleto canonico JsonRig (assets/animations/json_clips.res y json_keeper.res, tools/json_anim/build_json_library.tscn)
-## sobre el humanoide propio con ese esqueleto (assets/characters/json/json_human.scn; el GLB de Tripo adaptado se descarto).
+## sobre el cuerpo del juego con ese esqueleto (el modelo de Tripo adaptado, assets/characters/json/tripo_body.scn; el
+## humanoide propio json_human.scn se elimino el 2026-11-12 por pedido del usuario).
 ## Se comprueba la libreria (clips, roles, alias de los nombres del pack, contactos medidos), el retarget (error de los
 ## extremos frente a los datos), el modelo, la mezcla de marcha, y que pases y tiros salgan del pie de verdad.
 
@@ -91,7 +92,7 @@ func test_model_builds_and_animates() -> void:
 		check(not v.is_placeholder and v.json_mode, "%s: se construye el modelo del modo Json" % name)
 		check(v.skeleton != null and v.skeleton.get_bone_count() == 23, "%s: 23 huesos del esqueleto canonico" % name)
 		check(v.uses_pack and v.anim_tree != null, "%s: arbol de animacion con la libreria JSON" % name)
-		check(v.json_human, "%s: el humanoide propio" % name)
+		check(v.json_human, "%s: el cuerpo del juego (modelo de Tripo)" % name)
 		# Mezcla direccional (marcaje y presion mirando al rival): con clips del modo 4. Sin ellos el jugador que presionaba
 		# se deslizaba con la pose fija («como estatuas»).
 		var dir_space: AnimationNodeBlendSpace2D = (v.anim_tree.tree_root as AnimationNodeBlendTree).get_node(&"Dir") as AnimationNodeBlendSpace2D

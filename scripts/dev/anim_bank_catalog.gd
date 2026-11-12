@@ -8,9 +8,8 @@ extends RefCounted
 const PATH := "res://resources/animation/catalogo_bancos.json"
 ## Solo el banco JSON original: Mixamo y Mocap se borraron (2026-11-08, pedido del usuario).
 const BANKS: Array[String] = ["json"]
-## Cuerpo comun de la comparacion (decision del usuario): el humano del modo JSON.
-const COMMON_BODY := "res://assets/characters/json/json_human.scn"
-const JSON_KIT_SHADER := "res://assets/characters/json/json_kit.gdshader"
+## Cuerpo comun de la comparacion: el cuerpo del juego (modelo de Tripo; el humanoide JSON se elimino el 2026-11-12).
+const COMMON_BODY := "res://assets/characters/json/tripo_body.scn"
 const PLAYER_KIT_SHADER := "res://assets/characters/player/player_kit.gdshader"
 const PLAYER_ALBEDO := "res://assets/characters/player/player_albedo.jpg"
 const PLAYER_MASK_A := "res://assets/characters/player/player_mask_a.png"
@@ -77,23 +76,18 @@ static func group_of(category: String) -> String:
 ## Material del uniforme para un cuerpo (el mismo que usa FootballerVisual), con los colores de `kit`.
 static func kit_material(body_path: String, kit: Dictionary) -> ShaderMaterial:
 	var mat := ShaderMaterial.new()
-	if body_path == COMMON_BODY:
-		mat.shader = load(JSON_KIT_SHADER) as Shader
-		if kit.has("shorts"):
-			mat.set_shader_parameter("trim_color", kit["shorts"])
-	else:
-		mat.shader = load(PLAYER_KIT_SHADER) as Shader
-		mat.set_shader_parameter("albedo_tex", load(PLAYER_ALBEDO))
-		mat.set_shader_parameter("mask_a", load(PLAYER_MASK_A))
-		mat.set_shader_parameter("mask_b", load(PLAYER_MASK_B))
-		if body_path == PRINTED_NUMBER_BODY:
-			mat.set_shader_parameter("rest_space", true)
-			mat.set_shader_parameter("number_atlas", load(NUMBER_ATLAS))
+	mat.shader = load(PLAYER_KIT_SHADER) as Shader
+	mat.set_shader_parameter("albedo_tex", load(PLAYER_ALBEDO))
+	mat.set_shader_parameter("mask_a", load(PLAYER_MASK_A))
+	mat.set_shader_parameter("mask_b", load(PLAYER_MASK_B))
+	if body_path == PRINTED_NUMBER_BODY:
+		mat.set_shader_parameter("rest_space", true)
+		mat.set_shader_parameter("number_atlas", load(NUMBER_ATLAS))
 	for key in ["jersey", "shorts", "socks", "boots", "skin", "hair"]:
 		if kit.has(key):
 			mat.set_shader_parameter("%s_color" % key, kit[key])
-	# Diseños de la personalizacion (los dos shaders los tienen: humano JSON y modelo de Tripo).
-	if kit.has("shorts") and body_path != COMMON_BODY:
+	# Diseños de la personalizacion (ribetes blancos).
+	if kit.has("shorts"):
 		mat.set_shader_parameter("trim_color", Color(0.95, 0.95, 0.97))
 	for key in ["jersey_pattern", "shorts_pattern", "socks_pattern", "sock_height"]:
 		if kit.has(key):

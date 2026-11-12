@@ -238,9 +238,11 @@ jobs:
             unzip -l "$APK" | grep -q "$f" || { echo "::error::$f no esta en la APK"; exit 1; }
             unzip -p "$APK" "assets/assets/$f" | cmp -s - "assets/$f" || { echo "::error::$f de la APK difiere del repositorio"; exit 1; }
           done
-          for f in characters/json/json_human.scn characters/json/json_kit.gdshader; do
-            unzip -l "$APK" | grep -q "$f" || echo "::warning::$f no aparece en la APK (modo Json): revisar la lista del paquete"
+          # Cuerpo de los jugadores: el modelo de Tripo adaptado (el humanoide JSON se elimino) y el numero impreso.
+          for f in characters/json/tripo_body.scn characters/player/number_atlas.png; do
+            unzip -l "$APK" | grep -q "$f" || { echo "::error::$f no esta en la APK (cuerpo de los jugadores)"; exit 1; }
           done
+          if unzip -l "$APK" | grep -q "characters/json/json_human"; then echo "::error::el humanoide eliminado volvio a la APK"; exit 1; fi
           unzip -l "$APK" | grep -q "animations/footballer_clips.res" || { echo "::error::faltan los clips de Tripo (respaldo)"; exit 1; }
           # Modos de tiros libres y penales: catalogo de golpeos medidos (sin el no hay golpeos) y catalogo de bancos.
           unzip -p "$APK" "assets/resources/setpiece/shot_clips.json" | cmp -s - resources/setpiece/shot_clips.json || { echo "::error::resources/setpiece/shot_clips.json no esta en la APK o difiere"; exit 1; }
