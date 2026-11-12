@@ -1,5 +1,6 @@
 extends Node
-## Capturas de los menus con render (revision visual): menu principal, Personalizar, arcade con miniaturas, online.
+## Capturas de los menus con render (revision visual): menu principal, Personalizar, arcade con miniaturas, online
+## (selector de modalidades, busqueda y rival encontrado).
 ## Usa un backend local en una carpeta temporal (no toca la cuenta del usuario).
 ## MENU_OUT=<prefijo> xvfb-run -a godot --display-driver x11 --rendering-driver opengl3 --resolution 1600x720 \
 ##   --path . res://tools/ui/menu_capture.tscn
@@ -41,6 +42,20 @@ func _ready() -> void:
 	for i in 30:
 		await get_tree().process_frame
 	await _shot("online")
+	# Otra modalidad elegida y la pantalla de busqueda (buscando y rival encontrado).
+	screens.select_mode("tiros_libres")
+	for i in 5:
+		await get_tree().process_frame
+	await _shot("online_tiros_libres")
+	var ui: Dictionary = screens.search_screen(screens._mode_by_id("penales"))
+	for i in 20:
+		await get_tree().process_frame
+	await _shot("online_buscando")
+	screens.show_found(ui, {"opponent": {"name": "ElTanque", "level": 7, "is_bot": true}})
+	for i in 20:
+		await get_tree().process_frame
+	await _shot("online_encontrado")
+	ui["overlay"].queue_free()
 	screens.close()
 	screens.open_offline()
 	await _shot("offline")

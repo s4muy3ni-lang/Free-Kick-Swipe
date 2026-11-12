@@ -4,10 +4,11 @@ extends Node
 ## Lo conecta MatchScene a la pelota y a los eventos del partido: los golpes (tambien los del arquero) suenan con la
 ## fuerza del impulso real (Ball.impulse), el poste, la red y los botes con su velocidad.
 ## 2026-11-12: poste con sintesis modal de un caño de aluminio (tres variantes al azar), tribuna con voces sintetizadas
-## (ambiente que se escucha aun en calma, festejo de gol largo, «ooh» y abucheo nuevo).
+## (ambiente que se escucha aun en calma, festejo largo para goles y atajadas, «ooh»). Sin silbidos ni abucheo (al
+## usuario no le gustaron).
 
 const SOUNDS := [&"kick_hard", &"kick_soft", &"touch", &"bounce", &"post", &"post2", &"post3", &"net", &"whistle_short",
-	&"whistle_long", &"glove", &"cheer", &"ooh", &"boo"]
+	&"whistle_long", &"glove", &"cheer", &"ooh"]
 ## Variantes del pelotazo en el palo (se elige una al azar: el mismo golpe repetido delata la muestra).
 const POST_SOUNDS := [&"post", &"post2", &"post3"]
 const VOICES := 10

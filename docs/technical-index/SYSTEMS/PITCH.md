@@ -40,7 +40,7 @@
 | `line_width` | `0.08` | float | `scripts/pitch/pitch_config.gd:31` | `scripts/setpiece/stadium11.gd:154`, `scripts/pitch/pitch.gd:172`, `scripts/pitch/pitch.gd:173`, `scripts/pitch/pitch.gd:174` (+6) |  (Marcas) |
 | `center_circle_radius` | `6.0` | float | `scripts/pitch/pitch_config.gd:32` | `scripts/pitch/pitch.gd:182` |  (Marcas) |
 | `penalty_area_radius` | `8.0` | float | `scripts/pitch/pitch_config.gd:34` | `scripts/ai/ai_input.gd:387`, `scripts/gameplay/match_manager.gd:228`, `scripts/gameplay/match_scene.gd:410`, `scripts/goalkeeper/goalkeeper.gd:563` (+1) | Radio de los cuartos de circulo del area de penal (desde cada poste). (Marcas) |
-| `penalty_mark_distance` | `8.0` | float | `scripts/pitch/pitch_config.gd:35` | `scripts/dev/anim_bank_bench.gd:250`, `scripts/dev/anim_lab.gd:267`, `scripts/assistance/cross_assist.gd:30`, `scripts/gameplay/match_manager.gd:219` (+2) |  (Marcas) |
+| `penalty_mark_distance` | `8.0` | float | `scripts/pitch/pitch_config.gd:35` | `scripts/dev/anim_bank_bench.gd:250`, `scripts/assistance/cross_assist.gd:30`, `scripts/gameplay/match_manager.gd:219`, `scripts/gameplay/match_scene.gd:398` (+1) |  (Marcas) |
 | `second_penalty_mark_distance` | `12.0` | float | `scripts/pitch/pitch_config.gd:37` | `scripts/pitch/pitch.gd:199` | Segundo punto penal (reglamento futsal, falta acumulada; en la cancha de futbol 7 solo se dibuja). (Marcas) |
 | `corner_arc_radius` | `0.25` | float | `scripts/pitch/pitch_config.gd:38` | `scripts/pitch/pitch.gd:205` |  (Marcas) |
 | `substitution_zone_length` | `5.0` | float | `scripts/pitch/pitch_config.gd:39` | `scripts/pitch/pitch.gd:203` |  (Marcas) |

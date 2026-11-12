@@ -1,8 +1,8 @@
 class_name SpClips
 extends RefCounted
-## Tiros libres y penales: acceso a los clips de la biblioteca activa (AnimBank: ACTUAL = banco JSON original, que cubre
-## las 25 acciones de tirador, barrera y arquero sobre el humano JSON, ver docs/reforma/MODOS_TIROS_PENALES.md; MIXAMO =
-## los clips de Mixamo por rol con las actuales de respaldo, docs/animaciones/). Carga las bibliotecas una sola vez
+## Tiros libres y penales: acceso a los clips del banco JSON (el unico del juego: cubre las 25 acciones de tirador,
+## barrera y arquero, ver docs/reforma/MODOS_TIROS_PENALES.md; la biblioteca de Mixamo se elimino el 2026-11-12 por
+## pedido del usuario: «son muy feas y basicas»). Carga las bibliotecas una sola vez
 ## (son recursos compartidos por todos los actores), resuelve id -> biblioteca, lee los metadatos de cada clip y evalua su
 ## movimiento de raiz y su rumbo. No modifica ninguna biblioteca.
 ##
@@ -10,50 +10,25 @@ extends RefCounted
 ## movimiento de raiz (meta root_path, 30 Hz) va en (adelante, derecha) y el rumbo (heading_path, grados, + izquierda) solo
 ## gira el cuerpo en los clips con heading_mode "turn" (en los demas el giro ya esta en la cadera del clip).
 
-## Bibliotecas ACTUALES (banco JSON). Con AnimBank en MIXAMO se cargan tambien las de Mixamo (MIXAMO_LIBS) y, por rol,
-## mandan las de Mixamo; las actuales quedan como respaldo de los roles que Mixamo no tiene (fallback_roles()).
+## Bibliotecas del banco JSON.
 const LIBS := {
 	&"f": "res://assets/animations/json_clips.res",
 	&"k": "res://assets/animations/json_keeper.res",
 	&"s": "res://assets/animations/json_scenes.res",
-}
-const MIXAMO_LIBS := {
-	&"mf": AnimBank.MIXAMO_FIELD,
-	&"mk": AnimBank.MIXAMO_KEEPER,
-	&"ms": AnimBank.MIXAMO_SCENES,
 }
 const FPS := 30.0
 
 static var _libs: Dictionary = {}
 static var _where: Dictionary = {}
 static var _roles: Dictionary = {}
-static var _bank: int = -1
-static var _fallback: Array[StringName] = []
 
 static func _ensure() -> void:
-	var want: int = AnimBank.current()
-	if not _libs.is_empty() and _bank == want:
+	if not _libs.is_empty():
 		return
-	_libs = {}
 	_where = {}
 	_roles = {}
-	_fallback = []
-	_bank = want
-	var mx_roles := {}
-	if want == AnimBank.Bank.MIXAMO:
-		for key in MIXAMO_LIBS:
-			_load_lib(key, MIXAMO_LIBS[key], mx_roles)
-	var act_roles := {}
 	for key in LIBS:
-		_load_lib(key, LIBS[key], act_roles)
-	_roles = act_roles
-	if want == AnimBank.Bank.MIXAMO:
-		for role in act_roles:
-			if not mx_roles.has(role):
-				_fallback.append(role)
-		for role in mx_roles:
-			_roles[role] = mx_roles[role]
-		_fallback.sort()
+		_load_lib(key, LIBS[key], _roles)
 
 static func _load_lib(key: StringName, path_: String, into: Dictionary) -> void:
 	var lib: AnimationLibrary = load(path_) as AnimationLibrary
@@ -73,18 +48,11 @@ static func _load_lib(key: StringName, path_: String, into: Dictionary) -> void:
 			into[role] = []
 		(into[role] as Array).append(id)
 
-## Fuerza una nueva carga (cambio de biblioteca, pruebas).
+## Fuerza una nueva carga (pruebas).
 static func reload() -> void:
 	_libs = {}
 	_where = {}
 	_roles = {}
-	_fallback = []
-	_bank = -1
-
-## Con MIXAMO: roles que Mixamo no tiene y siguen con los clips actuales (vacio con ACTUAL).
-static func fallback_roles() -> Array[StringName]:
-	_ensure()
-	return _fallback.duplicate()
 
 ## Todos los roles con clips en la biblioteca activa.
 static func roles() -> Array[StringName]:

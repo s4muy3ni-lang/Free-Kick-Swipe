@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Genera los efectos de sonido del juego por sintesis (sin muestras de terceros): golpeos, toques, botes, poste, red,
-silbato, guantes del arquero y la tribuna (ambiente, festejo del gol, «ooh» y abucheo). Salida: WAV mono 16 bits a
+silbato, guantes del arquero y la tribuna (ambiente, festejo y «ooh»). Salida: WAV mono 16 bits a
 22050 Hz en assets/audio/.
 
 2026-11-12 (pedido del usuario: «el ruido del poste es muy falso»; «el publico se calla, debe estar activo, festejar y
@@ -9,9 +9,9 @@ abuchear; el festejo mas vivo y largo»):
     pareja levemente desafinada que «late» como un caño ovalado real, amortiguacion mayor en los agudos, el golpe seco de
     la pelota) y la reverberacion del estadio. Tres variantes (post, post2, post3).
   - Tribuna: voces sintetizadas (pulso glotal con su tono y entonacion, filtrado por las formantes de las vocales, silabas
-    y frases), cientos de voces lejanas como textura, aplausos, silbidos y un bombo lejano, todo con la reverberacion del
-    estadio. Ambiente en bucle (charla y aliento), festejo de gol de ~9 s (grito, silbidos, aplausos), «ooh» y abucheo
-    nuevo (silbatina y «uuuh» de ~5 s).
+    y frases), cientos de voces lejanas como textura, aplausos y un bombo lejano, todo con la reverberacion del estadio.
+    Ambiente en bucle (charla y aliento), festejo de ~9 s (grito, aplausos, bombo; el mismo para goles y atajadas) y
+    «ooh». Los silbidos y el abucheo (silbatina) se quitaron el mismo dia: al usuario no le gustaron.
 Cada sonido usa su propia semilla: regenerar uno no cambia los demas.
 
 Uso: python3 tools/audio/make_sfx.py [nombre ...]   (determinista; sin nombres, todos)
@@ -254,21 +254,6 @@ def claps(sec, people, rate_lo, rate_hi, curve=None):
     return out
 
 
-def whistle_mouth(sec, start, dur, f_lo=1500, f_hi=3000, glide=0.0, finger=False):
-    """Silbido de una persona: tono con vibrato y deslizamiento, mas el aire. finger: silbido con los dedos (agudo, fuerte)."""
-    n = int(SR * sec)
-    t = np.arange(n) / SR
-    f = rng.uniform(f_lo, f_hi) * (1.0 + glide * np.clip((t - start) / max(dur, 1e-3), 0, 1))
-    f *= 1.0 + 0.012 * np.sin(2 * np.pi * rng.uniform(4.5, 7.0) * t + rng.uniform(0, 6.28))
-    tone = np.sin(2 * np.pi * np.cumsum(f) / SR)
-    if finger:
-        tone += 0.3 * np.sin(2 * 2 * np.pi * np.cumsum(f) / SR)
-    e = np.clip((t - start) / 0.05, 0, 1) * np.clip((start + dur - t) / 0.08, 0, 1)
-    # el aire del silbido: poco y pegado al tono (no un «shhh» aparte)
-    air = bandpass(rng.standard_normal(n), 1500, 4500) * 0.02
-    return (tone + air) * e
-
-
 def bombo(sec, pattern, bpm, start=0.0):
     """Bombo lejano: parche grave con su golpe, a tiempo (pattern: golpes en corcheas de un compas)."""
     n = int(SR * sec)
@@ -378,7 +363,7 @@ def post(variant=0):
 # --- Tribuna ----------------------------------------------------------------------------------------------------------
 
 def crowd_loop(sec=14.0):
-    """Ambiente en bucle: charla de la tribuna (voces cercanas y miles lejanas con oleaje), algunos aplausos y silbidos
+    """Ambiente en bucle: charla de la tribuna (voces cercanas y miles lejanas con oleaje), algunos aplausos
     sueltos, gritos de aliento y un bombo lejano. Se escucha siempre (pedido: «en calma el publico se debe escuchar»)."""
     ov = 1.5
     tot = sec + ov
@@ -394,11 +379,8 @@ def crowd_loop(sec=14.0):
     for _ in range(7):
         st = rng.uniform(0, tot - 1.5)
         x += voice(tot, rng.uniform(170, 260), "shout", vowels="aeo", start=st, length=rng.uniform(0.5, 1.1)) * 0.9
-    # aplausos sueltos y silbidos aislados
+    # aplausos sueltos
     x += claps(tot, 10, 2.0, 3.2, curve=np.clip(0.4 + 0.6 * smooth_noise(n, 0.3), 0, 1)) * 0.5
-    for _ in range(5):
-        st = rng.uniform(0, tot - 1.0)
-        x += whistle_mouth(tot, st, rng.uniform(0.25, 0.7), 1600, 2900, glide=rng.uniform(-0.15, 0.2)) * 0.18
     x += bombo(tot, [1, 0, 0, 1, 0, 1, 1, 0], 112, start=0.2) * 0.9
     x = lowpass(x, 5500)
     # bucle sin corte: el final se funde con el principio, y la reverberacion es circular
@@ -409,8 +391,8 @@ def crowd_loop(sec=14.0):
 
 
 def cheer(sec=9.5):
-    """Festejo de gol: el estadio explota en un grito (cientos de voces en «o»/«a», agudas de la euforia), silbidos,
-    aplausos y el bombo; se sostiene unos segundos con oleadas y baja de a poco."""
+    """Festejo de gol (y de atajada: el mismo): el estadio explota en un grito (cientos de voces en «o»/«a», agudas de la
+    euforia), aplausos y el bombo; se sostiene unos segundos con oleadas y baja de a poco. Sin silbidos (2026-11-12)."""
     n = int(SR * sec)
     t = np.arange(n) / SR
     swell = np.clip(t / 0.35, 0, 1) * (1.0 + 0.25 * np.exp(-((t - 1.2) / 0.8) ** 2)) * np.clip((sec - t) / 5.5, 0, 1) ** 1.3
@@ -427,9 +409,6 @@ def cheer(sec=9.5):
     x += far_crowd(sec, swell, width=1.2) * 0.9
     x *= swell
     x += claps(sec, 120, 3.0, 5.5, curve=np.clip(swell * 1.2 * np.clip((t - 0.6) / 0.6, 0, 1), 0, 1)) * 0.45
-    for _ in range(26):
-        st = rng.uniform(0.3, 6.5)
-        x += whistle_mouth(sec, st, rng.uniform(0.4, 1.6), 2200, 3800, glide=rng.uniform(-0.05, 0.15), finger=True) * 0.14
     x += bombo(sec, [1, 0, 1, 1, 0, 1, 1, 0], 128, start=1.5) * 0.7 * np.clip((t - 1.5) / 0.3, 0, 1) * np.clip((sec - t) / 3.0, 0, 1)
     x = lowpass(x, 6500)
     return reverb(x, wet=0.38, rt60=1.6)
@@ -448,27 +427,6 @@ def ooh(sec=2.0):
     return reverb(lowpass(x, 5000), wet=0.4, rt60=1.6)
 
 
-def boo(sec=5.5):
-    """Abucheo: la silbatina (cientos de silbidos, muchos con los dedos) y un «uuuh» grave que cae, como cuando el
-    equipo falla o el rival convierte."""
-    n = int(SR * sec)
-    t = np.arange(n) / SR
-    curve = np.clip(t / 0.4, 0, 1) * np.clip((sec - t) / 2.8, 0, 1)
-    x = np.zeros(n)
-    for i in range(60):
-        f0 = rng.uniform(85, 150)
-        st = rng.uniform(0.0, 0.6)
-        x += voice(sec, f0 * 1.0, "shout", vowels="u", start=st, length=rng.uniform(1.8, 4.0)) * rng.uniform(0.5, 1.0)
-    x = x / (np.std(x) + 1e-9) * curve * 0.8
-    w = np.zeros(n)
-    for _ in range(70):
-        st = rng.uniform(0.05, 3.5)
-        w += whistle_mouth(sec, st, rng.uniform(0.6, 2.2), 1700, 3600, glide=rng.uniform(-0.25, 0.1), finger=rng.uniform() < 0.5)
-    x += w / (np.std(w) + 1e-9) * curve * 0.55
-    x += far_crowd(sec, curve, width=0.8) * 0.45
-    return reverb(lowpass(x, 6500), wet=0.42, rt60=1.6)
-
-
 SOUNDS = {
     "kick_hard": (lambda: kick(True), 0.9),
     "kick_soft": (lambda: kick(False), 0.75),
@@ -484,7 +442,6 @@ SOUNDS = {
     "crowd_loop": (crowd_loop, 0.6),
     "cheer": (cheer, 0.92),
     "ooh": (ooh, 0.75),
-    "boo": (boo, 0.85),
 }
 
 if __name__ == "__main__":

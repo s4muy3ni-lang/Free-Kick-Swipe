@@ -375,12 +375,11 @@ static func crowd(scene: Node3D, seats: Array) -> MultiMeshInstance3D:
 static var _crowd_shader: Shader
 
 ## Shader del publico: elige la fila del atlas por instancia y el cuadro por tiempo y animo. Columnas de la hoja
-## (tools/gen_crowd_sprites.py): 0 mira, 1 aplaude, 2 brazos arriba, 3 salta, 4 manos a la cabeza, 5 silba con el pulgar
-## abajo. Estados (uniforms 0..1; los mas animados reaccionan primero):
+## (tools/gen_crowd_sprites.py): 0 mira, 1 aplaude, 2 brazos arriba, 3 salta, 4 manos a la cabeza, 5 brazos cruzados. Estados (uniforms 0..1; los mas animados reaccionan primero):
 ##  - calma: la mayoria mira y se balancea, algunos aplauden de a ratos y unos pocos alientan con los brazos arriba;
 ##  - «tension» (la carrera del penal): todos quietos mirando;
 ##  - «cheer» (gol, atajada): se paran, saltan con los brazos arriba, agitan las bufandas y aplauden;
-##  - «boo» (un fallo propio, un gol en contra): manos a la cabeza y silbidos con el pulgar abajo, sacudiendose.
+##  - «boo» (un fallo propio, un gol en contra): lamento, manos a la cabeza y brazos cruzados (sin silbidos).
 static func crowd_shader() -> Shader:
 	if _crowd_shader != null:
 		return _crowd_shader
@@ -454,7 +453,7 @@ void fragment() {
 static func cheer(scene: Node, amount: float, secs: float = 2.5) -> void:
 	_mood(scene, "cheer", amount, secs)
 
-## El publico abuchea (manos a la cabeza, silbidos) durante secs segundos y vuelve a la calma.
+## El publico se lamenta (manos a la cabeza, brazos cruzados) durante secs segundos y vuelve a la calma.
 static func boo(scene: Node, amount: float, secs: float = 2.5) -> void:
 	_mood(scene, "boo", amount, secs)
 

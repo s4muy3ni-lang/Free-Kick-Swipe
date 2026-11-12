@@ -32,7 +32,8 @@
 | `scripts/online/online_match.gd` | Penales online: turnos y resultados del servidor, reloj de 20 s con tiro de penalización, bot, chat |
 | `scripts/online/bot_factory.gd`, `bot_brain.gd`, `behavior_mirror.gd`, `chat_filter.gd` | Rivales IA, decisiones, tiempos espejo, chat y reacciones |
 | `scripts/online/online_duel.gd` | Las demás modalidades online contra un bot difícil (por turnos en A la vista, Guante y Dardos; por puntaje en Basket, Diana y Tiros libres) |
-| `scripts/ui/menu_screens.gd`, `menu_icon.gd`, `scripts/setpiece/main_menu.gd` | Menú con 10 entradas, pantallas, íconos dibujados |
+| `scripts/ui/menu_screens.gd`, `menu_icon.gd`, `scripts/setpiece/main_menu.gd` | Menú con 10 entradas, pantallas, íconos dibujados. JUGAR ONLINE rediseñado (2026-11-12): pastillas de estado del lobby, modalidades como tarjetas con imagen (`_mode_tile`, la elegida con borde dorado), panel de la modalidad con entrada en botones y BUSCAR PARTIDA (`select_mode`, `_show_mode_detail`), pantalla de búsqueda con radar (`search_screen`, `SearchRadar`) y cara a cara al encontrar rival (`show_found`) |
+| `scripts/ui/scroll_tap.gd` | `ScrollTap`: en las listas con scroll, las tarjetas y sus imágenes dejan pasar el arrastre y un toque que arrastró la lista no aprieta el botón (menú, arcade, desafíos, pausa) |
 | `scripts/diagnostics/dev_flags.gd` | Build pública (característica `public`): sin «Diag.», sin línea de destino, sin banco de animaciones |
 
 ## Reglas de seguridad (implementadas en SQL)

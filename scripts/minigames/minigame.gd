@@ -563,7 +563,7 @@ func crowd_cheer(_r: String, txt: Array) -> float:
 		return 0.3
 	return 0.0
 
-## Cuanto abuchea el publico (0 nada .. 1 todos; manos a la cabeza y silbidos): un error del usuario (cartel rojo o
+## Cuanto se lamenta el publico (0 nada .. 1 todos; manos a la cabeza, brazos cruzados): un error del usuario (cartel rojo o
 ## naranja en su turno). Lo mismo que en penales y tiros libres (pedido 2026-11-12). Un modo puede decidirlo por su cuenta.
 func crowd_boo(_r: String, txt: Array) -> float:
 	if String(txt[0]) == "" or txt.size() < 2 or side != Side.USER:

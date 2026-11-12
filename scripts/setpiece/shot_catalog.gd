@@ -26,14 +26,11 @@ static var _clips: Array = []
 const POOL_ANGLE_SLACK := 8.0
 static var _turn: int = 0
 
-## Catalogo de la biblioteca activa (AnimBank): con MIXAMO, el medido sobre los golpeos de Mixamo (con los actuales de
-## respaldo en los roles que Mixamo no tiene); si falta, el actual.
+## Catalogo de golpeos medido sobre el banco JSON (el de Mixamo se elimino el 2026-11-12).
 static func path() -> String:
-	if AnimBank.is_mixamo() and FileAccess.file_exists(AnimBank.MIXAMO_SHOTS):
-		return AnimBank.MIXAMO_SHOTS
 	return PATH
 
-## Fuerza una nueva lectura (cambio de biblioteca, pruebas).
+## Fuerza una nueva lectura (pruebas).
 static func reload() -> void:
 	_clips = []
 	_turn = 0
@@ -47,20 +44,7 @@ static func clips() -> Array:
 		var d: Variant = JSON.parse_string(f.get_as_text())
 		if d is Dictionary:
 			_clips = (d as Dictionary).get("clips", [])
-		if AnimBank.is_mixamo():
-			_clips = mixamo_filter(_clips)
 	return _clips
-
-## MIXAMO: por TIPO de tiro (potente, normal, colocado, vaselina, error), si hay golpeos de Mixamo de ese tipo se usan solo
-## esos; los actuales quedan para los tipos sin golpeo de Mixamo (hoy, los tiros errados: setpiece_miss). Sin esto, los 106
-## pases suaves actuales taparian a los 4 pases de Mixamo en cada tiro colocado.
-static func mixamo_filter(all: Array) -> Array:
-	var covered := {}
-	for c in all:
-		if AnimBank.is_mixamo_id(StringName(String(c["id"]))):
-			covered[kind_of(c)] = true
-	return all.filter(func(c: Dictionary) -> bool:
-		return AnimBank.is_mixamo_id(StringName(String(c["id"]))) or not covered.has(kind_of(c)))
 
 static func entry(id: StringName) -> Dictionary:
 	for c in clips():

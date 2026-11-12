@@ -142,6 +142,7 @@ func _build_pause_menu(root: Control) -> void:
 	scroll.custom_minimum_size = Vector2(740, 540)
 	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	vb.add_child(scroll)
+	ScrollTap.watch(scroll)
 	var grid := GridContainer.new()
 	grid.columns = 2
 	grid.size_flags_horizontal = Control.SIZE_EXPAND_FILL

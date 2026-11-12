@@ -35,7 +35,7 @@ func arrange(ball_pos: Vector3, wall_points: Array) -> void:
 		_place(attackers[i], p, ball_pos)
 		if i < defenders.size():
 			var d: Vector3 = p + Vector3(0.9, 0.0, 0.35 * side)
-			_place(defenders[i], d, ball_pos, &"defend")
+			_place(defenders[i], d, ball_pos)
 
 func _away_from(p: Vector3, avoid: Array, ball_pos: Vector3) -> Vector3:
 	for q in avoid:
@@ -45,57 +45,14 @@ func _away_from(p: Vector3, avoid: Array, ball_pos: Vector3) -> Vector3:
 		p.x = maxf(p.x, ball_pos.x + 9.5)
 	return p
 
-## role: espera del jugador. Los defensores usan «defend» (marca; solo existe en la biblioteca MIXAMO, sin clips de ese
-## rol queda la espera de siempre). Los clips de marca se desplazan (5-6 m de raiz): se reproducen con su raiz, enmarcados
-## para TERMINAR en el puesto mirando a la pelota (el defensor llega marcando, sin patinar), y despues queda en reposo.
-func _place(a: SpActor, p: Vector3, look: Vector3, role: StringName = &"idle_ready") -> void:
+func _place(a: SpActor, p: Vector3, look: Vector3) -> void:
 	a.stop_moving()
 	a.global_position = p
 	a.set_facing(look - p)
 	var pool: Array[StringName] = SpClips.by_role(&"idle_ready", false)
-	if role == &"defend":
-		var marks: Array[StringName] = SpClips.by_role(&"defend", false)
-		if not marks.is_empty():
-			if not pool.is_empty():
-				a.rest_loop = pool[rng.randi() % pool.size()]
-			var id: StringName = marks[rng.randi() % marks.size()]
-			var fr: Array = SpActor.frame_for(id, SpClips.length(id), p, look - p)
-			a.play_clip(id, fr[0], fr[1], 0.2)
-			a.visible = true
-			return
 	if not pool.is_empty():
 		a.play_loop(pool[rng.randi() % pool.size()], 0.2, rng.randf_range(0.85, 1.1))
 	a.visible = true
-
-## Marchas direccionales (bucles con raiz hacia atras, en diagonal o de costado). Las usan los defensores con MIXAMO.
-const DIR_ROLES: Array[StringName] = [&"dir_back", &"dir_back_diag", &"dir_fwd_diag", &"dir_side"]
-
-static func _is_dir(id: StringName) -> bool:
-	return DIR_ROLES.has(StringName(String(SpClips.meta(id).get("role", ""))))
-
-## Bucle para desplazarse en `move` mirando hacia `face`: el bucle direccional cuya raiz (adelante, derecha) va mas
-## parecida al movimiento relativo a la mirada (a menos de 45 grados); hacia adelante, o sin ninguno, el trote de siempre.
-static func dir_loop(move: Vector3, face: Vector3, speed: float) -> StringName:
-	var f := Vector3(face.x, 0.0, face.z).normalized()
-	var m := Vector3(move.x, 0.0, move.z).normalized()
-	if f.length_squared() < 0.5 or m.length_squared() < 0.5 or f.dot(m) > 0.75:
-		return SpShooter._loop_for(speed)
-	var want := Vector2(m.dot(f), m.dot(SpClips.right_of(f)))
-	var best: StringName = &""
-	var best_c: float = cos(deg_to_rad(45.0))
-	for role in DIR_ROLES:
-		for id in SpClips.by_role(role, false):
-			var cm: Dictionary = SpClips.meta(id)
-			# Direccion de la marcha: la de su raiz (Mixamo) o, en los bucles sin raiz, la del pie apoyado (natural_dir).
-			var rt: Vector2 = cm.get("root_total", Vector2.ZERO)
-			var dir: Vector2 = rt.normalized() if rt.length() > 0.3 else (cm.get("natural_dir", Vector2.ZERO) as Vector2)
-			if dir.length() < 0.5 or float(cm.get("natural_speed_json", 0.0)) <= 0.2:
-				continue
-			var c: float = dir.normalized().dot(want)
-			if c > best_c:
-				best_c = c
-				best = id
-	return best if best != &"" else SpShooter._loop_for(speed)
 
 ## Al golpe: los compañeros van al rebote, los defensores los siguen; si un defensor llega a cabecear la pelota, se prepara.
 func on_kick(traj: PackedVector3Array, step: float) -> void:
@@ -107,15 +64,7 @@ func on_kick(traj: PackedVector3Array, step: float) -> void:
 		if i < defenders.size():
 			var d: SpActor = defenders[i]
 			var dt: Vector3 = tgt + Vector3(0.8, 0.0, 0.4)
-			var spd: float = rng.randf_range(3.3, 4.6)
-			if AnimBank.is_mixamo():
-				# MIXAMO: el defensor retrocede mirando la pelota con las marchas direccionales de Mixamo (hacia atras, en
-				# diagonal o de costado segun hacia donde va). ACTUAL queda como estaba (trota de frente al destino).
-				var look: Vector3 = ball.global_position - d.global_position
-				var loop: StringName = dir_loop(dt - d.global_position, look, spd)
-				d.move_to(dt, spd, loop, look if loop != jog and _is_dir(loop) else Vector3.ZERO)
-			else:
-				d.move_to(dt, spd, jog)
+			d.move_to(dt, rng.randf_range(3.3, 4.6), jog)
 	# Despeje de cabeza: el defensor que este a menos de 1,3 m de donde pasa la pelota a la altura de la cabeza.
 	for d in defenders:
 		var p0: Vector3 = d.global_position

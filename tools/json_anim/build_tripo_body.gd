@@ -8,7 +8,7 @@ extends Node
 ## reposo con la misma funcion que usan las animaciones (JsonRetarget.frames_from_geometry, como el humano JSON) pero con
 ## los polos bien definidos (rodilla hacia adelante; codo como el del brazo en pose A girado hasta la cruz), deja cada hueso
 ## en reposo con ese marco y recalcula el «bind» de la piel para que la malla quede igual en reposo. Asi las mismas
-## bibliotecas (ACTUAL y MIXAMO) mueven este cuerpo. Raiz en el origen y sin giro: la pista de la cadera es la del modelo.
+## bibliotecas del banco JSON mueven este cuerpo. Raiz en el origen y sin giro: la pista de la cadera es la del modelo.
 ## La malla lleva ademas la posicion de reposo en CUSTOM0 (numero impreso en la espalda y diseños pegados a la tela).
 ## Salida: assets/characters/json/tripo_body.scn. Uso: godot --headless --path . res://tools/json_anim/build_tripo_body.tscn
 

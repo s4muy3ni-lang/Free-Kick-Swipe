@@ -118,23 +118,23 @@ tiro de sobra al completar.
 | `min_step` | `0.004` | 0.0, 0.02 | `scripts/setpiece/gesture_tuning.gd:15` | `scripts/setpiece/shot_gesture.gd:45`, `scripts/setpiece/shot_gesture.gd:55` | Distancia minima entre muestras (alturas de pantalla): ignora micro movimientos involuntarios. (Captura y filtro) |
 | `max_samples` | `96` | 16, 256 | `scripts/setpiece/gesture_tuning.gd:17` | `scripts/setpiece/shot_gesture.gd:25`, `scripts/setpiece/shot_gesture.gd:26`, `scripts/setpiece/shot_gesture.gd:31`, `scripts/setpiece/shot_gesture.gd:32` (+1) | Muestras como maximo (al llenarse se diezma de a dos). (Captura y filtro) |
 | `min_length` | `0.07` | 0.02, 0.3 | `scripts/setpiece/gesture_tuning.gd:19` | `scripts/setpiece/gesture_shot_model.gd:65` | Largo minimo para que el trazo sea un tiro (alturas de pantalla). (Captura y filtro) |
-| `speed_slow` | `0.9` | 0.2, 3.0 | `scripts/setpiece/gesture_tuning.gd:23` | `scripts/setpiece/gesture_shot_model.gd:24`, `scripts/setpiece/gesture_tuning.gd:93`, `scripts/setpiece/setpiece_game.gd:1571` | Velocidad del dedo para potencia minima y maxima (alturas de pantalla / s). (Potencia (velocidad del dedo)) |
-| `speed_fast` | `4.4` | 1.0, 10.0 | `scripts/setpiece/gesture_tuning.gd:24` | `scripts/setpiece/gesture_shot_model.gd:24`, `scripts/setpiece/gesture_tuning.gd:93`, `scripts/setpiece/setpiece_game.gd:1571` |  (Potencia (velocidad del dedo)) |
+| `speed_slow` | `0.9` | 0.2, 3.0 | `scripts/setpiece/gesture_tuning.gd:23` | `scripts/setpiece/gesture_shot_model.gd:24`, `scripts/setpiece/gesture_tuning.gd:93`, `scripts/setpiece/setpiece_game.gd:1570` | Velocidad del dedo para potencia minima y maxima (alturas de pantalla / s). (Potencia (velocidad del dedo)) |
+| `speed_fast` | `4.4` | 1.0, 10.0 | `scripts/setpiece/gesture_tuning.gd:24` | `scripts/setpiece/gesture_shot_model.gd:24`, `scripts/setpiece/gesture_tuning.gd:93`, `scripts/setpiece/setpiece_game.gd:1570` |  (Potencia (velocidad del dedo)) |
 | `peak_weight` | `0.35` | 0.0, 1.0 | `scripts/setpiece/gesture_tuning.gd:26` | `scripts/setpiece/gesture_shot_model.gd:23`, `scripts/setpiece/gesture_tuning.gd:94` | Peso de la velocidad maxima frente a la media (un latigazo final cuenta). (Potencia (velocidad del dedo)) |
 | `power_curve` | `1.2` | 0.05, 4.0 | `scripts/setpiece/gesture_tuning.gd:28` | `scripts/setpiece/gesture_shot_model.gd:25`, `scripts/setpiece/gesture_tuning.gd:94` | Curva de respuesta: potencia = min + (max - min) * (1 - exp(-g x)) / (1 - exp(-g)); g > 0 satura los trazos muy rapidos. (Potencia (velocidad del dedo)) |
 | `power_min` | `0.05` | 0.0, 0.5 | `scripts/setpiece/gesture_tuning.gd:29` | `scripts/setpiece/gesture_shot_model.gd:27` |  (Potencia (velocidad del dedo)) |
 | `power_max` | `1.0` | 0.5, 1.0 | `scripts/setpiece/gesture_tuning.gd:30` | `scripts/setpiece/gesture_shot_model.gd:27` |  (Potencia (velocidad del dedo)) |
 | `descend_drop` | `0.6` | 0.0, 1.5 | `scripts/setpiece/gesture_tuning.gd:34` | `scripts/setpiece/gesture_shot_model.gd:44`, `scripts/setpiece/gesture_tuning.gd:94` | Trazo que termina bajando: baja el punto de llegada (m) y agrega efecto hacia delante (la pelota cae). (Altura) |
 | `ascend_lift` | `0.25` | 0.0, 1.0 | `scripts/setpiece/gesture_tuning.gd:36` | `scripts/setpiece/gesture_shot_model.gd:46` | Trazo que termina subiendo con fuerza: sube el punto de llegada (m). (Altura) |
-| `curve_deadzone` | `0.025` | 0.0, 0.1 | `scripts/setpiece/gesture_tuning.gd:40` | `scripts/setpiece/gesture_shot_model.gd:50`, `scripts/setpiece/gesture_shot_model.gd:69`, `scripts/setpiece/gesture_tuning.gd:95`, `scripts/setpiece/setpiece_game.gd:1578` | Curvatura por debajo de la cual no hay efecto (zona muerta). (Efecto (curvatura)) |
-| `spin_gain` | `280.0` | 50.0, 600.0 | `scripts/setpiece/gesture_tuning.gd:42` | `scripts/setpiece/gesture_shot_model.gd:52`, `scripts/setpiece/gesture_tuning.gd:95`, `scripts/setpiece/setpiece_game.gd:1580` | Giro (rad/s) por unidad de curvatura y giro maximo. (Efecto (curvatura)) |
-| `spin_max` | `70.0` | 10.0, 150.0 | `scripts/setpiece/gesture_tuning.gd:43` | `scripts/setpiece/gesture_shot_model.gd:52`, `scripts/setpiece/gesture_tuning.gd:95`, `scripts/setpiece/setpiece_game.gd:1580` |  (Efecto (curvatura)) |
+| `curve_deadzone` | `0.025` | 0.0, 0.1 | `scripts/setpiece/gesture_tuning.gd:40` | `scripts/setpiece/gesture_shot_model.gd:50`, `scripts/setpiece/gesture_shot_model.gd:69`, `scripts/setpiece/gesture_tuning.gd:95`, `scripts/setpiece/setpiece_game.gd:1577` | Curvatura por debajo de la cual no hay efecto (zona muerta). (Efecto (curvatura)) |
+| `spin_gain` | `280.0` | 50.0, 600.0 | `scripts/setpiece/gesture_tuning.gd:42` | `scripts/setpiece/gesture_shot_model.gd:52`, `scripts/setpiece/gesture_tuning.gd:95`, `scripts/setpiece/setpiece_game.gd:1579` | Giro (rad/s) por unidad de curvatura y giro maximo. (Efecto (curvatura)) |
+| `spin_max` | `70.0` | 10.0, 150.0 | `scripts/setpiece/gesture_tuning.gd:43` | `scripts/setpiece/gesture_shot_model.gd:52`, `scripts/setpiece/gesture_tuning.gd:95`, `scripts/setpiece/setpiece_game.gd:1579` |  (Efecto (curvatura)) |
 | `topspin` | `18.0` | 0.0, 40.0 | `scripts/setpiece/gesture_tuning.gd:45` | `scripts/setpiece/gesture_shot_model.gd:110`, `scripts/setpiece/gesture_shot_model.gd:111` | Efecto hacia delante (topspin, rad/s) de los tiros potentes y altos. (Efecto (curvatura)) |
-| `error_base` | `0.35` | 0.0, 2.0 | `scripts/setpiece/gesture_tuning.gd:49` | `scripts/setpiece/gesture_shot_model.gd:56`, `scripts/setpiece/gesture_shot_model.gd:57`, `scripts/setpiece/gesture_shot_model.gd:58`, `scripts/setpiece/setpiece_game.gd:1582` | Error (grados) base, por potencia (x potencia^2), por trazo irregular (x (1 - suavidad)) y por trazo corto. (Precision) |
-| `error_power` | `1.5` | 0.0, 4.0 | `scripts/setpiece/gesture_tuning.gd:50` | `scripts/setpiece/gesture_shot_model.gd:56`, `scripts/setpiece/gesture_shot_model.gd:57`, `scripts/setpiece/gesture_tuning.gd:96`, `scripts/setpiece/setpiece_game.gd:1582` |  (Precision) |
+| `error_base` | `0.35` | 0.0, 2.0 | `scripts/setpiece/gesture_tuning.gd:49` | `scripts/setpiece/gesture_shot_model.gd:56`, `scripts/setpiece/gesture_shot_model.gd:57`, `scripts/setpiece/gesture_shot_model.gd:58`, `scripts/setpiece/setpiece_game.gd:1581` | Error (grados) base, por potencia (x potencia^2), por trazo irregular (x (1 - suavidad)) y por trazo corto. (Precision) |
+| `error_power` | `1.5` | 0.0, 4.0 | `scripts/setpiece/gesture_tuning.gd:50` | `scripts/setpiece/gesture_shot_model.gd:56`, `scripts/setpiece/gesture_shot_model.gd:57`, `scripts/setpiece/gesture_tuning.gd:96`, `scripts/setpiece/setpiece_game.gd:1581` |  (Precision) |
 | `error_rough` | `1.6` | 0.0, 5.0 | `scripts/setpiece/gesture_tuning.gd:51` | `scripts/setpiece/gesture_shot_model.gd:56`, `scripts/setpiece/gesture_shot_model.gd:57`, `scripts/setpiece/gesture_tuning.gd:96` |  (Precision) |
 | `error_short` | `0.8` | 0.0, 3.0 | `scripts/setpiece/gesture_tuning.gd:52` | `scripts/setpiece/gesture_shot_model.gd:56`, `scripts/setpiece/gesture_shot_model.gd:57` |  (Precision) |
-| `length_full` | `0.45` | 0.1, 1.0 | `scripts/setpiece/gesture_tuning.gd:54` | `scripts/setpiece/gesture_shot_model.gd:55`, `scripts/setpiece/gesture_shot_model.gd:77`, `scripts/setpiece/gesture_tuning.gd:96`, `scripts/setpiece/setpiece_game.gd:1571` (+1) | Largo (alturas de pantalla) a partir del cual el trazo da el control completo de la direccion. (Precision) |
+| `length_full` | `0.45` | 0.1, 1.0 | `scripts/setpiece/gesture_tuning.gd:54` | `scripts/setpiece/gesture_shot_model.gd:55`, `scripts/setpiece/gesture_shot_model.gd:77`, `scripts/setpiece/gesture_tuning.gd:96`, `scripts/setpiece/setpiece_game.gd:1570` (+1) | Largo (alturas de pantalla) a partir del cual el trazo da el control completo de la direccion. (Precision) |
 | `rough_ref` | `0.35` | 0.05, 1.0 | `scripts/setpiece/gesture_tuning.gd:56` | `scripts/setpiece/shot_gesture.gd:194` | Irregularidad de referencia (rad de cambio de direccion entre muestras, RMS) que deja la suavidad en 0. (Precision) |
 | `lob_max_power` | `0.2` | 0.05, 0.5 | `scripts/setpiece/gesture_tuning.gd:60` | `scripts/setpiece/gesture_shot_model.gd:67`, `scripts/setpiece/gesture_shot_model.gd:92` | Potencia por debajo de la cual un trazo alto es un globo / vaselina. (Tipos de disparo) |
 | `high_height` | `1.35` | 0.8, 2.4 | `scripts/setpiece/gesture_tuning.gd:62` | `scripts/setpiece/gesture_shot_model.gd:67`, `scripts/setpiece/gesture_shot_model.gd:75` | Altura de llegada (m) por encima de la cual el tiro es «elevado» o globo. (Tipos de disparo) |
@@ -161,22 +161,21 @@ tiro de sobra al completar.
 <!-- AUTO:funcs:scripts/setpiece/shot_catalog.gd -->
 | Función | Línea | Qué hace |
 |---|---|---|
-| `ShotCatalog.path()` | 31 | Catalogo de la biblioteca activa (AnimBank): con MIXAMO, el medido sobre los golpeos de Mixamo (con los actuales de respaldo en los roles qu |
-| `ShotCatalog.reload()` | 37 | Fuerza una nueva lectura (cambio de biblioteca, pruebas). |
-| `ShotCatalog.clips()` | 41 |  |
-| `ShotCatalog.mixamo_filter(all: Array)` | 57 | MIXAMO: por TIPO de tiro (potente, normal, colocado, vaselina, error), si hay golpeos de Mixamo de ese tipo se usan solo esos; los actuales  |
-| `ShotCatalog.entry(id: StringName)` | 65 |  |
-| `ShotCatalog.rel_angle(c: Dictionary)` | 72 | Angulo (grados, + derecha) entre la carrera y el pie al golpear. |
-| `ShotCatalog.surface_of(c: Dictionary)` | 76 | Superficie del pie con que golpea: "interior", "empeine" o "exterior". |
-| `ShotCatalog.surface_for(kind: int, foot: int, open_side: bool, curled: bool, lateral_spin: float)` | 82 | Superficie que corresponde a un tiro: colocar = interior; potente = empeine; normal = interior al lado abierto y empeine al cruzado; con efe |
-| `ShotCatalog.is_desperate(c: Dictionary)` | 94 |  |
-| `ShotCatalog.kind_of(c: Dictionary)` | 98 | Familia a la que pertenece un golpeo medido. |
-| `ShotCatalog._kind_cost(want: int, have: int)` | 111 | Familias aceptables para un tipo de tiro (la primera es la ideal) y su costo extra. |
-| `ShotCatalog.choose(foot: int, shot_rel_deg: float, kind: int, set_piece: bool, rng: RandomNumberGenerator = null, ball_speed: float = -1.0, prefer_short: bool = false, curled: bool = false, surface: String = "")` | 132 | Elige el golpeo. foot: 1 derecho, -1 izquierdo. shot_rel_deg: angulo (+ derecha) del tiro respecto de la carrera habitual del pie (ver appro |
-| `ShotCatalog.approach_dir(aim: Vector3, foot: int)` | 184 | Direccion de la carrera habitual del pie para tirar hacia `aim` (unit. horizontal): el diestro llega desde su izquierda. |
-| `ShotCatalog.signed_deg(approach: Vector3, shot: Vector3)` | 189 | Angulo (grados, + derecha) de `shot` respecto de `approach` (direcciones horizontales). |
-| `ShotCatalog.frame_for_shot(c: Dictionary, ball: Vector3, shot: Vector3)` | 195 | Marco del clip (origen, mirada) para que el pie llegue a la pelota en `ball` y salga hacia `shot` (horizontal). |
-| `ShotCatalog.start_time_near(c: Dictionary, frame: Array, pos: Vector3, min_lead: float = 0.55)` | 206 | Instante del clip (antes del contacto, con al menos min_lead s de carrera) en que la raiz pasa mas cerca de `pos` (donde espera el tirador): |
+| `ShotCatalog.path()` | 30 | Catalogo de golpeos medido sobre el banco JSON (el de Mixamo se elimino el 2026-11-12). |
+| `ShotCatalog.reload()` | 34 | Fuerza una nueva lectura (pruebas). |
+| `ShotCatalog.clips()` | 38 |  |
+| `ShotCatalog.entry(id: StringName)` | 49 |  |
+| `ShotCatalog.rel_angle(c: Dictionary)` | 56 | Angulo (grados, + derecha) entre la carrera y el pie al golpear. |
+| `ShotCatalog.surface_of(c: Dictionary)` | 60 | Superficie del pie con que golpea: "interior", "empeine" o "exterior". |
+| `ShotCatalog.surface_for(kind: int, foot: int, open_side: bool, curled: bool, lateral_spin: float)` | 66 | Superficie que corresponde a un tiro: colocar = interior; potente = empeine; normal = interior al lado abierto y empeine al cruzado; con efe |
+| `ShotCatalog.is_desperate(c: Dictionary)` | 78 |  |
+| `ShotCatalog.kind_of(c: Dictionary)` | 82 | Familia a la que pertenece un golpeo medido. |
+| `ShotCatalog._kind_cost(want: int, have: int)` | 95 | Familias aceptables para un tipo de tiro (la primera es la ideal) y su costo extra. |
+| `ShotCatalog.choose(foot: int, shot_rel_deg: float, kind: int, set_piece: bool, rng: RandomNumberGenerator = null, ball_speed: float = -1.0, prefer_short: bool = false, curled: bool = false, surface: String = "")` | 116 | Elige el golpeo. foot: 1 derecho, -1 izquierdo. shot_rel_deg: angulo (+ derecha) del tiro respecto de la carrera habitual del pie (ver appro |
+| `ShotCatalog.approach_dir(aim: Vector3, foot: int)` | 168 | Direccion de la carrera habitual del pie para tirar hacia `aim` (unit. horizontal): el diestro llega desde su izquierda. |
+| `ShotCatalog.signed_deg(approach: Vector3, shot: Vector3)` | 173 | Angulo (grados, + derecha) de `shot` respecto de `approach` (direcciones horizontales). |
+| `ShotCatalog.frame_for_shot(c: Dictionary, ball: Vector3, shot: Vector3)` | 179 | Marco del clip (origen, mirada) para que el pie llegue a la pelota en `ball` y salga hacia `shot` (horizontal). |
+| `ShotCatalog.start_time_near(c: Dictionary, frame: Array, pos: Vector3, min_lead: float = 0.55)` | 190 | Instante del clip (antes del contacto, con al menos min_lead s de carrera) en que la raiz pasa mas cerca de `pos` (donde espera el tirador): |
 <!-- /AUTO -->
 
 <!-- AUTO:funcs:scripts/setpiece/sp_keeper.gd -->

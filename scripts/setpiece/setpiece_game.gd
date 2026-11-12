@@ -1036,17 +1036,16 @@ func set_crowd_mood(cheer: float, boo: float, hold: float) -> void:
 func crowd_mood() -> Vector2:
 	return Vector2(_cheer, _boo)
 
-## Reaccion del publico a un resultado. good: bueno para el usuario (su gol, su atajada, un acierto del desafio); si no,
-## abuchea (su fallo, un gol de la CPU). Festejo largo con el gol, mas corto con una atajada.
-func crowd_react(good: bool, why: String, scale: float = 1.0) -> void:
+## Reaccion del publico a un resultado. good: bueno para el usuario (su gol, su atajada, un acierto del desafio): el
+## MISMO festejo largo para goles y atajadas (pedido 2026-11-12). Si no (su fallo, un gol de la CPU), la tribuna se
+## lamenta (manos a la cabeza, «uuuh»), sin silbidos.
+func crowd_react(good: bool, _why: String, scale: float = 1.0) -> void:
 	if good:
-		var goal_ok: bool = why == "goal"
-		set_crowd_mood((1.0 if goal_ok else 0.85) * scale, 0.0, (6.5 if goal_ok else 4.0) * scale)
-		Sfx.play(&"cheer", (1.0 if goal_ok else 0.75) * scale)
+		set_crowd_mood(1.0 * scale, 0.0, 6.5 * scale)
+		Sfx.play(&"cheer", 1.0 * scale)
 	else:
 		set_crowd_mood(0.0, 0.9 * scale, 3.5 * scale)
 		Sfx.play(&"ooh", 0.8 * scale)
-		Sfx.play(&"boo", 0.85 * scale)
 
 func _update_crowd(delta: float) -> void:
 	if _cheer_hold > 0.0:

@@ -1,6 +1,6 @@
 extends Node
 ## Captura del numero de la espalda (revision visual): tres jugadores de espaldas, quieto, corriendo y pateando, con el
-## cuerpo de AnimBank (ANIM_BODY=tripo|humano). NUM_OUT=<prefijo> [NUM_N=10] xvfb-run -a godot --display-driver x11
+## cuerpo del juego (AnimBank.BODY_PATH). NUM_OUT=<prefijo> [NUM_N=10] xvfb-run -a godot --display-driver x11
 ##   --rendering-driver opengl3 --resolution 900x600 --path . res://tools/ui/number_capture.tscn
 
 func _ready() -> void:

@@ -2853,7 +2853,7 @@
         {
           "file": "scripts/ui/hud.gd",
           "name": "Hud.show_message",
-          "line": 323,
+          "line": 324,
           "kind": "func"
         },
         {
@@ -2865,19 +2865,19 @@
         {
           "file": "scripts/ui/hud.gd",
           "name": "Hud._cycle_assist",
-          "line": 273,
+          "line": 274,
           "kind": "func"
         },
         {
           "file": "scripts/ui/hud.gd",
           "name": "Hud._cycle_graphics",
-          "line": 269,
+          "line": 270,
           "kind": "func"
         },
         {
           "file": "scripts/ui/hud.gd",
           "name": "Hud._toggle_diagnostics",
-          "line": 281,
+          "line": 282,
           "kind": "func"
         },
         {
@@ -3472,19 +3472,19 @@
         {
           "file": "scripts/animation/pack_library.gd",
           "name": "PackLibrary.available",
-          "line": 239,
+          "line": 146,
           "kind": "func"
         },
         {
           "file": "scripts/animation/pack_library.gd",
           "name": "PackLibrary.clip",
-          "line": 253,
+          "line": 160,
           "kind": "func"
         },
         {
           "file": "scripts/animation/pack_library.gd",
           "name": "PackLibrary.meta",
-          "line": 280,
+          "line": 187,
           "kind": "func"
         },
         {
@@ -3730,25 +3730,25 @@
         {
           "file": "scripts/goalkeeper/keeper_planner.gd",
           "name": "KeeperPlanner.path_world",
-          "line": 60,
+          "line": 58,
           "kind": "func"
         },
         {
           "file": "scripts/goalkeeper/keeper_planner.gd",
           "name": "KeeperPlanner.path_world_at_body",
-          "line": 71,
+          "line": 69,
           "kind": "func"
         },
         {
           "file": "scripts/goalkeeper/keeper_planner.gd",
           "name": "KeeperPlanner.peak_speed_time",
-          "line": 85,
+          "line": 83,
           "kind": "func"
         },
         {
           "file": "scripts/goalkeeper/keeper_planner.gd",
           "name": "KeeperPlanner.hands_world",
-          "line": 98,
+          "line": 96,
           "kind": "func"
         }
       ],
@@ -5192,37 +5192,37 @@
         {
           "file": "scripts/audio/sfx.gd",
           "name": "Sfx.play",
-          "line": 47,
+          "line": 48,
           "kind": "func"
         },
         {
           "file": "scripts/audio/sfx.gd",
           "name": "Sfx.impulse_sound",
-          "line": 122,
+          "line": 123,
           "kind": "func"
         },
         {
           "file": "scripts/audio/sfx.gd",
           "name": "Sfx.on_event",
-          "line": 147,
+          "line": 148,
           "kind": "func"
         },
         {
           "file": "scripts/audio/sfx.gd",
           "name": "Sfx.watch_ball",
-          "line": 100,
+          "line": 101,
           "kind": "func"
         },
         {
           "file": "scripts/audio/sfx.gd",
           "name": "Sfx.crowd",
-          "line": 80,
+          "line": 81,
           "kind": "func"
         },
         {
           "file": "scripts/audio/sfx.gd",
           "name": "Sfx.set_enabled",
-          "line": 90,
+          "line": 91,
           "kind": "func"
         },
         {
@@ -5393,19 +5393,19 @@
         {
           "file": "scripts/animation/pack_library.gd",
           "name": "PackLibrary.json_mode",
-          "line": 38,
+          "line": 33,
           "kind": "func"
         },
         {
           "file": "scripts/animation/pack_library.gd",
           "name": "PackLibrary.resolve",
-          "line": 205,
+          "line": 117,
           "kind": "func"
         },
         {
           "file": "scripts/animation/pack_library.gd",
           "name": "PackLibrary.by_role",
-          "line": 285,
+          "line": 192,
           "kind": "func"
         },
         {
@@ -5489,7 +5489,7 @@
         {
           "file": "scripts/animation/pack_library.gd",
           "name": "PackLibrary.vary_aliases",
-          "line": 302,
+          "line": 209,
           "kind": "func"
         },
         {
@@ -5781,7 +5781,7 @@
         {
           "file": "scripts/setpiece/setpiece_game.gd",
           "name": "SetPieceGame.shoot_params",
-          "line": 1559,
+          "line": 1558,
           "kind": "func"
         },
         {
@@ -5811,7 +5811,7 @@
         {
           "file": "scripts/setpiece/main_menu.gd",
           "name": "MainMenu._start",
-          "line": 449,
+          "line": 436,
           "kind": "func"
         }
       ],
@@ -5867,13 +5867,13 @@
         {
           "file": "scripts/setpiece/shot_catalog.gd",
           "name": "ShotCatalog.choose",
-          "line": 132,
+          "line": 116,
           "kind": "func"
         },
         {
           "file": "scripts/setpiece/shot_catalog.gd",
           "name": "ShotCatalog.frame_for_shot",
-          "line": 195,
+          "line": 179,
           "kind": "func"
         },
         {
@@ -5891,7 +5891,7 @@
         {
           "file": "scripts/setpiece/sp_clips.gd",
           "name": "SpClips.by_role",
-          "line": 127,
+          "line": 95,
           "kind": "func"
         },
         {
@@ -6094,7 +6094,7 @@
         {
           "file": "scripts/setpiece/sp_field_players.gd",
           "name": "SpFieldPlayers.on_kick",
-          "line": 101,
+          "line": 58,
           "kind": "func"
         }
       ],
@@ -6542,7 +6542,12 @@
         "build pública",
         "pagos",
         "web",
-        "bolt"
+        "bolt",
+        "scroll",
+        "arrastrar",
+        "buscador",
+        "buscar partida",
+        "selector de partidas"
       ],
       "files": [
         "scripts/online/online.gd",
@@ -6572,7 +6577,10 @@
         "tools/online/menu_snap.gd",
         "tools/online/kit_preview.gd",
         "tests/test_online_client.gd",
-        "tests/test_online_match.gd"
+        "tests/test_online_match.gd",
+        "scripts/ui/scroll_tap.gd",
+        "tests/test_scroll_tap.gd",
+        "tests/test_online_lobby_ui.gd"
       ],
       "symbols": [],
       "parameters": [],
@@ -6586,85 +6594,38 @@
       "last_verified": "2026-11-12"
     },
     {
-      "id": "animation.bank_mixamo",
+      "id": "animation.body_bank",
       "system": "ANIM_BANK",
-      "description": "Bibliotecas de animacion ACTUAL y MIXAMO conviviendo: selector persistente (AnimBank), los 133 clips de animaciones_mixamo.zip convertidos al esqueleto del juego con transferencia de proporciones y raiz reconstruida desde el pie de apoyo, integracion por rol con respaldo actual (SpClips, PackLibrary), golpeos por tipo de tiro (ShotCatalog), arquero con respaldo por pelota (KeeperPlanner), defensores con marca y marchas direccionales, laboratorio de animaciones con comparacion lado a lado.",
+      "description": "Cuerpo y banco de animaciones de los jugadores: el modelo de Tripo del usuario adaptado al esqueleto (tools/json_anim/build_tripo_body, unico cuerpo; el humanoide JSON se elimino) movido por el banco JSON. La biblioteca de Mixamo (133 clips, selector ACTUAL/MIXAMO y laboratorio de comparacion) se sumo y se elimino el 2026-11-12 por pedido del usuario.",
       "keywords": [
-        "mixamo",
-        "biblioteca",
+        "cuerpo",
+        "modelo",
+        "tripo",
+        "jugador",
+        "banco",
         "animaciones",
+        "mixamo",
         "laboratorio",
-        "comparar",
-        "comparacion",
-        "selector",
-        "retarget",
-        "retargeting",
-        "lab",
-        "anim bank"
+        "humanoide"
       ],
       "files": [
         "scripts/animation/anim_bank.gd",
-        "scripts/dev/anim_lab.gd",
-        "tools/mixamo/export_mixamo_joints.gd",
-        "tools/mixamo/selection_mixamo.json",
         "tools/json_anim/build_tripo_body.gd",
-        "tests/test_mixamo_bank.gd"
+        "scripts/setpiece/sp_actor.gd",
+        "tests/test_back_number.gd"
       ],
       "symbols": [
         {
           "file": "scripts/animation/anim_bank.gd",
-          "name": "AnimBank.set_bank",
-          "line": 77,
-          "kind": "func"
-        },
-        {
-          "file": "scripts/animation/anim_bank.gd",
-          "name": "AnimBank.current",
-          "line": 63,
-          "kind": "func"
-        },
-        {
-          "file": "scripts/setpiece/sp_clips.gd",
-          "name": "SpClips.fallback_roles",
-          "line": 85,
-          "kind": "func"
-        },
-        {
-          "file": "scripts/animation/pack_library.gd",
-          "name": "PackLibrary.actual_by_role",
-          "line": 182,
-          "kind": "func"
-        },
-        {
-          "file": "scripts/setpiece/shot_catalog.gd",
-          "name": "ShotCatalog.mixamo_filter",
-          "line": 57,
-          "kind": "func"
-        },
-        {
-          "file": "scripts/goalkeeper/keeper_planner.gd",
-          "name": "KeeperPlanner.plan_save",
-          "line": 232,
-          "kind": "func"
-        },
-        {
-          "file": "scripts/setpiece/sp_field_players.gd",
-          "name": "SpFieldPlayers.dir_loop",
-          "line": 78,
-          "kind": "func"
-        },
-        {
-          "file": "scripts/dev/anim_lab.gd",
-          "name": "AnimLab.select_situation",
-          "line": 295,
+          "name": "AnimBank.body_path",
+          "line": 14,
           "kind": "func"
         }
       ],
       "parameters": [],
       "dependencies": [
         "JSON_MODE",
-        "SETPIECE",
-        "GOALKEEPER"
+        "SETPIECE"
       ],
       "documentation": "docs/technical-index/SYSTEMS/ANIM_BANK.md",
       "last_verified": "2026-11-12"

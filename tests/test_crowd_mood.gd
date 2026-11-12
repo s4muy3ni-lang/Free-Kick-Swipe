@@ -1,7 +1,8 @@
 extends TestCase
 ## Publico de penales y tiros libres (pedido del usuario 2026-11-12): el mismo publico 2D animado de los minijuegos
-## arcade en las tribunas del estadio; festeja mas vivo y mas largo con un gol del usuario, abuchea sus fallos y los goles
-## de la CPU, se queda quieto mirando en la carrera del penal y en calma se sigue escuchando.
+## arcade en las tribunas del estadio; festeja mas vivo y mas largo con un gol o una atajada del usuario (el mismo
+## festejo), se lamenta (sin silbidos) con sus fallos y los goles de la CPU, se queda quieto mirando en la carrera del
+## penal y en calma se sigue escuchando.
 
 func _game(mode: int) -> SetPieceGame:
 	SetPieceGame.next_mode = mode
@@ -51,10 +52,11 @@ func test_user_miss_and_cpu_goal_are_booed() -> void:
 	var m: Vector2 = game.crowd_mood()
 	note("tras un fallo: festejo %.2f, abucheo %.2f, tribuna %.2f" % [m.x, m.y, _mat_param(game, "boo")])
 	check(m.y > 0.8 and m.x == 0.0, "un fallo del usuario se abuchea")
-	check(_mat_param(game, "boo") > 0.8, "los hinchas se agarran la cabeza y silban")
+	check(_mat_param(game, "boo") > 0.8, "los hinchas se agarran la cabeza")
 	game.crowd_react(true, "save")
 	await physics_frames(2)
-	check(game.crowd_mood().x > 0.8 and game.crowd_mood().y == 0.0, "una atajada del usuario se festeja (y tapa el abucheo)")
+	check(game.crowd_mood().x > 0.95 and game.crowd_mood().y == 0.0, "una atajada del usuario se festeja igual que un gol (y tapa el lamento)")
+	check(game._cheer_hold > 6.0, "con el mismo festejo largo que el gol")
 	cleanup()
 
 func test_a_real_miss_is_booed() -> void:
@@ -125,9 +127,9 @@ func test_minigame_user_error_is_booed() -> void:
 	cleanup()
 
 func test_crowd_sounds_exist() -> void:
-	for n in [&"cheer", &"boo", &"ooh", &"post", &"post2", &"post3"]:
+	check(not Sfx.SOUNDS.has(&"boo") and not FileAccess.file_exists("res://assets/audio/boo.wav"), "sin abucheo con silbidos (al usuario no le gustaron)")
+	for n in [&"cheer", &"ooh", &"post", &"post2", &"post3"]:
 		check(Sfx._streams.has(n), "Sfx cargo %s" % n)
 	var cheer: AudioStreamWAV = Sfx._streams[&"cheer"]
-	note("festejo: %.1f s, abucheo: %.1f s" % [cheer.get_length(), (Sfx._streams[&"boo"] as AudioStream).get_length()])
+	note("festejo: %.1f s" % cheer.get_length())
 	check(cheer.get_length() >= 8.0, "el festejo del gol es largo (antes 4 s)")
-	check((Sfx._streams[&"boo"] as AudioStream).get_length() >= 4.5, "el abucheo dura")

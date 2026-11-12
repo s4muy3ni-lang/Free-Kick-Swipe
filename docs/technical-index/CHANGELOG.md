@@ -11,6 +11,48 @@ Formato de entrada: **fecha — título** · commit · qué cambió · archivos 
 
 ---
 
+## 2026-11-12 — Sin silbidos, fuera Mixamo, scroll sobre las imágenes y buscador de partidas nuevo
+
+Pedido del usuario:
+- «los silbidos no me gustaron, quitalos; quedan el público y los festejos para goles y atajadas, que usen el mismo»;
+- «eliminá las animaciones de Mixamo, son muy feas y básicas»;
+- «no me deja hacer scroll sobre los íconos de los minijuegos»;
+- «el selector o buscador de partidas es muy feo, hacelo mejor».
+
+- **Sonido** (`make_sfx.py`, `sfx.gd`, `setpiece_game.gd: crowd_react`):
+  - sin silbidos en el ambiente ni en el festejo;
+  - se borró el abucheo (silbatina, «boo.wav»);
+  - una atajada del usuario tiene el mismo festejo largo que un gol;
+  - un fallo: la tribuna se lamenta («uuuh» y manos a la cabeza);
+  - en la hoja del público, el cuadro de «silbar con el pulgar abajo» pasó a «brazos cruzados».
+- **Mixamo eliminado**: se borraron sus bibliotecas, GLB fuente, catálogo de golpeos, «tools/mixamo», el laboratorio de
+  comparación, el botón «Animaciones» del menú y su prueba.
+  - `AnimBank` quedó con el cuerpo de los jugadores.
+  - `SpClips`, `PackLibrary`, `ShotCatalog`, `KeeperPlanner`, los defensores y el tirador volvieron a la lógica de
+    antes de Mixamo (diff contra `84b5248~1`: solo refactorizaciones).
+  - El CI falla si una biblioteca de Mixamo vuelve a la APK.
+  - Para ver las animaciones del juego queda el «Banco de animaciones» (herramienta de desarrollo).
+- **Scroll** (`scripts/ui/scroll_tap.gd`, usado en el menú, el arcade y los desafíos y la pausa):
+  - las tarjetas, sus imágenes y paneles dejan pasar el arrastre a la lista (antes el botón se quedaba con el toque y
+    la lista solo se movía tocando los huecos);
+  - un toque que arrastró la lista no aprieta el botón que quedó bajo el dedo.
+- **JUGAR ONLINE rediseñado** (`menu_screens.gd`):
+  - el estado del lobby en pastillas;
+  - las modalidades como tarjetas con su imagen de punta a punta, nombre y etiqueta (1 VS 1, VS BOT); la elegida con
+    borde dorado;
+  - a la derecha, la modalidad en grande con la entrada en botones (gratis o con monedas), premio, rival y un botón
+    dorado BUSCAR PARTIDA;
+  - la búsqueda es una pantalla propia: radar animado, reloj, estado y Cancelar;
+  - al encontrar rival, el cara a cara (vos contra el rival, con su nivel y si es bot) antes de empezar;
+  - el fondo de las pantallas del menú es casi opaco: ya no se mezcla con los botones de atrás.
+- **Pruebas**:
+  - nuevas: `test_scroll_tap` (2), `test_online_lobby_ui` (1);
+  - `test_crowd_mood`: sin abucheo y atajada igual que gol;
+  - se borró la prueba de Mixamo (la biblioteca ya no existe).
+- **Verificación**: ver el commit.
+
+---
+
 ## 2026-11-12 — Fuera el humanoide: un solo cuerpo (el modelo de Tripo); pancartas con el nombre del jugador
 
 Pedido del usuario:
@@ -168,7 +210,7 @@ juego. Se había descartado en una sesión anterior porque se deformaba con las 
   - `SpActor`, el laboratorio y el menú la usan.
   - El modo partido sigue con el humanoide.
 - **Verificación (PC)**:
-  - headless con Tripo: `setpiece` 22/151/0, `keeper` 18/105/0, `test_mixamo_bank` 9/178/0, `celebrations` 5/45/0;
+  - headless con Tripo: `setpiece` 22/151/0, `keeper` 18/105/0, «test_mixamo_bank» (eliminado) 9/178/0, `celebrations` 5/45/0;
   - con render (xvfb) y el modelo de Tripo: `test_setpiece_render` 7/45/0 (peor distancia pie-pelota en el impulso
     0,31 m), `test_keeper_in_position` 1/4/0, `test_keeper_zones` 4/27/0;
   - capturas del laboratorio y del menú con el modelo de Tripo.
@@ -239,7 +281,7 @@ juego. Se había descartado en una sesión anterior porque se deformaba con las 
   - con ACTUAL el código vuelve a ser el de antes, con el mismo orden de números aleatorios.
   - La prueba no se tocó ni se salteó.
 - **Verificación**:
-  - PC: `test_mixamo_bank` 9/178/0, `setpiece` headless 22/151/0, `test_setpiece_render` con render (ACTUAL) 7/45/0.
+  - PC: «test_mixamo_bank» (eliminado) 9/178/0, `setpiece` headless 22/151/0, `test_setpiece_render` con render (ACTUAL) 7/45/0.
   - **CI** (run 43145068917, commit `4aefef8`): éxito. Pasaron las pruebas headless (incluidas las de Mixamo, con las
     bibliotecas en el repositorio), las pruebas con render, el job del servidor y la verificación de la APK.
   - Artefacto `futbol5-apk` (53,6 MB comprimido).
@@ -252,16 +294,16 @@ juego. Se había descartado en una sesión anterior porque se deformaba con las 
 Decisión del usuario: el juego usa las animaciones de Mixamo; no las distribuye sueltas.
 
 - **Qué cambió**:
-  - las bibliotecas derivadas (`assets/animations/mixamo_*.res`, `resources/setpiece/shot_clips_mixamo.json`) y los GLB
-    fuente (`assets/animations/source/mixamo/`) pasan a git; los GLB no entran en la APK (filtro de exportación);
+  - las bibliotecas derivadas (`assets/animations/mixamo_*.res`, «resources/setpiece/shot_clips_mixamo.json» (eliminado)) y los GLB
+    fuente («assets/animations/source/mixamo/» (eliminado)) pasan a git; los GLB no entran en la APK (filtro de exportación);
   - se quitan el paquete cifrado (mixamo_pack.enc), su script (pack_mixamo.sh), el paso de descifrado y la necesidad
     del secret `MIXAMO_KEY` (borrados en este cambio);
   - CI exige las bibliotecas de MIXAMO al empezar y dentro de la APK.
 - **Archivos**: `.gitignore`, `.github/workflows/android.yml`, `scripts/animation/anim_bank.gd` (comentario),
-  `tests/test_mixamo_bank.gd` (comentario), `docs/animaciones/MIXAMO_INTEGRACION.md`, ficha `ANIM_BANK`, `INDEX.md`,
+  «tests/test_mixamo_bank.gd» (eliminado) (comentario), «docs/animaciones/MIXAMO_INTEGRACION.md» (eliminado), ficha `ANIM_BANK`, `INDEX.md`,
   `CODE_MAP.json`, `AAA_ROADMAP.md`.
 - **Verificación**:
-  - `test_mixamo_bank` 9/178/0 después del cambio;
+  - «test_mixamo_bank» (eliminado) 9/178/0 después del cambio;
   - **PC con render** (xvfb), MIXAMO:
     - `test_keeper_zones` 4/27/0;
     - `test_setpiece_render` 7/45/0;
@@ -274,9 +316,9 @@ Decisión del usuario: el juego usa las animaciones de Mixamo; no las distribuye
 ## 2026-11-12 — Animaciones: bibliotecas ACTUAL y MIXAMO, selector, laboratorio y comparación
 
 Pedido del usuario: integrar `animaciones_mixamo.zip` sin borrar ni reemplazar nada. Informe completo en
-`docs/animaciones/MIXAMO_INTEGRACION.md`; inventario y correspondencias (generado) en `docs/animaciones/INVENTARIO_MIXAMO.md`.
+«docs/animaciones/MIXAMO_INTEGRACION.md» (eliminado); inventario y correspondencias (generado) en «docs/animaciones/INVENTARIO_MIXAMO.md» (eliminado).
 
-- **Conversión** (`tools/mixamo/`):
+- **Conversión** («tools/mixamo/» (eliminado)):
   - los 133 clips (110 de campo + 23 de arquero) pasan al esqueleto del juego: 196 con espejos;
   - transferencia de proporciones (direcciones de Tripo, longitudes del juego, tobillo apoyado a la altura del juego);
   - raíz reconstruida desde el pie de apoyo (el paquete no trae raíz) y contacto de los golpeos;
@@ -294,7 +336,7 @@ Pedido del usuario: integrar `animaciones_mixamo.zip` sin borrar ni reemplazar n
     dos bibliotecas; después solo con MIXAMO, para dejar ACTUAL como estaba (ver la entrada siguiente);
   - `SpShooter._loop_for`: carrera y sprint de Mixamo.
   - Con ACTUAL no se carga nada de Mixamo.
-- **Laboratorio** (`scripts/dev/anim_lab.gd`, `scenes/dev/anim_lab.tscn`, botón en el menú solo con herramientas de
+- **Laboratorio** («scripts/dev/anim_lab.gd» (eliminado), «scenes/dev/anim_lab.tscn» (eliminado), botón en el menú solo con herramientas de
   desarrollo):
   - ACTUAL, MIXAMO o COMPARAR lado a lado con el mismo reloj, y golpeos alineados al contacto;
   - 11 categorías y 10 situaciones;
@@ -305,15 +347,15 @@ Pedido del usuario: integrar `animaciones_mixamo.zip` sin borrar ni reemplazar n
 - **Archivos**:
   - `scripts/animation/anim_bank.gd`, `pack_library.gd`;
   - `scripts/setpiece/sp_clips.gd`, `shot_catalog.gd`, `sp_field_players.gd`, `sp_shooter.gd`, `main_menu.gd`;
-  - `scripts/goalkeeper/keeper_planner.gd`, `scripts/dev/anim_lab.gd`, `scenes/dev/anim_lab.tscn`;
+  - `scripts/goalkeeper/keeper_planner.gd`, «scripts/dev/anim_lab.gd» (eliminado), «scenes/dev/anim_lab.tscn» (eliminado);
   - `tools/mixamo/*`, `tools/setpiece/build_shot_catalog.gd`;
-  - `tests/test_mixamo_bank.gd`;
+  - «tests/test_mixamo_bank.gd» (eliminado);
   - `.github/workflows/android.yml`, `.gitignore`;
   - `docs/animaciones/*`, ficha `SYSTEMS/ANIM_BANK.md`.
 - **Verificación**:
   - **PC headless**, suite completa con la biblioteca por defecto: 265 pruebas, 2408 comprobaciones, 0 fallos (24
     omitidas: render).
-  - `test_mixamo_bank`: 9/178/0.
+  - «test_mixamo_bank» (eliminado): 9/178/0.
   - Con `ANIM_BANK=mixamo`:
     - `setpiece`: 15 pruebas, 2 fallos de calidad por la poca variedad de golpeos de Mixamo (sin exterior, pocos ángulos);
       con ACTUAL, 15/15;

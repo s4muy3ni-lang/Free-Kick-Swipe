@@ -46,11 +46,8 @@ jobs:
           for f in assets/animations/json_clips.res assets/animations/json_keeper.res assets/animations/json_scenes.res resources/setpiece/shot_clips.json; do
             [ -f "$f" ] || { echo "::error::Falta $f (banco JSON / catalogo de golpeos)."; exit 1; }
           done
-          # Biblioteca MIXAMO (2026-11-12): convive con la actual; la elige el laboratorio de animaciones.
-          for f in assets/animations/mixamo_clips.res assets/animations/mixamo_keeper.res assets/animations/mixamo_scenes.res resources/setpiece/shot_clips_mixamo.json; do
-            [ -f "$f" ] || { echo "::error::Falta $f (biblioteca MIXAMO, tools/mixamo/)."; exit 1; }
-          done
-          for f in assets/animations/pack_clips.res assets/animations/pack_keeper.res assets/animations/mocap_clips.res assets/animations/touch_clips.res; do
+          # Bancos borrados: Mixamo y Mocap viejos (2026-11-08) y la biblioteca nueva de Mixamo (2026-11-12, «muy feas»).
+          for f in assets/animations/pack_clips.res assets/animations/pack_keeper.res assets/animations/mocap_clips.res assets/animations/touch_clips.res assets/animations/mixamo_clips.res assets/animations/mixamo_keeper.res assets/animations/mixamo_scenes.res resources/setpiece/shot_clips_mixamo.json; do
             [ ! -e "$f" ] || { echo "::error::$f es de un banco borrado (Mixamo/Mocap): no debe volver."; exit 1; }
           done
 
@@ -228,12 +225,9 @@ jobs:
           if [ -n "$OTHER" ]; then echo "::error::la APK declara permisos inesperados: $OTHER"; exit 1; fi
 
           # Los bancos borrados (Mixamo y Mocap) no estan en la APK.
-          if unzip -l "$APK" | grep -E -q "animations/(pack_clips|pack_keeper|mocap_clips|touch_clips)\.res|characters/mocap/"; then echo "::error::la APK contiene un banco borrado (Mixamo/Mocap)"; exit 1; fi
-          # Modo 4 (Json): librerias de clips (identicas a las del repositorio) y el humanoide dentro de la APK.
-          for f in animations/mixamo_clips.res animations/mixamo_keeper.res animations/mixamo_scenes.res setpiece/shot_clips_mixamo.json; do
-            unzip -l "$APK" | grep -q "$f" || { echo "::error::$f (biblioteca MIXAMO) no esta en la APK"; exit 1; }
-          done
-          if unzip -l "$APK" | grep -E -q "animations/source/"; then echo "::error::la APK contiene los GLB fuente de Mixamo"; exit 1; fi
+          if unzip -l "$APK" | grep -E -q "animations/(pack_clips|pack_keeper|mocap_clips|touch_clips|mixamo_clips|mixamo_keeper|mixamo_scenes)\.res|characters/mocap/|shot_clips_mixamo"; then echo "::error::la APK contiene un banco borrado (Mixamo/Mocap)"; exit 1; fi
+          # Modo 4 (Json): librerias de clips (identicas a las del repositorio) dentro de la APK.
+          if unzip -l "$APK" | grep -E -q "animations/source/"; then echo "::error::la APK contiene GLB fuente de animaciones"; exit 1; fi
           for f in animations/json_clips.res animations/json_scenes.res animations/json_keeper.res; do
             unzip -l "$APK" | grep -q "$f" || { echo "::error::$f no esta en la APK"; exit 1; }
             unzip -p "$APK" "assets/assets/$f" | cmp -s - "assets/$f" || { echo "::error::$f de la APK difiere del repositorio"; exit 1; }

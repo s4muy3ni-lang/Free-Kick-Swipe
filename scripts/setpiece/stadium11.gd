@@ -71,7 +71,7 @@ func reset_goal_latches() -> void:
 func set_cheer(v: float) -> void:
 	_set_mood("cheer", v)
 
-## Abucheo / lamento del publico (0..1): manos a la cabeza y silbidos con el pulgar abajo.
+## Lamento del publico (0..1): manos a la cabeza y brazos cruzados.
 func set_boo(v: float) -> void:
 	_set_mood("boo", v)
 

@@ -1,9 +1,9 @@
 class_name PackLibrary
 extends RefCounted
 ## Acceso a las librerias de animacion del banco JSON original (unico banco del juego entre 2026-11-08 y 2026-11-12: los
-## bancos viejos de Mixamo y Mocap se borraron por pedido del usuario, ver docs/reforma/MIXAMO_MOCAP_QUITADOS.md). Desde
-## 2026-11-12, con AnimBank en MIXAMO se suman los clips del paquete nuevo de Mixamo (convertidos al mismo esqueleto) y
-## cada rol que Mixamo tiene usa solo esos (_add_mixamo); el resto sigue con los actuales. Cada Animation lleva
+## bancos viejos de Mixamo y Mocap se borraron por pedido del usuario, ver docs/reforma/MIXAMO_MOCAP_QUITADOS.md). El
+## paquete nuevo de Mixamo que se sumo el 2026-11-12 tambien se elimino ese mismo dia («son muy feas y basicas»).
+## Cada Animation lleva
 ## set_meta("pack", {...}) medido al convertir. Sin el modo 4 (modo 3, solo Tripo) no carga nada y el juego usa los clips de
 ## Tripo y la patada procedural.
 ##
@@ -28,11 +28,6 @@ static var _alias: Dictionary = {}
 static var _roles: Dictionary = {}
 
 static var _json_exists: int = -1
-## Biblioteca (AnimBank) con que se cargo; con MIXAMO, roles que siguen con los clips actuales.
-static var _loaded_bank: int = -1
-static var _fallback: Array[StringName] = []
-## Con MIXAMO: los clips ACTUALES de cada rol (los que Mixamo reemplaza), para los respaldos por situacion (KeeperPlanner).
-static var _roles_actual: Dictionary = {}
 
 ## true si el juego usa el modo 4 y sus librerias existen (se pregunta mucho: el resultado de exists() se guarda).
 static func json_mode() -> bool:
@@ -44,19 +39,15 @@ static func json_mode() -> bool:
 
 static func _ensure() -> void:
 	var want_json: bool = json_mode()
-	var want_bank: int = AnimBank.current()
-	if _loaded and _loaded_json == want_json and (not want_json or _loaded_bank == want_bank):
+	if _loaded and _loaded_json == want_json:
 		return
 	_loaded = true
 	_loaded_json = want_json
-	_loaded_bank = want_bank
 	_field = null
 	_keeper = null
 	_alias = {}
 	_alias_base = {}
 	_roles = {}
-	_fallback = []
-	_roles_actual = {}
 	_reset_caches()
 	if want_json:
 		# Copia de la LISTA de animaciones (las Animation siguen siendo las mismas, sin duplicar memoria): las escenas se suman
@@ -111,86 +102,7 @@ static func _ensure() -> void:
 		for a in ClipRolesOverlay.ALIAS:
 			if not _alias.has(a) and _field != null and _field.has_animation(ClipRolesOverlay.ALIAS[a]):
 				_alias[a] = ClipRolesOverlay.ALIAS[a]
-		if want_bank == AnimBank.Bank.MIXAMO and _field != null:
-			_add_mixamo()
 		return
-
-## Biblioteca MIXAMO: suma los clips de Mixamo a las copias de las bibliotecas (no a las compartidas), hace que cada rol con
-## clips de Mixamo use solo esos y pasa los nombres del pack a clips de Mixamo: primero el clip con el MISMO nombre del
-## paquete de Mixamo (los nombres que pide el codigo son los del paquete: «Soccer_Pass» -> mx_soccer_pass); si no, uno
-## del mismo rol (con espejo si el original lo tenia, y con contacto o suelta medidos si el original los tenia).
-static func _add_mixamo() -> void:
-	var mx_roles := {}
-	var add := func(dst: AnimationLibrary, path_: String) -> void:
-		var lib: AnimationLibrary = load(path_) as AnimationLibrary
-		if lib == null:
-			push_error("PackLibrary: falta %s" % path_)
-			return
-		for id in lib.get_animation_list():
-			if dst.has_animation(id):
-				continue
-			var a: Animation = lib.get_animation(id)
-			dst.add_animation(id, a)
-			var role := StringName(String(a.get_meta("pack", {}).get("role", "")))
-			if not mx_roles.has(role):
-				mx_roles[role] = []
-			(mx_roles[role] as Array).append(id)
-	add.call(_field, AnimBank.MIXAMO_FIELD)
-	if ResourceLoader.exists(AnimBank.MIXAMO_SCENES):
-		add.call(_field, AnimBank.MIXAMO_SCENES)
-	_keeper = _keeper.duplicate(false) as AnimationLibrary if _keeper != null else AnimationLibrary.new()
-	add.call(_keeper, AnimBank.MIXAMO_KEEPER)
-	_roles_actual = _roles.duplicate()
-	for role in _roles:
-		if not mx_roles.has(role):
-			_fallback.append(role)
-	_fallback.sort()
-	for role in mx_roles:
-		_roles[role] = mx_roles[role]
-	for a in _alias.keys():
-		var direct := StringName(AnimBank.ID_PREFIX + String(a).to_lower())
-		if _has_any(direct):
-			_alias[a] = direct
-			continue
-		var cur: StringName = _alias[a]
-		var cm: Dictionary = _anim_any(cur).get_meta("pack", {}) if _anim_any(cur) != null else {}
-		var role := StringName(String(cm.get("role", "")))
-		if not mx_roles.has(role):
-			continue
-		var need_mirror: bool = _has_any(StringName(String(cur) + "_mirror"))
-		for id in mx_roles[role]:
-			var sid: String = String(id)
-			if sid.ends_with("_mirror") or (need_mirror and not _has_any(StringName(sid + "_mirror"))):
-				continue
-			var m: Dictionary = _anim_any(id).get_meta("pack", {})
-			if cm.has("release") != m.has("release") or cm.has("contact") != m.has("contact"):
-				continue
-			_alias[a] = id
-			break
-
-static func _has_any(id: StringName) -> bool:
-	return (_field != null and _field.has_animation(id)) or (_keeper != null and _keeper.has_animation(id))
-
-static func _anim_any(id: StringName) -> Animation:
-	if _field != null and _field.has_animation(id):
-		return _field.get_animation(id)
-	if _keeper != null and _keeper.has_animation(id):
-		return _keeper.get_animation(id)
-	return null
-
-## Clips ACTUALES de un rol aunque la biblioteca sea MIXAMO (con ACTUAL, lo mismo que by_role).
-static func actual_by_role(role: StringName) -> Array[StringName]:
-	_ensure()
-	var out: Array[StringName] = []
-	var src: Dictionary = _roles_actual if _loaded_bank == AnimBank.Bank.MIXAMO else _roles
-	if src.has(role):
-		out.assign(src[role])
-	return out
-
-## Con MIXAMO: roles que Mixamo no tiene y siguen con los clips actuales.
-static func fallback_roles() -> Array[StringName]:
-	_ensure()
-	return _fallback.duplicate()
 
 ## Los caches de otras clases que dependen de los clips cargados (cambian al cambiar de modo).
 static func _reset_caches() -> void:
@@ -214,11 +126,6 @@ static func resolve(id: StringName) -> StringName:
 	if (_field != null and _field.has_animation(base)) or (_keeper != null and _keeper.has_animation(base)):
 		return &""   # clip real sin version espejo
 	var target: StringName = _alias.get(base, &"")
-	if target == &"" and _loaded_bank == AnimBank.Bank.MIXAMO:
-		# Nombre del paquete de Mixamo sin sustituto en el banco actual: el clip de Mixamo de ese nombre.
-		var direct := StringName(AnimBank.ID_PREFIX + String(base).to_lower())
-		if _has_any(direct):
-			target = direct
 	if target == &"":
 		return &""
 	if mirrored:
@@ -334,8 +241,6 @@ static func vary_aliases() -> void:
 ## Fuerza una nueva lectura de disco (pruebas).
 static func reload() -> void:
 	_loaded = false
-	_loaded_bank = -1
-	_fallback = []
 	_alias_base = {}
 	_field = null
 	_keeper = null
