@@ -13,10 +13,10 @@ const RARITY := {"comun": Color(0.75, 0.78, 0.85), "raro": Color(0.35, 0.65, 1.0
 	"legendario": Color(1.0, 0.7, 0.2)}
 ## Modalidades online jugables: penales con el protocolo de turnos del servidor; las demas contra un bot dificil
 ## (OnlineDuel; las partidas entre humanos de esas modalidades siguen en preparacion).
-const READY_ONLINE := ["penales", "tiros_libres", "a_la_vista", "guante", "dardos", "basket", "diana"]
+const READY_ONLINE := ["penales", "tiros_libres", "a_la_vista", "guante", "dardos", "basket", "diana", "rescate"]
 ## Miniatura de cada modalidad online (assets/ui/thumbs).
 const ONLINE_THUMBS := {"penales": "penales", "tiros_libres": "tiro_libre", "a_la_vista": "boton_caida", "guante": "guante",
-	"dardos": "dardos", "basket": "enceste", "diana": "diana_gigante"}
+	"dardos": "dardos", "basket": "enceste", "diana": "diana_gigante", "rescate": "rescate"}
 
 var _panel: PanelContainer
 var _content: VBoxContainer

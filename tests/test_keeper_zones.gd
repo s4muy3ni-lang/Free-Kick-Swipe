@@ -142,7 +142,7 @@ func test_a_reachable_shot_to_the_chosen_sector_is_saved() -> void:
 	var asked: int = 0
 	var saved: int = 0
 	var out_of_reach: int = 0
-	var out_goals: int = 0
+	var out_saved: int = 0
 	var goals: Array = []
 	for zone in KeeperZones.COUNT:
 		for speed in [19.0, 27.0]:
@@ -165,19 +165,20 @@ func test_a_reachable_shot_to_the_chosen_sector_is_saved() -> void:
 					else:
 						goals.append("%s (%.2f, %.2f) a %.0f m/s: %s, toque «%s», clip %s" % [KeeperZones.name_of(zone), cross.z, cross.y, speed, game.outcome, k.touch_kind, str(k.plan.get("clip", "-"))])
 				elif cz == zone:
+					# Fuera del alcance puede ser gol, palo o afuera (un tiro pegado al palo): lo que no puede haber es atajada.
 					out_of_reach += 1
-					if game.outcome == "goal":
-						out_goals += 1
+					if game.outcome == "save" or k.touch_kind != &"":
+						out_saved += 1
 				note("%s: cruza (%.2f, %.2f) a %.0f m/s, alcance %.2f de %.2f m (%.2f s) -> %s, toque «%s» (%s), corrida %.2f m" % [KeeperZones.name_of(zone), cross.z, cross.y, speed,
 					float(reach.get("d", 0.0)), float(reach.get("reach", 0.0)), float(reach.get("time", 0.0)), game.outcome, k.touch_kind, str(k.plan.get("clip", "-")), k._sure_drift.length()])
 				cleanup()
 	for g in goals:
 		note("NO ATAJADA: " + g)
-	note("tiros al sector elegido y al alcance: %d, atajados %d · fuera del alcance: %d, goles %d" % [asked, saved, out_of_reach, out_goals])
+	note("tiros al sector elegido y al alcance: %d, atajados %d · fuera del alcance: %d, tocados o atajados %d" % [asked, saved, out_of_reach, out_saved])
 	check(asked >= 40, "se probaron suficientes tiros al alcance dentro del sector (%d)" % asked)
 	check(saved == asked, "todos los tiros al sector elegido y al alcance se atajan (%d de %d)" % [saved, asked])
 	check(out_of_reach >= 10, "hubo tiros pegados al palo o al angulo fuera del alcance (%d)" % out_of_reach)
-	check(out_goals == out_of_reach, "fuera del alcance no hay atajada imposible: gol (%d de %d)" % [out_goals, out_of_reach])
+	check(out_saved == 0, "fuera del alcance no hay atajada imposible (%d tocados o atajados de %d)" % [out_saved, out_of_reach])
 
 ## Pegado al angulo (pedido del usuario): el arquero elige bien el sector de arriba y el tiro va pegado al angulo; supera
 ## el alcance de la estirada: gol, sin atajada segura.

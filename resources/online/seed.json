@@ -382,6 +382,60 @@
             "description": "Diana gigante en el suelo, lejos: marca donde pica la pelota.",
             "turn_seconds": 20,
             "max_points_per_turn": 100
+        },
+        {
+            "id": "rescate",
+            "name": "Rescate",
+            "description": "Mecanismos y acertijos: liberá la pelota antes que el rival.",
+            "rules": "Los dos resuelven el mismo nivel. Gana el que la rescata con más puntos (tiempo que sobra, errores y caídas restan).",
+            "kind": "minijuego",
+            "online": true,
+            "rounds": 1,
+            "turn_seconds": 120,
+            "entry_fees": [
+                0,
+                50,
+                100
+            ],
+            "max_points_per_turn": 400,
+            "scene_def": {
+                "game": "rescate",
+                "levels": [
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10,
+                    11,
+                    12
+                ],
+                "time_limit": {
+                    "5": 45,
+                    "6": 60,
+                    "7": 60,
+                    "8": 60,
+                    "9": 60,
+                    "10": 60,
+                    "11": 70,
+                    "12": 90
+                },
+                "min_time": {
+                    "5": 2.5,
+                    "6": 8.0,
+                    "7": 4.0,
+                    "8": 2.5,
+                    "9": 2.5,
+                    "10": 5.0,
+                    "11": 5.0,
+                    "12": 8.0
+                }
+            },
+            "art": {
+                "icon": "arcade",
+                "color": "#e0a12f"
+            },
+            "sort": 8
         }
     ],
     "season_tiers": [

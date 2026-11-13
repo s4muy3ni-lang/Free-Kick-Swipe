@@ -32,7 +32,7 @@ func test_the_levels_come_from_the_real_content() -> void:
 		check(String(sd.get("game", "")) == String(OnlineDuel.MODES[String(gm["id"])].get("game", "")), "%s: mismo minijuego que juega el cliente" % gm["id"])
 		for d in defs:
 			check(ResourceLoader.exists(String(d["scene"])), "%s nivel %d: escena real" % [gm["id"], int(d["level"])])
-	check(n == 5, "cinco minijuegos online")
+	check(n == 6, "seis minijuegos online (con Rescate)")
 	var a: Array = OnlineMinigameSelect.levels_of({"scene_def": {"game": "boton_caida", "levels": [1, 2, 3, 4, 5, 6, 7, 8]}})
 	check(a.size() == 8 and String(a[0]["title"]) == "A la vista", "Plataforma y vacío (A la vista): sus 8 niveles, en orden")
 
@@ -41,7 +41,7 @@ func test_the_selection_screen() -> void:
 	s.setup(_modes(), "a_la_vista", "ElTanque")
 	spawn(s)
 	await physics_frames(2)
-	check(s._tab_buttons.size() == 5, "pestañas de los 5 minijuegos online")
+	check(s._tab_buttons.size() == 6, "pestañas de los 6 minijuegos online")
 	check(s._cards.size() == 8, "A la vista muestra sus 8 niveles")
 	check(s._confirm.disabled, "sin nivel elegido no se puede confirmar")
 	var got: Array = []
@@ -146,3 +146,30 @@ func test_the_menu_shows_the_selection_and_resumes_after_a_game() -> void:
 	check(is_instance_valid(again) and again.same_game and again.mode == "guante" and not again._tabs.visible, "«Otro nivel»: niveles del mismo minijuego, sin cambiar de juego")
 	check(String(o.local._db["match"]["status"]) == "active" and o.local._db["match"]["bot"]["name"] == r["data"]["opponent"]["name"], "revancha con el mismo bot")
 	cleanup()
+
+## Rescate online: los dos el mismo nivel; el servidor recalcula el puntaje con tiempo, errores y caidas, y rechaza un
+## tiempo imposible (menos que lo que permite la fisica del nivel) o fuera del limite.
+func test_online_rescue_is_validated_by_the_server() -> void:
+	var o: Node = await _online()
+	await o.call_fn("find_match", {"p_mode": "rescate", "p_fee": 0})
+	o.local.clock_offset += 10.0
+	var r: Dictionary = await o.call_fn("start_bot_match", {"p_mode": "rescate"})
+	check(r["ok"], "partida de Rescate contra el bot")
+	r = await o.call_fn("choose_minigame", {"p_match": "", "p_mode": "rescate", "p_level": 3})
+	check(not r["ok"], "solo los niveles de mecanismos (el 3 es de patear)")
+	r = await o.call_fn("choose_minigame", {"p_match": "", "p_mode": "rescate", "p_level": 8})
+	check(r["ok"], "Rescate nivel 8 (Secuencia de colores)")
+	var d: Dictionary = MinigameCatalog.level("rescate", 8)
+	var fast_st := {"rescued": true, "time": float(d["min_time"]) * 0.5, "actions": 3, "errors": 0, "falls": 0, "attempts": 1}
+	r = await o.call_fn("finish_minigame", {"p_match": "", "p_game": "rescate", "p_level": 8, "p_points": 9999, "p_bot_points": 100, "p_stats": fast_st})
+	check(not r["ok"], "un tiempo menor que el que permite la fisica se rechaza")
+	var st := {"rescued": true, "time": 12.4, "actions": 4, "errors": 1, "falls": 0, "attempts": 1}
+	r = await o.call_fn("finish_minigame", {"p_match": "", "p_game": "rescate", "p_level": 8, "p_points": 9999, "p_bot_points": 100, "p_stats": st})
+	var want: int = Rescate.score_for(st.merged({"time_limit": float(d["time"]), "shots": 0, "shots_max": 0}))
+	note("puntaje del servidor: %d (el cliente dijo 9999; formula %d)" % [int(r["data"]["match"]["score_a"]), want])
+	check(r["ok"] and int(r["data"]["match"]["score_a"]) == want, "el puntaje lo recalcula el servidor (no el que manda el cliente)")
+	var res: Dictionary = r["data"]["match"]["minigame"]["result"]
+	check(int(res["errors"]) == 1 and int(res["actions"]) == 4 and is_equal_approx(float(res["time"]), 12.4), "quedan registrados tiempo, acciones y errores")
+	# El bot del Rescate se puntua con la misma formula y queda entre lo posible.
+	var bp: int = OnlineDuel.bot_score("rescate", {"skill": 0.9, "seed": 4}, d)
+	check(bp >= 50 and bp <= Rescate.score_for({"rescued": true, "time": float(d["min_time"]), "time_limit": float(d["time"])}), "puntaje del bot posible (%d)" % bp)

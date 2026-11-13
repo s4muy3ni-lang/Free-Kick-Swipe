@@ -1,3724 +1,5346 @@
 {
- "games": [
-  {
-   "id": "boton_caida",
-   "title": "Botón de caída",
-   "scene": "res://scenes/minigames/boton_caida.tscn",
-   "status": "Implementado",
-   "description": "Dos plataformas sobre el vacío: pegale fuerte al botón del rival y se abre su piso.",
-   "levels": [
+  "games": [
     {
-     "title": "A la vista",
-     "objective": "Pegale FUERTE al botón rojo del fondo de la plataforma rival: se abre su piso y cae. Gana el primero que haga caer 2 veces al otro. Un roce no alcanza.",
-     "gap": 12.0,
-     "button": {
-      "radius": 0.55,
-      "y": 1.2
-     },
-     "points_to_win": 2,
-     "medals": [
-      200,
-      300,
-      380
-     ]
+      "id": "boton_caida",
+      "title": "Botón de caída",
+      "scene": "res://scenes/minigames/boton_caida.tscn",
+      "status": "Implementado",
+      "description": "Dos plataformas sobre el vacío: pegale fuerte al botón del rival y se abre su piso.",
+      "levels": [
+        {
+          "title": "A la vista",
+          "objective": "Pegale FUERTE al botón rojo del fondo de la plataforma rival: se abre su piso y cae. Gana el primero que haga caer 2 veces al otro. Un roce no alcanza.",
+          "gap": 12.0,
+          "button": {
+            "radius": 0.55,
+            "y": 1.2
+          },
+          "points_to_win": 2,
+          "medals": [
+            200,
+            300,
+            380
+          ]
+        },
+        {
+          "title": "Custodiado",
+          "objective": "El botón está protegido por dos postes y un bloque. Buscá el hueco.",
+          "gap": 14.0,
+          "button": {
+            "radius": 0.5,
+            "y": 1.1
+          },
+          "obstacles": [
+            {
+              "type": "post",
+              "pos": [
+                -3.6,
+                1.2,
+                -0.75
+              ],
+              "size": [
+                0.3,
+                2.4,
+                0.3
+              ]
+            },
+            {
+              "type": "post",
+              "pos": [
+                -3.6,
+                1.2,
+                0.75
+              ],
+              "size": [
+                0.3,
+                2.4,
+                0.3
+              ]
+            },
+            {
+              "type": "box",
+              "pos": [
+                -4.6,
+                0.45,
+                0.0
+              ],
+              "size": [
+                0.5,
+                0.9,
+                1.2
+              ]
+            }
+          ],
+          "points_to_win": 2,
+          "medals": [
+            200,
+            300,
+            380
+          ]
+        },
+        {
+          "title": "Detrás del muro",
+          "objective": "El botón está en el piso, detrás de un muro. Pasala por arriba: que caiga sobre el botón o que rebote en el tablero del fondo.",
+          "gap": 13.0,
+          "button": {
+            "kind": "floor",
+            "radius": 0.75,
+            "x": -5.2
+          },
+          "ai": {
+            "aim": [
+              -6.4,
+              1.36,
+              0.0
+            ],
+            "speed": 14.0
+          },
+          "obstacles": [
+            {
+              "type": "wall",
+              "pos": [
+                -3.8,
+                1.25,
+                0.0
+              ],
+              "size": [
+                0.3,
+                2.5,
+                2.2
+              ]
+            },
+            {
+              "type": "wall",
+              "pos": [
+                -7.1,
+                2.0,
+                0.0
+              ],
+              "size": [
+                0.3,
+                4.0,
+                4.0
+              ]
+            }
+          ],
+          "points_to_win": 2,
+          "medals": [
+            200,
+            300,
+            380
+          ]
+        },
+        {
+          "title": "Botón móvil",
+          "objective": "El botón va y viene. Calculá dónde va a estar cuando llegue la pelota.",
+          "gap": 13.0,
+          "button": {
+            "radius": 0.5,
+            "y": 1.2,
+            "move": {
+              "axis": [
+                0,
+                0,
+                1
+              ],
+              "amp": 2.2,
+              "speed": 1.6
+            }
+          },
+          "points_to_win": 2,
+          "medals": [
+            200,
+            300,
+            380
+          ]
+        },
+        {
+          "title": "Botón chico",
+          "objective": "El botón es mucho más chico. Precisión pura.",
+          "gap": 12.0,
+          "button": {
+            "radius": 0.28,
+            "y": 1.0
+          },
+          "points_to_win": 2,
+          "medals": [
+            200,
+            300,
+            380
+          ]
+        },
+        {
+          "title": "Desnivel",
+          "objective": "Las plataformas están a distinta altura y giradas. Ajustá la altura y el ángulo.",
+          "gap": 13.0,
+          "button": {
+            "radius": 0.5,
+            "y": 1.2
+          },
+          "platforms": [
+            {
+              "y": 0.0,
+              "yaw": -12.0,
+              "dz": -1.5
+            },
+            {
+              "y": 2.0,
+              "yaw": 14.0,
+              "dz": 2.0
+            }
+          ],
+          "points_to_win": 2,
+          "medals": [
+            200,
+            300,
+            380
+          ]
+        },
+        {
+          "title": "Obstáculos en movimiento",
+          "objective": "Dos bloques se cruzan delante del botón y una barra gira. Elegí el momento.",
+          "gap": 13.0,
+          "button": {
+            "radius": 0.5,
+            "y": 1.2
+          },
+          "obstacles": [
+            {
+              "type": "box",
+              "pos": [
+                -5.1,
+                1.2,
+                0.0
+              ],
+              "size": [
+                0.3,
+                1.4,
+                1.1
+              ],
+              "move": {
+                "axis": [
+                  0,
+                  0,
+                  1
+                ],
+                "amp": 1.6,
+                "speed": 1.3
+              }
+            },
+            {
+              "type": "box",
+              "pos": [
+                -5.6,
+                1.2,
+                0.0
+              ],
+              "size": [
+                0.3,
+                1.4,
+                1.1
+              ],
+              "move": {
+                "axis": [
+                  0,
+                  0,
+                  1
+                ],
+                "amp": 1.6,
+                "speed": 1.3,
+                "phase": 3.14
+              }
+            },
+            {
+              "type": "box",
+              "pos": [
+                -5.95,
+                1.2,
+                0.0
+              ],
+              "size": [
+                0.15,
+                2.2,
+                0.25
+              ],
+              "move": {
+                "axis": [
+                  0,
+                  0,
+                  0
+                ],
+                "amp": 0.0,
+                "speed": 1.0,
+                "spin_axis": [
+                  1,
+                  0,
+                  0
+                ],
+                "spin": 1.8
+              }
+            }
+          ],
+          "points_to_win": 2,
+          "medals": [
+            200,
+            300,
+            380
+          ]
+        },
+        {
+          "title": "Varios rebotes",
+          "objective": "El botón del piso está bajo un techo y detrás de un muro bajo. Hace falta rebotar (piso, tablero o techo) para llegar.",
+          "gap": 12.0,
+          "button": {
+            "kind": "floor",
+            "radius": 0.75,
+            "x": -5.4
+          },
+          "ai": {
+            "aim": [
+              -6.6,
+              0.76,
+              0.0
+            ],
+            "speed": 18.0
+          },
+          "obstacles": [
+            {
+              "type": "wall",
+              "pos": [
+                -3.8,
+                0.6,
+                0.0
+              ],
+              "size": [
+                0.3,
+                1.2,
+                2.2
+              ]
+            },
+            {
+              "type": "wall",
+              "pos": [
+                -5.5,
+                2.4,
+                0.0
+              ],
+              "size": [
+                3.0,
+                0.2,
+                3.2
+              ]
+            },
+            {
+              "type": "wall",
+              "pos": [
+                -7.1,
+                1.8,
+                0.0
+              ],
+              "size": [
+                0.3,
+                3.6,
+                4.0
+              ]
+            }
+          ],
+          "points_to_win": 2,
+          "medals": [
+            200,
+            300,
+            380
+          ]
+        }
+      ]
     },
     {
-     "title": "Custodiado",
-     "objective": "El botón está protegido por dos postes y un bloque. Buscá el hueco.",
-     "gap": 14.0,
-     "button": {
-      "radius": 0.5,
-      "y": 1.1
-     },
-     "obstacles": [
-      {
-       "type": "post",
-       "pos": [
-        -3.6,
-        1.2,
-        -0.75
-       ],
-       "size": [
-        0.3,
-        2.4,
-        0.3
-       ]
-      },
-      {
-       "type": "post",
-       "pos": [
-        -3.6,
-        1.2,
-        0.75
-       ],
-       "size": [
-        0.3,
-        2.4,
-        0.3
-       ]
-      },
-      {
-       "type": "box",
-       "pos": [
-        -4.6,
-        0.45,
-        0.0
-       ],
-       "size": [
-        0.5,
-        0.9,
-        1.2
-       ]
-      }
-     ],
-     "points_to_win": 2,
-     "medals": [
-      200,
-      300,
-      380
-     ]
+      "id": "demolicion",
+      "title": "Demolición",
+      "scene": "res://scenes/minigames/demolicion.tscn",
+      "status": "Implementado",
+      "description": "Derribá estructuras de madera, ladrillo, piedra, metal y vidrio con la pelota real, en una obra, un castillo y un almacén.",
+      "levels": [
+        {
+          "title": "Torre",
+          "objective": "Tirá la torre roja de la mesa (o volcá cada bloque). Tenés 3 tiros; cada tiro de sobra suma.",
+          "distance": 16.0,
+          "shots": 3,
+          "figures": [
+            {
+              "type": "tower",
+              "n": 5,
+              "at": [
+                0,
+                0,
+                0
+              ],
+              "size": [
+                0.45,
+                0.45,
+                0.45
+              ],
+              "kind": "target",
+              "mass": 1.0,
+              "look": "crate"
+            }
+          ],
+          "medals": [
+            300,
+            440,
+            560
+          ],
+          "theme": "obra"
+        },
+        {
+          "title": "Pirámide",
+          "objective": "Derribá la pirámide entera (6 bloques): sacalos de la mesa o volcalos. 5 tiros.",
+          "distance": 17.0,
+          "shots": 5,
+          "figures": [
+            {
+              "type": "pyramid",
+              "n": 3,
+              "at": [
+                0,
+                0,
+                0
+              ],
+              "size": [
+                0.45,
+                0.45,
+                0.45
+              ],
+              "kind": "target",
+              "mass": 0.8,
+              "look": "brick"
+            }
+          ],
+          "medals": [
+            400,
+            600,
+            720
+          ],
+          "theme": "obra"
+        },
+        {
+          "title": "Reacción en cadena",
+          "objective": "Las fichas están en fila hacia el fondo: volteá la primera y caen en cadena. Dos tiros.",
+          "distance": 15.0,
+          "shots": 2,
+          "table_depth": 3.8,
+          "table_width": 4.0,
+          "figures": [
+            {
+              "type": "dominoes",
+              "n": 6,
+              "at": [
+                -1.3,
+                0,
+                0
+              ],
+              "step": [
+                0.5,
+                0,
+                0
+              ],
+              "size": [
+                0.12,
+                0.9,
+                0.6
+              ],
+              "kind": "target",
+              "mass": 0.8,
+              "look": "wood"
+            }
+          ],
+          "medals": [
+            400,
+            600,
+            660
+          ],
+          "theme": "almacen"
+        },
+        {
+          "title": "Precisión",
+          "objective": "Volteá solo los rojos: cada blanco que tires resta puntos. 3 tiros.",
+          "distance": 16.0,
+          "shots": 3,
+          "blocks": [
+            {
+              "pos": [
+                0,
+                0.3,
+                -1.2
+              ],
+              "size": [
+                0.4,
+                0.6,
+                0.4
+              ],
+              "kind": "target",
+              "look": "stone"
+            },
+            {
+              "pos": [
+                0,
+                0.3,
+                0.0
+              ],
+              "size": [
+                0.4,
+                0.6,
+                0.4
+              ],
+              "kind": "keep",
+              "look": "stone"
+            },
+            {
+              "pos": [
+                0,
+                0.3,
+                1.2
+              ],
+              "size": [
+                0.4,
+                0.6,
+                0.4
+              ],
+              "kind": "target",
+              "look": "stone"
+            },
+            {
+              "pos": [
+                0,
+                0.3,
+                -0.6
+              ],
+              "size": [
+                0.4,
+                0.6,
+                0.4
+              ],
+              "kind": "keep",
+              "look": "stone"
+            },
+            {
+              "pos": [
+                0,
+                0.3,
+                0.6
+              ],
+              "size": [
+                0.4,
+                0.6,
+                0.4
+              ],
+              "kind": "keep",
+              "look": "stone"
+            }
+          ],
+          "medals": [
+            140,
+            200,
+            260
+          ],
+          "theme": "castillo"
+        },
+        {
+          "title": "Muro",
+          "objective": "Un muro de 9 bloques: tiralo todo en 4 tiros.",
+          "distance": 17.0,
+          "shots": 4,
+          "figures": [
+            {
+              "type": "wall",
+              "rows": 3,
+              "cols": 3,
+              "at": [
+                0,
+                0,
+                0
+              ],
+              "size": [
+                0.4,
+                0.4,
+                0.55
+              ],
+              "kind": "target",
+              "mass": 0.6,
+              "look": "brick"
+            }
+          ],
+          "medals": [
+            600,
+            900,
+            1000
+          ],
+          "theme": "castillo"
+        },
+        {
+          "title": "Torre inestable",
+          "objective": "Una torre alta y fina con un bloque rojo arriba: hacelo caer sin voltear los blancos de la base. 2 tiros.",
+          "distance": 18.0,
+          "shots": 2,
+          "blocks": [
+            {
+              "pos": [
+                0,
+                0.35,
+                0
+              ],
+              "size": [
+                0.35,
+                0.7,
+                0.35
+              ],
+              "kind": "keep",
+              "look": "stone"
+            },
+            {
+              "pos": [
+                0,
+                1.05,
+                0
+              ],
+              "size": [
+                0.35,
+                0.7,
+                0.35
+              ],
+              "kind": "keep",
+              "look": "stone"
+            },
+            {
+              "pos": [
+                0,
+                1.6,
+                0
+              ],
+              "size": [
+                0.3,
+                0.4,
+                0.3
+              ],
+              "kind": "target",
+              "mass": 0.6,
+              "look": "crate"
+            }
+          ],
+          "medals": [
+            100,
+            130,
+            160
+          ],
+          "theme": "obra"
+        },
+        {
+          "title": "Barriles",
+          "objective": "Barriles apilados: ruedan y desparraman la pila. Tiralos todos en 4 tiros.",
+          "distance": 16.0,
+          "shots": 4,
+          "blocks": [
+            {
+              "pos": [
+                0,
+                0.3,
+                -0.35
+              ],
+              "size": [
+                0.6,
+                0.6,
+                0.6
+              ],
+              "kind": "target",
+              "shape": "barrel",
+              "mass": 0.6,
+              "look": "metal"
+            },
+            {
+              "pos": [
+                0,
+                0.3,
+                0.35
+              ],
+              "size": [
+                0.6,
+                0.6,
+                0.6
+              ],
+              "kind": "target",
+              "shape": "barrel",
+              "mass": 0.6,
+              "look": "metal"
+            },
+            {
+              "pos": [
+                0,
+                0.9,
+                0.0
+              ],
+              "size": [
+                0.6,
+                0.6,
+                0.6
+              ],
+              "kind": "target",
+              "shape": "barrel",
+              "mass": 0.6,
+              "look": "metal"
+            },
+            {
+              "pos": [
+                0,
+                0.3,
+                1.05
+              ],
+              "size": [
+                0.6,
+                0.6,
+                0.6
+              ],
+              "kind": "target",
+              "shape": "barrel",
+              "mass": 0.6,
+              "look": "metal"
+            },
+            {
+              "pos": [
+                0,
+                0.3,
+                -1.05
+              ],
+              "size": [
+                0.6,
+                0.6,
+                0.6
+              ],
+              "kind": "target",
+              "shape": "barrel",
+              "mass": 0.6,
+              "look": "metal"
+            }
+          ],
+          "medals": [
+            400,
+            560,
+            620
+          ],
+          "theme": "almacen"
+        },
+        {
+          "title": "Soportes",
+          "objective": "Los rojos están sobre una tabla apoyada en dos pilares: tirá un pilar y que la estructura haga el resto.",
+          "distance": 16.0,
+          "shots": 2,
+          "blocks": [
+            {
+              "pos": [
+                -0.8,
+                0.45,
+                0
+              ],
+              "size": [
+                0.35,
+                0.9,
+                0.35
+              ],
+              "kind": "block",
+              "mass": 1.0,
+              "look": "metal"
+            },
+            {
+              "pos": [
+                0.8,
+                0.45,
+                0
+              ],
+              "size": [
+                0.35,
+                0.9,
+                0.35
+              ],
+              "kind": "block",
+              "mass": 1.0,
+              "look": "metal"
+            },
+            {
+              "pos": [
+                0,
+                0.98,
+                0
+              ],
+              "size": [
+                2.6,
+                0.12,
+                0.8
+              ],
+              "kind": "block",
+              "mass": 1.4,
+              "look": "wood"
+            },
+            {
+              "pos": [
+                -0.6,
+                1.3,
+                0
+              ],
+              "size": [
+                0.4,
+                0.5,
+                0.4
+              ],
+              "kind": "target",
+              "mass": 0.6,
+              "look": "crate"
+            },
+            {
+              "pos": [
+                0.6,
+                1.3,
+                0
+              ],
+              "size": [
+                0.4,
+                0.5,
+                0.4
+              ],
+              "kind": "target",
+              "mass": 0.6,
+              "look": "crate"
+            }
+          ],
+          "medals": [
+            200,
+            260,
+            320
+          ],
+          "theme": "almacen"
+        },
+        {
+          "title": "Vitrina",
+          "theme": "almacen",
+          "objective": "Cuatro paneles de vidrio: un golpe fuerte los rompe en pedazos. 4 tiros.",
+          "distance": 15.0,
+          "shots": 4,
+          "blocks": [
+            {
+              "pos": [
+                0,
+                0.36,
+                -1.05
+              ],
+              "size": [
+                0.08,
+                0.7,
+                0.62
+              ],
+              "kind": "target",
+              "material": "glass"
+            },
+            {
+              "pos": [
+                0,
+                0.36,
+                -0.35
+              ],
+              "size": [
+                0.08,
+                0.7,
+                0.62
+              ],
+              "kind": "target",
+              "material": "glass"
+            },
+            {
+              "pos": [
+                0,
+                0.36,
+                0.35
+              ],
+              "size": [
+                0.08,
+                0.7,
+                0.62
+              ],
+              "kind": "target",
+              "material": "glass"
+            },
+            {
+              "pos": [
+                0,
+                0.36,
+                1.05
+              ],
+              "size": [
+                0.08,
+                0.7,
+                0.62
+              ],
+              "kind": "target",
+              "material": "glass"
+            }
+          ],
+          "medals": [
+            200,
+            400,
+            460
+          ]
+        },
+        {
+          "title": "Casita",
+          "theme": "obra",
+          "objective": "Una casita de ladrillos con dos cajas en el techo: tirá las cajas (o la casa entera). 3 tiros.",
+          "distance": 15.0,
+          "shots": 3,
+          "table_depth": 2.0,
+          "figures": [
+            {
+              "type": "house",
+              "at": [
+                0,
+                0,
+                0
+              ],
+              "size": [
+                0.2,
+                0.25,
+                0.4
+              ],
+              "rows": 3,
+              "bricks": 4,
+              "depth": 1.1,
+              "kind": "block",
+              "material": "brick",
+              "roof_kind": "target",
+              "roof_mass": 0.5
+            }
+          ],
+          "medals": [
+            100,
+            200,
+            260
+          ]
+        },
+        {
+          "title": "Columnata",
+          "theme": "castillo",
+          "objective": "Columnas de piedra con dinteles y tres estatuas arriba: hacé caer las estatuas. 3 tiros.",
+          "distance": 16.0,
+          "shots": 3,
+          "table_width": 5.0,
+          "figures": [
+            {
+              "type": "colonnade",
+              "at": [
+                0,
+                0,
+                0
+              ],
+              "size": [
+                0.3,
+                1.1,
+                0.3
+              ],
+              "cols": 4,
+              "gap": 1.1,
+              "kind": "block",
+              "look": "stone",
+              "mass": 1.2,
+              "top_kind": "target",
+              "top_mass": 0.5,
+              "top_look": "stone"
+            }
+          ],
+          "medals": [
+            100,
+            300,
+            360
+          ]
+        },
+        {
+          "title": "Jenga",
+          "theme": "obra",
+          "objective": "Torre de tablones cruzados: los dos pisos de arriba son rojos. Bajalos a la mesa. 4 tiros.",
+          "distance": 15.0,
+          "shots": 4,
+          "down_h": 0.9,
+          "figures": [
+            {
+              "type": "jenga",
+              "at": [
+                0,
+                0,
+                0
+              ],
+              "size": [
+                1.1,
+                0.18,
+                0.34
+              ],
+              "n": 9,
+              "top": 2,
+              "kind": "block",
+              "top_kind": "target",
+              "look": "wood",
+              "mass": 0.5
+            }
+          ],
+          "medals": [
+            300,
+            600,
+            660
+          ]
+        },
+        {
+          "title": "Fortaleza",
+          "theme": "castillo",
+          "objective": "Dos torres de piedra, un puente de madera con cajas y un vitral en el medio. 4 tiros.",
+          "distance": 17.0,
+          "shots": 4,
+          "blocks": [
+            {
+              "pos": [
+                0,
+                0.25,
+                -1.0
+              ],
+              "size": [
+                0.5,
+                0.5,
+                0.5
+              ],
+              "kind": "block",
+              "look": "stone",
+              "mass": 1.6
+            },
+            {
+              "pos": [
+                0,
+                0.75,
+                -1.0
+              ],
+              "size": [
+                0.5,
+                0.5,
+                0.5
+              ],
+              "kind": "block",
+              "look": "stone",
+              "mass": 1.6
+            },
+            {
+              "pos": [
+                0,
+                1.25,
+                -1.0
+              ],
+              "size": [
+                0.5,
+                0.5,
+                0.5
+              ],
+              "kind": "block",
+              "look": "stone",
+              "mass": 1.6
+            },
+            {
+              "pos": [
+                0,
+                0.25,
+                1.0
+              ],
+              "size": [
+                0.5,
+                0.5,
+                0.5
+              ],
+              "kind": "block",
+              "look": "stone",
+              "mass": 1.6
+            },
+            {
+              "pos": [
+                0,
+                0.75,
+                1.0
+              ],
+              "size": [
+                0.5,
+                0.5,
+                0.5
+              ],
+              "kind": "block",
+              "look": "stone",
+              "mass": 1.6
+            },
+            {
+              "pos": [
+                0,
+                1.25,
+                1.0
+              ],
+              "size": [
+                0.5,
+                0.5,
+                0.5
+              ],
+              "kind": "block",
+              "look": "stone",
+              "mass": 1.6
+            },
+            {
+              "pos": [
+                0,
+                1.56,
+                0
+              ],
+              "size": [
+                0.5,
+                0.12,
+                2.6
+              ],
+              "kind": "block",
+              "look": "wood",
+              "mass": 1.2
+            },
+            {
+              "pos": [
+                0,
+                1.82,
+                -0.6
+              ],
+              "size": [
+                0.4,
+                0.4,
+                0.4
+              ],
+              "kind": "target",
+              "look": "crate",
+              "mass": 0.5
+            },
+            {
+              "pos": [
+                0,
+                1.82,
+                0.6
+              ],
+              "size": [
+                0.4,
+                0.4,
+                0.4
+              ],
+              "kind": "target",
+              "look": "crate",
+              "mass": 0.5
+            },
+            {
+              "pos": [
+                0,
+                0.6,
+                0
+              ],
+              "size": [
+                0.08,
+                1.2,
+                1.2
+              ],
+              "kind": "target",
+              "material": "glass"
+            }
+          ],
+          "medals": [
+            200,
+            300,
+            420
+          ]
+        }
+      ]
     },
     {
-     "title": "Detrás del muro",
-     "objective": "El botón está en el piso, detrás de un muro. Pasala por arriba: que caiga sobre el botón o que rebote en el tablero del fondo.",
-     "gap": 13.0,
-     "button": {
-      "kind": "floor",
-      "radius": 0.75,
-      "x": -5.2
-     },
-     "ai": {
-      "aim": [
-       -6.4,
-       1.36,
-       0.0
+      "id": "enceste",
+      "title": "Básquet",
+      "scene": "res://scenes/minigames/enceste.tscn",
+      "status": "Implementado",
+      "description": "Aros físicos a distintas alturas: cuenta solo si la pelota pasa de arriba hacia abajo. Los aros altos valen más.",
+      "levels": [
+        {
+          "title": "Gradas",
+          "objective": "Aros grandes en gradas: azules 10, rojos 15, el amarillo de arriba 20. 8 tiros, sumá todo.",
+          "shots": 8,
+          "repeat": true,
+          "tiers": [
+            [
+              12.5,
+              16.0,
+              1.0
+            ],
+            [
+              16.0,
+              18.8,
+              2.0
+            ],
+            [
+              18.8,
+              22.0,
+              3.0
+            ]
+          ],
+          "hoops": [
+            {
+              "pos": [
+                14.0,
+                1.95,
+                -3.0
+              ],
+              "radius": 0.75,
+              "board": false,
+              "points": 100
+            },
+            {
+              "pos": [
+                14.0,
+                1.95,
+                0.0
+              ],
+              "radius": 0.75,
+              "board": false,
+              "points": 100
+            },
+            {
+              "pos": [
+                14.0,
+                1.95,
+                3.0
+              ],
+              "radius": 0.75,
+              "board": false,
+              "points": 100
+            },
+            {
+              "pos": [
+                17.2,
+                2.95,
+                -1.8
+              ],
+              "radius": 0.75,
+              "board": false,
+              "points": 150
+            },
+            {
+              "pos": [
+                17.2,
+                2.95,
+                1.8
+              ],
+              "radius": 0.75,
+              "board": false,
+              "points": 150
+            },
+            {
+              "pos": [
+                20.2,
+                3.95,
+                0.0
+              ],
+              "radius": 0.75,
+              "board": false,
+              "points": 200
+            }
+          ],
+          "medals": [
+            400,
+            900,
+            1300
+          ]
+        },
+        {
+          "title": "Gradas: todos",
+          "objective": "Encestá en los seis aros de las gradas. 10 tiros.",
+          "shots": 10,
+          "tiers": [
+            [
+              12.5,
+              16.0,
+              1.0
+            ],
+            [
+              16.0,
+              18.8,
+              2.0
+            ],
+            [
+              18.8,
+              22.0,
+              3.0
+            ]
+          ],
+          "hoops": [
+            {
+              "pos": [
+                14.0,
+                1.95,
+                -3.0
+              ],
+              "radius": 0.75,
+              "board": false,
+              "points": 100
+            },
+            {
+              "pos": [
+                14.0,
+                1.95,
+                0.0
+              ],
+              "radius": 0.75,
+              "board": false,
+              "points": 100
+            },
+            {
+              "pos": [
+                14.0,
+                1.95,
+                3.0
+              ],
+              "radius": 0.75,
+              "board": false,
+              "points": 100
+            },
+            {
+              "pos": [
+                17.2,
+                2.95,
+                -1.8
+              ],
+              "radius": 0.75,
+              "board": false,
+              "points": 150
+            },
+            {
+              "pos": [
+                17.2,
+                2.95,
+                1.8
+              ],
+              "radius": 0.75,
+              "board": false,
+              "points": 150
+            },
+            {
+              "pos": [
+                20.2,
+                3.95,
+                0.0
+              ],
+              "radius": 0.75,
+              "board": false,
+              "points": 200
+            }
+          ],
+          "medals": [
+            500,
+            800,
+            1100
+          ]
+        },
+        {
+          "title": "Primer aro",
+          "objective": "Meté la pelota en el aro (de arriba hacia abajo). Cuatro tiros; limpia (sin tocar el aro) suma más.",
+          "shots": 4,
+          "hoops": [
+            {
+              "pos": [
+                12.0,
+                3.05,
+                0.0
+              ],
+              "radius": 0.36
+            }
+          ],
+          "medals": [
+            100,
+            190,
+            250
+          ]
+        },
+        {
+          "title": "Por el tablero",
+          "objective": "Una tapa transparente cubre el frente del aro: hacé rebotar la pelota en el tablero. Cuatro tiros.",
+          "shots": 4,
+          "hoops": [
+            {
+              "pos": [
+                12.0,
+                3.05,
+                0.0
+              ],
+              "radius": 0.36,
+              "lid": 1.0
+            }
+          ],
+          "medals": [
+            100,
+            180,
+            220
+          ]
+        },
+        {
+          "title": "Aro lejano",
+          "objective": "El aro está a 18 m. Cinco tiros.",
+          "shots": 5,
+          "hoops": [
+            {
+              "pos": [
+                18.0,
+                3.05,
+                0.0
+              ],
+              "radius": 0.36
+            }
+          ],
+          "medals": [
+            100,
+            200,
+            290
+          ]
+        },
+        {
+          "title": "Aro móvil",
+          "objective": "El aro va y viene: calculá dónde va a estar. Cinco tiros.",
+          "shots": 5,
+          "hoops": [
+            {
+              "pos": [
+                13.0,
+                3.05,
+                0.0
+              ],
+              "radius": 0.38,
+              "move": {
+                "axis": [
+                  0,
+                  0,
+                  1
+                ],
+                "amp": 1.6,
+                "speed": 1.1
+              }
+            }
+          ],
+          "medals": [
+            100,
+            200,
+            290
+          ]
+        },
+        {
+          "title": "Doble aro",
+          "objective": "Dos aros: encestá en los dos. Seis tiros.",
+          "shots": 6,
+          "hoops": [
+            {
+              "pos": [
+                12.0,
+                2.6,
+                -2.0
+              ],
+              "radius": 0.36
+            },
+            {
+              "pos": [
+                15.0,
+                3.4,
+                2.2
+              ],
+              "radius": 0.36
+            }
+          ],
+          "need": 2,
+          "medals": [
+            200,
+            320,
+            460
+          ]
+        },
+        {
+          "title": "Tres alturas",
+          "objective": "Tres aros a 2,4 m, 3,05 m y 3,8 m (x1, x2, x3): encestá en los tres. 7 tiros.",
+          "shots": 7,
+          "need": 3,
+          "hoops": [
+            {
+              "pos": [
+                11.0,
+                2.4,
+                -2.6
+              ],
+              "radius": 0.38,
+              "value": 1
+            },
+            {
+              "pos": [
+                13.0,
+                3.05,
+                0.0
+              ],
+              "radius": 0.36,
+              "value": 2
+            },
+            {
+              "pos": [
+                15.0,
+                3.8,
+                2.6
+              ],
+              "radius": 0.36,
+              "value": 3
+            }
+          ],
+          "medals": [
+            200,
+            500,
+            750
+          ]
+        },
+        {
+          "title": "Ronda de tiros",
+          "objective": "8 tiros: cada tiro podés volver a meterla en cualquier aro. El de arriba vale x3.",
+          "shots": 8,
+          "repeat": true,
+          "hoops": [
+            {
+              "pos": [
+                11.0,
+                2.4,
+                -2.6
+              ],
+              "radius": 0.38,
+              "value": 1
+            },
+            {
+              "pos": [
+                13.0,
+                3.05,
+                0.0
+              ],
+              "radius": 0.36,
+              "value": 2
+            },
+            {
+              "pos": [
+                15.0,
+                3.8,
+                2.6
+              ],
+              "radius": 0.36,
+              "value": 3
+            }
+          ],
+          "medals": [
+            300,
+            900,
+            1500
+          ]
+        }
+      ]
+    },
+    {
+      "id": "minigolf",
+      "title": "Minigolf",
+      "scene": "res://scenes/minigames/minigolf.tscn",
+      "status": "Implementado",
+      "description": "Meté la pelota en el hoyo con la menor cantidad de golpes: rampas, túneles, arena y obstáculos móviles.",
+      "levels": [
+        {
+          "title": "Recto",
+          "objective": "Hoyo derecho: llegá en 2 golpes (par 2). Despacio: el hoyo solo captura la pelota lenta.",
+          "par": 2,
+          "tee": [
+            0,
+            0,
+            0
+          ],
+          "hole": [
+            12,
+            0,
+            0
+          ],
+          "bounds": [
+            -3,
+            -4,
+            16,
+            4
+          ],
+          "guide": [
+            [
+              12,
+              0,
+              0
+            ]
+          ],
+          "medals": [
+            15,
+            30,
+            45
+          ]
+        },
+        {
+          "title": "Pared y rebote",
+          "objective": "Un muro tapa el camino directo: rodeálo o usá el rebote. Par 3.",
+          "par": 3,
+          "tee": [
+            0,
+            0,
+            0
+          ],
+          "hole": [
+            14,
+            0,
+            -3
+          ],
+          "bounds": [
+            -3,
+            -6,
+            18,
+            6
+          ],
+          "walls": [
+            {
+              "pos": [
+                9,
+                0.3,
+                -1.4
+              ],
+              "size": [
+                0.4,
+                0.6,
+                9.2
+              ]
+            },
+            {
+              "pos": [
+                4.5,
+                0.3,
+                6.0
+              ],
+              "size": [
+                9.4,
+                0.6,
+                0.4
+              ]
+            },
+            {
+              "pos": [
+                4.5,
+                0.3,
+                -6.0
+              ],
+              "size": [
+                9.4,
+                0.6,
+                0.4
+              ]
+            }
+          ],
+          "guide": [
+            [
+              8,
+              0,
+              4.2
+            ],
+            [
+              14,
+              0,
+              -3
+            ]
+          ],
+          "medals": [
+            15,
+            30,
+            45
+          ]
+        },
+        {
+          "title": "Rampa",
+          "objective": "El hoyo está en una plataforma elevada: subí por la rampa con potencia. Par 3.",
+          "par": 3,
+          "tee": [
+            0,
+            0,
+            0
+          ],
+          "hole": [
+            15,
+            0,
+            0
+          ],
+          "hole_y": 1.0,
+          "bounds": [
+            -3,
+            -5,
+            20,
+            5
+          ],
+          "platforms": [
+            {
+              "pos": [
+                15,
+                0.5,
+                0
+              ],
+              "size": [
+                6,
+                1.0,
+                8
+              ]
+            }
+          ],
+          "ramps": [
+            {
+              "pos": [
+                9.75,
+                0.44,
+                0
+              ],
+              "size": [
+                4.7,
+                0.25,
+                3.0
+              ],
+              "roll": 12.5
+            }
+          ],
+          "guide": [
+            [
+              15.0,
+              0,
+              0
+            ]
+          ],
+          "medals": [
+            15,
+            30,
+            45
+          ]
+        },
+        {
+          "title": "Túnel",
+          "objective": "El único paso es el túnel. Par 3.",
+          "par": 3,
+          "tee": [
+            0,
+            0,
+            0
+          ],
+          "hole": [
+            16,
+            0,
+            0
+          ],
+          "bounds": [
+            -3,
+            -5,
+            20,
+            5
+          ],
+          "tunnels": [
+            {
+              "pos": [
+                9,
+                0,
+                0
+              ],
+              "len": 3.0,
+              "width": 1.1,
+              "h": 0.9
+            }
+          ],
+          "walls": [
+            {
+              "pos": [
+                9,
+                0.45,
+                3.1
+              ],
+              "size": [
+                0.4,
+                0.9,
+                3.8
+              ]
+            },
+            {
+              "pos": [
+                9,
+                0.45,
+                -3.1
+              ],
+              "size": [
+                0.4,
+                0.9,
+                3.8
+              ]
+            }
+          ],
+          "guide": [
+            [
+              12,
+              0,
+              0
+            ],
+            [
+              16,
+              0,
+              0
+            ]
+          ],
+          "medals": [
+            15,
+            30,
+            45
+          ]
+        },
+        {
+          "title": "Guardia móvil",
+          "objective": "Dos bloques patrullan el paso: elegí el momento. Par 3.",
+          "par": 3,
+          "tee": [
+            0,
+            0,
+            0
+          ],
+          "hole": [
+            15,
+            0,
+            0
+          ],
+          "bounds": [
+            -3,
+            -5,
+            19,
+            5
+          ],
+          "movers": [
+            {
+              "pos": [
+                8,
+                0.4,
+                1.4
+              ],
+              "size": [
+                0.6,
+                0.8,
+                2.2
+              ],
+              "axis": [
+                0,
+                0,
+                1
+              ],
+              "amp": 2.2,
+              "speed": 1.4
+            },
+            {
+              "pos": [
+                10.5,
+                0.4,
+                -1.4
+              ],
+              "size": [
+                0.6,
+                0.8,
+                2.2
+              ],
+              "axis": [
+                0,
+                0,
+                1
+              ],
+              "amp": 2.2,
+              "speed": 1.1
+            }
+          ],
+          "guide": [
+            [
+              15,
+              0,
+              0
+            ]
+          ],
+          "medals": [
+            15,
+            30,
+            45
+          ]
+        },
+        {
+          "title": "Arena y curva",
+          "objective": "La arena frena la pelota y el hoyo está tras la curva. Par 4.",
+          "par": 4,
+          "tee": [
+            0,
+            0,
+            0
+          ],
+          "hole": [
+            16,
+            0,
+            4.0
+          ],
+          "bounds": [
+            -3,
+            -6,
+            20,
+            7
+          ],
+          "walls": [
+            {
+              "pos": [
+                9.5,
+                0.3,
+                0.6
+              ],
+              "size": [
+                13,
+                0.6,
+                0.4
+              ]
+            }
+          ],
+          "sand": [
+            [
+              4.0,
+              -4.5,
+              8.0,
+              -0.5
+            ]
+          ],
+          "guide": [
+            [
+              17.6,
+              0,
+              -1.6
+            ],
+            [
+              16,
+              0,
+              4.0
+            ]
+          ],
+          "medals": [
+            10,
+            25,
+            45
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dianas",
+      "title": "Dianas",
+      "scene": "res://scenes/minigames/dianas.tscn",
+      "status": "Implementado",
+      "description": "Dianas 3D que miran al jugador: colgantes que se desprenden con un golpe fuerte y tableros con zonas que suman según dónde pega la pelota.",
+      "levels": [
+        {
+          "title": "Colgantes",
+          "objective": "Desprendé las 3 dianas: un golpe fuerte alcanza; un roce, no. El centro suma más. 3 tiros.",
+          "shots": 3,
+          "plates": [
+            {
+              "pos": [
+                12,
+                0,
+                -1.6
+              ]
+            },
+            {
+              "pos": [
+                12,
+                0,
+                0
+              ]
+            },
+            {
+              "pos": [
+                12,
+                0,
+                1.6
+              ]
+            }
+          ],
+          "medals": [
+            100,
+            150,
+            175
+          ]
+        },
+        {
+          "title": "Resistentes",
+          "objective": "Las de aro dorado aguantan 2 golpes. 6 tiros.",
+          "shots": 6,
+          "plates": [
+            {
+              "pos": [
+                12,
+                0,
+                -1.6
+              ],
+              "hits": 2
+            },
+            {
+              "pos": [
+                12,
+                0,
+                0
+              ]
+            },
+            {
+              "pos": [
+                12,
+                0,
+                1.6
+              ],
+              "hits": 2
+            }
+          ],
+          "medals": [
+            100,
+            170,
+            230
+          ]
+        },
+        {
+          "title": "Carrusel",
+          "objective": "La barra gira: calculá dónde va a estar cada diana. 4 tiros.",
+          "shots": 4,
+          "carousel": {
+            "x": 12.0,
+            "len": 4.4,
+            "speed": 0.5
+          },
+          "plates": [
+            {
+              "pos": [
+                12,
+                0,
+                -1.7
+              ]
+            },
+            {
+              "pos": [
+                12,
+                0,
+                0
+              ]
+            },
+            {
+              "pos": [
+                12,
+                0,
+                1.7
+              ]
+            }
+          ],
+          "medals": [
+            100,
+            160,
+            200
+          ]
+        },
+        {
+          "title": "En cadena",
+          "objective": "Cuelgan una detrás de otra: la de adelante, si sale volando, se lleva a la siguiente. 5 tiros.",
+          "shots": 5,
+          "bar_axis": "x",
+          "bar_x": 13.05,
+          "bar_len": 3.0,
+          "plates": [
+            {
+              "pos": [
+                12.0,
+                0,
+                0
+              ],
+              "hang": 2.05,
+              "r": 0.3
+            },
+            {
+              "pos": [
+                12.7,
+                0,
+                0
+              ],
+              "hang": 1.8,
+              "r": 0.3
+            },
+            {
+              "pos": [
+                13.4,
+                0,
+                0
+              ],
+              "hang": 1.55,
+              "r": 0.3
+            },
+            {
+              "pos": [
+                14.1,
+                0,
+                0
+              ],
+              "hang": 1.3,
+              "r": 0.3
+            }
+          ],
+          "medals": [
+            120,
+            200,
+            260
+          ],
+          "bar_h": 3.4
+        },
+        {
+          "title": "Tras el muro",
+          "objective": "Un muro tapa el tiro directo bajo: pasala por arriba. 4 tiros.",
+          "shots": 4,
+          "walls": [
+            {
+              "pos": [
+                8,
+                1.0,
+                0
+              ],
+              "size": [
+                0.3,
+                2.0,
+                4.5
+              ]
+            }
+          ],
+          "plates": [
+            {
+              "pos": [
+                12.5,
+                0,
+                -1.4
+              ]
+            },
+            {
+              "pos": [
+                12.5,
+                0,
+                0
+              ]
+            },
+            {
+              "pos": [
+                12.5,
+                0,
+                1.4
+              ]
+            }
+          ],
+          "medals": [
+            100,
+            160,
+            190
+          ]
+        },
+        {
+          "title": "Tablero de arco",
+          "objective": "Tablero del tamaño de un arco: esquinas de arriba 10, centro 5, abajo 1. Sumá con 5 tiros.",
+          "shots": 5,
+          "goal": "puntos",
+          "plates": [
+            {
+              "kind": "fixed",
+              "shape": "panel",
+              "pos": [
+                14,
+                1.15,
+                0
+              ],
+              "size": [
+                3.2,
+                2.1
+              ]
+            }
+          ],
+          "medals": [
+            15,
+            30,
+            42
+          ]
+        },
+        {
+          "title": "Tiro con arco",
+          "objective": "Tres dianas a distinta distancia y altura: el centro dorado vale 10. 6 tiros.",
+          "shots": 6,
+          "goal": "puntos",
+          "plates": [
+            {
+              "kind": "fixed",
+              "pos": [
+                12,
+                1.0,
+                -2.0
+              ],
+              "r": 0.5
+            },
+            {
+              "kind": "fixed",
+              "pos": [
+                15,
+                1.5,
+                0.4
+              ],
+              "r": 0.5
+            },
+            {
+              "kind": "fixed",
+              "pos": [
+                18,
+                2.0,
+                2.4
+              ],
+              "r": 0.5
+            }
+          ],
+          "medals": [
+            18,
+            32,
+            45
+          ]
+        },
+        {
+          "title": "Dianas móviles",
+          "objective": "Van y vienen sobre rieles: adelantate a su movimiento. 6 tiros.",
+          "shots": 6,
+          "goal": "puntos",
+          "plates": [
+            {
+              "kind": "fixed",
+              "pos": [
+                13,
+                1.1,
+                0
+              ],
+              "r": 0.5,
+              "move": {
+                "axis": [
+                  0,
+                  0,
+                  1
+                ],
+                "amp": 1.6,
+                "speed": 1.1
+              }
+            },
+            {
+              "kind": "fixed",
+              "pos": [
+                16.5,
+                1.7,
+                0
+              ],
+              "r": 0.5,
+              "move": {
+                "axis": [
+                  0,
+                  0,
+                  1
+                ],
+                "amp": 1.8,
+                "speed": 0.9,
+                "phase": 3.14
+              }
+            }
+          ],
+          "medals": [
+            12,
+            26,
+            38
+          ]
+        },
+        {
+          "title": "Diana en el suelo",
+          "objective": "Una diana gigante en el piso, lejísimos: cuenta donde PICA la pelota (no donde queda). Centro 100, medio 50, afuera 25. 5 tiros.",
+          "shots": 5,
+          "goal": "puntos",
+          "floor": {
+            "x": 34.0,
+            "r": 7.0
+          },
+          "medals": [
+            150,
+            300,
+            420
+          ]
+        },
+        {
+          "title": "Diana lejana",
+          "objective": "Más lejos todavía y más chica. 5 tiros.",
+          "shots": 5,
+          "goal": "puntos",
+          "floor": {
+            "x": 42.0,
+            "r": 5.5
+          },
+          "medals": [
+            125,
+            250,
+            380
+          ]
+        }
+      ]
+    },
+    {
+      "id": "rescate",
+      "title": "Rescate",
+      "scene": "res://scenes/minigames/rescate.tscn",
+      "status": "Implementado",
+      "description": "Una pelota dorada está atrapada: palancas, botones, secuencias, engranajes, contrapesos y puentes (y en los primeros niveles, botones que se aprietan de un pelotazo) para llevarla a la zona verde.",
+      "levels": [
+        {
+          "title": "La compuerta",
+          "objective": "Pegale FUERTE al botón rojo: la traba se abre y la dorada rueda sola a la zona verde. 3 tiros.",
+          "shots": 3,
+          "prisoner": [
+            13.0,
+            1.45,
+            0
+          ],
+          "zone": [
+            2.0,
+            -3,
+            9.5,
+            3
+          ],
+          "platforms": [
+            {
+              "pos": [
+                12,
+                0.5,
+                0
+              ],
+              "size": [
+                3,
+                1,
+                3
+              ]
+            }
+          ],
+          "slopes": [
+            {
+              "pos": [
+                11.85,
+                1.16,
+                0
+              ],
+              "size": [
+                3.0,
+                0.15,
+                1.2
+              ],
+              "roll": 8
+            }
+          ],
+          "latches": [
+            {
+              "pos": [
+                10.42,
+                1.38,
+                0
+              ],
+              "size": [
+                0.1,
+                0.4,
+                1.2
+              ]
+            }
+          ],
+          "buttons": [
+            {
+              "pos": [
+                10.4,
+                0.6,
+                1.0
+              ],
+              "latch": 0
+            }
+          ],
+          "solution": [
+            {
+              "at": "button:0",
+              "speed": 13
+            }
+          ],
+          "medals": [
+            150,
+            200,
+            250
+          ]
+        },
+        {
+          "title": "El empujón",
+          "objective": "La dorada está sobre el pilar: pegale directo con tu pelota y empujala hasta la zona. 3 tiros.",
+          "shots": 3,
+          "prisoner": [
+            13,
+            0.72,
+            0
+          ],
+          "zone": [
+            13.5,
+            -4,
+            26,
+            4
+          ],
+          "platforms": [
+            {
+              "pos": [
+                13,
+                0.3,
+                0
+              ],
+              "size": [
+                0.8,
+                0.6,
+                0.8
+              ]
+            }
+          ],
+          "solution": [
+            {
+              "at": "prisoner",
+              "speed": 13.3
+            }
+          ],
+          "medals": [
+            150,
+            200,
+            250
+          ]
+        },
+        {
+          "title": "Dominó",
+          "objective": "Tirá la primera ficha: la última, al caer, empuja a la dorada de su pedestal hacia la zona. 3 tiros.",
+          "shots": 3,
+          "prisoner": [
+            11.75,
+            0.72,
+            0
+          ],
+          "zone": [
+            12.2,
+            -2.5,
+            16.5,
+            2.5
+          ],
+          "dominoes": [
+            {
+              "pos": [
+                8.8,
+                0,
+                0
+              ],
+              "n": 5,
+              "step": [
+                0.55,
+                0,
+                0
+              ],
+              "size": [
+                0.12,
+                0.95,
+                0.5
+              ]
+            }
+          ],
+          "solution": [
+            {
+              "at": "domino:0",
+              "speed": 12
+            }
+          ],
+          "medals": [
+            150,
+            200,
+            250
+          ],
+          "platforms": [
+            {
+              "pos": [
+                11.75,
+                0.3,
+                0
+              ],
+              "size": [
+                0.35,
+                0.6,
+                0.35
+              ]
+            }
+          ]
+        },
+        {
+          "title": "Doble llave",
+          "objective": "Dos trabas sostienen la compuerta: apretá LOS DOS botones. 4 tiros.",
+          "shots": 4,
+          "prisoner": [
+            13.0,
+            1.45,
+            0
+          ],
+          "zone": [
+            2.0,
+            -3,
+            9.5,
+            3
+          ],
+          "platforms": [
+            {
+              "pos": [
+                12,
+                0.5,
+                0
+              ],
+              "size": [
+                3,
+                1,
+                3
+              ]
+            }
+          ],
+          "slopes": [
+            {
+              "pos": [
+                11.85,
+                1.16,
+                0
+              ],
+              "size": [
+                3.0,
+                0.15,
+                1.2
+              ],
+              "roll": 8
+            }
+          ],
+          "latches": [
+            {
+              "pos": [
+                10.42,
+                1.38,
+                0.3
+              ],
+              "size": [
+                0.1,
+                0.4,
+                0.62
+              ]
+            },
+            {
+              "pos": [
+                10.42,
+                1.38,
+                -0.3
+              ],
+              "size": [
+                0.1,
+                0.4,
+                0.62
+              ]
+            }
+          ],
+          "buttons": [
+            {
+              "pos": [
+                10.4,
+                0.6,
+                1.0
+              ],
+              "latch": 0
+            },
+            {
+              "pos": [
+                10.4,
+                0.6,
+                -1.0
+              ],
+              "latch": 1
+            }
+          ],
+          "solution": [
+            {
+              "at": "button:0",
+              "speed": 13
+            },
+            {
+              "at": "button:1",
+              "speed": 13
+            }
+          ],
+          "medals": [
+            200,
+            280,
+            350
+          ]
+        },
+        {
+          "title": "La palanca",
+          "objective": "Tocá la PALANCA: levanta la compuerta y la dorada rueda sola hasta la zona verde.",
+          "hint": "Tocá la palanca amarilla (en este nivel no se patea)",
+          "shots": 0,
+          "time": 45,
+          "prisoner": [
+            13.0,
+            1.45,
+            0
+          ],
+          "zone": [
+            2.0,
+            -3,
+            9.5,
+            3
+          ],
+          "platforms": [
+            {
+              "pos": [
+                12,
+                0.5,
+                0
+              ],
+              "size": [
+                3,
+                1,
+                3
+              ]
+            }
+          ],
+          "slopes": [
+            {
+              "pos": [
+                11.85,
+                1.16,
+                0
+              ],
+              "size": [
+                3.0,
+                0.15,
+                1.2
+              ],
+              "roll": 8
+            }
+          ],
+          "parts": [
+            {
+              "type": "slide",
+              "pos": [
+                10.42,
+                1.4,
+                0
+              ],
+              "size": [
+                0.1,
+                0.44,
+                1.2
+              ],
+              "open": [
+                0,
+                0.6,
+                0
+              ],
+              "color": "#c8402e"
+            }
+          ],
+          "mechs": [
+            {
+              "type": "lever",
+              "pos": [
+                9.2,
+                0,
+                -2.4
+              ],
+              "targets": [
+                0
+              ],
+              "label": "PALANCA"
+            }
+          ],
+          "solution": [
+            {
+              "tap": 0
+            }
+          ],
+          "medals": [
+            170,
+            200,
+            225
+          ],
+          "min_time": 2.5
+        },
+        {
+          "title": "Puente levadizo",
+          "objective": "Bajá el PUENTE y después inclina la RAMPA. Si la soltás antes, cae al pozo rojo.",
+          "hint": "Hay dos palancas: pensá el orden",
+          "shots": 0,
+          "time": 60,
+          "prisoner": [
+            15.0,
+            2.3,
+            0
+          ],
+          "zone": [
+            1.0,
+            -2.5,
+            7.6,
+            2.5
+          ],
+          "platforms": [
+            {
+              "pos": [
+                14.399999999999999,
+                0.9,
+                0.0
+              ],
+              "size": [
+                2.4000000000000004,
+                1.8,
+                1.2
+              ]
+            },
+            {
+              "pos": [
+                9.45,
+                0.775,
+                0.0
+              ],
+              "size": [
+                2.9000000000000004,
+                1.55,
+                1.2
+              ]
+            }
+          ],
+          "slopes": [
+            {
+              "pos": [
+                9.4782,
+                1.6401,
+                0.0
+              ],
+              "size": [
+                2.9543,
+                0.12,
+                1.0
+              ],
+              "roll": 3.105
+            },
+            {
+              "pos": [
+                14.4,
+                2.19,
+                0.56
+              ],
+              "size": [
+                2.4,
+                0.3,
+                0.06
+              ],
+              "roll": 0.0
+            },
+            {
+              "pos": [
+                14.4,
+                2.19,
+                -0.56
+              ],
+              "size": [
+                2.4,
+                0.3,
+                0.06
+              ],
+              "roll": 0.0
+            },
+            {
+              "pos": [
+                9.4831,
+                1.8502,
+                0.56
+              ],
+              "size": [
+                2.9543,
+                0.3,
+                0.06
+              ],
+              "roll": 3.105
+            },
+            {
+              "pos": [
+                9.4831,
+                1.8502,
+                -0.56
+              ],
+              "size": [
+                2.9543,
+                0.3,
+                0.06
+              ],
+              "roll": 3.105
+            }
+          ],
+          "walls": [
+            {
+              "pos": [
+                15.65,
+                2.35,
+                0
+              ],
+              "size": [
+                0.1,
+                0.5,
+                1.0
+              ]
+            }
+          ],
+          "parts": [
+            {
+              "type": "hinge",
+              "pos": [
+                14.4,
+                2.04,
+                0
+              ],
+              "size": [
+                2.4,
+                0.1,
+                1.0
+              ],
+              "hinge": [
+                13.2,
+                2.04,
+                0
+              ],
+              "axis": [
+                0,
+                0,
+                1
+              ],
+              "angle": 8,
+              "speed": 0.6
+            },
+            {
+              "type": "hinge",
+              "pos": [
+                12.029,
+                1.8351,
+                0.0
+              ],
+              "size": [
+                2.255,
+                0.12,
+                1.0
+              ],
+              "rot": [
+                0,
+                0,
+                3.814
+              ],
+              "hinge": [
+                10.9,
+                1.82,
+                0
+              ],
+              "axis": [
+                0,
+                0,
+                1
+              ],
+              "angle": 88,
+              "invert": true,
+              "start": 1,
+              "speed": 0.7
+            }
+          ],
+          "mechs": [
+            {
+              "type": "lever",
+              "pos": [
+                12.0,
+                0,
+                -2.4
+              ],
+              "targets": [
+                1
+              ],
+              "label": "PUENTE"
+            },
+            {
+              "type": "lever",
+              "pos": [
+                14.6,
+                0,
+                -2.4
+              ],
+              "targets": [
+                0
+              ],
+              "label": "RAMPA"
+            }
+          ],
+          "pits": [
+            [
+              10.95,
+              -1.4,
+              13.15,
+              1.4
+            ]
+          ],
+          "solution": [
+            {
+              "tap": 0
+            },
+            {
+              "wait": 2.2
+            },
+            {
+              "tap": 1
+            }
+          ],
+          "wrong": [
+            {
+              "tap": 1
+            }
+          ],
+          "medals": [
+            170,
+            205,
+            235
+          ],
+          "min_time": 8.0
+        },
+        {
+          "title": "Mantené apretado",
+          "objective": "Mantené apretado el botón AZUL: las compuertas se abren mientras lo apretás. Si soltás antes, se cierran.",
+          "hint": "Apoyá el dedo en el botón azul y no lo levantes hasta que pase",
+          "shots": 0,
+          "time": 60,
+          "prisoner": [
+            14.7,
+            2.35,
+            0
+          ],
+          "zone": [
+            1.5,
+            -2.5,
+            8.4,
+            2.5
+          ],
+          "platforms": [
+            {
+              "pos": [
+                12.0,
+                0.525,
+                0.0
+              ],
+              "size": [
+                6.399999999999999,
+                1.05,
+                1.2
+              ]
+            }
+          ],
+          "slopes": [
+            {
+              "pos": [
+                12.0093,
+                1.6407,
+                0.0
+              ],
+              "size": [
+                6.4777,
+                0.12,
+                1.0
+              ],
+              "roll": 8.881
+            },
+            {
+              "pos": [
+                12.0309,
+                1.9024,
+                0.56
+              ],
+              "size": [
+                6.4777,
+                0.4,
+                0.06
+              ],
+              "roll": 8.881
+            },
+            {
+              "pos": [
+                12.0309,
+                1.9024,
+                -0.56
+              ],
+              "size": [
+                6.4777,
+                0.4,
+                0.06
+              ],
+              "roll": 8.881
+            }
+          ],
+          "walls": [
+            {
+              "pos": [
+                15.25,
+                2.45,
+                0
+              ],
+              "size": [
+                0.1,
+                0.5,
+                1.0
+              ]
+            }
+          ],
+          "parts": [
+            {
+              "type": "slide",
+              "pos": [
+                14.1,
+                2.35,
+                0
+              ],
+              "size": [
+                0.1,
+                0.5,
+                1.06
+              ],
+              "open": [
+                0,
+                0.7,
+                0
+              ],
+              "speed": 2.2,
+              "color": "#2f6fe0"
+            },
+            {
+              "type": "slide",
+              "pos": [
+                10.2,
+                1.72,
+                0
+              ],
+              "size": [
+                0.1,
+                0.5,
+                1.06
+              ],
+              "open": [
+                0,
+                0.7,
+                0
+              ],
+              "speed": 2.2,
+              "color": "#2f6fe0"
+            }
+          ],
+          "mechs": [
+            {
+              "type": "button",
+              "mode": "hold",
+              "pos": [
+                12.0,
+                0,
+                -2.4
+              ],
+              "targets": [
+                0,
+                1
+              ],
+              "label": "MANTENER"
+            }
+          ],
+          "solution": [
+            {
+              "hold": 0,
+              "for": 6.5
+            }
+          ],
+          "wrong": [
+            {
+              "hold": 0,
+              "for": 0.4
+            }
+          ],
+          "medals": [
+            160,
+            195,
+            225
+          ],
+          "min_time": 4.0
+        },
+        {
+          "title": "Secuencia de colores",
+          "objective": "La cerradura muestra un orden de colores: tocá los interruptores en ese orden. Si te equivocás, se apaga todo.",
+          "hint": "Mirá las luces de la cerradura (de izquierda a derecha)",
+          "shots": 0,
+          "time": 60,
+          "prisoner": [
+            13.0,
+            1.45,
+            0
+          ],
+          "zone": [
+            2.0,
+            -3,
+            9.5,
+            3
+          ],
+          "platforms": [
+            {
+              "pos": [
+                12,
+                0.5,
+                0
+              ],
+              "size": [
+                3,
+                1,
+                3
+              ]
+            }
+          ],
+          "slopes": [
+            {
+              "pos": [
+                11.85,
+                1.16,
+                0
+              ],
+              "size": [
+                3.0,
+                0.15,
+                1.2
+              ],
+              "roll": 8
+            }
+          ],
+          "parts": [
+            {
+              "type": "slide",
+              "pos": [
+                10.42,
+                1.4,
+                0
+              ],
+              "size": [
+                0.1,
+                0.44,
+                1.2
+              ],
+              "open": [
+                0,
+                0.6,
+                0
+              ],
+              "color": "#c8402e"
+            }
+          ],
+          "mechs": [
+            {
+              "type": "switch",
+              "group": "s",
+              "order": 3,
+              "pos": [
+                11.0,
+                0,
+                -2.6
+              ],
+              "color": "#2f6fe0"
+            },
+            {
+              "type": "switch",
+              "group": "s",
+              "order": 1,
+              "pos": [
+                9.7,
+                0,
+                -2.6
+              ],
+              "color": "#e8c21e"
+            },
+            {
+              "type": "switch",
+              "group": "s",
+              "order": 2,
+              "pos": [
+                8.4,
+                0,
+                -2.6
+              ],
+              "color": "#d33b3b"
+            },
+            {
+              "type": "lock",
+              "group": "s",
+              "n": 3,
+              "pos": [
+                12.4,
+                1.4,
+                -1.9
+              ],
+              "yaw": -90,
+              "colors": [
+                "#e8c21e",
+                "#d33b3b",
+                "#2f6fe0"
+              ],
+              "targets": [
+                0
+              ]
+            }
+          ],
+          "solution": [
+            {
+              "tap": 1
+            },
+            {
+              "tap": 2
+            },
+            {
+              "tap": 0
+            }
+          ],
+          "wrong": [
+            {
+              "tap": 0
+            },
+            {
+              "tap": 1
+            }
+          ],
+          "medals": [
+            170,
+            200,
+            225
+          ],
+          "min_time": 2.5
+        },
+        {
+          "title": "Contrapeso",
+          "objective": "El contrapeso levanta la compuerta al caer. Sacá la traba con la PALANCA y soltá el PESO (tocá el bloque).",
+          "hint": "Dos cosas: la traba que lo sostiene y la cuerda",
+          "shots": 0,
+          "time": 60,
+          "prisoner": [
+            13.0,
+            1.45,
+            0
+          ],
+          "zone": [
+            2.0,
+            -3,
+            9.5,
+            3
+          ],
+          "platforms": [
+            {
+              "pos": [
+                12,
+                0.5,
+                0
+              ],
+              "size": [
+                3,
+                1,
+                3
+              ]
+            },
+            {
+              "pos": [
+                11.0,
+                1.7,
+                -2.3
+              ],
+              "size": [
+                0.3,
+                3.4,
+                0.3
+              ]
+            }
+          ],
+          "slopes": [
+            {
+              "pos": [
+                11.85,
+                1.16,
+                0
+              ],
+              "size": [
+                3.0,
+                0.15,
+                1.2
+              ],
+              "roll": 8
+            }
+          ],
+          "parts": [
+            {
+              "type": "slide",
+              "pos": [
+                10.42,
+                1.4,
+                0
+              ],
+              "size": [
+                0.1,
+                0.44,
+                1.2
+              ],
+              "open": [
+                0,
+                0.6,
+                0
+              ],
+              "color": "#c8402e"
+            },
+            {
+              "type": "slide",
+              "pos": [
+                11.0,
+                1.62,
+                -1.75
+              ],
+              "size": [
+                0.6,
+                0.12,
+                0.6
+              ],
+              "open": [
+                0,
+                0,
+                0.9
+              ],
+              "speed": 1.5,
+              "color": "#e0a12f"
+            }
+          ],
+          "mechs": [
+            {
+              "type": "weight",
+              "pos": [
+                11.0,
+                3.2,
+                -1.75
+              ],
+              "rope": 1.27,
+              "fall": 1.2,
+              "mass": 6.0,
+              "targets": [
+                0
+              ],
+              "label": "PESO"
+            },
+            {
+              "type": "lever",
+              "pos": [
+                9.0,
+                0,
+                -2.6
+              ],
+              "targets": [
+                1
+              ],
+              "label": "TRABA"
+            }
+          ],
+          "solution": [
+            {
+              "tap": 1
+            },
+            {
+              "wait": 1.0
+            },
+            {
+              "tap": 0
+            }
+          ],
+          "wrong": [
+            {
+              "tap": 0
+            }
+          ],
+          "medals": [
+            165,
+            195,
+            225
+          ],
+          "min_time": 2.5
+        },
+        {
+          "title": "Engranajes",
+          "objective": "Girá la MANIVELA: cada toque mueve la jaula un diente. Cuando el hueco queda abajo, la dorada cae al canal.",
+          "hint": "Contá los toques: si te pasás, la compuerta del canal se cierra",
+          "shots": 0,
+          "time": 60,
+          "prisoner": [
+            12.0,
+            2.2,
+            0
+          ],
+          "zone": [
+            1.5,
+            -2.5,
+            8.6,
+            2.5
+          ],
+          "platforms": [
+            {
+              "pos": [
+                10.4,
+                0.615,
+                0.0
+              ],
+              "size": [
+                2.8000000000000007,
+                1.23,
+                1.2
+              ]
+            },
+            {
+              "pos": [
+                12.0,
+                1.3,
+                0.55
+              ],
+              "size": [
+                0.2,
+                2.6,
+                0.2
+              ]
+            }
+          ],
+          "slopes": [
+            {
+              "pos": [
+                10.6545,
+                1.3652,
+                0.0
+              ],
+              "size": [
+                3.3095,
+                0.12,
+                1.0
+              ],
+              "roll": 4.332
+            },
+            {
+              "pos": [
+                10.6613,
+                1.5754,
+                0.56
+              ],
+              "size": [
+                3.3095,
+                0.3,
+                0.06
+              ],
+              "roll": 4.332
+            },
+            {
+              "pos": [
+                10.6613,
+                1.5754,
+                -0.56
+              ],
+              "size": [
+                3.3095,
+                0.3,
+                0.06
+              ],
+              "roll": 4.332
+            }
+          ],
+          "parts": [
+            {
+              "type": "rotor",
+              "pos": [
+                12.0,
+                2.2,
+                0
+              ],
+              "axis": [
+                0,
+                0,
+                1
+              ],
+              "radius": 0.42,
+              "bars": 12,
+              "gap": 2,
+              "depth": 0.6,
+              "steps": 6,
+              "phase": 75,
+              "dir": -1,
+              "speed": 1.4
+            },
+            {
+              "type": "slide",
+              "pos": [
+                10.0,
+                1.65,
+                0
+              ],
+              "size": [
+                0.1,
+                0.45,
+                1.06
+              ],
+              "open": [
+                0,
+                0.7,
+                0
+              ],
+              "speed": 2.0,
+              "color": "#e0a12f"
+            }
+          ],
+          "mechs": [
+            {
+              "type": "crank",
+              "pos": [
+                13.6,
+                0,
+                -2.2
+              ],
+              "steps": 6,
+              "open_step": 3,
+              "targets": [
+                0,
+                1
+              ],
+              "label": "MANIVELA"
+            }
+          ],
+          "solution": [
+            {
+              "tap": 0
+            },
+            {
+              "wait": 0.9
+            },
+            {
+              "tap": 0
+            },
+            {
+              "wait": 0.9
+            },
+            {
+              "tap": 0
+            }
+          ],
+          "medals": [
+            165,
+            195,
+            225
+          ],
+          "min_time": 5.0
+        },
+        {
+          "title": "Dos caminos",
+          "objective": "El DESVÍO inclina la plataforma del cruce hacia un tobogán: uno va al pozo. Elegí el camino y abrí la compuerta del RELOJ (3 s).",
+          "hint": "Primero el camino, después el reloj",
+          "shots": 0,
+          "time": 70,
+          "prisoner": [
+            15.0,
+            2.3,
+            0
+          ],
+          "zone": [
+            9.4,
+            2.4,
+            12.6,
+            5.2
+          ],
+          "platforms": [
+            {
+              "pos": [
+                13.8,
+                0.9,
+                0.0
+              ],
+              "size": [
+                3.5999999999999996,
+                1.8,
+                1.2
+              ]
+            },
+            {
+              "pos": [
+                10.9,
+                0.85,
+                0
+              ],
+              "size": [
+                0.4,
+                1.7,
+                0.4
+              ]
+            }
+          ],
+          "slopes": [
+            {
+              "pos": [
+                13.6541,
+                2.0251,
+                0.0
+              ],
+              "size": [
+                3.9093,
+                0.12,
+                1.0
+              ],
+              "roll": 3.96
+            },
+            {
+              "pos": [
+                13.6604,
+                2.2354,
+                0.56
+              ],
+              "size": [
+                3.9093,
+                0.3,
+                0.06
+              ],
+              "roll": 3.96
+            },
+            {
+              "pos": [
+                13.6604,
+                2.2354,
+                -0.56
+              ],
+              "size": [
+                3.9093,
+                0.3,
+                0.06
+              ],
+              "roll": 3.96
+            },
+            {
+              "pos": [
+                10.899999999999999,
+                0.815,
+                2.01
+              ],
+              "size": [
+                1.4000000000000004,
+                0.12,
+                3.2328
+              ],
+              "pitch": 30.69
+            },
+            {
+              "pos": [
+                10.899999999999999,
+                0.815,
+                -2.01
+              ],
+              "size": [
+                1.4000000000000004,
+                0.12,
+                3.2328
+              ],
+              "pitch": -30.69
+            }
+          ],
+          "walls": [
+            {
+              "pos": [
+                15.65,
+                2.5,
+                0
+              ],
+              "size": [
+                0.1,
+                0.5,
+                1.0
+              ]
+            },
+            {
+              "pos": [
+                10.15,
+                2.0,
+                0
+              ],
+              "size": [
+                0.1,
+                0.5,
+                1.3
+              ]
+            },
+            {
+              "pos": [
+                11.0,
+                0.2,
+                5.3
+              ],
+              "size": [
+                3.6,
+                0.4,
+                0.15
+              ]
+            },
+            {
+              "pos": [
+                11.0,
+                0.2,
+                -5.3
+              ],
+              "size": [
+                3.6,
+                0.4,
+                0.15
+              ]
+            },
+            {
+              "pos": [
+                9.3,
+                0.2,
+                3.85
+              ],
+              "size": [
+                0.15,
+                0.4,
+                2.9
+              ]
+            },
+            {
+              "pos": [
+                12.7,
+                0.2,
+                3.85
+              ],
+              "size": [
+                0.15,
+                0.4,
+                2.9
+              ]
+            },
+            {
+              "pos": [
+                9.3,
+                0.2,
+                -3.85
+              ],
+              "size": [
+                0.15,
+                0.4,
+                2.9
+              ]
+            },
+            {
+              "pos": [
+                12.7,
+                0.2,
+                -3.85
+              ],
+              "size": [
+                0.15,
+                0.4,
+                2.9
+              ]
+            }
+          ],
+          "parts": [
+            {
+              "type": "slide",
+              "pos": [
+                13.8,
+                2.33,
+                0
+              ],
+              "size": [
+                0.1,
+                0.5,
+                1.06
+              ],
+              "open": [
+                0,
+                0.7,
+                0
+              ],
+              "speed": 2.4,
+              "color": "#e06a2f"
+            },
+            {
+              "type": "hinge",
+              "pos": [
+                10.9,
+                1.82,
+                0
+              ],
+              "size": [
+                1.4,
+                0.1,
+                1.24
+              ],
+              "rot": [
+                -9,
+                0,
+                0
+              ],
+              "hinge": [
+                10.9,
+                1.82,
+                0
+              ],
+              "axis": [
+                1,
+                0,
+                0
+              ],
+              "angle": 18,
+              "speed": 1.2,
+              "color": "#2fb3c0"
+            }
+          ],
+          "mechs": [
+            {
+              "type": "button",
+              "mode": "timer",
+              "time": 3.0,
+              "pos": [
+                14.6,
+                0,
+                -2.0
+              ],
+              "targets": [
+                0
+              ],
+              "label": "RELOJ"
+            },
+            {
+              "type": "lever",
+              "pos": [
+                8.6,
+                0,
+                -2.0
+              ],
+              "targets": [
+                1
+              ],
+              "label": "DESVÍO"
+            }
+          ],
+          "pits": [
+            [
+              9.4,
+              -5.2,
+              12.6,
+              -2.4
+            ]
+          ],
+          "solution": [
+            {
+              "tap": 1
+            },
+            {
+              "wait": 1.3
+            },
+            {
+              "tap": 0
+            }
+          ],
+          "wrong": [
+            {
+              "tap": 0
+            }
+          ],
+          "medals": [
+            170,
+            210,
+            240
+          ],
+          "min_time": 5.0
+        },
+        {
+          "title": "Maestro",
+          "objective": "Todo junto: la SECUENCIA saca la traba del peso, el PESO abre la compuerta y el PUENTE tiene que estar abajo.",
+          "hint": "Puente, secuencia de la cerradura y recién después el peso",
+          "shots": 0,
+          "time": 90,
+          "prisoner": [
+            15.0,
+            2.3,
+            0
+          ],
+          "zone": [
+            1.0,
+            -2.5,
+            7.6,
+            2.5
+          ],
+          "platforms": [
+            {
+              "pos": [
+                14.399999999999999,
+                0.9,
+                0.0
+              ],
+              "size": [
+                2.4000000000000004,
+                1.8,
+                1.2
+              ]
+            },
+            {
+              "pos": [
+                9.45,
+                0.775,
+                0.0
+              ],
+              "size": [
+                2.9000000000000004,
+                1.55,
+                1.2
+              ]
+            },
+            {
+              "pos": [
+                14.0,
+                1.9,
+                -2.0
+              ],
+              "size": [
+                0.3,
+                3.8,
+                0.3
+              ]
+            }
+          ],
+          "slopes": [
+            {
+              "pos": [
+                14.4035,
+                1.9901,
+                0.0
+              ],
+              "size": [
+                2.4041,
+                0.12,
+                1.0
+              ],
+              "roll": 3.338
+            },
+            {
+              "pos": [
+                9.4782,
+                1.6401,
+                0.0
+              ],
+              "size": [
+                2.9543,
+                0.12,
+                1.0
+              ],
+              "roll": 3.105
+            },
+            {
+              "pos": [
+                14.4087,
+                2.2003,
+                0.56
+              ],
+              "size": [
+                2.4041,
+                0.3,
+                0.06
+              ],
+              "roll": 3.338
+            },
+            {
+              "pos": [
+                14.4087,
+                2.2003,
+                -0.56
+              ],
+              "size": [
+                2.4041,
+                0.3,
+                0.06
+              ],
+              "roll": 3.338
+            },
+            {
+              "pos": [
+                9.4831,
+                1.8502,
+                0.56
+              ],
+              "size": [
+                2.9543,
+                0.3,
+                0.06
+              ],
+              "roll": 3.105
+            },
+            {
+              "pos": [
+                9.4831,
+                1.8502,
+                -0.56
+              ],
+              "size": [
+                2.9543,
+                0.3,
+                0.06
+              ],
+              "roll": 3.105
+            }
+          ],
+          "walls": [
+            {
+              "pos": [
+                15.65,
+                2.35,
+                0
+              ],
+              "size": [
+                0.1,
+                0.5,
+                1.0
+              ]
+            }
+          ],
+          "parts": [
+            {
+              "type": "slide",
+              "pos": [
+                13.45,
+                2.24,
+                0
+              ],
+              "size": [
+                0.1,
+                0.44,
+                1.06
+              ],
+              "open": [
+                0,
+                0.65,
+                0
+              ],
+              "color": "#c8402e"
+            },
+            {
+              "type": "hinge",
+              "pos": [
+                12.029,
+                1.8351,
+                0.0
+              ],
+              "size": [
+                2.255,
+                0.12,
+                1.0
+              ],
+              "rot": [
+                0,
+                0,
+                3.814
+              ],
+              "hinge": [
+                10.9,
+                1.82,
+                0
+              ],
+              "axis": [
+                0,
+                0,
+                1
+              ],
+              "angle": 88,
+              "invert": true,
+              "start": 1,
+              "speed": 0.7
+            },
+            {
+              "type": "slide",
+              "pos": [
+                14.0,
+                1.82,
+                -1.45
+              ],
+              "size": [
+                0.6,
+                0.12,
+                0.6
+              ],
+              "open": [
+                0,
+                0,
+                0.9
+              ],
+              "speed": 1.5,
+              "color": "#e0a12f"
+            }
+          ],
+          "mechs": [
+            {
+              "type": "lever",
+              "pos": [
+                12.0,
+                0,
+                -2.6
+              ],
+              "targets": [
+                1
+              ],
+              "label": "PUENTE"
+            },
+            {
+              "type": "switch",
+              "group": "m",
+              "order": 2,
+              "pos": [
+                8.4,
+                0,
+                -2.6
+              ],
+              "color": "#1f9d55"
+            },
+            {
+              "type": "switch",
+              "group": "m",
+              "order": 1,
+              "pos": [
+                9.7,
+                0,
+                -2.6
+              ],
+              "color": "#9b3fb8"
+            },
+            {
+              "type": "lock",
+              "group": "m",
+              "n": 2,
+              "pos": [
+                10.4,
+                1.4,
+                -1.9
+              ],
+              "yaw": -90,
+              "colors": [
+                "#9b3fb8",
+                "#1f9d55"
+              ],
+              "targets": [
+                2
+              ]
+            },
+            {
+              "type": "weight",
+              "pos": [
+                14.0,
+                3.4,
+                -1.45
+              ],
+              "rope": 1.27,
+              "fall": 1.2,
+              "mass": 6.0,
+              "targets": [
+                0
+              ],
+              "label": "PESO"
+            }
+          ],
+          "pits": [
+            [
+              10.95,
+              -1.4,
+              13.15,
+              1.4
+            ]
+          ],
+          "solution": [
+            {
+              "tap": 0
+            },
+            {
+              "wait": 2.2
+            },
+            {
+              "tap": 2
+            },
+            {
+              "tap": 1
+            },
+            {
+              "wait": 1.0
+            },
+            {
+              "tap": 4
+            }
+          ],
+          "wrong": [
+            {
+              "tap": 2
+            },
+            {
+              "tap": 1
+            },
+            {
+              "wait": 1.0
+            },
+            {
+              "tap": 4
+            }
+          ],
+          "medals": [
+            160,
+            200,
+            235
+          ],
+          "min_time": 8.0
+        }
+      ]
+    },
+    {
+      "id": "bowling",
+      "title": "Bowling",
+      "scene": "res://scenes/minigames/bowling.tscn",
+      "status": "Implementado",
+      "description": "Partida de bowling de verdad: 10 cuadros contra la IA, strike, spare y bolas extra en el décimo. Pistas distintas.",
+      "levels": [
+        {
+          "title": "Clásico",
+          "objective": "Partida de 10 cuadros contra la IA. Strike = 10 + tus dos bolas siguientes; spare = 10 + la siguiente.",
+          "lane": 12.0,
+          "layout": "triangle",
+          "medals": [
+            60,
+            100,
+            150
+          ]
+        },
+        {
+          "title": "Con guardia",
+          "objective": "Un bloque fijo tapa el centro: entrá por el costado o con efecto. 10 cuadros.",
+          "lane": 12.0,
+          "layout": "triangle",
+          "obstacles": [
+            {
+              "pos": [
+                7.5,
+                0.25,
+                0
+              ],
+              "size": [
+                0.45,
+                0.5,
+                0.5
+              ]
+            }
+          ],
+          "medals": [
+            60,
+            100,
+            150
+          ]
+        },
+        {
+          "title": "Guardia móvil",
+          "objective": "El bloque patrulla la pista: elegí el momento. 10 cuadros.",
+          "lane": 12.0,
+          "layout": "triangle",
+          "obstacles": [
+            {
+              "pos": [
+                7.5,
+                0.25,
+                0
+              ],
+              "size": [
+                0.45,
+                0.5,
+                0.6
+              ],
+              "move": {
+                "axis": [
+                  0,
+                  0,
+                  1
+                ],
+                "amp": 0.9,
+                "speed": 1.1
+              }
+            }
+          ],
+          "medals": [
+            60,
+            100,
+            150
+          ]
+        },
+        {
+          "title": "Rombo con corona",
+          "objective": "Formación rombo con un bolo arriba de todo. 10 cuadros.",
+          "lane": 12.0,
+          "layout": "diamond",
+          "medals": [
+            60,
+            100,
+            150
+          ]
+        },
+        {
+          "title": "Pista larga y angosta",
+          "objective": "16 m de pista y 1,9 m de ancho: las canaletas están cerca. 10 cuadros.",
+          "lane": 16.0,
+          "lane_w": 1.9,
+          "layout": "triangle",
+          "medals": [
+            50,
+            90,
+            140
+          ]
+        }
+      ]
+    },
+    {
+      "id": "guante",
+      "title": "Duelo del guante",
+      "scene": "res://scenes/minigames/guante.tscn",
+      "status": "Implementado",
+      "description": "Por relevo en la misma plataforma: pegale a los botones del fondo para cargar tu barra; al 100 % el guante vuela al otro.",
+      "levels": [
+        {
+          "title": "Primer round",
+          "objective": "Pateás vos, el otro espera frente al guante. Pegale a los botones del fondo para cargar tu barra: al 100 % el guante lo hace volar. Ganás con 2 golpes.",
+          "gap": 16.0,
+          "punches": 2,
+          "medals": [
+            200,
+            330,
+            420
+          ]
+        },
+        {
+          "title": "Más lejos",
+          "objective": "El panel está más lejos: el botón chico es más difícil. 2 golpes.",
+          "gap": 20.0,
+          "punches": 2,
+          "medals": [
+            200,
+            320,
+            410
+          ]
+        },
+        {
+          "title": "Botón chico móvil",
+          "objective": "El botón chico sube y baja: adelantate. 2 golpes.",
+          "gap": 16.0,
+          "punches": 2,
+          "buttons": [
+            {
+              "size": "grande",
+              "r": 0.55,
+              "gain": 0.2,
+              "z": -1.4,
+              "y": 1.6
+            },
+            {
+              "size": "mediano",
+              "r": 0.36,
+              "gain": 0.34,
+              "z": 0.0,
+              "y": 1.6
+            },
+            {
+              "size": "chico",
+              "r": 0.2,
+              "gain": 0.6,
+              "z": 1.3,
+              "y": 1.6,
+              "move": {
+                "axis": [
+                  0,
+                  1,
+                  0
+                ],
+                "amp": 0.5,
+                "speed": 1.6
+              }
+            }
+          ],
+          "medals": [
+            200,
+            320,
+            410
+          ]
+        },
+        {
+          "title": "Tres golpes",
+          "objective": "Pelea larga: gana el primero que conecta 3 golpes.",
+          "gap": 17.0,
+          "punches": 3,
+          "medals": [
+            300,
+            460,
+            560
+          ]
+        }
+      ]
+    },
+    {
+      "id": "royal_flush",
+      "title": "Royal Flush",
+      "scene": "res://scenes/minigames/royal_flush.tscn",
+      "status": "Implementado",
+      "description": "Cartas boca abajo en un tablero de casino: pegales arriba o abajo para darlas vuelta y armá la mejor mano de póker con 5 tiros.",
+      "levels": [
+        {
+          "title": "Mano abierta",
+          "objective": "5 tiros: las primeras 5 cartas que das vuelta son tu mano. Par = bronce, doble par = plata, escalera = oro.",
+          "distance": 13.0,
+          "cols": 5,
+          "rows": 3,
+          "shots": 5,
+          "medals": [
+            65,
+            105,
+            225
+          ]
+        },
+        {
+          "title": "Corazones",
+          "objective": "Muchos corazones escondidos: buscá el color. 5 tiros.",
+          "distance": 14.0,
+          "cols": 5,
+          "rows": 3,
+          "shots": 5,
+          "deck": [
+            "AH",
+            "KH",
+            "QH",
+            "JH",
+            "10H",
+            "9H",
+            "8H",
+            "7H",
+            "AS",
+            "KD",
+            "QC",
+            "9S",
+            "4D",
+            "3C",
+            "2H"
+          ],
+          "medals": [
+            65,
+            145,
+            275
+          ]
+        },
+        {
+          "title": "Lejos",
+          "objective": "El tablero está más lejos y las cartas son las mismas de siempre. 5 tiros.",
+          "distance": 17.0,
+          "cols": 5,
+          "rows": 3,
+          "shots": 5,
+          "medals": [
+            65,
+            105,
+            225
+          ]
+        },
+        {
+          "title": "Escalera real",
+          "objective": "Hay una escalera real escondida entre 20 cartas. 6 tiros.",
+          "distance": 14.0,
+          "cols": 5,
+          "rows": 4,
+          "shots": 6,
+          "deck": [
+            "AS",
+            "KS",
+            "QS",
+            "JS",
+            "10S",
+            "9D",
+            "8C",
+            "7H",
+            "6S",
+            "5D",
+            "4C",
+            "3H",
+            "2S",
+            "AH",
+            "KC",
+            "QD",
+            "JD",
+            "9C",
+            "8H",
+            "5S"
+          ],
+          "medals": [
+            65,
+            225,
+            525
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dardos",
+      "title": "Dardos",
+      "scene": "res://scenes/minigames/dardos.tscn",
+      "status": "Implementado",
+      "description": "Una diana de dardos gigante: sectores, dobles, triples y centro. Cuenta donde pega la pelota.",
+      "levels": [
+        {
+          "title": "Práctica",
+          "objective": "6 tiros: sumá todo lo que puedas. El triple 20 vale 60; el centro, 50.",
+          "rule": "puntos",
+          "shots": 6,
+          "medals": [
+            90,
+            180,
+            260
+          ]
+        },
+        {
+          "title": "Solo el 20",
+          "objective": "Solo cuenta el sector 20 (simple, doble o triple). 6 tiros.",
+          "rule": "sector",
+          "sector": 20,
+          "shots": 6,
+          "medals": [
+            40,
+            100,
+            180
+          ]
+        },
+        {
+          "title": "301",
+          "objective": "Bajá de 301 a 0 exacto en 9 tiros. Si te pasás, ese tiro no cuenta.",
+          "rule": "301",
+          "start": 301,
+          "shots": 9,
+          "medals": [
+            350,
+            480,
+            620
+          ]
+        },
+        {
+          "title": "Duelo",
+          "objective": "5 tiros cada uno contra la CPU: gana el que más suma.",
+          "rule": "duelo",
+          "shots": 5,
+          "distance": 14.0,
+          "medals": [
+            100,
+            200,
+            300
+          ]
+        }
+      ]
+    },
+    {
+      "id": "curling",
+      "title": "Curling",
+      "scene": "res://scenes/minigames/curling.tscn",
+      "status": "Implementado",
+      "description": "Pista de hielo: deslizá la pelota hasta la casa. Gana la más cercana al centro; podés sacar las del rival. (Oculto: reemplazado en el arcade por «Diana gigante», pedido del usuario 2026-11-12.)",
+      "levels": [
+        {
+          "title": "Primer end",
+          "objective": "3 pelotas cada uno contra la CPU: dejá la tuya más cerca del centro de la casa.",
+          "shots": 3,
+          "medals": [
+            60,
+            140,
+            220
+          ]
+        },
+        {
+          "title": "Sacá las rojas",
+          "objective": "La CPU ya tiene dos en la casa: sacalas a golpes y dejá la tuya. 3 pelotas.",
+          "shots": 3,
+          "stones": [
+            {
+              "team": 1,
+              "pos": [
+                26.0,
+                0.25
+              ]
+            },
+            {
+              "team": 1,
+              "pos": [
+                25.4,
+                -0.5
+              ]
+            }
+          ],
+          "medals": [
+            60,
+            140,
+            220
+          ]
+        },
+        {
+          "title": "Guardias",
+          "objective": "Dos guardias rojas tapan el camino: pasá por el costado. 4 pelotas.",
+          "shots": 4,
+          "stones": [
+            {
+              "team": 1,
+              "pos": [
+                21.0,
+                0.0
+              ]
+            },
+            {
+              "team": 1,
+              "pos": [
+                22.0,
+                0.6
+              ]
+            }
+          ],
+          "medals": [
+            60,
+            140,
+            220
+          ]
+        },
+        {
+          "title": "Pista larga",
+          "objective": "40 m de hielo: medí bien la fuerza. 4 pelotas.",
+          "shots": 4,
+          "length": 40.0,
+          "medals": [
+            60,
+            140,
+            220
+          ]
+        }
       ],
-      "speed": 14.0
-     },
-     "obstacles": [
-      {
-       "type": "wall",
-       "pos": [
-        -3.8,
-        1.25,
-        0.0
-       ],
-       "size": [
-        0.3,
-        2.5,
-        2.2
-       ]
-      },
-      {
-       "type": "wall",
-       "pos": [
-        -7.1,
-        2.0,
-        0.0
-       ],
-       "size": [
-        0.3,
-        4.0,
-        4.0
-       ]
-      }
-     ],
-     "points_to_win": 2,
-     "medals": [
-      200,
-      300,
-      380
-     ]
+      "hidden": true
     },
     {
-     "title": "Botón móvil",
-     "objective": "El botón va y viene. Calculá dónde va a estar cuando llegue la pelota.",
-     "gap": 13.0,
-     "button": {
-      "radius": 0.5,
-      "y": 1.2,
-      "move": {
-       "axis": [
-        0,
-        0,
-        1
-       ],
-       "amp": 2.2,
-       "speed": 1.6
-      }
-     },
-     "points_to_win": 2,
-     "medals": [
-      200,
-      300,
-      380
-     ]
+      "id": "diana_gigante",
+      "title": "Diana gigante",
+      "scene": "res://scenes/minigames/dianas.tscn",
+      "status": "Implementado",
+      "description": "Una diana enorme pintada en el piso: pateala por el aire. Cuenta donde PICA la pelota: centro 100, medio 50, afuera 25.",
+      "levels": [
+        {
+          "title": "Diana gigante",
+          "objective": "Diana enorme en el piso a 26 m. Pateala por el aire: cuenta el primer pique. 5 tiros.",
+          "shots": 5,
+          "goal": "puntos",
+          "floor": {
+            "x": 26.0,
+            "r": 8.0
+          },
+          "medals": [
+            150,
+            280,
+            400
+          ]
+        },
+        {
+          "title": "Más lejos",
+          "objective": "La misma diana, a 32 m. 5 tiros.",
+          "shots": 5,
+          "goal": "puntos",
+          "floor": {
+            "x": 32.0,
+            "r": 7.0
+          },
+          "medals": [
+            125,
+            250,
+            375
+          ]
+        },
+        {
+          "title": "Corrida al costado",
+          "objective": "A 30 m y corrida a la izquierda: apuntá con el trazo. 5 tiros.",
+          "shots": 5,
+          "goal": "puntos",
+          "floor": {
+            "x": 30.0,
+            "z": -6.0,
+            "r": 6.0
+          },
+          "medals": [
+            100,
+            220,
+            340
+          ]
+        },
+        {
+          "title": "Chica y lejana",
+          "objective": "A 38 m y más chica. 5 tiros.",
+          "shots": 5,
+          "goal": "puntos",
+          "floor": {
+            "x": 38.0,
+            "r": 5.0
+          },
+          "medals": [
+            90,
+            200,
+            320
+          ]
+        },
+        {
+          "title": "Puntería fina",
+          "objective": "A 34 m, corrida a la derecha y chica: hay que clavar el centro. 5 tiros.",
+          "shots": 5,
+          "goal": "puntos",
+          "floor": {
+            "x": 34.0,
+            "z": 5.0,
+            "r": 4.5
+          },
+          "medals": [
+            80,
+            180,
+            300
+          ]
+        }
+      ]
     },
     {
-     "title": "Botón chico",
-     "objective": "El botón es mucho más chico. Precisión pura.",
-     "gap": 12.0,
-     "button": {
-      "radius": 0.28,
-      "y": 1.0
-     },
-     "points_to_win": 2,
-     "medals": [
-      200,
-      300,
-      380
-     ]
+      "id": "precision",
+      "title": "Fútbol de precisión",
+      "scene": "res://scenes/minigames/precision.tscn",
+      "status": "Implementado",
+      "description": "Arco gigante con sectores: las esquinas de arriba valen 10. Un arquero de cartón va y viene.",
+      "levels": [
+        {
+          "title": "Sin arquero",
+          "objective": "5 tiros al arco gigante: esquinas de arriba 10, arriba al medio 5, abajo 1.",
+          "shots": 5,
+          "medals": [
+            20,
+            35,
+            45
+          ]
+        },
+        {
+          "title": "Arquero de cartón",
+          "objective": "Un arquero de cartón va y viene: si lo tocás, no entra. 5 tiros.",
+          "shots": 5,
+          "keeper": {
+            "amp": 2.6,
+            "speed": 0.8
+          },
+          "medals": [
+            18,
+            32,
+            45
+          ]
+        },
+        {
+          "title": "Arquero rápido",
+          "objective": "El cartón se mueve más rápido y es más ancho. 6 tiros.",
+          "shots": 6,
+          "keeper": {
+            "amp": 2.8,
+            "speed": 1.4,
+            "w": 1.7
+          },
+          "medals": [
+            20,
+            38,
+            52
+          ]
+        },
+        {
+          "title": "Arco chico",
+          "objective": "Arco de 6 × 2,6 m, más lejos y con arquero. 6 tiros.",
+          "shots": 6,
+          "distance": 21.0,
+          "width": 6.0,
+          "height": 2.6,
+          "keeper": {
+            "amp": 1.8,
+            "speed": 1.0
+          },
+          "medals": [
+            18,
+            34,
+            48
+          ]
+        }
+      ]
     },
     {
-     "title": "Desnivel",
-     "objective": "Las plataformas están a distinta altura y giradas. Ajustá la altura y el ángulo.",
-     "gap": 13.0,
-     "button": {
-      "radius": 0.5,
-      "y": 1.2
-     },
-     "platforms": [
-      {
-       "y": 0.0,
-       "yaw": -12.0,
-       "dz": -1.5
-      },
-      {
-       "y": 2.0,
-       "yaw": 14.0,
-       "dz": 2.0
-      }
-     ],
-     "points_to_win": 2,
-     "medals": [
-      200,
-      300,
-      380
-     ]
+      "id": "salto_alto",
+      "title": "Salto en alto",
+      "scene": "res://scenes/minigames/salto_alto.tscn",
+      "status": "Implementado",
+      "description": "Pasá la pelota por encima de la varilla sin tirarla: tres intentos por altura y la varilla sube.",
+      "levels": [
+        {
+          "title": "Primeras alturas",
+          "objective": "Desde 1,20 m, sube 20 cm por salto. Tres nulos seguidos terminan la serie.",
+          "start": 1.2,
+          "step": 0.2,
+          "distance": 9.0,
+          "medals": [
+            180,
+            250,
+            320
+          ]
+        },
+        {
+          "title": "Más cerca",
+          "objective": "La varilla está a 6 m: hay que levantarla rápido. Desde 1,40 m.",
+          "start": 1.4,
+          "step": 0.2,
+          "distance": 6.0,
+          "medals": [
+            180,
+            250,
+            320
+          ]
+        },
+        {
+          "title": "Varilla corta",
+          "objective": "Parantes a 2,5 m: además de alto, preciso. Desde 1,30 m.",
+          "start": 1.3,
+          "step": 0.15,
+          "distance": 9.0,
+          "span": 2.5,
+          "medals": [
+            180,
+            250,
+            320
+          ]
+        }
+      ]
     },
     {
-     "title": "Obstáculos en movimiento",
-     "objective": "Dos bloques se cruzan delante del botón y una barra gira. Elegí el momento.",
-     "gap": 13.0,
-     "button": {
-      "radius": 0.5,
-      "y": 1.2
-     },
-     "obstacles": [
-      {
-       "type": "box",
-       "pos": [
-        -5.1,
-        1.2,
-        0.0
-       ],
-       "size": [
-        0.3,
-        1.4,
-        1.1
-       ],
-       "move": {
-        "axis": [
-         0,
-         0,
-         1
-        ],
-        "amp": 1.6,
-        "speed": 1.3
-       }
-      },
-      {
-       "type": "box",
-       "pos": [
-        -5.6,
-        1.2,
-        0.0
-       ],
-       "size": [
-        0.3,
-        1.4,
-        1.1
-       ],
-       "move": {
-        "axis": [
-         0,
-         0,
-         1
-        ],
-        "amp": 1.6,
-        "speed": 1.3,
-        "phase": 3.14
-       }
-      },
-      {
-       "type": "box",
-       "pos": [
-        -5.95,
-        1.2,
-        0.0
-       ],
-       "size": [
-        0.15,
-        2.2,
-        0.25
-       ],
-       "move": {
-        "axis": [
-         0,
-         0,
-         0
-        ],
-        "amp": 0.0,
-        "speed": 1.0,
-        "spin_axis": [
-         1,
-         0,
-         0
-        ],
-        "spin": 1.8
-       }
-      }
-     ],
-     "points_to_win": 2,
-     "medals": [
-      200,
-      300,
-      380
-     ]
+      "id": "field_goal",
+      "title": "Field Goal",
+      "scene": "res://scenes/minigames/field_goal.tscn",
+      "status": "Implementado",
+      "description": "Palos en Y: por arriba del travesaño y entre los verticales. Patadas cada vez más lejos.",
+      "levels": [
+        {
+          "title": "Serie corta",
+          "objective": "5 patadas de 20 a 40 m, con ángulo. 3 puntos cada una; desde 40 m, 5.",
+          "kicks": [
+            [
+              20,
+              0
+            ],
+            [
+              25,
+              -4
+            ],
+            [
+              30,
+              4
+            ],
+            [
+              35,
+              0
+            ],
+            [
+              40,
+              -3
+            ]
+          ],
+          "medals": [
+            60,
+            120,
+            170
+          ]
+        },
+        {
+          "title": "Con viento",
+          "objective": "Viento cruzado: la pelota se abre en el aire. 5 patadas.",
+          "kicks": [
+            [
+              22,
+              0
+            ],
+            [
+              28,
+              3
+            ],
+            [
+              32,
+              -3
+            ],
+            [
+              36,
+              0
+            ],
+            [
+              40,
+              2
+            ]
+          ],
+          "wind": 1.6,
+          "medals": [
+            60,
+            120,
+            170
+          ]
+        },
+        {
+          "title": "Larga distancia",
+          "objective": "De 40 a 50 m: solo para piernas fuertes. 4 patadas.",
+          "kicks": [
+            [
+              40,
+              0
+            ],
+            [
+              44,
+              -3
+            ],
+            [
+              47,
+              3
+            ],
+            [
+              50,
+              0
+            ]
+          ],
+          "medals": [
+            50,
+            150,
+            200
+          ]
+        }
+      ]
     },
     {
-     "title": "Varios rebotes",
-     "objective": "El botón del piso está bajo un techo y detrás de un muro bajo. Hace falta rebotar (piso, tablero o techo) para llegar.",
-     "gap": 12.0,
-     "button": {
-      "kind": "floor",
-      "radius": 0.75,
-      "x": -5.4
-     },
-     "ai": {
-      "aim": [
-       -6.6,
-       0.76,
-       0.0
-      ],
-      "speed": 18.0
-     },
-     "obstacles": [
-      {
-       "type": "wall",
-       "pos": [
-        -3.8,
-        0.6,
-        0.0
-       ],
-       "size": [
-        0.3,
-        1.2,
-        2.2
-       ]
-      },
-      {
-       "type": "wall",
-       "pos": [
-        -5.5,
-        2.4,
-        0.0
-       ],
-       "size": [
-        3.0,
-        0.2,
-        3.2
-       ]
-      },
-      {
-       "type": "wall",
-       "pos": [
-        -7.1,
-        1.8,
-        0.0
-       ],
-       "size": [
-        0.3,
-        3.6,
-        4.0
-       ]
-      }
-     ],
-     "points_to_win": 2,
-     "medals": [
-      200,
-      300,
-      380
-     ]
+      "id": "aros_fuego",
+      "title": "Aros de fuego",
+      "scene": "res://scenes/minigames/aros_fuego.tscn",
+      "status": "Implementado",
+      "description": "Aros colgados que arden: pasá la pelota por adentro. Las secuencias valen el doble si las pasás todas en un tiro.",
+      "levels": [
+        {
+          "title": "Primer aro",
+          "objective": "Pasá la pelota por el aro de fuego. 4 tiros, 100 cada vez.",
+          "shots": 4,
+          "rings": [
+            {
+              "pos": [
+                10,
+                1.8,
+                0
+              ],
+              "r": 0.75
+            }
+          ],
+          "medals": [
+            100,
+            200,
+            300
+          ]
+        },
+        {
+          "title": "Tres alturas",
+          "objective": "Tres aros a distinta altura: 100, 200 y 300. 6 tiros.",
+          "shots": 6,
+          "rings": [
+            {
+              "pos": [
+                8,
+                1.2,
+                -2.2
+              ],
+              "r": 0.7,
+              "value": 100
+            },
+            {
+              "pos": [
+                11,
+                2.4,
+                0
+              ],
+              "r": 0.7,
+              "value": 200
+            },
+            {
+              "pos": [
+                14,
+                3.4,
+                2.2
+              ],
+              "r": 0.7,
+              "value": 300
+            }
+          ],
+          "medals": [
+            300,
+            700,
+            1000
+          ]
+        },
+        {
+          "title": "Secuencia",
+          "objective": "Tres aros en fila: pasá por los tres en el mismo tiro (valen el doble). 5 tiros.",
+          "shots": 5,
+          "sequences": [
+            [
+              {
+                "pos": [
+                  7,
+                  3.25,
+                  0
+                ],
+                "r": 0.85
+              },
+              {
+                "pos": [
+                  10,
+                  3.0,
+                  0
+                ],
+                "r": 0.85
+              },
+              {
+                "pos": [
+                  13,
+                  2.35,
+                  0
+                ],
+                "r": 0.85
+              }
+            ]
+          ],
+          "medals": [
+            300,
+            600,
+            1200
+          ]
+        },
+        {
+          "title": "Aro que sube y baja",
+          "objective": "El aro sube y baja colgado de su cadena: elegí el momento. 5 tiros.",
+          "shots": 5,
+          "rings": [
+            {
+              "pos": [
+                11,
+                2.2,
+                0
+              ],
+              "r": 0.7,
+              "value": 200,
+              "move": {
+                "axis": [
+                  0,
+                  1,
+                  0
+                ],
+                "amp": 0.9,
+                "speed": 1.3
+              }
+            }
+          ],
+          "medals": [
+            200,
+            400,
+            600
+          ]
+        }
+      ]
+    },
+    {
+      "id": "piedras",
+      "title": "Piedras saltarinas",
+      "scene": "res://scenes/minigames/piedras.tscn",
+      "status": "Implementado",
+      "description": "Pateá rasante sobre el lago: si entra con poco ángulo y rápido, pica en el agua. Contá los piques.",
+      "levels": [
+        {
+          "title": "Lago calmo",
+          "objective": "5 tiros rasantes: tu mejor tiro por cantidad de piques (y metros).",
+          "rule": "piques",
+          "shots": 5,
+          "medals": [
+            110,
+            200,
+            300
+          ]
+        },
+        {
+          "title": "Lejos",
+          "objective": "Mejor distancia del último pique. 5 tiros.",
+          "rule": "distancia",
+          "shots": 5,
+          "medals": [
+            150,
+            250,
+            320
+          ]
+        },
+        {
+          "title": "Serie",
+          "objective": "Sumá los piques de 6 tiros.",
+          "rule": "suma",
+          "shots": 6,
+          "medals": [
+            300,
+            600,
+            900
+          ]
+        }
+      ]
+    },
+    {
+      "id": "salto_esqui",
+      "title": "Salto de esquí",
+      "scene": "res://scenes/minigames/salto_esqui.tscn",
+      "status": "Implementado",
+      "description": "La pelota baja por el trampolín de nieve y vuela: más lejos que la línea K. Fuerza, dirección y efecto.",
+      "levels": [
+        {
+          "title": "Trampolín chico",
+          "objective": "3 saltos: empujá la pelota suave hacia la pista (si la pateás fuerte rebota y pierde velocidad). Pasá la línea K.",
+          "height": 14.0,
+          "k": 28.0,
+          "hs": 34.0,
+          "shots": 3,
+          "medals": [
+            40,
+            60,
+            75
+          ]
+        },
+        {
+          "title": "Trampolín grande",
+          "objective": "Desde 22 m de alto. K 36, HS 44. 3 saltos.",
+          "height": 22.0,
+          "k": 36.0,
+          "hs": 44.0,
+          "shots": 3,
+          "medals": [
+            40,
+            60,
+            75
+          ]
+        },
+        {
+          "title": "Viento en contra",
+          "objective": "El viento frena el vuelo: más fuerza y efecto hacia atrás. 3 saltos.",
+          "height": 20.0,
+          "k": 27.0,
+          "hs": 35.0,
+          "wind": -1.5,
+          "shots": 3,
+          "medals": [
+            40,
+            60,
+            75
+          ]
+        }
+      ]
     }
-   ]
-  },
-  {
-   "id": "demolicion",
-   "title": "Demolición",
-   "scene": "res://scenes/minigames/demolicion.tscn",
-   "status": "Implementado",
-   "description": "Derribá estructuras de madera, ladrillo, piedra, metal y vidrio con la pelota real, en una obra, un castillo y un almacén.",
-   "levels": [
+  ],
+  "categories": [
     {
-     "title": "Torre",
-     "objective": "Tirá la torre roja de la mesa (o volcá cada bloque). Tenés 3 tiros; cada tiro de sobra suma.",
-     "distance": 16.0,
-     "shots": 3,
-     "figures": [
-      {
-       "type": "tower",
-       "n": 5,
-       "at": [
-        0,
-        0,
-        0
-       ],
-       "size": [
-        0.45,
-        0.45,
-        0.45
-       ],
-       "kind": "target",
-       "mass": 1.0,
-       "look": "crate"
-      }
-     ],
-     "medals": [
-      300,
-      440,
-      560
-     ],
-     "theme": "obra"
-    },
-    {
-     "title": "Pirámide",
-     "objective": "Derribá la pirámide entera (6 bloques): sacalos de la mesa o volcalos. 5 tiros.",
-     "distance": 17.0,
-     "shots": 5,
-     "figures": [
-      {
-       "type": "pyramid",
-       "n": 3,
-       "at": [
-        0,
-        0,
-        0
-       ],
-       "size": [
-        0.45,
-        0.45,
-        0.45
-       ],
-       "kind": "target",
-       "mass": 0.8,
-       "look": "brick"
-      }
-     ],
-     "medals": [
-      400,
-      600,
-      720
-     ],
-     "theme": "obra"
-    },
-    {
-     "title": "Reacción en cadena",
-     "objective": "Las fichas están en fila hacia el fondo: volteá la primera y caen en cadena. Dos tiros.",
-     "distance": 15.0,
-     "shots": 2,
-     "table_depth": 3.8,
-     "table_width": 4.0,
-     "figures": [
-      {
-       "type": "dominoes",
-       "n": 6,
-       "at": [
-        -1.3,
-        0,
-        0
-       ],
-       "step": [
-        0.5,
-        0,
-        0
-       ],
-       "size": [
-        0.12,
-        0.9,
-        0.6
-       ],
-       "kind": "target",
-       "mass": 0.8,
-       "look": "wood"
-      }
-     ],
-     "medals": [
-      400,
-      600,
-      660
-     ],
-     "theme": "almacen"
-    },
-    {
-     "title": "Precisión",
-     "objective": "Volteá solo los rojos: cada blanco que tires resta puntos. 3 tiros.",
-     "distance": 16.0,
-     "shots": 3,
-     "blocks": [
-      {
-       "pos": [
-        0,
-        0.3,
-        -1.2
-       ],
-       "size": [
-        0.4,
-        0.6,
-        0.4
-       ],
-       "kind": "target",
-       "look": "stone"
-      },
-      {
-       "pos": [
-        0,
-        0.3,
-        0.0
-       ],
-       "size": [
-        0.4,
-        0.6,
-        0.4
-       ],
-       "kind": "keep",
-       "look": "stone"
-      },
-      {
-       "pos": [
-        0,
-        0.3,
-        1.2
-       ],
-       "size": [
-        0.4,
-        0.6,
-        0.4
-       ],
-       "kind": "target",
-       "look": "stone"
-      },
-      {
-       "pos": [
-        0,
-        0.3,
-        -0.6
-       ],
-       "size": [
-        0.4,
-        0.6,
-        0.4
-       ],
-       "kind": "keep",
-       "look": "stone"
-      },
-      {
-       "pos": [
-        0,
-        0.3,
-        0.6
-       ],
-       "size": [
-        0.4,
-        0.6,
-        0.4
-       ],
-       "kind": "keep",
-       "look": "stone"
-      }
-     ],
-     "medals": [
-      140,
-      200,
-      260
-     ],
-     "theme": "castillo"
-    },
-    {
-     "title": "Muro",
-     "objective": "Un muro de 9 bloques: tiralo todo en 4 tiros.",
-     "distance": 17.0,
-     "shots": 4,
-     "figures": [
-      {
-       "type": "wall",
-       "rows": 3,
-       "cols": 3,
-       "at": [
-        0,
-        0,
-        0
-       ],
-       "size": [
-        0.4,
-        0.4,
-        0.55
-       ],
-       "kind": "target",
-       "mass": 0.6,
-       "look": "brick"
-      }
-     ],
-     "medals": [
-      600,
-      900,
-      1000
-     ],
-     "theme": "castillo"
-    },
-    {
-     "title": "Torre inestable",
-     "objective": "Una torre alta y fina con un bloque rojo arriba: hacelo caer sin voltear los blancos de la base. 2 tiros.",
-     "distance": 18.0,
-     "shots": 2,
-     "blocks": [
-      {
-       "pos": [
-        0,
-        0.35,
-        0
-       ],
-       "size": [
-        0.35,
-        0.7,
-        0.35
-       ],
-       "kind": "keep",
-       "look": "stone"
-      },
-      {
-       "pos": [
-        0,
-        1.05,
-        0
-       ],
-       "size": [
-        0.35,
-        0.7,
-        0.35
-       ],
-       "kind": "keep",
-       "look": "stone"
-      },
-      {
-       "pos": [
-        0,
-        1.6,
-        0
-       ],
-       "size": [
-        0.3,
-        0.4,
-        0.3
-       ],
-       "kind": "target",
-       "mass": 0.6,
-       "look": "crate"
-      }
-     ],
-     "medals": [
-      100,
-      130,
-      160
-     ],
-     "theme": "obra"
-    },
-    {
-     "title": "Barriles",
-     "objective": "Barriles apilados: ruedan y desparraman la pila. Tiralos todos en 4 tiros.",
-     "distance": 16.0,
-     "shots": 4,
-     "blocks": [
-      {
-       "pos": [
-        0,
-        0.3,
-        -0.35
-       ],
-       "size": [
-        0.6,
-        0.6,
-        0.6
-       ],
-       "kind": "target",
-       "shape": "barrel",
-       "mass": 0.6,
-       "look": "metal"
-      },
-      {
-       "pos": [
-        0,
-        0.3,
-        0.35
-       ],
-       "size": [
-        0.6,
-        0.6,
-        0.6
-       ],
-       "kind": "target",
-       "shape": "barrel",
-       "mass": 0.6,
-       "look": "metal"
-      },
-      {
-       "pos": [
-        0,
-        0.9,
-        0.0
-       ],
-       "size": [
-        0.6,
-        0.6,
-        0.6
-       ],
-       "kind": "target",
-       "shape": "barrel",
-       "mass": 0.6,
-       "look": "metal"
-      },
-      {
-       "pos": [
-        0,
-        0.3,
-        1.05
-       ],
-       "size": [
-        0.6,
-        0.6,
-        0.6
-       ],
-       "kind": "target",
-       "shape": "barrel",
-       "mass": 0.6,
-       "look": "metal"
-      },
-      {
-       "pos": [
-        0,
-        0.3,
-        -1.05
-       ],
-       "size": [
-        0.6,
-        0.6,
-        0.6
-       ],
-       "kind": "target",
-       "shape": "barrel",
-       "mass": 0.6,
-       "look": "metal"
-      }
-     ],
-     "medals": [
-      400,
-      560,
-      620
-     ],
-     "theme": "almacen"
-    },
-    {
-     "title": "Soportes",
-     "objective": "Los rojos están sobre una tabla apoyada en dos pilares: tirá un pilar y que la estructura haga el resto.",
-     "distance": 16.0,
-     "shots": 2,
-     "blocks": [
-      {
-       "pos": [
-        -0.8,
-        0.45,
-        0
-       ],
-       "size": [
-        0.35,
-        0.9,
-        0.35
-       ],
-       "kind": "block",
-       "mass": 1.0,
-       "look": "metal"
-      },
-      {
-       "pos": [
-        0.8,
-        0.45,
-        0
-       ],
-       "size": [
-        0.35,
-        0.9,
-        0.35
-       ],
-       "kind": "block",
-       "mass": 1.0,
-       "look": "metal"
-      },
-      {
-       "pos": [
-        0,
-        0.98,
-        0
-       ],
-       "size": [
-        2.6,
-        0.12,
-        0.8
-       ],
-       "kind": "block",
-       "mass": 1.4,
-       "look": "wood"
-      },
-      {
-       "pos": [
-        -0.6,
-        1.3,
-        0
-       ],
-       "size": [
-        0.4,
-        0.5,
-        0.4
-       ],
-       "kind": "target",
-       "mass": 0.6,
-       "look": "crate"
-      },
-      {
-       "pos": [
-        0.6,
-        1.3,
-        0
-       ],
-       "size": [
-        0.4,
-        0.5,
-        0.4
-       ],
-       "kind": "target",
-       "mass": 0.6,
-       "look": "crate"
-      }
-     ],
-     "medals": [
-      200,
-      260,
-      320
-     ],
-     "theme": "almacen"
-    },
-    {
-     "title": "Vitrina",
-     "theme": "almacen",
-     "objective": "Cuatro paneles de vidrio: un golpe fuerte los rompe en pedazos. 4 tiros.",
-     "distance": 15.0,
-     "shots": 4,
-     "blocks": [
-      {
-       "pos": [
-        0,
-        0.36,
-        -1.05
-       ],
-       "size": [
-        0.08,
-        0.7,
-        0.62
-       ],
-       "kind": "target",
-       "material": "glass"
-      },
-      {
-       "pos": [
-        0,
-        0.36,
-        -0.35
-       ],
-       "size": [
-        0.08,
-        0.7,
-        0.62
-       ],
-       "kind": "target",
-       "material": "glass"
-      },
-      {
-       "pos": [
-        0,
-        0.36,
-        0.35
-       ],
-       "size": [
-        0.08,
-        0.7,
-        0.62
-       ],
-       "kind": "target",
-       "material": "glass"
-      },
-      {
-       "pos": [
-        0,
-        0.36,
-        1.05
-       ],
-       "size": [
-        0.08,
-        0.7,
-        0.62
-       ],
-       "kind": "target",
-       "material": "glass"
-      }
-     ],
-     "medals": [
-      200,
-      400,
-      460
-     ]
-    },
-    {
-     "title": "Casita",
-     "theme": "obra",
-     "objective": "Una casita de ladrillos con dos cajas en el techo: tirá las cajas (o la casa entera). 3 tiros.",
-     "distance": 15.0,
-     "shots": 3,
-     "table_depth": 2.0,
-     "figures": [
-      {
-       "type": "house",
-       "at": [
-        0,
-        0,
-        0
-       ],
-       "size": [
-        0.2,
+      "id": "arco",
+      "title": "DESAFÍOS DE ARCO",
+      "description": "Precisión contra el arco: dianas, postes, aros, ventanas, objetos para derribar y tiros con pique.",
+      "color": [
+        0.85,
         0.25,
-        0.4
-       ],
-       "rows": 3,
-       "bricks": 4,
-       "depth": 1.1,
-       "kind": "block",
-       "material": "brick",
-       "roof_kind": "target",
-       "roof_mass": 0.5
-      }
-     ],
-     "medals": [
-      100,
-      200,
-      260
-     ]
-    },
-    {
-     "title": "Columnata",
-     "theme": "castillo",
-     "objective": "Columnas de piedra con dinteles y tres estatuas arriba: hacé caer las estatuas. 3 tiros.",
-     "distance": 16.0,
-     "shots": 3,
-     "table_width": 5.0,
-     "figures": [
-      {
-       "type": "colonnade",
-       "at": [
-        0,
-        0,
-        0
-       ],
-       "size": [
-        0.3,
-        1.1,
-        0.3
-       ],
-       "cols": 4,
-       "gap": 1.1,
-       "kind": "block",
-       "look": "stone",
-       "mass": 1.2,
-       "top_kind": "target",
-       "top_mass": 0.5,
-       "top_look": "stone"
-      }
-     ],
-     "medals": [
-      100,
-      300,
-      360
-     ]
-    },
-    {
-     "title": "Jenga",
-     "theme": "obra",
-     "objective": "Torre de tablones cruzados: los dos pisos de arriba son rojos. Bajalos a la mesa. 4 tiros.",
-     "distance": 15.0,
-     "shots": 4,
-     "down_h": 0.9,
-     "figures": [
-      {
-       "type": "jenga",
-       "at": [
-        0,
-        0,
-        0
-       ],
-       "size": [
-        1.1,
-        0.18,
-        0.34
-       ],
-       "n": 9,
-       "top": 2,
-       "kind": "block",
-       "top_kind": "target",
-       "look": "wood",
-       "mass": 0.5
-      }
-     ],
-     "medals": [
-      300,
-      600,
-      660
-     ]
-    },
-    {
-     "title": "Fortaleza",
-     "theme": "castillo",
-     "objective": "Dos torres de piedra, un puente de madera con cajas y un vitral en el medio. 4 tiros.",
-     "distance": 17.0,
-     "shots": 4,
-     "blocks": [
-      {
-       "pos": [
-        0,
-        0.25,
-        -1.0
-       ],
-       "size": [
-        0.5,
-        0.5,
-        0.5
-       ],
-       "kind": "block",
-       "look": "stone",
-       "mass": 1.6
-      },
-      {
-       "pos": [
-        0,
-        0.75,
-        -1.0
-       ],
-       "size": [
-        0.5,
-        0.5,
-        0.5
-       ],
-       "kind": "block",
-       "look": "stone",
-       "mass": 1.6
-      },
-      {
-       "pos": [
-        0,
-        1.25,
-        -1.0
-       ],
-       "size": [
-        0.5,
-        0.5,
-        0.5
-       ],
-       "kind": "block",
-       "look": "stone",
-       "mass": 1.6
-      },
-      {
-       "pos": [
-        0,
-        0.25,
-        1.0
-       ],
-       "size": [
-        0.5,
-        0.5,
-        0.5
-       ],
-       "kind": "block",
-       "look": "stone",
-       "mass": 1.6
-      },
-      {
-       "pos": [
-        0,
-        0.75,
-        1.0
-       ],
-       "size": [
-        0.5,
-        0.5,
-        0.5
-       ],
-       "kind": "block",
-       "look": "stone",
-       "mass": 1.6
-      },
-      {
-       "pos": [
-        0,
-        1.25,
-        1.0
-       ],
-       "size": [
-        0.5,
-        0.5,
-        0.5
-       ],
-       "kind": "block",
-       "look": "stone",
-       "mass": 1.6
-      },
-      {
-       "pos": [
-        0,
-        1.56,
-        0
-       ],
-       "size": [
-        0.5,
-        0.12,
-        2.6
-       ],
-       "kind": "block",
-       "look": "wood",
-       "mass": 1.2
-      },
-      {
-       "pos": [
-        0,
-        1.82,
-        -0.6
-       ],
-       "size": [
-        0.4,
-        0.4,
-        0.4
-       ],
-       "kind": "target",
-       "look": "crate",
-       "mass": 0.5
-      },
-      {
-       "pos": [
-        0,
-        1.82,
-        0.6
-       ],
-       "size": [
-        0.4,
-        0.4,
-        0.4
-       ],
-       "kind": "target",
-       "look": "crate",
-       "mass": 0.5
-      },
-      {
-       "pos": [
-        0,
-        0.6,
-        0
-       ],
-       "size": [
-        0.08,
-        1.2,
-        1.2
-       ],
-       "kind": "target",
-       "material": "glass"
-      }
-     ],
-     "medals": [
-      200,
-      300,
-      420
-     ]
-    }
-   ]
-  },
-  {
-   "id": "enceste",
-   "title": "Básquet",
-   "scene": "res://scenes/minigames/enceste.tscn",
-   "status": "Implementado",
-   "description": "Aros físicos a distintas alturas: cuenta solo si la pelota pasa de arriba hacia abajo. Los aros altos valen más.",
-   "levels": [
-    {
-     "title": "Gradas",
-     "objective": "Aros grandes en gradas: azules 10, rojos 15, el amarillo de arriba 20. 8 tiros, sumá todo.",
-     "shots": 8,
-     "repeat": true,
-     "tiers": [
-      [
-       12.5,
-       16.0,
-       1.0
+        0.15
       ],
-      [
-       16.0,
-       18.8,
-       2.0
-      ],
-      [
-       18.8,
-       22.0,
-       3.0
+      "items": [
+        {
+          "type": "game",
+          "game": "dianas"
+        },
+        {
+          "type": "game",
+          "game": "precision"
+        },
+        {
+          "type": "arena",
+          "id": "arco_postes",
+          "title": "Postecitos y travesaño",
+          "description": "Pegale a los palos y al travesaño.",
+          "ids": [
+            "r_pre_1",
+            "r_pre_2",
+            "r_pre_3"
+          ]
+        },
+        {
+          "type": "arena",
+          "id": "arco_aros",
+          "title": "Aros",
+          "description": "Pasala por el aro colgado del arco.",
+          "ids": [
+            "r_pre_4",
+            "r_dis_2"
+          ]
+        },
+        {
+          "type": "arena",
+          "id": "arco_ventanas",
+          "title": "Ventanas y círculos",
+          "description": "Ventanas chicas, blancos que se mueven, secuencias y blancos que desaparecen.",
+          "ids": [
+            "r_pre_5",
+            "r_pre_6",
+            "r_pre_7",
+            "r_esp_1",
+            "r_esp_3"
+          ]
+        },
+        {
+          "type": "arena",
+          "id": "arco_derribar",
+          "title": "Derribar objetivos",
+          "description": "Conos, botellas, pirámide de bloques y torres.",
+          "ids": [
+            "r_obj_1",
+            "r_obj_2",
+            "r_obj_3",
+            "r_obj_4"
+          ]
+        },
+        {
+          "type": "arena",
+          "id": "arco_pique",
+          "title": "Tiros con pique",
+          "description": "Hacela picar antes del blanco.",
+          "ids": [
+            "r_esp_2"
+          ]
+        },
+        {
+          "type": "arena",
+          "id": "arco_distancia",
+          "title": "Distancia y obstáculos",
+          "description": "Desde muy lejos y por encima del obstáculo.",
+          "ids": [
+            "r_dis_1",
+            "r_dis_3"
+          ]
+        },
+        {
+          "type": "game",
+          "game": "field_goal"
+        },
+        {
+          "type": "game",
+          "game": "aros_fuego"
+        }
       ]
-     ],
-     "hoops": [
-      {
-       "pos": [
-        14.0,
-        1.95,
-        -3.0
-       ],
-       "radius": 0.75,
-       "board": false,
-       "points": 100
-      },
-      {
-       "pos": [
-        14.0,
-        1.95,
-        0.0
-       ],
-       "radius": 0.75,
-       "board": false,
-       "points": 100
-      },
-      {
-       "pos": [
-        14.0,
-        1.95,
-        3.0
-       ],
-       "radius": 0.75,
-       "board": false,
-       "points": 100
-      },
-      {
-       "pos": [
-        17.2,
-        2.95,
-        -1.8
-       ],
-       "radius": 0.75,
-       "board": false,
-       "points": 150
-      },
-      {
-       "pos": [
-        17.2,
-        2.95,
-        1.8
-       ],
-       "radius": 0.75,
-       "board": false,
-       "points": 150
-      },
-      {
-       "pos": [
-        20.2,
-        3.95,
-        0.0
-       ],
-       "radius": 0.75,
-       "board": false,
-       "points": 200
-      }
-     ],
-     "medals": [
-      400,
-      900,
-      1300
-     ]
     },
     {
-     "title": "Gradas: todos",
-     "objective": "Encestá en los seis aros de las gradas. 10 tiros.",
-     "shots": 10,
-     "tiers": [
-      [
-       12.5,
-       16.0,
-       1.0
-      ],
-      [
-       16.0,
-       18.8,
-       2.0
-      ],
-      [
-       18.8,
-       22.0,
-       3.0
-      ]
-     ],
-     "hoops": [
-      {
-       "pos": [
-        14.0,
-        1.95,
-        -3.0
-       ],
-       "radius": 0.75,
-       "board": false,
-       "points": 100
-      },
-      {
-       "pos": [
-        14.0,
-        1.95,
-        0.0
-       ],
-       "radius": 0.75,
-       "board": false,
-       "points": 100
-      },
-      {
-       "pos": [
-        14.0,
-        1.95,
-        3.0
-       ],
-       "radius": 0.75,
-       "board": false,
-       "points": 100
-      },
-      {
-       "pos": [
-        17.2,
-        2.95,
-        -1.8
-       ],
-       "radius": 0.75,
-       "board": false,
-       "points": 150
-      },
-      {
-       "pos": [
-        17.2,
-        2.95,
-        1.8
-       ],
-       "radius": 0.75,
-       "board": false,
-       "points": 150
-      },
-      {
-       "pos": [
-        20.2,
-        3.95,
-        0.0
-       ],
-       "radius": 0.75,
-       "board": false,
-       "points": 200
-      }
-     ],
-     "medals": [
-      500,
-      800,
-      1100
-     ]
-    },
-    {
-     "title": "Primer aro",
-     "objective": "Meté la pelota en el aro (de arriba hacia abajo). Cuatro tiros; limpia (sin tocar el aro) suma más.",
-     "shots": 4,
-     "hoops": [
-      {
-       "pos": [
-        12.0,
-        3.05,
-        0.0
-       ],
-       "radius": 0.36
-      }
-     ],
-     "medals": [
-      100,
-      190,
-      250
-     ]
-    },
-    {
-     "title": "Por el tablero",
-     "objective": "Una tapa transparente cubre el frente del aro: hacé rebotar la pelota en el tablero. Cuatro tiros.",
-     "shots": 4,
-     "hoops": [
-      {
-       "pos": [
-        12.0,
-        3.05,
-        0.0
-       ],
-       "radius": 0.36,
-       "lid": 1.0
-      }
-     ],
-     "medals": [
-      100,
-      180,
-      220
-     ]
-    },
-    {
-     "title": "Aro lejano",
-     "objective": "El aro está a 18 m. Cinco tiros.",
-     "shots": 5,
-     "hoops": [
-      {
-       "pos": [
-        18.0,
-        3.05,
-        0.0
-       ],
-       "radius": 0.36
-      }
-     ],
-     "medals": [
-      100,
-      200,
-      290
-     ]
-    },
-    {
-     "title": "Aro móvil",
-     "objective": "El aro va y viene: calculá dónde va a estar. Cinco tiros.",
-     "shots": 5,
-     "hoops": [
-      {
-       "pos": [
-        13.0,
-        3.05,
-        0.0
-       ],
-       "radius": 0.38,
-       "move": {
-        "axis": [
-         0,
-         0,
-         1
-        ],
-        "amp": 1.6,
-        "speed": 1.1
-       }
-      }
-     ],
-     "medals": [
-      100,
-      200,
-      290
-     ]
-    },
-    {
-     "title": "Doble aro",
-     "objective": "Dos aros: encestá en los dos. Seis tiros.",
-     "shots": 6,
-     "hoops": [
-      {
-       "pos": [
-        12.0,
-        2.6,
-        -2.0
-       ],
-       "radius": 0.36
-      },
-      {
-       "pos": [
-        15.0,
-        3.4,
-        2.2
-       ],
-       "radius": 0.36
-      }
-     ],
-     "need": 2,
-     "medals": [
-      200,
-      320,
-      460
-     ]
-    },
-    {
-     "title": "Tres alturas",
-     "objective": "Tres aros a 2,4 m, 3,05 m y 3,8 m (x1, x2, x3): encestá en los tres. 7 tiros.",
-     "shots": 7,
-     "need": 3,
-     "hoops": [
-      {
-       "pos": [
-        11.0,
-        2.4,
-        -2.6
-       ],
-       "radius": 0.38,
-       "value": 1
-      },
-      {
-       "pos": [
-        13.0,
-        3.05,
-        0.0
-       ],
-       "radius": 0.36,
-       "value": 2
-      },
-      {
-       "pos": [
-        15.0,
-        3.8,
-        2.6
-       ],
-       "radius": 0.36,
-       "value": 3
-      }
-     ],
-     "medals": [
-      200,
-      500,
-      750
-     ]
-    },
-    {
-     "title": "Ronda de tiros",
-     "objective": "8 tiros: cada tiro podés volver a meterla en cualquier aro. El de arriba vale x3.",
-     "shots": 8,
-     "repeat": true,
-     "hoops": [
-      {
-       "pos": [
-        11.0,
-        2.4,
-        -2.6
-       ],
-       "radius": 0.38,
-       "value": 1
-      },
-      {
-       "pos": [
-        13.0,
-        3.05,
-        0.0
-       ],
-       "radius": 0.36,
-       "value": 2
-      },
-      {
-       "pos": [
-        15.0,
-        3.8,
-        2.6
-       ],
-       "radius": 0.36,
-       "value": 3
-      }
-     ],
-     "medals": [
-      300,
-      900,
-      1500
-     ]
-    }
-   ]
-  },
-  {
-   "id": "minigolf",
-   "title": "Minigolf",
-   "scene": "res://scenes/minigames/minigolf.tscn",
-   "status": "Implementado",
-   "description": "Meté la pelota en el hoyo con la menor cantidad de golpes: rampas, túneles, arena y obstáculos móviles.",
-   "levels": [
-    {
-     "title": "Recto",
-     "objective": "Hoyo derecho: llegá en 2 golpes (par 2). Despacio: el hoyo solo captura la pelota lenta.",
-     "par": 2,
-     "tee": [
-      0,
-      0,
-      0
-     ],
-     "hole": [
-      12,
-      0,
-      0
-     ],
-     "bounds": [
-      -3,
-      -4,
-      16,
-      4
-     ],
-     "guide": [
-      [
-       12,
-       0,
-       0
-      ]
-     ],
-     "medals": [
-      15,
-      30,
-      45
-     ]
-    },
-    {
-     "title": "Pared y rebote",
-     "objective": "Un muro tapa el camino directo: rodeálo o usá el rebote. Par 3.",
-     "par": 3,
-     "tee": [
-      0,
-      0,
-      0
-     ],
-     "hole": [
-      14,
-      0,
-      -3
-     ],
-     "bounds": [
-      -3,
-      -6,
-      18,
-      6
-     ],
-     "walls": [
-      {
-       "pos": [
-        9,
-        0.3,
-        -1.4
-       ],
-       "size": [
-        0.4,
-        0.6,
-        9.2
-       ]
-      },
-      {
-       "pos": [
-        4.5,
-        0.3,
-        6.0
-       ],
-       "size": [
-        9.4,
-        0.6,
-        0.4
-       ]
-      },
-      {
-       "pos": [
-        4.5,
-        0.3,
-        -6.0
-       ],
-       "size": [
-        9.4,
-        0.6,
-        0.4
-       ]
-      }
-     ],
-     "guide": [
-      [
-       8,
-       0,
-       4.2
-      ],
-      [
-       14,
-       0,
-       -3
-      ]
-     ],
-     "medals": [
-      15,
-      30,
-      45
-     ]
-    },
-    {
-     "title": "Rampa",
-     "objective": "El hoyo está en una plataforma elevada: subí por la rampa con potencia. Par 3.",
-     "par": 3,
-     "tee": [
-      0,
-      0,
-      0
-     ],
-     "hole": [
-      15,
-      0,
-      0
-     ],
-     "hole_y": 1.0,
-     "bounds": [
-      -3,
-      -5,
-      20,
-      5
-     ],
-     "platforms": [
-      {
-       "pos": [
-        15,
-        0.5,
-        0
-       ],
-       "size": [
-        6,
-        1.0,
-        8
-       ]
-      }
-     ],
-     "ramps": [
-      {
-       "pos": [
-        9.75,
-        0.44,
-        0
-       ],
-       "size": [
-        4.7,
-        0.25,
-        3.0
-       ],
-       "roll": 12.5
-      }
-     ],
-     "guide": [
-      [
-       15.0,
-       0,
-       0
-      ]
-     ],
-     "medals": [
-      15,
-      30,
-      45
-     ]
-    },
-    {
-     "title": "Túnel",
-     "objective": "El único paso es el túnel. Par 3.",
-     "par": 3,
-     "tee": [
-      0,
-      0,
-      0
-     ],
-     "hole": [
-      16,
-      0,
-      0
-     ],
-     "bounds": [
-      -3,
-      -5,
-      20,
-      5
-     ],
-     "tunnels": [
-      {
-       "pos": [
-        9,
-        0,
-        0
-       ],
-       "len": 3.0,
-       "width": 1.1,
-       "h": 0.9
-      }
-     ],
-     "walls": [
-      {
-       "pos": [
-        9,
-        0.45,
-        3.1
-       ],
-       "size": [
-        0.4,
+      "id": "destruccion",
+      "title": "DESTRUCCIÓN Y MECANISMOS",
+      "description": "Estructuras que se derrumban, bolos y rescates con física real.",
+      "color": [
         0.9,
-        3.8
-       ]
-      },
-      {
-       "pos": [
-        9,
-        0.45,
-        -3.1
-       ],
-       "size": [
-        0.4,
-        0.9,
-        3.8
-       ]
-      }
-     ],
-     "guide": [
-      [
-       12,
-       0,
-       0
-      ],
-      [
-       16,
-       0,
-       0
-      ]
-     ],
-     "medals": [
-      15,
-      30,
-      45
-     ]
-    },
-    {
-     "title": "Guardia móvil",
-     "objective": "Dos bloques patrullan el paso: elegí el momento. Par 3.",
-     "par": 3,
-     "tee": [
-      0,
-      0,
-      0
-     ],
-     "hole": [
-      15,
-      0,
-      0
-     ],
-     "bounds": [
-      -3,
-      -5,
-      19,
-      5
-     ],
-     "movers": [
-      {
-       "pos": [
-        8,
-        0.4,
-        1.4
-       ],
-       "size": [
-        0.6,
-        0.8,
-        2.2
-       ],
-       "axis": [
-        0,
-        0,
-        1
-       ],
-       "amp": 2.2,
-       "speed": 1.4
-      },
-      {
-       "pos": [
-        10.5,
-        0.4,
-        -1.4
-       ],
-       "size": [
-        0.6,
-        0.8,
-        2.2
-       ],
-       "axis": [
-        0,
-        0,
-        1
-       ],
-       "amp": 2.2,
-       "speed": 1.1
-      }
-     ],
-     "guide": [
-      [
-       15,
-       0,
-       0
-      ]
-     ],
-     "medals": [
-      15,
-      30,
-      45
-     ]
-    },
-    {
-     "title": "Arena y curva",
-     "objective": "La arena frena la pelota y el hoyo está tras la curva. Par 4.",
-     "par": 4,
-     "tee": [
-      0,
-      0,
-      0
-     ],
-     "hole": [
-      16,
-      0,
-      4.0
-     ],
-     "bounds": [
-      -3,
-      -6,
-      20,
-      7
-     ],
-     "walls": [
-      {
-       "pos": [
-        9.5,
-        0.3,
-        0.6
-       ],
-       "size": [
-        13,
-        0.6,
-        0.4
-       ]
-      }
-     ],
-     "sand": [
-      [
-       4.0,
-       -4.5,
-       8.0,
-       -0.5
-      ]
-     ],
-     "guide": [
-      [
-       17.6,
-       0,
-       -1.6
-      ],
-      [
-       16,
-       0,
-       4.0
-      ]
-     ],
-     "medals": [
-      10,
-      25,
-      45
-     ]
-    }
-   ]
-  },
-  {
-   "id": "dianas",
-   "title": "Dianas",
-   "scene": "res://scenes/minigames/dianas.tscn",
-   "status": "Implementado",
-   "description": "Dianas 3D que miran al jugador: colgantes que se desprenden con un golpe fuerte y tableros con zonas que suman según dónde pega la pelota.",
-   "levels": [
-    {
-     "title": "Colgantes",
-     "objective": "Desprendé las 3 dianas: un golpe fuerte alcanza; un roce, no. El centro suma más. 3 tiros.",
-     "shots": 3,
-     "plates": [
-      {
-       "pos": [
-        12,
-        0,
-        -1.6
-       ]
-      },
-      {
-       "pos": [
-        12,
-        0,
-        0
-       ]
-      },
-      {
-       "pos": [
-        12,
-        0,
-        1.6
-       ]
-      }
-     ],
-     "medals": [
-      100,
-      150,
-      175
-     ]
-    },
-    {
-     "title": "Resistentes",
-     "objective": "Las de aro dorado aguantan 2 golpes. 6 tiros.",
-     "shots": 6,
-     "plates": [
-      {
-       "pos": [
-        12,
-        0,
-        -1.6
-       ],
-       "hits": 2
-      },
-      {
-       "pos": [
-        12,
-        0,
-        0
-       ]
-      },
-      {
-       "pos": [
-        12,
-        0,
-        1.6
-       ],
-       "hits": 2
-      }
-     ],
-     "medals": [
-      100,
-      170,
-      230
-     ]
-    },
-    {
-     "title": "Carrusel",
-     "objective": "La barra gira: calculá dónde va a estar cada diana. 4 tiros.",
-     "shots": 4,
-     "carousel": {
-      "x": 12.0,
-      "len": 4.4,
-      "speed": 0.5
-     },
-     "plates": [
-      {
-       "pos": [
-        12,
-        0,
-        -1.7
-       ]
-      },
-      {
-       "pos": [
-        12,
-        0,
-        0
-       ]
-      },
-      {
-       "pos": [
-        12,
-        0,
-        1.7
-       ]
-      }
-     ],
-     "medals": [
-      100,
-      160,
-      200
-     ]
-    },
-    {
-     "title": "En cadena",
-     "objective": "Cuelgan una detrás de otra: la de adelante, si sale volando, se lleva a la siguiente. 5 tiros.",
-     "shots": 5,
-     "bar_axis": "x",
-     "bar_x": 13.05,
-     "bar_len": 3.0,
-     "plates": [
-      {
-       "pos": [
-        12.0,
-        0,
-        0
-       ],
-       "hang": 2.05,
-       "r": 0.3
-      },
-      {
-       "pos": [
-        12.7,
-        0,
-        0
-       ],
-       "hang": 1.8,
-       "r": 0.3
-      },
-      {
-       "pos": [
-        13.4,
-        0,
-        0
-       ],
-       "hang": 1.55,
-       "r": 0.3
-      },
-      {
-       "pos": [
-        14.1,
-        0,
-        0
-       ],
-       "hang": 1.3,
-       "r": 0.3
-      }
-     ],
-     "medals": [
-      120,
-      200,
-      260
-     ],
-     "bar_h": 3.4
-    },
-    {
-     "title": "Tras el muro",
-     "objective": "Un muro tapa el tiro directo bajo: pasala por arriba. 4 tiros.",
-     "shots": 4,
-     "walls": [
-      {
-       "pos": [
-        8,
-        1.0,
-        0
-       ],
-       "size": [
-        0.3,
-        2.0,
-        4.5
-       ]
-      }
-     ],
-     "plates": [
-      {
-       "pos": [
-        12.5,
-        0,
-        -1.4
-       ]
-      },
-      {
-       "pos": [
-        12.5,
-        0,
-        0
-       ]
-      },
-      {
-       "pos": [
-        12.5,
-        0,
-        1.4
-       ]
-      }
-     ],
-     "medals": [
-      100,
-      160,
-      190
-     ]
-    },
-    {
-     "title": "Tablero de arco",
-     "objective": "Tablero del tamaño de un arco: esquinas de arriba 10, centro 5, abajo 1. Sumá con 5 tiros.",
-     "shots": 5,
-     "goal": "puntos",
-     "plates": [
-      {
-       "kind": "fixed",
-       "shape": "panel",
-       "pos": [
-        14,
-        1.15,
-        0
-       ],
-       "size": [
-        3.2,
-        2.1
-       ]
-      }
-     ],
-     "medals": [
-      15,
-      30,
-      42
-     ]
-    },
-    {
-     "title": "Tiro con arco",
-     "objective": "Tres dianas a distinta distancia y altura: el centro dorado vale 10. 6 tiros.",
-     "shots": 6,
-     "goal": "puntos",
-     "plates": [
-      {
-       "kind": "fixed",
-       "pos": [
-        12,
-        1.0,
-        -2.0
-       ],
-       "r": 0.5
-      },
-      {
-       "kind": "fixed",
-       "pos": [
-        15,
-        1.5,
-        0.4
-       ],
-       "r": 0.5
-      },
-      {
-       "kind": "fixed",
-       "pos": [
-        18,
-        2.0,
-        2.4
-       ],
-       "r": 0.5
-      }
-     ],
-     "medals": [
-      18,
-      32,
-      45
-     ]
-    },
-    {
-     "title": "Dianas móviles",
-     "objective": "Van y vienen sobre rieles: adelantate a su movimiento. 6 tiros.",
-     "shots": 6,
-     "goal": "puntos",
-     "plates": [
-      {
-       "kind": "fixed",
-       "pos": [
-        13,
-        1.1,
-        0
-       ],
-       "r": 0.5,
-       "move": {
-        "axis": [
-         0,
-         0,
-         1
-        ],
-        "amp": 1.6,
-        "speed": 1.1
-       }
-      },
-      {
-       "kind": "fixed",
-       "pos": [
-        16.5,
-        1.7,
-        0
-       ],
-       "r": 0.5,
-       "move": {
-        "axis": [
-         0,
-         0,
-         1
-        ],
-        "amp": 1.8,
-        "speed": 0.9,
-        "phase": 3.14
-       }
-      }
-     ],
-     "medals": [
-      12,
-      26,
-      38
-     ]
-    },
-    {
-     "title": "Diana en el suelo",
-     "objective": "Una diana gigante en el piso, lejísimos: cuenta donde PICA la pelota (no donde queda). Centro 100, medio 50, afuera 25. 5 tiros.",
-     "shots": 5,
-     "goal": "puntos",
-     "floor": {
-      "x": 34.0,
-      "r": 7.0
-     },
-     "medals": [
-      150,
-      300,
-      420
-     ]
-    },
-    {
-     "title": "Diana lejana",
-     "objective": "Más lejos todavía y más chica. 5 tiros.",
-     "shots": 5,
-     "goal": "puntos",
-     "floor": {
-      "x": 42.0,
-      "r": 5.5
-     },
-     "medals": [
-      125,
-      250,
-      380
-     ]
-    }
-   ]
-  },
-  {
-   "id": "rescate",
-   "title": "Rescate",
-   "scene": "res://scenes/minigames/rescate.tscn",
-   "status": "Implementado",
-   "description": "Una pelota dorada está atrapada: botones, compuertas, empujones y dominós para llevarla a la zona verde.",
-   "levels": [
-    {
-     "title": "La compuerta",
-     "objective": "Pegale FUERTE al botón rojo: la traba se abre y la dorada rueda sola a la zona verde. 3 tiros.",
-     "shots": 3,
-     "prisoner": [
-      13.0,
-      1.45,
-      0
-     ],
-     "zone": [
-      2.0,
-      -3,
-      9.5,
-      3
-     ],
-     "platforms": [
-      {
-       "pos": [
-        12,
-        0.5,
-        0
-       ],
-       "size": [
-        3,
-        1,
-        3
-       ]
-      }
-     ],
-     "slopes": [
-      {
-       "pos": [
-        11.85,
-        1.16,
-        0
-       ],
-       "size": [
-        3.0,
-        0.15,
-        1.2
-       ],
-       "roll": 8
-      }
-     ],
-     "latches": [
-      {
-       "pos": [
-        10.42,
-        1.38,
-        0
-       ],
-       "size": [
-        0.1,
-        0.4,
-        1.2
-       ]
-      }
-     ],
-     "buttons": [
-      {
-       "pos": [
-        10.4,
-        0.6,
-        1.0
-       ],
-       "latch": 0
-      }
-     ],
-     "solution": [
-      {
-       "at": "button:0",
-       "speed": 13
-      }
-     ],
-     "medals": [
-      150,
-      200,
-      250
-     ]
-    },
-    {
-     "title": "El empujón",
-     "objective": "La dorada está sobre el pilar: pegale directo con tu pelota y empujala hasta la zona. 3 tiros.",
-     "shots": 3,
-     "prisoner": [
-      13,
-      0.72,
-      0
-     ],
-     "zone": [
-      13.5,
-      -4,
-      26,
-      4
-     ],
-     "platforms": [
-      {
-       "pos": [
-        13,
-        0.3,
-        0
-       ],
-       "size": [
-        0.8,
-        0.6,
-        0.8
-       ]
-      }
-     ],
-     "solution": [
-      {
-       "at": "prisoner",
-       "speed": 13.3
-      }
-     ],
-     "medals": [
-      150,
-      200,
-      250
-     ]
-    },
-    {
-     "title": "Dominó",
-     "objective": "Tirá la primera ficha: la última, al caer, empuja a la dorada de su pedestal hacia la zona. 3 tiros.",
-     "shots": 3,
-     "prisoner": [
-      11.75,
-      0.72,
-      0
-     ],
-     "zone": [
-      12.2,
-      -2.5,
-      16.5,
-      2.5
-     ],
-     "dominoes": [
-      {
-       "pos": [
-        8.8,
-        0,
-        0
-       ],
-       "n": 5,
-       "step": [
         0.55,
-        0,
-        0
-       ],
-       "size": [
-        0.12,
-        0.95,
-        0.5
-       ]
-      }
-     ],
-     "solution": [
-      {
-       "at": "domino:0",
-       "speed": 12
-      }
-     ],
-     "medals": [
-      150,
-      200,
-      250
-     ],
-     "platforms": [
-      {
-       "pos": [
-        11.75,
-        0.3,
-        0
-       ],
-       "size": [
-        0.35,
+        0.1
+      ],
+      "items": [
+        {
+          "type": "game",
+          "game": "demolicion"
+        },
+        {
+          "type": "game",
+          "game": "bowling"
+        },
+        {
+          "type": "game",
+          "game": "rescate"
+        }
+      ]
+    },
+    {
+      "id": "duelos",
+      "title": "DUELOS",
+      "description": "Uno contra uno, por turnos, contra la IA.",
+      "color": [
+        0.5,
+        0.2,
+        0.75
+      ],
+      "items": [
+        {
+          "type": "game",
+          "game": "boton_caida"
+        },
+        {
+          "type": "game",
+          "game": "guante"
+        }
+      ]
+    },
+    {
+      "id": "habilidad",
+      "title": "HABILIDAD",
+      "description": "Golpes medidos: minigolf y básquet.",
+      "color": [
+        0.15,
         0.6,
         0.35
-       ]
-      }
-     ]
-    },
-    {
-     "title": "Doble llave",
-     "objective": "Dos trabas sostienen la compuerta: apretá LOS DOS botones. 4 tiros.",
-     "shots": 4,
-     "prisoner": [
-      13.0,
-      1.45,
-      0
-     ],
-     "zone": [
-      2.0,
-      -3,
-      9.5,
-      3
-     ],
-     "platforms": [
-      {
-       "pos": [
-        12,
-        0.5,
-        0
-       ],
-       "size": [
-        3,
-        1,
-        3
-       ]
-      }
-     ],
-     "slopes": [
-      {
-       "pos": [
-        11.85,
-        1.16,
-        0
-       ],
-       "size": [
-        3.0,
-        0.15,
-        1.2
-       ],
-       "roll": 8
-      }
-     ],
-     "latches": [
-      {
-       "pos": [
-        10.42,
-        1.38,
-        0.3
-       ],
-       "size": [
-        0.1,
-        0.4,
-        0.62
-       ]
-      },
-      {
-       "pos": [
-        10.42,
-        1.38,
-        -0.3
-       ],
-       "size": [
-        0.1,
-        0.4,
-        0.62
-       ]
-      }
-     ],
-     "buttons": [
-      {
-       "pos": [
-        10.4,
-        0.6,
-        1.0
-       ],
-       "latch": 0
-      },
-      {
-       "pos": [
-        10.4,
-        0.6,
-        -1.0
-       ],
-       "latch": 1
-      }
-     ],
-     "solution": [
-      {
-       "at": "button:0",
-       "speed": 13
-      },
-      {
-       "at": "button:1",
-       "speed": 13
-      }
-     ],
-     "medals": [
-      200,
-      280,
-      350
-     ]
-    }
-   ]
-  },
-  {
-   "id": "bowling",
-   "title": "Bowling",
-   "scene": "res://scenes/minigames/bowling.tscn",
-   "status": "Implementado",
-   "description": "Partida de bowling de verdad: 10 cuadros contra la IA, strike, spare y bolas extra en el décimo. Pistas distintas.",
-   "levels": [
-    {
-     "title": "Clásico",
-     "objective": "Partida de 10 cuadros contra la IA. Strike = 10 + tus dos bolas siguientes; spare = 10 + la siguiente.",
-     "lane": 12.0,
-     "layout": "triangle",
-     "medals": [
-      60,
-      100,
-      150
-     ]
-    },
-    {
-     "title": "Con guardia",
-     "objective": "Un bloque fijo tapa el centro: entrá por el costado o con efecto. 10 cuadros.",
-     "lane": 12.0,
-     "layout": "triangle",
-     "obstacles": [
-      {
-       "pos": [
-        7.5,
-        0.25,
-        0
-       ],
-       "size": [
-        0.45,
-        0.5,
-        0.5
-       ]
-      }
-     ],
-     "medals": [
-      60,
-      100,
-      150
-     ]
-    },
-    {
-     "title": "Guardia móvil",
-     "objective": "El bloque patrulla la pista: elegí el momento. 10 cuadros.",
-     "lane": 12.0,
-     "layout": "triangle",
-     "obstacles": [
-      {
-       "pos": [
-        7.5,
-        0.25,
-        0
-       ],
-       "size": [
-        0.45,
-        0.5,
-        0.6
-       ],
-       "move": {
-        "axis": [
-         0,
-         0,
-         1
-        ],
-        "amp": 0.9,
-        "speed": 1.1
-       }
-      }
-     ],
-     "medals": [
-      60,
-      100,
-      150
-     ]
-    },
-    {
-     "title": "Rombo con corona",
-     "objective": "Formación rombo con un bolo arriba de todo. 10 cuadros.",
-     "lane": 12.0,
-     "layout": "diamond",
-     "medals": [
-      60,
-      100,
-      150
-     ]
-    },
-    {
-     "title": "Pista larga y angosta",
-     "objective": "16 m de pista y 1,9 m de ancho: las canaletas están cerca. 10 cuadros.",
-     "lane": 16.0,
-     "lane_w": 1.9,
-     "layout": "triangle",
-     "medals": [
-      50,
-      90,
-      140
-     ]
-    }
-   ]
-  },
-  {
-   "id": "guante",
-   "title": "Duelo del guante",
-   "scene": "res://scenes/minigames/guante.tscn",
-   "status": "Implementado",
-   "description": "Por relevo en la misma plataforma: pegale a los botones del fondo para cargar tu barra; al 100 % el guante vuela al otro.",
-   "levels": [
-    {
-     "title": "Primer round",
-     "objective": "Pateás vos, el otro espera frente al guante. Pegale a los botones del fondo para cargar tu barra: al 100 % el guante lo hace volar. Ganás con 2 golpes.",
-     "gap": 16.0,
-     "punches": 2,
-     "medals": [
-      200,
-      330,
-      420
-     ]
-    },
-    {
-     "title": "Más lejos",
-     "objective": "El panel está más lejos: el botón chico es más difícil. 2 golpes.",
-     "gap": 20.0,
-     "punches": 2,
-     "medals": [
-      200,
-      320,
-      410
-     ]
-    },
-    {
-     "title": "Botón chico móvil",
-     "objective": "El botón chico sube y baja: adelantate. 2 golpes.",
-     "gap": 16.0,
-     "punches": 2,
-     "buttons": [
-      {
-       "size": "grande",
-       "r": 0.55,
-       "gain": 0.2,
-       "z": -1.4,
-       "y": 1.6
-      },
-      {
-       "size": "mediano",
-       "r": 0.36,
-       "gain": 0.34,
-       "z": 0.0,
-       "y": 1.6
-      },
-      {
-       "size": "chico",
-       "r": 0.2,
-       "gain": 0.6,
-       "z": 1.3,
-       "y": 1.6,
-       "move": {
-        "axis": [
-         0,
-         1,
-         0
-        ],
-        "amp": 0.5,
-        "speed": 1.6
-       }
-      }
-     ],
-     "medals": [
-      200,
-      320,
-      410
-     ]
-    },
-    {
-     "title": "Tres golpes",
-     "objective": "Pelea larga: gana el primero que conecta 3 golpes.",
-     "gap": 17.0,
-     "punches": 3,
-     "medals": [
-      300,
-      460,
-      560
-     ]
-    }
-   ]
-  },
-  {
-   "id": "royal_flush",
-   "title": "Royal Flush",
-   "scene": "res://scenes/minigames/royal_flush.tscn",
-   "status": "Implementado",
-   "description": "Cartas boca abajo en un tablero de casino: pegales arriba o abajo para darlas vuelta y armá la mejor mano de póker con 5 tiros.",
-   "levels": [
-    {
-     "title": "Mano abierta",
-     "objective": "5 tiros: las primeras 5 cartas que das vuelta son tu mano. Par = bronce, doble par = plata, escalera = oro.",
-     "distance": 13.0,
-     "cols": 5,
-     "rows": 3,
-     "shots": 5,
-     "medals": [
-      65,
-      105,
-      225
-     ]
-    },
-    {
-     "title": "Corazones",
-     "objective": "Muchos corazones escondidos: buscá el color. 5 tiros.",
-     "distance": 14.0,
-     "cols": 5,
-     "rows": 3,
-     "shots": 5,
-     "deck": [
-      "AH",
-      "KH",
-      "QH",
-      "JH",
-      "10H",
-      "9H",
-      "8H",
-      "7H",
-      "AS",
-      "KD",
-      "QC",
-      "9S",
-      "4D",
-      "3C",
-      "2H"
-     ],
-     "medals": [
-      65,
-      145,
-      275
-     ]
-    },
-    {
-     "title": "Lejos",
-     "objective": "El tablero está más lejos y las cartas son las mismas de siempre. 5 tiros.",
-     "distance": 17.0,
-     "cols": 5,
-     "rows": 3,
-     "shots": 5,
-     "medals": [
-      65,
-      105,
-      225
-     ]
-    },
-    {
-     "title": "Escalera real",
-     "objective": "Hay una escalera real escondida entre 20 cartas. 6 tiros.",
-     "distance": 14.0,
-     "cols": 5,
-     "rows": 4,
-     "shots": 6,
-     "deck": [
-      "AS",
-      "KS",
-      "QS",
-      "JS",
-      "10S",
-      "9D",
-      "8C",
-      "7H",
-      "6S",
-      "5D",
-      "4C",
-      "3H",
-      "2S",
-      "AH",
-      "KC",
-      "QD",
-      "JD",
-      "9C",
-      "8H",
-      "5S"
-     ],
-     "medals": [
-      65,
-      225,
-      525
-     ]
-    }
-   ]
-  },
-  {
-   "id": "dardos",
-   "title": "Dardos",
-   "scene": "res://scenes/minigames/dardos.tscn",
-   "status": "Implementado",
-   "description": "Una diana de dardos gigante: sectores, dobles, triples y centro. Cuenta donde pega la pelota.",
-   "levels": [
-    {
-     "title": "Práctica",
-     "objective": "6 tiros: sumá todo lo que puedas. El triple 20 vale 60; el centro, 50.",
-     "rule": "puntos",
-     "shots": 6,
-     "medals": [
-      90,
-      180,
-      260
-     ]
-    },
-    {
-     "title": "Solo el 20",
-     "objective": "Solo cuenta el sector 20 (simple, doble o triple). 6 tiros.",
-     "rule": "sector",
-     "sector": 20,
-     "shots": 6,
-     "medals": [
-      40,
-      100,
-      180
-     ]
-    },
-    {
-     "title": "301",
-     "objective": "Bajá de 301 a 0 exacto en 9 tiros. Si te pasás, ese tiro no cuenta.",
-     "rule": "301",
-     "start": 301,
-     "shots": 9,
-     "medals": [
-      350,
-      480,
-      620
-     ]
-    },
-    {
-     "title": "Duelo",
-     "objective": "5 tiros cada uno contra la CPU: gana el que más suma.",
-     "rule": "duelo",
-     "shots": 5,
-     "distance": 14.0,
-     "medals": [
-      100,
-      200,
-      300
-     ]
-    }
-   ]
-  },
-  {
-   "id": "curling",
-   "title": "Curling",
-   "scene": "res://scenes/minigames/curling.tscn",
-   "status": "Implementado",
-   "description": "Pista de hielo: deslizá la pelota hasta la casa. Gana la más cercana al centro; podés sacar las del rival. (Oculto: reemplazado en el arcade por «Diana gigante», pedido del usuario 2026-11-12.)",
-   "levels": [
-    {
-     "title": "Primer end",
-     "objective": "3 pelotas cada uno contra la CPU: dejá la tuya más cerca del centro de la casa.",
-     "shots": 3,
-     "medals": [
-      60,
-      140,
-      220
-     ]
-    },
-    {
-     "title": "Sacá las rojas",
-     "objective": "La CPU ya tiene dos en la casa: sacalas a golpes y dejá la tuya. 3 pelotas.",
-     "shots": 3,
-     "stones": [
-      {
-       "team": 1,
-       "pos": [
-        26.0,
-        0.25
-       ]
-      },
-      {
-       "team": 1,
-       "pos": [
-        25.4,
-        -0.5
-       ]
-      }
-     ],
-     "medals": [
-      60,
-      140,
-      220
-     ]
-    },
-    {
-     "title": "Guardias",
-     "objective": "Dos guardias rojas tapan el camino: pasá por el costado. 4 pelotas.",
-     "shots": 4,
-     "stones": [
-      {
-       "team": 1,
-       "pos": [
-        21.0,
-        0.0
-       ]
-      },
-      {
-       "team": 1,
-       "pos": [
-        22.0,
-        0.6
-       ]
-      }
-     ],
-     "medals": [
-      60,
-      140,
-      220
-     ]
-    },
-    {
-     "title": "Pista larga",
-     "objective": "40 m de hielo: medí bien la fuerza. 4 pelotas.",
-     "shots": 4,
-     "length": 40.0,
-     "medals": [
-      60,
-      140,
-      220
-     ]
-    }
-   ],
-   "hidden": true
-  },
-  {
-   "id": "diana_gigante",
-   "title": "Diana gigante",
-   "scene": "res://scenes/minigames/dianas.tscn",
-   "status": "Implementado",
-   "description": "Una diana enorme pintada en el piso: pateala por el aire. Cuenta donde PICA la pelota: centro 100, medio 50, afuera 25.",
-   "levels": [
-    {
-     "title": "Diana gigante",
-     "objective": "Diana enorme en el piso a 26 m. Pateala por el aire: cuenta el primer pique. 5 tiros.",
-     "shots": 5,
-     "goal": "puntos",
-     "floor": {
-      "x": 26.0,
-      "r": 8.0
-     },
-     "medals": [
-      150,
-      280,
-      400
-     ]
-    },
-    {
-     "title": "Más lejos",
-     "objective": "La misma diana, a 32 m. 5 tiros.",
-     "shots": 5,
-     "goal": "puntos",
-     "floor": {
-      "x": 32.0,
-      "r": 7.0
-     },
-     "medals": [
-      125,
-      250,
-      375
-     ]
-    },
-    {
-     "title": "Corrida al costado",
-     "objective": "A 30 m y corrida a la izquierda: apuntá con el trazo. 5 tiros.",
-     "shots": 5,
-     "goal": "puntos",
-     "floor": {
-      "x": 30.0,
-      "z": -6.0,
-      "r": 6.0
-     },
-     "medals": [
-      100,
-      220,
-      340
-     ]
-    },
-    {
-     "title": "Chica y lejana",
-     "objective": "A 38 m y más chica. 5 tiros.",
-     "shots": 5,
-     "goal": "puntos",
-     "floor": {
-      "x": 38.0,
-      "r": 5.0
-     },
-     "medals": [
-      90,
-      200,
-      320
-     ]
-    },
-    {
-     "title": "Puntería fina",
-     "objective": "A 34 m, corrida a la derecha y chica: hay que clavar el centro. 5 tiros.",
-     "shots": 5,
-     "goal": "puntos",
-     "floor": {
-      "x": 34.0,
-      "z": 5.0,
-      "r": 4.5
-     },
-     "medals": [
-      80,
-      180,
-      300
-     ]
-    }
-   ]
-  },
-  {
-   "id": "precision",
-   "title": "Fútbol de precisión",
-   "scene": "res://scenes/minigames/precision.tscn",
-   "status": "Implementado",
-   "description": "Arco gigante con sectores: las esquinas de arriba valen 10. Un arquero de cartón va y viene.",
-   "levels": [
-    {
-     "title": "Sin arquero",
-     "objective": "5 tiros al arco gigante: esquinas de arriba 10, arriba al medio 5, abajo 1.",
-     "shots": 5,
-     "medals": [
-      20,
-      35,
-      45
-     ]
-    },
-    {
-     "title": "Arquero de cartón",
-     "objective": "Un arquero de cartón va y viene: si lo tocás, no entra. 5 tiros.",
-     "shots": 5,
-     "keeper": {
-      "amp": 2.6,
-      "speed": 0.8
-     },
-     "medals": [
-      18,
-      32,
-      45
-     ]
-    },
-    {
-     "title": "Arquero rápido",
-     "objective": "El cartón se mueve más rápido y es más ancho. 6 tiros.",
-     "shots": 6,
-     "keeper": {
-      "amp": 2.8,
-      "speed": 1.4,
-      "w": 1.7
-     },
-     "medals": [
-      20,
-      38,
-      52
-     ]
-    },
-    {
-     "title": "Arco chico",
-     "objective": "Arco de 6 × 2,6 m, más lejos y con arquero. 6 tiros.",
-     "shots": 6,
-     "distance": 21.0,
-     "width": 6.0,
-     "height": 2.6,
-     "keeper": {
-      "amp": 1.8,
-      "speed": 1.0
-     },
-     "medals": [
-      18,
-      34,
-      48
-     ]
-    }
-   ]
-  },
-  {
-   "id": "salto_alto",
-   "title": "Salto en alto",
-   "scene": "res://scenes/minigames/salto_alto.tscn",
-   "status": "Implementado",
-   "description": "Pasá la pelota por encima de la varilla sin tirarla: tres intentos por altura y la varilla sube.",
-   "levels": [
-    {
-     "title": "Primeras alturas",
-     "objective": "Desde 1,20 m, sube 20 cm por salto. Tres nulos seguidos terminan la serie.",
-     "start": 1.2,
-     "step": 0.2,
-     "distance": 9.0,
-     "medals": [
-      180,
-      250,
-      320
-     ]
-    },
-    {
-     "title": "Más cerca",
-     "objective": "La varilla está a 6 m: hay que levantarla rápido. Desde 1,40 m.",
-     "start": 1.4,
-     "step": 0.2,
-     "distance": 6.0,
-     "medals": [
-      180,
-      250,
-      320
-     ]
-    },
-    {
-     "title": "Varilla corta",
-     "objective": "Parantes a 2,5 m: además de alto, preciso. Desde 1,30 m.",
-     "start": 1.3,
-     "step": 0.15,
-     "distance": 9.0,
-     "span": 2.5,
-     "medals": [
-      180,
-      250,
-      320
-     ]
-    }
-   ]
-  },
-  {
-   "id": "field_goal",
-   "title": "Field Goal",
-   "scene": "res://scenes/minigames/field_goal.tscn",
-   "status": "Implementado",
-   "description": "Palos en Y: por arriba del travesaño y entre los verticales. Patadas cada vez más lejos.",
-   "levels": [
-    {
-     "title": "Serie corta",
-     "objective": "5 patadas de 20 a 40 m, con ángulo. 3 puntos cada una; desde 40 m, 5.",
-     "kicks": [
-      [
-       20,
-       0
       ],
-      [
-       25,
-       -4
-      ],
-      [
-       30,
-       4
-      ],
-      [
-       35,
-       0
-      ],
-      [
-       40,
-       -3
+      "items": [
+        {
+          "type": "game",
+          "game": "minigolf"
+        },
+        {
+          "type": "game",
+          "game": "enceste"
+        },
+        {
+          "type": "game",
+          "game": "royal_flush"
+        },
+        {
+          "type": "game",
+          "game": "dardos"
+        },
+        {
+          "type": "game",
+          "game": "diana_gigante"
+        },
+        {
+          "type": "game",
+          "game": "salto_alto"
+        },
+        {
+          "type": "game",
+          "game": "piedras"
+        },
+        {
+          "type": "game",
+          "game": "salto_esqui"
+        }
       ]
-     ],
-     "medals": [
-      60,
-      120,
-      170
-     ]
-    },
-    {
-     "title": "Con viento",
-     "objective": "Viento cruzado: la pelota se abre en el aire. 5 patadas.",
-     "kicks": [
-      [
-       22,
-       0
-      ],
-      [
-       28,
-       3
-      ],
-      [
-       32,
-       -3
-      ],
-      [
-       36,
-       0
-      ],
-      [
-       40,
-       2
-      ]
-     ],
-     "wind": 1.6,
-     "medals": [
-      60,
-      120,
-      170
-     ]
-    },
-    {
-     "title": "Larga distancia",
-     "objective": "De 40 a 50 m: solo para piernas fuertes. 4 patadas.",
-     "kicks": [
-      [
-       40,
-       0
-      ],
-      [
-       44,
-       -3
-      ],
-      [
-       47,
-       3
-      ],
-      [
-       50,
-       0
-      ]
-     ],
-     "medals": [
-      50,
-      150,
-      200
-     ]
     }
-   ]
-  },
-  {
-   "id": "aros_fuego",
-   "title": "Aros de fuego",
-   "scene": "res://scenes/minigames/aros_fuego.tscn",
-   "status": "Implementado",
-   "description": "Aros colgados que arden: pasá la pelota por adentro. Las secuencias valen el doble si las pasás todas en un tiro.",
-   "levels": [
-    {
-     "title": "Primer aro",
-     "objective": "Pasá la pelota por el aro de fuego. 4 tiros, 100 cada vez.",
-     "shots": 4,
-     "rings": [
-      {
-       "pos": [
-        10,
-        1.8,
-        0
-       ],
-       "r": 0.75
-      }
-     ],
-     "medals": [
-      100,
-      200,
-      300
-     ]
-    },
-    {
-     "title": "Tres alturas",
-     "objective": "Tres aros a distinta altura: 100, 200 y 300. 6 tiros.",
-     "shots": 6,
-     "rings": [
-      {
-       "pos": [
-        8,
-        1.2,
-        -2.2
-       ],
-       "r": 0.7,
-       "value": 100
-      },
-      {
-       "pos": [
-        11,
-        2.4,
-        0
-       ],
-       "r": 0.7,
-       "value": 200
-      },
-      {
-       "pos": [
-        14,
-        3.4,
-        2.2
-       ],
-       "r": 0.7,
-       "value": 300
-      }
-     ],
-     "medals": [
-      300,
-      700,
-      1000
-     ]
-    },
-    {
-     "title": "Secuencia",
-     "objective": "Tres aros en fila: pasá por los tres en el mismo tiro (valen el doble). 5 tiros.",
-     "shots": 5,
-     "sequences": [
-      [
-       {
-        "pos": [
-         7,
-         3.25,
-         0
-        ],
-        "r": 0.85
-       },
-       {
-        "pos": [
-         10,
-         3.0,
-         0
-        ],
-        "r": 0.85
-       },
-       {
-        "pos": [
-         13,
-         2.35,
-         0
-        ],
-        "r": 0.85
-       }
-      ]
-     ],
-     "medals": [
-      300,
-      600,
-      1200
-     ]
-    },
-    {
-     "title": "Aro que sube y baja",
-     "objective": "El aro sube y baja colgado de su cadena: elegí el momento. 5 tiros.",
-     "shots": 5,
-     "rings": [
-      {
-       "pos": [
-        11,
-        2.2,
-        0
-       ],
-       "r": 0.7,
-       "value": 200,
-       "move": {
-        "axis": [
-         0,
-         1,
-         0
-        ],
-        "amp": 0.9,
-        "speed": 1.3
-       }
-      }
-     ],
-     "medals": [
-      200,
-      400,
-      600
-     ]
-    }
-   ]
-  },
-  {
-   "id": "piedras",
-   "title": "Piedras saltarinas",
-   "scene": "res://scenes/minigames/piedras.tscn",
-   "status": "Implementado",
-   "description": "Pateá rasante sobre el lago: si entra con poco ángulo y rápido, pica en el agua. Contá los piques.",
-   "levels": [
-    {
-     "title": "Lago calmo",
-     "objective": "5 tiros rasantes: tu mejor tiro por cantidad de piques (y metros).",
-     "rule": "piques",
-     "shots": 5,
-     "medals": [
-      110,
-      200,
-      300
-     ]
-    },
-    {
-     "title": "Lejos",
-     "objective": "Mejor distancia del último pique. 5 tiros.",
-     "rule": "distancia",
-     "shots": 5,
-     "medals": [
-      150,
-      250,
-      320
-     ]
-    },
-    {
-     "title": "Serie",
-     "objective": "Sumá los piques de 6 tiros.",
-     "rule": "suma",
-     "shots": 6,
-     "medals": [
-      300,
-      600,
-      900
-     ]
-    }
-   ]
-  },
-  {
-   "id": "salto_esqui",
-   "title": "Salto de esquí",
-   "scene": "res://scenes/minigames/salto_esqui.tscn",
-   "status": "Implementado",
-   "description": "La pelota baja por el trampolín de nieve y vuela: más lejos que la línea K. Fuerza, dirección y efecto.",
-   "levels": [
-    {
-     "title": "Trampolín chico",
-     "objective": "3 saltos: empujá la pelota suave hacia la pista (si la pateás fuerte rebota y pierde velocidad). Pasá la línea K.",
-     "height": 14.0,
-     "k": 28.0,
-     "hs": 34.0,
-     "shots": 3,
-     "medals": [
-      40,
-      60,
-      75
-     ]
-    },
-    {
-     "title": "Trampolín grande",
-     "objective": "Desde 22 m de alto. K 36, HS 44. 3 saltos.",
-     "height": 22.0,
-     "k": 36.0,
-     "hs": 44.0,
-     "shots": 3,
-     "medals": [
-      40,
-      60,
-      75
-     ]
-    },
-    {
-     "title": "Viento en contra",
-     "objective": "El viento frena el vuelo: más fuerza y efecto hacia atrás. 3 saltos.",
-     "height": 20.0,
-     "k": 27.0,
-     "hs": 35.0,
-     "wind": -1.5,
-     "shots": 3,
-     "medals": [
-      40,
-      60,
-      75
-     ]
-    }
-   ]
-  }
- ],
- "categories": [
-  {
-   "id": "arco",
-   "title": "DESAFÍOS DE ARCO",
-   "description": "Precisión contra el arco: dianas, postes, aros, ventanas, objetos para derribar y tiros con pique.",
-   "color": [
-    0.85,
-    0.25,
-    0.15
-   ],
-   "items": [
-    {
-     "type": "game",
-     "game": "dianas"
-    },
-    {
-     "type": "game",
-     "game": "precision"
-    },
-    {
-     "type": "arena",
-     "id": "arco_postes",
-     "title": "Postecitos y travesaño",
-     "description": "Pegale a los palos y al travesaño.",
-     "ids": [
-      "r_pre_1",
-      "r_pre_2",
-      "r_pre_3"
-     ]
-    },
-    {
-     "type": "arena",
-     "id": "arco_aros",
-     "title": "Aros",
-     "description": "Pasala por el aro colgado del arco.",
-     "ids": [
-      "r_pre_4",
-      "r_dis_2"
-     ]
-    },
-    {
-     "type": "arena",
-     "id": "arco_ventanas",
-     "title": "Ventanas y círculos",
-     "description": "Ventanas chicas, blancos que se mueven, secuencias y blancos que desaparecen.",
-     "ids": [
-      "r_pre_5",
-      "r_pre_6",
-      "r_pre_7",
-      "r_esp_1",
-      "r_esp_3"
-     ]
-    },
-    {
-     "type": "arena",
-     "id": "arco_derribar",
-     "title": "Derribar objetivos",
-     "description": "Conos, botellas, pirámide de bloques y torres.",
-     "ids": [
-      "r_obj_1",
-      "r_obj_2",
-      "r_obj_3",
-      "r_obj_4"
-     ]
-    },
-    {
-     "type": "arena",
-     "id": "arco_pique",
-     "title": "Tiros con pique",
-     "description": "Hacela picar antes del blanco.",
-     "ids": [
-      "r_esp_2"
-     ]
-    },
-    {
-     "type": "arena",
-     "id": "arco_distancia",
-     "title": "Distancia y obstáculos",
-     "description": "Desde muy lejos y por encima del obstáculo.",
-     "ids": [
-      "r_dis_1",
-      "r_dis_3"
-     ]
-    },
-    {
-     "type": "game",
-     "game": "field_goal"
-    },
-    {
-     "type": "game",
-     "game": "aros_fuego"
-    }
-   ]
-  },
-  {
-   "id": "destruccion",
-   "title": "DESTRUCCIÓN Y MECANISMOS",
-   "description": "Estructuras que se derrumban, bolos y rescates con física real.",
-   "color": [
-    0.9,
-    0.55,
-    0.1
-   ],
-   "items": [
-    {
-     "type": "game",
-     "game": "demolicion"
-    },
-    {
-     "type": "game",
-     "game": "bowling"
-    },
-    {
-     "type": "game",
-     "game": "rescate"
-    }
-   ]
-  },
-  {
-   "id": "duelos",
-   "title": "DUELOS",
-   "description": "Uno contra uno, por turnos, contra la IA.",
-   "color": [
-    0.5,
-    0.2,
-    0.75
-   ],
-   "items": [
-    {
-     "type": "game",
-     "game": "boton_caida"
-    },
-    {
-     "type": "game",
-     "game": "guante"
-    }
-   ]
-  },
-  {
-   "id": "habilidad",
-   "title": "HABILIDAD",
-   "description": "Golpes medidos: minigolf y básquet.",
-   "color": [
-    0.15,
-    0.6,
-    0.35
-   ],
-   "items": [
-    {
-     "type": "game",
-     "game": "minigolf"
-    },
-    {
-     "type": "game",
-     "game": "enceste"
-    },
-    {
-     "type": "game",
-     "game": "royal_flush"
-    },
-    {
-     "type": "game",
-     "game": "dardos"
-    },
-    {
-     "type": "game",
-     "game": "diana_gigante"
-    },
-    {
-     "type": "game",
-     "game": "salto_alto"
-    },
-    {
-     "type": "game",
-     "game": "piedras"
-    },
-    {
-     "type": "game",
-     "game": "salto_esqui"
-    }
-   ]
-  }
- ]
+  ]
 }

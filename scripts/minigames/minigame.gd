@@ -620,7 +620,7 @@ func _end_match(w: int) -> void:
 		info += " · ¡Nuevo récord!"
 	# Online contra bot (OnlineDuel): el resultado del duelo y su premio.
 	if OnlineDuel.is_active() and def.has("online_bot"):
-		var od: Array = OnlineDuel.finish(final_score(), 1 if won else 0)
+		var od: Array = OnlineDuel.finish(final_score(), 1 if won else 0, online_stats())
 		t = String(od[0])
 		info = String(od[1]) + " · " + info
 		# Online (pedido del usuario): nunca se pasa solo a otro minijuego. Acciones separadas; cada una vuelve a la
@@ -631,6 +631,10 @@ func _end_match(w: int) -> void:
 		return
 	hud.set_hint("")
 	hud.show_overlay(t, info, [[&"retry", "Otra vez"], [&"next", "Siguiente nivel"], [&"menu", "Menú"]])
+
+## Estadisticas del intento que valida el servidor online (Rescate: tiempo, acciones, errores, intentos). Por defecto, nada.
+func online_stats() -> Dictionary:
+	return {}
 
 ## Logros y desafios diarios del resultado (las subclases agregan los suyos). Solo fuera de practica y de pruebas.
 func _report_achievements(w: int, medal: int) -> void:

@@ -42,6 +42,7 @@ func test_ball_and_player_visible_in_every_level() -> void:
 	var fails: Array = []
 	var extras_out: Array = []
 	var player_out: Array = []
+	var mech_out: Array = []
 	var n: int = 0
 	for gm in MinigameCatalog.games():
 		for d in MinigameCatalog.levels(String(gm["id"])):
@@ -50,6 +51,15 @@ func test_ball_and_player_visible_in_every_level() -> void:
 			g._frame_camera(true)
 			await physics_frames(2)
 			n += 1
+			if g is Rescate and (g as Rescate).mechs != null and (g as Rescate).shots_max <= 0:
+				# Rescate de mecanismos: no hay pelota para patear (se juega tocando los mandos): se tienen que ver todos los
+				# mandos que se tocan.
+				for m in (g as Rescate).mechs.mechs:
+					if String(m["type"]) != "lock" and not _inside(g, (m["root"] as Node3D).global_position + Vector3.UP * 0.4):
+						mech_out.append("%s/%s" % [gm["id"], d["title"]])
+						break
+				cleanup()
+				continue
 			if not _inside(g, g._ball_spot(g.side)):
 				fails.append("%s/%s" % [gm["id"], d["title"]])
 			if not _inside(g, g.stance_point(g.side) + Vector3.UP * 1.0):
@@ -61,6 +71,7 @@ func test_ball_and_player_visible_in_every_level() -> void:
 			cleanup()
 	note("%d niveles; con la camara recomendada (la recuperada de Git) el jugador queda cortado en: %s; algo del juego fuera de cuadro en: %s (se ajusta con el panel Cámara)" % [n, str(player_out), str(extras_out)])
 	check(fails.is_empty(), "la pelota se ve en todos los niveles (%s)" % str(fails))
+	check(mech_out.is_empty(), "en el Rescate de mecanismos se ven todos los mandos (%s)" % str(mech_out))
 
 func _inside(g: Minigame, p: Vector3) -> bool:
 	if g.cam.is_position_behind(p):

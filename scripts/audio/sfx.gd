@@ -8,7 +8,7 @@ extends Node
 ## usuario no le gustaron).
 
 const SOUNDS := [&"kick_hard", &"kick_soft", &"touch", &"bounce", &"post", &"post2", &"post3", &"net", &"whistle_short",
-	&"whistle_long", &"glove", &"cheer", &"ooh"]
+	&"whistle_long", &"glove", &"cheer", &"ooh", &"mech_click", &"mech_gate", &"mech_release", &"mech_error"]
 ## Variantes del pelotazo en el palo (se elige una al azar: el mismo golpe repetido delata la muestra).
 const POST_SOUNDS := [&"post", &"post2", &"post3"]
 const VOICES := 10

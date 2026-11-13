@@ -11,6 +11,53 @@ Formato de entrada: **fecha — título** · commit · qué cambió · archivos 
 
 ---
 
+## 2026-11-13 — Rescate rediseñado: mecanismos táctiles, acertijos con física real y Rescate online
+
+Pedido del usuario (sección 8: «un minijuego de ingenio y habilidad, con mecanismos variados y acertijos reales»).
+
+- **Mecanismos** (`scripts/minigames/rescue_mechs.gd` nuevo, `RescueMechs`):
+  - piezas físicas que empujan o sueltan a la pelota de verdad: compuertas y plataformas (`slide`), puentes, rampas y
+    trampas (`hinge`), jaula de engranajes (`rotor`), con movimiento propio (`osc`);
+  - mandos que se tocan sobre el mecanismo: palanca, botón (queda, mantener apretado, con reloj), interruptores en
+    secuencia con cerradura de luces de colores, manivela, contrapeso con polea (el peso cae y levanta la compuerta) y
+    blanco de pelotazo;
+  - se ven como lo que son: franjas amarillas y negras, mangos que laten, etiquetas, cuenta regresiva del reloj.
+- **Rescate** (`rescate.gd`):
+  - un toque sobre un mando no patea;
+  - pozos rojos: si la pelota cae, el intento se pierde y todo vuelve al principio, sin cortar el reloj;
+  - tiempo límite y «Reiniciar» como nuevo intento;
+  - estadísticas: tiempo, acciones, errores, caídas e intentos;
+  - puntaje `score_for`: 150 + 2 por segundo que sobra − 15 por error o caída, mínimo 50;
+  - zona de rescate con cartel;
+  - cámara de costado que encuadra el aparato, los mandos y la zona;
+  - piso oscuro; en los niveles sin patear no aparece el jugador.
+- **Niveles**: se conservan los 4 de patear y se agregan 8, generados por `tools/minigames/build_rescate_levels.py`:
+  - fáciles: La palanca, Puente levadizo (el orden importa: al revés cae al pozo);
+  - intermedios: Mantené apretado, Secuencia de colores, Contrapeso (traba y cuerda);
+  - avanzados: Engranajes (contar los toques), Dos caminos (desvío y compuerta de 3 s);
+  - experto: Maestro (puente, secuencia, traba y peso).
+- **Sonidos** nuevos sintetizados (`tools/audio/make_sfx.py`): `mech_click`, `mech_gate`, `mech_release`, `mech_error`.
+- **Rescate online**:
+  - modalidad `rescate`: los dos juegan el mismo nivel de mecanismos que elige o sortea el servidor;
+  - `finish_minigame` recalcula el puntaje con las estadísticas y rechaza un tiempo más corto que lo posible
+    (`min_time`) o fuera del límite (SQL y `LocalBackend`);
+  - el bot se puntúa con la misma fórmula.
+- **Pruebas**:
+  - `test_rescate_mechs` (6 pruebas, 86 comprobaciones), en los 8 niveles: sin tocar nada no se libera; la solución la
+    rescata sin saltos (mayor desplazamiento por cuadro 0,06 a 0,08 m, el de una caída física; la primera versión de la
+    prueba no lo medía y se corrigió), sin errores y con bronce; el camino
+    equivocado no la rescata (pozo, compuerta cerrada o secuencia apagada); cada mando se toca en pantalla; los errores
+    y los intentos se cuentan;
+  - `test_minigame_camera`: en los niveles sin patear se exige ver todos los mandos (no hay pelota del jugador);
+  - `test_online_minigame_select::test_online_rescue_is_validated_by_the_server` y 5 comprobaciones SQL nuevas.
+- **Verificación**:
+  - las pruebas de arriba pasan;
+  - `test_dianas_rescate` (los niveles viejos) sigue pasando;
+  - capturas con render (`tools/ui/rescate_capture.gd`) revisadas en PC.
+- **Pendiente**:
+  - el tacto de los mandos en un teléfono no se probó;
+  - el nivel con plataforma que va y viene sola (`osc`) está soportado por el código pero ningún nivel lo usa todavía.
+
 ## 2026-11-13 — Minijuegos online: elegir minijuego y nivel, o aleatorio; sin saltos a otro juego
 
 Pedido del usuario (sección 7: «no quiero que al terminar un nivel se cambie automáticamente a otro minijuego»).

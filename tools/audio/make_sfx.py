@@ -427,6 +427,47 @@ def ooh(sec=2.0):
     return reverb(lowpass(x, 5000), wet=0.4, rt60=1.6)
 
 
+# --- Mecanismos del Rescate ------------------------------------------------------------------------------------------
+
+def mech_click():
+    """Palanca o interruptor: clic metalico corto (dos golpecitos del trinquete) con un cuerpo grave chico."""
+    t = t_axis(0.16)
+    tick = bandpass(rng.standard_normal(len(t)), 2500, 7000) * env_exp(t, 0.006, 0.0005)
+    tick2 = np.roll(tick, int(0.035 * SR)) * 0.6
+    body = sweep(t, 420, 260, 0.01) * env_exp(t, 0.03)
+    return tick + tick2 + body * 0.5
+
+
+def mech_gate():
+    """Compuerta o puente que se mueve: roce grave de metal con el tableteo de los dientes de un engranaje."""
+    sec = 0.75
+    t = t_axis(sec)
+    rumble = bandpass(rng.standard_normal(len(t)), 80, 420) * 0.8
+    teeth = np.zeros(len(t))
+    step = int(SR / 18)
+    for i in range(0, len(t), step):
+        n = min(int(0.012 * SR), len(t) - i)
+        teeth[i:i + n] += bandpass(rng.standard_normal(n + 64), 900, 3500)[:n] * np.exp(-np.arange(n) / (0.003 * SR))
+    e = np.clip(t / 0.05, 0, 1) * np.clip((sec - t) / 0.12, 0, 1)
+    return (rumble + teeth * 0.5) * e
+
+
+def mech_release():
+    """Traba que se suelta: golpe metalico seco y el resorte que vibra (tono que cae)."""
+    t = t_axis(0.5)
+    clank = bandpass(rng.standard_normal(len(t)), 600, 4500) * env_exp(t, 0.02, 0.001)
+    spring = np.sin(2 * np.pi * np.cumsum(330 * np.exp(-t / 0.4) + 140) / SR) * env_exp(t, 0.18) * 0.35
+    return clank + spring
+
+
+def mech_error():
+    """Secuencia equivocada: zumbido grave corto, dos veces."""
+    t = t_axis(0.42)
+    buzz = np.sign(np.sin(2 * np.pi * 110 * t)) * 0.5 + np.sin(2 * np.pi * 220 * t) * 0.3
+    gate = ((t % 0.21) < 0.15).astype(float)
+    return lowpass(buzz * gate, 1600) * np.clip((0.42 - t) / 0.05, 0, 1)
+
+
 SOUNDS = {
     "kick_hard": (lambda: kick(True), 0.9),
     "kick_soft": (lambda: kick(False), 0.75),
@@ -442,6 +483,10 @@ SOUNDS = {
     "crowd_loop": (crowd_loop, 0.6),
     "cheer": (cheer, 0.92),
     "ooh": (ooh, 0.75),
+    "mech_click": (mech_click, 0.7),
+    "mech_gate": (mech_gate, 0.6),
+    "mech_release": (mech_release, 0.8),
+    "mech_error": (mech_error, 0.55),
 }
 
 if __name__ == "__main__":

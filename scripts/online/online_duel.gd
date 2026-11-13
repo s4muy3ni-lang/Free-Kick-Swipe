@@ -34,6 +34,8 @@ const MODES := {
 	"dardos": {"kind": "turnos", "game": "dardos", "rule": "duelo"},
 	"basket": {"kind": "puntos", "game": "enceste", "shots": 5},
 	"diana": {"kind": "puntos", "game": "diana_gigante", "shots": 5},
+	# Rescate: los dos el mismo nivel; gana el puntaje mas alto (lo recalcula el servidor con tiempo y errores).
+	"rescate": {"kind": "puntos", "game": "rescate", "shots": 1},
 }
 
 static func is_active() -> bool:
@@ -105,6 +107,14 @@ static func _level(game: String, rule: String) -> Dictionary:
 ## nivel (sus umbrales de medalla): un bot dificil queda entre la plata y algo mas que el oro.
 static func bot_score(mode: String, bot: Dictionary, level_def: Dictionary) -> int:
 	var brain := BotBrain.new(bot)
+	if mode == "rescate":
+		# El bot «resuelve» en una parte del tiempo limite segun su habilidad, con algun error si es flojo; se puntua con la
+		# misma formula que el usuario (Rescate.score_for).
+		var lim: float = float(level_def.get("time", 60.0))
+		var t: float = lim * lerpf(0.75, 0.3, brain.skill()) * brain.rng.randf_range(0.85, 1.15)
+		var errs: int = brain.rng.randi_range(0, 2) if brain.skill() < 0.6 else (1 if brain.rng.randf() < 0.3 else 0)
+		return Rescate.score_for({"rescued": true, "time": clampf(t, float(level_def.get("min_time", 0.0)), lim), "time_limit": lim,
+			"errors": errs, "falls": 0, "shots": 0, "shots_max": 0})
 	if mode == "tiros_libres":
 		var goals: int = 0
 		for i in int(MODES[mode].get("shots", 5)):
@@ -117,7 +127,7 @@ static func bot_score(mode: String, bot: Dictionary, level_def: Dictionary) -> i
 
 ## Fin de la partida: compara (o toma el ganador de la partida por turnos), entrega el premio por la cola de recompensas
 ## y devuelve [titulo, detalle]. Deja el duelo cerrado.
-static func finish(user_points: int, user_won_turns: int = -1) -> Array:
+static func finish(user_points: int, user_won_turns: int = -1, stats: Dictionary = {}) -> Array:
 	var won: bool
 	var detail: String
 	if String(active.get("kind", "")) == "turnos":
@@ -132,7 +142,7 @@ static func finish(user_points: int, user_won_turns: int = -1) -> Array:
 		var bot_pts: int = int(active.get("bot_points", 0)) if String(active.get("kind", "")) == "puntos" else (0 if won else 1)
 		var my_pts: int = user_points if String(active.get("kind", "")) == "puntos" else (1 if won else 0)
 		Online.call_fn("finish_minigame", {"p_match": active["match"], "p_game": active.get("game", ""),
-			"p_level": int(active.get("level", 0)), "p_points": my_pts, "p_bot_points": bot_pts})
+			"p_level": int(active.get("level", 0)), "p_points": my_pts, "p_bot_points": bot_pts, "p_stats": stats})
 	# Contra bot: el premio de una partida offline (el servidor lo recalcula con sus topes; no da ranking).
 	Online.queue_reward("offline_match", {"won": won, "vs_bot": true, "mode": String(active.get("mode", "")),
 		"game": String(active.get("game", "")), "level": int(active.get("level", 0))})

@@ -18,6 +18,18 @@ update public.game_modes set scene_def = scene_def || '{"game": "enceste", "leve
 update public.game_modes set scene_def = scene_def || '{"game": "diana_gigante", "levels": [1, 2, 3, 4, 5]}'::jsonb
 	where id = 'diana';
 
+-- Rescate online (los niveles de mecanismos): los dos resuelven el mismo nivel; el servidor recalcula el puntaje con el
+-- tiempo, los errores y las caidas, y rechaza tiempos imposibles (min_time) o fuera del limite (time_limit).
+insert into public.game_modes (id, name, description, rules, kind, scene_def, entry_fees, max_points_per_turn, rounds,
+		turn_seconds, art, sort) values
+	('rescate', 'Rescate', 'Mecanismos y acertijos: liberá la pelota antes que el rival.',
+		'Los dos resuelven el mismo nivel. Gana el que la rescata con más puntos (tiempo que sobra, errores y caídas restan).',
+		'minijuego', '{"game": "rescate", "levels": [5, 6, 7, 8, 9, 10, 11, 12],
+			"time_limit": {"5": 45, "6": 60, "7": 60, "8": 60, "9": 60, "10": 60, "11": 70, "12": 90},
+			"min_time": {"5": 2.5, "6": 8.0, "7": 4.0, "8": 2.5, "9": 2.5, "10": 5.0, "11": 5.0, "12": 8.0}}',
+		'{0,50,100}', 400, 1, 120, '{"icon": "arcade", "color": "#e0a12f"}', 8)
+	on conflict (id) do update set scene_def = excluded.scene_def, rules = excluded.rules;
+
 -- Elige (o sortea) el minijuego y el nivel antes de empezar. Solo el que creo la sala (lado 0), con la partida activa y
 -- sin turnos jugados. El nivel tiene que estar en la lista de la modalidad.
 create or replace function public.choose_minigame(p_match uuid, p_mode text, p_level int, p_random boolean default false)
@@ -68,10 +80,12 @@ end $$;
 
 -- Resultado de un minijuego contra el bot: solo del minijuego y nivel elegidos y confirmados. Guarda el marcador y cierra
 -- la partida (el premio sigue por claim_reward, con sus topes diarios). Entre humanos todavia no se juega por aca.
-create or replace function public.finish_minigame(p_match uuid, p_game text, p_level int, p_points int, p_bot_points int)
+create or replace function public.finish_minigame(p_match uuid, p_game text, p_level int, p_points int, p_bot_points int,
+		p_stats jsonb default '{}'::jsonb)
 		returns jsonb language plpgsql security definer set search_path = public, pg_temp as $$
 declare u uuid := _uid(); m matches; a int := least(greatest(coalesce(p_points, 0), 0), 100000);
-	b int := least(greatest(coalesce(p_bot_points, 0), 0), 100000);
+	b int := least(greatest(coalesce(p_bot_points, 0), 0), 100000); sd jsonb; lim float8; mn float8; t float8;
+	resc boolean := coalesce((p_stats ->> 'rescued')::boolean, false);
 begin
 	select * into m from matches where id = p_match for update;
 	if not found or m.player_a <> u then
@@ -88,6 +102,22 @@ begin
 	end if;
 	if m.minigame ->> 'game' <> p_game or (m.minigame ->> 'level')::int <> p_level then
 		raise exception 'nivel distinto al elegido' using errcode = 'P0001';
+	end if;
+	if p_game = 'rescate' then
+		-- Puntaje recalculado (Rescate.score_for): 150 + 2 por segundo que sobra - 15 por error o caida (minimo 50).
+		select scene_def into sd from game_modes where id = m.mode;
+		lim := (sd -> 'time_limit' ->> p_level::text)::float8;
+		mn := (sd -> 'min_time' ->> p_level::text)::float8;
+		t := coalesce((p_stats ->> 'time')::float8, lim);
+		if resc and (t < mn or t > lim) then
+			raise exception 'tiempo invalido' using errcode = 'P0001';
+		end if;
+		a := case when resc then greatest(150 + greatest(floor(lim - t), 0)::int * 2
+			- (greatest(coalesce((p_stats ->> 'errors')::int, 0), 0) + greatest(coalesce((p_stats ->> 'falls')::int, 0), 0)) * 15, 50) else 0 end;
+		update matches set minigame = minigame || jsonb_build_object('result', jsonb_build_object('time', t,
+			'actions', coalesce((p_stats ->> 'actions')::int, 0), 'errors', coalesce((p_stats ->> 'errors')::int, 0),
+			'falls', coalesce((p_stats ->> 'falls')::int, 0), 'attempts', coalesce((p_stats ->> 'attempts')::int, 1),
+			'rescued', resc, 'points', a)) where id = m.id;
 	end if;
 	update matches set score_a = a, score_b = b, status = 'finished', finished_at = now(),
 		winner = case when a > b then 0 when b > a then 1 else null end where id = m.id;
@@ -111,6 +141,6 @@ begin
 end $$;
 
 revoke execute on function public.choose_minigame(uuid, text, int, boolean), public.confirm_minigame(uuid),
-	public.finish_minigame(uuid, text, int, int, int), public.rematch_bot(uuid) from public, anon;
+	public.finish_minigame(uuid, text, int, int, int, jsonb), public.rematch_bot(uuid) from public, anon;
 grant execute on function public.choose_minigame(uuid, text, int, boolean), public.confirm_minigame(uuid),
-	public.finish_minigame(uuid, text, int, int, int), public.rematch_bot(uuid) to authenticated;
+	public.finish_minigame(uuid, text, int, int, int, jsonb), public.rematch_bot(uuid) to authenticated;

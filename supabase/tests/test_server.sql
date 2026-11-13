@@ -298,3 +298,23 @@ select t_ok((select (choose_minigame(current_setting('t.g2')::uuid, '', 0, true)
 select t_ok((select (gm.scene_def -> 'levels') @> to_jsonb(((m.minigame ->> 'level')::int)) from matches m join game_modes gm on gm.id = m.mode
 	where m.id = current_setting('t.g2')::uuid), 'el sorteo cae en un nivel valido de un minijuego online');
 reset role;
+
+-- ---- Rescate online: puntaje y tiempos validados por el servidor -------------------------------------------------
+insert into auth.users (id, email) values ('00000000-0000-0000-0000-000000000008', 'h@x');
+set role authenticated;
+select set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-000000000008', false);
+select create_profile('Octavo', 'Octavo');
+select t_ok(find_match('rescate', 0) ->> 'status' = 'searching', 'u8 busca rival de Rescate');
+reset role;
+update matchmaking_queue set joined_at = now() - interval '10 seconds';
+set role authenticated;
+select set_config('t.r', (start_bot_match('rescate') -> 'match' ->> 'id'), false);
+select t_err($$select choose_minigame(current_setting('t.r')::uuid, 'rescate', 3)$$, 'nivel invalido', 'Rescate online: solo niveles de mecanismos');
+select choose_minigame(current_setting('t.r')::uuid, 'rescate', 8);
+select t_err($$select finish_minigame(current_setting('t.r')::uuid, 'rescate', 8, 9999, 100, '{"rescued": true, "time": 1.0}')$$,
+	'tiempo invalido', 'un tiempo imposible se rechaza');
+select t_ok((finish_minigame(current_setting('t.r')::uuid, 'rescate', 8, 9999, 100,
+	'{"rescued": true, "time": 12.4, "actions": 4, "errors": 1, "falls": 0, "attempts": 1}') -> 'match' ->> 'score_a')::int = 150 + 47 * 2 - 15,
+	'el servidor recalcula el puntaje (tiempo que sobra y errores)');
+select t_ok((get_match(current_setting('t.r')::uuid) -> 'match' -> 'minigame' -> 'result' ->> 'errors')::int = 1, 'queda registrado el resultado');
+reset role;

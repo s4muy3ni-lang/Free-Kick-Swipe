@@ -7,6 +7,14 @@ extends Minigame
 ##
 ## Niveles ("rescate" en minigames.json): prisoner {pos}, zone [x0,z0,x1,z1], shots, buttons [{pos, latch: idx}],
 ## latches [{pos, size}], slopes (cajas inclinadas), walls, platforms, dominoes [{pos, n, step}].
+##
+## Rediseño (2026-11-13, pedido del usuario: «un minijuego de ingenio y habilidad, con mecanismos variados y acertijos
+## reales»): los niveles nuevos traen "parts" y "mechs" (RescueMechs: palancas, botones de mantener y con tiempo,
+## secuencias con cerradura, manivelas con engranajes, contrapesos con polea, plataformas moviles, puentes, rampas y
+## compuertas). Se tocan sobre el mecanismo (un toque que cae sobre un mando no patea). La pelota sigue siendo un cuerpo
+## fisico: sale solo cuando el mecanismo la suelta, y rueda o cae hasta la zona verde. Si cae al vacio es un intento
+## perdido (vuelve todo al principio y el reloj sigue). "time": tiempo limite; "shots": 0 = sin patear. Se registran
+## tiempo, acciones, errores e intentos (puntaje y online). Cada nivel trae "solution" (pasos verificados en la prueba).
 
 const SCENE := "res://scenes/minigames/rescate.tscn"
 const PRESS_SPEED := 2.5
@@ -22,6 +30,19 @@ var buttons: Array = []
 var latches: Array = []
 var dominoes: Array[RigidBody3D] = []
 var _prisoner_home := Transform3D()
+## Mecanismos tactiles del nivel (null en los niveles de solo patear).
+var mechs: RescueMechs = null
+var time_limit: float = 0.0
+var timed_out: bool = false
+var attempts: int = 1
+var falls: int = 0
+## Segundos que tardo en rescatarla (o -1).
+var solve_time: float = -1.0
+const FALL_Y := -1.5
+## Pozos del nivel (rectangulos rojos en el piso, con borde): si la pelota cae ahi, intento perdido.
+var pits: Array[Rect2] = []
+const TIME_BONUS := 2
+const ERROR_COST := 15
 
 func game_id() -> String:
 	return "rescate"
@@ -29,8 +50,10 @@ func game_id() -> String:
 func _build_level() -> void:
 	sides = 1
 	shots_max = int(def.get("shots", 3))
-	max_turns = shots_max
-	static_box(Vector3(70, 1, 40), Vector3(8, -0.5, 0), Color(0.45, 0.4, 0.5), Vector3.ZERO, 0.4)
+	# Sin tiros (niveles solo de mecanismos) la partida igual tiene su turno: termina al rescatarla o con el reloj.
+	max_turns = maxi(shots_max, 1)
+	# Piso oscuro (taller): los mecanismos, con sus colores y franjas, resaltan.
+	static_box(Vector3(70, 1, 40), Vector3(8, -0.5, 0), Color(0.2, 0.22, 0.29) if (def.has("mechs") or def.has("parts")) else Color(0.45, 0.4, 0.5), Vector3.ZERO, 0.4)
 	var z: Array = def.get("zone", [2, -2, 6, 2])
 	zone = Rect2(float(z[0]), float(z[1]), float(z[2]) - float(z[0]), float(z[3]) - float(z[1]))
 	var zm := MeshInstance3D.new()
@@ -111,6 +134,26 @@ func _build_level() -> void:
 	prisoner.global_position = BotonCaida._vec(def.get("prisoner", [12, 1.3, 0]))
 	_prisoner_home = prisoner.global_transform
 	ball.body_entered.connect(_on_ball_body)
+	time_limit = float(def.get("time", 0.0))
+	if def.has("parts") or def.has("mechs"):
+		mechs = RescueMechs.new()
+		mechs.name = "Mechs"
+		mechs.fast = fast
+		add_child(mechs)
+		mechs.build(def.get("parts", []), def.get("mechs", []))
+		mechs.acted.connect(_on_mech_acted)
+	for pd in def.get("pits", []):
+		var r := Rect2(float(pd[0]), float(pd[1]), float(pd[2]) - float(pd[0]), float(pd[3]) - float(pd[1]))
+		pits.append(r)
+		var pmesh := MeshInstance3D.new()
+		var pl2 := PlaneMesh.new()
+		pl2.size = r.size
+		pmesh.mesh = pl2
+		pmesh.material_override = color_mat(Color(0.9, 0.12, 0.1), 0.5)
+		add_child(pmesh)
+		pmesh.global_position = Vector3(r.get_center().x, 0.02, r.get_center().y)
+	# Señal de la zona de rescate: un arco de llegada con banderines (se entiende a donde tiene que llegar).
+	_build_zone_sign()
 
 func _spawn_button(bd: Dictionary) -> void:
 	var cap := AnimatableBody3D.new()
@@ -138,6 +181,8 @@ func _spawn_button(bd: Dictionary) -> void:
 
 func _on_ball_body(body: Node) -> void:
 	if state != State.FLIGHT:
+		return
+	if mechs != null and mechs.kick_hit(body, prev_velocity().length()):
 		return
 	for b in buttons:
 		if body == b["body"] and not bool(b["pressed"]):
@@ -170,6 +215,14 @@ func pressed_count() -> int:
 
 func reset_level() -> void:
 	rescued = false
+	timed_out = false
+	attempts = 1
+	falls = 0
+	solve_time = -1.0
+	if mechs != null:
+		mechs.actions = 0
+		mechs.errors = 0
+		mechs.reset()
 	prisoner.global_transform = _prisoner_home
 	prisoner.linear_velocity = Vector3.ZERO
 	prisoner.angular_velocity = Vector3.ZERO
@@ -191,7 +244,35 @@ func frame_points() -> Array:
 	var out: Array = [_prisoner_home.origin + Vector3.UP * 0.4, Vector3(zone.position.x, 0, zone.position.y), Vector3(zone.end.x, 0, zone.end.y)]
 	for b in buttons:
 		out.append((b["home"] as Transform3D).origin)
+	# Mecanismos: todos los mandos tienen que verse (se tocan sobre la pantalla) y las piezas que mueven.
+	if mechs != null:
+		for m in mechs.mechs:
+			out.append((m["root"] as Node3D).global_position + Vector3.UP * 0.6)
+		for pp in mechs.parts:
+			out.append((pp["base"] as Transform3D).origin)
+	for r in pits:
+		out.append(Vector3(r.get_center().x, 0, r.get_center().y))
 	return out
+
+## Camara de los niveles de mecanismos: de costado y desde arriba (como un acertijo de perfil), del lado de los mandos,
+## con todo el aparato, los mandos, la zona y los pozos adentro del cuadro. Los niveles de patear usan la de siempre.
+func camera_frame() -> Array:
+	if mechs == null:
+		return super.camera_frame()
+	var pts: Array = frame_points()
+	var lo := Vector3(INF, INF, INF)
+	var hi := Vector3(-INF, -INF, -INF)
+	for p in pts:
+		lo = lo.min(p as Vector3)
+		hi = hi.max(p as Vector3)
+	var c: Vector3 = (lo + hi) * 0.5
+	var fov: float = 50.0
+	var span: float = maxf(maxf(hi.x - lo.x, hi.z - lo.z), (hi.y - lo.y) * 1.7) + 1.5
+	# El cuadro es apaisado: el ancho manda (campo horizontal ~1,6 veces el vertical).
+	var dist: float = span * 0.5 / tan(deg_to_rad(fov * 0.5)) * 0.9
+	var dir := Vector3(-0.3, 0.62, -1.0).normalized()
+	# Mirando un poco por debajo del centro: el aparato queda arriba de los botones del HUD.
+	return [c + dir * dist, c + Vector3(0, -1.1, 0), fov, 0.0]
 
 func _ball_spot(_s: int) -> Vector3:
 	return Vector3(0, ball.radius if ball != null else 0.11, 0) + BotonCaida._vec(def.get("tee", [0, 0, 0]))
@@ -214,19 +295,43 @@ func _in_zone() -> bool:
 	var p: Vector3 = prisoner.global_position
 	return zone.has_point(Vector2(p.x, p.z)) and p.y < 0.5 and prisoner.linear_velocity.length() < 0.6
 
-func _level_step(_delta: float) -> void:
+var _hud_t: float = 0.0
+func _level_step(delta: float) -> void:
+	if mechs != null:
+		mechs.step(delta)
+		_hud_t -= delta
+		if _hud_t <= 0.0 and state != State.OVER:
+			_hud_t = 0.25
+			_refresh_score()
 	if rescued or state == State.OVER:
+		return
+	if prisoner.global_position.y < FALL_Y or in_pit():
+		# Se cayo al vacio: intento perdido, todo vuelve al principio (el reloj sigue).
+		falls += 1
+		new_attempt()
+		hud.show_banner("¡SE CAYÓ!", Color(1.0, 0.55, 0.3), "Intento %d" % attempts)
+		return
+	if time_limit > 0.0 and level_time >= time_limit and not _in_zone():
+		timed_out = true
+		if state == State.AIM:
+			state = State.FLIGHT
+		_resolve("tiempo")
 		return
 	if _in_zone():
 		rescued = true
+		solve_time = level_time
 		if state == State.AIM:
 			# La prisionera llego rodando mientras se apuntaba (una cadena lenta): la jugada se resuelve igual.
 			state = State.FLIGHT
 			_resolve("rescatada")
 
 func _flight_check(_delta: float) -> String:
+	if timed_out:
+		return "tiempo"
 	if rescued or _in_zone():
 		rescued = true
+		if solve_time < 0.0:
+			solve_time = level_time
 		return "rescatada"
 	if _t > 0.8 and not _settling() and ball.linear_velocity.length() < SLOW_SPEED:
 		return "listo"
@@ -241,14 +346,135 @@ func _on_resolved(s: int, r: String) -> void:
 		cam.shake(0.4, 0.7)
 
 func _check_winner() -> int:
-	if rescued or int(shots[0]) >= shots_max:
+	if rescued or timed_out:
+		return Side.USER
+	# En los niveles de solo patear, sin tiros no queda nada que hacer; con mecanismos sigue el reloj.
+	if mechs == null and int(shots[0]) >= shots_max:
 		return Side.USER
 	return -1
 
+## Puntaje: rescate + tiros que sobraron + segundos que sobraron, menos los errores (secuencias equivocadas, caidas).
+## Sin rescate, 0. Lo recalcula igual el servidor online con las mismas estadisticas (finish_minigame).
 func final_score() -> int:
 	if not rescued:
 		return 0
-	return RESCUE_POINTS + maxi(shots_max - int(shots[0]), 0) * SPARE_SHOT
+	return score_for(stats())
+
+static func score_for(st: Dictionary) -> int:
+	if not bool(st.get("rescued", false)):
+		return 0
+	var spare_shots: int = maxi(int(st.get("shots_max", 0)) - int(st.get("shots", 0)), 0)
+	var spare_time: int = maxi(int(floor(float(st.get("time_limit", 0.0)) - float(st.get("time", 0.0)))), 0)
+	var errs: int = int(st.get("errors", 0)) + int(st.get("falls", 0))
+	return maxi(RESCUE_POINTS + spare_shots * SPARE_SHOT + spare_time * TIME_BONUS - errs * ERROR_COST, 50)
+
+## Lo que se registra del intento (pantalla final y online): tiempo, acciones, errores, intentos, tiempo restante.
+func stats() -> Dictionary:
+	var acts: int = (mechs.actions if mechs != null else 0) + int(shots[0])
+	return {"rescued": rescued, "time": snappedf(solve_time if solve_time >= 0.0 else level_time, 0.01), "time_limit": time_limit,
+		"remaining": snappedf(maxf(time_limit - (solve_time if solve_time >= 0.0 else level_time), 0.0), 0.01) if time_limit > 0.0 else 0.0,
+		"actions": acts, "errors": mechs.errors if mechs != null else 0, "falls": falls, "attempts": attempts,
+		"shots": int(shots[0]), "shots_max": shots_max}
+
+## La pelota cayo en un pozo (rectangulo rojo, a ras del piso).
+func in_pit() -> bool:
+	var p: Vector3 = prisoner.global_position
+	if p.y > 0.5:
+		return false
+	for r in pits:
+		if r.has_point(Vector2(p.x, p.z)):
+			return true
+	return false
+
+func online_stats() -> Dictionary:
+	return stats()
+
+## En los niveles sin patear no hay jugador ni pelota del jugador (se resuelven tocando los mecanismos).
+func has_player_deck() -> bool:
+	return int(def.get("shots", 3)) > 0
+
+func _place_shooter(s: int) -> void:
+	super._place_shooter(s)
+	if shots_max <= 0 and def.has("mechs"):
+		shooters[s].actor.visible = false
+		ball.visible = false
+
+## Otro intento sin cortar la partida: el prisionero y los mecanismos al principio; el reloj y los contadores siguen.
+func new_attempt() -> void:
+	attempts += 1
+	prisoner.global_transform = _prisoner_home
+	prisoner.linear_velocity = Vector3.ZERO
+	prisoner.angular_velocity = Vector3.ZERO
+	if mechs != null:
+		mechs.reset()
+
+## Toque sobre la pantalla: si cae sobre un mecanismo es para el (no patea); si no, el trazo de siempre.
+func _on_press(pos: Vector2, pressed: bool) -> void:
+	if mechs != null and state != State.OVER:
+		if not pressed and mechs.held >= 0:
+			mechs.touch(mechs.held, false)
+			return
+		if pressed:
+			var i: int = pick_mech(pos)
+			if i >= 0:
+				mechs.touch(i, true)
+				return
+	if shots_max <= 0:
+		return
+	super._on_press(pos, pressed)
+
+## Mando que esta bajo el punto de la pantalla (rayo desde la camara contra las areas de toque), o -1.
+func pick_mech(screen: Vector2) -> int:
+	if mechs == null or cam == null or not is_inside_tree():
+		return -1
+	var from: Vector3 = cam.project_ray_origin(screen)
+	var to: Vector3 = from + cam.project_ray_normal(screen) * 300.0
+	var q := PhysicsRayQueryParameters3D.create(from, to, RescueMechs.PICK_LAYER)
+	var hit: Dictionary = get_world_3d().direct_space_state.intersect_ray(q)
+	return RescueMechs.mech_of(hit.get("collider")) if not hit.is_empty() else -1
+
+func _on_action(id: StringName) -> void:
+	# «Reiniciar» en un nivel de mecanismos: otro intento (el reloj sigue). Al final, «Otra vez» empieza de cero.
+	if id == &"restart" and mechs != null and state != State.OVER:
+		new_attempt()
+		return
+	super._on_action(id)
+
+func _on_mech_acted(kind: String) -> void:
+	if fast:
+		return
+	match kind:
+		"click":
+			Sfx.play(&"mech_click", 0.7)
+		"gate":
+			Sfx.play(&"mech_gate", 0.6)
+		"release":
+			Sfx.play(&"mech_release", 0.8)
+		"error":
+			Sfx.play(&"mech_error", 0.7)
+			hud.show_banner("ORDEN EQUIVOCADO", Color(1.0, 0.45, 0.35), "Mirá las luces de la cerradura")
+
+## Zona de rescate bien señalizada: dos postes con un cartel RESCATE y banderines alrededor.
+func _build_zone_sign() -> void:
+	var c: Vector2 = zone.get_center()
+	for side in [-1.0, 1.0]:
+		var post := MeshInstance3D.new()
+		var cm := CylinderMesh.new()
+		cm.top_radius = 0.05
+		cm.bottom_radius = 0.05
+		cm.height = 1.6
+		post.mesh = cm
+		post.material_override = color_mat(Color(0.9, 0.9, 0.95))
+		add_child(post)
+		post.global_position = Vector3(zone.end.x + 0.15, 0.8, c.y + side * zone.size.y * 0.5)
+	var sign := Label3D.new()
+	sign.text = "RESCATE"
+	sign.font_size = 96
+	sign.outline_size = 16
+	sign.modulate = Color(0.4, 1.0, 0.5)
+	sign.billboard = BaseMaterial3D.BILLBOARD_ENABLED
+	add_child(sign)
+	sign.global_position = Vector3(zone.end.x + 0.15, 1.75, c.y)
 
 func _report_achievements(w: int, medal: int) -> void:
 	super._report_achievements(w, medal)
@@ -257,8 +483,20 @@ func _report_achievements(w: int, medal: int) -> void:
 
 func _result_text(r: String) -> Array:
 	if r == "rescatada":
+		if mechs != null:
+			var st: Dictionary = stats()
+			return ["¡RESCATADA!", Color(0.35, 1.0, 0.45), "%.1f s · %d acciones · %d errores · %d intentos" % [float(st["time"]),
+				int(st["actions"]), int(st["errors"]) + int(st["falls"]), int(st["attempts"])]]
 		return ["¡RESCATADA!", Color(0.35, 1.0, 0.45), "En %d tiros" % int(shots[0])]
+	if r == "tiempo":
+		return ["SE ACABÓ EL TIEMPO", Color(1.0, 0.45, 0.35), "Sigue atrapada"]
+	if mechs != null:
+		return ["", Color.WHITE, ""]
 	return ["Sigue atrapada", Color(1.0, 0.75, 0.4), "Tiros %d de %d" % [int(shots[0]), shots_max]]
 
 func _refresh_score() -> void:
+	if mechs != null:
+		var left: String = ("%d s" % int(ceil(maxf(time_limit - level_time, 0.0)))) if time_limit > 0.0 else "%d s" % int(level_time)
+		hud.set_score_text("Rescate · %s · acciones %d · errores %d" % [left, mechs.actions + int(shots[0]), mechs.errors + falls])
+		return
 	hud.set_score_text("Rescate · tiros %d / %d" % [int(shots[0]), shots_max])

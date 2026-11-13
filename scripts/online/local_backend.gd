@@ -138,7 +138,8 @@ func call_rpc(fn: String, a: Dictionary = {}) -> Dictionary:
 		"get_match": return _ok(_match_view())
 		"choose_minigame": return _choose_minigame(String(a.get("p_mode", "")), int(a.get("p_level", 0)), bool(a.get("p_random", false)))
 		"confirm_minigame": return _err("solo el rival confirma")
-		"finish_minigame": return _finish_minigame(String(a.get("p_game", "")), int(a.get("p_level", 0)), int(a.get("p_points", 0)), int(a.get("p_bot_points", 0)))
+		"finish_minigame": return _finish_minigame(String(a.get("p_game", "")), int(a.get("p_level", 0)), int(a.get("p_points", 0)),
+			int(a.get("p_bot_points", 0)), a.get("p_stats", {}) if a.get("p_stats") is Dictionary else {})
 		"rematch_bot": return _rematch_bot()
 		"submit_turn": return _submit_turn(String(a.get("p_kind", "")), a.get("p_payload", {}), a.get("p_side", null))
 		"claim_timeout": return _claim_timeout()
@@ -468,7 +469,7 @@ func _choose_minigame(mode: String, level: int, random: bool) -> Dictionary:
 
 ## Resultado del minijuego contra el bot: solo del minijuego y nivel elegidos (como finish_minigame del SQL). Cierra la
 ## partida con el marcador; el premio sigue por claim_reward con sus topes.
-func _finish_minigame(game: String, level: int, points: int, bot_points: int) -> Dictionary:
+func _finish_minigame(game: String, level: int, points: int, bot_points: int, st: Dictionary = {}) -> Dictionary:
 	var m: Dictionary = _db.get("match", {})
 	if m.is_empty():
 		return _err("no es tu partida")
@@ -479,6 +480,20 @@ func _finish_minigame(game: String, level: int, points: int, bot_points: int) ->
 		return _err("primero se elige el nivel")
 	if String(mg["game"]) != game or int(mg["level"]) != level:
 		return _err("nivel distinto al elegido")
+	if game == "rescate":
+		# Rescate: el puntaje lo recalcula el servidor con las estadisticas (tiempo, errores, caidas), y un tiempo mas
+		# corto que lo que permite la fisica del nivel (min_time) o mas largo que su limite se rechaza.
+		var sd: Dictionary = _mode(String(m["mode"])).get("scene_def", {})
+		var lim: float = float((sd.get("time_limit", {}) as Dictionary).get(str(level), 0.0))
+		var mn: float = float((sd.get("min_time", {}) as Dictionary).get(str(level), 0.0))
+		if bool(st.get("rescued", false)):
+			var t: float = float(st.get("time", -1.0))
+			if t < mn or t > lim:
+				return _err("tiempo invalido")
+		points = Rescate.score_for({"rescued": bool(st.get("rescued", false)), "time": float(st.get("time", lim)), "time_limit": lim,
+			"errors": maxi(int(st.get("errors", 0)), 0), "falls": maxi(int(st.get("falls", 0)), 0), "shots": 0, "shots_max": 0})
+		mg["result"] = {"time": float(st.get("time", 0.0)), "actions": int(st.get("actions", 0)), "errors": int(st.get("errors", 0)),
+			"falls": int(st.get("falls", 0)), "attempts": int(st.get("attempts", 1)), "rescued": bool(st.get("rescued", false)), "points": points}
 	var a: int = clampi(points, 0, 100000)
 	var b: int = clampi(bot_points, 0, 100000)
 	m["score_a"] = a
