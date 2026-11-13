@@ -16,14 +16,15 @@ func _setup_online() -> Node:
 	await o.call_state_fn("create_profile", {"p_username": "OnlineCrack", "p_display_name": "Online"})
 	return o
 
-func _bot_match(o: Node, fee: int) -> Dictionary:
-	await o.call_fn("find_match", {"p_mode": "penales", "p_fee": fee})
+func _bot_match(o: Node, fee: int, mode: String = "penales") -> Dictionary:
+	await o.call_fn("find_match", {"p_mode": mode, "p_fee": fee})
 	o.local.clock_offset += 10.0
-	var r: Dictionary = await o.call_fn("start_bot_match", {"p_mode": "penales"})
+	var r: Dictionary = await o.call_fn("start_bot_match", {"p_mode": mode})
 	return r["data"]
 
-func _game() -> SetPieceGame:
-	SetPieceGame.next_mode = SetPieceGame.Mode.PENALTY
+func _game(mode: int = SetPieceGame.Mode.PENALTY) -> SetPieceGame:
+	SetPieceGame.next_mode = mode
+	SetPieceGame.next_vs = SetPieceGame.Vs.CPU
 	var g: SetPieceGame = (load(SetPieceGame.SCENE) as PackedScene).instantiate()
 	g.fast = true
 	spawn(g)
@@ -48,7 +49,7 @@ func test_online_penalties_against_a_bot() -> void:
 			g.shoot(Vector3(g.gx, 0.6, 2.6 if shots_user % 2 == 0 else -2.6), 0.75, 0.0)
 		elif g.phase == SetPieceGame.Phase.KEEPER_PICK and g._keeper_zone == Vector3.INF:
 			picks += 1
-			g._keeper_zone = KeeperZones.center(picks % 6, g.gx, g.half_goal, g.goal_h)
+			g._keeper_zone = KeeperZones.center(picks % KeeperZones.COUNT, g.gx, g.half_goal, g.goal_h)
 		elif g.phase == SetPieceGame.Phase.RESULT:
 			shot_sent = false
 		await tree.physics_frame
@@ -64,12 +65,60 @@ func test_online_penalties_against_a_bot() -> void:
 	for t in sm["turns"]:
 		if String(t["kind"]) == "shot":
 			var pl: Dictionary = t["payload"]
-			if pl.get("keeper_zone") != null and int(pl["keeper_zone"]) == int(pl.get("cross_zone", -9)) and String(pl["outcome"]) == "goal":
+			if pl.get("keeper_zone") != null and int(pl["keeper_zone"]) == int(pl.get("cross_zone", -9)) and String(pl["outcome"]) == "goal" \
+					and bool(pl.get("reachable", true)):
 				mismatches += 1
-	check(mismatches == 0, "ningun tiro a la zona elegida por el arquero fue gol (regla de zonas del servidor)")
+	check(mismatches == 0, "ningun tiro al sector elegido por el arquero y a su alcance fue gol (regla del servidor)")
 	await physics_frames(5)
 	note("monedas: %d -> %d" % [coins0, o.coins()])
 	check(o.coins() != coins0 - 50 or int(sm["winner"]) != 0, "el servidor liquido la partida (premio al ganar)")
+	OnlineMatch.pending = {}
+	cleanup()
+
+## Tiros libres online contra el bot (pedido del usuario: «tiros libres online con roles alternados»): mismo protocolo
+## de turnos; el servidor fija el punto de tiro de cada ronda (los dos patean desde el mismo) y valida el informado, el
+## sector del arquero queda oculto y la regla de atajada mide el alcance desde donde esta parado el arquero.
+func test_online_free_kicks_against_a_bot() -> void:
+	var o: Node = await _setup_online()
+	OnlineMatch.pending = await _bot_match(o, 0, "tiros_libres")
+	var g: SetPieceGame = await _game(SetPieceGame.Mode.FREE_KICK)
+	check(g.online_match != null and g.fk_duel(), "tiros libres online por turnos")
+	var shot_sent := false
+	var picks: int = 0
+	var shots_user: int = 0
+	var spots: Array = []
+	var n: int = 0
+	while g.phase != SetPieceGame.Phase.OVER and n < 60 * 300:
+		if g.phase == SetPieceGame.Phase.AIM and g.user_shooting and not shot_sent:
+			shot_sent = true
+			shots_user += 1
+			spots.append([int(g.online_match.server_match()["shot_n"]), g.ball_spot])
+			g.shoot(Vector3(g.gx, 1.5, 2.4 if shots_user % 2 == 0 else -2.4), 0.8, 0.0)
+		elif g.phase == SetPieceGame.Phase.KEEPER_PICK and g._keeper_zone == Vector3.INF:
+			picks += 1
+			spots.append([int(g.online_match.server_match()["shot_n"]), g.ball_spot])
+			g.pick_sector(picks % KeeperZones.COUNT)
+		elif g.phase == SetPieceGame.Phase.RESULT:
+			shot_sent = false
+		await tree.physics_frame
+		n += 1
+	var sm: Dictionary = o.local._db["match"]
+	note("tiros libres online %d - %d · servidor %d - %d · %s · tiros %d, atajadas elegidas %d" % [g.shootout.goals(0), g.shootout.goals(1),
+		int(sm["score_a"]), int(sm["score_b"]), sm["status"], shots_user, picks])
+	check(g.phase == SetPieceGame.Phase.OVER and String(sm["status"]) == "finished", "la partida termina en el juego y en el servidor")
+	check(g.shootout.goals(0) == int(sm["score_a"]) and g.shootout.goals(1) == int(sm["score_b"]), "el marcador local es el del servidor")
+	check(picks >= 3 and shots_user >= 3, "se alternan tirador y arquero")
+	var bad_spot: int = 0
+	for sp in spots:
+		var want: Vector2 = FreeKickSpots.at(int(sp[0]) / 2, int(sm["spot_offset"]))
+		if Vector2(g.gx - (sp[1] as Vector3).x, (sp[1] as Vector3).z).distance_to(want) > 0.05:
+			bad_spot += 1
+	check(bad_spot == 0, "cada turno patea desde el punto que fija el servidor (%d distintos)" % bad_spot)
+	var rejected: int = 0
+	for t in sm["turns"]:
+		if String(t["kind"]) == "shot" and not bool(t["payload"].get("timed_out", false)) and not (t["payload"] as Dictionary).has("spot"):
+			rejected += 1
+	check(rejected == 0, "todos los tiros informan su punto de tiro")
 	OnlineMatch.pending = {}
 	cleanup()
 

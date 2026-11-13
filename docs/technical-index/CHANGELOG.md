@@ -11,6 +11,59 @@ Formato de entrada: **fecha — título** · commit · qué cambió · archivos 
 
 ---
 
+## 2026-11-13 — Atajadas por 9 sectores con alcance físico, tiros libres por turnos, duelo local y tiros libres online
+
+Pedido del usuario («ACTUALIZACIÓN INTEGRAL DE COMPETICIÓN, ATAJADAS, DUELO LOCAL…», secciones 1 a 4). Auditoría y plan:
+`docs/reforma/AUDITORIA_COMPETICION_PROGRESION.md`.
+
+- **9 sectores con alcance** (`keeper_zones.gd`, `keeper_reach.gd` nuevo, `sp_keeper.gd`, `setpiece_game.gd`):
+  - el arco pasa de 6 zonas a 9 sectores (3 columnas × 3 alturas);
+  - el usuario toca una grilla táctil de 9 sectores (`_zone_grid`, `pick_sector`) y el arquero se juega al centro del
+    sector; la grilla se esconde al salir la pelota;
+  - la atajada segura exige el sector correcto **y** el alcance físico (`KeeperReach`: 3,5 m a media altura, 2,4 m en el
+    travesaño, estirada completa en 0,65 s contando la anticipación). Pegado al ángulo, o pegado al palo con un tiro muy
+    rápido, es gol aunque haya elegido bien;
+  - lo usan el usuario, la IA, el segundo jugador y el servidor.
+- **Tiros libres por turnos contra la CPU** (`SetPieceGame.Vs`, `fk_duel`, `_start_fk_duel_turn`, `FreeKickSpots`):
+  - se alternan tiro y atajada con la tanda de los penales (5 y muerte súbita);
+  - los dos patean desde el mismo punto en cada ronda;
+  - cuando patea la CPU, la barrera y los sueltos son del equipo del usuario y el usuario elige el sector;
+  - la CPU elige su tiro sin conocer el sector (`cpu_free_kick_params`), y su arquero también se juega a un sector;
+  - la práctica libre de siempre sigue igual (`Vs.PRACTICE`, es la que abre el modo por defecto).
+- **Duelo local de dos jugadores** (`local_duel.gd` nuevo, `Vs.LOCAL`): penales y tiros libres en el mismo teléfono.
+  - Cada turno: cortina del arquero → elige el sector en secreto → cortina del tirador, que tapa el sector → patea.
+  - Marcador por jugador: goles, recibidos, atajadas, errados, puntos, victorias (guardadas en `user://local_duel.json`).
+  - En la revancha empieza el otro (`PenaltyShootout.first`).
+  - No da premios ni logros.
+- **Tiros libres online por turnos** (`online_match.gd`, `local_backend.gd`, migración
+  `supabase/migrations/20261113000006_keeper_reach.sql`, `menu_screens.gd`):
+  - el lobby abre los tiros libres con el mismo protocolo de turnos que los penales (antes era un duelo por puntaje
+    contra el bot);
+  - el servidor fija el punto de tiro de cada ronda (`spot_offset`, `fk_spot`) y rechaza un tiro desde otro punto o sin
+    punto;
+  - el servidor recalcula el sector con el cruce informado y aplica el alcance, medido desde donde se para el arquero
+    (`fk_keeper_z`). En penales, desde el centro.
+- **Menú offline**: penales contra la CPU o de a dos; tiros libres en duelo contra la CPU, de a dos o práctica libre.
+- **Arreglo**: la barrera conectaba dos veces el aviso de fin de salto cuando la jugada siguiente llegaba antes
+  (`sp_wall.gd`; error en la salida de la prueba nueva del duelo).
+- **Pruebas**: `test_keeper_zones` reescrita para 9 sectores, con modelo de alcance, grilla y ángulo. Nuevas:
+  `test_fk_duel` (3), `test_local_duel` (3), `test_online_match::test_online_free_kicks_against_a_bot` y
+  `test_online_client::test_the_server_rule_uses_nine_sectors_and_reach`. SQL: 24 comprobaciones nuevas en
+  `supabase/tests/test_server.sql`.
+- **Verificación**:
+  - suite headless completa: 290 pruebas, 1 falla (el menú esperaba «PENALES» y «TIRO LIBRE» en los botones; se
+    corrigió el texto de los botones y esa prueba pasó);
+  - pruebas SQL en PostgreSQL 16 local: todas OK;
+  - render (`xvfb-run`, opengl3): `test_a_shot_into_the_angle_beats_the_right_guess` OK (12),
+    `test_another_zone_is_not_a_sure_save` OK (6), `test_the_cpu_keeper_also_saves_when_it_guesses_the_zone` OK
+    (6 de 6 sectores adivinados y al alcance, atajados);
+  - `test_a_reachable_shot_to_the_chosen_sector_is_saved` (72 tiros) y `test_setpiece_render`: en curso al escribir
+    esta entrada (se anotan aparte).
+- **Pendiente**:
+  - nada de esto se probó en un teléfono;
+  - el online entre dos teléfonos no se probó: solo con el servidor local y bots;
+  - la migración nueva no está aplicada en un proyecto Supabase (no hay uno conectado).
+
 ## 2026-11-12 — Sin silbidos, fuera Mixamo, scroll sobre las imágenes y buscador de partidas nuevo
 
 Pedido del usuario:

@@ -5,7 +5,7 @@
 - **Responsabilidad exacta:** controlar el coste de renderizado según el dispositivo (escala 3D, MSAA, sombras, elementos ambientales) y mostrar en pantalla lo que **realmente se mide** (FPS, tiempos de fotograma/proceso/física, llamadas de dibujo, nodos, memoria, errores).
 - **Estado:** implementado a nivel de código. **No hay ninguna medición en un dispositivo Android real**: los valores por perfil son heurísticos y no están validados contra FPS reales.
 - **Última verificación:** <!-- AUTO:verified -->
-2026-11-12
+2026-11-13
 <!-- /AUTO -->
 
 ## Archivos responsables

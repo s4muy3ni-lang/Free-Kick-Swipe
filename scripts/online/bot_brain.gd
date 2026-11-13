@@ -46,14 +46,14 @@ func penalty_target(goal_x: float, half_goal: float, goal_h: float) -> Vector3:
 func shot_power() -> float:
 	return clampf(float(style["power"]) + rng.randf_range(-0.15, 0.15), 0.3, 0.98)
 
-## Como arquero: zona (KeeperZones 0..5) a la que se juega antes del tiro. cue_zone es lo que «lee» del cuerpo del
+## Como arquero: sector (KeeperZones 0..8) a la que se juega antes del tiro. cue_zone es lo que «lee» del cuerpo del
 ## tirador (la zona hacia donde apunta su carrera), que puede no ser la del tiro real. Con probabilidad de lectura segun
 ## estilo y habilidad usa esa lectura; si no, adivina.
 func keeper_zone(cue_zone: int) -> int:
 	var p_read: float = float(style["read"]) * lerpf(0.6, 1.1, skill())
 	if cue_zone >= 0 and rng.randf() < p_read:
 		return cue_zone
-	return rng.randi_range(0, 5)
+	return rng.randi_range(0, KeeperZones.COUNT - 1)
 
 ## Puntos de un turno de minijuego cuando el bot «juega» sin escena (respaldo; en la partida real el bot patea con la
 ## fisica del minijuego). max_points = tope del modo.

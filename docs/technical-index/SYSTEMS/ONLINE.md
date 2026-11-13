@@ -5,17 +5,18 @@
 - **Responsabilidad exacta:** cuentas y sesión (Supabase Auth o `LocalBackend`), estado del jugador con autoridad del
   servidor (perfil, monedas, XP, inventario, consumibles, temporada, eventos, rankings), cola de sincronización
   idempotente para el juego offline, matchmaking (primero humanos, después un bot generado por el servidor), rivales IA
-  (`BotFactory`, `BotBrain`, `BehaviorMirror`), penales online (`OnlineMatch` sobre `SetPieceGame`), chat y reacciones,
+  (`BotFactory`, `BotBrain`, `BehaviorMirror`), penales y tiros libres online por turnos (`OnlineMatch` sobre
+  `SetPieceGame`), chat y reacciones,
   menú principal con sus pantallas (`MenuScreens`), herramientas de desarrollo ocultas en la build pública (`DevFlags`).
 - **Estado real:**
   - el servidor está escrito y probado contra PostgreSQL 16 local, pero **no hay proyecto Supabase conectado** (ver
     `docs/online/ARQUITECTURA_ONLINE.md`);
-  - online jugable: penales contra bot (con `LocalBackend` sin servidor);
+  - online jugable: penales y tiros libres por turnos contra bot (con `LocalBackend` sin servidor);
   - humano contra humano: protocolo del servidor probado en SQL, cliente implementado pero sin probar entre dos
     dispositivos;
-  - tiros libres y minijuegos online: «en preparación».
+  - minijuegos online: contra un bot (`OnlineDuel`).
 - **Última verificación:** <!-- AUTO:verified -->
-2026-11-12
+2026-11-13
 <!-- /AUTO -->
 
 ## Archivos responsables
@@ -29,9 +30,9 @@
 | `scripts/online/local_backend.gd` | La misma API sin servidor (cuenta local con contraseña con sal y hash) |
 | `scripts/online/backend_config.gd` | `res://config/backend.json` (lo genera CI desde los GitHub Secrets); rechaza claves de servicio |
 | `scripts/online/welcome_screen.gd` | Entrada del juego: iniciar sesión, crear cuenta, recuperar contraseña, crear perfil |
-| `scripts/online/online_match.gd` | Penales online: turnos y resultados del servidor, reloj de 20 s con tiro de penalización, bot, chat |
+| `scripts/online/online_match.gd` | Penales y tiros libres online: turnos y resultados del servidor, sector oculto del arquero (0..8), cruce y tiempo de vuelo para la regla de alcance (`reach_payload`), punto de tiro del tiro libre (`spot_offset`, `fk_round`, `_spot_payload`), reloj de 20 s con tiro de penalización, bot, chat |
 | `scripts/online/bot_factory.gd`, `bot_brain.gd`, `behavior_mirror.gd`, `chat_filter.gd` | Rivales IA, decisiones, tiempos espejo, chat y reacciones |
-| `scripts/online/online_duel.gd` | Las demás modalidades online contra un bot difícil (por turnos en A la vista, Guante y Dardos; por puntaje en Basket, Diana y Tiros libres) |
+| `scripts/online/online_duel.gd` | Las demás modalidades online contra un bot difícil (por turnos en A la vista, Guante y Dardos; por puntaje en Basket y Diana). Los tiros libres ya no pasan por acá: el lobby los abre por turnos con `OnlineMatch` (queda el cálculo por puntaje `bot_score`) |
 | `scripts/ui/menu_screens.gd`, `menu_icon.gd`, `scripts/setpiece/main_menu.gd` | Menú con 10 entradas, pantallas, íconos dibujados. JUGAR ONLINE rediseñado (2026-11-12): pastillas de estado del lobby, modalidades como tarjetas con imagen (`_mode_tile`, la elegida con borde dorado), panel de la modalidad con entrada en botones y BUSCAR PARTIDA (`select_mode`, `_show_mode_detail`), pantalla de búsqueda con radar (`search_screen`, `SearchRadar`) y cara a cara al encontrar rival (`show_found`) |
 | `scripts/ui/scroll_tap.gd` | `ScrollTap`: en las listas con scroll, las tarjetas y sus imágenes dejan pasar el arrastre y un toque que arrastró la lista no aprieta el botón (menú, arcade, desafíos, pausa) |
 | `scripts/diagnostics/dev_flags.gd` | Build pública (característica `public`): sin «Diag.», sin línea de destino, sin banco de animaciones |
@@ -42,8 +43,12 @@
 - **Recompensas:** idempotentes por clave (`reward_ledger`, único por usuario y clave), con topes diarios para lo
   offline y lo jugado contra bots.
 - **Partidas:**
-  - la zona del arquero queda oculta hasta que llega el tiro;
-  - un tiro informado como gol en la zona elegida se cuenta atajada, y uno fuera del arco nunca es gol;
+  - el sector del arquero (0..8) queda oculto hasta que llega el tiro;
+  - con el cruce informado (alto, ancho y tiempo de vuelo) el servidor recalcula el sector (el informado no manda) y
+    mira el alcance (`keeper_reachable`, migración `20261113000006_keeper_reach.sql`): un tiro informado como gol en el
+    sector elegido y al alcance se cuenta atajada; fuera del alcance sigue siendo gol; uno fuera del arco nunca es gol;
+  - tiros libres: el punto de tiro de cada ronda lo fija el servidor (`fk_spot` con `spot_offset` de la partida); un tiro
+    desde otro punto o sin punto se rechaza, y el alcance se mide desde donde se para el arquero (`fk_keeper_z`);
   - turno vencido = tiro errado, y tres seguidos = abandono.
 - **Bots:** sin fila de usuario, estadísticas en `vs_bots = true` y fuera de los rankings.
 - **Claves:** la service key solo la usaría el webhook de pagos; el cliente la rechaza.

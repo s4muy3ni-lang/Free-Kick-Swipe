@@ -1,6 +1,7 @@
 class_name OnlineMatch
 extends Node
-## Partida online de penales sobre SetPieceGame (misma fisica, mismo gesto, mismo arquero). El SERVIDOR manda:
+## Partida online de penales o de tiros libres por turnos sobre SetPieceGame (misma fisica, mismo gesto, mismo arquero;
+## en los tiros libres, con barrera, desde el punto de tiro que fija el servidor para cada ronda). El SERVIDOR manda:
 ##  - turnos (quien patea), plazo de 20 s por tiro (mas margen de red), resultado de cada tiro: el tirador informa donde
 ##    cruza su tiro (zona de KeeperZones, prevista con la trayectoria real del golpe) y el servidor aplica la regla de
 ##    zonas con la eleccion OCULTA del arquero (si coinciden, atajada);
@@ -64,6 +65,23 @@ func server_match() -> Dictionary:
 ## Le toca patear al usuario (segun el servidor).
 func my_shot() -> bool:
 	return int(server_match().get("shooter", 0)) == my_side
+
+## Tiros libres: desplazamiento de los puntos de tiro de esta partida (lo sortea el servidor) y ronda actual (los dos
+## patean desde el mismo punto: ronda = tiro / 2).
+func spot_offset() -> int:
+	return int(server_match().get("spot_offset", 0))
+
+func fk_round() -> int:
+	return int(server_match().get("shot_n", 0)) / 2
+
+func _free_kick() -> bool:
+	return game != null and game.mode == SetPieceGame.Mode.FREE_KICK
+
+## Punto de tiro del turno (distancia, ancho) para que el servidor lo compare con el suyo.
+func _spot_payload() -> Dictionary:
+	if not _free_kick():
+		return {}
+	return {"spot": [snappedf(game.gx - game.ball_spot.x, 0.01), snappedf(game.ball_spot.z, 0.01)]}
 
 func _ready() -> void:
 	var layer := CanvasLayer.new()
@@ -182,7 +200,8 @@ func penalty_shot() -> ShotParams:
 	var p := ShotParams.new()
 	p.target = Vector3(game.gx, game.goal_h + rng.randf_range(0.6, 1.4), rng.randf_range(-3.0, 3.0))
 	p.power = 0.5
-	p.speed = lerpf(SetPieceGame.PEN_SPEED.x, SetPieceGame.PEN_SPEED.y, 0.5)
+	var sp: Vector2 = SetPieceGame.FK_SPEED if _free_kick() else SetPieceGame.PEN_SPEED
+	p.speed = lerpf(sp.x, sp.y, 0.5)
 	p.kind = ShotCatalog.Kind.NORMAL
 	p.gesture_type = "normal"
 	p.error_deg = 6.0
@@ -199,15 +218,19 @@ func on_user_shot(cross: Vector3, cls: String) -> void:
 	if is_bot():
 		var dir: Vector3 = game.last_shot.get("dir", Vector3(1, 0, 0))
 		var cue: Vector3 = game.ball_spot + dir * ((game.gx - game.ball_spot.x) / maxf(dir.x, 0.2))
-		cue.y = 0.6 if rng.randf() < 0.55 else 1.7
+		# Altura que «lee»: abajo, al medio o arriba (los tres niveles de sectores).
+		var hr: float = rng.randf()
+		cue.y = 0.4 if hr < 0.45 else (1.2 if hr < 0.75 else 2.0)
 		kz = brain.keeper_zone(KeeperZones.zone_of(Vector3(game.gx, cue.y, clampf(cue.z, -3.5, 3.5)), game.half_goal, game.goal_h))
 		await Online.call_fn("submit_turn", {"p_match": match_id(), "p_kind": "keeper_pick", "p_payload": {"zone": kz}, "p_side": 1 - my_side})
 	var cz: int = KeeperZones.zone_of(cross, game.half_goal, game.goal_h)
-	var r: Dictionary = await Online.call_fn("submit_turn", {"p_match": match_id(), "p_kind": "shot",
-		"p_payload": {"cross_zone": cz, "outcome": predicted(cls), "timed_out": timed_out,
+	var pl: Dictionary = {"cross_zone": cz, "outcome": predicted(cls), "timed_out": timed_out,
 		"speed": (game.last_shot.get("velocity", Vector3.ZERO) as Vector3).length(),
 		"target": [game.last_params.target.x, game.last_params.target.y, game.last_params.target.z],
-		"power": game.last_params.power, "spin": game.last_params.lateral_spin}})
+		"power": game.last_params.power, "spin": game.last_params.lateral_spin}
+	pl.merge(reach_payload(cross))
+	pl.merge(_spot_payload())
+	var r: Dictionary = await Online.call_fn("submit_turn", {"p_match": match_id(), "p_kind": "shot", "p_payload": pl})
 	_take_view(r)
 	var shot: Dictionary = _last_turn("shot")
 	_outcome = String((shot.get("payload", {}) as Dictionary).get("outcome", ""))
@@ -217,6 +240,18 @@ func on_user_shot(cross: Vector3, cls: String) -> void:
 	if z != null and int(z) >= 0:
 		game.cur_keeper.commit_to(KeeperZones.center(int(z), game.gx, game.half_goal, game.goal_h), game.ball_spot,
 			maxf(game.cur_shooter.time_to_contact(), 0.0), (game.last_shot.get("velocity", Vector3.ZERO) as Vector3).length())
+
+## Datos del cruce para la regla de alcance del servidor (KeeperReach con las mismas constantes): donde cruza la linea
+## (alto y ancho) y cuanto tarda la pelota desde el golpe (trayectoria real, con su efecto).
+func reach_payload(cross: Vector3) -> Dictionary:
+	if cross == Vector3.INF:
+		return {}
+	var traj: PackedVector3Array = game.last_shot.get("traj", PackedVector3Array())
+	var t: float = KeeperReach.time_to_line(traj, 1.0 / 60.0, game.gx)
+	var out := {"cross_y": snappedf(cross.y, 0.001), "cross_z": snappedf(cross.z, 0.001)}
+	if t != INF:
+		out["flight"] = snappedf(t, 0.001)
+	return out
 
 ## El usuario eligio donde tirarse: se manda (queda oculta para el rival) y despues patea el rival.
 func on_user_keeper_pick(zone_point: Vector3) -> void:
@@ -231,6 +266,11 @@ func on_user_keeper_pick(zone_point: Vector3) -> void:
 		game.hud.set_hint("Esperando el tiro del rival…")
 
 func _bot_shoot() -> void:
+	if _free_kick():
+		# Tiro libre del bot: el mismo tirador de la CPU (sin saber el sector del usuario), con el error de su habilidad.
+		game._take_shot(game.cpu_shooter, game.cpu_free_kick_params(), brain.aim_error_deg())
+		await _send_bot_shot()
+		return
 	var p := ShotParams.new()
 	p.target = brain.penalty_target(game.gx, game.half_goal, game.goal_h)
 	p.power = brain.shot_power()
@@ -242,10 +282,18 @@ func _bot_shoot() -> void:
 	p.direction = Vector3(p.target.x - game.ball_spot.x, 0.0, p.target.z - game.ball_spot.z).normalized()
 	GestureShotModel.solve(p, game.ball_spot, game.shot_context(), false)
 	game._take_shot(game.cpu_shooter, p, brain.aim_error_deg())
-	var cz: int = KeeperZones.zone_of(game.last_shot.get("cross", Vector3.INF), game.half_goal, game.goal_h)
+	await _send_bot_shot()
+
+## Informa el tiro del bot (con el cruce y el punto de tiro, como el de un jugador) y toma el resultado del servidor.
+func _send_bot_shot() -> void:
+	var bc: Vector3 = game.last_shot.get("cross", Vector3.INF)
+	var cz: int = KeeperZones.zone_of(bc, game.half_goal, game.goal_h)
 	var cls: String = String(game.last_shot.get("class", ""))
+	var bpl: Dictionary = {"cross_zone": cz, "outcome": predicted(cls)}
+	bpl.merge(reach_payload(bc))
+	bpl.merge(_spot_payload())
 	var r: Dictionary = await Online.call_fn("submit_turn", {"p_match": match_id(), "p_kind": "shot",
-		"p_payload": {"cross_zone": cz, "outcome": predicted(cls)}, "p_side": 1 - my_side})
+		"p_payload": bpl, "p_side": 1 - my_side})
 	_take_view(r)
 	_outcome = String((_last_turn("shot").get("payload", {}) as Dictionary).get("outcome", ""))
 

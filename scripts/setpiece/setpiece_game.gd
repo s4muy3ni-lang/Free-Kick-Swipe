@@ -25,6 +25,11 @@ const FK_MAX_X := 40.0
 
 ## Modo que abre la escena (lo fija el menu antes de cambiar de escena).
 static var next_mode: int = Mode.PENALTY
+## Contra quien se juega (pedido del usuario): CPU = se alternan tiro y atajada contra la IA; PRACTICE = tiros libres sin
+## turnos (como siempre: el usuario elige donde patear); LOCAL = dos jugadores en el mismo telefono (duelo local). -1 = lo
+## de siempre del modo (penales contra la CPU, tiros libres de practica). Se lee una vez al abrir la escena.
+enum Vs { CPU, PRACTICE, LOCAL }
+static var next_vs: int = -1
 ## Modo CHALLENGE: ejercicio de la Academia o desafio de la Arena (definicion de ChallengeCatalog, ya en su dificultad) y si
 ## es practica libre (no registra el progreso).
 static var next_challenge: Dictionary = {}
@@ -32,6 +37,7 @@ static var next_practice: bool = false
 const CHALLENGE_MENU_SCENE := "res://scenes/challenges/challenge_menu.tscn"
 
 var mode: int = Mode.PENALTY
+var vs: int = Vs.CPU
 var phase: int = Phase.AIM
 var rng := RandomNumberGenerator.new()
 
@@ -69,6 +75,21 @@ var _pre_replay: Dictionary = {}
 var shootout := PenaltyShootout.new()
 var fk_goals: int = 0
 var fk_shots: int = 0
+## Duelo de tiros libres: los puntos de tiro (FreeKickSpots) empiezan en este desplazamiento, sorteado al abrir la escena
+## (online lo fija el servidor). Los dos patean desde el mismo punto en cada ronda.
+var spot_offset: int = 0
+## Duelo local de dos jugadores (Vs.LOCAL): marcador propio y cortinas de cambio de turno. Jugador 1 = equipo 0 (tirador y
+## arquero del usuario), Jugador 2 = equipo 1 (los de la CPU, manejados por el segundo jugador).
+var local: LocalDuel = null
+## Paso del turno local: 0 nada, 1 cortina antes de atajar, 2 eligiendo sector, 3 cortina antes de patear, 4 pateando.
+var local_step: int = 0
+var _curtain: ColorRect = null
+var _curtain_title: Label
+var _curtain_text: Label
+var _curtain_btn: Button
+var _curtain_action: StringName = &""
+## La barrera y los sueltos tienen la camiseta del equipo que defiende (cambia cuando patea la CPU).
+var _kits_user_attack: bool = true
 
 var ball_spot := Vector3.ZERO
 var zoom: float = 1.0
@@ -128,6 +149,11 @@ var online_match: OnlineMatch = null
 var _online_pick_sent: bool = false
 var _pick_t: float = 0.0
 var _zone_marker: MeshInstance3D
+## Grilla de los 9 sectores del arco (KeeperZones) que se ve mientras el usuario elige donde tirarse.
+var _zone_grid: Node3D
+var _zone_cells: Array[MeshInstance3D] = []
+## Sector elegido (-1 = ninguno).
+var picked_zone: int = -1
 var _place_marker: MeshInstance3D
 ## Animo del publico (0..1, la tribuna es la hinchada del usuario): festejo y abucheo, cada uno con un tiempo a pleno
 ## (_hold) antes de apagarse. Pedido 2026-11-12: el publico de los minijuegos arcade tambien aca, que festeje mas vivo y
@@ -146,6 +172,13 @@ func _ready() -> void:
 	PlayerCustom.load_custom()
 	rng.randomize()
 	mode = next_mode
+	vs = next_vs if next_vs >= 0 else (Vs.PRACTICE if mode == Mode.FREE_KICK else Vs.CPU)
+	if mode == Mode.CHALLENGE:
+		vs = Vs.PRACTICE
+	next_vs = -1
+	if vs == Vs.LOCAL:
+		local = LocalDuel.new()
+		shootout.first = local.first_shooter()
 	stadium = Stadium11.new()
 	stadium.name = "Stadium"
 	add_child(stadium)
@@ -227,8 +260,14 @@ func _ready() -> void:
 		Sfx.watch_ball(ball)
 		Sfx.crowd(true)
 	GraphicsSettings.apply()
+	if vs == Vs.LOCAL:
+		cpu_keeper.ai = false
+		hud.shootout_tags = ["J1 ", "J2 "]
+		_build_curtain()
 	if mode == Mode.PENALTY:
-		hud.set_title("PENALES")
+		hud.set_title("PENALES · 2 JUGADORES" if vs == Vs.LOCAL else "PENALES")
+		if vs == Vs.LOCAL:
+			OnlineMatch.pending = {}
 		if not OnlineMatch.pending.is_empty():
 			# Partida online (la dejo el lobby): el servidor manda los turnos y los resultados.
 			var om := OnlineMatch.new()
@@ -247,6 +286,19 @@ func _ready() -> void:
 		hud.set_title(String(d["title"]).to_upper())
 		hud.hide_shootout()
 		_setup_challenge_attempt()
+	elif fk_duel():
+		hud.set_title("TIROS LIBRES · 2 JUGADORES" if vs == Vs.LOCAL else "TIROS LIBRES · CONTRA LA CPU")
+		spot_offset = rng.randi_range(0, FreeKickSpots.SPOTS.size() - 1)
+		if vs != Vs.LOCAL and not OnlineMatch.pending.is_empty():
+			# Tiros libres online: el servidor manda los turnos, los puntos de tiro y los resultados.
+			var om := OnlineMatch.new()
+			om.name = "OnlineMatch"
+			om.setup(self, OnlineMatch.pending)
+			online_match = om
+			add_child(om)
+			hud.set_title("TIROS LIBRES ONLINE")
+			spot_offset = om.spot_offset()
+		_start_fk_duel_turn()
 	else:
 		hud.set_title("TIRO LIBRE")
 		hud.hide_shootout()
@@ -262,6 +314,14 @@ func _penalty_like() -> bool:
 	return mode == Mode.PENALTY or (mode == Mode.CHALLENGE and runner != null and runner.spot_distance() <= 12.0)
 
 ## Como un tiro libre: camara detras de la pelota con zoom, barrera, arquero que lee la pelota.
+## Tiros libres por turnos (contra la CPU o entre dos): se alternan tiro y atajada, con tanda como los penales.
+func fk_duel() -> bool:
+	return mode == Mode.FREE_KICK and vs != Vs.PRACTICE
+
+## Modos con turnos alternados de tiro y atajada y marcador de tanda (PenaltyShootout).
+func duel_like() -> bool:
+	return mode == Mode.PENALTY or fk_duel()
+
 func _fk_like() -> bool:
 	return mode == Mode.FREE_KICK or (mode == Mode.CHALLENGE and not _penalty_like())
 
@@ -291,7 +351,7 @@ func _build_people() -> void:
 	add_child(cpu_keeper)
 	cpu_keeper.setup(_actor(SpSettings.CPU_KEEPER_KIT, 1, "CpuKeeperBody"), ball, gx, half_goal, goal_h)
 	cpu_keeper.touched_ball.connect(_on_keeper_touch)
-	if mode == Mode.PENALTY:
+	if duel_like():
 		cpu_shooter = SpShooter.new()
 		cpu_shooter.name = "CpuShooter"
 		add_child(cpu_shooter)
@@ -304,6 +364,10 @@ func _build_people() -> void:
 		user_keeper.actor.set_back_number(PlayerCustom.number)
 		user_keeper.ai = false
 		user_keeper.touched_ball.connect(_on_keeper_touch)
+		if fk_duel():
+			cpu_shooter.actor.visible = false
+			user_keeper.actor.visible = false
+	if mode == Mode.PENALTY:
 		# Los demas jugadores esperan en el circulo central (como en una tanda real) y reaccionan a cada penal.
 		for i in 6:
 			var team: int = 0 if i < 3 else 1
@@ -321,6 +385,8 @@ func _build_people() -> void:
 		add_child(wall)
 		# El arquero sabe donde esta su barrera: no se tira a un tiro que ella va a frenar.
 		cpu_keeper.wall = wall
+		if user_keeper != null:
+			user_keeper.wall = wall
 		for i in 5:
 			var a: SpActor = _actor(SpSettings.CPU_KIT, 1, "Wall%d" % i)
 			a.enable_collider()
@@ -340,7 +406,8 @@ func _build_people() -> void:
 		field.setup(att, dfn, ball, gx)
 
 func _build_markers() -> void:
-	# Donde toco el usuario para tirarse (solo esa marca: las zonas de KeeperZones son internas, no se dibujan).
+	_build_zone_grid()
+	# Centro del sector elegido para tirarse.
 	_zone_marker = MeshInstance3D.new()
 	var tm := TorusMesh.new()
 	tm.inner_radius = 0.22
@@ -389,6 +456,7 @@ func _start_penalty_turn() -> void:
 		user_shooting = online_match.my_shot()
 		_online_pick_sent = false
 	_zone_marker.visible = false
+	show_zone_grid(false)
 	ball_spot = Vector3(gx - Stadium11.PENALTY_MARK, ball.radius, 0.0)
 	_reset_play()
 	ball.reset_at(ball_spot)
@@ -398,7 +466,9 @@ func _start_penalty_turn() -> void:
 		s.actor.visible = s == cur_shooter
 	for k in [user_keeper, cpu_keeper]:
 		k.actor.visible = k == cur_keeper
-	if not user_shooting:
+	if not user_shooting and vs == Vs.LOCAL:
+		cpu_shooter.foot = 1
+	elif not user_shooting:
 		# La CPU tiene tiradores diestros y zurdos.
 		cpu_shooter.foot = 1 if rng.randf() < 0.78 else -1
 	else:
@@ -417,7 +487,9 @@ func _start_penalty_turn() -> void:
 		b.play_loop(idles[rng.randi() % idles.size()], 0.3)
 	var round_n: int = shootout.kicks(PenaltyShootout.USER if user_shooting else PenaltyShootout.CPU) + 1
 	var round_txt: String = ("Muerte súbita" if shootout.in_sudden_death() else "Penal %d de %d" % [round_n, PenaltyShootout.REGULAR])
-	if user_shooting:
+	if vs == Vs.LOCAL:
+		_local_begin_turn(round_txt)
+	elif user_shooting:
 		var f: Array = SpCamera.behind_ball(ball_spot, goal_center(), 1.0, true)
 		cam.frame(f[0], f[1], f[2], true, 0.45)
 		phase = Phase.AIM
@@ -429,8 +501,10 @@ func _start_penalty_turn() -> void:
 		phase = Phase.KEEPER_PICK
 		_pick_t = 0.0
 		_keeper_zone = Vector3.INF
+		picked_zone = -1
 		_zone_marker.visible = false
-		hud.set_hint("%s · Atajás vos: tocá el arco donde te vas a tirar" % round_txt)
+		show_zone_grid(true)
+		hud.set_hint("%s · Atajás vos: tocá uno de los 9 sectores del arco para tirarte" % round_txt)
 	if online_match != null:
 		online_match.on_turn_start(user_shooting)
 
@@ -519,26 +593,240 @@ func _setup_free_kick() -> void:
 		wall_pts.append(a.global_position)
 	field.arrange(ball_spot, wall_pts)
 	# Arquero: en la bisectriz del angulo, corrido hacia el palo que no tapa la barrera.
-	var cover: Vector3 = SpWall.cover_point(ball_spot, gx, half_goal)
-	var kz: float = clampf(-cover.z * 0.35 + ball_spot.z * 0.06, -1.2, 1.2)
-	cpu_keeper.reset(Vector3(gx - 0.6, 0.0, kz))
-	cur_shooter = user_shooter
-	cur_keeper = cpu_keeper
-	user_shooter.actor.visible = true
-	user_shooter.foot = SpSettings.foot
+	var kz: float = FreeKickSpots.keeper_z(ball_spot.z, half_goal)
+	if not fk_duel():
+		user_shooting = true
+	elif _kits_user_attack != user_shooting:
+		_fk_kits(user_shooting)
+	cur_shooter = user_shooter if user_shooting else cpu_shooter
+	cur_keeper = cpu_keeper if user_shooting else user_keeper
+	cur_keeper.reset(Vector3(gx - 0.6, 0.0, kz))
+	cur_keeper.actor.visible = true
+	cur_shooter.actor.visible = true
+	if fk_duel():
+		var other_k: SpKeeper = user_keeper if user_shooting else cpu_keeper
+		other_k.reset(Vector3(gx + 6.0, 0.0, 12.0))
+		other_k.actor.visible = false
+		var other_s: SpShooter = cpu_shooter if user_shooting else user_shooter
+		other_s.actor.visible = false
+	cur_shooter.foot = SpSettings.foot if user_shooting else (1 if vs == Vs.LOCAL or rng.randf() < 0.78 else -1)
 	var aim: Vector3 = Vector3(gx - ball_spot.x, 0.0, -ball_spot.z).normalized()
-	user_shooter.stance(ball_spot, aim, FK_STANCE.x, FK_STANCE.y)
-	user_shooting = true
+	cur_shooter.stance(ball_spot, aim, FK_STANCE.x, FK_STANCE.y)
+	if vs == Vs.LOCAL:
+		_local_begin_turn(_duel_round_text())
+		return
+	if not user_shooting:
+		# Duelo: patea la CPU y el usuario ataja (elige uno de los 9 sectores antes del golpe; la CPU no lo sabe).
+		var g: Array = SpCamera.behind_goal(Vector3(gx, 0.0, 0.0), ball_spot)
+		cam.frame(g[0], g[1], g[2], true, 0.45)
+		phase = Phase.KEEPER_PICK
+		_pick_t = 0.0
+		_keeper_zone = Vector3.INF
+		picked_zone = -1
+		_zone_marker.visible = false
+		show_zone_grid(true)
+		hud.set_zoom_visible(false)
+		hud.set_actions([])
+		hud.set_hint("%s · Atajás vos: tocá uno de los 9 sectores del arco para tirarte" % _duel_round_text())
+		return
 	phase = Phase.AIM
 	_aim_camera()
 	hud.set_zoom_visible(true)
 	_aim_actions()
-	hud.set_hint("Dibujá el tiro con el dedo: el final marca a dónde va, la curva da efecto, la rapidez es la potencia")
+	if fk_duel():
+		hud.set_hint("%s · Tirás vos: dibujá el tiro con el dedo (el final marca a dónde va, la curva da efecto)" % _duel_round_text())
+	else:
+		hud.set_hint("Dibujá el tiro con el dedo: el final marca a dónde va, la curva da efecto, la rapidez es la potencia")
+
+## Duelo de tiros libres: turno siguiente (patea quien toca, desde el punto de la ronda; los dos patean desde el mismo).
+func _start_fk_duel_turn() -> void:
+	hud.hide_banner()
+	hud.hide_overlay()
+	hud.set_shootout(shootout.results[0], shootout.results[1], PenaltyShootout.REGULAR)
+	hud.set_score_text("%d - %d" % [shootout.goals(0), shootout.goals(1)])
+	if (online_match.server_done() if online_match != null else shootout.finished()):
+		_show_end()
+		return
+	var team: int = shootout.next_team()
+	user_shooting = team == PenaltyShootout.USER
+	var round_i: int = shootout.kicks(team)
+	if online_match != null:
+		user_shooting = online_match.my_shot()
+		_online_pick_sent = false
+		round_i = online_match.fk_round()
+	var d: Vector2 = FreeKickSpots.at(round_i, spot_offset)
+	ball_spot = clamp_free_kick_spot(Vector3(gx - d.x, ball.radius, d.y))
+	_setup_free_kick()
+	if online_match != null:
+		online_match.on_turn_start(user_shooting)
+
+## «Tiro libre 2 de 5» o «Muerte súbita» para el turno que empieza.
+func _duel_round_text() -> String:
+	if shootout.in_sudden_death():
+		return "Muerte súbita"
+	var team: int = PenaltyShootout.USER if user_shooting else PenaltyShootout.CPU
+	return "%s %d de %d" % ["Penal" if mode == Mode.PENALTY else "Tiro libre", shootout.kicks(team) + 1, PenaltyShootout.REGULAR]
+
+## Camisetas del tiro libre por turnos: la barrera y los defensores sueltos son del equipo que ataja; los atacantes, del que
+## patea.
+func _fk_kits(user_attacks: bool) -> void:
+	_kits_user_attack = user_attacks
+	var def_kit: Dictionary = SpSettings.CPU_KIT if user_attacks else SpSettings.USER_KIT
+	var att_kit: Dictionary = SpSettings.USER_KIT if user_attacks else SpSettings.CPU_KIT
+	for a in wall_actors:
+		a.set_kit(def_kit)
+	for a in field.defenders:
+		a.set_kit(def_kit)
+	for a in field.attackers:
+		a.set_kit(att_kit)
+
+## Tiro libre de la CPU (duelo): elige un destino sin saber a que sector se jugo el usuario. Casi siempre al lado que no
+## tapa la barrera o por encima de ella al palo del arquero, con potencia y efecto variables; a veces fuerte al medio.
+## El error de precision es el de la dificultad (SpSettings.cpu_shot_error_deg): puede pegar en la barrera o irse afuera.
+func _cpu_free_kick() -> void:
+	_take_shot(cpu_shooter, cpu_free_kick_params(), SpSettings.cpu_shot_error_deg())
+
+## Destino, potencia y curva de un tiro libre de la CPU (o del bot online) sin conocer el sector del arquero: casi siempre
+## al lado que no tapa la barrera o por encima de ella al palo del arquero; a veces fuerte al medio.
+func cpu_free_kick_params() -> ShotParams:
+	var cover: Vector3 = SpWall.cover_point(ball_spot, gx, half_goal)
+	var near: float = signf(cover.z) if absf(cover.z) > 0.05 else (1.0 if rng.randf() < 0.5 else -1.0)
+	var r: float = rng.randf()
+	var z: float = 0.0
+	var y: float = 0.0
+	var pwr: float = 0.0
+	if r < 0.5:
+		z = -near * rng.randf_range(1.0, half_goal - 0.45)
+		y = rng.randf_range(0.5, goal_h - 0.4)
+		pwr = rng.randf_range(0.55, 0.85)
+	elif r < 0.85:
+		z = near * rng.randf_range(1.2, half_goal - 0.5)
+		y = rng.randf_range(1.6, goal_h - 0.3)
+		pwr = rng.randf_range(0.6, 0.9)
+	else:
+		z = rng.randf_range(-2.4, 2.4)
+		y = rng.randf_range(0.8, 2.0)
+		pwr = rng.randf_range(0.85, 1.0)
+	return synthetic_params(Vector3(gx, y, z), pwr, rng.randf_range(-0.22, 0.22))
+
+# --- Duelo local (dos jugadores en el mismo telefono) ---------------------------------------------------------------------
+
+## Nombre del jugador del equipo t (0 o 1).
+static func local_name(t: int) -> String:
+	return String(LocalDuel.NAMES[clampi(t, 0, 1)])
+
+## Cortina de pantalla completa para pasar el telefono: tapa la escena (y el sector elegido) hasta que el siguiente toca
+## el boton. Bloquea los toques al campo mientras esta.
+func _build_curtain() -> void:
+	_curtain = ColorRect.new()
+	_curtain.name = "HandoffCurtain"
+	_curtain.color = Color(0.02, 0.04, 0.09, 0.97)
+	_curtain.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_curtain.mouse_filter = Control.MOUSE_FILTER_STOP
+	_curtain.visible = false
+	hud.root.add_child(_curtain)
+	var box := VBoxContainer.new()
+	box.set_anchors_preset(Control.PRESET_CENTER)
+	box.offset_left = -420
+	box.offset_right = 420
+	box.offset_top = -170
+	box.offset_bottom = 170
+	box.alignment = BoxContainer.ALIGNMENT_CENTER
+	box.add_theme_constant_override("separation", 26)
+	_curtain.add_child(box)
+	_curtain_title = Label.new()
+	_curtain_title.add_theme_font_size_override("font_size", 46)
+	_curtain_title.add_theme_color_override("font_color", Color(1.0, 0.84, 0.28))
+	_curtain_title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	box.add_child(_curtain_title)
+	_curtain_text = Label.new()
+	_curtain_text.add_theme_font_size_override("font_size", 26)
+	_curtain_text.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_curtain_text.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	box.add_child(_curtain_text)
+	_curtain_btn = Button.new()
+	_curtain_btn.focus_mode = Control.FOCUS_NONE
+	_curtain_btn.custom_minimum_size = Vector2(320, 84)
+	_curtain_btn.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	_curtain_btn.add_theme_font_size_override("font_size", 30)
+	_curtain_btn.pressed.connect(func() -> void: _on_action(_curtain_action))
+	box.add_child(_curtain_btn)
+
+func _show_curtain(title: String, text: String, action: StringName, button: String) -> void:
+	_curtain_title.text = title
+	_curtain_text.text = text
+	_curtain_btn.text = button
+	_curtain_action = action
+	_curtain.visible = true
+
+func curtain_visible() -> bool:
+	return _curtain != null and _curtain.visible
+
+## Turno local: primero ataja (elige el sector en secreto) y despues patea el otro. Empieza con la cortina del arquero.
+func _local_begin_turn(round_txt: String) -> void:
+	var t: int = 0 if user_shooting else 1
+	var k: int = 1 - t
+	local_step = 1
+	phase = Phase.KEEPER_PICK
+	_pick_t = 0.0
+	_keeper_zone = Vector3.INF
+	picked_zone = -1
+	_zone_marker.visible = false
+	show_zone_grid(false)
+	hud.set_actions([])
+	hud.set_zoom_visible(false)
+	hud.set_hint("")
+	var g: Array = SpCamera.behind_goal(Vector3(gx, 0.0, 0.0), ball_spot)
+	cam.frame(g[0], g[1], g[2], true, 0.45)
+	_show_curtain("%s · ATAJA %s" % [round_txt, local_name(k)], "%s: elegí en secreto el sector al que te vas a tirar.\n%s: no mires la pantalla." % [
+		local_name(k), local_name(t)], &"local_keeper_ready", "ESTOY LISTO")
+
+func _local_keeper_ready() -> void:
+	if local_step != 1:
+		return
+	_curtain.visible = false
+	local_step = 2
+	_pick_t = 0.0
+	show_zone_grid(true)
+	hud.set_hint("%s: tocá uno de los 9 sectores del arco para tirarte" % local_name(0 if not user_shooting else 1))
+
+## El arquero ya eligio: la cortina tapa el sector (ni la grilla ni la marca quedan a la vista) y pasa el telefono.
+func _local_handoff_shooter() -> void:
+	local_step = 3
+	show_zone_grid(false)
+	_zone_marker.visible = false
+	hud.set_hint("")
+	var t: int = 0 if user_shooting else 1
+	_show_curtain("PATEA %s" % local_name(t), "%s ya eligió dónde atajar.\nPasale el teléfono a %s." % [local_name(1 - t), local_name(t)],
+		&"local_shooter_ready", "A PATEAR")
+
+func _local_shooter_ready() -> void:
+	if local_step != 3:
+		return
+	_curtain.visible = false
+	local_step = 4
+	phase = Phase.AIM
+	var t: int = 0 if user_shooting else 1
+	if mode == Mode.PENALTY:
+		var f: Array = SpCamera.behind_ball(ball_spot, goal_center(), 1.0, true)
+		cam.frame(f[0], f[1], f[2], true, 0.45)
+	else:
+		_aim_camera()
+		hud.set_zoom_visible(true)
+	_aim_actions()
+	hud.set_hint("%s: deslizá el dedo desde la pelota hacia donde querés que vaya" % local_name(t))
+
+## Tiro de la CPU cuando el usuario ya eligio donde tirarse (penal o tiro libre por turnos).
+func _cpu_shot() -> void:
+	if mode == Mode.FREE_KICK:
+		_cpu_free_kick()
+	else:
+		_cpu_penalty()
 
 ## Botones mientras se apunta: cambiar de pie (diestro / zurdo) y, en el tiro libre, mover la pelota.
 func _aim_actions() -> void:
 	var list: Array = [[&"foot", "Pie: %s" % SpSettings.foot_name()]]
-	if mode == Mode.FREE_KICK:
+	if mode == Mode.FREE_KICK and not fk_duel():
 		list.push_front([&"move", "Mover balón"])
 	elif mode == Mode.CHALLENGE:
 		list.push_front([&"quit", "Salir"])
@@ -546,7 +834,15 @@ func _aim_actions() -> void:
 
 ## Cambia el pie habil del tirador del usuario y lo vuelve a parar del lado que corresponde.
 func toggle_foot() -> void:
-	if phase != Phase.AIM or not user_shooting:
+	if phase != Phase.AIM or not (user_shooting or vs == Vs.LOCAL):
+		return
+	if vs == Vs.LOCAL and not user_shooting:
+		# Jugador 2: cambia su pie sin tocar el ajuste guardado del usuario.
+		cur_shooter.foot = -cur_shooter.foot
+		var aim2: Vector3 = Vector3(1, 0, 0) if mode == Mode.PENALTY else Vector3(gx - ball_spot.x, 0.0, -ball_spot.z).normalized()
+		var st2: Vector2 = PEN_STANCE if mode == Mode.PENALTY else FK_STANCE
+		cur_shooter.stance(ball_spot, aim2, st2.x, st2.y)
+		hud.set_actions([[&"foot", "Pie: %s" % ("derecho" if cur_shooter.foot > 0 else "izquierdo")]])
 		return
 	SpSettings.foot = -SpSettings.foot
 	SpSettings.save_settings()
@@ -646,7 +942,7 @@ func _take_shot(shooter: SpShooter, p: ShotParams, error_deg: float) -> void:
 		# Online: el arquero rival se juega a su zona cuando el servidor la revela (al recibir este tiro).
 		_committed = true
 		online_match.on_user_shot(cross, cls)
-	elif _penalty_like() and cur_keeper != null and cur_keeper.actor.visible:
+	elif (_penalty_like() or fk_duel()) and cur_keeper != null and cur_keeper.actor.visible:
 		_commit_keeper(maxf(shooter.time_to_contact(), 0.0))
 
 func _on_contact(_entry: Dictionary) -> void:
@@ -655,6 +951,7 @@ func _on_contact(_entry: Dictionary) -> void:
 	_launch_measure = 2
 	# La zona elegida para atajar ya no se muestra: la pelota salio.
 	_zone_marker.visible = false
+	show_zone_grid(false)
 	recording.mark(&"contacto")
 	if mode == Mode.CHALLENGE:
 		if cur_keeper.actor.visible:
@@ -667,6 +964,15 @@ func _on_contact(_entry: Dictionary) -> void:
 				cur_keeper.read_shot(ball_spot, last_shot["velocity"], last_shot["spin"])
 		if not wall.players.is_empty() and wall.players[0].visible:
 			wall.on_kick(ball_spot, last_shot["velocity"])
+	elif fk_duel():
+		# Por turnos: los dos arqueros (usuario e IA) se juegan a un sector antes del golpe y ataja el sector correcto al
+		# alcance (la misma regla que en los penales); la barrera y los sueltos juegan igual que en la practica.
+		if not _committed:
+			_commit_keeper(0.0)
+		cur_keeper.on_kick(ball_spot, last_shot["velocity"])
+		cur_keeper.sure_save_check(last_shot["traj"], 1.0 / 60.0)
+		wall.on_kick(ball_spot, last_shot["velocity"])
+		field.on_kick(last_shot["traj"], 1.0 / 60.0)
 	elif mode == Mode.FREE_KICK:
 		cur_keeper.read_shot(ball_spot, last_shot["velocity"], last_shot["spin"])
 		wall.on_kick(ball_spot, last_shot["velocity"])
@@ -678,13 +984,69 @@ func _on_contact(_entry: Dictionary) -> void:
 		# Zona segura: si el tiro real va a la zona a la que se jugo el arquero, la ataja.
 		cur_keeper.sure_save_check(last_shot["traj"], 1.0 / 60.0)
 
+## Grilla tactil de los 9 sectores sobre el plano del arco (un poco hacia el campo, para que no la tape la red): celdas
+## translucidas con una separacion que dibuja las lineas; la elegida se pinta. Se ve de los dos lados (camara detras del
+## arco al atajar).
+func _build_zone_grid() -> void:
+	_zone_grid = Node3D.new()
+	_zone_grid.name = "ZoneGrid"
+	add_child(_zone_grid)
+	_zone_cells.clear()
+	for i in KeeperZones.COUNT:
+		var rc: Array = KeeperZones.rect(i, half_goal, goal_h)
+		var q := QuadMesh.new()
+		q.size = Vector2(float(rc[2]) - float(rc[0]) - 0.07, float(rc[3]) - float(rc[1]) - 0.07)
+		var mi := MeshInstance3D.new()
+		mi.mesh = q
+		mi.rotation.y = PI * 0.5
+		var c: Vector3 = KeeperZones.center(i, gx, half_goal, goal_h)
+		mi.position = Vector3(gx - 0.06, c.y, c.z)
+		var m := StandardMaterial3D.new()
+		m.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+		m.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+		m.cull_mode = BaseMaterial3D.CULL_DISABLED
+		m.no_depth_test = false
+		mi.material_override = m
+		mi.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+		_zone_grid.add_child(mi)
+		_zone_cells.append(mi)
+	_paint_zone_grid(-1)
+	_zone_grid.visible = false
+
+## Pinta la grilla: el sector elegido resaltado, los demas apenas marcados.
+func _paint_zone_grid(chosen: int) -> void:
+	for i in _zone_cells.size():
+		var m: StandardMaterial3D = _zone_cells[i].material_override
+		m.albedo_color = Color(1.0, 0.82, 0.18, 0.5) if i == chosen else Color(1.0, 1.0, 1.0, 0.13)
+
+## Muestra u oculta la grilla de sectores (oculta: tambien se olvida el resaltado).
+func show_zone_grid(on: bool) -> void:
+	if _zone_grid == null:
+		return
+	_zone_grid.visible = on
+	if not on:
+		_paint_zone_grid(-1)
+
+## Elige el sector i para atajar: el arquero se juega al centro del sector (KeeperZones.center).
+func pick_sector(i: int) -> void:
+	if i < 0 or i >= KeeperZones.COUNT:
+		return
+	picked_zone = i
+	var c: Vector3 = KeeperZones.center(i, gx, half_goal, goal_h)
+	_keeper_zone = c
+	_pick_t = 0.0
+	_paint_zone_grid(i)
+	_zone_marker.visible = true
+	_zone_marker.global_position = c + Vector3(-0.08, 0, 0)
+	hud.set_hint("Te tirás %s · ¡Listo! Esperá el tiro" % KeeperZones.name_of(i))
+
 ## Penal: el arquero se juega antes del contacto (lead = segundos que faltan).
 func _commit_keeper(lead: float) -> void:
 	_committed = true
 	# Velocidad que se espera por la carrera y el impulso del tirador (aproximada, no el destino del tiro).
 	var v: Vector3 = last_shot.get("velocity", Vector3(20, 0, 0))
 	var speed_guess: float = v.length() * rng.randf_range(0.88, 1.12)
-	if user_shooting:
+	if user_shooting and vs != Vs.LOCAL:
 		# La IA lee el cuerpo del tirador: la direccion de su carrera y cadera (la del golpeo elegido), no el resultado.
 		var dir: Vector3 = last_shot.get("dir", Vector3(1, 0, 0))
 		var cue: Vector3 = ball_spot + dir * ((gx - ball_spot.x) / maxf(dir.x, 0.2))
@@ -707,7 +1069,11 @@ func _physics_process(delta: float) -> void:
 	match phase:
 		Phase.KEEPER_PICK:
 			_pick_t += delta
-			if online_match != null:
+			if vs == Vs.LOCAL:
+				# Duelo local: sin tiempo limite; con el sector elegido, la cortina pasa el telefono al que patea.
+				if local_step == 2 and _keeper_zone != Vector3.INF and _pick_t > 0.6:
+					_local_handoff_shooter()
+			elif online_match != null:
 				# Online: la eleccion va al servidor (oculta para el rival) y despues patea el rival (bot o humano).
 				if _keeper_zone != Vector3.INF and _pick_t > 0.5 and not _online_pick_sent:
 					_online_pick_sent = true
@@ -715,7 +1081,7 @@ func _physics_process(delta: float) -> void:
 			elif (_keeper_zone != Vector3.INF and _pick_t > 0.5) or _pick_t > 6.0:
 				if _keeper_zone == Vector3.INF:
 					_keeper_zone = Vector3(gx, 1.0, 0.0)
-				_cpu_penalty()
+				_cpu_shot()
 		Phase.RUNUP:
 			# Camara de TV: al soltar el trazo el plano pasa a la transmision lateral.
 			if _tv_on():
@@ -747,7 +1113,7 @@ func _physics_process(delta: float) -> void:
 			# Penal: si el arquero esta yendo a recoger la pelota suelta o todavia se levanta para reaccionar, se le deja
 			# terminar (hasta 6 s): antes el turno siguiente cortaba la reaccion de un arquero que tardaba en levantarse.
 			# Cuando su reaccion empieza, se ve al menos 1,2 s.
-			if not fast and mode == Mode.PENALTY:
+			if not fast and duel_like():
 				if _keeper_react_at < 0.0 and cur_keeper.state == SpKeeper.State.REACT:
 					_keeper_react_at = _result_t
 				if loose.active() or cur_keeper.reaction_pending():
@@ -855,18 +1221,24 @@ func _finish(why: String) -> void:
 		sub = "La atrapó" if _keeper_touch == &"catch" else "La desvió"
 	elif why == "miss" and String(last_shot.get("class", "")) == "high":
 		sub = "Por encima del travesaño"
-	if not user_shooting and mode == Mode.PENALTY:
+	if vs == Vs.LOCAL:
+		var st: int = 0 if user_shooting else 1
+		texts["goal"] = ["¡GOL DE %s!" % local_name(st), Color(0.35, 1.0, 0.45)]
+		texts["save"] = ["¡ATAJÓ %s!" % local_name(1 - st), Color(0.4, 0.75, 1.0)]
+	elif not user_shooting and duel_like():
 		texts["save"] = ["¡LA ATAJASTE!", Color(0.35, 1.0, 0.45)]
 		texts["goal"] = ["GOL DE LA CPU", Color(1.0, 0.45, 0.45)]
 	hud.show_banner(texts[why][0], texts[why][1], sub)
-	# Logros y desafios diarios (no en partidas rapidas de prueba).
-	if not fast:
+	# Logros y desafios diarios (no en partidas rapidas de prueba ni en el duelo local: dos jugadores en un telefono no
+	# suman premios jugando entre ellos).
+	if not fast and vs != Vs.LOCAL:
 		if goal_ok and user_shooting:
 			Achievements.event(&"gol")
 			Achievements.event(&"gol_tl" if mode == Mode.FREE_KICK else &"gol_penal")
-		elif why == "save" and mode == Mode.PENALTY and not user_shooting:
+		elif why == "save" and duel_like() and not user_shooting:
 			Achievements.event(&"atajada")
-	crowd_react(goal_ok == user_shooting, why)
+	# El publico festeja igual goles y atajadas (en el duelo local los dos son del usuario: festeja ambos).
+	crowd_react((why == "goal" or why == "save") if vs == Vs.LOCAL else goal_ok == user_shooting, why)
 	_keeper_ball_done = false
 	# Pelota suelta en el area o cerca: el arquero va a recogerla o un defensor la despeja (ese no reacciona: juega).
 	chaser = null
@@ -895,7 +1267,9 @@ func _finish(why: String) -> void:
 	if not fast:
 		acts.push_front([&"skip", "Saltar"])
 	hud.set_actions(acts)
-	if mode == Mode.PENALTY:
+	if local != null:
+		local.record_shot(0 if user_shooting else 1, why)
+	if duel_like():
 		shootout.record(PenaltyShootout.USER if user_shooting else PenaltyShootout.CPU, goal_ok)
 		hud.set_shootout(shootout.results[0], shootout.results[1], PenaltyShootout.REGULAR)
 		hud.set_score_text("%d - %d" % [shootout.goals(0), shootout.goals(1)])
@@ -1220,6 +1594,10 @@ func _after_result() -> void:
 	recording.stop()
 	if mode == Mode.PENALTY:
 		_start_penalty_turn()
+	elif fk_duel():
+		cam.follow = null
+		cam.stop_shake()
+		_start_fk_duel_turn()
 	elif mode == Mode.CHALLENGE:
 		if runner.finished:
 			_show_challenge_end()
@@ -1393,7 +1771,15 @@ func _show_end() -> void:
 		w = -1 if uw == null else (PenaltyShootout.USER if bool(uw) else PenaltyShootout.CPU)
 	var t: String = "¡GANASTE!" if w == PenaltyShootout.USER else ("EMPATE" if w == -1 else "PERDISTE")
 	hud.set_hint("")
-	hud.show_overlay(t, "Tanda de penales  %d - %d" % [shootout.goals(0), shootout.goals(1)],
+	show_zone_grid(false)
+	if local != null:
+		local.record_match(w)
+		set_crowd_mood(1.0, 0.0, 8.0)
+		hud.show_overlay("¡GANÓ %s!" % local_name(w) if w >= 0 else "EMPATE", "%s  %d - %d\n%s" % [
+			"Tanda de penales" if mode == Mode.PENALTY else "Duelo de tiros libres", shootout.goals(0), shootout.goals(1),
+			local.summary()], [[&"rematch", "Revancha"], [&"menu", "Menú"]])
+		return
+	hud.show_overlay(t, "%s  %d - %d" % ["Tanda de penales" if mode == Mode.PENALTY else "Duelo de tiros libres", shootout.goals(0), shootout.goals(1)],
 		[[&"menu", "Menú"]] if online_match != null else [[&"rematch", "Revancha"], [&"menu", "Menú"]])
 	if online_match != null:
 		online_match.on_end(w == PenaltyShootout.USER)
@@ -1404,7 +1790,7 @@ func _show_end() -> void:
 			Achievements.event(&"tanda")
 	if not fast and online_match == null:
 		# Partida offline: al servidor solo va si gano (el premio lo calcula el servidor).
-		OnlineHooks.reward("offline_match", {"mode": "penales", "won": w == PenaltyShootout.USER})
+		OnlineHooks.reward("offline_match", {"mode": "penales" if mode == Mode.PENALTY else "tiros_libres", "won": w == PenaltyShootout.USER})
 
 func _on_goal_scored(g: Goal, pos: Vector3) -> void:
 	if g == goal and phase == Phase.FLIGHT:
@@ -1465,7 +1851,7 @@ func _on_press(pos: Vector2, pressed: bool) -> void:
 			if pressed:
 				_place_at(pos)
 		Phase.KEEPER_PICK:
-			if pressed:
+			if pressed and (vs != Vs.LOCAL or local_step == 2):
 				_pick_zone(pos)
 		Phase.AIM:
 			if pressed:
@@ -1534,15 +1920,11 @@ func _pick_zone(screen: Vector2) -> void:
 	var t: float = (gx - o.x) / d.x
 	var p: Vector3 = o + d * t
 	p.x = gx
-	p.y = clampf(p.y, 0.25, goal_h - 0.2)
-	p.z = clampf(p.z, -half_goal + 0.2, half_goal - 0.2)
-	# El arquero se juega a este punto; la zona del arco que lo contiene (KeeperZones, interna, no se dibuja) decide la
-	# atajada segura: cualquier tiro que entre en esa zona lo ataja.
-	_keeper_zone = p
-	_pick_t = 0.0
-	_zone_marker.visible = true
-	_zone_marker.global_position = p + Vector3(-0.05, 0, 0)
-	hud.set_hint("¡Listo! Esperá el tiro")
+	p.y = clampf(p.y, 0.05, goal_h - 0.05)
+	p.z = clampf(p.z, -half_goal + 0.05, half_goal - 0.05)
+	# Toque sobre la grilla: el sector que lo contiene (KeeperZones, 3 x 3). La atajada segura depende de ese sector y del
+	# alcance fisico (KeeperReach).
+	pick_sector(KeeperZones.zone_of(p, half_goal, goal_h))
 
 ## Tiro del usuario desde el gesto: propiedades -> parametros -> fisica -> golpeo.
 func _user_shot_from_gesture() -> void:
@@ -1559,7 +1941,8 @@ func shoot_params(p: ShotParams) -> void:
 	if phase != Phase.AIM:
 		return
 	GestureShotModel.solve(p, ball_spot, shot_context(), false)
-	_take_shot(user_shooter, p, p.error_deg)
+	# Duelo local: patea el jugador al que le toca (el tirador del equipo 1 es el del segundo jugador).
+	_take_shot(cur_shooter if vs == Vs.LOCAL else user_shooter, p, p.error_deg)
 	if diag.visible:
 		diag.show_shot(last_features, p, String(last_shot.get("entry", {}).get("id", "")), -1.0)
 
@@ -1569,6 +1952,13 @@ func shoot(target: Vector3, pwr: float, curve: float) -> void:
 	var t: GestureTuning = GestureTuning.current()
 	var f := {"length": t.length_full, "avg_speed": lerpf(t.speed_slow, t.speed_fast, pwr), "peak_speed": lerpf(t.speed_slow, t.speed_fast, pwr),
 		"smoothness": 1.0, "vertical": 0.3, "end_dir": Vector2(0, -1), "end_accel": 0.0, "curvature": curve}
+	last_features = f
+	shoot_params(synthetic_params(target, pwr, curve))
+
+## Parametros de un trazo largo y limpio hacia target (potencia 0..1, curvatura + derecha), con el mismo modelo del gesto:
+## los usan las pruebas y el tirador de la CPU en los tiros libres por turnos.
+func synthetic_params(target: Vector3, pwr: float, curve: float) -> ShotParams:
+	var t: GestureTuning = GestureTuning.current()
 	var p := ShotParams.new()
 	p.gesture_length = t.length_full
 	p.smoothness = 1.0
@@ -1582,8 +1972,8 @@ func shoot(target: Vector3, pwr: float, curve: float) -> void:
 	p.accuracy = 1.0
 	p.gesture_type = GestureShotModel.classify(p, t, goal_h)
 	GestureShotModel._apply_type(p, shot_context(), t, 0.0)
-	last_features = f
-	shoot_params(p)
+	GestureShotModel.solve(p, ball_spot, shot_context(), false)
+	return p
 
 ## Comparador del panel de diagnostico: trazos sinteticos desde la pelota hacia el arco (no patea).
 func _compare_gestures() -> void:
@@ -1613,16 +2003,27 @@ func _on_action(id: StringName) -> void:
 		&"foot":
 			toggle_foot()
 		&"move":
-			if mode == Mode.FREE_KICK and phase in [Phase.AIM, Phase.OVER]:
+			if mode == Mode.FREE_KICK and not fk_duel() and phase in [Phase.AIM, Phase.OVER]:
 				_enter_place()
 		&"again":
-			if mode == Mode.FREE_KICK and phase == Phase.OVER:
+			if mode == Mode.FREE_KICK and not fk_duel() and phase == Phase.OVER:
 				hud.hide_banner()
 				cam.follow = null
 				_setup_free_kick()
+		&"local_keeper_ready":
+			_local_keeper_ready()
+		&"local_shooter_ready":
+			_local_shooter_ready()
 		&"rematch":
 			shootout.reset()
-			_start_penalty_turn()
+			if local != null:
+				local.reset_match()
+				# Igualdad de oportunidades: en la revancha empieza pateando el otro.
+				shootout.first = local.first_shooter()
+			if fk_duel():
+				_start_fk_duel_turn()
+			else:
+				_start_penalty_turn()
 		&"replay":
 			start_replay()
 		&"skip":

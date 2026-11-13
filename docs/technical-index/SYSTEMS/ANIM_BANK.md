@@ -15,7 +15,7 @@
   - el CI falla si vuelven a la APK.
 - **Estado real:** un solo cuerpo y un solo banco; **no probado en el teléfono.**
 - **Última verificación:** <!-- AUTO:verified -->
-2026-11-12
+2026-11-13
 <!-- /AUTO -->
 
 ## Archivos responsables

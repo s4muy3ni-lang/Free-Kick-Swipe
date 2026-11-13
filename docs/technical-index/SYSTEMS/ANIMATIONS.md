@@ -5,7 +5,7 @@
 - **Responsabilidad exacta:** presentar al futbolista: cargar el modelo de Tripo3D (`player_base.glb`, esqueleto único v1.0 de 23 huesos `mixamorig_*`), recolorearlo por regiones (camiseta, short, medias, botines, piel, pelo), animarlo con un `AnimationTree` (locomoción mezclada por velocidad + acciones de una sola vez) y superponer la patada **procedural** (los clips de Tripo no traen patadas).
 - **Estado:** modelo, locomoción (idle/walk/run), kit y patada procedural **implementados y probados**. **Desde la integración del pack** (ver [ANIMATION_PACK](ANIMATION_PACK.md)) el visual usa, si existe la librería local `pack_clips.res`, los clips de Mixamo para la marcha, la patada con contacto por pie, la recepción y las reacciones de gol; los clips de Tripo y la patada procedural son el **respaldo** (sin la librería, o con `FootballerVisual.prefer_pack = false`). Las 9 acciones (`celebrate_goal`, `dejected`, `frustrated`, `jump`, `turn`, `fall`, `dive`, `keeper_catch_high`, `keeper_scoop_low`) **existen en el árbol pero nada en el juego las dispara todavía** (no hay ningún llamador de `FootballerVisual.play_action` en `scripts/`). El clip `defensive_stance` está en la librería pero **no está conectado** al árbol.
 - **Última verificación:** <!-- AUTO:verified -->
-2026-11-12
+2026-11-13
 <!-- /AUTO -->
 
 ## Archivos responsables

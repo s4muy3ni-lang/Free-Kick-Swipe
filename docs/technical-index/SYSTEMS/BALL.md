@@ -6,7 +6,7 @@
 - **Principio de diseño:** la pelota nunca se coloca en el pie ni se anula su velocidad para simular control; los jugadores solo la cambian con `Ball.kick`/`Ball.push` en el instante del contacto.
 - **Estado:** implementado.
 - **Última verificación:** <!-- AUTO:verified -->
-2026-11-12
+2026-11-13
 <!-- /AUTO -->
 
 ## Archivos responsables

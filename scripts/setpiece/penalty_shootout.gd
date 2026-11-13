@@ -9,13 +9,16 @@ const USER := 0
 const CPU := 1
 
 var results: Array = [[], []]
+## Equipo que patea primero (el usuario; en el duelo local se alterna en cada revancha).
+var first: int = USER
 
 func reset() -> void:
 	results = [[], []]
 
-## Equipo al que le toca tirar (empieza el usuario).
+## Equipo al que le toca tirar.
 func next_team() -> int:
-	return USER if (results[USER] as Array).size() <= (results[CPU] as Array).size() else CPU
+	var other: int = 1 - first
+	return first if (results[first] as Array).size() <= (results[other] as Array).size() else other
 
 func record(team: int, goal: bool) -> void:
 	(results[team] as Array).append(goal)

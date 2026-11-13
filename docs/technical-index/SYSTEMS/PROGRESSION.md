@@ -5,7 +5,7 @@
 - **Responsabilidad exacta (lo implementado):** `PlayerAttributes` (`Resource`): 23 atributos de campo y 8 de arquero en escala 1–100, separados de la identidad y la apariencia. Los atributos **no sustituyen la física**: escalan parámetros, tolerancias y errores dentro de límites (`factor(clave, spread)` → 1.0 con valor 50; `norm(clave)` → 0..1).
 - **Estado real: parcial.** No hay experiencia, niveles, entrenamiento, recompensas, estadísticas por jugador, editor de personaje (`scenes/character_creator/` está vacío), guardado/carga de jugadores ni economía. No hay monetización con dinero real ni existe código para ella.
 - **Última verificación:** <!-- AUTO:verified -->
-2026-11-12
+2026-11-13
 <!-- /AUTO -->
 
 ## Archivos responsables

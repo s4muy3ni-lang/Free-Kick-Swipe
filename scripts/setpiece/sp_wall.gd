@@ -98,7 +98,10 @@ func _physics_process(delta: float) -> void:
 			_jump_at[i] = -1.0
 			var a: SpActor = players[i]
 			a.play_here(a.get_meta("jump_clip", &""), 0.1)
-			a.clip_finished.connect(_after_jump.bind(a), CONNECT_ONE_SHOT)
+			# Si el salto anterior no termino (la jugada siguiente acomodo la barrera antes), su aviso sigue conectado.
+			var cb: Callable = _after_jump.bind(a)
+			if not a.clip_finished.is_connected(cb):
+				a.clip_finished.connect(cb, CONNECT_ONE_SHOT)
 
 func _after_jump(_id: StringName, a: SpActor) -> void:
 	if not _stand.is_empty():

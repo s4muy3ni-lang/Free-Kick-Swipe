@@ -2,7 +2,7 @@
 
 Visión transversal del proyecto Godot 4.7.2 (GDScript, renderer GL Compatibility, física Jolt a 60 Hz).
 Para localizar algo concreto, usar primero [INDEX.md](INDEX.md). Última sincronización: <!-- AUTO:verified -->
-2026-11-12
+2026-11-13
 <!-- /AUTO -->
 
 ## 1. Capas y responsabilidades

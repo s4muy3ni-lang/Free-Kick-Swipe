@@ -163,8 +163,13 @@ func open_offline() -> void:
 	_clear("JUGAR OFFLINE")
 	_content.add_child(_lbl("Contra la CPU, sin conexión. Lo que ganes se sincroniza después con tu cuenta.", 22))
 	var r := _row()
-	for m in [["PENALES", "Tanda contra la CPU: tirás y atajás.", "penal", Color(0.08, 0.3, 0.75), SetPieceGame.Mode.PENALTY],
-			["TIRO LIBRE", "Elegí dónde patear: barrera y arquero.", "tiro_libre", Color(0.1, 0.5, 0.25), SetPieceGame.Mode.FREE_KICK]]:
+	# Cada modo con sus variantes (pedido del usuario): contra la CPU se alternan tiro y atajada; en el tiro libre sigue la
+	# practica libre de siempre (elegís dónde patear, sin turnos).
+	for m in [["PENALES", "Tanda contra la CPU: tirás y atajás eligiendo uno de los 9 sectores.", "penal", Color(0.08, 0.3, 0.75), SetPieceGame.Mode.PENALTY,
+				[["PENALES CONTRA LA CPU", SetPieceGame.Vs.CPU], ["PENALES · 2 JUGADORES (MISMO TELÉFONO)", SetPieceGame.Vs.LOCAL]]],
+			["TIROS LIBRES", "Duelo contra la CPU desde los mismos puntos: pateás vos, ataja la CPU, y al revés.", "tiro_libre", Color(0.1, 0.5, 0.25), SetPieceGame.Mode.FREE_KICK,
+				[["TIRO LIBRE: DUELO CONTRA LA CPU", SetPieceGame.Vs.CPU], ["TIRO LIBRE · 2 JUGADORES (MISMO TELÉFONO)", SetPieceGame.Vs.LOCAL],
+				["TIRO LIBRE: PRÁCTICA LIBRE", SetPieceGame.Vs.PRACTICE]]]]:
 		var cb: Array = _card_box(m[3], 400)
 		# Miniatura del modo (pedido del usuario: cada modo con su imagen).
 		var th: String = ChallengeMenu.thumb_for("penales" if m[4] == SetPieceGame.Mode.PENALTY else "tiro_libre")
@@ -181,9 +186,12 @@ func open_offline() -> void:
 		cb[1].add_child(h)
 		cb[1].add_child(_lbl(m[1], 20))
 		var mode: int = m[4]
-		var b := _btn("JUGAR", func() -> void: play_offline.emit(mode))
-		b.text = "JUGAR " + String(m[0])
-		cb[1].add_child(b)
+		for v in m[5]:
+			var vs_kind: int = v[1]
+			var b := _btn(String(v[0]), func() -> void:
+				SetPieceGame.next_vs = vs_kind
+				play_offline.emit(mode))
+			cb[1].add_child(b)
 		r.add_child(cb[0])
 
 # --- JUGAR ONLINE ---------------------------------------------------------------------------------------------------
@@ -365,8 +373,9 @@ func _mode_tile(gm: Dictionary) -> Button:
 	name.offset_top = -38
 	name.offset_bottom = -8
 	b.add_child(name)
-	var tag: PanelContainer = _tag("1 VS 1" if id == "penales" else ("VS BOT" if ready else "PRÓXIMAMENTE"),
-		Color(0.45, 1.0, 0.55) if id == "penales" else (GOLD if ready else Color(0.6, 0.62, 0.7)))
+	var turns_mode: bool = id in ["penales", "tiros_libres"]
+	var tag: PanelContainer = _tag("1 VS 1" if turns_mode else ("VS BOT" if ready else "PRÓXIMAMENTE"),
+		Color(0.45, 1.0, 0.55) if turns_mode else (GOLD if ready else Color(0.6, 0.62, 0.7)))
 	tag.anchor_left = 1.0
 	tag.anchor_right = 1.0
 	tag.offset_left = -8
@@ -455,7 +464,7 @@ func _show_mode_detail(gm: Dictionary) -> void:
 	var rv := HBoxContainer.new()
 	rv.add_theme_constant_override("separation", 8)
 	rv.add_child(MenuIcon.new("perfil", Color(0.75, 0.85, 1.0), 24))
-	var rival_txt: String = "Rival: un jugador; si nadie aparece enseguida, un bot." if id == "penales" else "Rival: un bot difícil (entre humanos, pronto)."
+	var rival_txt: String = "Rival: un jugador; si nadie aparece enseguida, un bot." if id in ["penales", "tiros_libres"] else "Rival: un bot difícil (entre humanos, pronto)."
 	var rl := _lbl(rival_txt if ready else "Todavía no se puede jugar online.", 16, Color(0.85, 0.88, 0.95))
 	rl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	rv.add_child(rl)
@@ -544,9 +553,13 @@ func _search(mode: String, fee: int) -> void:
 		_search_box.queue_free()
 	if _searching and not view.is_empty():
 		_searching = false
-		if mode != "penales" and OnlineDuel.start(get_tree(), mode, view):
+		# Penales y tiros libres: partida por turnos con autoridad del servidor (roles alternados, el arquero elige uno de
+		# los 9 sectores oculto). Los minijuegos van por OnlineDuel.
+		if mode not in ["penales", "tiros_libres"] and OnlineDuel.start(get_tree(), mode, view):
 			return
 		OnlineMatch.pending = view
+		SetPieceGame.next_mode = SetPieceGame.Mode.FREE_KICK if mode == "tiros_libres" else SetPieceGame.Mode.PENALTY
+		SetPieceGame.next_vs = SetPieceGame.Vs.CPU
 		get_tree().change_scene_to_file(SetPieceGame.SCENE)
 	_searching = false
 

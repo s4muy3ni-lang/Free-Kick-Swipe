@@ -136,6 +136,8 @@ func call_rpc(fn: String, a: Dictionary = {}) -> Dictionary:
 		"cancel_search": _db.erase("queue"); _save(); return _ok(null)
 		"start_bot_match": return _start_bot_match(String(a.get("p_mode", "")))
 		"get_match": return _ok(_match_view())
+		"choose_minigame": return _choose_minigame(String(a.get("p_mode", "")), int(a.get("p_level", 0)), bool(a.get("p_random", false)))
+		"rematch_bot": return _rematch_bot()
 		"submit_turn": return _submit_turn(String(a.get("p_kind", "")), a.get("p_payload", {}), a.get("p_side", null))
 		"claim_timeout": return _claim_timeout()
 		"leave_match": return _leave_match()
@@ -427,6 +429,53 @@ func _active_match() -> Dictionary:
 	var m: Dictionary = _db.get("match", {})
 	return m if String(m.get("status", "")) == "active" else {}
 
+## Minijuegos online (pedido del usuario: «elegir minijuego + nivel, o aleatorio»): antes del primer turno el jugador elige
+## (o sortea el servidor) la modalidad y el nivel; vale solo si la modalidad es un minijuego online y el nivel esta en su
+## lista (scene_def.levels, la del contenido real). Queda guardado en la partida (minigame).
+func _choose_minigame(mode: String, level: int, random: bool) -> Dictionary:
+	var m: Dictionary = _active_match()
+	if m.is_empty():
+		return _err("no hay partida activa")
+	if not (m.get("turns", []) as Array).is_empty() or int(m["shot_n"]) > 0:
+		return _err("la partida ya empezo")
+	var options: Array = []
+	for gm in seed_data.get("game_modes", []):
+		if String(gm.get("kind", "")) == "minijuego" and bool(gm.get("online", true)) and (gm.get("scene_def", {}) as Dictionary).has("levels"):
+			options.append(gm)
+	if random:
+		var gm_r: Dictionary = options[rng.randi_range(0, options.size() - 1)]
+		var lv: Array = gm_r["scene_def"]["levels"]
+		mode = String(gm_r["id"])
+		level = int(lv[rng.randi_range(0, lv.size() - 1)])
+	var gm: Dictionary = {}
+	for o in options:
+		if String(o["id"]) == mode:
+			gm = o
+	if gm.is_empty():
+		return _err("minijuego invalido")
+	if not (gm["scene_def"]["levels"] as Array).map(func(x: Variant) -> int: return int(x)).has(level):
+		return _err("nivel invalido")
+	m["mode"] = mode
+	m["minigame"] = {"mode": mode, "game": String(gm["scene_def"].get("game", "")), "level": level, "random": random}
+	_save()
+	return _ok(_match_view())
+
+## Revancha contra el mismo bot (sin volver a esperar un humano: la partida anterior ya era contra el bot), sin entrada.
+func _rematch_bot() -> Dictionary:
+	var old: Dictionary = _db.get("match", {})
+	if old.is_empty() or String(old.get("status", "")) == "active" or not (old.get("bot") is Dictionary):
+		return _err("no hay partida terminada contra un bot")
+	var gm: Dictionary = _mode(String(old["mode"]))
+	_db["match"] = {"id": _uuid(), "mode": old["mode"], "status": "active", "bot": old["bot"], "entry_fee": 0,
+		"rounds": int(gm["rounds"]), "turn_seconds": int(gm["turn_seconds"]), "shot_n": 0, "shooter": 0,
+		"turn_deadline": now() + _turn_window(gm), "score_a": 0, "score_b": 0, "timeouts_a": 0, "timeouts_b": 0,
+		"winner": null, "settled": false, "turns": [], "chat": [],
+		"spot_offset": rng.randi_range(0, FreeKickSpots.SPOTS.size() - 1)}
+	_save()
+	var v: Dictionary = _match_view()
+	v["status"] = "matched"
+	return _ok(v)
+
 func _find_match(mode: String, fee: int) -> Dictionary:
 	var gm: Dictionary = _mode(mode)
 	if gm.is_empty():
@@ -465,7 +514,8 @@ func _start_bot_match(mode: String) -> Dictionary:
 	_db["match"] = {"id": _uuid(), "mode": mode, "status": "active", "bot": bot, "entry_fee": fee,
 		"rounds": int(gm["rounds"]), "turn_seconds": int(gm["turn_seconds"]), "shot_n": 0, "shooter": 0,
 		"turn_deadline": now() + _turn_window(gm), "score_a": 0, "score_b": 0, "timeouts_a": 0, "timeouts_b": 0,
-		"winner": null, "settled": false, "turns": [], "chat": []}
+		"winner": null, "settled": false, "turns": [], "chat": [],
+		"spot_offset": rng.randi_range(0, FreeKickSpots.SPOTS.size() - 1)}
 	if fee > 0:
 		_grant(-fee, 0, 0, "entrada", "fee:" + String(_db["match"]["id"]))
 	_save()
@@ -504,7 +554,7 @@ func _submit_turn(kind: String, payload: Dictionary, p_side: Variant) -> Diction
 		if String(gm["kind"]) == "minijuego" or side == int(m["shooter"]):
 			return _err("ahora no te toca atajar")
 		var kz: int = int(payload.get("zone", -9))
-		if kz < -1 or kz > 5:
+		if kz < -1 or kz >= KeeperZones.COUNT:
 			return _err("zona invalida")
 		for t in m["turns"]:
 			if int(t["shot_n"]) == int(m["shot_n"]) and String(t["kind"]) == "keeper_pick":
@@ -522,20 +572,37 @@ func _submit_turn(kind: String, payload: Dictionary, p_side: Variant) -> Diction
 		if outcome not in ["goal", "save", "miss", "post"]:
 			return _err("resultado invalido")
 		var cz: int = int(payload.get("cross_zone", -1))
+		var keeper_z: float = 0.0
+		var min_flight: float = REACH_FLIGHT.x
+		if String(gm["kind"]) == "tiros_libres" and not bool(payload.get("timed_out", false)):
+			# Tiro libre: el punto de tiro lo fija el servidor (ronda = tiro / 2); el informado tiene que coincidir. El arquero
+			# se para donde corresponde a ese punto (FreeKickSpots.keeper_z) y la pelota tarda al menos FK_MIN_FLIGHT.
+			var want: Vector2 = FreeKickSpots.at(int(m["shot_n"]) / 2, int(m.get("spot_offset", 0)))
+			var got: Array = payload.get("spot", [])
+			if got.size() < 2 or absf(float(got[0]) - want.x) > 0.6 or absf(float(got[1]) - want.y) > 0.6:
+				return _err("punto de tiro invalido")
+			keeper_z = FreeKickSpots.keeper_z(want.y, REACH_HALF)
+			min_flight = FK_MIN_FLIGHT
 		var kz: Variant = null
 		for t in m["turns"]:
 			if int(t["shot_n"]) == int(m["shot_n"]) and String(t["kind"]) == "keeper_pick":
 				kz = int(t["payload"]["zone"])
 				t["revealed"] = true
-		if outcome == "goal" and (cz < 0 or cz > 5):
+		var reach: Dictionary = keeper_rule(payload, keeper_z, min_flight)
+		if reach.has("zone"):
+			cz = int(reach["zone"])
+		if outcome == "goal" and (cz < 0 or cz >= KeeperZones.COUNT):
 			outcome = "miss"
-		if outcome == "goal" and kz != null and int(kz) == cz:
+		# Regla de atajada (la misma que el juego): sector elegido por el arquero Y punto a su alcance fisico. Pegado al
+		# angulo o muy rapido para la distancia, es gol aunque haya elegido bien el sector.
+		if outcome == "goal" and kz != null and int(kz) == cz and bool(reach.get("reachable", true)):
 			outcome = "save"
 		if late or bool(payload.get("timed_out", false)):
 			outcome = "miss"
 		pts = 1 if outcome == "goal" else 0
 		var pl: Dictionary = payload.duplicate()
-		pl.merge({"outcome": outcome, "keeper_zone": kz, "late": late}, true)
+		pl.merge({"outcome": outcome, "keeper_zone": kz, "late": late, "cross_zone": cz,
+			"reachable": bool(reach.get("reachable", true))}, true)
 		m["turns"].append({"shot_n": m["shot_n"], "side": side, "kind": "shot", "payload": pl})
 	else:
 		pts = clampi(int(payload.get("points", 0)), 0, int(gm["max_points_per_turn"]))
@@ -556,6 +623,23 @@ func _submit_turn(kind: String, payload: Dictionary, p_side: Variant) -> Diction
 		_advance(m, gm)
 	_save()
 	return _ok(_match_view())
+
+## Alcance del arquero para la regla del servidor (como la funcion SQL keeper_reach_check): con el cruce informado
+## (alto y ancho) recalcula el sector (el informado no manda) y, con el tiempo de vuelo acotado a lo posible
+## (REACH_FLIGHT), si el punto esta al alcance de un arquero parado en el centro que se jugo antes del golpe (anticipa
+## SpKeeper.PENALTY_ANTICIPATION). Sin cruce (clientes viejos) no hay chequeo de alcance: vale el sector informado.
+## En los tiros libres el arquero no esta en el centro (keeper_z) y la pelota tarda mas (min_flight).
+const REACH_FLIGHT := Vector2(0.3, 3.0)
+const FK_MIN_FLIGHT := 0.5
+const REACH_HALF := 3.66
+const REACH_H := 2.44
+static func keeper_rule(payload: Dictionary, keeper_z: float = 0.0, min_flight: float = REACH_FLIGHT.x) -> Dictionary:
+	if not payload.has("cross_y") or not payload.has("cross_z"):
+		return {}
+	var p := Vector3(0.0, float(payload["cross_y"]), float(payload["cross_z"]))
+	var t: float = clampf(float(payload.get("flight", min_flight)), min_flight, REACH_FLIGHT.y)
+	return {"zone": KeeperZones.zone_of(p, REACH_HALF, REACH_H),
+		"reachable": KeeperReach.reachable(p, keeper_z, t + SpKeeper.PENALTY_ANTICIPATION)}
 
 func _advance(m: Dictionary, gm: Dictionary) -> void:
 	var n: int = int(m["shot_n"]) + 1

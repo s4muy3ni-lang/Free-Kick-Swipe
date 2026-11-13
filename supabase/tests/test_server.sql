@@ -195,3 +195,79 @@ select claim_season_tier(1, false);
 select t_ok((get_my_state() -> 'profile' ->> 'coins')::int = current_setting('t.coins')::int + 55, 'nivel 1 de temporada cobrado una sola vez (55)');
 select t_err($$select claim_season_tier(2, true)$$, 'premium', 'el premio premium pide el pase');
 reset role;
+
+-- ---- Atajadas por 9 sectores con alcance fisico (migracion 20261113000006) -----------------------------------------
+select t_ok(keeper_zone_of(0.3, -3.0) = 0 and keeper_zone_of(1.2, 0.0) = 4 and keeper_zone_of(2.3, 3.4) = 8,
+	'9 sectores: abajo a un palo 0, centro 4, angulo del otro palo 8');
+select t_ok(keeper_zone_of(2.6, 0.0) = -1 and keeper_zone_of(0.5, 3.9) = -1, 'afuera del arco no es sector');
+select t_ok(keeper_reachable(0.4, 2.6, 0.6), 'abajo a 2,6 m del centro con tiempo: llega');
+select t_ok(not keeper_reachable(2.3, 3.4, 0.5), 'pegado al angulo: no llega aunque elija el sector');
+select t_ok(keeper_reachable(0.4, 3.4, 0.7) and not keeper_reachable(0.4, 3.4, 0.35), 'pegado al palo abajo: lento llega, muy rapido no');
+select t_ok(keeper_reachable(0.4, 3.4, 0.01) = keeper_reachable(0.4, 3.4, 0.3), 'el tiempo de vuelo informado se acota a lo posible');
+insert into auth.users (id, email) values ('00000000-0000-0000-0000-000000000004', 'd@x'),
+	('00000000-0000-0000-0000-000000000005', 'e@x');
+set role authenticated;
+select set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-000000000004', false);
+select create_profile('Cuarto', 'Cuarto');
+select t_ok(find_match('penales', 0) ->> 'status' = 'searching', 'u4 busca rival');
+select set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-000000000005', false);
+select create_profile('Quinto', 'Quinto');
+select set_config('t.m3', (find_match('penales', 0) -> 'match' ->> 'id'), false);
+-- Tiro 0: patea u4. u5 se juega al angulo (sector 8) y el tiro va ahi, pegado al angulo: gol igual.
+select submit_turn(current_setting('t.m3')::uuid, 'keeper_pick', '{"zone": 8}');
+select set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-000000000004', false);
+select t_ok((submit_turn(current_setting('t.m3')::uuid, 'shot',
+	'{"cross_zone": 8, "outcome": "goal", "cross_y": 2.3, "cross_z": 3.4, "flight": 0.5}') -> 'match' ->> 'score_a')::int = 1,
+	'sector correcto pero fuera del alcance (angulo): gol');
+select t_ok((select (t -> 'payload' ->> 'reachable')::boolean from jsonb_array_elements(get_match(current_setting('t.m3')::uuid) -> 'turns') t
+	where t ->> 'kind' = 'shot') = false, 'queda registrado que no llegaba');
+-- Tiro 1: patea u5. u4 se juega arriba a la derecha (sector 6) y el tiro va ahi, a su alcance: atajada.
+select submit_turn(current_setting('t.m3')::uuid, 'keeper_pick', '{"zone": 6}');
+select set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-000000000005', false);
+select t_ok((submit_turn(current_setting('t.m3')::uuid, 'shot',
+	'{"cross_zone": 6, "outcome": "goal", "cross_y": 2.0, "cross_z": -2.0, "flight": 0.6}') -> 'match' ->> 'score_b')::int = 0,
+	'sector correcto y al alcance: atajada');
+-- Tiro 2: patea u4. u5 elige el centro; el tirador informa sector 4 pero el cruce es abajo a un palo: el servidor
+-- recalcula el sector con el cruce (gol).
+select t_err($$select submit_turn(current_setting('t.m3')::uuid, 'keeper_pick', '{"zone": 9}')$$, 'invalida', 'no hay sector 9');
+select submit_turn(current_setting('t.m3')::uuid, 'keeper_pick', '{"zone": 4}');
+select set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-000000000004', false);
+select t_ok((submit_turn(current_setting('t.m3')::uuid, 'shot',
+	'{"cross_zone": 4, "outcome": "goal", "cross_y": 0.4, "cross_z": -3.0, "flight": 0.6}') -> 'match' ->> 'score_a')::int = 2,
+	'el sector informado no manda: vale el cruce');
+reset role;
+
+-- ---- Tiros libres online por turnos (punto de tiro del servidor y arquero corrido) --------------------------------
+select t_ok((fk_spot(0, 0))[1][1] = 22.0 and (fk_spot(0, 0))[1][2] = -7.0 and (fk_spot(8, 0))[1][1] = 25.0, 'puntos de tiro en orden y en ronda');
+select t_ok(abs(fk_keeper_z(-7.0) - 0.5408) < 0.001 and fk_keeper_z(0.5) = 0.03, 'el arquero se corre al palo que no tapa la barrera');
+insert into auth.users (id, email) values ('00000000-0000-0000-0000-000000000006', 'f@x'),
+	('00000000-0000-0000-0000-000000000007', 'g@x');
+set role authenticated;
+select set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-000000000006', false);
+select create_profile('Sexto', 'Sexto');
+select t_ok(find_match('tiros_libres', 0) ->> 'status' = 'searching', 'u6 busca rival de tiros libres');
+select set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-000000000007', false);
+select create_profile('Septimo', 'Septimo');
+select set_config('t.m4', (find_match('tiros_libres', 0) -> 'match' ->> 'id'), false);
+select t_ok((get_match(current_setting('t.m4')::uuid) -> 'match' ->> 'spot_offset') is not null, 'la partida trae su orden de puntos de tiro');
+reset role;
+update matches set spot_offset = 0 where id = current_setting('t.m4')::uuid;
+set role authenticated;
+-- Tiro 0 (ronda 0, punto 22 m / -7): patea u6, u7 ataja al centro.
+select submit_turn(current_setting('t.m4')::uuid, 'keeper_pick', '{"zone": 4}');
+select set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-000000000006', false);
+select t_err($$select submit_turn(current_setting('t.m4')::uuid, 'shot', '{"cross_zone": 4, "outcome": "goal", "cross_y": 1.2, "cross_z": 0.3, "flight": 0.9, "spot": [30, 0]}')$$,
+	'punto de tiro', 'un tiro libre desde otro punto se rechaza');
+select t_err($$select submit_turn(current_setting('t.m4')::uuid, 'shot', '{"cross_zone": 4, "outcome": "goal"}')$$,
+	'punto de tiro', 'y uno sin punto tambien');
+select t_ok((submit_turn(current_setting('t.m4')::uuid, 'shot',
+	'{"cross_zone": 4, "outcome": "goal", "cross_y": 1.2, "cross_z": 0.3, "flight": 0.9, "spot": [22.0, -7.0]}') -> 'match' ->> 'score_a')::int = 0,
+	'tiro libre al sector del arquero y a su alcance: atajada');
+-- Tiro 1 (misma ronda y punto): patea u7, u6 se juega abajo a la derecha (0); el tiro va pegado a ese palo, lejos del
+-- arquero corrido al otro palo: gol aunque eligio el sector.
+select submit_turn(current_setting('t.m4')::uuid, 'keeper_pick', '{"zone": 0}');
+select set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-000000000007', false);
+select t_ok((submit_turn(current_setting('t.m4')::uuid, 'shot',
+	'{"cross_zone": 0, "outcome": "goal", "cross_y": 0.4, "cross_z": -3.4, "flight": 0.9, "spot": [22.0, -7.0]}') -> 'match' ->> 'score_b')::int = 1,
+	'el alcance se mide desde donde esta parado el arquero del tiro libre');
+reset role;

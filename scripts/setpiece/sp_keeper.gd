@@ -124,6 +124,8 @@ func reset(home_pos: Vector3) -> void:
 	_zone = Vector3.INF
 	_commit_point = Vector3.INF
 	committed_zone = -1
+	_anticipated = 0.0
+	last_reach = {}
 	sure = false
 	_sure_drift = Vector3.ZERO
 	_sure_extra = 0.0
@@ -394,8 +396,9 @@ var _zone := Vector3.INF
 var _commit_point := Vector3.INF
 
 ## Zona segura (pedido del usuario: «si me tiro abajo a la derecha y el tiro va ahi, es atajada»). El arco se divide en
-## zonas (KeeperZones, 3 x 2); si el arquero se jugo a una zona y el tiro REAL cruza la linea en esa zona, al salir la
-## pelota replanifica con la trayectoria real eligiendo entre todos sus clips (SURE_SPEEDS, sin latencia humana), y
+## 9 sectores (KeeperZones, 3 x 3); si el arquero se jugo a un sector, el tiro REAL cruza la linea en ese sector y el
+## punto esta a su alcance fisico (KeeperReach: altura, distancia lateral desde donde estaba parado y el tiempo que
+## tarda la pelota, mas lo que se anticipo), al salir la pelota replanifica con la trayectoria real eligiendo entre todos sus clips (SURE_SPEEDS, sin latencia humana), y
 ## durante la estirada predice donde va a estar la pelota cuando lleguen las manos y corrige el marco del clip hacia ella
 ## (hasta SURE_MAX_DRIFT en el piso). Lo que falte (sobre todo en altura) lo cubre el guante con un alcance extra
 ## (hasta SURE_MAX_EXTRA). El manotazo saca la pelota hacia afuera (SURE_PARRY_*): la pelota solo cambia por el impulso
@@ -417,6 +420,15 @@ const SURE_PARRY_UP := 0.15
 var sure_zones: bool = true
 ## Zona a la que se jugo (KeeperZones; -1 = ninguna).
 var committed_zone: int = -1
+## Atributos del arquero que escalan su alcance (KeeperReach, con limites): alcance (1 = normal) y reaccion (s; > 0 tarda
+## mas). No cambian la regla: hay que elegir el sector correcto.
+var reach_scale: float = 1.0
+var react_bias: float = 0.0
+## Donde estaba parado al jugarse y cuanto se anticipo al golpe (s).
+var _stand_z: float = 0.0
+var _anticipated: float = 0.0
+## Diagnostico del ultimo control de alcance (KeeperReach.explain + sector del cruce); vacio si no hubo.
+var last_reach: Dictionary = {}
 ## Esta jugada la ataja seguro (el tiro va a su zona) hasta que la toca.
 var sure: bool = false
 var sure_saves: int = 0
@@ -433,6 +445,8 @@ func commit_to(point: Vector3, ball_pos: Vector3, lead: float, speed_guess: floa
 	actor.stop_moving()
 	_commit_point = point
 	committed_zone = KeeperZones.zone_of(point, half_goal, goal_height)
+	_stand_z = actor.global_position.z
+	_anticipated = minf(maxf(lead, 0.0), PENALTY_ANTICIPATION) if lead > 0.01 else 0.0
 	if lead <= 0.01:
 		_zone = point
 		return
@@ -467,19 +481,28 @@ func on_kick(ball_pos: Vector3, velocity: Vector3) -> void:
 	_zone = Vector3.INF
 	_plan_with(_line_traj(ball_pos, z, speed_seen, 0.0), 0.05)
 
-## Al salir la pelota (penal): si el tiro REAL (traj, muestras cada `step` s desde el golpe) cruza la linea en la zona a
-## la que se jugo, la atajada es segura: replanifica con esa trayectoria y la sigue en la estirada (ver «Zona segura»).
-## Devuelve true si esta jugada queda asegurada.
+## Al salir la pelota (penal): si el tiro REAL (traj, muestras cada `step` s desde el golpe) cruza la linea en el sector
+## al que se jugo y ese punto esta a su alcance (KeeperReach), la atajada es segura: replanifica con esa trayectoria y la
+## sigue en la estirada (ver «Zona segura»). Si no llega (pegado al angulo, o muy rapido para la distancia), sigue con su
+## estirada al sector y decide el contacto real. Devuelve true si esta jugada queda asegurada.
 func sure_save_check(traj: PackedVector3Array, step: float) -> bool:
 	sure = false
 	_sure_drift = Vector3.ZERO
 	_sure_extra = 0.0
+	last_reach = {}
 	if not sure_zones or committed_zone < 0 or traj.size() < 2:
 		return false
 	if state != State.IDLE and state != State.WAIT_DIVE and state != State.DIVE:
 		return false
 	var cross: Vector3 = ShotSolver.crossing(traj, goal_x)
-	if KeeperZones.zone_of(cross, half_goal, goal_height) != committed_zone:
+	var cz: int = KeeperZones.zone_of(cross, half_goal, goal_height)
+	var t_line: float = KeeperReach.time_to_line(traj, step, goal_x)
+	last_reach = KeeperReach.explain(cross, _stand_z, t_line + _anticipated, reach_scale, react_bias)
+	last_reach["zone"] = cz
+	last_reach["committed"] = committed_zone
+	if cz != committed_zone:
+		return false
+	if not bool(last_reach["ok"]):
 		return false
 	var every: int = maxi(int(round((1.0 / 30.0) / step)), 1)
 	var t30 := PackedVector3Array()

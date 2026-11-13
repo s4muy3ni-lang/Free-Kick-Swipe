@@ -339,13 +339,16 @@ func set_score_text(t: String) -> void:
 	score.text = t
 
 ## Puntos de la tanda: true gol, false fallado; se completan hasta `slots` con circulos vacios.
+## Rotulos de las dos filas de la tanda (duelo local: «J1» y «J2»).
+var shootout_tags: Array = ["TÚ ", "CPU"]
+
 func set_shootout(user: Array, cpu: Array, slots: int) -> void:
 	for pair in [[dots_user, user, BLUE], [dots_cpu, cpu, RED]]:
 		var box: HBoxContainer = pair[0]
 		for c in box.get_children():
 			c.queue_free()
 		var tag := _label(18, pair[2], 3)
-		tag.text = "TÚ " if box == dots_user else "CPU"
+		tag.text = String(shootout_tags[0]) if box == dots_user else String(shootout_tags[1])
 		tag.custom_minimum_size = Vector2(46, 0)
 		box.add_child(tag)
 		var res: Array = pair[1]

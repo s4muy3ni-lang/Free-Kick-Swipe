@@ -118,8 +118,7 @@
                 "per_win_points": 20,
                 "per_play_points": 8
             },
-            "missions": [
-            ],
+            "missions": [],
             "subtitle": "Todos los minijuegos online suman",
             "starts_at": "2026-11-11T00:00:00+00:00"
         },
@@ -145,8 +144,7 @@
                 "per_win_points": 30,
                 "per_play_points": 10
             },
-            "missions": [
-            ],
+            "missions": [],
             "subtitle": "Precisión pura",
             "starts_at": "2026-11-16T00:00:00+00:00"
         }
@@ -174,7 +172,7 @@
             "kind": "penales",
             "name": "Penales",
             "sort": 1,
-            "rules": "Alternan tirador y arquero. El arquero elige dónde tirarse antes del tiro: si el tiro va a esa zona, ataja. 20 s por tiro.",
+            "rules": "Alternan tirador y arquero. El arquero elige uno de los 9 sectores antes del tiro: ataja si el tiro va a ese sector y le llega (pegado al ángulo es gol). 20 s por tiro.",
             "online": true,
             "rounds": 5,
             "scene_def": {
@@ -199,7 +197,7 @@
             "kind": "tiros_libres",
             "name": "Tiros libres",
             "sort": 2,
-            "rules": "Alternan tirador y arquero. Cada ronda se elige la distancia (más lejos, más difícil). 20 s por tiro.",
+            "rules": "Alternan tirador y arquero desde el mismo punto en cada ronda (lo fija el servidor). El arquero elige uno de los 9 sectores antes del tiro. 20 s por tiro.",
             "online": true,
             "rounds": 5,
             "scene_def": {
@@ -217,7 +215,7 @@
                 100,
                 200
             ],
-            "description": "Elegí la distancia, superá la barrera y al arquero.",
+            "description": "Superá la barrera y al arquero; después atajás vos.",
             "turn_seconds": 20,
             "max_points_per_turn": 1
         },
@@ -1265,8 +1263,7 @@
         },
         {
             "id": "cambio_nombre",
-            "data": {
-            },
+            "data": {},
             "kind": "name_change",
             "name": "Cambio de nombre",
             "sort": 1,

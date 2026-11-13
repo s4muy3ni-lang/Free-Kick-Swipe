@@ -117,6 +117,46 @@ func test_bot_match_turns_zone_rule_and_rewards() -> void:
 	check(o.coins() == 450 + 5 + 50 + 25 + 20, "premio contra bot: entrada devuelta y un extra moderado")
 	cleanup()
 
+## Regla de atajada del servidor con 9 sectores y alcance (igual que la funcion SQL de la migracion 20261113000006):
+## sector correcto pero pegado al angulo = gol; sector correcto y al alcance = atajada; el sector informado no manda.
+func test_the_server_rule_uses_nine_sectors_and_reach() -> void:
+	var o: Node = _fresh()
+	await _player(o)
+	await o.call_fn("find_match", {"p_mode": "penales", "p_fee": 0})
+	o.local.clock_offset += 10.0
+	var r: Dictionary = await o.call_fn("start_bot_match", {"p_mode": "penales"})
+	check(r["ok"], "partida contra el bot")
+	var bad: Dictionary = await o.call_fn("submit_turn", {"p_match": "", "p_kind": "keeper_pick", "p_payload": {"zone": 9}, "p_side": 1})
+	check(not bad["ok"], "no hay sector 9")
+	# Tiro 0: patea el usuario. El bot se juega al angulo (8) y el tiro va ahi, fuera del alcance: gol.
+	await o.call_fn("submit_turn", {"p_match": "", "p_kind": "keeper_pick", "p_payload": {"zone": 8}, "p_side": 1})
+	r = await o.call_fn("submit_turn", {"p_match": "", "p_kind": "shot", "p_payload": {"cross_zone": 8, "outcome": "goal",
+		"cross_y": 2.3, "cross_z": 3.4, "flight": 0.5}})
+	check(int(r["data"]["match"]["score_a"]) == 1, "sector correcto pero pegado al angulo: gol")
+	# Tiro 1: patea el bot; el usuario se juega arriba a la derecha (6) y el tiro va ahi, a su alcance: atajada.
+	await o.call_fn("submit_turn", {"p_match": "", "p_kind": "keeper_pick", "p_payload": {"zone": 6}})
+	r = await o.call_fn("submit_turn", {"p_match": "", "p_kind": "shot", "p_payload": {"cross_zone": 6, "outcome": "goal",
+		"cross_y": 2.0, "cross_z": -2.0, "flight": 0.6}, "p_side": 1})
+	check(int(r["data"]["match"]["score_b"]) == 0, "sector correcto y al alcance: atajada")
+	# Tiro 2: el bot elige el centro; el usuario informa sector 4 pero el cruce es abajo a un palo: gol.
+	await o.call_fn("submit_turn", {"p_match": "", "p_kind": "keeper_pick", "p_payload": {"zone": 4}, "p_side": 1})
+	r = await o.call_fn("submit_turn", {"p_match": "", "p_kind": "shot", "p_payload": {"cross_zone": 4, "outcome": "goal",
+		"cross_y": 0.4, "cross_z": -3.0, "flight": 0.6}})
+	check(int(r["data"]["match"]["score_a"]) == 2, "el sector informado no manda: vale el cruce")
+	# La regla del servidor y la del juego coinciden en todo el arco.
+	var diff: int = 0
+	for iy in 13:
+		for iz in 19:
+			var y: float = 0.1 + float(iy) * 0.19
+			var z: float = -3.6 + float(iz) * 0.4
+			for t in [0.3, 0.45, 0.7]:
+				var rule: Dictionary = LocalBackend.keeper_rule({"cross_y": y, "cross_z": z, "flight": t})
+				var pt := Vector3(0, y, z)
+				if bool(rule["reachable"]) != KeeperReach.reachable(pt, 0.0, t + SpKeeper.PENALTY_ANTICIPATION) or int(rule["zone"]) != KeeperZones.zone_of(pt, 3.66, 2.44):
+					diff += 1
+	check(diff == 0, "servidor local y juego usan la misma regla (%d diferencias)" % diff)
+	cleanup()
+
 func test_bots_adapt_gradually_and_mirror_the_user() -> void:
 	var s1: float = BotFactory.next_skill(5, 0.5, [1.0, 1.0, 1.0, 1.0, 1.0])
 	var s2: float = BotFactory.next_skill(5, 0.5, [0.0, 0.0, 0.0, 0.0])

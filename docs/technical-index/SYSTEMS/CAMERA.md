@@ -5,7 +5,7 @@
 - **Responsabilidad exacta:** cámara de transmisión de costado, como la de PES (desde el 2026-10-28: 30° de inclinación, lente de 28° y 30–38 m; antes 52°, 42° y 16–27 m, casi cenital). Sigue una mezcla entre el jugador controlado y la pelota (con anticipación por velocidad de la pelota), amortigua posición y zoom de forma independiente de los FPS, mantiene un **yaw fijo** (el joystick siempre es relativo a la pantalla) y no baja de la altura de las paredes. También convierte vectores 2D de pantalla en direcciones de mundo (`screen_to_world_dir`). Desde el 2026-10-29: **zoom elegido por la persona** (`Tuning.camera_zoom`, botón «Zoom de cámara» del menú de pausa: Muy cerca 0.55 / Cerca 0.7 —por defecto— / Media 0.85 / Lejos 1.0, multiplica la distancia de todo el encuadre) y **golpe de cámara** en los tiros fuertes (`punch`: cierre de lente y sacudida breve que se desvanecen solos).
 - **Estado:** implementado; **sin pruebas que comprueben su comportamiento**. *test_match_flow (eliminada en la reforma)* instancia `MatchScene` (que crea la cámara y la hace correr), pero ninguna aserción mira el encuadre ni `screen_to_world_dir`.
 - **Última verificación:** <!-- AUTO:verified -->
-2026-11-12
+2026-11-13
 <!-- /AUTO -->
 
 ## Archivos responsables
