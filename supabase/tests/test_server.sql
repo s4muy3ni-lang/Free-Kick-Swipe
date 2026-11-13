@@ -61,9 +61,10 @@ select t_ok((update_appearance('{"ball": "ball_moderno", "jersey": "jersey_rayas
 select t_ok(jsonb_array_length(use_consumable('energizante_monedas') -> 'boosts') = 1, 'energizante activado');
 select buy_item('energizante_monedas', 'buy-0000-04');
 select t_err($$select use_consumable('energizante_monedas')$$, 'activo', 'no se acumulan dos energizantes iguales');
--- Con 1500 XP es nivel 5: 2 puntos por nivel ganado = 8 puntos; el noveno no.
-do $$ begin for i in 1..8 loop perform spend_attribute_point('power'); end loop; end $$;
-select t_ok((get_my_state() -> 'profile' -> 'attributes' ->> 'power')::int = 9, 'nivel 5: 8 puntos de atributo gastados');
+-- Con 1500 XP es nivel 5: 2 puntos por nivel ganado = 8 puntos. Desde 20261113000009 subir cuesta 1 punto hasta el 5
+-- y 2 del 6 al 8 (ProgressionRules): con 8 puntos la potencia llega a 7 y la mejora siguiente (2 puntos) ya no entra.
+do $$ begin for i in 1..6 loop perform spend_attribute_point('power'); end loop; end $$;
+select t_ok((get_my_state() -> 'profile' -> 'attributes' ->> 'power')::int = 7, 'nivel 5: 8 puntos de atributo gastados (potencia 7)');
 select t_err($$select spend_attribute_point('accuracy')$$, 'puntos', 'no hay mas puntos que los del nivel');
 select t_err($$select claim_season_tier(4, false)$$, 'llegaste', 'temporada: no se reclama un nivel no alcanzado (300 de 400 puntos)');
 select t_err($$select claim_season_tier(1, true)$$, 'premium', 'temporada: el premio premium pide el pase');
@@ -318,3 +319,79 @@ select t_ok((finish_minigame(current_setting('t.r')::uuid, 'rescate', 8, 9999, 1
 	'el servidor recalcula el puntaje (tiempo que sobra y errores)');
 select t_ok((get_match(current_setting('t.r')::uuid) -> 'match' -> 'minigame' -> 'result' ->> 'errors')::int = 1, 'queda registrado el resultado');
 reset role;
+
+-- ---- Progresion: costo creciente, tope de puntos, historial, redistribucion, XP decreciente y arquero online ----------
+insert into auth.users (id, email) values ('00000000-0000-0000-0000-000000000009', 'i@x'),
+	('00000000-0000-0000-0000-000000000010', 'j@x');
+set role authenticated;
+select set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-000000000009', false);
+select create_profile('Noveno', 'Noveno');
+reset role;
+-- Nivel 9 (5400 XP): 16 puntos, justo lo que cuesta llevar un atributo de 1 a 10 (4 x 1 + 3 x 2 + 2 x 3).
+update profiles set xp = 5400 where id = '00000000-0000-0000-0000-000000000009';
+set role authenticated;
+select t_ok((get_my_state() -> 'progression' ->> 'points_available')::int = 16, 'nivel 9: 16 puntos de mejora');
+do $$ begin for i in 1..9 loop perform spend_attribute_point('keeper_reach'); end loop; end $$;
+select t_ok((get_my_state() -> 'profile' -> 'attributes' ->> 'keeper_reach')::int = 10
+	and (get_my_state() -> 'progression' ->> 'points_spent')::int = 16, 'alcance del arquero al maximo: 16 puntos');
+select t_err($$select spend_attribute_point('keeper_reach')$$, 'maximo', 'ningun atributo pasa de 10');
+select t_err($$select spend_attribute_point('power')$$, 'puntos', 'sin puntos no hay mejora');
+select t_err($$select spend_attribute_point('velocidad_extra')$$, 'invalido', 'atributo inventado: rechazado');
+select t_ok(jsonb_array_length(get_my_state() -> 'progression' -> 'history') = 9
+	and (get_my_state() -> 'progression' -> 'history' -> 8 ->> 'cost')::int = 3, 'historial de mejoras con su costo');
+reset role;
+update profiles set xp = 500000 where id = '00000000-0000-0000-0000-000000000009';
+set role authenticated;
+select t_ok((get_my_state() -> 'progression' ->> 'points_earned')::int = 58, 'los puntos se ganan hasta el nivel 30 (58)');
+-- Redistribucion: la primera gratis; la segunda espera 7 dias y cuesta 300 monedas; la misma clave no cobra dos veces.
+select set_config('t.rs', respec_attributes('respec-0001')::text, false);
+select t_ok((current_setting('t.rs')::jsonb -> 'profile' ->> 'coins')::int = 500
+	and (current_setting('t.rs')::jsonb -> 'progression' ->> 'points_spent')::int = 0
+	and (current_setting('t.rs')::jsonb -> 'profile' -> 'attributes' ->> 'keeper_reach')::int = 1, 'primera redistribucion gratis: todo a 1');
+select spend_attribute_point('power');
+select t_err($$select respec_attributes('respec-0002')$$, 'se habilita', 'la segunda redistribucion espera 7 dias');
+reset role;
+update profiles set respec_at = now() - interval '8 days' where id = '00000000-0000-0000-0000-000000000009';
+set role authenticated;
+select t_ok((respec_attributes('respec-0003') -> 'profile' ->> 'coins')::int = 200, 'pasados 7 dias: cuesta 300 monedas');
+select respec_attributes('respec-0003');
+select t_ok((get_my_state() -> 'profile' ->> 'coins')::int = 200 and (get_my_state() -> 'profile' ->> 'respecs')::int = 2,
+	'reintento con la misma clave: no cobra ni redistribuye dos veces');
+reset role;
+update profiles set respec_at = now() - interval '8 days' where id = '00000000-0000-0000-0000-000000000009';
+set role authenticated;
+select spend_attribute_point('power');
+select t_err($$select respec_attributes('respec-0004')$$, 'monedas', 'sin monedas no se redistribuye');
+select t_ok((get_my_state() -> 'profile' -> 'attributes' ->> 'power')::int = 2, 'y no cambia nada');
+-- XP de partidas offline: un poco por rendimiento (goles y atajadas hasta 5) y rendimiento decreciente al repetir.
+select t_ok((claim_reward('offmatch-0001', 'offline_match', '{"won": true, "goals": 99, "saves": 99}') ->> 'xp')::int = 100,
+	'partida offline ganada: 50 + goles y atajadas con tope (100 XP)');
+do $$ begin for i in 2..8 loop perform claim_reward('offmatch-' || lpad(i::text, 4, '0'), 'offline_match', '{"won": true, "goals": 5, "saves": 5}'); end loop; end $$;
+select t_ok((claim_reward('offmatch-0009', 'offline_match', '{"won": true, "goals": 5, "saves": 5}') ->> 'xp')::int = 50,
+	'la novena del dia vale la mitad');
+-- Online: el alcance del arquero sale de SU perfil (alcance 10: 6 % mas) y nunca del cliente.
+do $$ begin for i in 1..9 loop perform spend_attribute_point('keeper_reach'); end loop; end $$;
+-- El emparejamiento busca niveles parecidos: para el cruce con u10 (nivel 1) se le baja la experiencia a u9 (los puntos
+-- ya gastados quedan).
+reset role;
+update profiles set xp = 0 where id = '00000000-0000-0000-0000-000000000009';
+set role authenticated;
+select t_ok(find_match('penales', 0) ->> 'status' = 'searching', 'u9 busca rival');
+select set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-000000000010', false);
+select create_profile('Decimo', 'Decimo');
+select set_config('t.m9', (find_match('penales', 0) -> 'match' ->> 'id'), false);
+-- Tiro 0: patea u9; ataja u10 (atributos neutros) en el sector 2: a 3,6 m del centro no llega (alcance 3,5 m).
+select submit_turn(current_setting('t.m9')::uuid, 'keeper_pick', '{"zone": 2}');
+select set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-000000000009', false);
+select t_err($$select respec_attributes('respec-0006')$$, 'partida', 'no se redistribuye con una partida en juego');
+select t_ok((submit_turn(current_setting('t.m9')::uuid, 'shot',
+	'{"cross_zone": 2, "outcome": "goal", "cross_y": 0.5, "cross_z": 3.6, "flight": 1.0, "keeper_reach": 10}') -> 'match' ->> 'score_a')::int = 1,
+	'arquero sin atributos: a 3,6 m no llega (gol)');
+-- Tiro 1: patea u10 al mismo lugar; ataja u9 con alcance 10 (3,71 m): atajada.
+select submit_turn(current_setting('t.m9')::uuid, 'keeper_pick', '{"zone": 2}');
+select set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-000000000010', false);
+select t_ok((submit_turn(current_setting('t.m9')::uuid, 'shot',
+	'{"cross_zone": 2, "outcome": "goal", "cross_y": 0.5, "cross_z": 3.6, "flight": 1.0}') -> 'match' ->> 'score_b')::int = 0,
+	'arquero con alcance 10: el mismo tiro es atajada');
+reset role;
+select t_ok(not keeper_reachable_attr(2.3, 3.4, 1.0, 0.0, 0.3, 9.0, -9.0), 'ni con atributos al maximo (y valores truchos, acotados) se llega al angulo');

@@ -78,11 +78,11 @@ static func _ballistic_pitch(dist: float, dy: float, speed: float) -> float:
 
 ## Desvio aleatorio del tiro (precision del tirador): gira la direccion `sigma_deg` grados (normal) en horizontal y algo
 ## menos en vertical.
-static func perturb(v: Vector3, sigma_deg: float, rng: RandomNumberGenerator) -> Vector3:
+static func perturb(v: Vector3, sigma_deg: float, rng: RandomNumberGenerator, pitch_ratio: float = 0.7) -> Vector3:
 	if sigma_deg <= 0.0:
 		return v
 	var yaw_e: float = deg_to_rad(rng.randfn(0.0, sigma_deg))
-	var pitch_e: float = deg_to_rad(rng.randfn(0.0, sigma_deg * 0.7))
+	var pitch_e: float = deg_to_rad(rng.randfn(0.0, sigma_deg * pitch_ratio))
 	var h := Vector3(v.x, 0.0, v.z)
 	var side := Vector3(-h.z, 0.0, h.x).normalized() if h.length() > 0.01 else Vector3.RIGHT
 	return v.rotated(Vector3.UP, yaw_e).rotated(side, -pitch_e)

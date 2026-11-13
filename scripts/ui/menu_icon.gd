@@ -98,6 +98,61 @@ func _draw() -> void:
 				var x: float = -r * 0.7 + i * r * 0.35
 				draw_line(c + Vector2(x, -r * 0.25), c + Vector2(x * 0.6, r * 0.6), Color(1, 1, 1), w * 0.5)
 			draw_circle(c + Vector2(r * 0.6, -r * 0.8), r * 0.2, Color(1, 1, 1))
+		# Atributos de MI JUGADOR — PROGRESION.
+		"power":
+			# Rayo.
+			draw_colored_polygon(PackedVector2Array([c + Vector2(r * 0.15, -r), c + Vector2(-r * 0.55, r * 0.1),
+				c + Vector2(-r * 0.05, r * 0.1), c + Vector2(-r * 0.2, r), c + Vector2(r * 0.6, -r * 0.15),
+				c + Vector2(r * 0.08, -r * 0.15)]), tint)
+		"accuracy":
+			# Mira.
+			draw_arc(c, r * 0.85, 0, TAU, 40, tint, w)
+			draw_arc(c, r * 0.45, 0, TAU, 32, tint, w)
+			draw_circle(c, r * 0.14, tint)
+			for d in [Vector2.UP, Vector2.DOWN, Vector2.LEFT, Vector2.RIGHT]:
+				draw_line(c + d * r * 0.6, c + d * r * 1.05, tint, w)
+		"curve":
+			# Pelota que se cierra (arco con flecha).
+			var pts := _arc_poly(c + Vector2(r * 0.9, r * 0.2), r * 1.4, PI * 0.95, PI * 1.45)
+			draw_polyline(pts, tint, w * 1.2)
+			var tip: Vector2 = pts[pts.size() - 1]
+			draw_colored_polygon(PackedVector2Array([tip + Vector2(r * 0.3, 0), tip + Vector2(-r * 0.15, -r * 0.25),
+				tip + Vector2(-r * 0.12, r * 0.28)]), tint)
+			draw_circle(c + Vector2(-r * 0.55, r * 0.75), r * 0.22, Color(1, 1, 1))
+		"height":
+			# Flecha hacia arriba sobre una barra.
+			draw_rect(Rect2(c + Vector2(-r, r * 0.7), Vector2(r * 2.0, w * 1.2)), tint)
+			draw_line(c + Vector2(0, r * 0.55), c + Vector2(0, -r * 0.5), tint, w * 1.4)
+			draw_colored_polygon(PackedVector2Array([c + Vector2(0, -r), c + Vector2(-r * 0.45, -r * 0.35),
+				c + Vector2(r * 0.45, -r * 0.35)]), tint)
+		"technique":
+			# Estrella sobre un botin.
+			_star(c + Vector2(0, -r * 0.25), r * 0.7, r * 0.3, tint)
+			draw_rect(Rect2(c + Vector2(-r * 0.8, r * 0.55), Vector2(r * 1.6, r * 0.32)), Color(1, 1, 1))
+		"control":
+			# Pelota con su orbita (dominio).
+			draw_circle(c + Vector2(0, r * 0.1), r * 0.45, Color(0.97, 0.97, 0.97))
+			_poly_reg(c + Vector2(0, r * 0.1), r * 0.17, 5, dark, -PI / 2)
+			_ellipse(c + Vector2(0, r * 0.1), Vector2(r * 0.95, r * 0.35), tint, w)
+		"keeper_reach":
+			# Guante con flechas a los costados.
+			draw_circle(c, r * 0.38, tint)
+			for sgn in [-1.0, 1.0]:
+				draw_line(c + Vector2(sgn * r * 0.5, 0), c + Vector2(sgn * r * 1.0, 0), tint, w * 1.2)
+				draw_colored_polygon(PackedVector2Array([c + Vector2(sgn * r * 1.1, 0), c + Vector2(sgn * r * 0.75, -r * 0.3),
+					c + Vector2(sgn * r * 0.75, r * 0.3)]), tint)
+		"keeper_reflex":
+			# Ojo con un destello.
+			_ellipse(c, Vector2(r * 0.95, r * 0.5), tint, w)
+			draw_circle(c, r * 0.3, tint)
+			draw_line(c + Vector2(r * 0.6, -r * 0.9), c + Vector2(r * 0.95, -r * 0.55), tint, w)
+			draw_line(c + Vector2(-r * 0.6, -r * 0.9), c + Vector2(-r * 0.95, -r * 0.55), tint, w)
+		"keeper_catch":
+			# Dos manos alrededor de la pelota.
+			draw_circle(c, r * 0.42, Color(0.97, 0.97, 0.97))
+			_poly_reg(c, r * 0.16, 5, dark, -PI / 2)
+			for sgn in [-1.0, 1.0]:
+				draw_arc(c, r * 0.72, PI * 0.5 - sgn * PI * 0.5 - 0.9, PI * 0.5 - sgn * PI * 0.5 + 0.9, 16, tint, w * 1.6)
 		_:
 			draw_circle(c, r, tint)
 

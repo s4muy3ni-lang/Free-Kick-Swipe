@@ -424,6 +424,8 @@ var committed_zone: int = -1
 ## mas). No cambian la regla: hay que elegir el sector correcto.
 var reach_scale: float = 1.0
 var react_bias: float = 0.0
+## Atributo de atrapada (AttributeEffects.keeper_catch_scale): escala la velocidad maxima a la que atrapa sin rebote.
+var catch_scale: float = 1.0
 ## Donde estaba parado al jugarse y cuanto se anticipo al golpe (s).
 var _stand_z: float = 0.0
 var _anticipated: float = 0.0
@@ -839,7 +841,7 @@ func _pick_up() -> void:
 
 ## Atrapa si la pelota llega a las dos manos, no va demasiado rapida y viene de frente a una altura atrapable.
 func _can_catch(q: Vector3, vr: Vector3, parts_now: Dictionary) -> bool:
-	if vr.length() > SpSettings.keeper_catch_speed():
+	if vr.length() > SpSettings.keeper_catch_speed() * catch_scale:
 		return false
 	if q.y < 0.12 or q.y > 2.5:
 		return false

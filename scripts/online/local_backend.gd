@@ -123,6 +123,7 @@ func call_rpc(fn: String, a: Dictionary = {}) -> Dictionary:
 		"update_identity": return _update_identity(a)
 		"update_appearance": return _update_appearance(a.get("p_appearance", {}))
 		"spend_attribute_point": return _spend_point(String(a.get("p_attribute", "")))
+		"respec_attributes": return _respec(String(a.get("p_idem", "")))
 		"claim_reward": return _claim_reward(String(a.get("p_idem", "")), String(a.get("p_source", "")), a.get("p_payload", {}))
 		"buy_item": return _buy_item(String(a.get("p_item", "")), String(a.get("p_idem", "")))
 		"use_consumable": return _use_consumable(String(a.get("p_item", "")))
@@ -193,10 +194,27 @@ func _state() -> Dictionary:
 			boosts.append(b)
 	var s: Dictionary = _season()
 	var sp: Dictionary = _db.get("season", {})
-	return {"profile": p, "inventory": _db.get("inventory", {}), "boosts": boosts,
+	return {"profile": p, "inventory": _db.get("inventory", {}), "boosts": boosts, "progression": _progression(p),
 		"season": null if s.is_empty() else {"id": s["id"], "points": int(sp.get("points", 0)), "premium": false,
 			"claimed_free": sp.get("claimed_free", []), "claimed_premium": []},
 		"active_match": _active_match().get("id", null), "local": true}
+
+## Progresion (ProgressionRules, lo mismo que get_my_state del SQL): puntos, historial de mejoras y de experiencia,
+## redistribucion y estilo.
+func _progression(p: Dictionary) -> Dictionary:
+	var lv: int = PlayerProgress.level_for(int(p["xp"]))
+	var at: Dictionary = p.get("attributes", {})
+	var hist: Array = _db.get("attr_log", [])
+	var xp_hist: Array = []
+	var ledger: Dictionary = _db.get("ledger", {})
+	for k in ledger:
+		if int(ledger[k].get("xp", 0)) > 0:
+			xp_hist.append({"source": ledger[k]["source"], "xp": ledger[k]["xp"], "at": float(ledger[k].get("at", 0.0))})
+	xp_hist.sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return float(a["at"]) > float(b["at"]))
+	return {"points_earned": ProgressionRules.earned(lv), "points_spent": ProgressionRules.spent(at),
+		"points_available": ProgressionRules.available(lv, at), "point_level_cap": ProgressionRules.POINT_LEVEL_CAP,
+		"history": hist.slice(maxi(hist.size() - 20, 0)), "xp_history": xp_hist.slice(0, 10),
+		"respecs": int(p.get("respecs", 0)), "respec_at": float(p.get("respec_at", 0.0)), "now": now()}
 
 func _grant(coins: int, xp: int, season_pts: int, source: String, idem: String, boostable: bool = false) -> Dictionary:
 	var ledger: Dictionary = _db.get("ledger", {})
@@ -212,7 +230,7 @@ func _grant(coins: int, xp: int, season_pts: int, source: String, idem: String, 
 				xp *= 2
 	if int(p["coins"]) + coins < 0:
 		return {"error": "monedas insuficientes"}
-	ledger[idem] = {"source": source, "coins": coins, "xp": xp, "season": season_pts, "day": _day()}
+	ledger[idem] = {"source": source, "coins": coins, "xp": xp, "season": season_pts, "day": _day(), "at": now()}
 	_db["ledger"] = ledger
 	p["coins"] = int(p["coins"]) + coins
 	p["xp"] = int(p["xp"]) + xp
@@ -307,29 +325,77 @@ func _update_appearance(ap: Dictionary) -> Dictionary:
 	_save()
 	return _ok(_state())
 
+## Mejora de un atributo (ProgressionRules: costo creciente, tope 10, puntos hasta el nivel 30). Queda en el historial.
 func _spend_point(attr: String) -> Dictionary:
 	var p: Dictionary = _db["profile"]
 	var at: Dictionary = p["attributes"]
-	if not at.has(attr):
-		return _err("atributo invalido")
-	var spent: int = 0
-	for k in at:
-		spent += int(at[k]) - 1
-	if spent >= (PlayerProgress.level_for(int(p["xp"])) - 1) * 2:
-		return _err("no tenes puntos de atributo (se ganan 2 por nivel)")
-	if int(at[attr]) >= 10:
-		return _err("ese atributo ya esta al maximo")
-	at[attr] = int(at[attr]) + 1
+	var why: String = ProgressionRules.can_raise(PlayerProgress.level_for(int(p["xp"])), at, attr)
+	if why != "":
+		return _err(why)
+	var cur: int = ProgressionRules.value(at, attr)
+	at[attr] = cur + 1
+	var hist: Array = _db.get("attr_log", [])
+	hist.append({"kind": "mejora", "attribute": attr, "from": cur, "to": cur + 1, "cost": ProgressionRules.cost_to(cur + 1), "at": now()})
+	_db["attr_log"] = hist
+	_save()
+	return _ok(_state())
+
+## Redistribucion: todos los atributos a 1 (se recuperan los puntos). La primera es gratis; despues una cada
+## RESPEC_DAYS dias y cuesta RESPEC_COINS monedas (con clave de idempotencia: no se cobra dos veces). No durante una
+## partida online.
+func _respec(idem: String) -> Dictionary:
+	if idem.length() < 8 or idem.length() > 80:
+		return _err("clave de idempotencia invalida")
+	if (_db.get("ledger", {}) as Dictionary).has(idem) or (_db.get("respec_keys", []) as Array).has(idem):
+		return _ok(_state())
+	if not _active_match().is_empty():
+		return _err("no se puede redistribuir durante una partida")
+	var p: Dictionary = _db["profile"]
+	var at: Dictionary = p["attributes"]
+	if ProgressionRules.spent(at) == 0:
+		return _err("no hay puntos para redistribuir")
+	var st: Dictionary = ProgressionRules.respec_state(int(p.get("respecs", 0)), float(p.get("respec_at", 0.0)), now())
+	if float(st["wait"]) > 0.0:
+		return _err("la proxima redistribucion se habilita en %d dias" % ceili(float(st["wait"]) / 86400.0))
+	if int(st["cost"]) > 0:
+		var r: Dictionary = _grant(-int(st["cost"]), 0, 0, "redistribucion", idem)
+		if r.has("error"):
+			return _err(String(r["error"]))
+	else:
+		var keys: Array = _db.get("respec_keys", [])
+		keys.append(idem)
+		_db["respec_keys"] = keys
+	var hist: Array = _db.get("attr_log", [])
+	hist.append({"kind": "redistribucion", "attribute": "", "from": ProgressionRules.spent(at), "to": 0, "cost": int(st["cost"]), "at": now()})
+	_db["attr_log"] = hist
+	for k in ProgressionRules.all():
+		at[k] = 1
+	p["respecs"] = int(p.get("respecs", 0)) + 1
+	p["respec_at"] = now()
 	_save()
 	return _ok(_state())
 
 const OFFLINE_SOURCES := ["arcade", "academia", "desafio_diario", "desafio_semanal", "logro", "offline_match"]
+
+## Premios de juego local (ProgressionRules del SQL claim_reward): monto por fuente, mas un poco por rendimiento en
+## las partidas offline (goles y atajadas, con tope), rendimiento decreciente si se repite la misma fuente muchas veces
+## en el dia (REPEAT_STEPS) y el tope diario, que el doble de XP tampoco supera.
+const REPEAT_STEPS := [[8, 1.0], [16, 0.5], [1000000, 0.25]]
+const PERF_CAP := 5
+
+static func repeat_factor(claims_today: int) -> float:
+	for st in REPEAT_STEPS:
+		if claims_today < int(st[0]):
+			return float(st[1])
+	return 0.25
 
 func _claim_reward(idem: String, source: String, payload: Dictionary) -> Dictionary:
 	if idem.length() < 8 or idem.length() > 80:
 		return _err("clave de idempotencia invalida")
 	var medal: int = clampi(int(payload.get("medal", 0)), 0, 3)
 	var won: bool = bool(payload.get("won", false))
+	var goals: int = clampi(int(payload.get("goals", 0)), 0, PERF_CAP)
+	var saves: int = clampi(int(payload.get("saves", 0)), 0, PERF_CAP)
 	var x: int
 	var c: int
 	var sp: int
@@ -339,23 +405,43 @@ func _claim_reward(idem: String, source: String, payload: Dictionary) -> Diction
 		"desafio_diario": x = 40; c = 30; sp = 10
 		"desafio_semanal": x = 150; c = 100; sp = 40
 		"logro": x = 100; c = 50; sp = 0
-		"offline_match": x = 30 + (20 if won else 0); c = 15 + (15 if won else 0); sp = 5 + (5 if won else 0)
+		"offline_match": x = 30 + (20 if won else 0) + goals * 4 + saves * 6; c = 15 + (15 if won else 0); sp = 5 + (5 if won else 0)
 		_: return _err("origen de recompensa desconocido")
 	var tx: int = 0
 	var tc: int = 0
 	var ts: int = 0
+	var same: int = 0
 	var ledger: Dictionary = _db.get("ledger", {})
+	if ledger.has(idem):
+		return _ok(_grant(0, 0, 0, source, idem))
 	for k in ledger:
 		var e: Dictionary = ledger[k]
 		if int(e.get("day", -1)) == _day() and String(e["source"]) in OFFLINE_SOURCES:
 			tx += int(e["xp"])
 			tc += int(e["coins"])
 			ts += int(e.get("season", 0))
+			if String(e["source"]) == source:
+				same += 1
+	var f: float = repeat_factor(same)
+	x = roundi(x * f)
+	c = roundi(c * f)
+	sp = roundi(sp * f)
 	var caps: Dictionary = _caps()
-	x = maxi(mini(x, int(caps.get("offline_xp", 1500)) - tx), 0)
+	var room_x: int = maxi(int(caps.get("offline_xp", 1500)) - tx, 0)
+	x = mini(x, room_x)
 	c = maxi(mini(c, int(caps.get("offline_coins", 800)) - tc), 0)
 	sp = maxi(mini(sp, int(caps.get("offline_season", 300)) - ts), 0)
-	return _ok(_grant(c, x, sp, source, idem, source in ["arcade", "offline_match"]))
+	var boostable: bool = source in ["arcade", "offline_match"]
+	if boostable and _xp_boost_active() and x > 0:
+		# El doble de XP no pasa el tope del dia: se pide la mitad de lo que entra.
+		x = mini(x, room_x / 2)
+	return _ok(_grant(c, x, sp, source, idem, boostable))
+
+func _xp_boost_active() -> bool:
+	for b in _db.get("boosts", []):
+		if String(b["kind"]) == "xp_x2" and float(b.get("expires_at", 0.0)) > now():
+			return true
+	return false
 
 func _buy_item(id: String, idem: String) -> Dictionary:
 	var it: Dictionary = _item(id)
@@ -645,7 +731,9 @@ func _submit_turn(kind: String, payload: Dictionary, p_side: Variant) -> Diction
 			if int(t["shot_n"]) == int(m["shot_n"]) and String(t["kind"]) == "keeper_pick":
 				kz = int(t["payload"]["zone"])
 				t["revealed"] = true
-		var reach: Dictionary = keeper_rule(payload, keeper_z, min_flight)
+		# El que ataja: el usuario (lado 0) cuando patea el bot; el bot no tiene atributos.
+		var kat: Dictionary = (_db["profile"] as Dictionary).get("attributes", {}) if int(m["shooter"]) == 1 else {}
+		var reach: Dictionary = keeper_rule(payload, keeper_z, min_flight, kat)
 		if reach.has("zone"):
 			cz = int(reach["zone"])
 		if outcome == "goal" and (cz < 0 or cz >= KeeperZones.COUNT):
@@ -690,13 +778,16 @@ const REACH_FLIGHT := Vector2(0.3, 3.0)
 const FK_MIN_FLIGHT := 0.5
 const REACH_HALF := 3.66
 const REACH_H := 2.44
-static func keeper_rule(payload: Dictionary, keeper_z: float = 0.0, min_flight: float = REACH_FLIGHT.x) -> Dictionary:
+static func keeper_rule(payload: Dictionary, keeper_z: float = 0.0, min_flight: float = REACH_FLIGHT.x, keeper_attrs: Dictionary = {}) -> Dictionary:
 	if not payload.has("cross_y") or not payload.has("cross_z"):
 		return {}
 	var p := Vector3(0.0, float(payload["cross_y"]), float(payload["cross_z"]))
 	var t: float = clampf(float(payload.get("flight", min_flight)), min_flight, REACH_FLIGHT.y)
+	# Atributos del arquero (los del perfil del que ataja; el bot, neutros): alcance y reflejos, con los limites de
+	# KeeperReach.
 	return {"zone": KeeperZones.zone_of(p, REACH_HALF, REACH_H),
-		"reachable": KeeperReach.reachable(p, keeper_z, t + SpKeeper.PENALTY_ANTICIPATION)}
+		"reachable": KeeperReach.reachable(p, keeper_z, t + SpKeeper.PENALTY_ANTICIPATION,
+			AttributeEffects.keeper_reach_scale(keeper_attrs), AttributeEffects.keeper_react_bias(keeper_attrs))}
 
 func _advance(m: Dictionary, gm: Dictionary) -> void:
 	var n: int = int(m["shot_n"]) + 1

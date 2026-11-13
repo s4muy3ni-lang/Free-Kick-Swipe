@@ -11,6 +11,78 @@ Formato de entrada: **fecha — título** · commit · qué cambió · archivos 
 
 ---
 
+## 2026-11-13 — Progresión del jugador: atributos con efecto real, puntos, redistribución y MI JUGADOR
+
+Pedido del usuario («EXPANSIÓN DEL SISTEMA DE PROGRESIÓN», secciones 1 a 4 y 12): nivel, experiencia, puntos de mejora,
+atributos con efecto real, medible y acotado, especialización sin clase fija, arquero que nunca ataje lo imposible,
+pantalla «MI JUGADOR — PROGRESIÓN» con antes / después y confirmación, XP de todas las actividades sin poder explotarla.
+
+- **Auditoría previa**:
+  - el servidor ya guardaba nivel, XP y 6 atributos de 1 a 10 (2 puntos por nivel, `spend_attribute_point`);
+  - pero ningún atributo cambiaba el juego;
+  - y las atajadas no daban XP.
+- **Reglas** (`scripts/progression/progression_rules.gd` nuevo, iguales en `LocalBackend` y en el SQL):
+  - 2 puntos por nivel hasta el nivel 30 (58);
+  - costo creciente: 1 punto hasta el 5, 2 del 6 al 8, 3 el 9 y el 10;
+  - 3 atributos de arquero nuevos (alcance, reflejos, atrapada);
+  - estilo de juego derivado de la distribución;
+  - redistribución: la primera gratis, después cada 7 días por 300 monedas, nunca en partida, idempotente.
+- **Efectos** (`scripts/progression/attribute_effects.gd` nuevo). Con todo en 1 el juego queda idéntico. En 10:
+  - potencia: velocidad máxima +6 %;
+  - precisión: error base y por potencia −25 %;
+  - efecto: efecto máximo +15 %;
+  - altura: error vertical 0,70 → 0,45 del lateral y +40 % para levantar;
+  - técnica: trazo irregular −35 % y tiros técnicos −15 %;
+  - control: trazo corto −35 % y control total con un trazo 15 % más corto;
+  - arquero: alcance +6 %, arranque 0,04 s antes y atrapada +15 %, dentro de los límites de `KeeperReach`.
+- **Dónde se aplican**:
+  - en el juego: `SetPieceGame.user_attrs`, `_user_tuning`, `shot_context(attrs)`, `_take_shot` y `AttributeEffects.apply_keeper`;
+  - con un parámetro opcional: `ShotSolver.perturb(pitch_ratio)` y `SpKeeper.catch_scale`;
+  - la CPU y el duelo local juegan neutros.
+- **Experiencia**:
+  - `offline_match` lleva goles y atajadas del usuario (acotados a 5);
+  - rendimiento decreciente al repetir la misma fuente en el día (8 enteras, hasta 16 a la mitad, después un cuarto);
+  - el doble de XP no pasa el tope diario.
+- **Servidor**: `supabase/migrations/20261113000009_progression.sql` (nueva):
+  - `attribute_log` y columnas de redistribución;
+  - `spend_attribute_point` con costo;
+  - `respec_attributes`;
+  - `get_my_state.progression`;
+  - `claim_reward`;
+  - `submit_turn` con el alcance y los reflejos del perfil del que ataja.
+- **Pantalla** (`MenuScreens.open_progression`, iconos nuevos en `MenuIcon`). El mosaico MI JUGADOR del menú reemplaza al de PERFIL, que sigue en «Perfil y ranking». Muestra:
+  - el jugador 3D con dominadas;
+  - nivel, barra de XP y puntos;
+  - una tarjeta por atributo con icono, barra de 10, descripción, efecto actual y costo;
+  - confirmación con el antes y el después en números;
+  - redistribución;
+  - historial y estadísticas.
+- **Arreglo de paso**: con el título largo, el panel lateral se salía de la pantalla. El título ahora se parte en dos renglones.
+- **Pruebas cambiadas**:
+  - `supabase/tests/test_server.sql`: la comprobación «nivel 5: 8 puntos gastados» esperaba la regla vieja (potencia 9). Con el costo creciente, potencia 7; sigue comprobando que no se gasta más de lo ganado.
+  - `tests/test_dianas_rescate.gd::test_every_rescue_level_is_beatable` recorría también los 8 niveles de mecanismos del rediseño de Rescate. Sus pasos son toques y no tiros, y daban `SCRIPT ERROR`. Ahora recorre los 4 de tiro. Los de mecanismos los resuelve y verifica `test_rescate_mechs`.
+- **Verificación**:
+  - `tools/run_tests.sh progression`: 10 pruebas / 78 comprobaciones / 0 fallos. Cubre:
+    - reglas;
+    - servidor local;
+    - XP sin abuso;
+    - cada atributo en 1, 5 y 10;
+    - la pelota real a potencia máxima: 28,5 → 30,2 m/s;
+    - el camino del tiro: desvío lateral 0,97 → 0,80 m con precisión 10 y vertical 0,57 → 0,38 m con altura 10;
+    - arquero sin atajadas imposibles;
+    - balance y tabla de progresión (ver la ficha);
+    - pantalla.
+  - SQL en PostgreSQL 16 local: 124 comprobaciones OK.
+  - Capturas con render de la pantalla (`MENU_ONLY=progresion`).
+  - Suite completa headless: 318 pruebas / 2835 comprobaciones / 0 fallos (27 omitidas, son de render).
+    - Marcó un `SCRIPT ERROR` en `test_dianas_rescate`. Se corrigió y se volvió a correr: 8 / 56 / 0.
+    - Después del arreglo del título se repitieron las pruebas de menús, tienda, dominadas, progresión,
+      personalización y online: sin fallos.
+- **Pendiente**:
+  - la migración no está aplicada en ningún proyecto de Supabase;
+  - sin prueba en un teléfono;
+  - el control solo actúa en el gesto del tiro: los minijuegos arcade no usan atributos, para no cambiar sus récords.
+
 ## 2026-11-13 — Personalización con dominadas continuas y cámara que orbita
 
 Pedido del usuario (sección 6: «el jugador debe estar haciendo dominadas con el balón continuamente… no reiniciar la

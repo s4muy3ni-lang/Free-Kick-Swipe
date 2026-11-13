@@ -3202,7 +3202,7 @@
     {
       "id": "progression.attributes",
       "system": "PROGRESSION",
-      "description": "Atributos deportivos 1–100 (23 de campo + 8 de arquero) con factores acotados; la progresión por experiencia, nivel y estadísticas NO está implementada todavía.",
+      "description": "Atributos deportivos 1–100 (23 de campo + 8 de arquero) con factores acotados (modo partido de futbol 5). La progresion del jugador de penales y tiros libres esta en progression.player_progress.",
       "keywords": [
         "atributos",
         "atributo",
@@ -3281,6 +3281,218 @@
       "dependencies": [
         "PLAYER",
         "ASSISTANCE"
+      ],
+      "documentation": "docs/technical-index/SYSTEMS/PROGRESSION.md",
+      "last_verified": "2026-11-13"
+    },
+    {
+      "id": "progression.player_progress",
+      "system": "PROGRESSION",
+      "description": "Progresion del jugador de penales y tiros libres (2026-11-13): nivel y experiencia del perfil del servidor, 2 puntos de mejora por nivel hasta el nivel 30 (58), 9 atributos de 1 a 10 (potencia, precision, efecto, altura, tecnica de disparo, control; alcance, reflejos y atrapada del arquero) con costo creciente (1/2/3 puntos), efecto real y acotado en los coeficientes del gesto (velocidad maxima +6 %, error -25 %, efecto +15 %, error vertical, trazo irregular y corto) y en el alcance del arquero (KeeperReach, sin atajadas imposibles); neutros en 1, en la CPU y en el duelo local. Redistribucion (primera gratis, despues cada 7 dias por 300 monedas, nunca en partida), historial de mejoras y de experiencia, estilo de juego derivado, experiencia con rendimiento decreciente y tope diario (el doble de XP tampoco lo pasa). Pantalla MI JUGADOR — PROGRESION con el jugador 3D, barra de XP, tarjetas con icono, antes/despues y confirmacion. Servidor: migracion 20261113000009 (attribute_log, spend_attribute_point, respec_attributes, get_my_state.progression, claim_reward, submit_turn con el alcance del perfil del arquero).",
+      "keywords": [
+        "progresion",
+        "nivel",
+        "experiencia",
+        "xp",
+        "puntos de mejora",
+        "atributos",
+        "mejorar",
+        "potencia",
+        "precision",
+        "efecto",
+        "altura",
+        "tecnica",
+        "control",
+        "alcance",
+        "reflejos",
+        "atrapada",
+        "especializacion",
+        "estilo de juego",
+        "redistribuir",
+        "respec",
+        "mi jugador",
+        "balance",
+        "anti abuso",
+        "tope diario",
+        "historial"
+      ],
+      "files": [
+        "scripts/progression/progression_rules.gd",
+        "scripts/progression/attribute_effects.gd",
+        "scripts/ui/menu_screens.gd",
+        "scripts/ui/menu_icon.gd",
+        "scripts/setpiece/setpiece_game.gd",
+        "scripts/setpiece/sp_keeper.gd",
+        "scripts/setpiece/shot_solver.gd",
+        "scripts/online/local_backend.gd",
+        "supabase/migrations/20261113000009_progression.sql",
+        "supabase/tests/test_server.sql",
+        "tests/test_progression.gd",
+        "tools/ui/menu_capture.gd"
+      ],
+      "symbols": [
+        {
+          "file": "scripts/progression/progression_rules.gd",
+          "name": "ProgressionRules.cost_to",
+          "line": 34,
+          "kind": "func"
+        },
+        {
+          "file": "scripts/progression/progression_rules.gd",
+          "name": "ProgressionRules.available",
+          "line": 62,
+          "kind": "func"
+        },
+        {
+          "file": "scripts/progression/progression_rules.gd",
+          "name": "ProgressionRules.can_raise",
+          "line": 66,
+          "kind": "func"
+        },
+        {
+          "file": "scripts/progression/progression_rules.gd",
+          "name": "ProgressionRules.specialization",
+          "line": 99,
+          "kind": "func"
+        },
+        {
+          "file": "scripts/progression/progression_rules.gd",
+          "name": "ProgressionRules.respec_state",
+          "line": 86,
+          "kind": "func"
+        },
+        {
+          "file": "scripts/progression/progression_rules.gd",
+          "name": "ProgressionRules.xp_in_level",
+          "line": 77,
+          "kind": "func"
+        },
+        {
+          "file": "scripts/progression/attribute_effects.gd",
+          "name": "AttributeEffects.tuning_for",
+          "line": 53,
+          "kind": "func"
+        },
+        {
+          "file": "scripts/progression/attribute_effects.gd",
+          "name": "AttributeEffects.speed_range",
+          "line": 71,
+          "kind": "func"
+        },
+        {
+          "file": "scripts/progression/attribute_effects.gd",
+          "name": "AttributeEffects.pitch_ratio",
+          "line": 75,
+          "kind": "func"
+        },
+        {
+          "file": "scripts/progression/attribute_effects.gd",
+          "name": "AttributeEffects.type_error_factor",
+          "line": 79,
+          "kind": "func"
+        },
+        {
+          "file": "scripts/progression/attribute_effects.gd",
+          "name": "AttributeEffects.apply_keeper",
+          "line": 94,
+          "kind": "func"
+        },
+        {
+          "file": "scripts/progression/attribute_effects.gd",
+          "name": "AttributeEffects.effect",
+          "line": 115,
+          "kind": "func"
+        },
+        {
+          "file": "scripts/progression/attribute_effects.gd",
+          "name": "AttributeEffects.user_attrs",
+          "line": 102,
+          "kind": "func"
+        },
+        {
+          "file": "scripts/ui/menu_screens.gd",
+          "name": "MenuScreens.open_progression",
+          "line": 1269,
+          "kind": "func"
+        },
+        {
+          "file": "scripts/ui/menu_screens.gd",
+          "name": "MenuScreens.progression_info",
+          "line": 1258,
+          "kind": "func"
+        },
+        {
+          "file": "scripts/ui/menu_screens.gd",
+          "name": "MenuScreens.upgrade",
+          "line": 1450,
+          "kind": "func"
+        },
+        {
+          "file": "scripts/ui/menu_screens.gd",
+          "name": "MenuScreens._confirm_upgrade",
+          "line": 1414,
+          "kind": "func"
+        },
+        {
+          "file": "scripts/ui/menu_screens.gd",
+          "name": "MenuScreens._confirm_respec",
+          "line": 1459,
+          "kind": "func"
+        },
+        {
+          "file": "scripts/setpiece/setpiece_game.gd",
+          "name": "SetPieceGame._shooter_attrs",
+          "line": 911,
+          "kind": "func"
+        },
+        {
+          "file": "scripts/setpiece/setpiece_game.gd",
+          "name": "SetPieceGame._user_tuning",
+          "line": 915,
+          "kind": "func"
+        },
+        {
+          "file": "scripts/setpiece/setpiece_game.gd",
+          "name": "SetPieceGame.shot_context",
+          "line": 906,
+          "kind": "func"
+        },
+        {
+          "file": "scripts/online/local_backend.gd",
+          "name": "LocalBackend._spend_point",
+          "line": 329,
+          "kind": "func"
+        },
+        {
+          "file": "scripts/online/local_backend.gd",
+          "name": "LocalBackend._respec",
+          "line": 346,
+          "kind": "func"
+        },
+        {
+          "file": "scripts/online/local_backend.gd",
+          "name": "LocalBackend._progression",
+          "line": 204,
+          "kind": "func"
+        },
+        {
+          "file": "scripts/online/local_backend.gd",
+          "name": "LocalBackend._claim_reward",
+          "line": 392,
+          "kind": "func"
+        },
+        {
+          "file": "scripts/online/local_backend.gd",
+          "name": "LocalBackend.keeper_rule",
+          "line": 781,
+          "kind": "func"
+        }
+      ],
+      "parameters": [],
+      "dependencies": [
+        "SETPIECE",
+        "ONLINE",
+        "PROGRESSION"
       ],
       "documentation": "docs/technical-index/SYSTEMS/PROGRESSION.md",
       "last_verified": "2026-11-13"
@@ -5788,25 +6000,25 @@
         {
           "file": "scripts/setpiece/setpiece_game.gd",
           "name": "SetPieceGame._take_shot",
-          "line": 903,
+          "line": 921,
           "kind": "func"
         },
         {
           "file": "scripts/setpiece/setpiece_game.gd",
           "name": "SetPieceGame.shoot_params",
-          "line": 1946,
+          "line": 1971,
           "kind": "func"
         },
         {
           "file": "scripts/setpiece/setpiece_game.gd",
           "name": "SetPieceGame._finish",
-          "line": 1203,
+          "line": 1225,
           "kind": "func"
         },
         {
           "file": "scripts/setpiece/setpiece_game.gd",
           "name": "SetPieceGame.clamp_free_kick_spot",
-          "line": 574,
+          "line": 583,
           "kind": "func"
         },
         {
@@ -6092,13 +6304,13 @@
         {
           "file": "scripts/setpiece/sp_keeper.gd",
           "name": "SpKeeper.commit_to",
-          "line": 442,
+          "line": 444,
           "kind": "func"
         },
         {
           "file": "scripts/setpiece/sp_keeper.gd",
           "name": "SpKeeper._resolve",
-          "line": 733,
+          "line": 735,
           "kind": "func"
         },
         {

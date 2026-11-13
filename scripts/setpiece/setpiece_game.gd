@@ -166,6 +166,12 @@ const CHEER_DECAY := 0.22
 const BOO_DECAY := 0.3
 ## Pruebas: sin esperas de presentacion (el resultado pasa enseguida).
 var fast: bool = false
+## Atributos del jugador del usuario (perfil del servidor; AttributeEffects): escalan, con tope, los coeficientes del
+## gesto de sus tiros y el alcance de su arquero. Vacio = neutros (el juego de siempre). El duelo local (dos personas en
+## un telefono) y la CPU juegan siempre con atributos neutros.
+var user_attrs: Dictionary = {}
+## Atajadas del usuario en esta partida (van con el premio de la partida offline; el servidor las acota).
+var user_saves: int = 0
 
 func _ready() -> void:
 	SpSettings.load_settings()
@@ -176,6 +182,8 @@ func _ready() -> void:
 	if mode == Mode.CHALLENGE:
 		vs = Vs.PRACTICE
 	next_vs = -1
+	if vs != Vs.LOCAL and user_attrs.is_empty():
+		user_attrs = AttributeEffects.user_attrs()
 	if vs == Vs.LOCAL:
 		local = LocalDuel.new()
 		shootout.first = local.first_shooter()
@@ -232,7 +240,7 @@ func _ready() -> void:
 	ShotCatalog.clips()
 	for roles in [SpReactions.GOAL_SCORER, SpReactions.MISS_SHOOTER, SpReactions.GOAL_TEAM, SpReactions.SAD, SpReactions.HAPPY_DEFENDER]:
 		SpReactions.pick(roles, rng, 1.5, 1.0)
-	gesture = ShotGesture.new(GestureTuning.current(), 720.0)
+	gesture = ShotGesture.new(_user_tuning(), 720.0)
 	preview = TrajectoryPreview.new()
 	preview.name = "TrajectoryPreview"
 	add_child(preview)
@@ -370,6 +378,7 @@ func _build_people() -> void:
 		user_keeper.actor.set_accessories(PlayerCustom.accessories)
 		user_keeper.ai = false
 		user_keeper.touched_ball.connect(_on_keeper_touch)
+		AttributeEffects.apply_keeper(user_keeper, _shooter_attrs())
 		if fk_duel():
 			cpu_shooter.actor.visible = false
 			user_keeper.actor.visible = false
@@ -893,22 +902,35 @@ func _reset_play() -> void:
 	if ball.is_held():
 		ball.release(null)
 
-## Contexto fisico del tiro para el modelo del gesto.
-func shot_context() -> Dictionary:
-	return GestureShotModel.context(gx, PEN_SPEED if _penalty_like() else FK_SPEED, _penalty_like(), half_goal, goal_h, ball.radius)
+## Contexto fisico del tiro para el modelo del gesto (attrs: atributos del tirador; la potencia sube la velocidad maxima).
+func shot_context(attrs: Dictionary = {}) -> Dictionary:
+	return GestureShotModel.context(gx, AttributeEffects.speed_range(PEN_SPEED if _penalty_like() else FK_SPEED, attrs),
+		_penalty_like(), half_goal, goal_h, ball.radius)
+
+## Atributos que valen para el tirador / arquero del usuario en esta partida (neutros en el duelo local).
+func _shooter_attrs() -> Dictionary:
+	return {} if vs == Vs.LOCAL else user_attrs
+
+## Coeficientes del gesto del usuario: los del juego escalados por sus atributos (AttributeEffects.tuning_for).
+func _user_tuning() -> GestureTuning:
+	return AttributeEffects.tuning_for(GestureTuning.current(), _shooter_attrs())
 
 ## Lanza el tiro descrito por `p` (ya resuelto con la fisica): aplica el error de precision, clasifica el resultado previsto
 ## (un tiro que se va fuera usa un golpeo «de error»), elige el golpeo por pie, direccion, potencia y tipo, y ejecuta la
 ## carrera. El impulso a la pelota se da en el instante de contacto del pie del clip (SpShooter).
 func _take_shot(shooter: SpShooter, p: ShotParams, error_deg: float) -> void:
+	# Atributos del tirador (solo los del usuario; la CPU y el duelo local, neutros).
+	var attrs: Dictionary = _shooter_attrs() if shooter == user_shooter else {}
 	if p.velocity == Vector3.ZERO:
-		GestureShotModel.solve(p, ball_spot, shot_context(), false)
+		GestureShotModel.solve(p, ball_spot, shot_context(attrs), false)
 	if p.velocity == Vector3.ZERO:
 		return
 	# Estilo de golpeo del usuario: solo sesga la eleccion del clip (la salida de la pelota ya esta resuelta y no cambia).
 	if shooter == user_shooter:
 		PlayerCustom.bias(p)
-	var v: Vector3 = ShotSolver.perturb(p.velocity, error_deg, rng)
+	# Error de precision: la tecnica lo baja en los tiros tecnicos y la altura achica su parte vertical.
+	var v: Vector3 = ShotSolver.perturb(p.velocity, error_deg * AttributeEffects.type_error_factor(attrs, p.gesture_type), rng,
+		AttributeEffects.pitch_ratio(attrs))
 	var traj: PackedVector3Array = BallPredictor.trajectory(ball_spot, v, 3.5, 1.0 / 60.0, p.spin, true)
 	var cross: Vector3 = ShotSolver.crossing(traj, gx)
 	var cls: String = ShotSolver.classify(cross, half_goal, goal_h, ball.radius)
@@ -1237,6 +1259,8 @@ func _finish(why: String) -> void:
 	hud.show_banner(texts[why][0], texts[why][1], sub)
 	# Logros y desafios diarios (no en partidas rapidas de prueba ni en el duelo local: dos jugadores en un telefono no
 	# suman premios jugando entre ellos).
+	if why == "save" and duel_like() and not user_shooting and vs != Vs.LOCAL:
+		user_saves += 1
 	if not fast and vs != Vs.LOCAL:
 		if goal_ok and user_shooting:
 			Achievements.event(&"gol")
@@ -1796,7 +1820,8 @@ func _show_end() -> void:
 			Achievements.event(&"tanda")
 	if not fast and online_match == null:
 		# Partida offline: al servidor solo va si gano (el premio lo calcula el servidor).
-		OnlineHooks.reward("offline_match", {"mode": "penales" if mode == Mode.PENALTY else "tiros_libres", "won": w == PenaltyShootout.USER})
+		OnlineHooks.reward("offline_match", {"mode": "penales" if mode == Mode.PENALTY else "tiros_libres", "won": w == PenaltyShootout.USER,
+			"goals": shootout.goals(0), "saves": user_saves})
 
 func _on_goal_scored(g: Goal, pos: Vector3) -> void:
 	if g == goal and phase == Phase.FLIGHT:
@@ -1862,7 +1887,7 @@ func _on_press(pos: Vector2, pressed: bool) -> void:
 		Phase.AIM:
 			if pressed:
 				_swiping = true
-				gesture.tuning = GestureTuning.current()
+				gesture.tuning = _user_tuning()
 				gesture.begin(pos, _now(), _screen_h())
 				_preview_t = 0.0
 			elif _swiping:
@@ -1891,8 +1916,8 @@ func _update_preview(delta: float) -> void:
 		preview.hide_path()
 		hud.hide_gesture()
 		return
-	var p: ShotParams = GestureShotModel.build(f, gesture.last_px(), cam, ball_spot, shot_context(), gesture.tuning)
-	GestureShotModel.solve(p, ball_spot, shot_context(), true)
+	var p: ShotParams = GestureShotModel.build(f, gesture.last_px(), cam, ball_spot, shot_context(_shooter_attrs()), gesture.tuning)
+	GestureShotModel.solve(p, ball_spot, shot_context(_shooter_attrs()), true)
 	# «Mostrar linea de destino» apagada: no se dibuja la trayectoria ni el aro (la fisica y el tiro son los mismos; el
 	# rastro del dedo y los medidores siguen).
 	if GraphicsSettings.show_aim_line:
@@ -1936,7 +1961,7 @@ func _pick_zone(screen: Vector2) -> void:
 func _user_shot_from_gesture() -> void:
 	var f: Dictionary = gesture.features()
 	last_features = f
-	var p: ShotParams = GestureShotModel.build(f, gesture.last_px(), cam, ball_spot, shot_context(), gesture.tuning)
+	var p: ShotParams = GestureShotModel.build(f, gesture.last_px(), cam, ball_spot, shot_context(_shooter_attrs()), gesture.tuning)
 	if p.gesture_type == "invalido" or not (float(f["vertical"]) > 0.0 or absf(float(f["horizontal"])) > float(f["length"]) * 0.5):
 		hud.set_hint("Trazo muy corto: deslizá desde la pelota hacia el arco")
 		return
@@ -1946,7 +1971,7 @@ func _user_shot_from_gesture() -> void:
 func shoot_params(p: ShotParams) -> void:
 	if phase != Phase.AIM:
 		return
-	GestureShotModel.solve(p, ball_spot, shot_context(), false)
+	GestureShotModel.solve(p, ball_spot, shot_context(_shooter_attrs()), false)
 	# Duelo local: patea el jugador al que le toca (el tirador del equipo 1 es el del segundo jugador).
 	_take_shot(cur_shooter if vs == Vs.LOCAL else user_shooter, p, p.error_deg)
 	if diag.visible:
@@ -1959,12 +1984,12 @@ func shoot(target: Vector3, pwr: float, curve: float) -> void:
 	var f := {"length": t.length_full, "avg_speed": lerpf(t.speed_slow, t.speed_fast, pwr), "peak_speed": lerpf(t.speed_slow, t.speed_fast, pwr),
 		"smoothness": 1.0, "vertical": 0.3, "end_dir": Vector2(0, -1), "end_accel": 0.0, "curvature": curve}
 	last_features = f
-	shoot_params(synthetic_params(target, pwr, curve))
+	shoot_params(synthetic_params(target, pwr, curve, _shooter_attrs()))
 
 ## Parametros de un trazo largo y limpio hacia target (potencia 0..1, curvatura + derecha), con el mismo modelo del gesto:
-## los usan las pruebas y el tirador de la CPU en los tiros libres por turnos.
-func synthetic_params(target: Vector3, pwr: float, curve: float) -> ShotParams:
-	var t: GestureTuning = GestureTuning.current()
+## los usan las pruebas y el tirador de la CPU en los tiros libres por turnos. attrs: atributos del tirador (CPU: neutros).
+func synthetic_params(target: Vector3, pwr: float, curve: float, attrs: Dictionary = {}) -> ShotParams:
+	var t: GestureTuning = AttributeEffects.tuning_for(GestureTuning.current(), attrs)
 	var p := ShotParams.new()
 	p.gesture_length = t.length_full
 	p.smoothness = 1.0
@@ -1977,8 +2002,8 @@ func synthetic_params(target: Vector3, pwr: float, curve: float) -> ShotParams:
 	p.error_deg = t.error_base + t.error_power * pwr * pwr
 	p.accuracy = 1.0
 	p.gesture_type = GestureShotModel.classify(p, t, goal_h)
-	GestureShotModel._apply_type(p, shot_context(), t, 0.0)
-	GestureShotModel.solve(p, ball_spot, shot_context(), false)
+	GestureShotModel._apply_type(p, shot_context(attrs), t, 0.0)
+	GestureShotModel.solve(p, ball_spot, shot_context(attrs), false)
 	return p
 
 ## Comparador del panel de diagnostico: trazos sinteticos desde la pelota hacia el arco (no patea).

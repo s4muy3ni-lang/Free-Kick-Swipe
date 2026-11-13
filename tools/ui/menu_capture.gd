@@ -40,6 +40,27 @@ func _ready() -> void:
 		await _shot("dominadas_espalda")
 		get_tree().quit()
 		return
+	if OS.get_environment("MENU_ONLY") == "progresion":
+		# MI JUGADOR — PROGRESION: con nivel 6 (10 puntos), la confirmacion antes / despues y una mejora hecha.
+		Online.local._db["profile"]["xp"] = 2300
+		Online.local._save()
+		await Online.refresh_state()
+		screens.open_progression()
+		for i in 40:
+			await get_tree().process_frame
+		await _shot("progresion")
+		screens._confirm_upgrade("power")
+		await _shot("progresion_confirmar")
+		await screens.upgrade("power")
+		await screens.upgrade("accuracy")
+		screens._prog_tab = "arquero"
+		screens._fill_progression()
+		await _shot("progresion_arquero")
+		screens._prog_tab = "historial"
+		screens._fill_progression()
+		await _shot("progresion_historial")
+		get_tree().quit()
+		return
 	if OS.get_environment("MENU_ONLY") == "tienda":
 		# Tienda: la grilla de tarjetas, un filtro y la ficha con la vista previa (botines y balon).
 		await screens.open_shop()

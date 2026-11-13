@@ -52,13 +52,15 @@ func _ready() -> void:
 	var back := _btn("‹ Volver", close)
 	back.custom_minimum_size = Vector2(160, 56)
 	head.add_child(back)
+	# El titulo ocupa el espacio que queda y se parte en dos renglones si no entra (en el panel lateral, «MI JUGADOR —
+	# PROGRESIÓN» ensanchaba el panel y lo sacaba de la pantalla).
 	_title = Label.new()
 	_title.add_theme_font_size_override("font_size", 38)
 	_title.add_theme_color_override("font_color", GOLD)
+	_title.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_title.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	head.add_child(_title)
-	var sp := Control.new()
-	sp.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	head.add_child(sp)
 	head.add_child(MenuIcon.new("coin", Color.WHITE, 40))
 	_coins = Label.new()
 	_coins.add_theme_font_size_override("font_size", 28)
@@ -83,6 +85,8 @@ func _ready() -> void:
 
 func _full_panel() -> void:
 	_panel.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	if _title != null:
+		_title.add_theme_font_size_override("font_size", 38)
 
 ## Personalizar: el panel a la derecha para ver al jugador girando a la izquierda.
 func _side_panel() -> void:
@@ -92,13 +96,16 @@ func _side_panel() -> void:
 	_panel.offset_right = 0
 	_panel.offset_top = 0
 	_panel.offset_bottom = 0
+	_title.add_theme_font_size_override("font_size", 30)
 
 func _on_state() -> void:
 	_coins.text = "%d" % Online.coins()
 
 func close() -> void:
-	if current == "personalizar":
+	if _mode3d:
+		_mode3d = false
 		customize_mode.emit(false)
+	if current == "personalizar":
 		_send_appearance()
 	if _searching:
 		_searching = false
@@ -106,7 +113,13 @@ func close() -> void:
 	visible = false
 	current = ""
 
+## El jugador 3D del menu (Personalizar, MI JUGADOR) esta a la vista: al pasar a otra pantalla se guarda.
+var _mode3d: bool = false
+
 func _clear(title: String) -> void:
+	if _mode3d:
+		_mode3d = false
+		customize_mode.emit(false)
 	for c in _content.get_children():
 		c.queue_free()
 	_title.text = title
@@ -1168,11 +1181,6 @@ func open_events() -> void:
 
 # --- PERFIL ---------------------------------------------------------------------------------------------------------
 
-const ATTR := {"power": ["Potencia", "Velocidad máxima de tus tiros (moderado)."],
-	"accuracy": ["Precisión", "Menos error al apuntar."], "curve": ["Efecto", "Más comba disponible."],
-	"height": ["Altura", "Control de la elevación del tiro."], "technique": ["Técnica de disparo", "Golpeos más limpios."],
-	"control": ["Control", "Recepción y pases en minijuegos."]}
-
 func open_profile() -> void:
 	current = "perfil"
 	_clear("PERFIL")
@@ -1207,26 +1215,13 @@ func open_profile() -> void:
 	un.custom_minimum_size = Vector2(0, 48)
 	id_box[1].add_child(un)
 	id_box[1].add_child(_btn("Cambiar nombre de usuario", func() -> void: _act("change_username", {"p_new": un.text}, "Nombre cambiado")))
+	# Los atributos y las mejoras estan en MI JUGADOR — PROGRESION (con el jugador 3D, antes / despues y confirmacion).
 	var at_box: Array = _card_box(Color(0.08, 0.1, 0.18), 0)
 	_content.add_child(at_box[0])
-	var attrs: Dictionary = p.get("attributes", {}) if p.get("attributes") is Dictionary else {}
-	var spent: int = 0
-	for k in attrs:
-		spent += int(attrs[k]) - 1
-	at_box[1].add_child(_lbl("Atributos de disparo · puntos libres: %d (2 por nivel; efecto moderado y con límites)" % maxi((lv - 1) * 2 - spent, 0), 24, GOLD))
-	for k in ATTR:
-		var h := HBoxContainer.new()
-		h.add_theme_constant_override("separation", 12)
-		var l := _lbl("%s %d/10 · %s" % [ATTR[k][0], int(attrs.get(k, 1)), ATTR[k][1]], 20)
-		l.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		h.add_child(l)
-		var key: String = k
-		var b := _btn("+", func() -> void:
-			await _act("spend_attribute_point", {"p_attribute": key}, "Atributo mejorado")
-			open_profile())
-		b.custom_minimum_size = Vector2(64, 48)
-		h.add_child(b)
-		at_box[1].add_child(h)
+	var info: Dictionary = progression_info()
+	at_box[1].add_child(_lbl("Atributos · %s · %d puntos de mejora" % [ProgressionRules.specialization(info["attrs"])["name"],
+		int((info["prog"] as Dictionary).get("points_available", 0))], 24, GOLD))
+	at_box[1].add_child(_btn("MI JUGADOR — PROGRESIÓN", open_progression))
 	var rk: Array = _card_box(Color(0.08, 0.1, 0.18), 0)
 	_content.add_child(rk[0])
 	rk[1].add_child(_lbl("Rankings (solo partidas entre humanos; los bots no participan)", 24, GOLD))
@@ -1240,6 +1235,299 @@ func open_profile() -> void:
 	_content.add_child(_btn("Cerrar sesión", func() -> void:
 		await Online.sign_out()
 		get_tree().change_scene_to_file(WelcomeScreen.SCENE)))
+
+# --- MI JUGADOR — PROGRESION ----------------------------------------------------------------------------------------
+
+## Pantalla de progresion (pedido del usuario: «MI JUGADOR — PROGRESIÓN: modelo 3D, nivel, barra de experiencia, puntos,
+## atributos con icono, barra, descripcion, efecto y costo, comparacion antes / despues y confirmacion antes de gastar»).
+## El jugador 3D (haciendo dominadas) queda a la izquierda, como en Personalizar. El servidor valida cada mejora
+## (spend_attribute_point) y la redistribucion (respec_attributes); la pantalla usa las mismas reglas (ProgressionRules)
+## para mostrar costos y avisar antes.
+const PROG_TABS := [["tirador", "Tirador"], ["arquero", "Arquero"], ["historial", "Historial"], ["estadisticas", "Estadísticas"]]
+const ATTR_COLORS := {"power": Color(1.0, 0.55, 0.25), "accuracy": Color(0.4, 0.85, 1.0), "curve": Color(0.75, 0.5, 1.0),
+	"height": Color(0.45, 1.0, 0.6), "technique": Color(1.0, 0.84, 0.28), "control": Color(0.95, 0.95, 1.0),
+	"keeper_reach": Color(0.35, 0.75, 1.0), "keeper_reflex": Color(1.0, 0.45, 0.55), "keeper_catch": Color(0.6, 1.0, 0.8)}
+const SOURCE_NAMES := {"arcade": "Minijuego arcade", "academia": "Academia", "desafio_diario": "Desafío diario",
+	"desafio_semanal": "Desafío semanal", "logro": "Logro", "offline_match": "Partida offline", "partida_bot": "Partida online",
+	"partida": "Partida online", "evento": "Evento", "temporada": "Temporada"}
+var _prog_tab: String = "tirador"
+var _prog_modal: Control = null
+
+## Nivel, experiencia, atributos y el bloque de progresion del servidor (si el servidor todavia no tiene la migracion de
+## progresion, se calcula con las mismas reglas).
+func progression_info() -> Dictionary:
+	var p: Dictionary = Online.profile()
+	var lv: int = Online.level()
+	var at: Dictionary = p.get("attributes", {}) if p.get("attributes") is Dictionary else {}
+	var pr: Dictionary = Online.state.get("progression", {}) if Online.state.get("progression") is Dictionary else {}
+	if pr.is_empty():
+		pr = {"points_earned": ProgressionRules.earned(lv), "points_spent": ProgressionRules.spent(at),
+			"points_available": ProgressionRules.available(lv, at), "history": [], "xp_history": [],
+			"respecs": int(p.get("respecs", 0)), "respec_at": 0.0, "now": Time.get_unix_time_from_system()}
+	return {"level": lv, "xp": int(p.get("xp", 0)), "attrs": at, "prog": pr}
+
+func open_progression() -> void:
+	current = "mi_jugador"
+	_clear("MI JUGADOR — PROGRESIÓN")
+	_side_panel()
+	_mode3d = true
+	customize_mode.emit(true)
+	_fill_progression()
+
+func _fill_progression() -> void:
+	for c in _content.get_children():
+		c.queue_free()
+	var info: Dictionary = progression_info()
+	var lv: int = info["level"]
+	var pr: Dictionary = info["prog"]
+	var at: Dictionary = info["attrs"]
+	var head: Array = _card_box(Color(0.08, 0.1, 0.18), 0)
+	_content.add_child(head[0])
+	var top := HBoxContainer.new()
+	top.add_theme_constant_override("separation", 16)
+	head[1].add_child(top)
+	top.add_child(_lbl("NIVEL %d" % lv, 40, GOLD, false))
+	var xv := VBoxContainer.new()
+	xv.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	top.add_child(xv)
+	var xi: Vector2i = ProgressionRules.xp_in_level(int(info["xp"]))
+	xv.add_child(_lbl("%d / %d XP para el nivel %d" % [xi.x, xi.y, lv + 1], 17, Color(0.85, 0.9, 1.0)))
+	var bar := ProgressBar.new()
+	bar.name = "BarraXP"
+	bar.max_value = xi.y
+	bar.value = xi.x
+	bar.show_percentage = false
+	bar.custom_minimum_size = Vector2(0, 20)
+	var fill := StyleBoxFlat.new()
+	fill.bg_color = GOLD
+	fill.set_corner_radius_all(8)
+	var bg := StyleBoxFlat.new()
+	bg.bg_color = Color(0.15, 0.18, 0.28)
+	bg.set_corner_radius_all(8)
+	bar.add_theme_stylebox_override("fill", fill)
+	bar.add_theme_stylebox_override("background", bg)
+	xv.add_child(bar)
+	var pts := _lbl("Puntos de mejora: %d" % int(pr.get("points_available", 0)), 26, GOLD)
+	pts.name = "Puntos"
+	head[1].add_child(pts)
+	var sp: Dictionary = ProgressionRules.specialization(at)
+	head[1].add_child(_lbl("Estilo: %s · %s" % [sp["name"], sp["detail"]], 18, Color(0.75, 0.95, 0.8)))
+	head[1].add_child(_lbl("2 puntos por nivel hasta el nivel %d (%d de %d ganados). Subir cuesta más arriba: 1 punto hasta el 5, 2 del 6 al 8 y 3 el 9 y el 10. Los atributos se ganan jugando: no se compran." % [
+		ProgressionRules.POINT_LEVEL_CAP, int(pr.get("points_earned", 0)), ProgressionRules.earned(ProgressionRules.POINT_LEVEL_CAP)], 15, Color(0.7, 0.76, 0.9)))
+	var tabs := HFlowContainer.new()
+	tabs.add_theme_constant_override("h_separation", 8)
+	_content.add_child(tabs)
+	for t in PROG_TABS:
+		var key: String = t[0]
+		var b := _btn(String(t[1]), func() -> void:
+			_prog_tab = key
+			_fill_progression())
+		b.toggle_mode = true
+		b.button_pressed = _prog_tab == key
+		b.custom_minimum_size = Vector2(120, 46)
+		b.add_theme_font_size_override("font_size", 18)
+		b.name = "Pestaña_" + key
+		tabs.add_child(b)
+	match _prog_tab:
+		"tirador", "arquero":
+			_content.add_child(_lbl("Cada mejora cambia un parámetro real del juego, poco y con tope. El gesto, la dirección y la potencia siguen siendo tuyos." if _prog_tab == "tirador"
+				else "El arquero sigue necesitando el sector correcto: nunca ataja una pelota que no alcanza.", 16, Color(0.8, 0.86, 1.0)))
+			for k in (ProgressionRules.SHOOTER if _prog_tab == "tirador" else ProgressionRules.KEEPER):
+				_content.add_child(_attr_card(k, lv, at, int(pr.get("points_available", 0))))
+		"historial":
+			_progression_history(pr)
+		"estadisticas":
+			_progression_stats(info)
+	var foot := HFlowContainer.new()
+	foot.add_theme_constant_override("h_separation", 10)
+	_content.add_child(foot)
+	var rs := _btn("Redistribuir puntos", _confirm_respec)
+	rs.name = "Redistribuir"
+	foot.add_child(rs)
+	foot.add_child(_btn("Perfil y ranking", open_profile))
+
+## Tarjeta de un atributo: icono, nombre y valor, barra de 10, descripcion, efecto actual y costo de la mejora.
+func _attr_card(k: String, lv: int, at: Dictionary, avail: int) -> Control:
+	var v: int = ProgressionRules.value(at, k)
+	var cb: Array = _card_box(Color(0.07, 0.09, 0.16), 0)
+	cb[0].name = "Atributo_" + k
+	var h := HBoxContainer.new()
+	h.add_theme_constant_override("separation", 12)
+	cb[1].add_child(h)
+	var ic := MenuIcon.new(k, ATTR_COLORS.get(k, GOLD), 56)
+	ic.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	h.add_child(ic)
+	var mid := VBoxContainer.new()
+	mid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	mid.add_theme_constant_override("separation", 4)
+	h.add_child(mid)
+	mid.add_child(_lbl("%s  %d/10" % [ProgressionRules.NAMES[k], v], 22, GOLD, false))
+	mid.add_child(_segments(v, ATTR_COLORS.get(k, GOLD)))
+	mid.add_child(_lbl(String(AttributeEffects.DESCRIPTIONS[k]), 15, Color(0.85, 0.88, 0.95)))
+	var eff: Array = AttributeEffects.effect(k, v)
+	if not eff.is_empty():
+		mid.add_child(_lbl("Ahora: " + String(eff[0]), 15, Color(0.6, 0.9, 1.0)))
+	var right := VBoxContainer.new()
+	right.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	h.add_child(right)
+	var cost: int = ProgressionRules.cost_next(v)
+	right.add_child(_lbl("Máximo" if v >= ProgressionRules.MAX_VALUE else "Cuesta %d" % cost, 16,
+		GOLD if cost <= avail else Color(1.0, 0.6, 0.5), false))
+	var b := _btn("MEJORAR", func() -> void: _confirm_upgrade(k))
+	b.name = "Mejorar_" + k
+	b.custom_minimum_size = Vector2(118, 46)
+	b.add_theme_font_size_override("font_size", 18)
+	b.disabled = ProgressionRules.can_raise(lv, at, k) != ""
+	right.add_child(b)
+	return cb[0]
+
+## Barra de 10 segmentos (el valor del atributo).
+func _segments(v: int, col: Color) -> HBoxContainer:
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", 3)
+	for i in ProgressionRules.MAX_VALUE:
+		var r := ColorRect.new()
+		r.custom_minimum_size = Vector2(22, 10)
+		r.color = col if i < v else Color(0.2, 0.23, 0.33)
+		r.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		row.add_child(r)
+	return row
+
+func _modal(name: String) -> VBoxContainer:
+	if is_instance_valid(_prog_modal):
+		_prog_modal.queue_free()
+	var overlay := ColorRect.new()
+	overlay.name = name
+	overlay.color = Color(0.0, 0.01, 0.05, 0.86)
+	overlay.mouse_filter = Control.MOUSE_FILTER_STOP
+	overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	add_child(overlay)
+	_prog_modal = overlay
+	var center := CenterContainer.new()
+	center.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	overlay.add_child(center)
+	var cb: Array = _card_box(Color(0.05, 0.07, 0.15), 560)
+	center.add_child(cb[0])
+	return cb[1]
+
+## Confirmacion de una mejora: cuanto cambia (antes / despues), el costo y los puntos que quedan.
+func _confirm_upgrade(k: String) -> void:
+	var info: Dictionary = progression_info()
+	var at: Dictionary = info["attrs"]
+	var v: int = ProgressionRules.value(at, k)
+	var cost: int = ProgressionRules.cost_next(v)
+	var avail: int = int((info["prog"] as Dictionary).get("points_available", 0))
+	var box: VBoxContainer = _modal("ConfirmarMejora")
+	box.add_child(_lbl("%s: %d → %d" % [ProgressionRules.NAMES[k], v, v + 1], 32, GOLD))
+	var cols := HBoxContainer.new()
+	cols.add_theme_constant_override("separation", 20)
+	box.add_child(cols)
+	for c in [["AHORA", v, Color(0.85, 0.88, 0.95)], ["DESPUÉS", v + 1, Color(0.5, 1.0, 0.6)]]:
+		var col := VBoxContainer.new()
+		col.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		col.custom_minimum_size = Vector2(260, 0)
+		col.name = "Antes" if int(c[1]) == v else "Despues"
+		cols.add_child(col)
+		col.add_child(_lbl(String(c[0]), 20, GOLD))
+		for line in AttributeEffects.effect(k, int(c[1])):
+			col.add_child(_lbl(String(line), 17, c[2]))
+	box.add_child(_lbl("Cuesta %d punto%s · te quedan %d" % [cost, "" if cost == 1 else "s", maxi(avail - cost, 0)], 19))
+	var msg := _lbl("", 17, Color(1.0, 0.6, 0.5))
+	box.add_child(msg)
+	var why: String = ProgressionRules.can_raise(int(info["level"]), at, k)
+	var acts := HBoxContainer.new()
+	acts.add_theme_constant_override("separation", 12)
+	box.add_child(acts)
+	var ok := _btn("Confirmar", func() -> void: await upgrade(k))
+	ok.name = "Confirmar"
+	ok.disabled = why != ""
+	if why != "":
+		msg.text = "No se puede: " + why
+	acts.add_child(ok)
+	acts.add_child(_btn("Cancelar", func() -> void: _prog_modal.queue_free()))
+
+## Gasta los puntos (el servidor valida y contesta el estado nuevo) y vuelve a dibujar la pantalla.
+func upgrade(k: String) -> bool:
+	var ok: bool = await _act("spend_attribute_point", {"p_attribute": k}, "¡%s mejorada!" % ProgressionRules.NAMES[k])
+	if is_instance_valid(_prog_modal):
+		_prog_modal.queue_free()
+	if current == "mi_jugador":
+		_fill_progression()
+	return ok
+
+## Redistribuir: reglas, costo y espera; con confirmacion.
+func _confirm_respec() -> void:
+	var info: Dictionary = progression_info()
+	var pr: Dictionary = info["prog"]
+	var st: Dictionary = ProgressionRules.respec_state(int(pr.get("respecs", 0)), float(pr.get("respec_at", 0.0)),
+		float(pr.get("now", Time.get_unix_time_from_system())))
+	var box: VBoxContainer = _modal("ConfirmarRedistribucion")
+	box.add_child(_lbl("Redistribuir puntos", 32, GOLD))
+	box.add_child(_lbl("Todos los atributos vuelven a 1 y recuperás los %d puntos gastados para repartirlos de nuevo. No da puntos extra." % int(pr.get("points_spent", 0)), 18))
+	box.add_child(_lbl("Reglas: la primera vez es gratis; después, una vez cada %d días por %d monedas del juego. No se puede durante una partida online." % [
+		ProgressionRules.RESPEC_DAYS, ProgressionRules.RESPEC_COINS], 16, Color(0.8, 0.86, 1.0)))
+	var msg := _lbl("", 18, GOLD)
+	box.add_child(msg)
+	var can: bool = int(pr.get("points_spent", 0)) > 0
+	if not can:
+		msg.text = "Todavía no gastaste puntos."
+	elif bool(st["free"]):
+		msg.text = "Esta redistribución es gratis."
+	elif float(st["wait"]) > 0.0:
+		can = false
+		msg.text = "La próxima se habilita en %d días." % ceili(float(st["wait"]) / 86400.0)
+	else:
+		msg.text = "Cuesta %d monedas (tenés %d)." % [int(st["cost"]), Online.coins()]
+		can = Online.coins() >= int(st["cost"])
+	var acts := HBoxContainer.new()
+	acts.add_theme_constant_override("separation", 12)
+	box.add_child(acts)
+	var ok := _btn("Confirmar", func() -> void:
+		var key: String = "respec-%d-%08x" % [Time.get_ticks_msec(), randi()]
+		await _act("respec_attributes", {"p_idem": key}, "Puntos redistribuidos")
+		if is_instance_valid(_prog_modal):
+			_prog_modal.queue_free()
+		_fill_progression())
+	ok.name = "Confirmar"
+	ok.disabled = not can
+	acts.add_child(ok)
+	acts.add_child(_btn("Cancelar", func() -> void: _prog_modal.queue_free()))
+
+func _progression_history(pr: Dictionary) -> void:
+	var cb: Array = _card_box(Color(0.07, 0.09, 0.16), 0)
+	_content.add_child(cb[0])
+	cb[1].add_child(_lbl("Mejoras", 22, GOLD))
+	var hist: Array = (pr.get("history", []) as Array).duplicate()
+	hist.reverse()
+	if hist.is_empty():
+		cb[1].add_child(_lbl("Todavía no mejoraste ningún atributo.", 17))
+	for e in hist:
+		var when: String = Time.get_date_string_from_unix_time(int(float(e.get("at", 0.0))))
+		if String(e.get("kind", "")) == "redistribucion":
+			cb[1].add_child(_lbl("%s · Redistribución: %d puntos recuperados%s" % [when, int(e.get("from", 0)),
+				"" if int(e.get("cost", 0)) == 0 else " (%d monedas)" % int(e["cost"])], 17, Color(0.8, 0.86, 1.0)))
+		else:
+			cb[1].add_child(_lbl("%s · %s %d → %d (%d punto%s)" % [when, ProgressionRules.NAMES.get(String(e.get("attribute", "")), "?"),
+				int(e.get("from", 0)), int(e.get("to", 0)), int(e.get("cost", 0)), "" if int(e.get("cost", 0)) == 1 else "s"], 17))
+	var xb: Array = _card_box(Color(0.07, 0.09, 0.16), 0)
+	_content.add_child(xb[0])
+	xb[1].add_child(_lbl("Experiencia reciente", 22, GOLD))
+	var xh: Array = pr.get("xp_history", [])
+	if xh.is_empty():
+		xb[1].add_child(_lbl("Jugá penales, tiros libres, minijuegos, desafíos u online para ganar experiencia.", 17))
+	for e in xh:
+		xb[1].add_child(_lbl("+%d XP · %s" % [int(e.get("xp", 0)), SOURCE_NAMES.get(String(e.get("source", "")), String(e.get("source", "")))], 17))
+	xb[1].add_child(_lbl("Hay un tope diario de experiencia fuera de las partidas online, y repetir muchas veces la misma actividad en el día da cada vez menos.", 15, Color(0.7, 0.76, 0.9)))
+
+func _progression_stats(info: Dictionary) -> void:
+	var cb: Array = _card_box(Color(0.07, 0.09, 0.16), 0)
+	_content.add_child(cb[0])
+	cb[1].add_child(_lbl("Estadísticas", 22, GOLD))
+	cb[1].add_child(_lbl("Nivel %d · %d XP en total" % [int(info["level"]), int(info["xp"])], 18))
+	Achievements.load_state()
+	for st in [[&"gol", "Goles"], [&"gol_tl", "Goles de tiro libre"], [&"gol_penal", "Goles de penal"], [&"atajada", "Atajadas"],
+			[&"tanda", "Tandas ganadas"], [&"arcade", "Niveles arcade ganados"], [&"oro", "Medallas de oro"], [&"rescate", "Rescates"]]:
+		cb[1].add_child(_lbl("%s: %d" % [st[1], Achievements.progress_of(st[0], 1000000)], 18))
 
 # --- PERSONALIZAR ---------------------------------------------------------------------------------------------------
 
@@ -1257,6 +1545,7 @@ func open_customize() -> void:
 	current = "personalizar"
 	_clear("PERSONALIZAR")
 	_side_panel()
+	_mode3d = true
 	customize_mode.emit(true)
 	_catalog = await Online.catalog("catalog_items")
 	_content.add_child(_lbl("Arrastrá sobre el jugador para girar la vista; pellizcá (o la rueda) para acercar. Los colores son libres; los diseños especiales se desbloquean.", 17, Color(0.8, 0.86, 1.0)))

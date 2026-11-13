@@ -217,8 +217,15 @@ func test_rescue_mechanisms_are_physical() -> void:
 	check(g.pressed_count() == 0, "un toque flojo no abre la compuerta")
 	cleanup()
 
+## Niveles de tiro (pasos con «at»). Los de mecanismos (pasos «tap», «hold», «wait»; rediseño 2026-11-13) se resuelven
+## y se verifican con su solucion en test_rescate_mechs.
 func test_every_rescue_level_is_beatable() -> void:
+	var mech_levels: Array = []
 	for lv in range(1, MinigameCatalog.levels("rescate").size() + 1):
+		var sol: Array = (MinigameCatalog.levels("rescate")[lv - 1] as Dictionary).get("solution", [])
+		if not sol.is_empty() and not (sol[0] as Dictionary).has("at"):
+			mech_levels.append(lv)
+			continue
 		var g: Rescate = await _rescate(lv)
 		var mind: float = INF
 		for step in g.def.get("solution", []):
@@ -253,6 +260,8 @@ func test_every_rescue_level_is_beatable() -> void:
 			"rescatada" if g.rescued else "ATRAPADA", g.shots[0], str(g.prisoner.global_position), mind])
 		check(g.rescued, "nivel %d: la dorada llega a la zona con fisica real" % lv)
 		cleanup()
+	note("niveles de mecanismos (verificados en test_rescate_mechs): %s" % str(mech_levels))
+	check(mech_levels.size() == MinigameCatalog.levels("rescate").size() - 4, "los 4 niveles de tiro se recorren aca")
 
 
 ## Tiro que hace PICAR la pelota a la distancia del punto p, calibrado con la fisica real del juego (se prueba en una

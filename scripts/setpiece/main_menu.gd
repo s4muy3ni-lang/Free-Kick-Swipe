@@ -198,7 +198,7 @@ func _build_ui() -> void:
 		["TIENDA", "Cosméticos y consumibles", "tienda", Color(0.70, 0.55, 0.10), func() -> void: screens.open_shop()],
 		["TEMPORADA", "Pase y recompensas", "temporada", Color(0.40, 0.18, 0.70), func() -> void: screens.open_season()],
 		["EVENTOS", "Copas y festivales", "eventos", Color(0.20, 0.42, 0.80), func() -> void: screens.open_events()],
-		["PERFIL", "Identidad, atributos, ranking", "perfil", Color(0.30, 0.32, 0.40), func() -> void: screens.open_profile()]]
+		["MI JUGADOR", "Progresión, atributos, perfil", "perfil", Color(0.30, 0.32, 0.40), func() -> void: screens.open_progression()]]
 	for t in tiles:
 		grid.add_child(_tile(t[0], t[1], t[2], t[3], t[4]))
 	var spacer := Control.new()
