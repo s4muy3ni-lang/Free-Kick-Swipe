@@ -37,7 +37,7 @@ AVANZADA». Este documento es la auditoría inicial que piden los dos pedidos. E
 - **Minijuegos online:** el nivel se elige en el lobby (o se sortea). Se guarda en la partida del servidor y
   `OnlineDuel` arranca ese nivel. Al terminar se ofrece repetir, siguiente nivel del mismo minijuego (sigue online),
   elegir otro o salir; nunca un salto a otro minijuego.
-- **Atributos:** `ShotAttributes` (nuevo) traduce los atributos del perfil a parámetros con límites: precisión →
+- **Atributos:** `ShotAttributes` (implementado como `AttributeEffects`, con las reglas en `ProgressionRules`) traduce los atributos del perfil a parámetros con límites: precisión →
   `error_deg`, potencia → rango de velocidad, efecto → `spin_max`, altura → error vertical, técnica → golpe defectuoso,
   control → error por trazo irregular; reflejos, alcance y blocaje del arquero → `KeeperReach`. Un atributo alto
   **nunca** asegura el gol: el gesto sigue mandando.
@@ -69,3 +69,15 @@ AVANZADA». Este documento es la auditoría inicial que piden los dos pedidos. E
 - **Online entre dos teléfonos:** no se puede probar desde aquí. Las pruebas usan el servidor local con las mismas
   reglas que el SQL, y bots como rivales.
 - **Android físico:** no se puede probar desde aquí. Se compila el APK en CI y se mide en PC.
+
+## 5. Estado final (2026-11-13)
+
+Las 11 etapas están hechas. El estado de cada una, los commits y lo que falta (Supabase sin aplicar, sin prueba en
+teléfono ni con dos dispositivos, sin modelos nuevos de Tripo3D) están en `docs/AAA_ROADMAP.md` («Actualización integral
+de competición y expansión de la progresión»).
+
+Diferencias con el plan de arriba:
+- el control actúa en el error por trazo corto y en el largo del trazo; la técnica, en el trazo irregular y en los
+  tiros técnicos;
+- reflejos y velocidad de reacción son un solo parámetro del arquero;
+- la recuperación no es un atributo.

@@ -731,3 +731,55 @@ Pedido: integrar y comparar las animaciones de `animaciones_mixamo.zip` con las 
 | Prueba en el teléfono (ZTE V60) | **Pendiente** | — |
 | Decidir reemplazos por rol o sistema | **Pendiente (usuario)** | `MIXAMO_INTEGRACION.md` (11) |
 
+
+# Actualización integral de competición y expansión de la progresión (2026-11-13)
+
+Pedidos del usuario:
+- «ACTUALIZACIÓN INTEGRAL DE COMPETICIÓN, ATAJADAS, DUELO LOCAL, TIENDA, PERSONALIZACIÓN Y MINIJUEGOS ONLINE»;
+- «EXPANSIÓN DEL SISTEMA DE PROGRESIÓN, MEJORAS DE ATRIBUTOS Y PERSONALIZACIÓN AVANZADA».
+
+Auditoría y plan: `docs/reforma/AUDITORIA_COMPETICION_PROGRESION.md`. El detalle de cada etapa (archivos, pruebas y
+cifras) está en `docs/technical-index/CHANGELOG.md`.
+
+| Etapa | Estado | Commit | Dónde |
+|---|---|---|---|
+| 1. Atajadas por 9 sectores con alcance físico (grilla táctil, regla del servidor) | Hecha | `15ec6d0` | `KeeperZones`, `KeeperReach`, `SpKeeper.sure_save_check`, migración 000006 |
+| 2. Tiros libres alternados contra la IA | Hecha | `15ec6d0` | `SetPieceGame.fk_duel`, `FreeKickSpots` |
+| 3. Duelo local de dos jugadores (pantallas de pase, marcador aparte) | Hecho | `15ec6d0` | `SetPieceGame.Vs.LOCAL`, `LocalDuel` |
+| 4. Tiros libres online con roles alternados | Hecho (servidor local) | `15ec6d0` | `OnlineMatch`, `submit_turn` |
+| 5. Minijuegos online: nivel o aleatorio, sin saltar de minijuego | Hecho (servidor local) | `acbb7d3` | `OnlineMinigameSelect`, migración 000007 |
+| 6. Rescate rediseñado (mecanismos, acertijos, 8 niveles con solución verificada, online) | Hecho | `73d5cb9` | `RescueMechs`, `Rescate` |
+| 7. Tienda visual (imagen real por objeto, estados, vista previa 3D) | Hecha | `9e9b8a3` | `ShopLook`, `ShopPreview`, `assets/shop/items/` |
+| 8. Personalización con dominadas continuas, cámara que orbita y zoom | Hecha | `1c409f8` | `JuggleShow`, `main_menu.gd` |
+| 9. Progresión: nivel, XP, puntos, atributos con efecto real, MI JUGADOR | Hecha | `624af2a` | `ProgressionRules`, `AttributeEffects`, migración 000009 |
+| 10. Personalización avanzada (peinados, barbas, cuerpo, botines, nombre, desbloqueos) | Hecha | `82bfddd` | `HairCatalog`, `PlayerCustom.dress`, migración 000010 |
+| 11. Documentación, suite, CI y APK | Hecha (ver CHANGELOG) | — | este documento, `technical-index/` |
+
+**Atributos con efecto real (resumen; tabla completa en `SYSTEMS/PROGRESSION.md`).** Con todo en 1 el juego es el de
+siempre. En 10:
+- potencia: +6 % de velocidad máxima;
+- precisión: −25 % de desvío;
+- efecto: +15 % de efecto;
+- altura: −35 % de desvío vertical;
+- técnica: −35 % de error por trazo irregular y −15 % en tiros técnicos;
+- control: −35 % de error por trazo corto;
+- arquero: +6 % de alcance, 0,04 s de reacción y +15 % de atrapada, sin atajadas imposibles.
+
+La simulación de balance (6000 penales) da 66,3 % de gol para un jugador nuevo y 70,9 % con todo al máximo. Un trazo
+prolijo sin atributos convierte más que uno descuidado con todo al máximo.
+
+**Lo que falta y por qué:**
+- **Supabase:** las migraciones 20261113000006 a 20261113000010 no están aplicadas en ningún proyecto. Se probaron en
+  PostgreSQL 16 local (`supabase/tests/test_server.sql`) y en CI. Para activarlas hay que aplicarlas en el proyecto y
+  configurar la clave pública en GitHub Secrets (ver `docs/online/ARQUITECTURA_ONLINE.md`).
+- **Online con dos teléfonos:** no probado. Todo lo online se probó con el servidor local (las mismas reglas que el SQL)
+  y bots.
+- **Android físico:** no probado. CI compila el APK; el rendimiento de las dominadas, los peinados y la tienda en un
+  teléfono está sin medir.
+- **Modelos 3D nuevos (Tripo3D):** no se generaron (cuestan créditos y estos pedidos no autorizan el gasto). Botines,
+  ropa y balones son diseños del shader sobre las mallas reales; accesorios, peinados y barbas son piezas simples
+  colgadas de los huesos.
+- **Pelo del modelo:** la máscara de pelo es parcial (con el peinado natural se ve el rubio original de la textura).
+- **Atributos:** el control solo actúa en el gesto del tiro (los minijuegos arcade no usan atributos, para no cambiar
+  sus récords); la recuperación después de la estirada no es un atributo, porque la jugada termina con la atajada.
+- **Pagos reales:** no están activados; lo premium es solo estético y no se vende.
