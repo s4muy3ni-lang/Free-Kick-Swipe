@@ -162,6 +162,48 @@ reemplaza al de PERFIL, que sigue en el botón «Perfil y ranking»):
 creciente), `respec_attributes`, `get_my_state` con el bloque `progression`, `claim_reward` (rendimiento y repetición),
 `keeper_reachable_attr` y `submit_turn` con el alcance del perfil del arquero.
 
+## Personalización avanzada (2026-11-13)
+
+Pedido del usuario (EXPANSIÓN, secciones 5 a 10): peinados, barbas y bigotes, altura y complexión sin romper las
+animaciones ni dar ventajas, botines con color secundario, suela y cordones, número y nombre en la camiseta validados,
+desbloqueos por nivel, logros, monedas y temporada, guardado sin conexión.
+
+- **Peinados y barbas** (`scripts/progression/hair_catalog.gd`, `SpActor.set_look`):
+  - son objetos del catálogo (`haircut`, `beard`): 9 peinados y 6 barbas;
+  - las piezas son elipsoides colgados del hueso de la cabeza con `BoneAttachment3D`: siguen la animación sin tocar el
+    esqueleto (la prueba lo verifica con render);
+  - el pelo del modelo de Tripo está en la textura y tiene volumen (un jopo), así que cada peinado lleva un casco que lo
+    envuelve; el rapado mezcla además el pelo con la piel (`hair_buzz` del shader);
+  - las medidas salen del perfil de la cara en reposo.
+- **Altura y complexión** (`HairCatalog.HEIGHTS`, `BUILDS`; `SpActor.set_body_shape`):
+  - escala del modelo, 0,97–1,03 de alto y 0,94–1,08 de ancho;
+  - solo visual: el alcance, la barrera y el tiro no la usan;
+  - el arquero del usuario no la lleva, porque sus manos tienen que coincidir con las atajadas planificadas.
+- **Botines**: secundario, suela y cordones elegibles (`HairCatalog.BOOT_DETAILS`; −1 = los del par), sobre el diseño
+  de `BootsCatalog`.
+- **Nombre y número**:
+  - el nombre se imprime arriba del número, en la tela (`name_atlas.png` generado por `tools/ui/make_number_atlas.gd`,
+    `name_ink` del shader);
+  - un nombre largo achica las letras;
+  - `ShirtName` valida hasta 12 letras y filtra insultos, y el servidor lo valida igual;
+  - el 7 y el 10 son botones destacados, y cualquier número de 1 a 99 va por la caja numérica (`update_identity`).
+- **Un solo lugar para vestir al jugador**: `PlayerCustom.dress(actor, keeper)`. Lo usan el menú, la tanda, el
+  arquero, los minijuegos y la vista previa de la tienda.
+- **Desbloqueos**:
+  - gratis (casco natural, rapado, rulos, sin barba, bigote, barba corta);
+  - por nivel (jopo 3, candado 4): el servidor los acepta desde ese nivel. Antes ningún objeto de progresión llegaba al
+    inventario: estaba roto desde la tienda visual;
+  - con monedas (rodete, melena, afro, barba completa);
+  - por logro (`achievement`: la cresta con Goleador, la barba vikinga con Guantes firmes; se entregan al cobrar el
+    logro, una vez);
+  - premium solo estético y sin venta (cresta dorada).
+- **Sin conexión**: `Online.queue_appearance` deja **una** operación `update_appearance` en la cola (la última elección
+  de cada campo) y se manda al volver.
+- **Arreglo de paso**: al cargar la personalización guardada, los diseños de camiseta 7–11 y de short y medias 3–4 se
+  recortaban a los viejos.
+- **Limitación**: la máscara de pelo del cuerpo de Tripo es parcial. Con el peinado natural se ve algo del rubio
+  original de la textura; los otros peinados lo tapan con el casco.
+
 ## Personalización y logros (2026-11-10)
 
 - `PlayerCustom` (`scripts/progression/player_custom.gd`): paletas de uniforme/piel/pelo (shader del kit), número en la

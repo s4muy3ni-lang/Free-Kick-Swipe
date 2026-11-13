@@ -352,9 +352,7 @@ func _build_people() -> void:
 	add_child(user_shooter)
 	user_shooter.setup(_actor(PlayerCustom.kit(), 0, "UserShooterBody"), ball)
 	user_shooter.foot = foot
-	user_shooter.actor.number_style = PlayerCustom.number_style
-	user_shooter.actor.set_back_number(PlayerCustom.number)
-	user_shooter.actor.set_accessories(PlayerCustom.accessories)
+	PlayerCustom.dress(user_shooter.actor)
 	user_shooter.celebration = PlayerCustom.celebration_clip()
 	user_shooter.follow_run = PlayerCustom.follow_style == 1
 	user_shooter.contact.connect(_on_contact)
@@ -373,9 +371,9 @@ func _build_people() -> void:
 		user_keeper.name = "UserKeeper"
 		add_child(user_keeper)
 		user_keeper.setup(_actor(PlayerCustom.keeper_kit(), 0, "UserKeeperBody"), ball, gx, half_goal, goal_h)
-		user_keeper.actor.number_style = PlayerCustom.number_style
-		user_keeper.actor.set_back_number(PlayerCustom.number)
-		user_keeper.actor.set_accessories(PlayerCustom.accessories)
+		# El arquero lleva su peinado, nombre y accesorios, pero no la altura ni la complexion (las atajadas se planifican con
+		# las medidas del cuerpo).
+		PlayerCustom.dress(user_keeper.actor, true)
 		user_keeper.ai = false
 		user_keeper.touched_ball.connect(_on_keeper_touch)
 		AttributeEffects.apply_keeper(user_keeper, _shooter_attrs())

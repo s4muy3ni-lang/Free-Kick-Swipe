@@ -758,13 +758,13 @@ class SearchRadar extends Control:
 
 const KIND_NAMES := {"jersey": "Camisetas", "boots": "Botines", "ball": "Balones", "consumable": "Consumibles",
 	"shorts": "Shorts", "socks": "Medias", "emote": "Emojis", "number_style": "Números", "celebration": "Festejos",
-	"accessory": "Accesorios", "name_change": "Extras"}
+	"accessory": "Accesorios", "name_change": "Extras", "haircut": "Peinados", "beard": "Barbas"}
 ## Filtros de la tienda (categorias con su icono del menu).
 const SHOP_TABS := [["todo", "Todo"], ["jersey", "Camisetas"], ["shorts", "Shorts"], ["socks", "Medias"], ["boots", "Botines"],
-	["ball", "Balones"], ["accessory", "Accesorios"], ["celebration", "Festejos"], ["number_style", "Números"],
-	["extras", "Extras"]]
+	["ball", "Balones"], ["haircut", "Peinados"], ["beard", "Barbas"], ["accessory", "Accesorios"], ["celebration", "Festejos"],
+	["number_style", "Números"], ["extras", "Extras"]]
 ## Clave de la apariencia que equipa cada tipo de objeto (los accesorios van en una lista).
-const EQUIP_KEYS := ["jersey", "shorts", "socks", "boots", "ball", "celebration", "number_style", "emote"]
+const EQUIP_KEYS := ["jersey", "shorts", "socks", "boots", "ball", "celebration", "number_style", "emote", "haircut", "beard"]
 
 static func unlock_text(it: Dictionary) -> String:
 	match String(it["unlock"]):
@@ -773,6 +773,12 @@ static func unlock_text(it: Dictionary) -> String:
 		"season": return "De temporada"
 		"event": return "De evento"
 		"premium": return "Premium · los pagos todavía no están activados"
+		"achievement":
+			var aid: String = String((it.get("data", {}) as Dictionary).get("achievement", "")) if it.get("data") is Dictionary else ""
+			for a in Achievements.PERMANENT:
+				if String(a[0]) == aid:
+					return "Logro: %s" % String(a[1])
+			return "Se gana con un logro"
 	return "Comprable · %d monedas" % int(it.get("price_coins", 0))
 
 # --- TIENDA ----------------------------------------------------------------------------------------------------------
@@ -791,7 +797,7 @@ var _shop_modal: Control = null
 func shop_state(it: Dictionary) -> String:
 	var id: String = String(it["id"])
 	var kind: String = String(it["kind"])
-	var owned: bool = String(it["unlock"]) == "free" or Online.owns(id)
+	var owned: bool = owned_item(it)
 	if owned:
 		if kind == "accessory":
 			return "equipado" if (_current_appearance().get("accessories", []) as Array).has(id) else "tuyo"
@@ -1610,11 +1616,79 @@ func _show_custom_tab(key: String) -> void:
 			_chips("Altura", "sock_height", PlayerCustom.SOCK_HEIGHT_NAMES, PlayerCustom.sock_height)
 		"boots":
 			_designs("Botines", "boots")
+			# Detalles sobre el par elegido (pedido del usuario: «color principal, secundario, suela, cordones»).
+			_swatches("Color secundario", "boots_color2", HairCatalog.BOOT_DETAILS, HairCatalog.BOOT_DETAIL_NAMES, PlayerCustom.boots_detail2)
+			_swatches("Suela", "boots_sole", HairCatalog.BOOT_DETAILS, HairCatalog.BOOT_DETAIL_NAMES, PlayerCustom.boots_sole)
+			_swatches("Cordones", "boots_laces", HairCatalog.BOOT_DETAILS, HairCatalog.BOOT_DETAIL_NAMES, PlayerCustom.boots_laces)
+			var reset := _btn("Colores del par", func() -> void:
+				for k in ["boots_color2", "boots_sole", "boots_laces"]:
+					_set_appearance(k, -1)
+				_show_custom_tab(_custom_tab))
+			reset.name = "ColoresDelPar"
+			_custom_box.add_child(reset)
 		"body":
 			_swatches("Piel", "skin", PlayerCustom.SKINS, PlayerCustom.SKIN_NAMES, PlayerCustom.skin)
-			_swatches("Pelo", "hair", PlayerCustom.HAIRS, PlayerCustom.HAIR_NAMES, PlayerCustom.hair)
+			_designs("Peinado", "haircut")
+			_swatches("Color de pelo y barba", "hair", PlayerCustom.HAIRS, PlayerCustom.HAIR_NAMES, PlayerCustom.hair)
+			_designs("Barba y bigote", "beard")
+			_chips("Altura", "height", HairCatalog.HEIGHT_NAMES, PlayerCustom.body_height)
+			_chips("Complexión", "build", HairCatalog.BUILD_NAMES, PlayerCustom.body_build)
+			_custom_box.add_child(_lbl("La altura y la complexión son solo estéticas: no cambian el alcance del arquero, el tiro ni la barrera.", 15, Color(0.75, 0.8, 0.95)))
+		"number_style":
+			_number_and_name()
+			_designs("Estilo del número", "number_style")
 		_:
-			_designs({"ball": "Balón", "celebration": "Festejo", "number_style": "Estilo del número"}.get(key, key), key)
+			_designs({"ball": "Balón", "celebration": "Festejo"}.get(key, key), key)
+
+## Numero (el 7 y el 10 destacados, cualquiera de 1 a 99) y nombre de la camiseta (ShirtName, validado tambien en el
+## servidor). La vista pasa a la espalda para verlos impresos.
+func _number_and_name() -> void:
+	customize_view.emit("espalda")
+	var r: HFlowContainer = _section("Número")
+	for n in [10, 7]:
+		var star := _btn(str(n), func() -> void: set_shirt_number(n))
+		star.name = "Numero_%d" % n
+		star.custom_minimum_size = Vector2(76, 56)
+		star.add_theme_color_override("font_color", GOLD)
+		star.add_theme_font_size_override("font_size", 26)
+		r.add_child(star)
+	var sp := SpinBox.new()
+	sp.name = "NumeroLibre"
+	sp.min_value = 1
+	sp.max_value = 99
+	sp.value = PlayerCustom.number
+	sp.custom_minimum_size = Vector2(130, 56)
+	sp.value_changed.connect(func(v: float) -> void: set_shirt_number(int(v)))
+	r.add_child(sp)
+	var nr: HFlowContainer = _section("Nombre en la camiseta")
+	var le := LineEdit.new()
+	le.name = "NombreCamiseta"
+	le.max_length = ShirtName.MAX
+	le.text = PlayerCustom.shirt_name
+	le.placeholder_text = "Hasta %d letras" % ShirtName.MAX
+	le.custom_minimum_size = Vector2(260, 52)
+	le.add_theme_font_size_override("font_size", 22)
+	nr.add_child(le)
+	var msg := _lbl("", 16, Color(1.0, 0.6, 0.5))
+	var ok := _btn("Aplicar", func() -> void:
+		var why: String = ShirtName.check(le.text)
+		msg.text = why
+		if why == "":
+			_set_appearance("shirt_name", le.text.strip_edges()))
+	ok.name = "AplicarNombre"
+	nr.add_child(ok)
+	_custom_box.add_child(msg)
+
+## Cambia el numero de la camiseta: en el jugador al instante y en el perfil del servidor (update_identity valida 1..99).
+func set_shirt_number(n: int) -> void:
+	n = clampi(n, 1, 99)
+	PlayerCustom.number = n
+	PlayerCustom.save_custom()
+	customize_changed.emit()
+	var p: Dictionary = Online.profile()
+	if not p.is_empty() and int(p.get("shirt_number", 0)) != n:
+		await _act("update_identity", {"p_display_name": String(p.get("display_name", "")), "p_nickname": String(p.get("nickname", "")),
+			"p_country": String(p.get("country", "")), "p_number": n}, "Número %d" % n)
 
 func _section(title: String) -> HFlowContainer:
 	_custom_box.add_child(_lbl(title, 22, GOLD, false))
@@ -1706,7 +1780,15 @@ func _items_of(kind: String) -> Array:
 	return _catalog.filter(func(it: Dictionary) -> bool: return String(it["kind"]) == kind and bool(it.get("active", true)))
 
 func _available(it: Dictionary) -> bool:
-	return String(it["unlock"]) == "free" or Online.owns(String(it["id"]))
+	return owned_item(it)
+
+## Es del usuario: gratis, en el inventario (comprado, de temporada, de evento o de logro) o de progresion con el nivel
+## alcanzado (la misma regla que update_appearance del servidor).
+static func owned_item(it: Dictionary) -> bool:
+	var u: String = String(it.get("unlock", ""))
+	if u == "free" or Online.owns(String(it["id"])):
+		return true
+	return u == "progression" and Online.level() >= int(it.get("min_level", 1))
 
 func _option(g: GridContainer, label: String, key: String) -> void:
 	g.add_child(_lbl(label, 20, Color(1, 1, 1), false))
@@ -1747,5 +1829,9 @@ func _send_appearance() -> void:
 	var ap: Dictionary = _pending_appearance.duplicate()
 	_pending_appearance = {}
 	var r: Dictionary = await Online.call_state_fn("update_appearance", {"p_appearance": ap})
-	if not r.get("ok", false):
+	if r.get("network", false):
+		# Sin conexion: queda en el jugador y se manda despues (una sola vez, la ultima eleccion de cada campo).
+		Online.queue_appearance(ap)
+		_say("Sin conexión: se guarda cuando vuelva.")
+	elif not r.get("ok", false):
 		_say(String(r.get("error", "No se pudo guardar la apariencia.")))

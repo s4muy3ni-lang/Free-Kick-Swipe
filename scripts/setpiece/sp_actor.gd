@@ -176,6 +176,90 @@ func set_accessories(ids: Array) -> void:
 			mi.basis = Basis(side, axis, side.cross(axis).normalized())
 			att.add_child(mi)
 
+## Nombre impreso arriba del numero (ShirtName: hasta 12 letras; "" lo quita). Como el numero, va en la tela.
+var shirt_name: String = ""
+
+func set_shirt_name(t: String) -> void:
+	shirt_name = t if ShirtName.check(t) == "" else ""
+	var mat: ShaderMaterial = kit_material()
+	if mat == null:
+		return
+	var g: PackedInt32Array = ShirtName.glyphs(shirt_name)
+	var n: int = g.size()
+	while g.size() < ShirtName.MAX:
+		g.append(-1)
+	mat.set_shader_parameter("name_glyphs", g)
+	mat.set_shader_parameter("name_len", n)
+
+## Peinado y barba (HairCatalog): piezas colgadas del hueso de la cabeza (siguen la animacion sin tocar el esqueleto) y,
+## para el rapado, el pelo de la textura mezclado con la piel (hair_buzz del shader).
+var haircut: String = "hair_natural"
+var beard: String = "beard_none"
+var _look_nodes: Array[Node] = []
+var _hair_buzz: float = 0.0
+
+func set_look(cut: String, bd: String, hair_color: Color) -> void:
+	for n in _look_nodes:
+		if is_instance_valid(n):
+			# Fuera del arbol ya (no solo en cola): la pieza nueva conserva su nombre y no se superpone con la vieja.
+			if n.get_parent() != null:
+				n.get_parent().remove_child(n)
+			n.queue_free()
+	_look_nodes.clear()
+	haircut = cut if HairCatalog.HAIRCUTS.has(cut) else "hair_natural"
+	beard = bd if HairCatalog.BEARDS.has(bd) else "beard_none"
+	var hc: Dictionary = HairCatalog.haircut(haircut)
+	_hair_buzz = float(hc.get("buzz", 0.0))
+	var mat: ShaderMaterial = kit_material()
+	if mat != null:
+		mat.set_shader_parameter("hair_buzz", _hair_buzz)
+	if skeleton == null:
+		return
+	var bi: int = skeleton.find_bone("mixamorig_Head")
+	var parts: Array = (hc["parts"] as Array) + (HairCatalog.beard(beard)["parts"] as Array)
+	if bi < 0 or parts.is_empty():
+		return
+	var att := BoneAttachment3D.new()
+	att.name = "Look"
+	att.bone_name = "mixamorig_Head"
+	skeleton.add_child(att)
+	_look_nodes.append(att)
+	var inv: Transform3D = skeleton.get_bone_global_rest(bi).affine_inverse()
+	# Tonos: el pelo, el rapado (pelo mezclado con la piel del uniforme) y el dorado.
+	var skin: Variant = mat.get_shader_parameter("skin_color") if mat != null else null
+	var skin_c: Color = skin if skin is Color else Color(0.62, 0.4, 0.29)
+	var mats := {"hair": _look_mat(hair_color, 0.9, 0.0), "buzz": _look_mat(hair_color.lerp(skin_c * 0.82, 0.6), 0.95, 0.0),
+		"gold": _look_mat(Color(0.92, 0.72, 0.22), 0.45, 0.6)}
+	var sphere := SphereMesh.new()
+	sphere.radius = 1.0
+	sphere.height = 2.0
+	sphere.radial_segments = 14
+	sphere.rings = 7
+	for pc in parts:
+		var mi := MeshInstance3D.new()
+		mi.mesh = sphere
+		mi.material_override = mats[String(pc[3]) if pc.size() > 3 else "hair"]
+		mi.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+		var r: Vector3 = pc[2]
+		var t := Transform3D(Basis.from_euler(Vector3(deg_to_rad(r.x), deg_to_rad(r.y), deg_to_rad(r.z))) * Basis.from_scale(pc[1]), pc[0])
+		mi.transform = inv * t
+		att.add_child(mi)
+
+func _look_mat(c: Color, rough: float, metal: float) -> StandardMaterial3D:
+	var m := StandardMaterial3D.new()
+	m.albedo_color = c
+	m.roughness = rough
+	m.metallic = metal
+	return m
+
+## Altura y complexion (HairCatalog.body_scale): escala del modelo, solo visual y en rangos chicos.
+var body_shape := Vector3.ONE
+
+func set_body_shape(height_i: int, build_i: int) -> void:
+	body_shape = HairCatalog.body_scale(height_i, build_i)
+	if model != null:
+		model.scale = Vector3.ONE * BODY_SCALE * body_shape
+
 ## Estilo del numero de la espalda (catalogo «number_style»: num_clasico, num_oro, num_mitico_10, num_mitico_7).
 var number_style: String = "num_clasico"
 
@@ -210,6 +294,10 @@ func set_kit(kit: Dictionary) -> void:
 		(mi as MeshInstance3D).material_override = mat
 	if back_number > 0:
 		_apply_printed_number()
+	if shirt_name != "":
+		set_shirt_name(shirt_name)
+	if _hair_buzz > 0.0:
+		mat.set_shader_parameter("hair_buzz", _hair_buzz)
 
 # --- Orientacion ----------------------------------------------------------------------------------------------------------
 

@@ -108,10 +108,11 @@
 | `Online._set_state(s: Dictionary)` | 205 |  |
 | `Online.catalog(table: String)` | 213 | Datos publicos (catalogo, modos, temporada, eventos). Sin servidor o sin conexion: los del juego (seed.json). |
 | `Online.queue_reward(source: String, payload: Dictionary)` | 224 | Encola un premio de juego local; el servidor decide el monto. Devuelve la clave de idempotencia. |
-| `Online.flush()` | 234 | Envia la cola. Un error de red la deja para despues; un rechazo del servidor (regla, tope, duplicado) la descarta. |
-| `Online._process(delta: float)` | 250 |  |
-| `Online._key()` | 262 |  |
-| `Online._save_session()` | 265 |  |
-| `Online._save_queue()` | 274 |  |
-| `Online._load_files()` | 279 |  |
+| `Online.queue_appearance(ap: Dictionary)` | 235 | Apariencia elegida sin conexion: se encola UNA operacion update_appearance (las elecciones siguientes se mezclan en ella, gana la ultima de  |
+| `Online.flush()` | 249 | Envia la cola. Un error de red la deja para despues; un rechazo del servidor (regla, tope, duplicado) la descarta. |
+| `Online._process(delta: float)` | 265 |  |
+| `Online._key()` | 277 |  |
+| `Online._save_session()` | 280 |  |
+| `Online._save_queue()` | 289 |  |
+| `Online._load_files()` | 294 |  |
 <!-- /AUTO -->

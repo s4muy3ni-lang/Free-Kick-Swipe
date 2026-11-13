@@ -80,13 +80,19 @@ func show_item(it: Dictionary, base_kit: Dictionary, accessories: Array = [], nu
 	if kind == "number_style":
 		actor.number_style = String(it["id"])
 	actor.set_back_number(number)
+	# Peinado, barba, nombre y cuerpo del usuario; el objeto de la ficha manda en lo suyo.
+	PlayerCustom.load_custom()
+	actor.set_shirt_name(PlayerCustom.shirt_name)
+	actor.set_look(String(it["id"]) if kind == "haircut" else PlayerCustom.haircut, String(it["id"]) if kind == "beard" else PlayerCustom.beard,
+		PlayerCustom.HAIRS[PlayerCustom.hair])
+	actor.set_body_shape(PlayerCustom.body_height, PlayerCustom.body_build)
 	var idles: Array[StringName] = SpClips.by_role(&"idle_ready", false)
 	if kind == "celebration":
 		var cs: Array[StringName] = PlayerCustom.celebrations()
 		var idx: int = int((it.get("data", {}) as Dictionary).get("index", 1)) - 1
 		if idx >= 0 and idx < cs.size():
 			actor.play_loop(cs[idx], 0.0)
-	elif not idles.is_empty():
+	elif not idles.is_empty() and kind != "haircut" and kind != "beard":
 		actor.play_loop(idles[0], 0.0)
 	var c: Array = ShopLook.camera_for(kind)
 	_target = Vector3(0, float(c[0]), 0)

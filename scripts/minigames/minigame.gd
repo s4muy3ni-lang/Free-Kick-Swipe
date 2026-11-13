@@ -196,9 +196,7 @@ func _ready() -> void:
 		add_child(a)
 		a.build(PlayerCustom.kit() if s == 0 else SpSettings.CPU_KIT)
 		if s == 0:
-			a.number_style = PlayerCustom.number_style
-			a.set_back_number(PlayerCustom.number)
-			a.set_accessories(PlayerCustom.accessories)
+			PlayerCustom.dress(a)
 		a.team = s
 		a.enable_collider()
 		sh.setup(a, ball)

@@ -40,6 +40,22 @@ func _ready() -> void:
 		await _shot("dominadas_espalda")
 		get_tree().quit()
 		return
+	if OS.get_environment("MENU_ONLY") == "nombre":
+		# Nombre en la camiseta, peinado, barba y cuerpo (personalizacion avanzada).
+		await screens.open_customize()
+		for kv in [["shirt_name", "Romero"], ["haircut", "hair_rulos"], ["beard", "beard_corta"], ["height", 4], ["build", 2], ["boots_sole", 3]]:
+			screens._set_appearance(kv[0], kv[1])
+		for i in 40:
+			await get_tree().process_frame
+		menu.call("set_view", "espalda")
+		await _shot("nombre_espalda")
+		menu.call("set_view", "cara")
+		await _shot("nombre_cara")
+		screens._set_appearance("shirt_name", "Fernández Gil")
+		menu.call("set_view", "espalda")
+		await _shot("nombre_largo")
+		get_tree().quit()
+		return
 	if OS.get_environment("MENU_ONLY") == "progresion":
 		# MI JUGADOR — PROGRESION: con nivel 6 (10 puntos), la confirmacion antes / despues y una mejora hecha.
 		Online.local._db["profile"]["xp"] = 2300

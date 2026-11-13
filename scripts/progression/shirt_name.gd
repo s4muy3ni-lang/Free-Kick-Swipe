@@ -5,6 +5,17 @@ extends RefCounted
 ## mismas reglas valida el servidor (update_appearance en SQL y LocalBackend).
 
 const MAX := 12
+## Letras de la hoja del nombre (assets/characters/player/name_atlas.png, tools/ui/make_number_atlas.gd): en mayusculas,
+## como se imprime en la camiseta. El espacio no tiene celda (-1).
+const GLYPHS := "ABCDEFGHIJKLMNOPQRSTUVWXYZÑÁÉÍÓÚÜ0123456789.-'"
+
+## Indices de cada letra del nombre en la hoja (mayusculas; -1 = espacio o letra sin celda).
+static func glyphs(t: String) -> PackedInt32Array:
+	var out := PackedInt32Array()
+	var up: String = t.strip_edges().to_upper().substr(0, MAX)
+	for i in up.length():
+		out.append(GLYPHS.find(up[i]))
+	return out
 
 static func valid_chars(t: String) -> bool:
 	var re := RegEx.new()

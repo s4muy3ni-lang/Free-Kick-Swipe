@@ -290,23 +290,32 @@ func _update_identity(a: Dictionary) -> Dictionary:
 	_save()
 	return _ok(_state())
 
-const ITEM_KEYS := ["jersey", "shorts", "socks", "boots", "ball", "celebration", "number_style", "emote"]
+const ITEM_KEYS := ["jersey", "shorts", "socks", "boots", "ball", "celebration", "number_style", "emote", "haircut", "beard"]
+## Valores libres (indices de paleta o de opcion). «beard» paso a ser un objeto (2026-11-13); -1 en los detalles de los
+## botines = los colores del par.
 const FREE_KEYS := ["jersey_color", "jersey_color2", "shorts_color", "socks_color", "boots_color", "skin", "hair",
-	"hair_style", "sock_height", "sock_style", "beard", "height", "build"]
+	"hair_style", "sock_height", "sock_style", "height", "build", "boots_color2", "boots_sole", "boots_laces"]
+
+## El objeto es del usuario: gratis, en el inventario o de progresion con el nivel alcanzado (como el SQL).
+func _owns_item(it: Dictionary) -> bool:
+	if it.is_empty():
+		return false
+	if String(it["unlock"]) == "free" or int((_db.get("inventory", {}) as Dictionary).get(String(it["id"]), 0)) > 0:
+		return true
+	return String(it["unlock"]) == "progression" and PlayerProgress.level_for(int(_db["profile"]["xp"])) >= int(it.get("min_level", 1))
 
 func _update_appearance(ap: Dictionary) -> Dictionary:
-	var inv: Dictionary = _db.get("inventory", {})
 	for k in ap:
 		if k in ITEM_KEYS:
-			var it: Dictionary = _item(String(ap[k]))
-			if it.is_empty() or (String(it["unlock"]) != "free" and int(inv.get(String(ap[k]), 0)) <= 0):
+			var it: Dictionary = _item(String(ap[k])) if ap[k] is String else {}
+			if not _owns_item(it) or (k in ["haircut", "beard"] and String(it["kind"]) != k):
 				return _err("no tenes ese objeto: %s" % ap[k])
 		elif k == "accessories":
 			if not (ap[k] is Array) or (ap[k] as Array).size() > 5:
 				return _err("accesorios invalidos")
 			for e in ap[k]:
 				var ai: Dictionary = _item(String(e))
-				if ai.is_empty() or String(ai["kind"]) != "accessory" or (String(ai["unlock"]) != "free" and int(inv.get(String(e), 0)) <= 0):
+				if ai.is_empty() or String(ai["kind"]) != "accessory" or not _owns_item(ai):
 					return _err("no tenes ese accesorio: %s" % e)
 		elif k == "shirt_name":
 			var nm: String = String(ap[k])
@@ -315,7 +324,8 @@ func _update_appearance(ap: Dictionary) -> Dictionary:
 			if not ShirtName.clean(nm):
 				return _err("ese nombre no se puede usar")
 		elif k in FREE_KEYS:
-			if not (ap[k] is float or ap[k] is int) or float(ap[k]) < 0 or float(ap[k]) > 31:
+			var lo: float = -1.0 if k in ["boots_color2", "boots_sole", "boots_laces"] else 0.0
+			if not (ap[k] is float or ap[k] is int) or float(ap[k]) < lo or float(ap[k]) > 31:
 				return _err("valor invalido para %s" % k)
 		else:
 			return _err("campo de apariencia desconocido: %s" % k)
@@ -435,7 +445,17 @@ func _claim_reward(idem: String, source: String, payload: Dictionary) -> Diction
 	if boostable and _xp_boost_active() and x > 0:
 		# El doble de XP no pasa el tope del dia: se pide la mitad de lo que entra.
 		x = mini(x, room_x / 2)
-	return _ok(_grant(c, x, sp, source, idem, boostable))
+	var g: Dictionary = _grant(c, x, sp, source, idem, boostable)
+	# Logro: los objetos que se ganan con ese logro (unlock «achievement», data.achievement) quedan en el inventario. Un
+	# logro se premia una vez (la misma clave no vuelve a entrar) y repetirlo no duplica el objeto.
+	if source == "logro" and bool(g.get("applied", false)):
+		var inv: Dictionary = _db.get("inventory", {})
+		for it in seed_data.get("catalog_items", []):
+			if String(it["unlock"]) == "achievement" and String((it.get("data", {}) as Dictionary).get("achievement", "")) == String(payload.get("id", "")):
+				inv[String(it["id"])] = 1
+		_db["inventory"] = inv
+		_save()
+	return _ok(g)
 
 func _xp_boost_active() -> bool:
 	for b in _db.get("boosts", []):

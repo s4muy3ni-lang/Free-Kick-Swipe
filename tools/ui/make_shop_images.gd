@@ -81,6 +81,9 @@ func _render(it: Dictionary) -> void:
 				a.set_back_number(int((it.get("data", {}) as Dictionary).get("only", [10])[0]) if (it.get("data", {}) as Dictionary).has("only") else 10)
 			if kind == "accessory":
 				a.set_accessories([String(it["id"])])
+			if kind == "haircut" or kind == "beard":
+				a.set_look(String(it["id"]) if kind == "haircut" else "hair_natural", String(it["id"]) if kind == "beard" else "beard_none",
+					PlayerCustom.HAIRS[1])
 			var clip: StringName = &""
 			if kind == "celebration":
 				var cs: Array[StringName] = PlayerCustom.celebrations()
@@ -89,6 +92,9 @@ func _render(it: Dictionary) -> void:
 					clip = cs[idx]
 			if clip != &"":
 				a.play_here(clip, 0.0)
+			elif kind == "haircut" or kind == "beard":
+				# Primer plano de la cabeza: la pose de reposo (la de espera mira abajo y tapa la cara).
+				pass
 			else:
 				var idles: Array[StringName] = SpClips.by_role(&"idle_ready", false)
 				if not idles.is_empty():

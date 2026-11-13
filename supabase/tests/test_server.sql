@@ -395,3 +395,31 @@ select t_ok((submit_turn(current_setting('t.m9')::uuid, 'shot',
 	'arquero con alcance 10: el mismo tiro es atajada');
 reset role;
 select t_ok(not keeper_reachable_attr(2.3, 3.4, 1.0, 0.0, 0.3, 9.0, -9.0), 'ni con atributos al maximo (y valores truchos, acotados) se llega al angulo');
+
+-- ---- Personalizacion avanzada: peinados, barbas, detalles de botines, progresion y logros ----------------------------
+insert into auth.users (id, email) values ('00000000-0000-0000-0000-000000000011', 'k@x');
+set role authenticated;
+select set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-000000000011', false);
+select create_profile('Once', 'Once');
+select t_ok((update_appearance('{"haircut": "hair_rulos", "beard": "beard_bigote", "height": 4, "build": 3, "boots_sole": -1, "boots_laces": 5}')
+	-> 'profile' -> 'appearance' ->> 'haircut') = 'hair_rulos', 'peinado y barba gratis, altura, complexion y detalles de botines');
+select t_err($$select update_appearance('{"haircut": "hair_afro"}')$$, 'no tenes', 'el afro de la tienda no se equipa sin comprarlo');
+select t_err($$select update_appearance('{"haircut": "beard_bigote"}')$$, 'no tenes', 'una barba no va como peinado');
+select t_err($$select update_appearance('{"beard": 3}')$$, 'no tenes', 'la barba ya no es un numero: es un objeto');
+select t_err($$select update_appearance('{"boots_sole": -2}')$$, 'invalido', 'color de suela fuera de rango');
+select t_err($$select update_appearance('{"haircut": "hair_jopo"}')$$, 'no tenes', 'el jopo pide nivel 3');
+reset role;
+update profiles set xp = 450 where id = '00000000-0000-0000-0000-000000000011';
+set role authenticated;
+select t_ok((update_appearance('{"haircut": "hair_jopo"}') -> 'profile' -> 'appearance' ->> 'haircut') = 'hair_jopo',
+	'con nivel 3 el jopo (de progresion) se equipa sin comprarlo');
+select t_err($$select update_appearance('{"haircut": "hair_cresta"}')$$, 'no tenes', 'la cresta pide el logro');
+select t_ok((get_my_state() -> 'inventory') ? 'hair_natural' and (get_my_state() -> 'inventory') ? 'beard_none', 'lo gratuito nuevo esta en el inventario');
+select claim_reward('logro-goles10-0001', 'logro', '{"id": "goles_10"}');
+select t_ok((get_my_state() -> 'inventory' ->> 'hair_cresta')::int = 1, 'el logro Goleador entrega la cresta');
+select claim_reward('logro-goles10-0001', 'logro', '{"id": "goles_10"}');
+select t_ok((get_my_state() -> 'inventory' ->> 'hair_cresta')::int = 1 and (select count(*) from reward_ledger where idem_key = 'logro-goles10-0001') = 1,
+	'cobrar el mismo logro otra vez no duplica nada');
+select t_ok((update_appearance('{"haircut": "hair_cresta"}') -> 'profile' -> 'appearance' ->> 'haircut') = 'hair_cresta', 'y se equipa');
+select t_err($$select buy_item('hair_estrella', 'buy-hair-0001')$$, 'no se vende', 'el peinado premium no se vende (pagos no activados)');
+reset role;

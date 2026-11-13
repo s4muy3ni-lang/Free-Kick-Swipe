@@ -64,6 +64,15 @@ static var boots_item: String = ""
 ## Accesorios puestos (AccessoryCatalog) y nombre en la camiseta (ShirtName).
 static var accessories: Array = []
 static var shirt_name: String = ""
+## Peinado y barba (objetos del catalogo, HairCatalog), altura y complexion (indices de HairCatalog.HEIGHTS / BUILDS) y
+## colores de los detalles de los botines (indices de HairCatalog.BOOT_DETAILS; -1 = los del par elegido).
+static var haircut: String = "hair_natural"
+static var beard: String = "beard_none"
+static var body_height: int = HairCatalog.DEFAULT_HEIGHT
+static var body_build: int = HairCatalog.DEFAULT_BUILD
+static var boots_detail2: int = -1
+static var boots_sole: int = -1
+static var boots_laces: int = -1
 static var number_style: String = "num_clasico"
 const JERSEY_PATTERNS := {"liso": 0, "rayas": 1, "banda": 2, "aros": 3, "mitad": 4, "degradado": 5, "rayas_finas": 6,
 	"cuadros": 7, "diagonal": 8, "mangas": 9, "cuello": 10, "geometrica": 11}
@@ -91,10 +100,11 @@ static func load_custom(force: bool = false) -> void:
 	run_style = clampi(int(cfg.get_value("custom", "run_style", run_style)), 0, RUN_NAMES.size() - 1)
 	follow_style = clampi(int(cfg.get_value("custom", "follow_style", follow_style)), 0, FOLLOW_NAMES.size() - 1)
 	celebration = clampi(int(cfg.get_value("custom", "celebration", celebration)), 0, CELEB_LOCKS.size())
-	jersey_pattern = clampi(int(cfg.get_value("custom", "jersey_pattern", jersey_pattern)), 0, 6)
+	# Los diseños llegan hasta el ultimo del mapa (antes se recortaban a los primeros y se perdian los nuevos al reiniciar).
+	jersey_pattern = clampi(int(cfg.get_value("custom", "jersey_pattern", jersey_pattern)), 0, JERSEY_PATTERNS.size() - 1)
 	jersey2 = clampi(int(cfg.get_value("custom", "jersey2", jersey2)), 0, JERSEYS.size() - 1)
-	shorts_pattern = clampi(int(cfg.get_value("custom", "shorts_pattern", shorts_pattern)), 0, 2)
-	socks_pattern = clampi(int(cfg.get_value("custom", "socks_pattern", socks_pattern)), 0, 2)
+	shorts_pattern = clampi(int(cfg.get_value("custom", "shorts_pattern", shorts_pattern)), 0, SHORTS_PATTERNS.size() - 1)
+	socks_pattern = clampi(int(cfg.get_value("custom", "socks_pattern", socks_pattern)), 0, SOCKS_PATTERNS.size() - 1)
 	sock_height = clampi(int(cfg.get_value("custom", "sock_height", sock_height)), 0, 2)
 	ball_item = String(cfg.get_value("custom", "ball_item", ball_item))
 	boots_item = String(cfg.get_value("custom", "boots_item", boots_item))
@@ -102,11 +112,19 @@ static func load_custom(force: bool = false) -> void:
 	accessories = (acc as Array).duplicate() if acc is Array else []
 	shirt_name = String(cfg.get_value("custom", "shirt_name", shirt_name))
 	number_style = String(cfg.get_value("custom", "number_style", number_style))
+	haircut = String(cfg.get_value("custom", "haircut", haircut))
+	beard = String(cfg.get_value("custom", "beard", beard))
+	body_height = clampi(int(cfg.get_value("custom", "body_height", body_height)), 0, HairCatalog.HEIGHTS.size() - 1)
+	body_build = clampi(int(cfg.get_value("custom", "body_build", body_build)), 0, HairCatalog.BUILDS.size() - 1)
+	boots_detail2 = clampi(int(cfg.get_value("custom", "boots_detail2", boots_detail2)), -1, HairCatalog.BOOT_DETAILS.size() - 1)
+	boots_sole = clampi(int(cfg.get_value("custom", "boots_sole", boots_sole)), -1, HairCatalog.BOOT_DETAILS.size() - 1)
+	boots_laces = clampi(int(cfg.get_value("custom", "boots_laces", boots_laces)), -1, HairCatalog.BOOT_DETAILS.size() - 1)
 
 static func save_custom() -> void:
 	var cfg := ConfigFile.new()
 	for k in ["jersey", "shorts", "socks", "boots", "skin", "hair", "number", "style", "run_style", "follow_style", "celebration",
-			"jersey_pattern", "jersey2", "shorts_pattern", "socks_pattern", "sock_height", "ball_item", "number_style", "boots_item", "accessories", "shirt_name"]:
+			"jersey_pattern", "jersey2", "shorts_pattern", "socks_pattern", "sock_height", "ball_item", "number_style", "boots_item", "accessories", "shirt_name",
+			"haircut", "beard", "body_height", "body_build", "boots_detail2", "boots_sole", "boots_laces"]:
 		cfg.set_value("custom", k, get_value(k))
 	cfg.save(path)
 
@@ -115,7 +133,8 @@ static func get_value(k: String) -> Variant:
 		"style": style, "run_style": run_style, "follow_style": follow_style, "celebration": celebration,
 		"jersey_pattern": jersey_pattern, "jersey2": jersey2, "shorts_pattern": shorts_pattern, "socks_pattern": socks_pattern,
 		"sock_height": sock_height, "ball_item": ball_item, "number_style": number_style, "boots_item": boots_item, "accessories": accessories,
-		"shirt_name": shirt_name}[k]
+		"shirt_name": shirt_name, "haircut": haircut, "beard": beard, "body_height": body_height, "body_build": body_build,
+		"boots_detail2": boots_detail2, "boots_sole": boots_sole, "boots_laces": boots_laces}[k]
 
 ## Para las pruebas: otra ruta, estado limpio.
 static func use_path(p: String) -> void:
@@ -143,6 +162,13 @@ static func use_path(p: String) -> void:
 	accessories = []
 	shirt_name = ""
 	number_style = "num_clasico"
+	haircut = "hair_natural"
+	beard = "beard_none"
+	body_height = HairCatalog.DEFAULT_HEIGHT
+	body_build = HairCatalog.DEFAULT_BUILD
+	boots_detail2 = -1
+	boots_sole = -1
+	boots_laces = -1
 	load_custom(true)
 
 ## Para las pruebas: vuelve a la ruta real y a los valores por defecto (no borra el archivo del jugador).
@@ -170,7 +196,23 @@ static func kit() -> Dictionary:
 	# Botines: el diseño del par elegido (modelo, colores, suela, cordones) se pinta sobre los pies.
 	if boots_item != "":
 		k.merge(BootsCatalog.style(boots_item, BOOTS[boots_index()]), true)
+	# Detalles elegidos por el usuario (color secundario, suela, cordones) sobre los del par.
+	for d in [["boots_color2", boots_detail2], ["boots_sole", boots_sole], ["boots_laces", boots_laces]]:
+		if int(d[1]) >= 0:
+			k[d[0]] = HairCatalog.BOOT_DETAILS[int(d[1])]
 	return k
+
+## Viste al actor con lo que no es uniforme: estilo y numero de la espalda, nombre, accesorios, peinado, barba y (salvo
+## el arquero, cuyas manos tienen que coincidir con las atajadas planificadas) la altura y complexion.
+static func dress(a: SpActor, keeper: bool = false) -> void:
+	load_custom()
+	a.number_style = number_style
+	a.set_back_number(number)
+	a.set_shirt_name(shirt_name)
+	a.set_accessories(accessories)
+	a.set_look(haircut, beard, HAIRS[hair])
+	if not keeper:
+		a.set_body_shape(body_height, body_build)
 
 ## Toma la apariencia guardada en el servidor (Online: profile.appearance) y la aplica al uniforme local. Los objetos
 ## se traducen con los datos del catalogo (diseño de camiseta, short, medias; modelo y color de botines; balon).
@@ -203,6 +245,21 @@ static func apply_appearance(ap: Dictionary, catalog: Array) -> void:
 		shirt_name = String(ap["shirt_name"])
 	if ap.has("number_style"):
 		number_style = String(ap["number_style"])
+	if ap.has("haircut") and HairCatalog.HAIRCUTS.has(String(ap["haircut"])):
+		haircut = String(ap["haircut"])
+	if ap.has("beard") and HairCatalog.BEARDS.has(String(ap["beard"])):
+		beard = String(ap["beard"])
+	if ap.has("height"):
+		body_height = clampi(int(ap["height"]), 0, HairCatalog.HEIGHTS.size() - 1)
+	if ap.has("build"):
+		body_build = clampi(int(ap["build"]), 0, HairCatalog.BUILDS.size() - 1)
+	for dk in [["boots_color2", "boots_detail2"], ["boots_sole", "boots_sole"], ["boots_laces", "boots_laces"]]:
+		if ap.has(dk[0]):
+			var dv: int = clampi(int(ap[dk[0]]), -1, HairCatalog.BOOT_DETAILS.size() - 1)
+			match dk[1]:
+				"boots_detail2": boots_detail2 = dv
+				"boots_sole": boots_sole = dv
+				"boots_laces": boots_laces = dv
 	if ap.has("celebration"):
 		celebration = clampi(int((data.call("celebration") as Dictionary).get("index", celebration)), 0, CELEB_LOCKS.size())
 	for k in ["jersey_color", "jersey_color2", "shorts_color", "socks_color", "skin", "hair", "sock_height"]:

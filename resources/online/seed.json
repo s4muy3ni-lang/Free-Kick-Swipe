@@ -1853,6 +1853,207 @@
             "min_level": 10,
             "description": "El brazalete de los que mandan.",
             "price_coins": null
+        },
+        {
+            "id": "hair_natural",
+            "data": {},
+            "kind": "haircut",
+            "name": "Natural",
+            "sort": 1,
+            "active": true,
+            "rarity": "comun",
+            "unlock": "free",
+            "min_level": 1,
+            "description": "El pelo de siempre.",
+            "price_coins": null
+        },
+        {
+            "id": "hair_rapado",
+            "data": {},
+            "kind": "haircut",
+            "name": "Rapado",
+            "sort": 2,
+            "active": true,
+            "rarity": "comun",
+            "unlock": "free",
+            "min_level": 1,
+            "description": "Bien cortito.",
+            "price_coins": null
+        },
+        {
+            "id": "hair_rulos",
+            "data": {},
+            "kind": "haircut",
+            "name": "Rulos",
+            "sort": 3,
+            "active": true,
+            "rarity": "comun",
+            "unlock": "free",
+            "min_level": 1,
+            "description": "Rulos arriba.",
+            "price_coins": null
+        },
+        {
+            "id": "hair_jopo",
+            "data": {},
+            "kind": "haircut",
+            "name": "Jopo",
+            "sort": 4,
+            "active": true,
+            "rarity": "raro",
+            "unlock": "progression",
+            "min_level": 3,
+            "description": "Para arriba adelante.",
+            "price_coins": null
+        },
+        {
+            "id": "hair_rodete",
+            "data": {},
+            "kind": "haircut",
+            "name": "Rodete",
+            "sort": 5,
+            "active": true,
+            "rarity": "raro",
+            "unlock": "shop",
+            "min_level": 2,
+            "description": "Atado atrás.",
+            "price_coins": 350
+        },
+        {
+            "id": "hair_melena",
+            "data": {},
+            "kind": "haircut",
+            "name": "Melena",
+            "sort": 6,
+            "active": true,
+            "rarity": "epico",
+            "unlock": "shop",
+            "min_level": 5,
+            "description": "Pelo largo hasta el cuello.",
+            "price_coins": 500
+        },
+        {
+            "id": "hair_afro",
+            "data": {},
+            "kind": "haircut",
+            "name": "Afro",
+            "sort": 7,
+            "active": true,
+            "rarity": "epico",
+            "unlock": "shop",
+            "min_level": 6,
+            "description": "Volumen para todos lados.",
+            "price_coins": 650
+        },
+        {
+            "id": "hair_cresta",
+            "data": {
+                "achievement": "goles_10"
+            },
+            "kind": "haircut",
+            "name": "Cresta",
+            "sort": 8,
+            "active": true,
+            "rarity": "epico",
+            "unlock": "achievement",
+            "min_level": 1,
+            "description": "Se gana con el logro Goleador.",
+            "price_coins": null
+        },
+        {
+            "id": "hair_estrella",
+            "data": {
+                "premium": true
+            },
+            "kind": "haircut",
+            "name": "Cresta dorada",
+            "sort": 9,
+            "active": true,
+            "rarity": "legendario",
+            "unlock": "premium",
+            "min_level": 1,
+            "description": "Premium: solo estética.",
+            "price_coins": null
+        },
+        {
+            "id": "beard_none",
+            "data": {},
+            "kind": "beard",
+            "name": "Sin barba",
+            "sort": 1,
+            "active": true,
+            "rarity": "comun",
+            "unlock": "free",
+            "min_level": 1,
+            "description": "Afeitado.",
+            "price_coins": null
+        },
+        {
+            "id": "beard_bigote",
+            "data": {},
+            "kind": "beard",
+            "name": "Bigote",
+            "sort": 2,
+            "active": true,
+            "rarity": "comun",
+            "unlock": "free",
+            "min_level": 1,
+            "description": "Bigote clásico.",
+            "price_coins": null
+        },
+        {
+            "id": "beard_corta",
+            "data": {},
+            "kind": "beard",
+            "name": "Barba corta",
+            "sort": 3,
+            "active": true,
+            "rarity": "comun",
+            "unlock": "free",
+            "min_level": 1,
+            "description": "Prolija.",
+            "price_coins": null
+        },
+        {
+            "id": "beard_candado",
+            "data": {},
+            "kind": "beard",
+            "name": "Candado",
+            "sort": 4,
+            "active": true,
+            "rarity": "raro",
+            "unlock": "progression",
+            "min_level": 4,
+            "description": "Bigote y mentón.",
+            "price_coins": null
+        },
+        {
+            "id": "beard_completa",
+            "data": {},
+            "kind": "beard",
+            "name": "Barba completa",
+            "sort": 5,
+            "active": true,
+            "rarity": "raro",
+            "unlock": "shop",
+            "min_level": 3,
+            "description": "Tupida.",
+            "price_coins": 300
+        },
+        {
+            "id": "beard_vikinga",
+            "data": {
+                "achievement": "atajadas_10"
+            },
+            "kind": "beard",
+            "name": "Barba vikinga",
+            "sort": 6,
+            "active": true,
+            "rarity": "epico",
+            "unlock": "achievement",
+            "min_level": 1,
+            "description": "Se gana con el logro Guantes firmes.",
+            "price_coins": null
         }
     ]
 }

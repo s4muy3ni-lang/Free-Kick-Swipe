@@ -11,6 +11,43 @@ Formato de entrada: **fecha — título** · commit · qué cambió · archivos 
 
 ---
 
+## 2026-11-13 — Personalización avanzada: peinados, barbas, cuerpo, detalles de botines, nombre y desbloqueos
+
+Pedido del usuario: «EXPANSIÓN…», secciones 5 a 10.
+
+- **Archivos nuevos**:
+  - `scripts/progression/hair_catalog.gd`;
+  - `assets/characters/player/name_atlas.png`;
+  - `tests/test_custom_advanced.gd`;
+  - `supabase/migrations/20261113000010_custom_advanced.sql`;
+  - 15 imágenes de tienda (`assets/shop/items/hair_*.webp`, `beard_*.webp`).
+- **Peinados y barbas**: 9 y 6 objetos del catálogo.
+  - Las piezas cuelgan del hueso de la cabeza (`SpActor.set_look`).
+  - Un casco envuelve el jopo pintado del modelo; el rapado usa `hair_buzz`.
+  - Las medidas salen del perfil de la cara en reposo y se ajustaron mirando las imágenes. La primera versión flotaba sobre la cabeza.
+- **Cuerpo**: altura 0,97–1,03 y complexión 0,94–1,08, solo visuales; el arquero no los lleva.
+- **Botines**: color secundario, suela y cordones elegibles.
+- **Nombre en la camiseta**: impreso en la tela arriba del número (hoja de letras nueva en `make_number_atlas.gd`, `name_ink` del shader), hasta 12 letras validadas.
+- **Número**: el 7 y el 10 destacados más una caja de 1 a 99, guardado en el perfil.
+- **Desbloqueos**:
+  - gratis, por nivel, con monedas, por logro (`achievement`, nuevo) y premium sin venta;
+  - el servidor acepta los objetos de progresión desde su nivel. Antes no llegaban nunca al inventario: estaba roto desde la tienda visual.
+- **Sin conexión**: la apariencia queda en una sola operación de la cola y se manda al volver (`Online.queue_appearance`).
+- **`PlayerCustom.dress`**: viste igual al jugador del usuario en el menú, la tanda, el arquero, los minijuegos y la vista previa.
+- **Arreglos**:
+  - los diseños de camiseta 7–11 y de short y medias 3–4 se perdían al reiniciar (`load_custom` los recortaba);
+  - el servidor local se caía si llegaba un número donde va un objeto;
+  - las piezas nuevas de la cabeza podían quedar renombradas mientras las viejas seguían en el árbol.
+- **Verificación**:
+  - `tools/run_tests.sh custom_advanced`: 7 pruebas / 98 comprobaciones / 0 fallos, también con render. Cubre nombre, piezas pegadas a la cabeza animada, límites del cuerpo, detalles de botines y diseños guardados, reglas del servidor, sincronización sin conexión y pantalla.
+  - SQL en PostgreSQL 16 local: 137 comprobaciones OK.
+  - Grupos relacionados sin fallos: customization, shop_visual, juggle, progression, back_number, online_client, online_match, minigame_camera y fk_duel.
+  - Capturas con render: imágenes de tienda de las cabezas, nombre en la espalda (`MENU_ONLY=nombre`).
+- **Pendiente**:
+  - la máscara de pelo del modelo es parcial (con el peinado natural se ve el rubio de la textura);
+  - la migración no está aplicada en Supabase;
+  - sin prueba en un teléfono.
+
 ## 2026-11-13 — Progresión del jugador: atributos con efecto real, puntos, redistribución y MI JUGADOR
 
 Pedido del usuario («EXPANSIÓN DEL SISTEMA DE PROGRESIÓN», secciones 1 a 4 y 12): nivel, experiencia, puntos de mejora,

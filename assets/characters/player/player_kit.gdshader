@@ -14,6 +14,8 @@ uniform vec3 socks_color : source_color = vec3(0.9, 0.9, 0.9);
 uniform vec3 boots_color : source_color = vec3(0.03, 0.03, 0.035);
 uniform vec3 skin_color : source_color = vec3(0.62, 0.40, 0.29);
 uniform vec3 hair_color : source_color = vec3(0.12, 0.07, 0.04);
+// Rapado (HairCatalog): el pelo de la textura se mezcla con la piel (0 = pelo, 1 = piel).
+uniform float hair_buzz : hint_range(0.0, 1.0) = 0.0;
 
 // Luminancia media (espacio gamma) de cada region en la textura original.
 uniform vec4 mean_luma_a = vec4(0.203, 0.286, 0.785, 0.088);
@@ -47,6 +49,15 @@ uniform vec3 number_edge : source_color = vec3(0.05, 0.05, 0.1);
 // Centro (z, y) de la celda de una cifra y su alto, en el espacio de reposo (1,0 = 1,75 m); paso entre dos cifras.
 uniform vec3 number_box = vec3(-0.0096, 0.665, 0.16);
 uniform float number_step = 0.072;
+// Nombre arriba del numero (2026-11-13): hoja name_atlas (ShirtName.GLYPHS en fila), hasta 12 letras (indices en
+// name_glyphs; -1 = espacio). name_box: centro lateral, altura del centro y alto maximo de las letras, en reposo. Un
+// nombre largo achica las letras para no pasar el ancho de la espalda (name_width).
+uniform sampler2D name_atlas : filter_linear_mipmap, repeat_disable;
+uniform int name_len = 0;
+uniform int name_glyphs[12];
+uniform float name_glyph_count = 46.0;
+uniform vec3 name_box = vec3(-0.0096, 0.776, 0.04);
+uniform float name_width = 0.19;
 // Malla con la posicion de reposo en CUSTOM0 (el cuerpo de Tripo del juego; la pone AnimBankCatalog.kit_material): los
 // diseños tambien usan esa posicion (no se corren cuando el jugador se mueve) y se puede imprimir el numero.
 uniform bool rest_space = false;
@@ -78,6 +89,27 @@ vec2 number_ink(vec4 gxy) {
 		ink = max(ink, textureGrad(number_atlas, auv, gxy.xy, gxy.zw).rg);
 	}
 	return ink;
+}
+
+// Ancho de cada letra del nombre (achica las letras de un nombre largo).
+float name_cell_w() {
+	return min(name_box.z * 0.76, name_width / float(max(name_len, 1)));
+}
+
+// Tinta del nombre en este punto (como number_ink).
+vec2 name_ink(vec4 gxy) {
+	if (!rest_space || name_len <= 0 || rpos.w > -0.25 || rpos.x > -0.02) { return vec2(0.0); }
+	float cw = name_cell_w();
+	float h = cw / 0.76;
+	float v = (name_box.y + h * 0.5 - rpos.y) / h;
+	if (v < 0.0 || v > 1.0) { return vec2(0.0); }
+	float rel = (rpos.z - (name_box.x - cw * float(name_len) * 0.5)) / cw;
+	if (rel < 0.0 || rel >= float(name_len)) { return vec2(0.0); }
+	int i = int(floor(rel));
+	int g = name_glyphs[i];
+	if (g < 0) { return vec2(0.0); }
+	vec2 auv = vec2((float(g) + fract(rel)) / name_glyph_count, v);
+	return textureGrad(name_atlas, auv, gxy.xy, gxy.zw).rg;
 }
 
 vec3 jersey_paint(vec3 base) {
@@ -152,13 +184,17 @@ void fragment() {
 		+ a.b * socks_paint(socks_color) * shade(lum, mean_luma_a.z)
 		+ a.a * bp.rgb * shade(lum, mean_luma_a.w)
 		+ b.r * skin_color * shade(lum, mean_luma_b.x)
-		+ b.g * hair_color * shade(lum, mean_luma_b.y);
+		+ b.g * mix(hair_color, skin_color * 0.82, hair_buzz) * shade(lum, mean_luma_b.y);
 	float wsum = a.r + a.g + a.b + a.a + b.r + b.g;
 	vec3 col = mix(base_lin, tint / max(wsum, 0.0001), clamp(wsum, 0.0, 1.0));
 	// Numero: derivadas tomadas fuera de las ramas (la UV de la celda es continua dentro de una cifra).
 	vec2 cell_uv = vec2(rpos.z / (number_box.z * 6.0), -rpos.y / number_box.z);
 	vec4 gxy = vec4(dFdx(cell_uv), dFdy(cell_uv));
 	vec2 ink = number_ink(gxy) * a.r;
+	float ncw = name_cell_w();
+	vec2 name_uv = vec2(rpos.z / (ncw * name_glyph_count), -rpos.y / (ncw / 0.76));
+	vec4 ngxy = vec4(dFdx(name_uv), dFdy(name_uv));
+	ink = max(ink, name_ink(ngxy) * a.r);
 	float cloth = shade(lum, mean_luma_a.x);
 	col = mix(col, number_edge * cloth, ink.y);
 	col = mix(col, number_color * cloth, ink.x);

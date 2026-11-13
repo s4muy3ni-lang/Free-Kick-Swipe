@@ -87,4 +87,8 @@ static func camera_for(kind: String) -> Array:
 			return [1.25, 1.35, 180.0]
 		"celebration":
 			return [0.95, 3.0, 20.0]
+		"haircut":
+			return [1.7, 0.62, 35.0]
+		"beard":
+			return [1.58, 0.52, 25.0]
 	return [1.0, 2.6, 25.0]

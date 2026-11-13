@@ -2149,7 +2149,7 @@
         {
           "file": "assets/characters/player/player_kit.gdshader",
           "name": "player_kit.gdshader.shade",
-          "line": 138,
+          "line": 170,
           "kind": "func"
         }
       ],
@@ -3412,61 +3412,61 @@
         {
           "file": "scripts/ui/menu_screens.gd",
           "name": "MenuScreens.open_progression",
-          "line": 1269,
+          "line": 1275,
           "kind": "func"
         },
         {
           "file": "scripts/ui/menu_screens.gd",
           "name": "MenuScreens.progression_info",
-          "line": 1258,
+          "line": 1264,
           "kind": "func"
         },
         {
           "file": "scripts/ui/menu_screens.gd",
           "name": "MenuScreens.upgrade",
-          "line": 1450,
+          "line": 1456,
           "kind": "func"
         },
         {
           "file": "scripts/ui/menu_screens.gd",
           "name": "MenuScreens._confirm_upgrade",
-          "line": 1414,
+          "line": 1420,
           "kind": "func"
         },
         {
           "file": "scripts/ui/menu_screens.gd",
           "name": "MenuScreens._confirm_respec",
-          "line": 1459,
+          "line": 1465,
           "kind": "func"
         },
         {
           "file": "scripts/setpiece/setpiece_game.gd",
           "name": "SetPieceGame._shooter_attrs",
-          "line": 911,
+          "line": 909,
           "kind": "func"
         },
         {
           "file": "scripts/setpiece/setpiece_game.gd",
           "name": "SetPieceGame._user_tuning",
-          "line": 915,
+          "line": 913,
           "kind": "func"
         },
         {
           "file": "scripts/setpiece/setpiece_game.gd",
           "name": "SetPieceGame.shot_context",
-          "line": 906,
+          "line": 904,
           "kind": "func"
         },
         {
           "file": "scripts/online/local_backend.gd",
           "name": "LocalBackend._spend_point",
-          "line": 329,
+          "line": 339,
           "kind": "func"
         },
         {
           "file": "scripts/online/local_backend.gd",
           "name": "LocalBackend._respec",
-          "line": 346,
+          "line": 356,
           "kind": "func"
         },
         {
@@ -3478,13 +3478,13 @@
         {
           "file": "scripts/online/local_backend.gd",
           "name": "LocalBackend._claim_reward",
-          "line": 392,
+          "line": 402,
           "kind": "func"
         },
         {
           "file": "scripts/online/local_backend.gd",
           "name": "LocalBackend.keeper_rule",
-          "line": 781,
+          "line": 801,
           "kind": "func"
         }
       ],
@@ -5908,7 +5908,7 @@
         {
           "file": "scripts/dev/anim_bank_catalog.gd",
           "name": "AnimBankCatalog.clips",
-          "line": 57,
+          "line": 59,
           "kind": "func"
         },
         {
@@ -6000,25 +6000,25 @@
         {
           "file": "scripts/setpiece/setpiece_game.gd",
           "name": "SetPieceGame._take_shot",
-          "line": 921,
+          "line": 919,
           "kind": "func"
         },
         {
           "file": "scripts/setpiece/setpiece_game.gd",
           "name": "SetPieceGame.shoot_params",
-          "line": 1971,
+          "line": 1969,
           "kind": "func"
         },
         {
           "file": "scripts/setpiece/setpiece_game.gd",
           "name": "SetPieceGame._finish",
-          "line": 1225,
+          "line": 1223,
           "kind": "func"
         },
         {
           "file": "scripts/setpiece/setpiece_game.gd",
           "name": "SetPieceGame.clamp_free_kick_spot",
-          "line": 583,
+          "line": 581,
           "kind": "func"
         },
         {
@@ -6036,7 +6036,7 @@
         {
           "file": "scripts/setpiece/main_menu.gd",
           "name": "MainMenu._start",
-          "line": 461,
+          "line": 457,
           "kind": "func"
         }
       ],
@@ -6110,7 +6110,7 @@
         {
           "file": "scripts/setpiece/sp_actor.gd",
           "name": "SpActor.play_clip",
-          "line": 250,
+          "line": 338,
           "kind": "func"
         },
         {
@@ -6663,7 +6663,7 @@
     {
       "id": "progression.customization",
       "system": "PROGRESSION",
-      "description": "Personalizacion del jugador del usuario (PlayerCustom): camiseta, short, medias, botines, piel, pelo (parametros del shader del kit), numero en la espalda (Label3D que sigue la columna), estilo de golpeo y carrera (sesgos SOLO sobre la eleccion del clip en ShotCatalog: la fisica del tiro no cambia), que hace despues del tiro (mira la pelota o la acompaña) y festejo elegido (clips del banco, sin bucles). Cosmeticos bloqueados (botines dorados/cromados, festejos 5 y 6) que abren los logros. Guardada en user://custom.cfg y aplicada en el menu (vista en vivo), en penales y tiros libres (tirador y arquero del usuario) y en los minijuegos. Tienda visual y objetos reales (2026-11-13): cada objeto se dibuja de verdad (BootsCatalog: modelo, suela, cordones, metal y brillo de los botines en el shader del uniforme; BallSkins: 7 diseños de balon en su shader, sin tocar la fisica; AccessoryCatalog: muñequeras, vincha, vendas, mangas y brazalete colgados de los huesos; diseños nuevos de camiseta, short y medias); imagenes de la tienda generadas con el modelo real (tools/ui/make_shop_images.gd -> assets/shop/items/*.webp); tarjetas con estado (disponible, tuyo, equipado, bloqueado, premium) y ficha con vista previa 3D (ShopPreview); nombre en la camiseta validado (ShirtName). Personalizacion con dominadas continuas (JuggleShow: IK de la pierna con TouchFootIK y la pelota fisica pateada con impulsos, alternando pies; no se cortan al cambiar la ropa) y camara que orbita (arrastrar, pellizcar o rueda; vistas frente, perfil, espalda, botines, cara, completo).",
+      "description": "Personalizacion del jugador del usuario (PlayerCustom): camiseta, short, medias, botines, piel, pelo (parametros del shader del kit), numero en la espalda (Label3D que sigue la columna), estilo de golpeo y carrera (sesgos SOLO sobre la eleccion del clip en ShotCatalog: la fisica del tiro no cambia), que hace despues del tiro (mira la pelota o la acompaña) y festejo elegido (clips del banco, sin bucles). Cosmeticos bloqueados (botines dorados/cromados, festejos 5 y 6) que abren los logros. Guardada en user://custom.cfg y aplicada en el menu (vista en vivo), en penales y tiros libres (tirador y arquero del usuario) y en los minijuegos. Tienda visual y objetos reales (2026-11-13): cada objeto se dibuja de verdad (BootsCatalog: modelo, suela, cordones, metal y brillo de los botines en el shader del uniforme; BallSkins: 7 diseños de balon en su shader, sin tocar la fisica; AccessoryCatalog: muñequeras, vincha, vendas, mangas y brazalete colgados de los huesos; diseños nuevos de camiseta, short y medias); imagenes de la tienda generadas con el modelo real (tools/ui/make_shop_images.gd -> assets/shop/items/*.webp); tarjetas con estado (disponible, tuyo, equipado, bloqueado, premium) y ficha con vista previa 3D (ShopPreview); nombre en la camiseta validado (ShirtName). Personalizacion con dominadas continuas (JuggleShow: IK de la pierna con TouchFootIK y la pelota fisica pateada con impulsos, alternando pies; no se cortan al cambiar la ropa) y camara que orbita (arrastrar, pellizcar o rueda; vistas frente, perfil, espalda, botines, cara, completo). Personalizacion avanzada (2026-11-13): peinados y barbas como objetos del catalogo (HairCatalog: elipsoides colgados del hueso de la cabeza; un casco envuelve el jopo de la textura; rapado con hair_buzz del shader), altura y complexion acotadas (escala del modelo, solo visual, el arquero no la lleva), colores de detalle de los botines (secundario, suela, cordones), nombre impreso en la camiseta (hoja name_atlas, hasta 12 letras validadas), numeros 7 y 10 destacados, PlayerCustom.dress en todos los actores del usuario, desbloqueo por logro (achievement) y objetos de progresion equipables desde su nivel, apariencia sin conexion en una sola operacion de la cola.",
       "keywords": [
         "personalizacion",
         "botines",
@@ -6702,7 +6702,16 @@
         "girar",
         "zoom",
         "perfil",
-        "espalda"
+        "espalda",
+        "peinado",
+        "barba",
+        "bigote",
+        "altura",
+        "complexion",
+        "nombre en la camiseta",
+        "logro",
+        "desbloqueo",
+        "sin conexion"
       ],
       "files": [
         "scripts/progression/player_custom.gd",
@@ -6717,7 +6726,12 @@
         "scripts/ui/shop_look.gd",
         "scripts/ui/shop_preview.gd",
         "tools/ui/make_shop_images.gd",
-        "scripts/ui/juggle_show.gd"
+        "scripts/ui/juggle_show.gd",
+        "scripts/progression/hair_catalog.gd",
+        "tests/test_custom_advanced.gd",
+        "supabase/migrations/20261113000010_custom_advanced.sql",
+        "tools/ui/make_number_atlas.gd",
+        "assets/characters/player/player_kit.gdshader"
       ],
       "symbols": [],
       "parameters": [],

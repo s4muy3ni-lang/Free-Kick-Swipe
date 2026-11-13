@@ -230,6 +230,21 @@ func queue_reward(source: String, payload: Dictionary) -> String:
 	flush()
 	return key
 
+## Apariencia elegida sin conexion: se encola UNA operacion update_appearance (las elecciones siguientes se mezclan en
+## ella, gana la ultima de cada campo), asi al volver se manda una vez y no se duplica nada.
+func queue_appearance(ap: Dictionary) -> void:
+	if not signed_in() or ap.is_empty():
+		return
+	for op in queue:
+		if String(op["fn"]) == "update_appearance":
+			(op["args"]["p_appearance"] as Dictionary).merge(ap, true)
+			_save_queue()
+			flush()
+			return
+	queue.append({"fn": "update_appearance", "args": {"p_appearance": ap.duplicate()}, "tries": 0})
+	_save_queue()
+	flush()
+
 ## Envia la cola. Un error de red la deja para despues; un rechazo del servidor (regla, tope, duplicado) la descarta.
 func flush() -> void:
 	if _flushing or not signed_in() or queue.is_empty():
