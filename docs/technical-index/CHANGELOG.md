@@ -11,6 +11,36 @@ Formato de entrada: **fecha — título** · commit · qué cambió · archivos 
 
 ---
 
+## 2026-11-13 — Personalización con dominadas continuas y cámara que orbita
+
+Pedido del usuario (sección 6: «el jugador debe estar haciendo dominadas con el balón continuamente… no reiniciar la
+animación cada vez que se cambia una prenda… controles para girar la vista»).
+
+- **Dominadas** (`scripts/ui/juggle_show.gd` nuevo, `JuggleShow`). El banco JSON no tiene clips de dominadas, así que:
+  - el cuerpo hace su bucle de espera;
+  - la pierna que toca sube a buscar la pelota con IK de dos huesos (`TouchFootIK.set_target`, encima de la animación);
+  - la pelota es la del juego, con el diseño del usuario: cae con la gravedad y en el contacto recibe un impulso
+    (`Ball.kick`) que la manda al punto del próximo toque, alternando pies;
+  - si se pierde, se vuelve a servir desde arriba (en las pruebas no pasó).
+- **Sin cortes**: cambiar la ropa, los botines o el balón solo cambia materiales (`SpActor.set_kit`, `Ball.set_skin`);
+  la animación y las dominadas siguen.
+- **Cámara** (`main_menu.gd`):
+  - orbita al jugador (arrastrar);
+  - zoom con dos dedos, la rueda o los botones ＋ y －;
+  - vistas Frente, Perfil, Espalda, Botines, Cara y Completo (`MenuScreens.customize_view` y `customize_zoom`);
+  - el jugador queda a la izquierda del panel.
+- **Pruebas** (`test_juggle_show`):
+  - en 12 s, 14 toques con un solo saque y la pelota sin tocar el piso;
+  - con los dos pies;
+  - cambiar la ropa a mitad de camino no reinicia la animación;
+  - las vistas y el zoom responden;
+  - con render, la punta del pie llega a la pelota en cada toque (mediana 0,17 m al centro de la pelota, peor
+    0,20 m);
+  - capturas revisadas en PC (`MENU_ONLY=dominadas`).
+- **Pendiente**:
+  - no se midió el rendimiento en un teléfono (agrega una pelota física y un modificador de IK);
+  - las dominadas son con el empeine; no hay toques de muslo ni de cabeza.
+
 ## 2026-11-13 — Tienda visual: objetos reales sobre el jugador, balones con diseño, accesorios y ficha con vista previa 3D
 
 Pedido del usuario (sección 5: «no quiero una tienda que parezca un listado de letras»; y de la expansión: botines

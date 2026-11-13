@@ -5,6 +5,9 @@ extends Control
 ## identidad, apariencia) pasa por las funciones del servidor (Online.call_state_fn); la interfaz solo muestra y pide.
 
 signal play_offline(mode: int)
+## Personalizar: vista del jugador (frente, perfil, espalda, botines, cara, completo) y zoom (factor de distancia).
+signal customize_view(view: String)
+signal customize_zoom(factor: float)
 signal customize_changed
 signal customize_mode(on: bool)
 
@@ -1256,7 +1259,24 @@ func open_customize() -> void:
 	_side_panel()
 	customize_mode.emit(true)
 	_catalog = await Online.catalog("catalog_items")
-	_content.add_child(_lbl("Arrastrá sobre el jugador para girarlo. Los colores son libres; los diseños especiales se desbloquean.", 17, Color(0.8, 0.86, 1.0)))
+	_content.add_child(_lbl("Arrastrá sobre el jugador para girar la vista; pellizcá (o la rueda) para acercar. Los colores son libres; los diseños especiales se desbloquean.", 17, Color(0.8, 0.86, 1.0)))
+	# Vistas rapidas del jugador (pedido del usuario: frente, perfil, espalda, calzado, cara, completo) y zoom.
+	var views := HFlowContainer.new()
+	views.add_theme_constant_override("h_separation", 6)
+	views.add_theme_constant_override("v_separation", 6)
+	_content.add_child(views)
+	for v in [["Frente", "frente"], ["Perfil", "perfil"], ["Espalda", "espalda"], ["Botines", "botines"], ["Cara", "cara"], ["Completo", "completo"]]:
+		var key2: String = v[1]
+		var vb := _btn(String(v[0]), func() -> void: customize_view.emit(key2))
+		vb.custom_minimum_size = Vector2(96, 44)
+		vb.add_theme_font_size_override("font_size", 17)
+		vb.name = "Vista_" + key2
+		views.add_child(vb)
+	for z in [["＋", 0.8], ["－", 1.25]]:
+		var f: float = z[1]
+		var zb := _btn(String(z[0]), func() -> void: customize_zoom.emit(f))
+		zb.custom_minimum_size = Vector2(52, 44)
+		views.add_child(zb)
 	var tabs := HFlowContainer.new()
 	tabs.add_theme_constant_override("h_separation", 8)
 	tabs.add_theme_constant_override("v_separation", 8)

@@ -5824,7 +5824,7 @@
         {
           "file": "scripts/setpiece/main_menu.gd",
           "name": "MainMenu._start",
-          "line": 443,
+          "line": 461,
           "kind": "func"
         }
       ],
@@ -6451,7 +6451,7 @@
     {
       "id": "progression.customization",
       "system": "PROGRESSION",
-      "description": "Personalizacion del jugador del usuario (PlayerCustom): camiseta, short, medias, botines, piel, pelo (parametros del shader del kit), numero en la espalda (Label3D que sigue la columna), estilo de golpeo y carrera (sesgos SOLO sobre la eleccion del clip en ShotCatalog: la fisica del tiro no cambia), que hace despues del tiro (mira la pelota o la acompaña) y festejo elegido (clips del banco, sin bucles). Cosmeticos bloqueados (botines dorados/cromados, festejos 5 y 6) que abren los logros. Guardada en user://custom.cfg y aplicada en el menu (vista en vivo), en penales y tiros libres (tirador y arquero del usuario) y en los minijuegos. Tienda visual y objetos reales (2026-11-13): cada objeto se dibuja de verdad (BootsCatalog: modelo, suela, cordones, metal y brillo de los botines en el shader del uniforme; BallSkins: 7 diseños de balon en su shader, sin tocar la fisica; AccessoryCatalog: muñequeras, vincha, vendas, mangas y brazalete colgados de los huesos; diseños nuevos de camiseta, short y medias); imagenes de la tienda generadas con el modelo real (tools/ui/make_shop_images.gd -> assets/shop/items/*.webp); tarjetas con estado (disponible, tuyo, equipado, bloqueado, premium) y ficha con vista previa 3D (ShopPreview); nombre en la camiseta validado (ShirtName).",
+      "description": "Personalizacion del jugador del usuario (PlayerCustom): camiseta, short, medias, botines, piel, pelo (parametros del shader del kit), numero en la espalda (Label3D que sigue la columna), estilo de golpeo y carrera (sesgos SOLO sobre la eleccion del clip en ShotCatalog: la fisica del tiro no cambia), que hace despues del tiro (mira la pelota o la acompaña) y festejo elegido (clips del banco, sin bucles). Cosmeticos bloqueados (botines dorados/cromados, festejos 5 y 6) que abren los logros. Guardada en user://custom.cfg y aplicada en el menu (vista en vivo), en penales y tiros libres (tirador y arquero del usuario) y en los minijuegos. Tienda visual y objetos reales (2026-11-13): cada objeto se dibuja de verdad (BootsCatalog: modelo, suela, cordones, metal y brillo de los botines en el shader del uniforme; BallSkins: 7 diseños de balon en su shader, sin tocar la fisica; AccessoryCatalog: muñequeras, vincha, vendas, mangas y brazalete colgados de los huesos; diseños nuevos de camiseta, short y medias); imagenes de la tienda generadas con el modelo real (tools/ui/make_shop_images.gd -> assets/shop/items/*.webp); tarjetas con estado (disponible, tuyo, equipado, bloqueado, premium) y ficha con vista previa 3D (ShopPreview); nombre en la camiseta validado (ShirtName). Personalizacion con dominadas continuas (JuggleShow: IK de la pierna con TouchFootIK y la pelota fisica pateada con impulsos, alternando pies; no se cortan al cambiar la ropa) y camara que orbita (arrastrar, pellizcar o rueda; vistas frente, perfil, espalda, botines, cara, completo).",
       "keywords": [
         "personalizacion",
         "botines",
@@ -6482,7 +6482,15 @@
         "comprar",
         "diseño del balon",
         "suela",
-        "cordones"
+        "cordones",
+        "dominadas",
+        "jueguitos",
+        "juggling",
+        "vista",
+        "girar",
+        "zoom",
+        "perfil",
+        "espalda"
       ],
       "files": [
         "scripts/progression/player_custom.gd",
@@ -6496,7 +6504,8 @@
         "scripts/ball/ball_skins.gd",
         "scripts/ui/shop_look.gd",
         "scripts/ui/shop_preview.gd",
-        "tools/ui/make_shop_images.gd"
+        "tools/ui/make_shop_images.gd",
+        "scripts/ui/juggle_show.gd"
       ],
       "symbols": [],
       "parameters": [],

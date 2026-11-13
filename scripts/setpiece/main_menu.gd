@@ -32,6 +32,16 @@ var _server_label: Label
 ## Personalizar: la camara se acerca al jugador y arrastrar lo gira.
 var _customizing: bool = false
 var _spin: float = 0.0
+## Personalizar (pedido del usuario: dominadas continuas, girar y acercar la vista): las dominadas (JuggleShow) y la
+## camara que orbita al jugador. _view_yaw: angulo alrededor del jugador (0 = de frente); _view_dist: distancia;
+## _view_h: altura que se mira (cara, cuerpo, botines).
+var juggle: JuggleShow = null
+var _view_yaw: float = 0.35
+var _view_dist: float = 3.4
+var _view_h: float = 1.0
+const VIEWS := {"frente": [0.0, 3.0, 1.0], "perfil": [1.5708, 3.0, 1.0], "espalda": [3.1416, 3.0, 1.0],
+	"botines": [0.6, 1.25, 0.22], "cara": [0.15, 1.05, 1.62], "completo": [0.35, 3.6, 1.0]}
+var _pinch: Dictionary = {}
 ## Fondo cinematografico: un tiro libre en camara lenta que se repite (solo visual: la pelota del fondo no tiene fisica).
 var _cine_t: float = 0.0
 var _cine_ball: MeshInstance3D
@@ -90,15 +100,16 @@ func _process(delta: float) -> void:
 	_t += delta
 	var gx: float = stadium.half_length()
 	if _customizing:
-		# Personalizar: primer plano del jugador; arrastrar lo gira.
-		var f := Vector3(1, 0, 0).rotated(Vector3.UP, _spin)
-		_player.set_facing(f)
+		# Personalizar: el jugador hace dominadas mirando a la camara de frente; la camara orbita alrededor (arrastrar
+		# gira, pellizcar o la rueda acercan) y queda corrida para que el jugador se vea a la izquierda del panel.
 		_cine_ball.visible = false
-		var target: Vector3 = _player.global_position + Vector3(0, 1.0, 0)
-		# Camara a un costado: el jugador queda a la izquierda de la pantalla (el panel ocupa la derecha).
-		var want: Vector3 = target + Vector3(3.0, 0.3, -1.1)
-		cam.global_position = want if cam.global_position.distance_to(want) > 6.0 else cam.global_position.lerp(want, minf(delta * 3.0, 1.0))
-		cam.look_at(target + Vector3(0, -0.1, -1.15), Vector3.UP)
+		var fwd: Vector3 = _player.facing()
+		var target: Vector3 = _player.global_position + Vector3(0, _view_h, 0)
+		var dir: Vector3 = fwd.rotated(Vector3.UP, _view_yaw)
+		var right: Vector3 = Vector3.UP.cross(dir).normalized()
+		var want: Vector3 = target + dir * _view_dist + Vector3.UP * (0.12 * _view_dist)
+		cam.global_position = want if cam.global_position.distance_to(want) > 8.0 else cam.global_position.lerp(want, minf(delta * 5.0, 1.0))
+		cam.look_at(target + right * (0.42 * _view_dist), Vector3.UP)
 		return
 	_cinematic(delta, gx)
 
@@ -245,10 +256,17 @@ func _build_ui() -> void:
 			_spin = 0.0
 			var gx2: float = stadium.half_length()
 			_player.global_position = Vector3(gx2 - 14.0, 0, 0)
+			_player.set_facing(Vector3(-1, 0, 0))
 			var idl: Array[StringName] = SpClips.by_role(&"idle_ready", false)
 			if not idl.is_empty():
 				_player.play_loop(idl[0], 0.2)
-			_cine_t = 0.0)
+			_cine_t = 0.0
+			set_view("completo")
+			start_juggling()
+		else:
+			stop_juggling())
+	screens.customize_view.connect(set_view)
+	screens.customize_zoom.connect(func(f: float) -> void: _view_dist = clampf(_view_dist * f, 0.8, 5.5))
 	Online.state_changed.connect(_refresh_profile)
 	_refresh_profile()
 	_refresh()
@@ -532,16 +550,68 @@ func _refresh_profile() -> void:
 		PlayerCustom.apply_appearance(ap, BackendConfig.seed().get("catalog_items", []))
 		_apply_custom()
 
+## Dominadas en la personalizacion (no se reinician al cambiar la ropa: solo cambian los materiales).
+func start_juggling() -> void:
+	if juggle != null:
+		return
+	juggle = JuggleShow.new()
+	juggle.name = "JuggleShow"
+	add_child(juggle)
+	PlayerCustom.load_custom()
+	juggle.setup(_player, BallSkins.design_of(PlayerCustom.ball_item))
+
+func stop_juggling() -> void:
+	if juggle != null:
+		juggle.stop()
+		juggle.queue_free()
+		juggle = null
+
+## Vista de la personalizacion: frente, perfil, espalda, botines, cara o completo.
+func set_view(v: String) -> void:
+	var d: Array = VIEWS.get(v, VIEWS["completo"])
+	_view_yaw = float(d[0])
+	_view_dist = float(d[1])
+	_view_h = float(d[2])
+
 func _apply_custom() -> void:
 	if _player != null:
 		_player.set_kit(PlayerCustom.kit())
+		if juggle != null and is_instance_valid(juggle.ball):
+			juggle.ball.set_skin(BallSkins.design_of(PlayerCustom.ball_item))
 		_player.number_style = PlayerCustom.number_style
 		_player.set_back_number(PlayerCustom.number)
 		_player.set_accessories(PlayerCustom.accessories)
 
 func _unhandled_input(e: InputEvent) -> void:
-	if _customizing and (e is InputEventScreenDrag or (e is InputEventMouseMotion and (e as InputEventMouseMotion).button_mask & MOUSE_BUTTON_MASK_LEFT)):
-		_spin += (e as InputEventMouseMotion).relative.x * 0.01 if e is InputEventMouseMotion else (e as InputEventScreenDrag).relative.x * 0.01
+	if not _customizing:
+		return
+	# Dos dedos: pellizcar acerca o aleja. Un dedo (o el mouse): girar alrededor del jugador. La rueda: zoom.
+	if e is InputEventScreenTouch:
+		if (e as InputEventScreenTouch).pressed:
+			_pinch[(e as InputEventScreenTouch).index] = (e as InputEventScreenTouch).position
+		else:
+			_pinch.erase((e as InputEventScreenTouch).index)
+	elif e is InputEventScreenDrag:
+		var sd := e as InputEventScreenDrag
+		if _pinch.size() >= 2:
+			var pts: Array = _pinch.values()
+			var before: float = (pts[0] as Vector2).distance_to(pts[1])
+			_pinch[sd.index] = sd.position
+			pts = _pinch.values()
+			var after: float = (pts[0] as Vector2).distance_to(pts[1])
+			if before > 1.0:
+				_view_dist = clampf(_view_dist * before / maxf(after, 1.0), 0.8, 5.5)
+		else:
+			_pinch[sd.index] = sd.position
+			_view_yaw -= sd.relative.x * 0.01
+	elif e is InputEventMouseMotion and (e as InputEventMouseMotion).button_mask & MOUSE_BUTTON_MASK_LEFT:
+		_view_yaw -= (e as InputEventMouseMotion).relative.x * 0.01
+	elif e is InputEventMouseButton and (e as InputEventMouseButton).pressed:
+		var mb := e as InputEventMouseButton
+		if mb.button_index == MOUSE_BUTTON_WHEEL_UP:
+			_view_dist = clampf(_view_dist / 1.1, 0.8, 5.5)
+		elif mb.button_index == MOUSE_BUTTON_WHEEL_DOWN:
+			_view_dist = clampf(_view_dist * 1.1, 0.8, 5.5)
 
 ## Fondo: tiro libre en camara lenta. El tirador hace su golpeo a 0,35 de velocidad, la pelota del fondo (solo visual,
 ## sin fisica) viaja en curva al angulo y la camara la acompaña; despues vuelve a empezar.

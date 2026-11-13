@@ -25,6 +25,21 @@ func _ready() -> void:
 		await get_tree().process_frame
 	await _shot("menu")
 	var screens: MenuScreens = menu.get("screens")
+	if OS.get_environment("MENU_ONLY") == "dominadas":
+		# Personalizar con dominadas: varios instantes y las vistas de botines y espalda.
+		screens.open_customize()
+		for i in 60:
+			await get_tree().process_frame
+		for k in 3:
+			await _shot("dominadas_%d" % k)
+			for i in 9:
+				await get_tree().process_frame
+		menu.call("set_view", "botines")
+		await _shot("dominadas_botines")
+		menu.call("set_view", "espalda")
+		await _shot("dominadas_espalda")
+		get_tree().quit()
+		return
 	if OS.get_environment("MENU_ONLY") == "tienda":
 		# Tienda: la grilla de tarjetas, un filtro y la ficha con la vista previa (botines y balon).
 		await screens.open_shop()
