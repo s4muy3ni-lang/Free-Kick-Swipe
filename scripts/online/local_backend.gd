@@ -274,7 +274,7 @@ func _update_identity(a: Dictionary) -> Dictionary:
 
 const ITEM_KEYS := ["jersey", "shorts", "socks", "boots", "ball", "celebration", "number_style", "emote"]
 const FREE_KEYS := ["jersey_color", "jersey_color2", "shorts_color", "socks_color", "boots_color", "skin", "hair",
-	"hair_style", "sock_height", "sock_style"]
+	"hair_style", "sock_height", "sock_style", "beard", "height", "build"]
 
 func _update_appearance(ap: Dictionary) -> Dictionary:
 	var inv: Dictionary = _db.get("inventory", {})
@@ -283,6 +283,19 @@ func _update_appearance(ap: Dictionary) -> Dictionary:
 			var it: Dictionary = _item(String(ap[k]))
 			if it.is_empty() or (String(it["unlock"]) != "free" and int(inv.get(String(ap[k]), 0)) <= 0):
 				return _err("no tenes ese objeto: %s" % ap[k])
+		elif k == "accessories":
+			if not (ap[k] is Array) or (ap[k] as Array).size() > 5:
+				return _err("accesorios invalidos")
+			for e in ap[k]:
+				var ai: Dictionary = _item(String(e))
+				if ai.is_empty() or String(ai["kind"]) != "accessory" or (String(ai["unlock"]) != "free" and int(inv.get(String(e), 0)) <= 0):
+					return _err("no tenes ese accesorio: %s" % e)
+		elif k == "shirt_name":
+			var nm: String = String(ap[k])
+			if not (ap[k] is String) or nm.length() > 12 or not ShirtName.valid_chars(nm):
+				return _err("nombre invalido (hasta 12 letras o numeros)")
+			if not ShirtName.clean(nm):
+				return _err("ese nombre no se puede usar")
 		elif k in FREE_KEYS:
 			if not (ap[k] is float or ap[k] is int) or float(ap[k]) < 0 or float(ap[k]) > 31:
 				return _err("valor invalido para %s" % k)

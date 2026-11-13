@@ -89,6 +89,13 @@ static func kit_material(body_path: String, kit: Dictionary) -> ShaderMaterial:
 	# Diseños de la personalizacion (ribetes blancos).
 	if kit.has("shorts"):
 		mat.set_shader_parameter("trim_color", Color(0.95, 0.95, 0.97))
+	# Botines: modelo (diseño), segundo color, suela, cordones, metal y brillo (BootsCatalog / PlayerCustom).
+	for key in ["boots_model", "boots_metal", "boots_glow"]:
+		if kit.has(key):
+			mat.set_shader_parameter(key, kit[key])
+	for key in ["boots_color2", "boots_sole", "boots_laces"]:
+		if kit.has(key):
+			mat.set_shader_parameter(key, kit[key])
 	for key in ["jersey_pattern", "shorts_pattern", "socks_pattern", "sock_height"]:
 		if kit.has(key):
 			mat.set_shader_parameter(key, int(kit[key]))

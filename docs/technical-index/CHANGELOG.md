@@ -11,6 +11,50 @@ Formato de entrada: **fecha — título** · commit · qué cambió · archivos 
 
 ---
 
+## 2026-11-13 — Tienda visual: objetos reales sobre el jugador, balones con diseño, accesorios y ficha con vista previa 3D
+
+Pedido del usuario (sección 5: «no quiero una tienda que parezca un listado de letras»; y de la expansión: botines
+visibles, balones, accesorios, premium sin pagos).
+
+- **Auditoría que motivó el cambio**:
+  - los diseños de balón del catálogo no se dibujaban (el balón era siempre igual);
+  - los botines solo cambiaban de color;
+  - no había accesorios.
+- **Objetos que se ven de verdad**:
+  - botines (`BootsCatalog` + `player_kit.gdshader`): modelo clásico (talón), moderno (puntera) y pro (franja en
+    diagonal), con suela, cordones, metalizado y brillo, pintados en el pie a partir de las medidas de la malla en reposo;
+  - balones (`BallSkins` + `ball.gdshader`): clásico, moderno, competición, noche (neón), llamas, temporada, estrellas y
+    oro. Solo cambia el material, no la física: la prueba patea tres diseños iguales y la trayectoria es idéntica;
+  - accesorios (`AccessoryCatalog`, `SpActor.set_accessories`): muñequeras, vincha, vendas, mangas largas y brazalete,
+    colgados de los huesos (`BoneAttachment3D`), que siguen la animación sin tocar el esqueleto;
+  - diseños nuevos de camiseta (cuadros, diagonal, mangas de color, cuello y puños, geométrica), de short (doble franja,
+    ruedo) y de medias (dos franjas, rayas verticales);
+  - estilo del número de la espalda (oro, mítico).
+- **Catálogo** (`seed.json` y migración `20261113000008_catalog_expansion.sql`): 21 objetos nuevos, 66 en total.
+  - Tipo nuevo `accessory` y desbloqueo nuevo `premium`.
+  - Los premium son solo estéticos y no se venden (pagos no activados).
+  - `update_appearance` (SQL y local) acepta la lista de accesorios propios, barba, altura, contextura y el nombre en
+    la camiseta validado (`ShirtName`: hasta 12, sin insultos).
+- **Imágenes**: `tools/ui/make_shop_images.gd` dibuja cada objeto con el modelo real del jugador o la pelota real y guarda
+  `assets/shop/items/<id>.webp` (66 imágenes, 540 KB).
+- **Tienda** (`menu_screens.gd`):
+  - filtros por categoría;
+  - tarjetas con imagen, nombre, rareza, precio y estado (disponible, tuyo, equipado con borde dorado, bloqueado con el
+    motivo, premium);
+  - ficha con vista previa 3D que se gira (`ShopPreview`: el jugador del usuario con el objeto puesto, o el balón), qué
+    hace, cómo se consigue y comprar, equipar, quitar o usar;
+  - la compra la valida el servidor: saldo, nivel, que se venda, sin duplicados; si falla no se descuenta nada.
+- **Pruebas**:
+  - `test_shop_visual` (4 pruebas, 33 comprobaciones): imagen por objeto, el objeto cambia el modelo real, balones sin
+    cambio de física, estados, compra única, compra fallida sin descuento, equipar y quitar;
+  - siguen pasando `test_customization` y `test_online_client`;
+  - SQL OK;
+  - capturas de la tienda revisadas en PC (`MENU_ONLY=tienda` en `tools/ui/menu_capture.gd`).
+- **Pendiente**:
+  - nada se probó en un teléfono;
+  - la estela de los balones de llamas y estrellas (dato `trail` del catálogo) no se dibuja: solo el diseño de la
+    pelota.
+
 ## 2026-11-13 — Rescate rediseñado: mecanismos táctiles, acertijos con física real y Rescate online
 
 Pedido del usuario (sección 8: «un minijuego de ingenio y habilidad, con mecanismos variados y acertijos reales»).

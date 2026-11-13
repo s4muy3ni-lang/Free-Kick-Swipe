@@ -35,27 +35,27 @@
 <!-- AUTO:params:BallTuning -->
 | Parámetro | Defecto | Rango / tipo | Definido en | Dónde se usa (accesos reales) | Descripción |
 |---|---|---|---|---|---|
-| `radius` | `0.1` | float | `scripts/ball/ball_tuning.gd:8` | `scripts/ball/ball.gd:132`, `scripts/ball/ball_predictor.gd:34`, `scripts/ball/ball_predictor.gd:39`, `scripts/ball/ball_predictor.gd:40` (+16) | Radio real en metros (circunferencia ~63 cm). (Cuerpo) |
-| `mass` | `0.42` | float | `scripts/ball/ball_tuning.gd:10` | `scripts/ball/ball.gd:133`, `scripts/ball/ball_predictor.gd:42`, `scripts/ball/ball_predictor.gd:57`, `scripts/assistance/kick_model.gd:68` (+1) | Masa en kg (futsal: 400-440 g). (Cuerpo) |
-| `visual_scale` | `1.25` | float | `scripts/ball/ball_tuning.gd:12` | `scripts/ball/ball.gd:150`, `scripts/ball/ball.gd:151` | Escala solo visual para que se lea bien con camara alta (no afecta a la fisica). (Cuerpo) |
-| `bounce` | `0.54` | 0.0, 1.0 | `scripts/ball/ball_tuning.gd:16` | `scripts/ball/ball.gd:141`, `scripts/ball/ball_predictor.gd:68`, `scripts/ball/ball_predictor.gd:71` | Coeficiente de restitucion. El balon de futsal rebota ~50-60 % de la altura de caida. (Contacto) |
-| `friction` | `0.6` | 0.0, 2.0 | `scripts/ball/ball_tuning.gd:17` | `scripts/ball/ball.gd:142`, `scripts/ball/ball_predictor.gd:44` |  (Contacto) |
-| `angular_damp` | `0.01` | float | `scripts/ball/ball_tuning.gd:18` | `scripts/ball/ball.gd:138` |  (Contacto) |
-| `drag_coefficient` | `0.25` | float | `scripts/ball/ball_tuning.gd:22` | `scripts/ball/ball.gd:386`, `scripts/ball/ball_predictor.gd:57`, `scripts/assistance/kick_model.gd:117` | Cd del balon en el aire. (Resistencia) |
-| `air_density` | `1.2` | float | `scripts/ball/ball_tuning.gd:23` | `scripts/ball/ball.gd:386`, `scripts/ball/ball_predictor.gd:57`, `scripts/assistance/kick_model.gd:117` |  (Resistencia) |
-| `rolling_decel` | `0.3` | float | `scripts/ball/ball_tuning.gd:26` | `scripts/ball/ball.gd:451` | Rodadura sobre el piso: desaceleracion = rolling_decel + rolling_viscous * v. La parte constante (m/s^2) es la que detiene del todo una pelota lenta. (Resistencia) |
-| `rolling_viscous` | `1.0` | float | `scripts/ball/ball_tuning.gd:31` | `scripts/ball/ball.gd:451` | Parte proporcional a la velocidad (1/s), como en First Touch Soccer: alli la pelota conserva 1006/1024 de su velocidad por imagen a 60 Hz (1.06/s; medido en su libreria, CBallProj::Iterate). Con ella cada toque de conduccion sale disparado, frena y espera al jugador (antes, con 0.55 m/s^2 constantes, la pelota rodaba a la par del jugador como atada a una cuerda), y los pases salen rapidos y se apagan. (Resistencia) |
-| `rolling_viscous_knee` | `7.0` | float | `scripts/ball/ball_tuning.gd:35` | `scripts/ball/ball.gd:451` | Velocidad (m/s) por encima de la cual la parte proporcional deja de crecer (desaceleracion constante a + c vk): la conduccion (toques de hasta ~7 m/s) va como en FTS y un pase o tiro fuerte por el suelo pierde ~20 % en 15 m en vez de apagarse (con 1/s puro un tiro raso de 25 m/s llegaba a 10 m/s a 15 m). (Resistencia) |
-| `spin_decel_ground` | `6.0` | float | `scripts/ball/ball_tuning.gd:37` | `scripts/ball/ball.gd:418`, `scripts/ball/ball.gd:420` | Perdida de giro sobre el piso (rad/s^2). (Resistencia) |
-| `magnus_k` | `0.0018` | float | `scripts/ball/ball_tuning.gd:39` | `scripts/ball/ball.gd:392`, `scripts/ball/ball_predictor.gd:42`, `scripts/assistance/kick_model.gd:68` | Coeficiente tipo Magnus: F = k * (omega x v). (Resistencia) |
+| `radius` | `0.1` | float | `scripts/ball/ball_tuning.gd:8` | `scripts/ball/ball.gd:144`, `scripts/ball/ball_predictor.gd:34`, `scripts/ball/ball_predictor.gd:39`, `scripts/ball/ball_predictor.gd:40` (+16) | Radio real en metros (circunferencia ~63 cm). (Cuerpo) |
+| `mass` | `0.42` | float | `scripts/ball/ball_tuning.gd:10` | `scripts/ball/ball.gd:145`, `scripts/ball/ball_predictor.gd:42`, `scripts/ball/ball_predictor.gd:57`, `scripts/assistance/kick_model.gd:68` (+1) | Masa en kg (futsal: 400-440 g). (Cuerpo) |
+| `visual_scale` | `1.25` | float | `scripts/ball/ball_tuning.gd:12` | `scripts/ball/ball.gd:162`, `scripts/ball/ball.gd:163` | Escala solo visual para que se lea bien con camara alta (no afecta a la fisica). (Cuerpo) |
+| `bounce` | `0.54` | 0.0, 1.0 | `scripts/ball/ball_tuning.gd:16` | `scripts/ball/ball.gd:153`, `scripts/ball/ball_predictor.gd:68`, `scripts/ball/ball_predictor.gd:71` | Coeficiente de restitucion. El balon de futsal rebota ~50-60 % de la altura de caida. (Contacto) |
+| `friction` | `0.6` | 0.0, 2.0 | `scripts/ball/ball_tuning.gd:17` | `scripts/ball/ball.gd:154`, `scripts/ball/ball_predictor.gd:44` |  (Contacto) |
+| `angular_damp` | `0.01` | float | `scripts/ball/ball_tuning.gd:18` | `scripts/ball/ball.gd:150` |  (Contacto) |
+| `drag_coefficient` | `0.25` | float | `scripts/ball/ball_tuning.gd:22` | `scripts/ball/ball.gd:398`, `scripts/ball/ball_predictor.gd:57`, `scripts/assistance/kick_model.gd:117` | Cd del balon en el aire. (Resistencia) |
+| `air_density` | `1.2` | float | `scripts/ball/ball_tuning.gd:23` | `scripts/ball/ball.gd:398`, `scripts/ball/ball_predictor.gd:57`, `scripts/assistance/kick_model.gd:117` |  (Resistencia) |
+| `rolling_decel` | `0.3` | float | `scripts/ball/ball_tuning.gd:26` | `scripts/ball/ball.gd:463` | Rodadura sobre el piso: desaceleracion = rolling_decel + rolling_viscous * v. La parte constante (m/s^2) es la que detiene del todo una pelota lenta. (Resistencia) |
+| `rolling_viscous` | `1.0` | float | `scripts/ball/ball_tuning.gd:31` | `scripts/ball/ball.gd:463` | Parte proporcional a la velocidad (1/s), como en First Touch Soccer: alli la pelota conserva 1006/1024 de su velocidad por imagen a 60 Hz (1.06/s; medido en su libreria, CBallProj::Iterate). Con ella cada toque de conduccion sale disparado, frena y espera al jugador (antes, con 0.55 m/s^2 constantes, la pelota rodaba a la par del jugador como atada a una cuerda), y los pases salen rapidos y se apagan. (Resistencia) |
+| `rolling_viscous_knee` | `7.0` | float | `scripts/ball/ball_tuning.gd:35` | `scripts/ball/ball.gd:463` | Velocidad (m/s) por encima de la cual la parte proporcional deja de crecer (desaceleracion constante a + c vk): la conduccion (toques de hasta ~7 m/s) va como en FTS y un pase o tiro fuerte por el suelo pierde ~20 % en 15 m en vez de apagarse (con 1/s puro un tiro raso de 25 m/s llegaba a 10 m/s a 15 m). (Resistencia) |
+| `spin_decel_ground` | `6.0` | float | `scripts/ball/ball_tuning.gd:37` | `scripts/ball/ball.gd:430`, `scripts/ball/ball.gd:432` | Perdida de giro sobre el piso (rad/s^2). (Resistencia) |
+| `magnus_k` | `0.0018` | float | `scripts/ball/ball_tuning.gd:39` | `scripts/ball/ball.gd:404`, `scripts/ball/ball_predictor.gd:42`, `scripts/assistance/kick_model.gd:68` | Coeficiente tipo Magnus: F = k * (omega x v). (Resistencia) |
 | `net_stiffness` | `1800.0` | float | `scripts/ball/ball_tuning.gd:42` | `scripts/pitch/goal_net.gd:244` | Red del arco (GoalNet): tela atada al marco que la pelota abomba. Rigidez (aceleracion por metro abombado, 1/s^2): un tiro de 27 m/s la abomba ~0.5 m y se frena en ~0.05 s. (Resistencia) |
 | `net_damp_in` | `0.25` | 0.0, 2.0 | `scripts/ball/ball_tuning.gd:45` | `scripts/pitch/goal_net.gd:252` | Amortiguacion (fraccion de la critica) mientras la pelota empuja la red y mientras la red la devuelve (mayor: la tela se queda la energia y la pelota cae dentro en lugar de rebotar). (Resistencia) |
 | `net_damp_out` | `1.2` | 0.0, 2.0 | `scripts/ball/ball_tuning.gd:46` | `scripts/pitch/goal_net.gd:252` |  (Resistencia) |
 | `net_return` | `0.05` | 0.0, 1.0 | `scripts/ball/ball_tuning.gd:48` | `scripts/pitch/goal_net.gd:249` | Fraccion de la rigidez con la que la tela empuja de vuelta a la pelota (la red real casi no devuelve energia). (Resistencia) |
-| `net_grip` | `7.0` | float | `scripts/ball/ball_tuning.gd:50` | `scripts/ball/ball.gd:430`, `scripts/pitch/goal_net.gd:266` | Frenado (1/s) del movimiento a lo largo de la tela y del giro mientras la pelota esta metida en ella. (Resistencia) |
+| `net_grip` | `7.0` | float | `scripts/ball/ball_tuning.gd:50` | `scripts/ball/ball.gd:442`, `scripts/pitch/goal_net.gd:266` | Frenado (1/s) del movimiento a lo largo de la tela y del giro mientras la pelota esta metida en ella. (Resistencia) |
 | `net_max_bulge` | `0.6` | float | `scripts/ball/ball_tuning.gd:52` | `scripts/pitch/goal_net.gd:259`, `scripts/pitch/goal_net.gd:267`, `scripts/pitch/goal_net.gd:269` | Abombado maximo (m): a partir de ahi la tela ya no cede. (Resistencia) |
-| `max_speed` | `38.0` | float | `scripts/ball/ball_tuning.gd:53` | `scripts/ball/ball.gd:433`, `scripts/ball/ball.gd:434` |  (Resistencia) |
-| `max_spin` | `150.0` | float | `scripts/ball/ball_tuning.gd:54` | `scripts/ball/ball.gd:435`, `scripts/ball/ball.gd:436` |  (Resistencia) |
+| `max_speed` | `38.0` | float | `scripts/ball/ball_tuning.gd:53` | `scripts/ball/ball.gd:445`, `scripts/ball/ball.gd:446` |  (Resistencia) |
+| `max_spin` | `150.0` | float | `scripts/ball/ball_tuning.gd:54` | `scripts/ball/ball.gd:447`, `scripts/ball/ball.gd:448` |  (Resistencia) |
 | `pass_speed_min` | `7.0` | float | `scripts/ball/ball_tuning.gd:58` | `scripts/assistance/cross_assist.gd:83`, `scripts/assistance/pass_assist.gd:117`, `scripts/assistance/pass_assist.gd:239` | Velocidad minima (m/s) de un pase raso a un companero (antes 4: los pases cortos se sentian flojos). (Pase) |
 | `pass_speed_max` | `28.0` | float | `scripts/ball/ball_tuning.gd:59` | `scripts/assistance/cross_assist.gd:83`, `scripts/assistance/pass_assist.gd:76`, `scripts/assistance/pass_assist.gd:118`, `scripts/assistance/pass_assist.gd:239` |  (Pase) |
 | `pass_arrival_speed` | `6.0` | float | `scripts/ball/ball_tuning.gd:62` | `scripts/assistance/pass_assist.gd:76`, `scripts/assistance/pass_assist.gd:113` | Velocidad a la que queremos que el pase raso llegue al receptor (antes 4.5: «los pases se sienten debiles»; en First Touch y Dream League el pase llega tenso al pie). (Pase) |
@@ -96,45 +96,47 @@ La referencia de 50–65 cm desde 2 m para un balón de futsal es la que usa el 
 <!-- AUTO:funcs:scripts/ball/ball.gd -->
 | Función | Línea | Qué hace |
 |---|---|---|
-| `Ball._ready()` | 81 |  |
-| `Ball._build()` | 87 |  |
-| `Ball.apply_tuning()` | 131 | Aplica los parametros de BallTuning (se puede llamar en caliente desde el laboratorio). |
-| `Ball.kick(target_velocity: Vector3, spin: Vector3 = Vector3.ZERO, kicker: Node = null)` | 156 | Golpe: aplica el impulso necesario para que la pelota salga con la velocidad y el giro dados. |
-| `Ball.set_knuckle(accel: float, freq: float, phase: float)` | 169 | Activa el "flotado" del tiro sin giro recien pateado: amplitud (m/s^2), frecuencia (Hz) y fase (rad) de la fuerza lateral. Se llama justo de |
-| `Ball.rolling_spin(velocity: Vector3)` | 178 | Giro de rodadura sin deslizamiento para una velocidad horizontal dada (w = up x v / r). Un golpe raso real transmite este giro; sin el, la p |
-| `Ball.push(impulse: Vector3, actor: Node = null)` | 182 | Impulso arbitrario (desvios, choques) sin cambiar el ultimo toque salvo que se indique actor. |
-| `Ball.register_touch(actor: Node)` | 187 |  |
-| `Ball.reset_at(pos: Vector3, vel: Vector3 = Vector3.ZERO)` | 201 | Teletransporte controlado (saques de centro, reinicios). No se usa durante el juego normal. |
-| `Ball.hold(anchor: Node3D, by: Node)` | 213 |  |
-| `Ball.release(by: Node, velocity: Vector3 = Vector3.ZERO)` | 223 |  |
-| `Ball.is_held()` | 232 |  |
-| `Ball.is_grounded()` | 235 |  |
-| `Ball.speed()` | 238 |  |
-| `Ball.ground_speed()` | 241 |  |
-| `Ball.capture_state(tick: int = 0)` | 244 |  |
-| `Ball.apply_state(s: BallState)` | 257 |  |
-| `Ball._process(delta: float)` | 276 |  |
-| `Ball._visual_step(delta: float)` | 281 |  |
-| `Ball._physics_process(_delta: float)` | 305 |  |
-| `Ball._ball_step(_delta: float)` | 310 |  |
-| `Ball._update_trail(delta: float)` | 316 | Estela: se activa con un tiro rapido o con mucho efecto lateral en el aire y se desvanece al frenar o tocar el suelo. |
-| `Ball._integrate_forces(state: PhysicsDirectBodyState3D)` | 352 |  |
-| `Ball._integrate_step(state: PhysicsDirectBodyState3D)` | 357 |  |
-| `Ball._roll_params()` | 449 | Desaceleracion sobre el piso: a + c * min(v, vk) (BallTuning rolling_decel, rolling_viscous, rolling_viscous_knee). Por debajo de vk la part |
-| `Ball.roll_decel(v: float)` | 454 | Desaceleracion (m/s2) de la rodadura a la velocidad v. |
-| `Ball._visc_speed(v0: float, t: float, p: Vector3)` | 459 | Tramo proporcional (v <= vk): velocidad y distancia exactas a los t s, hasta pararse. |
-| `Ball._visc_stop_time(v0: float, p: Vector3)` | 463 |  |
-| `Ball._visc_distance(v0: float, t: float, p: Vector3)` | 467 |  |
-| `Ball._roll_step(v: float, dt: float)` | 473 | Velocidad tras rodar dt segundos sobre el piso partiendo de v (modelo exacto de _integrate_forces, sin el aire). |
-| `Ball.roll_speed(v0: float, t: float)` | 477 | Velocidad (m/s) de una pelota que rueda t segundos partiendo de v0. |
-| `Ball.roll_distance(v0: float, t: float)` | 488 | Distancia (m) que recorre en t segundos una pelota que rueda partiendo de v0 (hasta detenerse). |
-| `Ball.roll_stop_time(v0: float)` | 499 | Tiempo (s) hasta que la pelota que sale a v0 se detiene. |
-| `Ball.roll_speed_for(dist: float, t: float)` | 506 | Velocidad inicial (m/s) para recorrer dist metros en t segundos rodando (la mas baja que llega, hasta 60 m/s). |
-| `Ball.roll_speed_to_stop(dist: float)` | 528 | Velocidad inicial (m/s) con la que la pelota rueda dist metros y se detiene ahi. |
-| `Ball.roll_time(v0: float, dist: float)` | 542 | Tiempo (s) que tarda en recorrer dist metros una pelota que rueda partiendo de v0 (INF si se detiene antes). |
-| `Ball.roll_start_speed(v_end: float, t: float)` | 559 | Velocidad (m/s) con la que tiene que salir la pelota para rodar a v_end dentro de t segundos. |
-| `Ball.roll_catch_time(advance: float, vp: float)` | 573 | Tiempo (s) en que una pelota tocada desde un cuerpo que va a vp m/s queda `advance` metros mas adelantada que el y con su misma velocidad (e |
-| `Ball._on_body_entered(body: Node)` | 587 |  |
+| `Ball.set_skin(design: String)` | 61 |  |
+| `Ball.skin()` | 66 |  |
+| `Ball._ready()` | 91 |  |
+| `Ball._build()` | 97 |  |
+| `Ball.apply_tuning()` | 143 | Aplica los parametros de BallTuning (se puede llamar en caliente desde el laboratorio). |
+| `Ball.kick(target_velocity: Vector3, spin: Vector3 = Vector3.ZERO, kicker: Node = null)` | 168 | Golpe: aplica el impulso necesario para que la pelota salga con la velocidad y el giro dados. |
+| `Ball.set_knuckle(accel: float, freq: float, phase: float)` | 181 | Activa el "flotado" del tiro sin giro recien pateado: amplitud (m/s^2), frecuencia (Hz) y fase (rad) de la fuerza lateral. Se llama justo de |
+| `Ball.rolling_spin(velocity: Vector3)` | 190 | Giro de rodadura sin deslizamiento para una velocidad horizontal dada (w = up x v / r). Un golpe raso real transmite este giro; sin el, la p |
+| `Ball.push(impulse: Vector3, actor: Node = null)` | 194 | Impulso arbitrario (desvios, choques) sin cambiar el ultimo toque salvo que se indique actor. |
+| `Ball.register_touch(actor: Node)` | 199 |  |
+| `Ball.reset_at(pos: Vector3, vel: Vector3 = Vector3.ZERO)` | 213 | Teletransporte controlado (saques de centro, reinicios). No se usa durante el juego normal. |
+| `Ball.hold(anchor: Node3D, by: Node)` | 225 |  |
+| `Ball.release(by: Node, velocity: Vector3 = Vector3.ZERO)` | 235 |  |
+| `Ball.is_held()` | 244 |  |
+| `Ball.is_grounded()` | 247 |  |
+| `Ball.speed()` | 250 |  |
+| `Ball.ground_speed()` | 253 |  |
+| `Ball.capture_state(tick: int = 0)` | 256 |  |
+| `Ball.apply_state(s: BallState)` | 269 |  |
+| `Ball._process(delta: float)` | 288 |  |
+| `Ball._visual_step(delta: float)` | 293 |  |
+| `Ball._physics_process(_delta: float)` | 317 |  |
+| `Ball._ball_step(_delta: float)` | 322 |  |
+| `Ball._update_trail(delta: float)` | 328 | Estela: se activa con un tiro rapido o con mucho efecto lateral en el aire y se desvanece al frenar o tocar el suelo. |
+| `Ball._integrate_forces(state: PhysicsDirectBodyState3D)` | 364 |  |
+| `Ball._integrate_step(state: PhysicsDirectBodyState3D)` | 369 |  |
+| `Ball._roll_params()` | 461 | Desaceleracion sobre el piso: a + c * min(v, vk) (BallTuning rolling_decel, rolling_viscous, rolling_viscous_knee). Por debajo de vk la part |
+| `Ball.roll_decel(v: float)` | 466 | Desaceleracion (m/s2) de la rodadura a la velocidad v. |
+| `Ball._visc_speed(v0: float, t: float, p: Vector3)` | 471 | Tramo proporcional (v <= vk): velocidad y distancia exactas a los t s, hasta pararse. |
+| `Ball._visc_stop_time(v0: float, p: Vector3)` | 475 |  |
+| `Ball._visc_distance(v0: float, t: float, p: Vector3)` | 479 |  |
+| `Ball._roll_step(v: float, dt: float)` | 485 | Velocidad tras rodar dt segundos sobre el piso partiendo de v (modelo exacto de _integrate_forces, sin el aire). |
+| `Ball.roll_speed(v0: float, t: float)` | 489 | Velocidad (m/s) de una pelota que rueda t segundos partiendo de v0. |
+| `Ball.roll_distance(v0: float, t: float)` | 500 | Distancia (m) que recorre en t segundos una pelota que rueda partiendo de v0 (hasta detenerse). |
+| `Ball.roll_stop_time(v0: float)` | 511 | Tiempo (s) hasta que la pelota que sale a v0 se detiene. |
+| `Ball.roll_speed_for(dist: float, t: float)` | 518 | Velocidad inicial (m/s) para recorrer dist metros en t segundos rodando (la mas baja que llega, hasta 60 m/s). |
+| `Ball.roll_speed_to_stop(dist: float)` | 540 | Velocidad inicial (m/s) con la que la pelota rueda dist metros y se detiene ahi. |
+| `Ball.roll_time(v0: float, dist: float)` | 554 | Tiempo (s) que tarda en recorrer dist metros una pelota que rueda partiendo de v0 (INF si se detiene antes). |
+| `Ball.roll_start_speed(v_end: float, t: float)` | 571 | Velocidad (m/s) con la que tiene que salir la pelota para rodar a v_end dentro de t segundos. |
+| `Ball.roll_catch_time(advance: float, vp: float)` | 585 | Tiempo (s) en que una pelota tocada desde un cuerpo que va a vp m/s queda `advance` metros mas adelantada que el y con su misma velocidad (e |
+| `Ball._on_body_entered(body: Node)` | 599 |  |
 <!-- /AUTO -->
 
 ### Constantes de capas y señales
@@ -148,14 +150,14 @@ La referencia de 50–65 cm desde 2 m para un balón de futsal es la que usa el 
 | `Ball.LAYER_KEEPERS` | `8` | 24 |  |
 | `Ball.LAYER_GOAL_FRAME` | `16` | 25 |  |
 | `Ball.FLOOR_FRICTION` | `0.8` | 28 | Friccion del cesped (material del piso de Pitch y Stadium11). Jolt combina la de la pelota y la del piso tomando la menor (como Godot Physics): medido en la cancha, la pelota que desliza frena a mu*g con mu = 0,58-0,60 = min(0,6; 0,8). |
-| `Ball.TRAIL_POINTS` | `18` | 60 | Estela de los tiros fuertes o con efecto (solo presentacion): cinta con las ultimas posiciones de la pelota. La forma de la curva que dibuja es la de la trayectoria real (no se inventa nada). |
-| `Ball.TRAIL_MIN_SPEED` | `15.0` | 61 |  |
-| `Ball.TRAIL_MIN_SPIN` | `14.0` | 62 |  |
-| `Ball.KNUCKLE_MIN_SPEED` | `12.0` | 72 | Tiro sin giro que "flota" (knuckle, lo pone el tiro potente con set_knuckle): aceleracion lateral oscilante (m/s^2) mientras la pelota va rapida por el aire con poco giro, como la de las pelotas reales sin giro (la estela de aire se desprende de forma irregular). Cualquier golpe, bote o choque la apaga. |
-| `Ball.KNUCKLE_MAX_SPIN` | `12.0` | 73 |  |
-| `Ball.KNUCKLE_MAX_TIME` | `1.5` | 74 |  |
-| `Ball.VISUAL_SPIN_DEG_PER_FRAME` | `20.0` | 267 | Grados maximos que gira el balon DIBUJADO por imagen. El patron (parches sobre los 12 vertices de un icosaedro) se repite cada ~63 grados: un pase a 6 m/s rueda a ~57 rad/s = 55 grados por imagen a 60 fps y se ve QUIETO; a 10 m/s, 92 grados por imagen, y parece girar despacio o al reves (efecto rueda de carro). El dibujo sigue el eje y el sentido reales pero sin pasar de este giro por imagen (legible tambien a 30 fps). La fisica (giro real, Magnus) no cambia. |
-| `Ball.VISUAL_SHUTTER` | `0.5` | 270 | Fraccion de la imagen con el obturador abierto: el patron se desenfoca a lo largo del giro REAL de ese tiempo (el shader lo promedia alrededor del eje), como en la television: rapido quedan bandas y se ven los polos del eje. |
+| `Ball.TRAIL_POINTS` | `18` | 70 | Estela de los tiros fuertes o con efecto (solo presentacion): cinta con las ultimas posiciones de la pelota. La forma de la curva que dibuja es la de la trayectoria real (no se inventa nada). |
+| `Ball.TRAIL_MIN_SPEED` | `15.0` | 71 |  |
+| `Ball.TRAIL_MIN_SPIN` | `14.0` | 72 |  |
+| `Ball.KNUCKLE_MIN_SPEED` | `12.0` | 82 | Tiro sin giro que "flota" (knuckle, lo pone el tiro potente con set_knuckle): aceleracion lateral oscilante (m/s^2) mientras la pelota va rapida por el aire con poco giro, como la de las pelotas reales sin giro (la estela de aire se desprende de forma irregular). Cualquier golpe, bote o choque la apaga. |
+| `Ball.KNUCKLE_MAX_SPIN` | `12.0` | 83 |  |
+| `Ball.KNUCKLE_MAX_TIME` | `1.5` | 84 |  |
+| `Ball.VISUAL_SPIN_DEG_PER_FRAME` | `20.0` | 279 | Grados maximos que gira el balon DIBUJADO por imagen. El patron (parches sobre los 12 vertices de un icosaedro) se repite cada ~63 grados: un pase a 6 m/s rueda a ~57 rad/s = 55 grados por imagen a 60 fps y se ve QUIETO; a 10 m/s, 92 grados por imagen, y parece girar despacio o al reves (efecto rueda de carro). El dibujo sigue el eje y el sentido reales pero sin pasar de este giro por imagen (legible tambien a 30 fps). La fisica (giro real, Magnus) no cambia. |
+| `Ball.VISUAL_SHUTTER` | `0.5` | 282 | Fraccion de la imagen con el obturador abierto: el patron se desenfoca a lo largo del giro REAL de ese tiempo (el shader lo promedia alrededor del eje), como en la television: rapido quedan bandas y se ven los polos del eje. |
 <!-- /AUTO -->
 
 <!-- AUTO:signals:scripts/ball/ball.gd -->

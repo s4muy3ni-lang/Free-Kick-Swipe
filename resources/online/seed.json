@@ -1520,6 +1520,339 @@
             "min_level": 4,
             "description": "",
             "price_coins": null
+        },
+        {
+            "id": "jersey_diagonal",
+            "data": {
+                "pattern": "diagonal"
+            },
+            "kind": "jersey",
+            "name": "Diagonal",
+            "sort": 20,
+            "active": true,
+            "rarity": "comun",
+            "unlock": "free",
+            "min_level": 1,
+            "description": "Franjas en diagonal de dos colores.",
+            "price_coins": null
+        },
+        {
+            "id": "jersey_mangas",
+            "data": {
+                "pattern": "mangas"
+            },
+            "kind": "jersey",
+            "name": "Mangas de color",
+            "sort": 21,
+            "active": true,
+            "rarity": "comun",
+            "unlock": "free",
+            "min_level": 1,
+            "description": "El cuerpo de un color y las mangas de otro.",
+            "price_coins": null
+        },
+        {
+            "id": "jersey_cuello",
+            "data": {
+                "pattern": "cuello"
+            },
+            "kind": "jersey",
+            "name": "Cuello y puños",
+            "sort": 22,
+            "active": true,
+            "rarity": "raro",
+            "unlock": "progression",
+            "min_level": 4,
+            "description": "Clásica, con cuello y puños de contraste.",
+            "price_coins": null
+        },
+        {
+            "id": "jersey_cuadros",
+            "data": {
+                "pattern": "cuadros"
+            },
+            "kind": "jersey",
+            "name": "Cuadros",
+            "sort": 23,
+            "active": true,
+            "rarity": "raro",
+            "unlock": "shop",
+            "min_level": 2,
+            "description": "Cuadros chicos de dos colores.",
+            "price_coins": 500
+        },
+        {
+            "id": "jersey_geometrica",
+            "data": {
+                "pattern": "geometrica"
+            },
+            "kind": "jersey",
+            "name": "Geométrica",
+            "sort": 24,
+            "active": true,
+            "rarity": "epico",
+            "unlock": "shop",
+            "min_level": 3,
+            "description": "Chevrones modernos de dos colores.",
+            "price_coins": 900
+        },
+        {
+            "id": "jersey_premium_oro",
+            "data": {
+                "pattern": "cuello",
+                "colors": [
+                    3,
+                    5
+                ],
+                "premium": true
+            },
+            "kind": "jersey",
+            "name": "Edición Oro",
+            "sort": 25,
+            "active": true,
+            "rarity": "legendario",
+            "unlock": "premium",
+            "min_level": 1,
+            "description": "Negra con detalles dorados. Premium: solo estética.",
+            "price_coins": null
+        },
+        {
+            "id": "shorts_doble",
+            "data": {
+                "pattern": "doble"
+            },
+            "kind": "shorts",
+            "name": "Doble franja",
+            "sort": 10,
+            "active": true,
+            "rarity": "comun",
+            "unlock": "free",
+            "min_level": 1,
+            "description": "Dos franjas finas a los costados.",
+            "price_coins": null
+        },
+        {
+            "id": "shorts_bajo",
+            "data": {
+                "pattern": "bajo"
+            },
+            "kind": "shorts",
+            "name": "Ruedo de color",
+            "sort": 11,
+            "active": true,
+            "rarity": "raro",
+            "unlock": "shop",
+            "min_level": 1,
+            "description": "Terminación de otro color abajo.",
+            "price_coins": 250
+        },
+        {
+            "id": "socks_dos_franjas",
+            "data": {
+                "pattern": "dos_franjas"
+            },
+            "kind": "socks",
+            "name": "Dos franjas",
+            "sort": 10,
+            "active": true,
+            "rarity": "comun",
+            "unlock": "free",
+            "min_level": 1,
+            "description": "Dos franjas finas arriba.",
+            "price_coins": null
+        },
+        {
+            "id": "socks_verticales",
+            "data": {
+                "pattern": "verticales"
+            },
+            "kind": "socks",
+            "name": "Rayas verticales",
+            "sort": 11,
+            "active": true,
+            "rarity": "raro",
+            "unlock": "shop",
+            "min_level": 1,
+            "description": "Rayas verticales de dos colores.",
+            "price_coins": 250
+        },
+        {
+            "id": "boots_blanco_minimal",
+            "data": {
+                "model": "moderno",
+                "color": 2
+            },
+            "kind": "boots",
+            "name": "Blanco minimal",
+            "sort": 10,
+            "active": true,
+            "rarity": "comun",
+            "unlock": "free",
+            "min_level": 1,
+            "description": "Blancos, sin detalles, suela roja.",
+            "price_coins": null
+        },
+        {
+            "id": "boots_neon_rosa",
+            "data": {
+                "model": "pro",
+                "color": 4
+            },
+            "kind": "boots",
+            "name": "Neón rosa",
+            "sort": 11,
+            "active": true,
+            "rarity": "raro",
+            "unlock": "shop",
+            "min_level": 2,
+            "description": "Rosa fluo con franja negra y suela amarilla.",
+            "price_coins": 600
+        },
+        {
+            "id": "boots_retro_cuero",
+            "data": {
+                "model": "clasico",
+                "color": 1
+            },
+            "kind": "boots",
+            "name": "Retro de cuero",
+            "sort": 12,
+            "active": true,
+            "rarity": "raro",
+            "unlock": "progression",
+            "min_level": 7,
+            "description": "Cuero marrón con talón y cordones crema.",
+            "price_coins": null
+        },
+        {
+            "id": "boots_tricolor",
+            "data": {
+                "model": "moderno",
+                "color": 2
+            },
+            "kind": "boots",
+            "name": "Tricolor",
+            "sort": 13,
+            "active": true,
+            "rarity": "epico",
+            "unlock": "shop",
+            "min_level": 4,
+            "description": "Blancos con puntera azul y suela roja.",
+            "price_coins": 1000
+        },
+        {
+            "id": "boots_premium_galaxia",
+            "data": {
+                "model": "pro",
+                "color": 1,
+                "glow": true,
+                "premium": true
+            },
+            "kind": "boots",
+            "name": "Galaxia",
+            "sort": 14,
+            "active": true,
+            "rarity": "legendario",
+            "unlock": "premium",
+            "min_level": 1,
+            "description": "Violeta noche con franja que brilla. Premium: solo estética.",
+            "price_coins": null
+        },
+        {
+            "id": "ball_premium_oro",
+            "data": {
+                "design": "oro_premium",
+                "premium": true
+            },
+            "kind": "ball",
+            "name": "Balón de Oro",
+            "sort": 20,
+            "active": true,
+            "rarity": "legendario",
+            "unlock": "premium",
+            "min_level": 1,
+            "description": "Dorado con triángulos negros. Premium: solo estética.",
+            "price_coins": null
+        },
+        {
+            "id": "acc_munequeras",
+            "data": {
+                "slot": "wrists",
+                "color": 0
+            },
+            "kind": "accessory",
+            "name": "Muñequeras",
+            "sort": 1,
+            "active": true,
+            "rarity": "comun",
+            "unlock": "free",
+            "min_level": 1,
+            "description": "Un par de muñequeras.",
+            "price_coins": null
+        },
+        {
+            "id": "acc_cinta",
+            "data": {
+                "slot": "head",
+                "color": 2
+            },
+            "kind": "accessory",
+            "name": "Cinta para el pelo",
+            "sort": 2,
+            "active": true,
+            "rarity": "comun",
+            "unlock": "free",
+            "min_level": 1,
+            "description": "Vincha deportiva.",
+            "price_coins": null
+        },
+        {
+            "id": "acc_vendas",
+            "data": {
+                "slot": "ankles",
+                "color": 2
+            },
+            "kind": "accessory",
+            "name": "Vendas",
+            "sort": 3,
+            "active": true,
+            "rarity": "raro",
+            "unlock": "shop",
+            "min_level": 1,
+            "description": "Vendaje en los tobillos.",
+            "price_coins": 300
+        },
+        {
+            "id": "acc_mangas",
+            "data": {
+                "slot": "sleeves",
+                "color": 3
+            },
+            "kind": "accessory",
+            "name": "Mangas largas",
+            "sort": 4,
+            "active": true,
+            "rarity": "raro",
+            "unlock": "shop",
+            "min_level": 2,
+            "description": "Mangas térmicas bajo la camiseta.",
+            "price_coins": 400
+        },
+        {
+            "id": "acc_capitan",
+            "data": {
+                "slot": "armband",
+                "color": 5
+            },
+            "kind": "accessory",
+            "name": "Brazalete de capitán",
+            "sort": 5,
+            "active": true,
+            "rarity": "epico",
+            "unlock": "progression",
+            "min_level": 10,
+            "description": "El brazalete de los que mandan.",
+            "price_coins": null
         }
     ]
 }

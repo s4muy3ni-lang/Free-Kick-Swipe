@@ -25,6 +25,21 @@ func _ready() -> void:
 		await get_tree().process_frame
 	await _shot("menu")
 	var screens: MenuScreens = menu.get("screens")
+	if OS.get_environment("MENU_ONLY") == "tienda":
+		# Tienda: la grilla de tarjetas, un filtro y la ficha con la vista previa (botines y balon).
+		await screens.open_shop()
+		await _shot("tienda")
+		screens._shop_tab = "boots"
+		screens._fill_shop()
+		await _shot("tienda_botines")
+		for it in screens._catalog:
+			if String(it["id"]) in ["boots_relampago", "ball_llamas", "acc_capitan"]:
+				screens.open_item(it)
+				for i in 30:
+					await get_tree().process_frame
+				await _shot("tienda_ficha_" + String(it["id"]))
+		get_tree().quit()
+		return
 	screens.open_customize()
 	for i in 30:
 		await get_tree().process_frame

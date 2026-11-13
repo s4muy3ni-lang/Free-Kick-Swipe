@@ -59,10 +59,16 @@ static var socks_pattern: int = 0
 static var sock_height: int = 0
 ## Objetos equipados del catalogo del servidor (balon, festejo, estilo de numero).
 static var ball_item: String = "ball_clasico"
+## Par de botines elegido (BootsCatalog); "" = solo el color de BOOTS.
+static var boots_item: String = ""
+## Accesorios puestos (AccessoryCatalog) y nombre en la camiseta (ShirtName).
+static var accessories: Array = []
+static var shirt_name: String = ""
 static var number_style: String = "num_clasico"
-const JERSEY_PATTERNS := {"liso": 0, "rayas": 1, "banda": 2, "aros": 3, "mitad": 4, "degradado": 5, "rayas_finas": 6}
-const SHORTS_PATTERNS := {"liso": 0, "franja": 1, "ribete": 2}
-const SOCKS_PATTERNS := {"liso": 0, "rayas": 1, "ribete": 2}
+const JERSEY_PATTERNS := {"liso": 0, "rayas": 1, "banda": 2, "aros": 3, "mitad": 4, "degradado": 5, "rayas_finas": 6,
+	"cuadros": 7, "diagonal": 8, "mangas": 9, "cuello": 10, "geometrica": 11}
+const SHORTS_PATTERNS := {"liso": 0, "franja": 1, "ribete": 2, "doble": 3, "bajo": 4}
+const SOCKS_PATTERNS := {"liso": 0, "rayas": 1, "ribete": 2, "dos_franjas": 3, "verticales": 4}
 const SOCK_HEIGHT_NAMES := ["Altas", "Medias", "Bajas"]
 
 static var _celebs: Array[StringName] = []
@@ -91,12 +97,16 @@ static func load_custom(force: bool = false) -> void:
 	socks_pattern = clampi(int(cfg.get_value("custom", "socks_pattern", socks_pattern)), 0, 2)
 	sock_height = clampi(int(cfg.get_value("custom", "sock_height", sock_height)), 0, 2)
 	ball_item = String(cfg.get_value("custom", "ball_item", ball_item))
+	boots_item = String(cfg.get_value("custom", "boots_item", boots_item))
+	var acc: Variant = cfg.get_value("custom", "accessories", accessories)
+	accessories = (acc as Array).duplicate() if acc is Array else []
+	shirt_name = String(cfg.get_value("custom", "shirt_name", shirt_name))
 	number_style = String(cfg.get_value("custom", "number_style", number_style))
 
 static func save_custom() -> void:
 	var cfg := ConfigFile.new()
 	for k in ["jersey", "shorts", "socks", "boots", "skin", "hair", "number", "style", "run_style", "follow_style", "celebration",
-			"jersey_pattern", "jersey2", "shorts_pattern", "socks_pattern", "sock_height", "ball_item", "number_style"]:
+			"jersey_pattern", "jersey2", "shorts_pattern", "socks_pattern", "sock_height", "ball_item", "number_style", "boots_item", "accessories", "shirt_name"]:
 		cfg.set_value("custom", k, get_value(k))
 	cfg.save(path)
 
@@ -104,7 +114,8 @@ static func get_value(k: String) -> Variant:
 	return {"jersey": jersey, "shorts": shorts, "socks": socks, "boots": boots, "skin": skin, "hair": hair, "number": number,
 		"style": style, "run_style": run_style, "follow_style": follow_style, "celebration": celebration,
 		"jersey_pattern": jersey_pattern, "jersey2": jersey2, "shorts_pattern": shorts_pattern, "socks_pattern": socks_pattern,
-		"sock_height": sock_height, "ball_item": ball_item, "number_style": number_style}[k]
+		"sock_height": sock_height, "ball_item": ball_item, "number_style": number_style, "boots_item": boots_item, "accessories": accessories,
+		"shirt_name": shirt_name}[k]
 
 ## Para las pruebas: otra ruta, estado limpio.
 static func use_path(p: String) -> void:
@@ -128,6 +139,9 @@ static func use_path(p: String) -> void:
 	socks_pattern = 0
 	sock_height = 0
 	ball_item = "ball_clasico"
+	boots_item = ""
+	accessories = []
+	shirt_name = ""
 	number_style = "num_clasico"
 	load_custom(true)
 
@@ -150,9 +164,13 @@ static func boots_index() -> int:
 ## Uniforme del tirador del usuario, con la personalizacion aplicada.
 static func kit() -> Dictionary:
 	load_custom()
-	return {"jersey": JERSEYS[jersey], "shorts": SHORTS[shorts], "socks": SOCKS[socks], "boots": BOOTS[boots_index()],
+	var k: Dictionary = {"jersey": JERSEYS[jersey], "shorts": SHORTS[shorts], "socks": SOCKS[socks], "boots": BOOTS[boots_index()],
 		"skin": SKINS[skin], "hair": HAIRS[hair], "jersey2": JERSEYS[jersey2], "jersey_pattern": jersey_pattern,
 		"shorts_pattern": shorts_pattern, "socks_pattern": socks_pattern, "sock_height": sock_height}
+	# Botines: el diseño del par elegido (modelo, colores, suela, cordones) se pinta sobre los pies.
+	if boots_item != "":
+		k.merge(BootsCatalog.style(boots_item, BOOTS[boots_index()]), true)
+	return k
 
 ## Toma la apariencia guardada en el servidor (Online: profile.appearance) y la aplica al uniforme local. Los objetos
 ## se traducen con los datos del catalogo (diseño de camiseta, short, medias; modelo y color de botines; balon).
@@ -176,8 +194,13 @@ static func apply_appearance(ap: Dictionary, catalog: Array) -> void:
 		socks_pattern = int(SOCKS_PATTERNS.get(String((data.call("socks") as Dictionary).get("pattern", "liso")), 0))
 	if ap.has("boots"):
 		boots = clampi(int((data.call("boots") as Dictionary).get("color", boots)), 0, BOOTS.size() - 1)
+		boots_item = String(ap["boots"])
 	if ap.has("ball"):
 		ball_item = String(ap["ball"])
+	if ap.has("accessories") and ap["accessories"] is Array:
+		accessories = (ap["accessories"] as Array).duplicate()
+	if ap.has("shirt_name"):
+		shirt_name = String(ap["shirt_name"])
 	if ap.has("number_style"):
 		number_style = String(ap["number_style"])
 	if ap.has("celebration"):
@@ -200,6 +223,8 @@ static func keeper_kit() -> Dictionary:
 	load_custom()
 	var k: Dictionary = SpSettings.USER_KEEPER_KIT.duplicate()
 	k["boots"] = BOOTS[boots_index()]
+	if boots_item != "":
+		k.merge(BootsCatalog.style(boots_item, BOOTS[boots_index()]), true)
 	k["skin"] = SKINS[skin]
 	k["hair"] = HAIRS[hair]
 	return k

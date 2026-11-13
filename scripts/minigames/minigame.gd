@@ -167,6 +167,8 @@ func _ready() -> void:
 	match_seed = int(def.get("seed", 0)) if def.has("seed") else randi()
 	rng.seed = match_seed
 	ball = BALL_SCENE.instantiate()
+	# Balon con el diseño elegido por el usuario (solo se ve: la fisica no cambia).
+	BallSkins.apply_user(ball)
 	ball.name = "Ball"
 	add_child(ball)
 	cam = SpCamera.new()
@@ -194,7 +196,9 @@ func _ready() -> void:
 		add_child(a)
 		a.build(PlayerCustom.kit() if s == 0 else SpSettings.CPU_KIT)
 		if s == 0:
+			a.number_style = PlayerCustom.number_style
 			a.set_back_number(PlayerCustom.number)
+			a.set_accessories(PlayerCustom.accessories)
 		a.team = s
 		a.enable_collider()
 		sh.setup(a, ball)

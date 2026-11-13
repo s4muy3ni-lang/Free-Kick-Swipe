@@ -741,7 +741,14 @@ class SearchRadar extends Control:
 # --- TIENDA ---------------------------------------------------------------------------------------------------------
 
 const KIND_NAMES := {"jersey": "Camisetas", "boots": "Botines", "ball": "Balones", "consumable": "Consumibles",
-	"shorts": "Shorts", "socks": "Medias", "emote": "Emojis", "number_style": "Números", "celebration": "Festejos"}
+	"shorts": "Shorts", "socks": "Medias", "emote": "Emojis", "number_style": "Números", "celebration": "Festejos",
+	"accessory": "Accesorios", "name_change": "Extras"}
+## Filtros de la tienda (categorias con su icono del menu).
+const SHOP_TABS := [["todo", "Todo"], ["jersey", "Camisetas"], ["shorts", "Shorts"], ["socks", "Medias"], ["boots", "Botines"],
+	["ball", "Balones"], ["accessory", "Accesorios"], ["celebration", "Festejos"], ["number_style", "Números"],
+	["extras", "Extras"]]
+## Clave de la apariencia que equipa cada tipo de objeto (los accesorios van en una lista).
+const EQUIP_KEYS := ["jersey", "shorts", "socks", "boots", "ball", "celebration", "number_style", "emote"]
 
 static func unlock_text(it: Dictionary) -> String:
 	match String(it["unlock"]):
@@ -749,41 +756,305 @@ static func unlock_text(it: Dictionary) -> String:
 		"progression": return "Desbloqueable (nivel %d)" % int(it.get("min_level", 1))
 		"season": return "De temporada"
 		"event": return "De evento"
+		"premium": return "Premium · los pagos todavía no están activados"
 	return "Comprable · %d monedas" % int(it.get("price_coins", 0))
+
+# --- TIENDA ----------------------------------------------------------------------------------------------------------
+## Rediseño (pedido del usuario: «no quiero una tienda que parezca un listado de letras»): tarjetas con la imagen real de
+## cada objeto (ShopLook: dibujada con el modelo del jugador o la pelota del juego), nombre, rareza, precio y estado
+## (disponible, tuyo, equipado, bloqueado, premium). Al tocar una tarjeta se abre la ficha con la vista previa 3D que se
+## gira (ShopPreview: el jugador del usuario con el objeto puesto, o el balon), el efecto real, como se consigue y el
+## boton que corresponde (comprar, equipar, quitar, usar). La compra la valida el servidor (buy_item: saldo, nivel, que
+## se venda, sin duplicados, idempotente: si falla no se descuenta nada).
+
+var _shop_tab: String = "todo"
+var _shop_grid: HFlowContainer = null
+var _shop_modal: Control = null
+
+## Estado del objeto para el usuario: disponible, tuyo, equipado, bloqueado o premium.
+func shop_state(it: Dictionary) -> String:
+	var id: String = String(it["id"])
+	var kind: String = String(it["kind"])
+	var owned: bool = String(it["unlock"]) == "free" or Online.owns(id)
+	if owned:
+		if kind == "accessory":
+			return "equipado" if (_current_appearance().get("accessories", []) as Array).has(id) else "tuyo"
+		if EQUIP_KEYS.has(kind) and String(_current_appearance().get(kind, _default_item(kind))) == id:
+			return "equipado"
+		return "tuyo" if kind != "consumable" else "disponible"
+	if String(it["unlock"]) == "premium":
+		return "premium"
+	if String(it["unlock"]) == "shop" and Online.level() >= int(it.get("min_level", 1)):
+		return "disponible"
+	return "bloqueado"
+
+## Sin eleccion guardada, el primer objeto gratuito del tipo es el que tiene puesto.
+func _default_item(kind: String) -> String:
+	for it in _catalog:
+		if String(it["kind"]) == kind and String(it["unlock"]) == "free":
+			return String(it["id"])
+	return ""
 
 func open_shop() -> void:
 	current = "tienda"
 	_clear("TIENDA")
 	_catalog = await Online.catalog("catalog_items")
-	_content.add_child(_lbl("Todo se compra con monedas virtuales que ganás jugando. Los colores básicos son siempre gratis.", 20))
-	for kind in ["jersey", "boots", "ball", "consumable", "shorts", "socks", "emote", "number_style"]:
-		_content.add_child(_lbl(KIND_NAMES[kind] + (" · línea oficial del juego (diseños originales)" if kind == "jersey" else ""), 26, GOLD))
-		var r := _row()
-		for it in _catalog:
-			if String(it["kind"]) != kind or not bool(it.get("active", true)):
-				continue
-			r.add_child(_item_card(it))
-	_content.add_child(_lbl("Pase de temporada premium y monedas con dinero real: preparados, pero los pagos todavía no están activados.", 20, Color(1.0, 0.8, 0.5)))
+	var tabs := HFlowContainer.new()
+	tabs.add_theme_constant_override("h_separation", 8)
+	tabs.add_theme_constant_override("v_separation", 8)
+	_content.add_child(tabs)
+	for t in SHOP_TABS:
+		var key: String = t[0]
+		var b := Button.new()
+		b.text = String(t[1])
+		b.toggle_mode = true
+		b.focus_mode = Control.FOCUS_NONE
+		b.custom_minimum_size = Vector2(0, 50)
+		b.add_theme_font_size_override("font_size", 20)
+		b.set_pressed_no_signal(key == _shop_tab)
+		b.pressed.connect(func() -> void:
+			_shop_tab = key
+			for c in tabs.get_children():
+				(c as Button).set_pressed_no_signal(c == b)
+			_fill_shop())
+		tabs.add_child(b)
+	_content.add_child(_lbl("Todo es estético o de un solo uso y se compra con monedas que ganás jugando: nada de la tienda cambia el tiro, la física ni tus atributos.", 18, Color(0.8, 0.85, 0.95)))
+	_shop_grid = HFlowContainer.new()
+	_shop_grid.add_theme_constant_override("h_separation", 14)
+	_shop_grid.add_theme_constant_override("v_separation", 14)
+	_content.add_child(_shop_grid)
+	_fill_shop()
+
+func _shop_items() -> Array:
+	var out: Array = []
+	for it in _catalog:
+		if not bool(it.get("active", true)):
+			continue
+		var k: String = String(it["kind"])
+		if _shop_tab == "todo" or k == _shop_tab or (_shop_tab == "extras" and k in ["consumable", "emote", "name_change"]):
+			out.append(it)
+	return out
+
+func _fill_shop() -> void:
+	if not is_instance_valid(_shop_grid):
+		return
+	for c in _shop_grid.get_children():
+		c.queue_free()
+	for it in _shop_items():
+		_shop_grid.add_child(_item_card(it))
+
+const STATE_COLORS := {"disponible": Color(1.0, 0.84, 0.28), "tuyo": Color(0.45, 1.0, 0.55), "equipado": Color(1.0, 0.84, 0.28),
+	"bloqueado": Color(0.6, 0.62, 0.7), "premium": Color(0.8, 0.5, 1.0)}
 
 func _item_card(it: Dictionary) -> Control:
-	var col: Color = RARITY.get(String(it.get("rarity", "comun")), Color.GRAY)
-	var cb: Array = _card_box(Color(0.08, 0.1, 0.18), 260)
-	(cb[0].get_theme_stylebox("panel") as StyleBoxFlat).border_color = col
-	cb[1].add_child(_lbl(String(it["name"]), 22, col))
+	var st: String = shop_state(it)
+	var rc: Color = RARITY.get(String(it.get("rarity", "comun")), Color.GRAY)
+	var b := Button.new()
+	b.focus_mode = Control.FOCUS_NONE
+	b.custom_minimum_size = Vector2(232, 330)
+	b.mouse_filter = Control.MOUSE_FILTER_PASS
+	b.name = "Item_" + String(it["id"])
+	for sn in ["normal", "hover", "pressed"]:
+		var sb := StyleBoxFlat.new()
+		sb.bg_color = Color(0.06, 0.08, 0.16, 0.97) if sn != "hover" else Color(0.1, 0.13, 0.25, 0.97)
+		sb.border_color = STATE_COLORS["equipado"] if st == "equipado" else (STATE_COLORS["premium"] if st == "premium" else rc)
+		sb.set_border_width_all(5 if st == "equipado" else 2)
+		sb.set_corner_radius_all(16)
+		b.add_theme_stylebox_override(sn, sb)
+	var v := VBoxContainer.new()
+	v.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	v.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	v.offset_left = 10
+	v.offset_right = -10
+	v.offset_top = 10
+	v.offset_bottom = -10
+	v.add_theme_constant_override("separation", 4)
+	b.add_child(v)
+	var img_box := Control.new()
+	img_box.custom_minimum_size = Vector2(0, 212)
+	img_box.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	v.add_child(img_box)
+	var tr := TextureRect.new()
+	tr.texture = ShopLook.image(String(it["id"]))
+	tr.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	tr.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	tr.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	tr.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	if st == "bloqueado":
+		tr.modulate = Color(0.4, 0.4, 0.45)
+	img_box.add_child(tr)
+	if tr.texture == null:
+		var ic := MenuIcon.new("tienda", rc, 120)
+		ic.set_anchors_and_offsets_preset(Control.PRESET_CENTER)
+		img_box.add_child(ic)
+	if st in ["bloqueado", "premium", "equipado"]:
+		var badge := _tag({"bloqueado": "BLOQUEADO", "premium": "PREMIUM", "equipado": "EQUIPADO"}[st], STATE_COLORS[st])
+		badge.position = Vector2(6, 6)
+		img_box.add_child(badge)
+	var n := _lbl(String(it["name"]), 20, Color.WHITE, false)
+	n.clip_text = true
+	n.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	v.add_child(n)
+	var r := _lbl("%s · %s" % [String(it.get("rarity", "comun")).capitalize(), KIND_NAMES.get(String(it["kind"]), "")], 15, rc, false)
+	r.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	v.add_child(r)
+	var bottom := HBoxContainer.new()
+	bottom.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	v.add_child(bottom)
+	match st:
+		"disponible":
+			if String(it["unlock"]) == "shop":
+				var coin := TextureRect.new()
+				coin.texture = _coin_icon()
+				coin.stretch_mode = TextureRect.STRETCH_KEEP_CENTERED
+				bottom.add_child(coin)
+				var pl := _lbl("%d" % int(it.get("price_coins", 0)), 22, GOLD, false)
+				pl.mouse_filter = Control.MOUSE_FILTER_IGNORE
+				bottom.add_child(pl)
+			else:
+				bottom.add_child(_lbl("Gratis", 20, Color.WHITE, false))
+		"tuyo":
+			bottom.add_child(_lbl("TUYO" if String(it["kind"]) != "consumable" else "x%d" % int(Online.inventory().get(String(it["id"]), 0)), 20, STATE_COLORS["tuyo"], false))
+		"equipado":
+			bottom.add_child(_lbl("Puesto", 20, GOLD, false))
+		"bloqueado":
+			bottom.add_child(_lbl(_lock_short(it), 16, STATE_COLORS["bloqueado"], false))
+		"premium":
+			bottom.add_child(_lbl("Pagos no activados", 16, STATE_COLORS["premium"], false))
+	for c in bottom.get_children():
+		(c as Control).mouse_filter = Control.MOUSE_FILTER_IGNORE
+		if c is Label:
+			(c as Label).clip_text = true
+			(c as Label).size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	var item: Dictionary = it
+	b.pressed.connect(func() -> void:
+		if not ScrollTap.blocked(b):
+			open_item(item))
+	return b
+
+## Motivo corto del bloqueo (en la tarjeta).
+func _lock_short(it: Dictionary) -> String:
+	match String(it["unlock"]):
+		"progression", "shop":
+			return "Nivel %d" % int(it.get("min_level", 1))
+		"season":
+			return "Temporada"
+		"event":
+			return "Evento"
+	return "Bloqueado"
+
+## Ficha del objeto: vista previa 3D que se gira, que es, que hace, como se consigue y el boton que corresponde.
+func open_item(it: Dictionary) -> void:
+	if is_instance_valid(_shop_modal):
+		_shop_modal.queue_free()
+	var st: String = shop_state(it)
+	var overlay := ColorRect.new()
+	overlay.name = "FichaObjeto"
+	overlay.color = Color(0.0, 0.01, 0.05, 0.86)
+	overlay.mouse_filter = Control.MOUSE_FILTER_STOP
+	overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	add_child(overlay)
+	_shop_modal = overlay
+	var center := CenterContainer.new()
+	center.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	overlay.add_child(center)
+	var cb: Array = _card_box(Color(0.05, 0.07, 0.15), 0)
+	center.add_child(cb[0])
+	var h := HBoxContainer.new()
+	h.add_theme_constant_override("separation", 22)
+	cb[1].add_child(h)
+	var pv := ShopPreview.new()
+	pv.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	h.add_child(pv)
+	PlayerCustom.load_custom()
+	pv.show_item(it, PlayerCustom.kit(), _current_appearance().get("accessories", []), PlayerCustom.number)
+	var d := VBoxContainer.new()
+	d.custom_minimum_size = Vector2(430, 0)
+	d.add_theme_constant_override("separation", 10)
+	h.add_child(d)
+	var rc: Color = RARITY.get(String(it.get("rarity", "comun")), Color.GRAY)
+	d.add_child(_lbl(String(it["name"]), 34, GOLD))
+	d.add_child(_lbl("%s · %s" % [String(it.get("rarity", "comun")).capitalize(), KIND_NAMES.get(String(it["kind"]), "")], 20, rc))
 	if String(it.get("description", "")) != "":
-		cb[1].add_child(_lbl(String(it["description"]), 16, Color(0.85, 0.88, 0.95)))
-	var owned: int = int(Online.inventory().get(String(it["id"]), 0))
-	cb[1].add_child(_lbl(unlock_text(it), 18))
+		d.add_child(_lbl(String(it["description"]), 20))
+	d.add_child(_lbl("Qué hace: " + ShopLook.effect_text(it), 18, Color(0.75, 0.9, 1.0)))
+	d.add_child(_lbl("Cómo se consigue: " + unlock_text(it), 18, Color(0.85, 0.85, 0.9)))
+	d.add_child(_lbl("Arrastrá la imagen para girarla.", 16, Color(0.6, 0.65, 0.75)))
+	var msg := _lbl("", 18, Color(1.0, 0.6, 0.5))
+	var acts := HBoxContainer.new()
+	acts.add_theme_constant_override("separation", 12)
+	d.add_child(acts)
+	d.add_child(msg)
 	var id: String = String(it["id"])
-	if String(it["kind"]) == "consumable":
-		if owned > 0:
-			cb[1].add_child(_btn("Usar (%d)" % owned, func() -> void: _act("use_consumable", {"p_item": id}, "¡Activado!")))
-		cb[1].add_child(_btn("Comprar · %d" % int(it.get("price_coins", 0)), func() -> void: _buy(id)))
-	elif owned > 0 or String(it["unlock"]) == "free":
-		cb[1].add_child(_lbl("Tuyo", 20, Color(0.5, 1.0, 0.6)))
-	elif String(it["unlock"]) == "shop":
-		cb[1].add_child(_btn("Comprar · %d" % int(it.get("price_coins", 0)), func() -> void: _buy(id)))
-	return cb[0]
+	var kind: String = String(it["kind"])
+	match st:
+		"disponible":
+			if kind == "consumable" and int(Online.inventory().get(id, 0)) > 0:
+				acts.add_child(_btn("USAR (%d)" % int(Online.inventory().get(id, 0)), func() -> void:
+					if await _act("use_consumable", {"p_item": id}, "¡Activado!"):
+						_reopen(it)))
+			if String(it["unlock"]) == "shop":
+				var buy := _btn("COMPRAR · %d" % int(it.get("price_coins", 0)), func() -> void: _shop_buy(it, msg))
+				buy.name = "Comprar"
+				buy.disabled = Online.coins() < int(it.get("price_coins", 0))
+				if buy.disabled:
+					msg.text = "Te faltan %d monedas." % (int(it.get("price_coins", 0)) - Online.coins())
+				acts.add_child(buy)
+		"tuyo":
+			if kind == "consumable":
+				pass
+			elif kind == "accessory" or EQUIP_KEYS.has(kind):
+				var eq := _btn("EQUIPAR", func() -> void: _shop_equip(it, true))
+				eq.name = "Equipar"
+				acts.add_child(eq)
+		"equipado":
+			if kind == "accessory":
+				acts.add_child(_btn("QUITAR", func() -> void: _shop_equip(it, false)))
+			else:
+				msg.text = "Lo tenés puesto."
+				msg.add_theme_color_override("font_color", GOLD)
+		"bloqueado":
+			msg.text = "Bloqueado: " + (unlock_text(it) if String(it["unlock"]) != "shop" else "necesitás nivel %d" % int(it.get("min_level", 1)))
+			msg.add_theme_color_override("font_color", STATE_COLORS["bloqueado"])
+		"premium":
+			var pb := _btn("PREMIUM", func() -> void: pass)
+			pb.disabled = true
+			acts.add_child(pb)
+			msg.text = "Los objetos premium son solo estéticos. Los pagos todavía no están activados."
+	acts.add_child(_btn("Cerrar", func() -> void:
+		overlay.queue_free()
+		_fill_shop()))
+
+func _reopen(it: Dictionary) -> void:
+	_coins.text = "%d" % Online.coins()
+	_fill_shop()
+	open_item(it)
+
+func _shop_buy(it: Dictionary, msg: Label) -> void:
+	var id: String = String(it["id"])
+	var key: String = "buy-%s-%d-%08x" % [id, Time.get_ticks_msec(), randi()]
+	var r: Dictionary = await Online.call_state_fn("buy_item", {"p_item": id, "p_idem": key})
+	if not r.get("ok", false):
+		# El servidor no descuenta nada si la compra falla.
+		msg.text = "No se pudo: %s" % String(r.get("error", ""))
+		return
+	_say("¡Comprado!", true)
+	_reopen(it)
+
+## Equipa (o quita, en los accesorios) y lo guarda en el servidor (que valida que sea tuyo o gratuito).
+func _shop_equip(it: Dictionary, on: bool) -> void:
+	var id: String = String(it["id"])
+	if String(it["kind"]) == "accessory":
+		var acc: Array = (_current_appearance().get("accessories", []) as Array).duplicate()
+		if on and not acc.has(id):
+			acc.append(id)
+		elif not on:
+			acc.erase(id)
+		_set_appearance("accessories", acc)
+	else:
+		_set_appearance(String(it["kind"]), id)
+	await _send_appearance()
+	_reopen(it)
 
 func _buy(id: String) -> void:
 	var key: String = "buy-%s-%d-%08x" % [id, Time.get_ticks_msec(), randi()]

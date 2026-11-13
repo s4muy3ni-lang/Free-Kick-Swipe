@@ -55,6 +55,16 @@ var _teleport_pos: Vector3 = Vector3.ZERO
 var _teleport_vel: Vector3 = Vector3.ZERO
 var _prev_vy: float = 0.0
 var _visual: MeshInstance3D = null
+## Diseño del balon (BallSkins): solo el material, la fisica no cambia.
+var _skin: String = ""
+
+func set_skin(design: String) -> void:
+	_skin = design
+	if _visual != null:
+		BallSkins.apply_material(_visual.material_override as ShaderMaterial, design)
+
+func skin() -> String:
+	return _skin if _skin != "" else "clasico"
 ## Estela de los tiros fuertes o con efecto (solo presentacion): cinta con las ultimas posiciones de la pelota. La forma
 ## de la curva que dibuja es la de la trayectoria real (no se inventa nada).
 const TRAIL_POINTS := 18
@@ -112,6 +122,8 @@ func _build() -> void:
 	else:
 		_visual = get_node("Visual")
 	body_entered.connect(_on_body_entered)
+	if _skin != "":
+		set_skin(_skin)
 	if _trail == null:
 		_trail_mesh = ImmediateMesh.new()
 		_trail = MeshInstance3D.new()

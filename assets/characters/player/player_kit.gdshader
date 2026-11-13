@@ -27,6 +27,15 @@ uniform int shorts_pattern = 0;
 uniform int socks_pattern = 0;
 uniform int sock_height = 0;
 uniform vec3 pattern_axis = vec3(0.0, 0.0, 1.0);
+// Botines (tienda y personalizacion): modelo 0 clasico (talon de color y suela), 1 moderno (puntera de color), 2 pro
+// (franja lateral en diagonal), con suela, cordones, metal y brillo propios. Medidas en la posicion de reposo del modelo
+// Tripo (rest_space): pies de x -0.07 a 0.09 (punta hacia +x), alto 0.07, centrados en z = +-0.1025.
+uniform int boots_model = 0;
+uniform vec3 boots_color2 : source_color = vec3(0.95, 0.95, 0.95);
+uniform vec3 boots_sole : source_color = vec3(0.92, 0.92, 0.9);
+uniform vec3 boots_laces : source_color = vec3(0.95, 0.95, 0.95);
+uniform float boots_metal = 0.0;
+uniform float boots_glow = 0.0;
 // Numero de la espalda IMPRESO en la tela (pedido 2026-11-12: el numero quedaba separado de la camiseta). El cuerpo de
 // Tripo (tools/json_anim/build_tripo_body) trae en CUSTOM0 la posicion de cada vertice en REPOSO (xyz, en el espacio
 // del modelo: adelante = +X, costado = Z) y en w la componente X de su normal en reposo: el numero se proyecta sobre la
@@ -80,6 +89,13 @@ vec3 jersey_paint(vec3 base) {
 	if (jersey_pattern == 4) { return lat < 0.0 ? base : jersey_color2; }
 	if (jersey_pattern == 5) { return mix(jersey_color2, base, smoothstep(0.55, 0.85, h)); }
 	if (jersey_pattern == 6) { return fract(lat * 30.0) < 0.78 ? base : jersey_color2; }
+	// Cuadros, diagonales, mangas de otro color, cuello y puños, geometrica (chevrones). Medidas en reposo: el torso va de
+	// z -0.12 a 0.12 (las mangas mas afuera) y el cuello esta arriba de y 0.8.
+	if (jersey_pattern == 7) { return mod(floor(lat * 11.0) + floor(h * 11.0), 2.0) < 0.5 ? base : jersey_color2; }
+	if (jersey_pattern == 8) { return fract((lat - h) * 6.0) < 0.5 ? base : jersey_color2; }
+	if (jersey_pattern == 9) { return abs(lat) > 0.125 ? jersey_color2 : base; }
+	if (jersey_pattern == 10) { return (h > 0.8 || abs(lat) > 0.165) ? jersey_color2 : base; }
+	if (jersey_pattern == 11) { return fract(h * 7.0 + abs(lat) * 7.0) < 0.42 ? jersey_color2 : base; }
 	return base;
 }
 
@@ -87,6 +103,8 @@ vec3 shorts_paint(vec3 base) {
 	float lat1 = abs(dot(mpos, pattern_axis));
 	if (shorts_pattern == 1 && lat1 > 0.085 && lat1 < 0.105) { return trim_color; }
 	if (shorts_pattern == 2 && fract(mpos.y * 40.0) < 0.15) { return trim_color; }
+	if (shorts_pattern == 3 && ((lat1 > 0.072 && lat1 < 0.082) || (lat1 > 0.096 && lat1 < 0.106))) { return trim_color; }
+	if (shorts_pattern == 4 && mpos.y < 0.372) { return jersey_color2; }
 	return base;
 }
 
@@ -95,7 +113,26 @@ vec3 socks_paint(vec3 base) {
 	if (sock_height == 2 && mpos.y > 0.16) { return skin_color; }
 	if (socks_pattern == 1 && fract(mpos.y * 28.0) < 0.5) { return jersey_color2; }
 	if (socks_pattern == 2 && mpos.y > 0.25) { return trim_color; }
+	if (socks_pattern == 3 && ((mpos.y > 0.2 && mpos.y < 0.213) || (mpos.y > 0.226 && mpos.y < 0.239))) { return jersey_color2; }
+	if (socks_pattern == 4 && fract(mpos.x * 45.0) < 0.5) { return jersey_color2; }
 	return base;
+}
+
+// Devuelve el color del botin y en .a si esa parte es la del segundo color (para el brillo).
+vec4 boots_paint(vec3 base) {
+	if (!rest_space) { return vec4(base, 0.0); }
+	vec3 p = mpos;
+	float zc = sign(p.z) * 0.1025;
+	if (p.y < 0.010) { return vec4(boots_sole, 0.0); }
+	if (p.y > 0.047 && abs(p.z - zc) < 0.013 && p.x > -0.012 && p.x < 0.05 && fract(p.x * 110.0) < 0.45) {
+		return vec4(boots_laces, 0.0);
+	}
+	if (boots_model == 0 && p.x < -0.045) { return vec4(boots_color2, 1.0); }
+	if (boots_model == 1 && p.x > 0.045) { return vec4(boots_color2, 1.0); }
+	if (boots_model == 2 && p.x > -0.055 && p.x < 0.07 && abs(p.y - (0.022 + 0.18 * (p.x + 0.05))) < 0.0065) {
+		return vec4(boots_color2, 1.0);
+	}
+	return vec4(base, 0.0);
 }
 
 float shade(float lum_gamma, float mean_gamma) {
@@ -109,10 +146,11 @@ void fragment() {
 	float lum = dot(base_gamma, vec3(0.2126, 0.7152, 0.0722));
 	vec4 a = texture(mask_a, UV);
 	vec4 b = texture(mask_b, UV);
+	vec4 bp = boots_paint(boots_color);
 	vec3 tint = a.r * jersey_paint(jersey_color) * shade(lum, mean_luma_a.x)
 		+ a.g * shorts_paint(shorts_color) * shade(lum, mean_luma_a.y)
 		+ a.b * socks_paint(socks_color) * shade(lum, mean_luma_a.z)
-		+ a.a * boots_color * shade(lum, mean_luma_a.w)
+		+ a.a * bp.rgb * shade(lum, mean_luma_a.w)
 		+ b.r * skin_color * shade(lum, mean_luma_b.x)
 		+ b.g * hair_color * shade(lum, mean_luma_b.y);
 	float wsum = a.r + a.g + a.b + a.a + b.r + b.g;
@@ -125,6 +163,8 @@ void fragment() {
 	col = mix(col, number_edge * cloth, ink.y);
 	col = mix(col, number_color * cloth, ink.x);
 	ALBEDO = col;
-	ROUGHNESS = roughness_value;
+	ROUGHNESS = mix(roughness_value, 0.25, a.a * boots_metal);
+	METALLIC = a.a * boots_metal;
+	EMISSION = a.a * bp.a * boots_color2 * boots_glow;
 	SPECULAR = 0.25;
 }

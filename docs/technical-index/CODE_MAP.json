@@ -68,61 +68,61 @@
         {
           "file": "scripts/ball/ball.gd",
           "name": "Ball.apply_tuning",
-          "line": 131,
+          "line": 143,
           "kind": "func"
         },
         {
           "file": "scripts/ball/ball.gd",
           "name": "Ball._integrate_forces",
-          "line": 352,
+          "line": 364,
           "kind": "func"
         },
         {
           "file": "scripts/ball/ball.gd",
           "name": "Ball.kick",
-          "line": 156,
+          "line": 168,
           "kind": "func"
         },
         {
           "file": "scripts/ball/ball.gd",
           "name": "Ball.push",
-          "line": 182,
+          "line": 194,
           "kind": "func"
         },
         {
           "file": "scripts/ball/ball.gd",
           "name": "Ball.rolling_spin",
-          "line": 178,
+          "line": 190,
           "kind": "func"
         },
         {
           "file": "scripts/ball/ball.gd",
           "name": "Ball.reset_at",
-          "line": 201,
-          "kind": "func"
-        },
-        {
-          "file": "scripts/ball/ball.gd",
-          "name": "Ball.hold",
           "line": 213,
           "kind": "func"
         },
         {
           "file": "scripts/ball/ball.gd",
+          "name": "Ball.hold",
+          "line": 225,
+          "kind": "func"
+        },
+        {
+          "file": "scripts/ball/ball.gd",
           "name": "Ball.release",
-          "line": 223,
+          "line": 235,
           "kind": "func"
         },
         {
           "file": "scripts/ball/ball.gd",
           "name": "Ball.register_touch",
-          "line": 187,
+          "line": 199,
           "kind": "func"
         },
         {
           "file": "scripts/ball/ball.gd",
           "name": "Ball._on_body_entered",
-          "line": 587,
+          "line": 599,
           "kind": "func"
         },
         {
@@ -158,49 +158,49 @@
         {
           "file": "scripts/ball/ball.gd",
           "name": "Ball.roll_decel",
-          "line": 454,
+          "line": 466,
           "kind": "func"
         },
         {
           "file": "scripts/ball/ball.gd",
           "name": "Ball.roll_speed",
-          "line": 477,
+          "line": 489,
           "kind": "func"
         },
         {
           "file": "scripts/ball/ball.gd",
           "name": "Ball.roll_distance",
-          "line": 488,
+          "line": 500,
           "kind": "func"
         },
         {
           "file": "scripts/ball/ball.gd",
           "name": "Ball.roll_speed_for",
-          "line": 506,
+          "line": 518,
           "kind": "func"
         },
         {
           "file": "scripts/ball/ball.gd",
           "name": "Ball.roll_time",
-          "line": 542,
+          "line": 554,
           "kind": "func"
         },
         {
           "file": "scripts/ball/ball.gd",
           "name": "Ball.roll_start_speed",
-          "line": 559,
+          "line": 571,
           "kind": "func"
         },
         {
           "file": "scripts/ball/ball.gd",
           "name": "Ball.roll_catch_time",
-          "line": 573,
+          "line": 585,
           "kind": "func"
         },
         {
           "file": "scripts/ball/ball.gd",
           "name": "Ball._roll_step",
-          "line": 473,
+          "line": 485,
           "kind": "func"
         }
       ],
@@ -348,13 +348,13 @@
         {
           "file": "scripts/ball/ball.gd",
           "name": "Ball.capture_state",
-          "line": 244,
+          "line": 256,
           "kind": "func"
         },
         {
           "file": "scripts/ball/ball.gd",
           "name": "Ball.apply_state",
-          "line": 257,
+          "line": 269,
           "kind": "func"
         }
       ],
@@ -2149,7 +2149,7 @@
         {
           "file": "assets/characters/player/player_kit.gdshader",
           "name": "player_kit.gdshader.shade",
-          "line": 101,
+          "line": 138,
           "kind": "func"
         }
       ],
@@ -4578,7 +4578,7 @@
         {
           "file": "scripts/ball/ball.gd",
           "name": "Ball.set_knuckle",
-          "line": 169,
+          "line": 181,
           "kind": "func"
         }
       ],
@@ -4619,19 +4619,19 @@
         {
           "file": "scripts/ball/ball.gd",
           "name": "Ball._process",
-          "line": 276,
+          "line": 288,
           "kind": "func"
         },
         {
           "file": "scripts/ball/ball.gd",
           "name": "Ball.VISUAL_SPIN_DEG_PER_FRAME",
-          "line": 267,
+          "line": 279,
           "kind": "const"
         },
         {
           "file": "scripts/ball/ball.gd",
           "name": "Ball.VISUAL_SHUTTER",
-          "line": 270,
+          "line": 282,
           "kind": "const"
         }
       ],
@@ -5228,7 +5228,7 @@
         {
           "file": "scripts/ball/ball.gd",
           "name": "Ball.kick",
-          "line": 156,
+          "line": 168,
           "kind": "func"
         },
         {
@@ -5788,25 +5788,25 @@
         {
           "file": "scripts/setpiece/setpiece_game.gd",
           "name": "SetPieceGame._take_shot",
-          "line": 897,
+          "line": 903,
           "kind": "func"
         },
         {
           "file": "scripts/setpiece/setpiece_game.gd",
           "name": "SetPieceGame.shoot_params",
-          "line": 1940,
+          "line": 1946,
           "kind": "func"
         },
         {
           "file": "scripts/setpiece/setpiece_game.gd",
           "name": "SetPieceGame._finish",
-          "line": 1197,
+          "line": 1203,
           "kind": "func"
         },
         {
           "file": "scripts/setpiece/setpiece_game.gd",
           "name": "SetPieceGame.clamp_free_kick_spot",
-          "line": 568,
+          "line": 574,
           "kind": "func"
         },
         {
@@ -5824,7 +5824,7 @@
         {
           "file": "scripts/setpiece/main_menu.gd",
           "name": "MainMenu._start",
-          "line": 439,
+          "line": 443,
           "kind": "func"
         }
       ],
@@ -5898,7 +5898,7 @@
         {
           "file": "scripts/setpiece/sp_actor.gd",
           "name": "SpActor.play_clip",
-          "line": 173,
+          "line": 250,
           "kind": "func"
         },
         {
@@ -6451,7 +6451,7 @@
     {
       "id": "progression.customization",
       "system": "PROGRESSION",
-      "description": "Personalizacion del jugador del usuario (PlayerCustom): camiseta, short, medias, botines, piel, pelo (parametros del shader del kit), numero en la espalda (Label3D que sigue la columna), estilo de golpeo y carrera (sesgos SOLO sobre la eleccion del clip en ShotCatalog: la fisica del tiro no cambia), que hace despues del tiro (mira la pelota o la acompaña) y festejo elegido (clips del banco, sin bucles). Cosmeticos bloqueados (botines dorados/cromados, festejos 5 y 6) que abren los logros. Guardada en user://custom.cfg y aplicada en el menu (vista en vivo), en penales y tiros libres (tirador y arquero del usuario) y en los minijuegos.",
+      "description": "Personalizacion del jugador del usuario (PlayerCustom): camiseta, short, medias, botines, piel, pelo (parametros del shader del kit), numero en la espalda (Label3D que sigue la columna), estilo de golpeo y carrera (sesgos SOLO sobre la eleccion del clip en ShotCatalog: la fisica del tiro no cambia), que hace despues del tiro (mira la pelota o la acompaña) y festejo elegido (clips del banco, sin bucles). Cosmeticos bloqueados (botines dorados/cromados, festejos 5 y 6) que abren los logros. Guardada en user://custom.cfg y aplicada en el menu (vista en vivo), en penales y tiros libres (tirador y arquero del usuario) y en los minijuegos. Tienda visual y objetos reales (2026-11-13): cada objeto se dibuja de verdad (BootsCatalog: modelo, suela, cordones, metal y brillo de los botines en el shader del uniforme; BallSkins: 7 diseños de balon en su shader, sin tocar la fisica; AccessoryCatalog: muñequeras, vincha, vendas, mangas y brazalete colgados de los huesos; diseños nuevos de camiseta, short y medias); imagenes de la tienda generadas con el modelo real (tools/ui/make_shop_images.gd -> assets/shop/items/*.webp); tarjetas con estado (disponible, tuyo, equipado, bloqueado, premium) y ficha con vista previa 3D (ShopPreview); nombre en la camiseta validado (ShirtName).",
       "keywords": [
         "personalizacion",
         "botines",
@@ -6468,14 +6468,35 @@
         "custom",
         "kit",
         "piel",
-        "pelo"
+        "pelo",
+        "tienda",
+        "balon",
+        "balones",
+        "accesorios",
+        "muñequeras",
+        "vincha",
+        "premium",
+        "vista previa",
+        "imagenes",
+        "equipar",
+        "comprar",
+        "diseño del balon",
+        "suela",
+        "cordones"
       ],
       "files": [
         "scripts/progression/player_custom.gd",
         "scripts/setpiece/main_menu.gd",
         "scripts/setpiece/sp_actor.gd",
         "scripts/setpiece/sp_shooter.gd",
-        "tests/test_customization.gd"
+        "tests/test_customization.gd",
+        "scripts/progression/boots_catalog.gd",
+        "scripts/progression/accessory_catalog.gd",
+        "scripts/progression/shirt_name.gd",
+        "scripts/ball/ball_skins.gd",
+        "scripts/ui/shop_look.gd",
+        "scripts/ui/shop_preview.gd",
+        "tools/ui/make_shop_images.gd"
       ],
       "symbols": [],
       "parameters": [],

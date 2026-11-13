@@ -114,6 +114,76 @@ func kit_material() -> ShaderMaterial:
 		return (mi as MeshInstance3D).material_override as ShaderMaterial
 	return null
 
+## Accesorios puestos (AccessoryCatalog): nodos colgados de los huesos.
+var accessories: Array = []
+var _acc_nodes: Array[Node] = []
+
+## Pone los accesorios ids (los demas se sacan). Cada pieza es un cilindro alrededor del hueso, entre dos fracciones de su
+## largo (hasta el hueso hijo), en un BoneAttachment3D: sigue la animacion sin cambiar el esqueleto.
+func set_accessories(ids: Array) -> void:
+	for n in _acc_nodes:
+		if is_instance_valid(n):
+			n.queue_free()
+	_acc_nodes.clear()
+	accessories = ids.duplicate()
+	if skeleton == null:
+		return
+	for id in ids:
+		var st: Dictionary = AccessoryCatalog.STYLES.get(String(id), {})
+		if st.is_empty():
+			continue
+		for pc in AccessoryCatalog.pieces(String(st["slot"])):
+			var bi: int = skeleton.find_bone(String(pc[0]))
+			if bi < 0:
+				continue
+			var ci: int = skeleton.find_bone(String(pc[1]))
+			# Direccion del hueso hacia su hijo en el espacio del hueso (en este esqueleto el eje Y no siempre apunta al hijo).
+			var to_child := Vector3(0, 0.25, 0)
+			if ci >= 0:
+				to_child = skeleton.get_bone_rest(ci).origin
+			var length: float = to_child.length()
+			var axis: Vector3 = to_child.normalized() if length > 1e-4 else Vector3.UP
+			var att := BoneAttachment3D.new()
+			att.bone_name = String(pc[0])
+			skeleton.add_child(att)
+			_acc_nodes.append(att)
+			var mi := MeshInstance3D.new()
+			var cm := CylinderMesh.new()
+			var r: float = float(pc[4])
+			cm.top_radius = r
+			cm.bottom_radius = r * 1.04
+			cm.height = maxf((float(pc[3]) - float(pc[2])) * length, 0.01)
+			var fixed: Dictionary = pc[5] if pc.size() > 5 else {}
+			if not fixed.is_empty():
+				# Pieza ubicada en el espacio del esqueleto en reposo (vincha): se pasa al espacio del hueso, vertical.
+				var gr: Transform3D = skeleton.get_bone_global_rest(bi)
+				to_child = gr.basis.inverse() * Vector3.UP
+				axis = to_child.normalized()
+				length = 0.0
+				cm.height = float(fixed.get("height", 0.03))
+			cm.radial_segments = 14
+			cm.rings = 1
+			mi.mesh = cm
+			var m := StandardMaterial3D.new()
+			m.albedo_color = st["color"]
+			m.roughness = 0.7
+			mi.material_override = m
+			mi.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+			mi.position = axis * length * (float(pc[2]) + float(pc[3])) * 0.5
+			if not fixed.is_empty():
+				mi.position = skeleton.get_bone_global_rest(bi).affine_inverse() * (fixed["center"] as Vector3)
+			var side: Vector3 = axis.cross(Vector3.FORWARD if absf(axis.dot(Vector3.FORWARD)) < 0.9 else Vector3.RIGHT).normalized()
+			mi.basis = Basis(side, axis, side.cross(axis).normalized())
+			att.add_child(mi)
+
+## Estilo del numero de la espalda (catalogo «number_style»: num_clasico, num_oro, num_mitico_10, num_mitico_7).
+var number_style: String = "num_clasico"
+
+func set_number_style(st: String) -> void:
+	number_style = st
+	if back_number > 0:
+		_apply_printed_number()
+
 func _apply_printed_number() -> void:
 	var mat: ShaderMaterial = kit_material()
 	if mat == null:
@@ -124,6 +194,13 @@ func _apply_printed_number() -> void:
 	var light: bool = j is Color and (j as Color).get_luminance() > 0.62
 	mat.set_shader_parameter("number_color", Color(0.06, 0.07, 0.16) if light else Color(0.97, 0.97, 0.98))
 	mat.set_shader_parameter("number_edge", Color(0.97, 0.97, 0.98) if light else Color(0.05, 0.05, 0.1))
+	# Estilo del numero (tienda): dorado, o «mitico» (dorado con borde rojo oscuro).
+	if number_style == "num_oro":
+		mat.set_shader_parameter("number_color", Color(0.98, 0.78, 0.22))
+		mat.set_shader_parameter("number_edge", Color(0.12, 0.08, 0.02))
+	elif number_style.begins_with("num_mitico"):
+		mat.set_shader_parameter("number_color", Color(1.0, 0.86, 0.35))
+		mat.set_shader_parameter("number_edge", Color(0.55, 0.05, 0.08))
 
 func set_kit(kit: Dictionary) -> void:
 	if model == null:

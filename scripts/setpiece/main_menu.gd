@@ -61,7 +61,9 @@ func _ready() -> void:
 	_player = SpActor.new()
 	add_child(_player)
 	_player.build(PlayerCustom.kit())
+	_player.number_style = PlayerCustom.number_style
 	_player.set_back_number(PlayerCustom.number)
+	_player.set_accessories(PlayerCustom.accessories)
 	_player.global_position = Vector3(gx - 14.0, 0, -1.6)
 	_player.set_facing(Vector3(1, 0, 0.45))
 	var idles: Array[StringName] = SpClips.by_role(&"idle_ready", false)
@@ -322,7 +324,9 @@ func _cycle_custom(k: String, dir: int) -> void:
 				_player.play_here(clip, 0.2)
 	PlayerCustom.save_custom()
 	_player.set_kit(PlayerCustom.kit())
+	_player.number_style = PlayerCustom.number_style
 	_player.set_back_number(PlayerCustom.number)
+	_player.set_accessories(PlayerCustom.accessories)
 	_refresh_custom()
 
 func _refresh_custom() -> void:
@@ -531,7 +535,9 @@ func _refresh_profile() -> void:
 func _apply_custom() -> void:
 	if _player != null:
 		_player.set_kit(PlayerCustom.kit())
+		_player.number_style = PlayerCustom.number_style
 		_player.set_back_number(PlayerCustom.number)
+		_player.set_accessories(PlayerCustom.accessories)
 
 func _unhandled_input(e: InputEvent) -> void:
 	if _customizing and (e is InputEventScreenDrag or (e is InputEventMouseMotion and (e as InputEventMouseMotion).button_mask & MOUSE_BUTTON_MASK_LEFT)):
