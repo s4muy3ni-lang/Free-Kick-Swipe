@@ -18,8 +18,13 @@ const HARD_SKILL := 0.88
 const HARD_LEVEL := 3
 const HARD_KEEPER := 4
 
-## {mode, bot: {...}, kind: "turnos"|"puntos", shots, bot_points, user_points}
+## {mode, bot: {...}, kind: "turnos"|"puntos", shots, bot_points, user_points, game, level, match}
 static var active: Dictionary = {}
+## Ultimo minijuego online jugado (modalidad, juego, nivel, partida) y lo que eligio el usuario al terminar: «repeat»
+## (repetir nivel), «level» (otro nivel del mismo minijuego), «game» (otro minijuego), «random» o «exit». El menu lo lee
+## al volver (MenuScreens.resume_online_after). Nunca se salta solo a otro minijuego.
+static var last: Dictionary = {}
+static var after: String = ""
 
 ## Juego y nivel de cada modalidad online (las de penales no pasan por aca).
 const MODES := {
@@ -67,6 +72,28 @@ static func start(tree: SceneTree, mode: String, view: Dictionary) -> bool:
 	MinigameCatalog.start(tree, d)
 	return true
 
+## Arranca el nivel `level_n` que eligio el usuario (o sorteo el servidor) en la partida `view` (choose_minigame ya lo
+## valido y lo guardo). Devuelve false si el nivel no existe en el catalogo.
+static func start_level(tree: SceneTree, mode: String, view: Dictionary, level_n: int) -> bool:
+	if not MODES.has(mode):
+		return false
+	var cfg: Dictionary = MODES[mode]
+	var game: String = String(cfg.get("game", ""))
+	var d: Dictionary = MinigameCatalog.level(game, level_n)
+	if d.is_empty():
+		return false
+	var bot: Dictionary = hard_skill(view.get("opponent", {}) if view.get("opponent") is Dictionary else {})
+	active = {"mode": mode, "bot": bot, "kind": String(cfg["kind"]), "shots": int(cfg.get("shots", 5)), "bot_points": -1,
+		"user_points": 0, "view": view, "game": game, "level": level_n,
+		"match": String((view.get("match", {}) as Dictionary).get("id", ""))}
+	last = {"mode": mode, "game": game, "level": level_n, "match": active["match"]}
+	d = MinigameCatalog.at_difficulty(d, HARD_LEVEL)
+	d["online_bot"] = bot_name()
+	if String(cfg["kind"]) == "puntos":
+		active["bot_points"] = bot_score(mode, bot, d)
+	MinigameCatalog.start(tree, d)
+	return true
+
 ## Primer nivel del juego (con la regla pedida, p. ej. el duelo de los dardos).
 static func _level(game: String, rule: String) -> Dictionary:
 	for d in MinigameCatalog.levels(game):
@@ -100,8 +127,15 @@ static func finish(user_points: int, user_won_turns: int = -1) -> Array:
 		var bp: int = int(active.get("bot_points", 0))
 		won = user_points > bp
 		detail = "Vos %d - %d %s (bot online)" % [user_points, bp, bot_name()]
+	# El resultado va al servidor, que solo lo acepta del minijuego y nivel elegidos (finish_minigame).
+	if String(active.get("match", "")) != "":
+		var bot_pts: int = int(active.get("bot_points", 0)) if String(active.get("kind", "")) == "puntos" else (0 if won else 1)
+		var my_pts: int = user_points if String(active.get("kind", "")) == "puntos" else (1 if won else 0)
+		Online.call_fn("finish_minigame", {"p_match": active["match"], "p_game": active.get("game", ""),
+			"p_level": int(active.get("level", 0)), "p_points": my_pts, "p_bot_points": bot_pts})
 	# Contra bot: el premio de una partida offline (el servidor lo recalcula con sus topes; no da ranking).
-	Online.queue_reward("offline_match", {"won": won, "vs_bot": true, "mode": String(active.get("mode", ""))})
+	Online.queue_reward("offline_match", {"won": won, "vs_bot": true, "mode": String(active.get("mode", "")),
+		"game": String(active.get("game", "")), "level": int(active.get("level", 0))})
 	active = {}
 	SpSettings.override_difficulty = -1
 	return ["¡GANASTE ONLINE!" if won else "PERDISTE ONLINE", detail]

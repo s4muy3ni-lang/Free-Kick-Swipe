@@ -5824,7 +5824,7 @@
         {
           "file": "scripts/setpiece/main_menu.gd",
           "name": "MainMenu._start",
-          "line": 436,
+          "line": 439,
           "kind": "func"
         }
       ],
@@ -6512,7 +6512,7 @@
     {
       "id": "online.ecosystem",
       "system": "ONLINE",
-      "description": "Ecosistema online: cuentas (Supabase Auth o backend local), sesión cifrada, cola de sincronización idempotente, perfil/inventario/monedas/temporada/eventos con autoridad del servidor (SQL con RLS y funciones SECURITY DEFINER), matchmaking humano→bot, bots con personalidad y dificultad adaptativa, comportamiento espejo, penales online con turnos de 20 s y regla de zonas validada en el servidor, chat moderado, menú principal con 10 entradas, tienda, temporada, eventos, perfil y personalización con diseños del uniforme, herramientas de desarrollo ocultas en la build pública.",
+      "description": "Ecosistema online: cuentas (Supabase Auth o backend local), sesión cifrada, cola de sincronización idempotente, perfil/inventario/monedas/temporada/eventos con autoridad del servidor (SQL con RLS y funciones SECURITY DEFINER), matchmaking humano→bot, bots con personalidad y dificultad adaptativa, comportamiento espejo, penales online con turnos de 20 s y regla de zonas validada en el servidor, chat moderado, menú principal con 10 entradas, tienda, temporada, eventos, perfil y personalización con diseños del uniforme, herramientas de desarrollo ocultas en la build pública. Minijuegos online: pantalla de seleccion (OnlineMinigameSelect) de minijuego y nivel reales o aleatorio, validada por el servidor (choose_minigame, finish_minigame, rematch_bot); al terminar, acciones separadas sin saltar a otro minijuego.",
       "keywords": [
         "online",
         "cuenta",
@@ -6569,7 +6569,13 @@
         "arrastrar",
         "buscador",
         "buscar partida",
-        "selector de partidas"
+        "selector de partidas",
+        "seleccion de nivel",
+        "elegir nivel",
+        "aleatorio",
+        "otro minijuego",
+        "repetir nivel",
+        "minijuegos online"
       ],
       "files": [
         "scripts/online/online.gd",
@@ -6602,7 +6608,8 @@
         "tests/test_online_match.gd",
         "scripts/ui/scroll_tap.gd",
         "tests/test_scroll_tap.gd",
-        "tests/test_online_lobby_ui.gd"
+        "tests/test_online_lobby_ui.gd",
+        "scripts/ui/online_minigame_select.gd"
       ],
       "symbols": [],
       "parameters": [],

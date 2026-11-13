@@ -73,6 +73,9 @@ func _ready() -> void:
 	add_child(cam)
 	cam.current = true
 	_build_ui()
+	# Vuelta de un minijuego online: lo que eligio el usuario al terminar (repetir, otro nivel, otro minijuego, aleatorio).
+	if OnlineDuel.after != "":
+		screens.resume_online_after.call_deferred()
 	GraphicsSettings.apply()
 	# Ambiente de estadio de fondo, en calma (el juego lo sube y lo baja segun la jugada).
 	Sfx.set_crowd_level(0.0)

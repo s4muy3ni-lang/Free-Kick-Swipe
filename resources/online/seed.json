@@ -234,7 +234,17 @@
             "scene_def": {
                 "game": "boton_caida",
                 "level": 1,
-                "target": 3
+                "target": 3,
+                "levels": [
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8
+                ]
             },
             "entry_fees": [
                 0,
@@ -260,7 +270,13 @@
             "scene_def": {
                 "game": "guante",
                 "level": 1,
-                "target": 2
+                "target": 2,
+                "levels": [
+                    1,
+                    2,
+                    3,
+                    4
+                ]
             },
             "entry_fees": [
                 0,
@@ -285,7 +301,10 @@
             "rounds": 5,
             "scene_def": {
                 "game": "dardos",
-                "level": 1
+                "level": 1,
+                "levels": [
+                    4
+                ]
             },
             "entry_fees": [
                 0,
@@ -310,7 +329,18 @@
             "rounds": 5,
             "scene_def": {
                 "game": "enceste",
-                "level": 1
+                "level": 1,
+                "levels": [
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9
+                ]
             },
             "entry_fees": [
                 0,
@@ -334,8 +364,15 @@
             "online": true,
             "rounds": 5,
             "scene_def": {
-                "game": "dianas",
-                "level": "Diana en el suelo"
+                "game": "diana_gigante",
+                "level": "Diana en el suelo",
+                "levels": [
+                    1,
+                    2,
+                    3,
+                    4,
+                    5
+                ]
             },
             "entry_fees": [
                 0,

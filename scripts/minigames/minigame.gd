@@ -623,6 +623,12 @@ func _end_match(w: int) -> void:
 		var od: Array = OnlineDuel.finish(final_score(), 1 if won else 0)
 		t = String(od[0])
 		info = String(od[1]) + " · " + info
+		# Online (pedido del usuario): nunca se pasa solo a otro minijuego. Acciones separadas; cada una vuelve a la
+		# seleccion del servidor (revancha con el mismo bot y nivel validado de nuevo).
+		hud.set_hint("")
+		hud.show_overlay(t, info, [[&"online_repeat", "Repetir nivel"], [&"online_level", "Otro nivel"],
+			[&"online_game", "Otro minijuego"], [&"online_random", "Aleatorio"], [&"online_exit", "Salir"]])
+		return
 	hud.set_hint("")
 	hud.show_overlay(t, info, [[&"retry", "Otra vez"], [&"next", "Siguiente nivel"], [&"menu", "Menú"]])
 
@@ -742,6 +748,12 @@ func _on_action(id: StringName) -> void:
 				get_tree().reload_current_scene()
 		&"menu":
 			_go_menu()
+		&"online_repeat", &"online_level", &"online_game", &"online_random", &"online_exit":
+			# Vuelve al menu principal, que hace la revancha y muestra la seleccion (MenuScreens.resume_online_after).
+			OnlineDuel.after = String(id).trim_prefix("online_")
+			SpSettings.override_difficulty = -1
+			if is_inside_tree():
+				get_tree().change_scene_to_file(SetPieceGame.MENU_SCENE)
 
 # --- Ajustes de camara de este minijuego -------------------------------------------------------------------------------
 

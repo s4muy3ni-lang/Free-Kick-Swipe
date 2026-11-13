@@ -11,6 +11,31 @@ Formato de entrada: **fecha — título** · commit · qué cambió · archivos 
 
 ---
 
+## 2026-11-13 — Minijuegos online: elegir minijuego y nivel, o aleatorio; sin saltos a otro juego
+
+Pedido del usuario (sección 7: «no quiero que al terminar un nivel se cambie automáticamente a otro minijuego»).
+
+- **Flujo**: buscar rival → seleccionar → confirmar → jugar → resultado → volver a la selección.
+  - Pantalla nueva `OnlineMinigameSelect` (`scripts/ui/online_minigame_select.gd`): pestañas de los 5 minijuegos online,
+    niveles reales del catálogo (los que admite el servidor en `scene_def.levels`), aleatorio, confirmar, salir.
+  - `MenuScreens`: la búsqueda de un minijuego abre la selección (`open_minigame_select`); confirmar pide la elección al
+    servidor y arranca ese nivel (`_play_minigame`, `OnlineDuel.start_level`).
+  - Al terminar (`Minigame._end_match` online): «Repetir nivel», «Otro nivel», «Otro minijuego», «Aleatorio», «Salir». Ya
+    no aparece «Siguiente nivel». Al volver al menú, `resume_online_after` hace la revancha con el mismo bot y muestra la
+    selección (o repite o sortea).
+- **Servidor** (migración `supabase/migrations/20261113000007_minigame_select.sql` y `LocalBackend`):
+  - `choose_minigame`: solo el que creó la sala, antes del primer turno, con el nivel en la lista; el aleatorio lo
+    sortea el servidor;
+  - `confirm_minigame`: el rival humano acepta sin poder cambiar;
+  - `finish_minigame`: solo acepta el resultado del minijuego y nivel elegidos;
+  - `rematch_bot`: revancha con el mismo bot, sin entrada;
+  - `scene_def` de las 5 modalidades con su juego y su lista de niveles (`seed.json` y SQL).
+- **Pruebas**: `test_online_minigame_select` (5 pruebas, 83 comprobaciones): niveles = contenido real, pantalla de
+  selección, validación del servidor (nivel inválido, otro juego, aleatorio válido), final sin «Siguiente nivel», y menú
+  que reanuda con «Otro nivel». SQL: 15 comprobaciones nuevas, todas OK en PostgreSQL 16 local.
+- **Pendiente**: entre dos humanos los minijuegos todavía no se juegan online (el servidor ya tiene la confirmación del
+  rival; `finish_minigame` acepta solo partidas contra bot). No se probó en un teléfono.
+
 ## 2026-11-13 — Atajadas por 9 sectores con alcance físico, tiros libres por turnos, duelo local y tiros libres online
 
 Pedido del usuario («ACTUALIZACIÓN INTEGRAL DE COMPETICIÓN, ATAJADAS, DUELO LOCAL…», secciones 1 a 4). Auditoría y plan:

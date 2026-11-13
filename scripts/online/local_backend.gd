@@ -137,6 +137,8 @@ func call_rpc(fn: String, a: Dictionary = {}) -> Dictionary:
 		"start_bot_match": return _start_bot_match(String(a.get("p_mode", "")))
 		"get_match": return _ok(_match_view())
 		"choose_minigame": return _choose_minigame(String(a.get("p_mode", "")), int(a.get("p_level", 0)), bool(a.get("p_random", false)))
+		"confirm_minigame": return _err("solo el rival confirma")
+		"finish_minigame": return _finish_minigame(String(a.get("p_game", "")), int(a.get("p_level", 0)), int(a.get("p_points", 0)), int(a.get("p_bot_points", 0)))
 		"rematch_bot": return _rematch_bot()
 		"submit_turn": return _submit_turn(String(a.get("p_kind", "")), a.get("p_payload", {}), a.get("p_side", null))
 		"claim_timeout": return _claim_timeout()
@@ -456,7 +458,34 @@ func _choose_minigame(mode: String, level: int, random: bool) -> Dictionary:
 	if not (gm["scene_def"]["levels"] as Array).map(func(x: Variant) -> int: return int(x)).has(level):
 		return _err("nivel invalido")
 	m["mode"] = mode
-	m["minigame"] = {"mode": mode, "game": String(gm["scene_def"].get("game", "")), "level": level, "random": random}
+	m["rounds"] = int(gm["rounds"])
+	m["turn_seconds"] = int(gm["turn_seconds"])
+	# Contra un bot no hace falta que el rival confirme (entre humanos, confirm_minigame del SQL).
+	m["minigame"] = {"mode": mode, "game": String(gm["scene_def"].get("game", "")), "level": level, "random": random,
+		"confirmed_b": true}
+	_save()
+	return _ok(_match_view())
+
+## Resultado del minijuego contra el bot: solo del minijuego y nivel elegidos (como finish_minigame del SQL). Cierra la
+## partida con el marcador; el premio sigue por claim_reward con sus topes.
+func _finish_minigame(game: String, level: int, points: int, bot_points: int) -> Dictionary:
+	var m: Dictionary = _db.get("match", {})
+	if m.is_empty():
+		return _err("no es tu partida")
+	if String(m.get("status", "")) != "active":
+		return _ok(_match_view())
+	var mg: Dictionary = m.get("minigame", {}) if m.get("minigame") is Dictionary else {}
+	if mg.is_empty() or not bool(mg.get("confirmed_b", false)):
+		return _err("primero se elige el nivel")
+	if String(mg["game"]) != game or int(mg["level"]) != level:
+		return _err("nivel distinto al elegido")
+	var a: int = clampi(points, 0, 100000)
+	var b: int = clampi(bot_points, 0, 100000)
+	m["score_a"] = a
+	m["score_b"] = b
+	m["status"] = "finished"
+	m["winner"] = 0 if a > b else (1 if b > a else null)
+	m["settled"] = true
 	_save()
 	return _ok(_match_view())
 

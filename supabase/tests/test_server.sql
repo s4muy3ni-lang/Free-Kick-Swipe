@@ -271,3 +271,30 @@ select t_ok((submit_turn(current_setting('t.m4')::uuid, 'shot',
 	'{"cross_zone": 0, "outcome": "goal", "cross_y": 0.4, "cross_z": -3.4, "flight": 0.9, "spot": [22.0, -7.0]}') -> 'match' ->> 'score_b')::int = 1,
 	'el alcance se mide desde donde esta parado el arquero del tiro libre');
 reset role;
+
+-- ---- Minijuegos online: elegir minijuego y nivel, o aleatorio (migracion 20261113000007) -------------------------
+set role authenticated;
+select set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-000000000003', false);
+select t_ok(find_match('a_la_vista', 0) ->> 'status' = 'searching', 'u3 busca rival de A la vista');
+reset role;
+update matchmaking_queue set joined_at = now() - interval '10 seconds';
+set role authenticated;
+select set_config('t.g', (start_bot_match('a_la_vista') -> 'match' ->> 'id'), false);
+select t_err($$select choose_minigame(current_setting('t.g')::uuid, 'a_la_vista', 9)$$, 'nivel invalido', 'A la vista no tiene nivel 9');
+select t_err($$select choose_minigame(current_setting('t.g')::uuid, 'penales', 1)$$, 'minijuego invalido', 'los penales no son un minijuego');
+select t_err($$select finish_minigame(current_setting('t.g')::uuid, 'boton_caida', 3, 3, 1)$$, 'primero se elige', 'sin elegir no hay resultado');
+select t_ok((choose_minigame(current_setting('t.g')::uuid, 'a_la_vista', 3) -> 'match' -> 'minigame' ->> 'level')::int = 3, 'elige A la vista, nivel 3');
+select t_ok((get_match(current_setting('t.g')::uuid) -> 'match' -> 'minigame' ->> 'game') = 'boton_caida', 'la sala sabe que minijuego y nivel se juegan');
+select set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-000000000004', false);
+select t_err($$select choose_minigame(current_setting('t.g')::uuid, 'guante', 1)$$, 'sala', 'otro jugador no puede cambiar la eleccion');
+select set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-000000000003', false);
+select t_err($$select finish_minigame(current_setting('t.g')::uuid, 'boton_caida', 4, 3, 1)$$, 'nivel distinto', 'un resultado de otro nivel se rechaza');
+select t_ok((finish_minigame(current_setting('t.g')::uuid, 'boton_caida', 3, 3, 1) -> 'match' ->> 'status') = 'finished', 'resultado del nivel elegido: partida cerrada');
+select t_ok((get_match(current_setting('t.g')::uuid) -> 'match' ->> 'winner')::int = 0, 'gana el que hizo mas puntos');
+select set_config('t.g2', (rematch_bot(current_setting('t.g')::uuid) -> 'match' ->> 'id'), false);
+select t_ok(current_setting('t.g2') <> current_setting('t.g') and (get_match(current_setting('t.g2')::uuid) -> 'match' ->> 'status') = 'active',
+	'revancha con el mismo bot sin esperar');
+select t_ok((select (choose_minigame(current_setting('t.g2')::uuid, '', 0, true) -> 'match' -> 'minigame') ->> 'random')::boolean, 'aleatorio: lo sortea el servidor');
+select t_ok((select (gm.scene_def -> 'levels') @> to_jsonb(((m.minigame ->> 'level')::int)) from matches m join game_modes gm on gm.id = m.mode
+	where m.id = current_setting('t.g2')::uuid), 'el sorteo cae en un nivel valido de un minijuego online');
+reset role;

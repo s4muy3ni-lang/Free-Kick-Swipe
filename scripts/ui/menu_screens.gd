@@ -555,13 +555,79 @@ func _search(mode: String, fee: int) -> void:
 		_searching = false
 		# Penales y tiros libres: partida por turnos con autoridad del servidor (roles alternados, el arquero elige uno de
 		# los 9 sectores oculto). Los minijuegos van por OnlineDuel.
-		if mode not in ["penales", "tiros_libres"] and OnlineDuel.start(get_tree(), mode, view):
-			return
+		if mode not in ["penales", "tiros_libres"]:
+			# Minijuegos: primero se elige minijuego y nivel (o aleatorio) en la pantalla de seleccion.
+			if OnlineDuel.MODES.has(mode):
+				open_minigame_select(view, mode)
+				return
 		OnlineMatch.pending = view
 		SetPieceGame.next_mode = SetPieceGame.Mode.FREE_KICK if mode == "tiros_libres" else SetPieceGame.Mode.PENALTY
 		SetPieceGame.next_vs = SetPieceGame.Vs.CPU
 		get_tree().change_scene_to_file(SetPieceGame.SCENE)
 	_searching = false
+
+## Seleccion de minijuego online (rival ya encontrado): pestañas de minijuegos, niveles reales, aleatorio y confirmar. El
+## servidor valida y guarda la eleccion (choose_minigame) y recien entonces se arranca ese nivel. same_game: solo los
+## niveles del mismo minijuego («Otro nivel»).
+var _select: OnlineMinigameSelect = null
+
+func open_minigame_select(view: Dictionary, mode: String, same_game: bool = false) -> OnlineMinigameSelect:
+	if _online_modes.is_empty():
+		_online_modes = await Online.catalog("game_modes")
+	if is_instance_valid(_select):
+		_select.queue_free()
+	var op: Dictionary = view.get("opponent", {}) if view.get("opponent") is Dictionary else {}
+	_select = OnlineMinigameSelect.new()
+	_select.setup(_online_modes, mode, String(op.get("name", "Rival")), same_game)
+	add_child(_select)
+	var sel: OnlineMinigameSelect = _select
+	_select.confirmed.connect(func(m: String, lv: int) -> void: _play_minigame(sel, view, m, lv, false))
+	_select.random_requested.connect(func() -> void: _play_minigame(sel, view, "", 0, true))
+	_select.cancelled.connect(func() -> void:
+		sel.queue_free()
+		open_online())
+	return _select
+
+## Pide al servidor la eleccion (o el sorteo) y arranca el nivel que quedo guardado en la partida.
+func _play_minigame(sel: OnlineMinigameSelect, view: Dictionary, mode: String, level: int, random: bool) -> bool:
+	var mid: String = String((view.get("match", {}) as Dictionary).get("id", ""))
+	var r: Dictionary = await Online.call_fn("choose_minigame", {"p_match": mid, "p_mode": mode, "p_level": level, "p_random": random})
+	if not r.get("ok", false):
+		if is_instance_valid(sel):
+			sel.say("No se pudo: %s" % String(r.get("error", "error del servidor")))
+		return false
+	var v: Dictionary = r["data"]
+	var mg: Dictionary = (v.get("match", {}) as Dictionary).get("minigame", {})
+	if mg.is_empty():
+		return false
+	return OnlineDuel.start_level(get_tree(), String(mg["mode"]), v, int(mg["level"]))
+
+## Al volver de un minijuego online: «repeat» repite el nivel, «random» sortea otro, «level» y «game» muestran la
+## seleccion (del mismo minijuego o de todos), «exit» vuelve al lobby. Siempre contra el mismo bot (rematch_bot).
+func resume_online_after() -> void:
+	var act: String = OnlineDuel.after
+	OnlineDuel.after = ""
+	var last: Dictionary = OnlineDuel.last
+	open_online()
+	if act == "exit" or last.is_empty():
+		return
+	var r: Dictionary = await Online.call_fn("rematch_bot", {"p_match": String(last.get("match", ""))})
+	if not r.get("ok", false):
+		_say("No se pudo armar la revancha: %s" % String(r.get("error", "")))
+		return
+	var view: Dictionary = r["data"]
+	match act:
+		"repeat":
+			var s1: OnlineMinigameSelect = await open_minigame_select(view, String(last["mode"]), true)
+			s1.select_level(int(last["level"]))
+			await _play_minigame(s1, view, String(last["mode"]), int(last["level"]), false)
+		"random":
+			var s2: OnlineMinigameSelect = await open_minigame_select(view, String(last["mode"]))
+			await _play_minigame(s2, view, "", 0, true)
+		"level":
+			await open_minigame_select(view, String(last["mode"]), true)
+		_:
+			await open_minigame_select(view, String(last["mode"]))
 
 ## Pantalla de busqueda (encima de todo): la modalidad, el radar que late, el tiempo, el estado y Cancelar. Devuelve sus
 ## partes para actualizarlas.

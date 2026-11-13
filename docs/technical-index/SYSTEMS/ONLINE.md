@@ -34,6 +34,7 @@
 | `scripts/online/bot_factory.gd`, `bot_brain.gd`, `behavior_mirror.gd`, `chat_filter.gd` | Rivales IA, decisiones, tiempos espejo, chat y reacciones |
 | `scripts/online/online_duel.gd` | Las demás modalidades online contra un bot difícil (por turnos en A la vista, Guante y Dardos; por puntaje en Basket y Diana). Los tiros libres ya no pasan por acá: el lobby los abre por turnos con `OnlineMatch` (queda el cálculo por puntaje `bot_score`) |
 | `scripts/ui/menu_screens.gd`, `menu_icon.gd`, `scripts/setpiece/main_menu.gd` | Menú con 10 entradas, pantallas, íconos dibujados. JUGAR ONLINE rediseñado (2026-11-12): pastillas de estado del lobby, modalidades como tarjetas con imagen (`_mode_tile`, la elegida con borde dorado), panel de la modalidad con entrada en botones y BUSCAR PARTIDA (`select_mode`, `_show_mode_detail`), pantalla de búsqueda con radar (`search_screen`, `SearchRadar`) y cara a cara al encontrar rival (`show_found`) |
+| `scripts/ui/online_minigame_select.gd` | `OnlineMinigameSelect`: seleccion de minijuego online con el rival encontrado (pestañas de los minijuegos online, grilla de niveles reales `levels_of` según `scene_def.levels` del servidor, JUGAR ALEATORIO, CONFIRMAR, SALIR; `same_game` para «Otro nivel»). `MenuScreens.open_minigame_select`, `_play_minigame` (choose_minigame en el servidor y recien entonces `OnlineDuel.start_level`) y `resume_online_after` (al volver: repetir, otro nivel, otro minijuego, aleatorio o salir; revancha con el mismo bot) |
 | `scripts/ui/scroll_tap.gd` | `ScrollTap`: en las listas con scroll, las tarjetas y sus imágenes dejan pasar el arrastre y un toque que arrastró la lista no aprieta el botón (menú, arcade, desafíos, pausa) |
 | `scripts/diagnostics/dev_flags.gd` | Build pública (característica `public`): sin «Diag.», sin línea de destino, sin banco de animaciones |
 
@@ -47,6 +48,11 @@
   - con el cruce informado (alto, ancho y tiempo de vuelo) el servidor recalcula el sector (el informado no manda) y
     mira el alcance (`keeper_reachable`, migración `20261113000006_keeper_reach.sql`): un tiro informado como gol en el
     sector elegido y al alcance se cuenta atajada; fuera del alcance sigue siendo gol; uno fuera del arco nunca es gol;
+  - minijuegos (migración `20261113000007_minigame_select.sql`): `choose_minigame` (solo el que creó la sala, antes del
+    primer turno, nivel dentro de `scene_def.levels`; aleatorio lo sortea el servidor), `confirm_minigame` (el rival
+    humano acepta, no puede cambiar), `finish_minigame` (solo el resultado del minijuego y nivel elegidos; por ahora solo
+    contra bot) y `rematch_bot` (revancha con el mismo bot sin entrada). Al terminar no hay «Siguiente nivel»: acciones
+    separadas (`Minigame._end_match` online);
   - tiros libres: el punto de tiro de cada ronda lo fija el servidor (`fk_spot` con `spot_offset` de la partida); un tiro
     desde otro punto o sin punto se rechaza, y el alcance se mide desde donde se para el arquero (`fk_keeper_z`);
   - turno vencido = tiro errado, y tres seguidos = abandono.
