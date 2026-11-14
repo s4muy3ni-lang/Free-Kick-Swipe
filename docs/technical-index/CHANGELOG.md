@@ -65,6 +65,8 @@ el balón en un hoyo o impactar».
   - `rescate`: 14 / 169 / 0. `minigame_camera`, `online_minigame`, `online_duel`, `guante` y `boton_caida`: sin fallos.
   - SQL: 137 OK.
   - Capturas con render (`tools/ui/rescate_capture.gd`, tiros con la carrera completa): Primer pelotazo, Colores, Caja a la placa y Gran mecanismo resueltos.
+  - `rescate_mechs` con render (física a tiempo real, 1249 s): 6 / 113 / 0, los mismos resultados. No se agrega a la lista de render de CI por la duración; CI la corre en headless.
+  - Suite completa headless: 325 pruebas / 2961 comprobaciones / 0 fallos (27 omitidas, de render), sin `SCRIPT ERROR`.
 - **Pendiente**:
   - sin prueba en un teléfono;
   - el giro es con botones (no con un gesto sobre el escenario).
