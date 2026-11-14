@@ -67,8 +67,13 @@ el balón en un hoyo o impactar».
   - Capturas con render (`tools/ui/rescate_capture.gd`, tiros con la carrera completa): Primer pelotazo, Colores, Caja a la placa y Gran mecanismo resueltos.
   - `rescate_mechs` con render (física a tiempo real, 1249 s): 6 / 113 / 0, los mismos resultados. No se agrega a la lista de render de CI por la duración; CI la corre en headless.
   - Suite completa headless: 325 pruebas / 2961 comprobaciones / 0 fallos (27 omitidas, de render), sin `SCRIPT ERROR`.
+  - CI, primer intento (run 43561285148, commit `25f22e9`): las pruebas pasaron, pero el cierre se rechazó por una fuga. Un `Label.new()` suelto de `tests/test_shop_visual.gd` retenía el tema y la fuente por defecto (254 objetos). Arreglo en `f801079`: la prueba libera la etiqueta. Además, `tools/run_tests.sh` ahora falla con fugas al cerrar, igual que CI.
+  - CI, segundo intento (run 43567381423, commit `f801079`, lanzado a mano): todo en verde.
+    - `apk`: auditoría de animaciones, pruebas headless, pruebas con render, exportación y verificación de firma.
+    - `servidor`: migraciones y pruebas SQL.
+    - Artefacto `futbol5-apk` (id 14103928108): `futbol5-v0.1.42.apk`, versionCode 42, 57 417 552 bytes, arm64-v8a, firma de depuración.
 - **Pendiente**:
-  - sin prueba en un teléfono;
+  - el APK solo se compiló; no se probó en un teléfono;
   - el giro es con botones (no con un gesto sobre el escenario).
 
 ## 2026-11-13 — Personalización avanzada: peinados, barbas, cuerpo, detalles de botines, nombre y desbloqueos
