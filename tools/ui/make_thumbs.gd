@@ -8,6 +8,9 @@ extends Node
 
 const OUT := "res://assets/ui/thumbs"
 const SIZE := Vector2i(400, 225)
+## Nivel que muestra la miniatura cuando el primero no representa el juego (Rescate: los niveles de mecanismos a
+## pelotazos empiezan en el 5).
+const THUMB_LEVEL := {"rescate": 10}
 
 func _ready() -> void:
 	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(OUT))
@@ -32,7 +35,7 @@ func _shoot(j: Array) -> void:
 	var id: String = j[1]
 	var node: Node
 	if kind == "game":
-		var d: Dictionary = MinigameCatalog.level(id, 1)
+		var d: Dictionary = MinigameCatalog.level(id, int(THUMB_LEVEL.get(id, 1)))
 		d["seed"] = 3
 		d["practice"] = true
 		Minigame.next_def = d

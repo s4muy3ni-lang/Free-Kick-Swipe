@@ -1,10 +1,17 @@
 #!/usr/bin/env python3
-"""Niveles nuevos del Rescate (rediseño 2026-11-13): mecanismos tactiles y acertijos con fisica real.
+"""Niveles de mecanismos del Rescate (rediseño 2026-11-14, pedido del usuario: «todo debe ser activado con el balón… la
+bola que liberó debe caer y desplazarse a la zona verde… girar el escenario… palancas, botones, meter el balón en un
+hoyo, impactar»). Todo se activa a pelotazos y el escenario gira de a 45 grados alrededor de la torre (pivot).
 
 Escribe los niveles en resources/minigames/minigames.json (juego "rescate"): conserva los 4 niveles de antes (de patear)
-y agrega estos despues, de faciles a expertos. Cada nivel trae "solution": los pasos que la prueba
-tests/test_rescate_mechs.gd ejecuta con la fisica del juego para verificar que se puede resolver, y que sin tocar nada la
-pelota no se libera sola.
+y agrega estos despues, de faciles a expertos. Cada nivel trae "solution": por cada tiro, el giro del escenario (rot, en
+pasos de 45 grados) y a que se patea (hit: indice del mando; push: caja; domino), que la prueba
+tests/test_rescate_mechs.gd ejecuta con la fisica del juego (tiros reales con ShotSolver) para verificar que se puede
+resolver, y "wrong" (un orden equivocado que tiene que fallar).
+
+Plantilla comun: torre en el centro (pivot 12, 0, 0; arriba en y 1,6) con la jaula de la dorada; el piso de la jaula se
+inclina hacia la salida (+Z); un tobogan con barandas baja de la torre a la ZONA VERDE (con bordes y arena). Los mandos
+van en las caras de la torre: adelante (-X, se ve sin girar), atras (+X, girar 180), izquierda (-Z, girar 90).
 
 Ejes: X hacia el fondo (el jugador esta en x = 0), Y arriba, Z al costado. La pelota prisionera tiene radio 0,12 m.
 Uso: python3 tools/minigames/build_rescate_levels.py
@@ -67,219 +74,258 @@ def support(x0, x1, y_top, w=1.2):
     return {"pos": [(x0 + x1) / 2.0, max(y_top - 0.15, 0.05) / 2.0, 0.0], "size": [abs(x1 - x0), max(y_top - 0.15, 0.1), w]}
 
 
+TOP = 1.6
+SLOPE_END = 5.0
+PIVOT = [12.0, 0.0, 0.0]
+FRONT_X, BACK_X, LEFT_Z = 10.72, 13.28, -1.28
+
+
+def y_chute(z):
+    """Altura de la cara de arriba del tobogan (de la torre, z 1,2, al piso, z SLOPE_END)."""
+    return round(TOP - (z - 1.2) * (TOP / (SLOPE_END - 1.2)), 4)
+
+
+def tower(cage=True, rotor=False):
+    """Torre, piso inclinado de la jaula, paredes de la jaula y del camino hasta el borde."""
+    d = {"platforms": [{"pos": [12.0, TOP / 2.0, 0.0], "size": [2.4, TOP, 2.4], "color": "#4f4866"}],
+         "slopes": [dict(chute_z(11.5, 12.5, -0.6, TOP + 0.1, 1.2, TOP + 0.01, t=0.06), color="#6d6590")],
+         "walls": [{"pos": [11.46, TOP + 0.3, 0.3], "size": [0.08, 0.6, 1.8], "color": "#9aa0b4"},
+                   {"pos": [12.54, TOP + 0.3, 0.3], "size": [0.08, 0.6, 1.8], "color": "#9aa0b4"}],
+         "parts": [], "mechs": []}
+    if cage:
+        d["walls"].append({"pos": [12.0, TOP + 0.3, -0.62], "size": [1.16, 0.6, 0.08], "color": "#9aa0b4"})
+        d["prisoner"] = [12.0, TOP + 0.24, -0.1]
+    if rotor:
+        # Jaula giratoria (engranaje) arriba de la torre, con lugar debajo para que la dorada caiga y ruede.
+        d["parts"].append({"type": "rotor", "pos": [12.0, 2.4, -0.1], "rot": [0, 90, 0], "axis": [0, 0, 1], "radius": 0.42, "bars": 12,
+                           "gap": 2, "depth": 0.9, "steps": 6, "phase": 75, "dir": -1, "speed": 1.4})
+        d["walls"] += [{"pos": [11.35, 2.1, -0.1], "size": [0.1, 1.0, 0.1], "color": "#9aa0b4"},
+                       {"pos": [12.65, 2.1, -0.1], "size": [0.1, 1.0, 0.1], "color": "#9aa0b4"}]
+        d["prisoner"] = [12.0, 2.14, -0.1]
+    return d
+
+
+def gate():
+    """Compuerta de la jaula (del lado del tobogan)."""
+    return {"type": "slide", "pos": [12.0, TOP + 0.29, 0.58], "size": [1.0, 0.5, 0.08], "open": [0, 0.62, 0], "speed": 1.8,
+            "color": "#c8402e"}
+
+
+def exit_path(start_z=1.2):
+    """Tobogan (con barandas) desde start_z hasta el piso y la zona verde con bordes."""
+    y0 = y_chute(start_z)
+    d = {"slopes": [dict(chute_z(11.5, 12.5, start_z, y0, SLOPE_END, 0.0), color="#8c80a6"),
+                    dict(chute_z(11.42, 11.5, start_z, y0 + 0.3, SLOPE_END, 0.3, t=0.3), color="#9aa0b4"),
+                    dict(chute_z(12.5, 12.58, start_z, y0 + 0.3, SLOPE_END, 0.3, t=0.3), color="#9aa0b4")],
+         "walls": [{"pos": [12.0, 0.15, SLOPE_END + 1.65], "size": [1.8, 0.3, 0.1], "bounce": 0.0, "color": "#2fbf5a"},
+                   {"pos": [11.15, 0.15, SLOPE_END + 0.82], "size": [0.1, 0.3, 1.7], "bounce": 0.0, "color": "#2fbf5a"},
+                   {"pos": [12.85, 0.15, SLOPE_END + 0.82], "size": [0.1, 0.3, 1.7], "bounce": 0.0, "color": "#2fbf5a"}],
+         "zone": [11.2, SLOPE_END, 12.8, SLOPE_END + 1.6]}
+    return d
+
+
+def bridge():
+    """Puente levadizo entre el borde de la torre y el tobogan (levantado hasta que se baja) y el pozo de abajo."""
+    z0, z1 = 1.2, 2.1
+    y0, y1 = y_chute(z0), y_chute(z1)
+    r = chute_z(11.5, 12.5, z0, y0, z1, y1)
+    part = {"type": "hinge", "pos": r["pos"], "size": r["size"], "rot": [r["pitch"], 0, 0], "hinge": [12.0, y1, z1],
+            "axis": [1, 0, 0], "angle": 80, "invert": True, "start": 1, "speed": 0.8, "color": "#2fb3c0"}
+    return part, [[11.3, 1.22, 12.7, 2.1]]
+
+
+def merge(*ds):
+    out = {}
+    for d in ds:
+        for k, v in d.items():
+            if isinstance(v, list) and k in out and k not in ("zone", "prisoner"):
+                out[k] = out[k] + v
+            else:
+                out[k] = v
+    return out
+
+
+def front(y=0.9, z=0.0, **kw):
+    return dict({"pos": [FRONT_X, y, z], "yaw": 0}, **kw)
+
+
+def back(y=0.9, z=0.0, **kw):
+    return dict({"pos": [BACK_X, y, z], "yaw": 180}, **kw)
+
+
+def left(y=0.9, x=12.0, **kw):
+    return dict({"pos": [x, y, LEFT_Z], "yaw": -90}, **kw)
+
+
 LEVELS = []
 
-# 5 — La palanca (aprender): la palanca levanta la compuerta.
-LEVELS.append({
-    "title": "La palanca",
-    "objective": "Tocá la PALANCA: levanta la compuerta y la dorada rueda sola hasta la zona verde.",
-    "hint": "Tocá la palanca amarilla (en este nivel no se patea)",
-    "shots": 0, "time": 45,
-    "prisoner": [13.0, 1.45, 0],
-    "zone": [2.0, -3, 9.5, 3],
-    "platforms": [{"pos": [12, 0.5, 0], "size": [3, 1, 3]}],
-    "slopes": [{"pos": [11.85, 1.16, 0], "size": [3.0, 0.15, 1.2], "roll": 8}],
-    "parts": [{"type": "slide", "pos": [10.42, 1.4, 0], "size": [0.1, 0.44, 1.2], "open": [0, 0.6, 0], "color": "#c8402e"}],
-    "mechs": [{"type": "lever", "pos": [9.2, 0, -2.4], "targets": [0], "label": "PALANCA"}],
-    "solution": [{"tap": 0}],
-    "medals": [170, 200, 225],
-})
+# 5 — Primer pelotazo: la palanca abre la compuerta.
+L = merge(tower(), exit_path())
+L["parts"].append(gate())
+L["mechs"].append({"type": "lever", "pos": [10.0, 0, 0.0], "yaw": 0, "targets": [0], "label": "PALANCA"})
+L.update({"title": "Primer pelotazo", "objective": "Pegale a la PALANCA amarilla: abre la compuerta y la dorada rueda por el tobogán hasta la zona verde.",
+          "hint": "Apuntá a la paleta amarilla de la palanca", "shots": 3, "time": 90,
+          "solution": [{"rot": 0, "hit": 0, "speed": 17}], "medals": [170, 260, 330]})
+LEVELS.append(L)
 
-# 6 — Puente levadizo (decision de orden): primero el puente, despues la rampa. Al reves, cae al pozo.
-A = ramp(15.6, 2.1, 13.2, 1.95)
-LEVELS.append({
-    "title": "Puente levadizo",
-    "objective": "Bajá el PUENTE y después inclina la RAMPA. Si la soltás antes, cae al pozo rojo.",
-    "hint": "Hay dos palancas: pensá el orden",
-    "shots": 0, "time": 60,
-    "prisoner": [15.0, 2.3, 0],
-    "zone": [1.0, -2.5, 7.6, 2.5],
-    "platforms": [support(13.2, 15.6, 1.95), support(8.0, 10.9, 1.7)],
-    "slopes": [ramp(10.95, 1.78, 8.0, 1.62)] + rails(15.6, 2.04, 13.2, 2.04) + rails(10.95, 1.78, 8.0, 1.62),
-    "walls": [{"pos": [15.65, 2.35, 0], "size": [0.1, 0.5, 1.0]}],
-    "parts": [
-        # La rampa donde espera la dorada: plana hasta que la palanca la inclina (bisagra del lado del pozo).
-        {"type": "hinge", "pos": [14.4, 2.04, 0], "size": [2.4, 0.1, 1.0], "hinge": [13.2, 2.04, 0], "axis": [0, 0, 1], "angle": 8, "speed": 0.6},
-        # El puente: levantado (vertical) hasta que se baja con su palanca.
-        dict(ramp_part(13.15, 1.97, 10.9, 1.82), hinge=[10.9, 1.82, 0], axis=[0, 0, 1], angle=88, invert=True, start=1, speed=0.7),
-    ],
-    "mechs": [
-        {"type": "lever", "pos": [12.0, 0, -2.4], "targets": [1], "label": "PUENTE"},
-        {"type": "lever", "pos": [14.6, 0, -2.4], "targets": [0], "label": "RAMPA"},
-    ],
-    "pits": [[10.95, -1.4, 13.15, 1.4]],
-    "solution": [{"tap": 0}, {"wait": 2.2}, {"tap": 1}],
-    "wrong": [{"tap": 1}],
-    "medals": [170, 205, 235],
-})
+# 6 — Del otro lado: el blanco esta atras de la torre; hay que girar el escenario.
+L = merge(tower(), exit_path())
+L["parts"].append(gate())
+L["mechs"].append(dict(back(), type="button", targets=[0], label="BOTÓN"))
+L.update({"title": "Del otro lado", "objective": "El botón que abre la compuerta está ATRÁS de la torre. Girá el escenario y pegale.",
+          "hint": "Usá «Girar» hasta ver el botón rojo", "shots": 3, "time": 90,
+          "solution": [{"rot": 4, "hit": 0, "speed": 18}], "medals": [170, 255, 325]})
+LEVELS.append(L)
 
-# 7 — Mantené apretado: las dos compuertas del canal se abren solo mientras se mantiene el boton azul.
-LEVELS.append({
-    "title": "Mantené apretado",
-    "objective": "Mantené apretado el botón AZUL: las compuertas se abren mientras lo apretás. Si soltás antes, se cierran.",
-    "hint": "Apoyá el dedo en el botón azul y no lo levantes hasta que pase",
-    "shots": 0, "time": 60,
-    "prisoner": [14.7, 2.35, 0],
-    "zone": [1.5, -2.5, 8.4, 2.5],
-    "platforms": [support(8.8, 15.2, 1.2)],
-    "slopes": [ramp(15.2, 2.2, 8.8, 1.2)] + rails(15.2, 2.2, 8.8, 1.2, h=0.4),
-    "walls": [{"pos": [15.25, 2.45, 0], "size": [0.1, 0.5, 1.0]}],
-    "parts": [
-        {"type": "slide", "pos": [14.1, 2.35, 0], "size": [0.1, 0.5, 1.06], "open": [0, 0.7, 0], "speed": 2.2, "color": "#2f6fe0"},
-        {"type": "slide", "pos": [10.2, 1.72, 0], "size": [0.1, 0.5, 1.06], "open": [0, 0.7, 0], "speed": 2.2, "color": "#2f6fe0"},
-    ],
-    "mechs": [{"type": "button", "mode": "hold", "pos": [12.0, 0, -2.4], "targets": [0, 1], "label": "MANTENER"}],
-    "solution": [{"hold": 0, "for": 6.5}],
-    "wrong": [{"hold": 0, "for": 0.4}],
-    "medals": [160, 195, 225],
-})
+# 7 — El buzon: hay que meter la pelota por la boca del buzon (costado izquierdo).
+L = merge(tower(), exit_path())
+L["parts"].append(gate())
+L["mechs"].append(dict(left(y=0.75, x=12.0), type="hole", targets=[0], label="BUZÓN"))
+L["mechs"][0]["pos"][2] = -1.75
+L.update({"title": "El buzón", "objective": "Meté la pelota ADENTRO del buzón azul: abre la compuerta. Está al costado: girá el escenario.",
+          "hint": "Apuntá al centro de la boca del buzón", "shots": 4, "time": 90,
+          "solution": [{"rot": 2, "hit": 0, "speed": 16}], "medals": [170, 270, 340]})
+LEVELS.append(L)
 
-# 8 — Secuencia de colores: los interruptores en el orden de las luces de la cerradura.
-LEVELS.append({
-    "title": "Secuencia de colores",
-    "objective": "La cerradura muestra un orden de colores: tocá los interruptores en ese orden. Si te equivocás, se apaga todo.",
-    "hint": "Mirá las luces de la cerradura (de izquierda a derecha)",
-    "shots": 0, "time": 60,
-    "prisoner": [13.0, 1.45, 0],
-    "zone": [2.0, -3, 9.5, 3],
-    "platforms": [{"pos": [12, 0.5, 0], "size": [3, 1, 3]}],
-    "slopes": [{"pos": [11.85, 1.16, 0], "size": [3.0, 0.15, 1.2], "roll": 8}],
-    "parts": [{"type": "slide", "pos": [10.42, 1.4, 0], "size": [0.1, 0.44, 1.2], "open": [0, 0.6, 0], "color": "#c8402e"}],
-    "mechs": [
-        {"type": "switch", "group": "s", "order": 3, "pos": [11.0, 0, -2.6], "color": "#2f6fe0"},
-        {"type": "switch", "group": "s", "order": 1, "pos": [9.7, 0, -2.6], "color": "#e8c21e"},
-        {"type": "switch", "group": "s", "order": 2, "pos": [8.4, 0, -2.6], "color": "#d33b3b"},
-        {"type": "lock", "group": "s", "n": 3, "pos": [12.4, 1.4, -1.9], "yaw": -90, "colors": ["#e8c21e", "#d33b3b", "#2f6fe0"], "targets": [0]},
-    ],
-    "solution": [{"tap": 1}, {"tap": 2}, {"tap": 0}],
-    "wrong": [{"tap": 0}, {"tap": 1}],
-    "medals": [170, 200, 225],
-})
+# 8 — Puente y compuerta: primero el puente (palanca), despues la compuerta (boton del costado). Al reves, al pozo.
+L = merge(tower(), exit_path(start_z=2.1))
+bp, pits = bridge()
+L["parts"] += [bp, gate()]
+L["pits"] = pits
+L["mechs"] += [{"type": "lever", "pos": [10.0, 0, -0.7], "yaw": 0, "targets": [0], "label": "PUENTE"},
+               dict(left(), type="button", targets=[1], label="COMPUERTA")]
+L.update({"title": "Puente y compuerta", "objective": "Bajá el PUENTE con la palanca y después abrí la COMPUERTA (botón del costado). Si la abrís antes, cae al pozo.",
+          "hint": "Pensá el orden: primero el puente", "shots": 4, "time": 100,
+          "solution": [{"rot": 0, "hit": 0, "speed": 17}, {"rot": 2, "hit": 1, "speed": 18}],
+          "wrong": [{"rot": 2, "hit": 1, "speed": 18}], "medals": [170, 270, 345]})
+LEVELS.append(L)
 
-# 9 — Contrapeso: el peso cuelga de una polea sobre una traba; hay que sacar la traba y soltar el peso, que al caer
-# levanta la compuerta.
-LEVELS.append({
-    "title": "Contrapeso",
-    "objective": "El contrapeso levanta la compuerta al caer. Sacá la traba con la PALANCA y soltá el PESO (tocá el bloque).",
-    "hint": "Dos cosas: la traba que lo sostiene y la cuerda",
-    "shots": 0, "time": 60,
-    "prisoner": [13.0, 1.45, 0],
-    "zone": [2.0, -3, 9.5, 3],
-    "platforms": [{"pos": [12, 0.5, 0], "size": [3, 1, 3]}, {"pos": [11.0, 1.7, -2.3], "size": [0.3, 3.4, 0.3]}],
-    "slopes": [{"pos": [11.85, 1.16, 0], "size": [3.0, 0.15, 1.2], "roll": 8}],
-    "parts": [
-        {"type": "slide", "pos": [10.42, 1.4, 0], "size": [0.1, 0.44, 1.2], "open": [0, 0.6, 0], "color": "#c8402e"},
-        # Traba bajo el peso: la palanca la corre hacia atras.
-        {"type": "slide", "pos": [11.0, 1.62, -1.75], "size": [0.6, 0.12, 0.6], "open": [0, 0, 0.9], "speed": 1.5, "color": "#e0a12f"},
-    ],
-    "mechs": [
-        {"type": "weight", "pos": [11.0, 3.2, -1.75], "rope": 1.27, "fall": 1.2, "mass": 6.0, "targets": [0], "label": "PESO"},
-        {"type": "lever", "pos": [9.0, 0, -2.6], "targets": [1], "label": "TRABA"},
-    ],
-    "solution": [{"tap": 1}, {"wait": 1.0}, {"tap": 0}],
-    "wrong": [{"tap": 0}],
-    "medals": [165, 195, 225],
-})
+# 9 — Rueda dentada: cada pelotazo gira la jaula un diente; al tercero el hueco queda abajo.
+L = merge(tower(cage=False, rotor=True), exit_path())
+L["mechs"].append(dict(front(y=0.85), type="wheel", steps=6, open_step=3, targets=[0], label="RUEDA"))
+L.update({"title": "Rueda dentada", "objective": "Cada pelotazo a la RUEDA gira la jaula un diente. Cuando el hueco queda abajo, la dorada cae y rueda.",
+          "hint": "Contá los dientes: hacen falta varios pelotazos", "shots": 5, "time": 110,
+          "solution": [{"rot": 0, "hit": 0, "speed": 17}] * 3, "medals": [170, 280, 350]})
+LEVELS.append(L)
 
-# 10 — Engranajes: la manivela gira la jaula de a 60 grados; el hueco tiene que quedar abajo. Una compuerta del canal
-# de salida solo se abre en ese paso (open_step).
-LEVELS.append({
-    "title": "Engranajes",
-    "objective": "Girá la MANIVELA: cada toque mueve la jaula un diente. Cuando el hueco queda abajo, la dorada cae al canal.",
-    "hint": "Contá los toques: si te pasás, la compuerta del canal se cierra",
-    "shots": 0, "time": 60,
-    "prisoner": [12.0, 2.2, 0],
-    "zone": [1.5, -2.5, 8.6, 2.5],
-    "platforms": [support(9.0, 11.8, 1.38), {"pos": [12.0, 1.3, 0.55], "size": [0.2, 2.6, 0.2]}],
-    "slopes": [ramp(12.3, 1.55, 9.0, 1.3)] + rails(12.3, 1.55, 9.0, 1.3),
-    "parts": [
-        {"type": "rotor", "pos": [12.0, 2.2, 0], "axis": [0, 0, 1], "radius": 0.42, "bars": 12, "gap": 2, "depth": 0.6,
-         "steps": 6, "phase": 75, "dir": -1, "speed": 1.4},
-        {"type": "slide", "pos": [10.0, 1.65, 0], "size": [0.1, 0.45, 1.06], "open": [0, 0.7, 0], "speed": 2.0, "color": "#e0a12f"},
-    ],
-    "mechs": [{"type": "crank", "pos": [13.6, 0, -2.2], "steps": 6, "open_step": 3, "targets": [0, 1], "label": "MANIVELA"}],
-    "solution": [{"tap": 0}, {"wait": 0.9}, {"tap": 0}, {"wait": 0.9}, {"tap": 0}],
-    "medals": [165, 195, 225],
-})
+# 10 — Colores: tres blancos de colores en tres caras; el panel muestra el orden.
+L = merge(tower(), exit_path())
+L["parts"].append(gate())
+L["mechs"] += [dict(front(y=0.8), type="switch", group="c", order=2, color="#e8c21e"),
+               dict(back(y=0.8), type="switch", group="c", order=1, color="#d33b3b"),
+               dict(left(y=0.8), type="switch", group="c", order=3, color="#2f6fe0"),
+               {"type": "lock", "group": "c", "n": 3, "pos": [FRONT_X, 2.25, 0.0], "yaw": 0,
+                "colors": ["#d33b3b", "#e8c21e", "#2f6fe0"], "targets": [0]}]
+L.update({"title": "Colores", "objective": "El panel de luces muestra un orden de colores. Pegale a los blancos en ese orden (están en tres caras). Si te equivocás, se apaga todo.",
+          "hint": "Mirá el panel: rojo, amarillo, azul", "shots": 6, "time": 120,
+          "solution": [{"rot": 4, "hit": 1, "speed": 18}, {"rot": 0, "hit": 0, "speed": 18}, {"rot": 2, "hit": 2, "speed": 18}],
+          "wrong": [{"rot": 0, "hit": 0, "speed": 18}], "medals": [170, 290, 360]})
+LEVELS.append(L)
 
-# 11 — Dos caminos y reloj: al final de la rampa, una plataforma que se inclina a un costado elige el tobogan (uno va al
-# pozo); la compuerta de arriba se abre 3 segundos con el boton del reloj. Primero el camino, despues el reloj.
-LEVELS.append({
-    "title": "Dos caminos",
-    "objective": "El DESVÍO inclina la plataforma del cruce hacia un tobogán: uno va al pozo. Elegí el camino y abrí la compuerta del RELOJ (3 s).",
-    "hint": "Primero el camino, después el reloj",
-    "shots": 0, "time": 70,
-    "prisoner": [15.0, 2.3, 0],
-    "zone": [9.4, 2.4, 12.6, 5.2],
-    "platforms": [support(12.0, 15.6, 1.95, w=1.2), {"pos": [10.9, 0.85, 0], "size": [0.4, 1.7, 0.4]}],
-    "slopes": [ramp(15.6, 2.22, 11.7, 1.95)] + rails(15.6, 2.22, 11.7, 1.95)
-              + [chute_z(10.2, 11.6, 0.62, 1.7, 3.4, 0.05), chute_z(10.2, 11.6, -0.62, 1.7, -3.4, 0.05)],
-    "walls": [{"pos": [15.65, 2.5, 0], "size": [0.1, 0.5, 1.0]}, {"pos": [10.15, 2.0, 0], "size": [0.1, 0.5, 1.3]},
-              # Bordes al pie de los toboganes: la pelota se frena en la zona (o en el pozo) y no sigue de largo.
-              {"pos": [11.0, 0.2, 5.3], "size": [3.6, 0.4, 0.15]}, {"pos": [11.0, 0.2, -5.3], "size": [3.6, 0.4, 0.15]},
-              {"pos": [9.3, 0.2, 3.85], "size": [0.15, 0.4, 2.9]}, {"pos": [12.7, 0.2, 3.85], "size": [0.15, 0.4, 2.9]},
-              {"pos": [9.3, 0.2, -3.85], "size": [0.15, 0.4, 2.9]}, {"pos": [12.7, 0.2, -3.85], "size": [0.15, 0.4, 2.9]}],
-    "parts": [
-        {"type": "slide", "pos": [13.8, 2.33, 0], "size": [0.1, 0.5, 1.06], "open": [0, 0.7, 0], "speed": 2.4, "color": "#e06a2f"},
-        # Cruce: plataforma inclinada hacia el pozo (z < 0); el desvio la inclina hacia el tobogan de la zona (z > 0).
-        {"type": "hinge", "pos": [10.9, 1.82, 0], "size": [1.4, 0.1, 1.24], "rot": [-9, 0, 0], "hinge": [10.9, 1.82, 0],
-         "axis": [1, 0, 0], "angle": 18, "speed": 1.2, "color": "#2fb3c0"},
-    ],
-    "mechs": [
-        {"type": "button", "mode": "timer", "time": 3.0, "pos": [14.6, 0, -2.0], "targets": [0], "label": "RELOJ"},
-        {"type": "lever", "pos": [8.6, 0, -2.0], "targets": [1], "label": "DESVÍO"},
-    ],
-    "pits": [[9.4, -5.2, 12.6, -2.4]],
-    "solution": [{"tap": 1}, {"wait": 1.3}, {"tap": 0}],
-    "wrong": [{"tap": 0}],
-    "medals": [170, 210, 240],
-})
+# 11 — Contrapeso: el buzon de atras baja el puente; el contrapeso, al caer, levanta la compuerta.
+L = merge(tower(), exit_path(start_z=2.1))
+bp, pits = bridge()
+L["parts"] += [bp, gate()]
+L["pits"] = pits
+L["platforms"].append({"pos": [12.0, 1.65, -2.6], "size": [0.2, 3.3, 0.2], "color": "#9aa0b4"})
+L["platforms"].append({"pos": [12.0, 3.35, -2.3], "size": [0.2, 0.1, 0.8], "color": "#9aa0b4"})
+L["mechs"] += [dict(back(y=0.75), type="hole", targets=[0], label="BUZÓN"),
+               {"type": "weight", "pos": [12.0, 3.3, -2.0], "rope": 1.0, "fall": 1.3, "mass": 6.0, "targets": [1], "label": "CONTRAPESO"}]
+L["mechs"][0]["pos"][0] = 13.75
+L.update({"title": "Contrapeso", "objective": "El BUZÓN de atrás baja el puente. El CONTRAPESO, al caer de un pelotazo, levanta la compuerta. Pensá el orden.",
+          "hint": "Primero el puente (girá y metela en el buzón)", "shots": 5, "time": 110,
+          "solution": [{"rot": 4, "hit": 0, "speed": 17}, {"rot": 0, "hit": 1, "speed": 18}],
+          "wrong": [{"rot": 0, "hit": 1, "speed": 18}], "medals": [170, 285, 355]})
+LEVELS.append(L)
 
-# 12 — Maestro: la secuencia abre la traba del peso, el peso levanta la compuerta y el puente hay que bajarlo antes.
-LEVELS.append({
-    "title": "Maestro",
-    "objective": "Todo junto: la SECUENCIA saca la traba del peso, el PESO abre la compuerta y el PUENTE tiene que estar abajo.",
-    "hint": "Puente, secuencia de la cerradura y recién después el peso",
-    "shots": 0, "time": 90,
-    "prisoner": [15.0, 2.3, 0],
-    "zone": [1.0, -2.5, 7.6, 2.5],
-    "platforms": [support(13.2, 15.6, 1.95), support(8.0, 10.9, 1.7), {"pos": [14.0, 1.9, -2.0], "size": [0.3, 3.8, 0.3]}],
-    "slopes": [ramp(15.6, 2.12, 13.2, 1.98), ramp(10.95, 1.78, 8.0, 1.62)] + rails(15.6, 2.12, 13.2, 1.98) + rails(10.95, 1.78, 8.0, 1.62),
-    "walls": [{"pos": [15.65, 2.35, 0], "size": [0.1, 0.5, 1.0]}],
-    "parts": [
-        {"type": "slide", "pos": [13.45, 2.24, 0], "size": [0.1, 0.44, 1.06], "open": [0, 0.65, 0], "color": "#c8402e"},
-        dict(ramp_part(13.15, 1.97, 10.9, 1.82), hinge=[10.9, 1.82, 0], axis=[0, 0, 1], angle=88, invert=True, start=1, speed=0.7),
-        {"type": "slide", "pos": [14.0, 1.82, -1.45], "size": [0.6, 0.12, 0.6], "open": [0, 0, 0.9], "speed": 1.5, "color": "#e0a12f"},
-    ],
-    "mechs": [
-        {"type": "lever", "pos": [12.0, 0, -2.6], "targets": [1], "label": "PUENTE"},
-        {"type": "switch", "group": "m", "order": 2, "pos": [8.4, 0, -2.6], "color": "#1f9d55"},
-        {"type": "switch", "group": "m", "order": 1, "pos": [9.7, 0, -2.6], "color": "#9b3fb8"},
-        {"type": "lock", "group": "m", "n": 2, "pos": [10.4, 1.4, -1.9], "yaw": -90, "colors": ["#9b3fb8", "#1f9d55"], "targets": [2]},
-        {"type": "weight", "pos": [14.0, 3.4, -1.45], "rope": 1.27, "fall": 1.2, "mass": 6.0, "targets": [0], "label": "PESO"},
-    ],
-    "pits": [[10.95, -1.4, 13.15, 1.4]],
-    "solution": [{"tap": 0}, {"wait": 2.2}, {"tap": 2}, {"tap": 1}, {"wait": 1.0}, {"tap": 4}],
-    "wrong": [{"tap": 2}, {"tap": 1}, {"wait": 1.0}, {"tap": 4}],
-    "medals": [160, 200, 235],
-})
+# 12 — Caja a la placa: empujar la caja hasta la placa (baja el puente mientras este encima); la palanca de atras abre.
+L = merge(tower(), exit_path(start_z=2.1))
+bp, pits = bridge()
+L["parts"] += [bp, gate()]
+L["pits"] = pits
+L["crates"] = [{"pos": [8.2, 0.28, -0.6], "size": [0.56, 0.56, 0.56], "mass": 1.0}]
+L["mechs"] += [{"type": "plate", "pos": [10.1, 0.0, -0.6], "size": [1.3, 0.06, 1.3], "targets": [0], "label": "PLACA"},
+               {"type": "lever", "pos": [14.0, 0, 0.0], "yaw": 180, "targets": [1], "label": "PALANCA"}]
+L.update({"title": "Caja a la placa", "objective": "Empujá la CAJA de un pelotazo hasta la PLACA azul: mientras esté encima, el puente queda abajo. Después, la palanca de atrás abre la compuerta.",
+          "hint": "Pegale fuerte a la caja, derecho hacia la torre", "shots": 5, "time": 110,
+          "solution": [{"rot": 0, "push": 0, "speed": 16}, {"rot": 4, "hit": 1, "speed": 17}],
+          "wrong": [{"rot": 4, "hit": 1, "speed": 17}], "medals": [170, 285, 355]})
+LEVELS.append(L)
+
+# 13 — Domino: la fila de fichas cae y la ultima aprieta el boton del puente; el buzon del costado abre la compuerta.
+L = merge(tower(), exit_path(start_z=2.1))
+bp, pits = bridge()
+L["parts"] += [bp, gate()]
+L["pits"] = pits
+L["dominoes"] = [{"pos": [7.4, 0.0, 0.0], "n": 6, "step": [0.55, 0, 0], "size": [0.12, 0.9, 0.5]}]
+L["mechs"] += [dict(front(y=0.75), type="button", bodies=True, targets=[0], label="PUENTE"),
+               dict(left(y=0.75, x=12.0), type="hole", targets=[1], label="BUZÓN")]
+L["mechs"][1]["pos"][2] = -1.75
+L.update({"title": "Dominó", "objective": "Tirá la primera ficha: la fila cae y la última aprieta el botón del PUENTE. Después metela en el BUZÓN del costado.",
+          "hint": "Un toque a la primera ficha alcanza", "shots": 5, "time": 110,
+          "solution": [{"rot": 0, "domino": 0, "speed": 12}, {"rot": 2, "hit": 1, "speed": 16}],
+          "wrong": [{"rot": 2, "hit": 1, "speed": 16}], "medals": [170, 285, 355]})
+LEVELS.append(L)
+
+# 14 — Gran mecanismo: la secuencia de dos colores baja el puente; la rueda (dos dientes) suelta la jaula.
+L = merge(tower(cage=False, rotor=True), exit_path(start_z=2.1))
+L["parts"][0].update({"steps": 4})
+bp, pits = bridge()
+L["parts"].append(bp)
+L["pits"] = pits
+L["mechs"] += [dict(left(y=0.85), type="wheel", steps=4, open_step=2, targets=[0], label="RUEDA"),
+               dict(front(y=0.8), type="switch", group="g", order=2, color="#1f9d55"),
+               dict(back(y=0.8), type="switch", group="g", order=1, color="#9b3fb8"),
+               {"type": "lock", "group": "g", "n": 2, "pos": [FRONT_X, 2.25, 0.0], "yaw": 0, "colors": ["#9b3fb8", "#1f9d55"], "targets": [1]}]
+L.update({"title": "Gran mecanismo", "objective": "La secuencia del panel (violeta y verde) baja el PUENTE. La RUEDA del costado gira la jaula: con dos dientes se abre. Si la soltás antes del puente, cae al pozo.",
+          "hint": "Puente primero (secuencia), rueda al final", "shots": 7, "time": 140,
+          "solution": [{"rot": 4, "hit": 2, "speed": 18}, {"rot": 0, "hit": 1, "speed": 18}, {"rot": 2, "hit": 0, "speed": 17}, {"rot": 2, "hit": 0, "speed": 17}],
+          "wrong": [{"rot": 2, "hit": 0, "speed": 17}, {"rot": 2, "hit": 0, "speed": 17}], "medals": [170, 300, 380]})
+LEVELS.append(L)
+
+# El escenario se arma alrededor de x = 12 y se acerca al jugador (SHIFT_X): la torre queda a 9 m y llena el cuadro.
+SHIFT_X = -3.0
+
+
+def shift_x(L, dx):
+    """Corre en X todo el nivel (posiciones, bisagras, zona, pozos, centro)."""
+    def mv(v):
+        return [round(float(v[0]) + dx, 4)] + list(v[1:])
+    for key in ("platforms", "slopes", "walls", "crates", "dominoes"):
+        for e in L.get(key, []):
+            e["pos"] = mv(e["pos"])
+    for e in L.get("parts", []):
+        e["pos"] = mv(e["pos"])
+        if "hinge" in e:
+            e["hinge"] = mv(e["hinge"])
+    for e in L.get("mechs", []):
+        e["pos"] = mv(e["pos"])
+    L["prisoner"] = mv(L["prisoner"])
+    L["zone"] = [L["zone"][0] + dx, L["zone"][1], L["zone"][2] + dx, L["zone"][3]]
+    L["pits"] = [[p[0] + dx, p[1], p[2] + dx, p[3]] for p in L.get("pits", [])]
+    L["pivot"] = mv(PIVOT)
+
+
+for L in LEVELS:
+    shift_x(L, SHIFT_X)
 
 
 # Tiempo minimo posible de cada nivel (s): la fisica no deja resolverlo antes (lo usa el servidor online para rechazar
-# tiempos imposibles). Medido con la solucion en tests/test_rescate_mechs.gd y con margen para toques mas rapidos.
-MIN_TIME = {"La palanca": 2.5, "Puente levadizo": 8.0, "Mantené apretado": 4.0, "Secuencia de colores": 2.5, "Contrapeso": 2.5, "Engranajes": 5.0, "Dos caminos": 5.0, "Maestro": 8.0}
+# tiempos imposibles). Se completa con la medicion de tests/test_rescate_mechs.gd (con margen).
+MIN_TIME = {"Primer pelotazo": 3.5, "Del otro lado": 3.5, "El buzón": 3.5, "Puente y compuerta": 7.5, "Rueda dentada": 13.0,
+            "Colores": 11.0, "Contrapeso": 7.5, "Caja a la placa": 7.5, "Dominó": 5.0, "Gran mecanismo": 17.0}
 
 
 def main():
     for lv in LEVELS:
-        lv["min_time"] = MIN_TIME[lv["title"]]
+        lv["min_time"] = MIN_TIME.get(lv["title"], 2.0)
     with open(PATH, encoding="utf-8") as f:
         data = json.load(f)
     games = data["games"] if isinstance(data, dict) else data
     g = next(x for x in games if x["id"] == "rescate")
     g["levels"] = g["levels"][:KEEP_OLD] + LEVELS
-    g["description"] = ("Una pelota dorada está atrapada: palancas, botones, secuencias, engranajes, contrapesos y puentes "
-                        "(y en los primeros niveles, botones que se aprietan de un pelotazo) para llevarla a la zona verde.")
+    g["description"] = ("Una pelota dorada está atrapada. Todo se activa a pelotazos: palancas, botones, buzones, colores, "
+                        "ruedas dentadas, contrapesos, cajas y dominós. Girá el escenario para encontrar el ángulo.")
     with open(PATH, "w", encoding="utf-8") as f:
         json.dump(data, f, ensure_ascii=False, indent=2)
         f.write("\n")

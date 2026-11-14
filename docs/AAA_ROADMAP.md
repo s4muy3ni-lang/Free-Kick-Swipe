@@ -748,7 +748,7 @@ cifras) está en `docs/technical-index/CHANGELOG.md`.
 | 3. Duelo local de dos jugadores (pantallas de pase, marcador aparte) | Hecho | `15ec6d0` | `SetPieceGame.Vs.LOCAL`, `LocalDuel` |
 | 4. Tiros libres online con roles alternados | Hecho (servidor local) | `15ec6d0` | `OnlineMatch`, `submit_turn` |
 | 5. Minijuegos online: nivel o aleatorio, sin saltar de minijuego | Hecho (servidor local) | `acbb7d3` | `OnlineMinigameSelect`, migración 000007 |
-| 6. Rescate rediseñado (mecanismos, acertijos, 8 niveles con solución verificada, online) | Hecho | `73d5cb9` | `RescueMechs`, `Rescate` |
+| 6. Rescate rediseñado (mecanismos, acertijos, 8 niveles con solución verificada, online) | Hecho y rehecho el 2026-11-14 (ver abajo) | `73d5cb9` | `RescueMechs`, `Rescate` |
 | 7. Tienda visual (imagen real por objeto, estados, vista previa 3D) | Hecha | `9e9b8a3` | `ShopLook`, `ShopPreview`, `assets/shop/items/` |
 | 8. Personalización con dominadas continuas, cámara que orbita y zoom | Hecha | `1c409f8` | `JuggleShow`, `main_menu.gd` |
 | 9. Progresión: nivel, XP, puntos, atributos con efecto real, MI JUGADOR | Hecha | `624af2a` | `ProgressionRules`, `AttributeEffects`, migración 000009 |
@@ -783,3 +783,11 @@ prolijo sin atributos convierte más que uno descuidado con todo al máximo.
 - **Atributos:** el control solo actúa en el gesto del tiro (los minijuegos arcade no usan atributos, para no cambiar
   sus récords); la recuperación después de la estirada no es un atributo, porque la jugada termina con la atajada.
 - **Pagos reales:** no están activados; lo premium es solo estético y no se vende.
+
+**Rescate a pelotazos (2026-11-14, pedido del usuario después de la entrega).** Todo se activa con la pelota:
+- palancas, blancos, buzones, colores en orden, rueda dentada, contrapeso, caja a la placa y dominó;
+- el escenario gira de a 45° con el jugador y la pelota fijos;
+- la dorada rueda por un tobogán hasta la zona verde;
+- 10 niveles nuevos (5 a 14), verificados con tiros reales.
+
+Detalle en `docs/technical-index/CHANGELOG.md`.

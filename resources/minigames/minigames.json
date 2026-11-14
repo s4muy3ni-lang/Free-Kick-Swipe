@@ -2298,7 +2298,7 @@
       "title": "Rescate",
       "scene": "res://scenes/minigames/rescate.tscn",
       "status": "Implementado",
-      "description": "Una pelota dorada está atrapada: palancas, botones, secuencias, engranajes, contrapesos y puentes (y en los primeros niveles, botones que se aprietan de un pelotazo) para llevarla a la zona verde.",
+      "description": "Una pelota dorada está atrapada. Todo se activa a pelotazos: palancas, botones, buzones, colores, ruedas dentadas, contrapesos, cajas y dominós. Girá el escenario para encontrar el ángulo.",
       "levels": [
         {
           "title": "La compuerta",
@@ -2587,69 +2587,181 @@
           ]
         },
         {
-          "title": "La palanca",
-          "objective": "Tocá la PALANCA: levanta la compuerta y la dorada rueda sola hasta la zona verde.",
-          "hint": "Tocá la palanca amarilla (en este nivel no se patea)",
-          "shots": 0,
-          "time": 45,
-          "prisoner": [
-            13.0,
-            1.45,
-            0
-          ],
-          "zone": [
-            2.0,
-            -3,
-            9.5,
-            3
-          ],
           "platforms": [
             {
               "pos": [
-                12,
-                0.5,
-                0
+                9.0,
+                0.8,
+                0.0
               ],
               "size": [
-                3,
-                1,
-                3
-              ]
+                2.4,
+                1.6,
+                2.4
+              ],
+              "color": "#4f4866"
             }
           ],
           "slopes": [
             {
               "pos": [
-                11.85,
-                1.16,
-                0
+                9.0,
+                1.625,
+                0.3
               ],
               "size": [
-                3.0,
-                0.15,
-                1.2
+                1.0,
+                0.06,
+                1.8022
               ],
-              "roll": 8
+              "pitch": 2.862,
+              "color": "#6d6590"
+            },
+            {
+              "pos": [
+                9.0,
+                0.74,
+                3.1
+              ],
+              "size": [
+                1.0,
+                0.12,
+                4.1231
+              ],
+              "pitch": 22.834,
+              "color": "#8c80a6"
+            },
+            {
+              "pos": [
+                8.46,
+                0.95,
+                3.1
+              ],
+              "size": [
+                0.08000000000000007,
+                0.3,
+                4.1231
+              ],
+              "pitch": 22.834,
+              "color": "#9aa0b4"
+            },
+            {
+              "pos": [
+                9.54,
+                0.95,
+                3.1
+              ],
+              "size": [
+                0.08000000000000007,
+                0.3,
+                4.1231
+              ],
+              "pitch": 22.834,
+              "color": "#9aa0b4"
+            }
+          ],
+          "walls": [
+            {
+              "pos": [
+                8.46,
+                1.9000000000000001,
+                0.3
+              ],
+              "size": [
+                0.08,
+                0.6,
+                1.8
+              ],
+              "color": "#9aa0b4"
+            },
+            {
+              "pos": [
+                9.54,
+                1.9000000000000001,
+                0.3
+              ],
+              "size": [
+                0.08,
+                0.6,
+                1.8
+              ],
+              "color": "#9aa0b4"
+            },
+            {
+              "pos": [
+                9.0,
+                1.9000000000000001,
+                -0.62
+              ],
+              "size": [
+                1.16,
+                0.6,
+                0.08
+              ],
+              "color": "#9aa0b4"
+            },
+            {
+              "pos": [
+                9.0,
+                0.15,
+                6.65
+              ],
+              "size": [
+                1.8,
+                0.3,
+                0.1
+              ],
+              "bounce": 0.0,
+              "color": "#2fbf5a"
+            },
+            {
+              "pos": [
+                8.15,
+                0.15,
+                5.82
+              ],
+              "size": [
+                0.1,
+                0.3,
+                1.7
+              ],
+              "bounce": 0.0,
+              "color": "#2fbf5a"
+            },
+            {
+              "pos": [
+                9.85,
+                0.15,
+                5.82
+              ],
+              "size": [
+                0.1,
+                0.3,
+                1.7
+              ],
+              "bounce": 0.0,
+              "color": "#2fbf5a"
             }
           ],
           "parts": [
             {
               "type": "slide",
               "pos": [
-                10.42,
-                1.4,
-                0
+                9.0,
+                1.8900000000000001,
+                0.58
               ],
               "size": [
-                0.1,
-                0.44,
-                1.2
+                1.0,
+                0.5,
+                0.08
               ],
               "open": [
                 0,
-                0.6,
+                0.62,
                 0
               ],
+              "speed": 1.8,
               "color": "#c8402e"
             }
           ],
@@ -2657,819 +2769,989 @@
             {
               "type": "lever",
               "pos": [
-                9.2,
+                7.0,
                 0,
-                -2.4
+                0.0
               ],
+              "yaw": 0,
               "targets": [
                 0
               ],
               "label": "PALANCA"
             }
           ],
+          "prisoner": [
+            9.0,
+            1.84,
+            -0.1
+          ],
+          "zone": [
+            8.2,
+            5.0,
+            9.8,
+            6.6
+          ],
+          "title": "Primer pelotazo",
+          "objective": "Pegale a la PALANCA amarilla: abre la compuerta y la dorada rueda por el tobogán hasta la zona verde.",
+          "hint": "Apuntá a la paleta amarilla de la palanca",
+          "shots": 3,
+          "time": 90,
           "solution": [
             {
-              "tap": 0
+              "rot": 0,
+              "hit": 0,
+              "speed": 17
             }
           ],
           "medals": [
             170,
-            200,
-            225
+            260,
+            330
           ],
-          "min_time": 2.5
+          "pits": [],
+          "pivot": [
+            9.0,
+            0.0,
+            0.0
+          ],
+          "min_time": 3.5
         },
         {
-          "title": "Puente levadizo",
-          "objective": "Bajá el PUENTE y después inclina la RAMPA. Si la soltás antes, cae al pozo rojo.",
-          "hint": "Hay dos palancas: pensá el orden",
-          "shots": 0,
-          "time": 60,
-          "prisoner": [
-            15.0,
-            2.3,
-            0
-          ],
-          "zone": [
-            1.0,
-            -2.5,
-            7.6,
-            2.5
-          ],
           "platforms": [
             {
               "pos": [
-                14.399999999999999,
-                0.9,
+                9.0,
+                0.8,
                 0.0
               ],
               "size": [
-                2.4000000000000004,
-                1.8,
-                1.2
-              ]
-            },
-            {
-              "pos": [
-                9.45,
-                0.775,
-                0.0
+                2.4,
+                1.6,
+                2.4
               ],
-              "size": [
-                2.9000000000000004,
-                1.55,
-                1.2
-              ]
+              "color": "#4f4866"
             }
           ],
           "slopes": [
             {
               "pos": [
-                9.4782,
-                1.6401,
-                0.0
+                9.0,
+                1.625,
+                0.3
               ],
               "size": [
-                2.9543,
+                1.0,
+                0.06,
+                1.8022
+              ],
+              "pitch": 2.862,
+              "color": "#6d6590"
+            },
+            {
+              "pos": [
+                9.0,
+                0.74,
+                3.1
+              ],
+              "size": [
+                1.0,
                 0.12,
-                1.0
+                4.1231
               ],
-              "roll": 3.105
+              "pitch": 22.834,
+              "color": "#8c80a6"
             },
             {
               "pos": [
-                14.4,
-                2.19,
-                0.56
+                8.46,
+                0.95,
+                3.1
               ],
               "size": [
-                2.4,
+                0.08000000000000007,
                 0.3,
-                0.06
+                4.1231
               ],
-              "roll": 0.0
+              "pitch": 22.834,
+              "color": "#9aa0b4"
             },
             {
               "pos": [
-                14.4,
-                2.19,
-                -0.56
+                9.54,
+                0.95,
+                3.1
               ],
               "size": [
-                2.4,
+                0.08000000000000007,
                 0.3,
-                0.06
+                4.1231
               ],
-              "roll": 0.0
-            },
-            {
-              "pos": [
-                9.4831,
-                1.8502,
-                0.56
-              ],
-              "size": [
-                2.9543,
-                0.3,
-                0.06
-              ],
-              "roll": 3.105
-            },
-            {
-              "pos": [
-                9.4831,
-                1.8502,
-                -0.56
-              ],
-              "size": [
-                2.9543,
-                0.3,
-                0.06
-              ],
-              "roll": 3.105
+              "pitch": 22.834,
+              "color": "#9aa0b4"
             }
           ],
           "walls": [
             {
               "pos": [
-                15.65,
-                2.35,
-                0
+                8.46,
+                1.9000000000000001,
+                0.3
+              ],
+              "size": [
+                0.08,
+                0.6,
+                1.8
+              ],
+              "color": "#9aa0b4"
+            },
+            {
+              "pos": [
+                9.54,
+                1.9000000000000001,
+                0.3
+              ],
+              "size": [
+                0.08,
+                0.6,
+                1.8
+              ],
+              "color": "#9aa0b4"
+            },
+            {
+              "pos": [
+                9.0,
+                1.9000000000000001,
+                -0.62
+              ],
+              "size": [
+                1.16,
+                0.6,
+                0.08
+              ],
+              "color": "#9aa0b4"
+            },
+            {
+              "pos": [
+                9.0,
+                0.15,
+                6.65
+              ],
+              "size": [
+                1.8,
+                0.3,
+                0.1
+              ],
+              "bounce": 0.0,
+              "color": "#2fbf5a"
+            },
+            {
+              "pos": [
+                8.15,
+                0.15,
+                5.82
               ],
               "size": [
                 0.1,
+                0.3,
+                1.7
+              ],
+              "bounce": 0.0,
+              "color": "#2fbf5a"
+            },
+            {
+              "pos": [
+                9.85,
+                0.15,
+                5.82
+              ],
+              "size": [
+                0.1,
+                0.3,
+                1.7
+              ],
+              "bounce": 0.0,
+              "color": "#2fbf5a"
+            }
+          ],
+          "parts": [
+            {
+              "type": "slide",
+              "pos": [
+                9.0,
+                1.8900000000000001,
+                0.58
+              ],
+              "size": [
+                1.0,
                 0.5,
-                1.0
-              ]
+                0.08
+              ],
+              "open": [
+                0,
+                0.62,
+                0
+              ],
+              "speed": 1.8,
+              "color": "#c8402e"
+            }
+          ],
+          "mechs": [
+            {
+              "pos": [
+                10.28,
+                0.9,
+                0.0
+              ],
+              "yaw": 180,
+              "type": "button",
+              "targets": [
+                0
+              ],
+              "label": "BOTÓN"
+            }
+          ],
+          "prisoner": [
+            9.0,
+            1.84,
+            -0.1
+          ],
+          "zone": [
+            8.2,
+            5.0,
+            9.8,
+            6.6
+          ],
+          "title": "Del otro lado",
+          "objective": "El botón que abre la compuerta está ATRÁS de la torre. Girá el escenario y pegale.",
+          "hint": "Usá «Girar» hasta ver el botón rojo",
+          "shots": 3,
+          "time": 90,
+          "solution": [
+            {
+              "rot": 4,
+              "hit": 0,
+              "speed": 18
+            }
+          ],
+          "medals": [
+            170,
+            255,
+            325
+          ],
+          "pits": [],
+          "pivot": [
+            9.0,
+            0.0,
+            0.0
+          ],
+          "min_time": 3.5
+        },
+        {
+          "platforms": [
+            {
+              "pos": [
+                9.0,
+                0.8,
+                0.0
+              ],
+              "size": [
+                2.4,
+                1.6,
+                2.4
+              ],
+              "color": "#4f4866"
+            }
+          ],
+          "slopes": [
+            {
+              "pos": [
+                9.0,
+                1.625,
+                0.3
+              ],
+              "size": [
+                1.0,
+                0.06,
+                1.8022
+              ],
+              "pitch": 2.862,
+              "color": "#6d6590"
+            },
+            {
+              "pos": [
+                9.0,
+                0.74,
+                3.1
+              ],
+              "size": [
+                1.0,
+                0.12,
+                4.1231
+              ],
+              "pitch": 22.834,
+              "color": "#8c80a6"
+            },
+            {
+              "pos": [
+                8.46,
+                0.95,
+                3.1
+              ],
+              "size": [
+                0.08000000000000007,
+                0.3,
+                4.1231
+              ],
+              "pitch": 22.834,
+              "color": "#9aa0b4"
+            },
+            {
+              "pos": [
+                9.54,
+                0.95,
+                3.1
+              ],
+              "size": [
+                0.08000000000000007,
+                0.3,
+                4.1231
+              ],
+              "pitch": 22.834,
+              "color": "#9aa0b4"
+            }
+          ],
+          "walls": [
+            {
+              "pos": [
+                8.46,
+                1.9000000000000001,
+                0.3
+              ],
+              "size": [
+                0.08,
+                0.6,
+                1.8
+              ],
+              "color": "#9aa0b4"
+            },
+            {
+              "pos": [
+                9.54,
+                1.9000000000000001,
+                0.3
+              ],
+              "size": [
+                0.08,
+                0.6,
+                1.8
+              ],
+              "color": "#9aa0b4"
+            },
+            {
+              "pos": [
+                9.0,
+                1.9000000000000001,
+                -0.62
+              ],
+              "size": [
+                1.16,
+                0.6,
+                0.08
+              ],
+              "color": "#9aa0b4"
+            },
+            {
+              "pos": [
+                9.0,
+                0.15,
+                6.65
+              ],
+              "size": [
+                1.8,
+                0.3,
+                0.1
+              ],
+              "bounce": 0.0,
+              "color": "#2fbf5a"
+            },
+            {
+              "pos": [
+                8.15,
+                0.15,
+                5.82
+              ],
+              "size": [
+                0.1,
+                0.3,
+                1.7
+              ],
+              "bounce": 0.0,
+              "color": "#2fbf5a"
+            },
+            {
+              "pos": [
+                9.85,
+                0.15,
+                5.82
+              ],
+              "size": [
+                0.1,
+                0.3,
+                1.7
+              ],
+              "bounce": 0.0,
+              "color": "#2fbf5a"
+            }
+          ],
+          "parts": [
+            {
+              "type": "slide",
+              "pos": [
+                9.0,
+                1.8900000000000001,
+                0.58
+              ],
+              "size": [
+                1.0,
+                0.5,
+                0.08
+              ],
+              "open": [
+                0,
+                0.62,
+                0
+              ],
+              "speed": 1.8,
+              "color": "#c8402e"
+            }
+          ],
+          "mechs": [
+            {
+              "pos": [
+                9.0,
+                0.75,
+                -1.75
+              ],
+              "yaw": -90,
+              "type": "hole",
+              "targets": [
+                0
+              ],
+              "label": "BUZÓN"
+            }
+          ],
+          "prisoner": [
+            9.0,
+            1.84,
+            -0.1
+          ],
+          "zone": [
+            8.2,
+            5.0,
+            9.8,
+            6.6
+          ],
+          "title": "El buzón",
+          "objective": "Meté la pelota ADENTRO del buzón azul: abre la compuerta. Está al costado: girá el escenario.",
+          "hint": "Apuntá al centro de la boca del buzón",
+          "shots": 4,
+          "time": 90,
+          "solution": [
+            {
+              "rot": 2,
+              "hit": 0,
+              "speed": 16
+            }
+          ],
+          "medals": [
+            170,
+            270,
+            340
+          ],
+          "pits": [],
+          "pivot": [
+            9.0,
+            0.0,
+            0.0
+          ],
+          "min_time": 3.5
+        },
+        {
+          "platforms": [
+            {
+              "pos": [
+                9.0,
+                0.8,
+                0.0
+              ],
+              "size": [
+                2.4,
+                1.6,
+                2.4
+              ],
+              "color": "#4f4866"
+            }
+          ],
+          "slopes": [
+            {
+              "pos": [
+                9.0,
+                1.625,
+                0.3
+              ],
+              "size": [
+                1.0,
+                0.06,
+                1.8022
+              ],
+              "pitch": 2.862,
+              "color": "#6d6590"
+            },
+            {
+              "pos": [
+                9.0,
+                0.5506,
+                3.55
+              ],
+              "size": [
+                1.0,
+                0.12,
+                3.1466
+              ],
+              "pitch": 22.834,
+              "color": "#8c80a6"
+            },
+            {
+              "pos": [
+                8.46,
+                0.7606,
+                3.55
+              ],
+              "size": [
+                0.08000000000000007,
+                0.3,
+                3.1466
+              ],
+              "pitch": 22.834,
+              "color": "#9aa0b4"
+            },
+            {
+              "pos": [
+                9.54,
+                0.7606,
+                3.55
+              ],
+              "size": [
+                0.08000000000000007,
+                0.3,
+                3.1466
+              ],
+              "pitch": 22.834,
+              "color": "#9aa0b4"
+            }
+          ],
+          "walls": [
+            {
+              "pos": [
+                8.46,
+                1.9000000000000001,
+                0.3
+              ],
+              "size": [
+                0.08,
+                0.6,
+                1.8
+              ],
+              "color": "#9aa0b4"
+            },
+            {
+              "pos": [
+                9.54,
+                1.9000000000000001,
+                0.3
+              ],
+              "size": [
+                0.08,
+                0.6,
+                1.8
+              ],
+              "color": "#9aa0b4"
+            },
+            {
+              "pos": [
+                9.0,
+                1.9000000000000001,
+                -0.62
+              ],
+              "size": [
+                1.16,
+                0.6,
+                0.08
+              ],
+              "color": "#9aa0b4"
+            },
+            {
+              "pos": [
+                9.0,
+                0.15,
+                6.65
+              ],
+              "size": [
+                1.8,
+                0.3,
+                0.1
+              ],
+              "bounce": 0.0,
+              "color": "#2fbf5a"
+            },
+            {
+              "pos": [
+                8.15,
+                0.15,
+                5.82
+              ],
+              "size": [
+                0.1,
+                0.3,
+                1.7
+              ],
+              "bounce": 0.0,
+              "color": "#2fbf5a"
+            },
+            {
+              "pos": [
+                9.85,
+                0.15,
+                5.82
+              ],
+              "size": [
+                0.1,
+                0.3,
+                1.7
+              ],
+              "bounce": 0.0,
+              "color": "#2fbf5a"
             }
           ],
           "parts": [
             {
               "type": "hinge",
               "pos": [
-                14.4,
-                2.04,
-                0
+                9.0,
+                1.3506,
+                1.65
               ],
               "size": [
-                2.4,
-                0.1,
-                1.0
-              ],
-              "hinge": [
-                13.2,
-                2.04,
-                0
-              ],
-              "axis": [
-                0,
-                0,
-                1
-              ],
-              "angle": 8,
-              "speed": 0.6
-            },
-            {
-              "type": "hinge",
-              "pos": [
-                12.029,
-                1.8351,
-                0.0
-              ],
-              "size": [
-                2.255,
+                1.0,
                 0.12,
-                1.0
+                0.9765
               ],
               "rot": [
+                22.831,
                 0,
-                0,
-                3.814
-              ],
-              "hinge": [
-                10.9,
-                1.82,
                 0
               ],
-              "axis": [
-                0,
-                0,
-                1
+              "hinge": [
+                9.0,
+                1.2211,
+                2.1
               ],
-              "angle": 88,
+              "axis": [
+                1,
+                0,
+                0
+              ],
+              "angle": 80,
               "invert": true,
               "start": 1,
-              "speed": 0.7
+              "speed": 0.8,
+              "color": "#2fb3c0"
+            },
+            {
+              "type": "slide",
+              "pos": [
+                9.0,
+                1.8900000000000001,
+                0.58
+              ],
+              "size": [
+                1.0,
+                0.5,
+                0.08
+              ],
+              "open": [
+                0,
+                0.62,
+                0
+              ],
+              "speed": 1.8,
+              "color": "#c8402e"
             }
           ],
           "mechs": [
             {
               "type": "lever",
               "pos": [
-                12.0,
+                7.0,
                 0,
-                -2.4
+                -0.7
               ],
+              "yaw": 0,
               "targets": [
-                1
+                0
               ],
               "label": "PUENTE"
             },
             {
-              "type": "lever",
               "pos": [
-                14.6,
-                0,
-                -2.4
+                9.0,
+                0.9,
+                -1.28
               ],
+              "yaw": -90,
+              "type": "button",
               "targets": [
-                0
+                1
               ],
-              "label": "RAMPA"
+              "label": "COMPUERTA"
             }
+          ],
+          "prisoner": [
+            9.0,
+            1.84,
+            -0.1
+          ],
+          "zone": [
+            8.2,
+            5.0,
+            9.8,
+            6.6
           ],
           "pits": [
             [
-              10.95,
-              -1.4,
-              13.15,
-              1.4
+              8.3,
+              1.22,
+              9.7,
+              2.1
             ]
           ],
+          "title": "Puente y compuerta",
+          "objective": "Bajá el PUENTE con la palanca y después abrí la COMPUERTA (botón del costado). Si la abrís antes, cae al pozo.",
+          "hint": "Pensá el orden: primero el puente",
+          "shots": 4,
+          "time": 100,
           "solution": [
             {
-              "tap": 0
+              "rot": 0,
+              "hit": 0,
+              "speed": 17
             },
             {
-              "wait": 2.2
-            },
-            {
-              "tap": 1
+              "rot": 2,
+              "hit": 1,
+              "speed": 18
             }
           ],
           "wrong": [
             {
-              "tap": 1
+              "rot": 2,
+              "hit": 1,
+              "speed": 18
             }
           ],
           "medals": [
             170,
-            205,
-            235
+            270,
+            345
           ],
-          "min_time": 8.0
+          "pivot": [
+            9.0,
+            0.0,
+            0.0
+          ],
+          "min_time": 7.5
         },
         {
-          "title": "Mantené apretado",
-          "objective": "Mantené apretado el botón AZUL: las compuertas se abren mientras lo apretás. Si soltás antes, se cierran.",
-          "hint": "Apoyá el dedo en el botón azul y no lo levantes hasta que pase",
-          "shots": 0,
-          "time": 60,
-          "prisoner": [
-            14.7,
-            2.35,
-            0
-          ],
-          "zone": [
-            1.5,
-            -2.5,
-            8.4,
-            2.5
-          ],
           "platforms": [
             {
               "pos": [
-                12.0,
-                0.525,
+                9.0,
+                0.8,
                 0.0
               ],
               "size": [
-                6.399999999999999,
-                1.05,
-                1.2
-              ]
+                2.4,
+                1.6,
+                2.4
+              ],
+              "color": "#4f4866"
             }
           ],
           "slopes": [
             {
               "pos": [
-                12.0093,
-                1.6407,
-                0.0
+                9.0,
+                1.625,
+                0.3
               ],
               "size": [
-                6.4777,
+                1.0,
+                0.06,
+                1.8022
+              ],
+              "pitch": 2.862,
+              "color": "#6d6590"
+            },
+            {
+              "pos": [
+                9.0,
+                0.74,
+                3.1
+              ],
+              "size": [
+                1.0,
                 0.12,
-                1.0
+                4.1231
               ],
-              "roll": 8.881
+              "pitch": 22.834,
+              "color": "#8c80a6"
             },
             {
               "pos": [
-                12.0309,
-                1.9024,
-                0.56
+                8.46,
+                0.95,
+                3.1
               ],
               "size": [
-                6.4777,
-                0.4,
-                0.06
+                0.08000000000000007,
+                0.3,
+                4.1231
               ],
-              "roll": 8.881
+              "pitch": 22.834,
+              "color": "#9aa0b4"
             },
             {
               "pos": [
-                12.0309,
-                1.9024,
-                -0.56
+                9.54,
+                0.95,
+                3.1
               ],
               "size": [
-                6.4777,
-                0.4,
-                0.06
+                0.08000000000000007,
+                0.3,
+                4.1231
               ],
-              "roll": 8.881
+              "pitch": 22.834,
+              "color": "#9aa0b4"
             }
           ],
           "walls": [
             {
               "pos": [
-                15.25,
-                2.45,
-                0
-              ],
-              "size": [
-                0.1,
-                0.5,
-                1.0
-              ]
-            }
-          ],
-          "parts": [
-            {
-              "type": "slide",
-              "pos": [
-                14.1,
-                2.35,
-                0
-              ],
-              "size": [
-                0.1,
-                0.5,
-                1.06
-              ],
-              "open": [
-                0,
-                0.7,
-                0
-              ],
-              "speed": 2.2,
-              "color": "#2f6fe0"
-            },
-            {
-              "type": "slide",
-              "pos": [
-                10.2,
-                1.72,
-                0
-              ],
-              "size": [
-                0.1,
-                0.5,
-                1.06
-              ],
-              "open": [
-                0,
-                0.7,
-                0
-              ],
-              "speed": 2.2,
-              "color": "#2f6fe0"
-            }
-          ],
-          "mechs": [
-            {
-              "type": "button",
-              "mode": "hold",
-              "pos": [
-                12.0,
-                0,
-                -2.4
-              ],
-              "targets": [
-                0,
-                1
-              ],
-              "label": "MANTENER"
-            }
-          ],
-          "solution": [
-            {
-              "hold": 0,
-              "for": 6.5
-            }
-          ],
-          "wrong": [
-            {
-              "hold": 0,
-              "for": 0.4
-            }
-          ],
-          "medals": [
-            160,
-            195,
-            225
-          ],
-          "min_time": 4.0
-        },
-        {
-          "title": "Secuencia de colores",
-          "objective": "La cerradura muestra un orden de colores: tocá los interruptores en ese orden. Si te equivocás, se apaga todo.",
-          "hint": "Mirá las luces de la cerradura (de izquierda a derecha)",
-          "shots": 0,
-          "time": 60,
-          "prisoner": [
-            13.0,
-            1.45,
-            0
-          ],
-          "zone": [
-            2.0,
-            -3,
-            9.5,
-            3
-          ],
-          "platforms": [
-            {
-              "pos": [
-                12,
-                0.5,
-                0
-              ],
-              "size": [
-                3,
-                1,
-                3
-              ]
-            }
-          ],
-          "slopes": [
-            {
-              "pos": [
-                11.85,
-                1.16,
-                0
-              ],
-              "size": [
-                3.0,
-                0.15,
-                1.2
-              ],
-              "roll": 8
-            }
-          ],
-          "parts": [
-            {
-              "type": "slide",
-              "pos": [
-                10.42,
-                1.4,
-                0
-              ],
-              "size": [
-                0.1,
-                0.44,
-                1.2
-              ],
-              "open": [
-                0,
-                0.6,
-                0
-              ],
-              "color": "#c8402e"
-            }
-          ],
-          "mechs": [
-            {
-              "type": "switch",
-              "group": "s",
-              "order": 3,
-              "pos": [
-                11.0,
-                0,
-                -2.6
-              ],
-              "color": "#2f6fe0"
-            },
-            {
-              "type": "switch",
-              "group": "s",
-              "order": 1,
-              "pos": [
-                9.7,
-                0,
-                -2.6
-              ],
-              "color": "#e8c21e"
-            },
-            {
-              "type": "switch",
-              "group": "s",
-              "order": 2,
-              "pos": [
-                8.4,
-                0,
-                -2.6
-              ],
-              "color": "#d33b3b"
-            },
-            {
-              "type": "lock",
-              "group": "s",
-              "n": 3,
-              "pos": [
-                12.4,
-                1.4,
-                -1.9
-              ],
-              "yaw": -90,
-              "colors": [
-                "#e8c21e",
-                "#d33b3b",
-                "#2f6fe0"
-              ],
-              "targets": [
-                0
-              ]
-            }
-          ],
-          "solution": [
-            {
-              "tap": 1
-            },
-            {
-              "tap": 2
-            },
-            {
-              "tap": 0
-            }
-          ],
-          "wrong": [
-            {
-              "tap": 0
-            },
-            {
-              "tap": 1
-            }
-          ],
-          "medals": [
-            170,
-            200,
-            225
-          ],
-          "min_time": 2.5
-        },
-        {
-          "title": "Contrapeso",
-          "objective": "El contrapeso levanta la compuerta al caer. Sacá la traba con la PALANCA y soltá el PESO (tocá el bloque).",
-          "hint": "Dos cosas: la traba que lo sostiene y la cuerda",
-          "shots": 0,
-          "time": 60,
-          "prisoner": [
-            13.0,
-            1.45,
-            0
-          ],
-          "zone": [
-            2.0,
-            -3,
-            9.5,
-            3
-          ],
-          "platforms": [
-            {
-              "pos": [
-                12,
-                0.5,
-                0
-              ],
-              "size": [
-                3,
-                1,
-                3
-              ]
-            },
-            {
-              "pos": [
-                11.0,
-                1.7,
-                -2.3
-              ],
-              "size": [
-                0.3,
-                3.4,
+                8.46,
+                1.9000000000000001,
                 0.3
-              ]
-            }
-          ],
-          "slopes": [
-            {
-              "pos": [
-                11.85,
-                1.16,
-                0
               ],
               "size": [
-                3.0,
-                0.15,
-                1.2
+                0.08,
+                0.6,
+                1.8
               ],
-              "roll": 8
-            }
-          ],
-          "parts": [
+              "color": "#9aa0b4"
+            },
             {
-              "type": "slide",
               "pos": [
-                10.42,
-                1.4,
-                0
+                9.54,
+                1.9000000000000001,
+                0.3
+              ],
+              "size": [
+                0.08,
+                0.6,
+                1.8
+              ],
+              "color": "#9aa0b4"
+            },
+            {
+              "pos": [
+                8.35,
+                2.1,
+                -0.1
               ],
               "size": [
                 0.1,
-                0.44,
-                1.2
+                1.0,
+                0.1
               ],
-              "open": [
-                0,
-                0.6,
-                0
-              ],
-              "color": "#c8402e"
+              "color": "#9aa0b4"
             },
             {
-              "type": "slide",
               "pos": [
-                11.0,
-                1.62,
-                -1.75
+                9.65,
+                2.1,
+                -0.1
               ],
               "size": [
-                0.6,
-                0.12,
-                0.6
+                0.1,
+                1.0,
+                0.1
               ],
-              "open": [
-                0,
-                0,
-                0.9
-              ],
-              "speed": 1.5,
-              "color": "#e0a12f"
-            }
-          ],
-          "mechs": [
-            {
-              "type": "weight",
-              "pos": [
-                11.0,
-                3.2,
-                -1.75
-              ],
-              "rope": 1.27,
-              "fall": 1.2,
-              "mass": 6.0,
-              "targets": [
-                0
-              ],
-              "label": "PESO"
+              "color": "#9aa0b4"
             },
             {
-              "type": "lever",
               "pos": [
                 9.0,
-                0,
-                -2.6
-              ],
-              "targets": [
-                1
-              ],
-              "label": "TRABA"
-            }
-          ],
-          "solution": [
-            {
-              "tap": 1
-            },
-            {
-              "wait": 1.0
-            },
-            {
-              "tap": 0
-            }
-          ],
-          "wrong": [
-            {
-              "tap": 0
-            }
-          ],
-          "medals": [
-            165,
-            195,
-            225
-          ],
-          "min_time": 2.5
-        },
-        {
-          "title": "Engranajes",
-          "objective": "Girá la MANIVELA: cada toque mueve la jaula un diente. Cuando el hueco queda abajo, la dorada cae al canal.",
-          "hint": "Contá los toques: si te pasás, la compuerta del canal se cierra",
-          "shots": 0,
-          "time": 60,
-          "prisoner": [
-            12.0,
-            2.2,
-            0
-          ],
-          "zone": [
-            1.5,
-            -2.5,
-            8.6,
-            2.5
-          ],
-          "platforms": [
-            {
-              "pos": [
-                10.4,
-                0.615,
-                0.0
+                0.15,
+                6.65
               ],
               "size": [
-                2.8000000000000007,
-                1.23,
-                1.2
-              ]
-            },
-            {
-              "pos": [
-                12.0,
-                1.3,
-                0.55
-              ],
-              "size": [
-                0.2,
-                2.6,
-                0.2
-              ]
-            }
-          ],
-          "slopes": [
-            {
-              "pos": [
-                10.6545,
-                1.3652,
-                0.0
-              ],
-              "size": [
-                3.3095,
-                0.12,
-                1.0
-              ],
-              "roll": 4.332
-            },
-            {
-              "pos": [
-                10.6613,
-                1.5754,
-                0.56
-              ],
-              "size": [
-                3.3095,
+                1.8,
                 0.3,
-                0.06
+                0.1
               ],
-              "roll": 4.332
+              "bounce": 0.0,
+              "color": "#2fbf5a"
             },
             {
               "pos": [
-                10.6613,
-                1.5754,
-                -0.56
+                8.15,
+                0.15,
+                5.82
               ],
               "size": [
-                3.3095,
+                0.1,
                 0.3,
-                0.06
+                1.7
               ],
-              "roll": 4.332
+              "bounce": 0.0,
+              "color": "#2fbf5a"
+            },
+            {
+              "pos": [
+                9.85,
+                0.15,
+                5.82
+              ],
+              "size": [
+                0.1,
+                0.3,
+                1.7
+              ],
+              "bounce": 0.0,
+              "color": "#2fbf5a"
             }
           ],
           "parts": [
             {
               "type": "rotor",
               "pos": [
-                12.0,
-                2.2,
+                9.0,
+                2.4,
+                -0.1
+              ],
+              "rot": [
+                0,
+                90,
                 0
               ],
               "axis": [
@@ -3480,583 +3762,1499 @@
               "radius": 0.42,
               "bars": 12,
               "gap": 2,
-              "depth": 0.6,
+              "depth": 0.9,
               "steps": 6,
               "phase": 75,
               "dir": -1,
               "speed": 1.4
-            },
-            {
-              "type": "slide",
-              "pos": [
-                10.0,
-                1.65,
-                0
-              ],
-              "size": [
-                0.1,
-                0.45,
-                1.06
-              ],
-              "open": [
-                0,
-                0.7,
-                0
-              ],
-              "speed": 2.0,
-              "color": "#e0a12f"
             }
           ],
           "mechs": [
             {
-              "type": "crank",
               "pos": [
-                13.6,
-                0,
-                -2.2
+                7.72,
+                0.85,
+                0.0
               ],
+              "yaw": 0,
+              "type": "wheel",
               "steps": 6,
               "open_step": 3,
               "targets": [
-                0,
-                1
+                0
               ],
-              "label": "MANIVELA"
+              "label": "RUEDA"
             }
           ],
+          "prisoner": [
+            9.0,
+            2.14,
+            -0.1
+          ],
+          "zone": [
+            8.2,
+            5.0,
+            9.8,
+            6.6
+          ],
+          "title": "Rueda dentada",
+          "objective": "Cada pelotazo a la RUEDA gira la jaula un diente. Cuando el hueco queda abajo, la dorada cae y rueda.",
+          "hint": "Contá los dientes: hacen falta varios pelotazos",
+          "shots": 5,
+          "time": 110,
           "solution": [
             {
-              "tap": 0
+              "rot": 0,
+              "hit": 0,
+              "speed": 17
             },
             {
-              "wait": 0.9
+              "rot": 0,
+              "hit": 0,
+              "speed": 17
             },
             {
-              "tap": 0
-            },
-            {
-              "wait": 0.9
-            },
-            {
-              "tap": 0
+              "rot": 0,
+              "hit": 0,
+              "speed": 17
             }
           ],
           "medals": [
-            165,
-            195,
-            225
+            170,
+            280,
+            350
           ],
-          "min_time": 5.0
+          "pits": [],
+          "pivot": [
+            9.0,
+            0.0,
+            0.0
+          ],
+          "min_time": 13.0
         },
         {
-          "title": "Dos caminos",
-          "objective": "El DESVÍO inclina la plataforma del cruce hacia un tobogán: uno va al pozo. Elegí el camino y abrí la compuerta del RELOJ (3 s).",
-          "hint": "Primero el camino, después el reloj",
-          "shots": 0,
-          "time": 70,
-          "prisoner": [
-            15.0,
-            2.3,
-            0
-          ],
-          "zone": [
-            9.4,
-            2.4,
-            12.6,
-            5.2
-          ],
           "platforms": [
             {
               "pos": [
-                13.8,
-                0.9,
+                9.0,
+                0.8,
                 0.0
               ],
               "size": [
-                3.5999999999999996,
-                1.8,
-                1.2
-              ]
-            },
-            {
-              "pos": [
-                10.9,
-                0.85,
-                0
+                2.4,
+                1.6,
+                2.4
               ],
-              "size": [
-                0.4,
-                1.7,
-                0.4
-              ]
+              "color": "#4f4866"
             }
           ],
           "slopes": [
             {
               "pos": [
-                13.6541,
-                2.0251,
-                0.0
+                9.0,
+                1.625,
+                0.3
               ],
               "size": [
-                3.9093,
-                0.12,
-                1.0
+                1.0,
+                0.06,
+                1.8022
               ],
-              "roll": 3.96
+              "pitch": 2.862,
+              "color": "#6d6590"
             },
             {
               "pos": [
-                13.6604,
-                2.2354,
-                0.56
+                9.0,
+                0.74,
+                3.1
               ],
               "size": [
-                3.9093,
+                1.0,
+                0.12,
+                4.1231
+              ],
+              "pitch": 22.834,
+              "color": "#8c80a6"
+            },
+            {
+              "pos": [
+                8.46,
+                0.95,
+                3.1
+              ],
+              "size": [
+                0.08000000000000007,
                 0.3,
-                0.06
+                4.1231
               ],
-              "roll": 3.96
+              "pitch": 22.834,
+              "color": "#9aa0b4"
             },
             {
               "pos": [
-                13.6604,
-                2.2354,
-                -0.56
+                9.54,
+                0.95,
+                3.1
               ],
               "size": [
-                3.9093,
+                0.08000000000000007,
                 0.3,
-                0.06
+                4.1231
               ],
-              "roll": 3.96
-            },
-            {
-              "pos": [
-                10.899999999999999,
-                0.815,
-                2.01
-              ],
-              "size": [
-                1.4000000000000004,
-                0.12,
-                3.2328
-              ],
-              "pitch": 30.69
-            },
-            {
-              "pos": [
-                10.899999999999999,
-                0.815,
-                -2.01
-              ],
-              "size": [
-                1.4000000000000004,
-                0.12,
-                3.2328
-              ],
-              "pitch": -30.69
+              "pitch": 22.834,
+              "color": "#9aa0b4"
             }
           ],
           "walls": [
             {
               "pos": [
-                15.65,
-                2.5,
-                0
+                8.46,
+                1.9000000000000001,
+                0.3
+              ],
+              "size": [
+                0.08,
+                0.6,
+                1.8
+              ],
+              "color": "#9aa0b4"
+            },
+            {
+              "pos": [
+                9.54,
+                1.9000000000000001,
+                0.3
+              ],
+              "size": [
+                0.08,
+                0.6,
+                1.8
+              ],
+              "color": "#9aa0b4"
+            },
+            {
+              "pos": [
+                9.0,
+                1.9000000000000001,
+                -0.62
+              ],
+              "size": [
+                1.16,
+                0.6,
+                0.08
+              ],
+              "color": "#9aa0b4"
+            },
+            {
+              "pos": [
+                9.0,
+                0.15,
+                6.65
+              ],
+              "size": [
+                1.8,
+                0.3,
+                0.1
+              ],
+              "bounce": 0.0,
+              "color": "#2fbf5a"
+            },
+            {
+              "pos": [
+                8.15,
+                0.15,
+                5.82
               ],
               "size": [
                 0.1,
-                0.5,
-                1.0
-              ]
+                0.3,
+                1.7
+              ],
+              "bounce": 0.0,
+              "color": "#2fbf5a"
             },
             {
               "pos": [
-                10.15,
-                2.0,
-                0
+                9.85,
+                0.15,
+                5.82
               ],
               "size": [
                 0.1,
-                0.5,
-                1.3
-              ]
-            },
-            {
-              "pos": [
-                11.0,
-                0.2,
-                5.3
+                0.3,
+                1.7
               ],
-              "size": [
-                3.6,
-                0.4,
-                0.15
-              ]
-            },
-            {
-              "pos": [
-                11.0,
-                0.2,
-                -5.3
-              ],
-              "size": [
-                3.6,
-                0.4,
-                0.15
-              ]
-            },
-            {
-              "pos": [
-                9.3,
-                0.2,
-                3.85
-              ],
-              "size": [
-                0.15,
-                0.4,
-                2.9
-              ]
-            },
-            {
-              "pos": [
-                12.7,
-                0.2,
-                3.85
-              ],
-              "size": [
-                0.15,
-                0.4,
-                2.9
-              ]
-            },
-            {
-              "pos": [
-                9.3,
-                0.2,
-                -3.85
-              ],
-              "size": [
-                0.15,
-                0.4,
-                2.9
-              ]
-            },
-            {
-              "pos": [
-                12.7,
-                0.2,
-                -3.85
-              ],
-              "size": [
-                0.15,
-                0.4,
-                2.9
-              ]
+              "bounce": 0.0,
+              "color": "#2fbf5a"
             }
           ],
           "parts": [
             {
               "type": "slide",
               "pos": [
-                13.8,
-                2.33,
-                0
+                9.0,
+                1.8900000000000001,
+                0.58
               ],
               "size": [
-                0.1,
+                1.0,
                 0.5,
-                1.06
+                0.08
               ],
               "open": [
                 0,
-                0.7,
+                0.62,
                 0
               ],
-              "speed": 2.4,
-              "color": "#e06a2f"
+              "speed": 1.8,
+              "color": "#c8402e"
+            }
+          ],
+          "mechs": [
+            {
+              "pos": [
+                7.72,
+                0.8,
+                0.0
+              ],
+              "yaw": 0,
+              "type": "switch",
+              "group": "c",
+              "order": 2,
+              "color": "#e8c21e"
             },
+            {
+              "pos": [
+                10.28,
+                0.8,
+                0.0
+              ],
+              "yaw": 180,
+              "type": "switch",
+              "group": "c",
+              "order": 1,
+              "color": "#d33b3b"
+            },
+            {
+              "pos": [
+                9.0,
+                0.8,
+                -1.28
+              ],
+              "yaw": -90,
+              "type": "switch",
+              "group": "c",
+              "order": 3,
+              "color": "#2f6fe0"
+            },
+            {
+              "type": "lock",
+              "group": "c",
+              "n": 3,
+              "pos": [
+                7.72,
+                2.25,
+                0.0
+              ],
+              "yaw": 0,
+              "colors": [
+                "#d33b3b",
+                "#e8c21e",
+                "#2f6fe0"
+              ],
+              "targets": [
+                0
+              ]
+            }
+          ],
+          "prisoner": [
+            9.0,
+            1.84,
+            -0.1
+          ],
+          "zone": [
+            8.2,
+            5.0,
+            9.8,
+            6.6
+          ],
+          "title": "Colores",
+          "objective": "El panel de luces muestra un orden de colores. Pegale a los blancos en ese orden (están en tres caras). Si te equivocás, se apaga todo.",
+          "hint": "Mirá el panel: rojo, amarillo, azul",
+          "shots": 6,
+          "time": 120,
+          "solution": [
+            {
+              "rot": 4,
+              "hit": 1,
+              "speed": 18
+            },
+            {
+              "rot": 0,
+              "hit": 0,
+              "speed": 18
+            },
+            {
+              "rot": 2,
+              "hit": 2,
+              "speed": 18
+            }
+          ],
+          "wrong": [
+            {
+              "rot": 0,
+              "hit": 0,
+              "speed": 18
+            }
+          ],
+          "medals": [
+            170,
+            290,
+            360
+          ],
+          "pits": [],
+          "pivot": [
+            9.0,
+            0.0,
+            0.0
+          ],
+          "min_time": 11.0
+        },
+        {
+          "platforms": [
+            {
+              "pos": [
+                9.0,
+                0.8,
+                0.0
+              ],
+              "size": [
+                2.4,
+                1.6,
+                2.4
+              ],
+              "color": "#4f4866"
+            },
+            {
+              "pos": [
+                9.0,
+                1.65,
+                -2.6
+              ],
+              "size": [
+                0.2,
+                3.3,
+                0.2
+              ],
+              "color": "#9aa0b4"
+            },
+            {
+              "pos": [
+                9.0,
+                3.35,
+                -2.3
+              ],
+              "size": [
+                0.2,
+                0.1,
+                0.8
+              ],
+              "color": "#9aa0b4"
+            }
+          ],
+          "slopes": [
+            {
+              "pos": [
+                9.0,
+                1.625,
+                0.3
+              ],
+              "size": [
+                1.0,
+                0.06,
+                1.8022
+              ],
+              "pitch": 2.862,
+              "color": "#6d6590"
+            },
+            {
+              "pos": [
+                9.0,
+                0.5506,
+                3.55
+              ],
+              "size": [
+                1.0,
+                0.12,
+                3.1466
+              ],
+              "pitch": 22.834,
+              "color": "#8c80a6"
+            },
+            {
+              "pos": [
+                8.46,
+                0.7606,
+                3.55
+              ],
+              "size": [
+                0.08000000000000007,
+                0.3,
+                3.1466
+              ],
+              "pitch": 22.834,
+              "color": "#9aa0b4"
+            },
+            {
+              "pos": [
+                9.54,
+                0.7606,
+                3.55
+              ],
+              "size": [
+                0.08000000000000007,
+                0.3,
+                3.1466
+              ],
+              "pitch": 22.834,
+              "color": "#9aa0b4"
+            }
+          ],
+          "walls": [
+            {
+              "pos": [
+                8.46,
+                1.9000000000000001,
+                0.3
+              ],
+              "size": [
+                0.08,
+                0.6,
+                1.8
+              ],
+              "color": "#9aa0b4"
+            },
+            {
+              "pos": [
+                9.54,
+                1.9000000000000001,
+                0.3
+              ],
+              "size": [
+                0.08,
+                0.6,
+                1.8
+              ],
+              "color": "#9aa0b4"
+            },
+            {
+              "pos": [
+                9.0,
+                1.9000000000000001,
+                -0.62
+              ],
+              "size": [
+                1.16,
+                0.6,
+                0.08
+              ],
+              "color": "#9aa0b4"
+            },
+            {
+              "pos": [
+                9.0,
+                0.15,
+                6.65
+              ],
+              "size": [
+                1.8,
+                0.3,
+                0.1
+              ],
+              "bounce": 0.0,
+              "color": "#2fbf5a"
+            },
+            {
+              "pos": [
+                8.15,
+                0.15,
+                5.82
+              ],
+              "size": [
+                0.1,
+                0.3,
+                1.7
+              ],
+              "bounce": 0.0,
+              "color": "#2fbf5a"
+            },
+            {
+              "pos": [
+                9.85,
+                0.15,
+                5.82
+              ],
+              "size": [
+                0.1,
+                0.3,
+                1.7
+              ],
+              "bounce": 0.0,
+              "color": "#2fbf5a"
+            }
+          ],
+          "parts": [
             {
               "type": "hinge",
               "pos": [
-                10.9,
-                1.82,
-                0
+                9.0,
+                1.3506,
+                1.65
               ],
               "size": [
-                1.4,
-                0.1,
-                1.24
+                1.0,
+                0.12,
+                0.9765
               ],
               "rot": [
-                -9,
+                22.831,
                 0,
                 0
               ],
               "hinge": [
-                10.9,
-                1.82,
-                0
+                9.0,
+                1.2211,
+                2.1
               ],
               "axis": [
                 1,
                 0,
                 0
               ],
-              "angle": 18,
-              "speed": 1.2,
+              "angle": 80,
+              "invert": true,
+              "start": 1,
+              "speed": 0.8,
               "color": "#2fb3c0"
+            },
+            {
+              "type": "slide",
+              "pos": [
+                9.0,
+                1.8900000000000001,
+                0.58
+              ],
+              "size": [
+                1.0,
+                0.5,
+                0.08
+              ],
+              "open": [
+                0,
+                0.62,
+                0
+              ],
+              "speed": 1.8,
+              "color": "#c8402e"
             }
           ],
           "mechs": [
             {
-              "type": "button",
-              "mode": "timer",
-              "time": 3.0,
               "pos": [
-                14.6,
-                0,
-                -2.0
+                10.75,
+                0.75,
+                0.0
               ],
+              "yaw": 180,
+              "type": "hole",
               "targets": [
                 0
               ],
-              "label": "RELOJ"
+              "label": "BUZÓN"
             },
             {
-              "type": "lever",
+              "type": "weight",
               "pos": [
-                8.6,
-                0,
+                9.0,
+                3.3,
                 -2.0
               ],
+              "rope": 1.0,
+              "fall": 1.3,
+              "mass": 6.0,
               "targets": [
                 1
               ],
-              "label": "DESVÍO"
+              "label": "CONTRAPESO"
             }
+          ],
+          "prisoner": [
+            9.0,
+            1.84,
+            -0.1
+          ],
+          "zone": [
+            8.2,
+            5.0,
+            9.8,
+            6.6
           ],
           "pits": [
             [
-              9.4,
-              -5.2,
-              12.6,
-              -2.4
+              8.3,
+              1.22,
+              9.7,
+              2.1
             ]
           ],
+          "title": "Contrapeso",
+          "objective": "El BUZÓN de atrás baja el puente. El CONTRAPESO, al caer de un pelotazo, levanta la compuerta. Pensá el orden.",
+          "hint": "Primero el puente (girá y metela en el buzón)",
+          "shots": 5,
+          "time": 110,
           "solution": [
             {
-              "tap": 1
+              "rot": 4,
+              "hit": 0,
+              "speed": 17
             },
             {
-              "wait": 1.3
-            },
-            {
-              "tap": 0
+              "rot": 0,
+              "hit": 1,
+              "speed": 18
             }
           ],
           "wrong": [
             {
-              "tap": 0
+              "rot": 0,
+              "hit": 1,
+              "speed": 18
             }
           ],
           "medals": [
             170,
-            210,
-            240
+            285,
+            355
           ],
-          "min_time": 5.0
+          "pivot": [
+            9.0,
+            0.0,
+            0.0
+          ],
+          "min_time": 7.5
         },
         {
-          "title": "Maestro",
-          "objective": "Todo junto: la SECUENCIA saca la traba del peso, el PESO abre la compuerta y el PUENTE tiene que estar abajo.",
-          "hint": "Puente, secuencia de la cerradura y recién después el peso",
-          "shots": 0,
-          "time": 90,
-          "prisoner": [
-            15.0,
-            2.3,
-            0
-          ],
-          "zone": [
-            1.0,
-            -2.5,
-            7.6,
-            2.5
-          ],
           "platforms": [
             {
               "pos": [
-                14.399999999999999,
-                0.9,
+                9.0,
+                0.8,
                 0.0
               ],
               "size": [
-                2.4000000000000004,
-                1.8,
-                1.2
-              ]
-            },
-            {
-              "pos": [
-                9.45,
-                0.775,
-                0.0
+                2.4,
+                1.6,
+                2.4
               ],
-              "size": [
-                2.9000000000000004,
-                1.55,
-                1.2
-              ]
-            },
-            {
-              "pos": [
-                14.0,
-                1.9,
-                -2.0
-              ],
-              "size": [
-                0.3,
-                3.8,
-                0.3
-              ]
+              "color": "#4f4866"
             }
           ],
           "slopes": [
             {
               "pos": [
-                14.4035,
-                1.9901,
-                0.0
+                9.0,
+                1.625,
+                0.3
               ],
               "size": [
-                2.4041,
+                1.0,
+                0.06,
+                1.8022
+              ],
+              "pitch": 2.862,
+              "color": "#6d6590"
+            },
+            {
+              "pos": [
+                9.0,
+                0.5506,
+                3.55
+              ],
+              "size": [
+                1.0,
                 0.12,
-                1.0
+                3.1466
               ],
-              "roll": 3.338
+              "pitch": 22.834,
+              "color": "#8c80a6"
             },
             {
               "pos": [
-                9.4782,
-                1.6401,
-                0.0
+                8.46,
+                0.7606,
+                3.55
               ],
               "size": [
-                2.9543,
-                0.12,
-                1.0
-              ],
-              "roll": 3.105
-            },
-            {
-              "pos": [
-                14.4087,
-                2.2003,
-                0.56
-              ],
-              "size": [
-                2.4041,
+                0.08000000000000007,
                 0.3,
-                0.06
+                3.1466
               ],
-              "roll": 3.338
+              "pitch": 22.834,
+              "color": "#9aa0b4"
             },
             {
               "pos": [
-                14.4087,
-                2.2003,
-                -0.56
+                9.54,
+                0.7606,
+                3.55
               ],
               "size": [
-                2.4041,
+                0.08000000000000007,
                 0.3,
-                0.06
+                3.1466
               ],
-              "roll": 3.338
-            },
-            {
-              "pos": [
-                9.4831,
-                1.8502,
-                0.56
-              ],
-              "size": [
-                2.9543,
-                0.3,
-                0.06
-              ],
-              "roll": 3.105
-            },
-            {
-              "pos": [
-                9.4831,
-                1.8502,
-                -0.56
-              ],
-              "size": [
-                2.9543,
-                0.3,
-                0.06
-              ],
-              "roll": 3.105
+              "pitch": 22.834,
+              "color": "#9aa0b4"
             }
           ],
           "walls": [
             {
               "pos": [
-                15.65,
-                2.35,
-                0
+                8.46,
+                1.9000000000000001,
+                0.3
+              ],
+              "size": [
+                0.08,
+                0.6,
+                1.8
+              ],
+              "color": "#9aa0b4"
+            },
+            {
+              "pos": [
+                9.54,
+                1.9000000000000001,
+                0.3
+              ],
+              "size": [
+                0.08,
+                0.6,
+                1.8
+              ],
+              "color": "#9aa0b4"
+            },
+            {
+              "pos": [
+                9.0,
+                1.9000000000000001,
+                -0.62
+              ],
+              "size": [
+                1.16,
+                0.6,
+                0.08
+              ],
+              "color": "#9aa0b4"
+            },
+            {
+              "pos": [
+                9.0,
+                0.15,
+                6.65
+              ],
+              "size": [
+                1.8,
+                0.3,
+                0.1
+              ],
+              "bounce": 0.0,
+              "color": "#2fbf5a"
+            },
+            {
+              "pos": [
+                8.15,
+                0.15,
+                5.82
               ],
               "size": [
                 0.1,
-                0.5,
-                1.0
-              ]
+                0.3,
+                1.7
+              ],
+              "bounce": 0.0,
+              "color": "#2fbf5a"
+            },
+            {
+              "pos": [
+                9.85,
+                0.15,
+                5.82
+              ],
+              "size": [
+                0.1,
+                0.3,
+                1.7
+              ],
+              "bounce": 0.0,
+              "color": "#2fbf5a"
             }
           ],
           "parts": [
             {
-              "type": "slide",
+              "type": "hinge",
               "pos": [
-                13.45,
-                2.24,
-                0
+                9.0,
+                1.3506,
+                1.65
               ],
               "size": [
-                0.1,
-                0.44,
-                1.06
+                1.0,
+                0.12,
+                0.9765
+              ],
+              "rot": [
+                22.831,
+                0,
+                0
+              ],
+              "hinge": [
+                9.0,
+                1.2211,
+                2.1
+              ],
+              "axis": [
+                1,
+                0,
+                0
+              ],
+              "angle": 80,
+              "invert": true,
+              "start": 1,
+              "speed": 0.8,
+              "color": "#2fb3c0"
+            },
+            {
+              "type": "slide",
+              "pos": [
+                9.0,
+                1.8900000000000001,
+                0.58
+              ],
+              "size": [
+                1.0,
+                0.5,
+                0.08
               ],
               "open": [
                 0,
-                0.65,
+                0.62,
                 0
               ],
+              "speed": 1.8,
               "color": "#c8402e"
+            }
+          ],
+          "mechs": [
+            {
+              "type": "plate",
+              "pos": [
+                7.1,
+                0.0,
+                -0.6
+              ],
+              "size": [
+                1.3,
+                0.06,
+                1.3
+              ],
+              "targets": [
+                0
+              ],
+              "label": "PLACA"
             },
             {
-              "type": "hinge",
+              "type": "lever",
               "pos": [
-                12.029,
-                1.8351,
+                11.0,
+                0,
+                0.0
+              ],
+              "yaw": 180,
+              "targets": [
+                1
+              ],
+              "label": "PALANCA"
+            }
+          ],
+          "prisoner": [
+            9.0,
+            1.84,
+            -0.1
+          ],
+          "zone": [
+            8.2,
+            5.0,
+            9.8,
+            6.6
+          ],
+          "pits": [
+            [
+              8.3,
+              1.22,
+              9.7,
+              2.1
+            ]
+          ],
+          "crates": [
+            {
+              "pos": [
+                5.2,
+                0.28,
+                -0.6
+              ],
+              "size": [
+                0.56,
+                0.56,
+                0.56
+              ],
+              "mass": 1.0
+            }
+          ],
+          "title": "Caja a la placa",
+          "objective": "Empujá la CAJA de un pelotazo hasta la PLACA azul: mientras esté encima, el puente queda abajo. Después, la palanca de atrás abre la compuerta.",
+          "hint": "Pegale fuerte a la caja, derecho hacia la torre",
+          "shots": 5,
+          "time": 110,
+          "solution": [
+            {
+              "rot": 0,
+              "push": 0,
+              "speed": 16
+            },
+            {
+              "rot": 4,
+              "hit": 1,
+              "speed": 17
+            }
+          ],
+          "wrong": [
+            {
+              "rot": 4,
+              "hit": 1,
+              "speed": 17
+            }
+          ],
+          "medals": [
+            170,
+            285,
+            355
+          ],
+          "pivot": [
+            9.0,
+            0.0,
+            0.0
+          ],
+          "min_time": 7.5
+        },
+        {
+          "platforms": [
+            {
+              "pos": [
+                9.0,
+                0.8,
                 0.0
               ],
               "size": [
-                2.255,
+                2.4,
+                1.6,
+                2.4
+              ],
+              "color": "#4f4866"
+            }
+          ],
+          "slopes": [
+            {
+              "pos": [
+                9.0,
+                1.625,
+                0.3
+              ],
+              "size": [
+                1.0,
+                0.06,
+                1.8022
+              ],
+              "pitch": 2.862,
+              "color": "#6d6590"
+            },
+            {
+              "pos": [
+                9.0,
+                0.5506,
+                3.55
+              ],
+              "size": [
+                1.0,
                 0.12,
-                1.0
+                3.1466
+              ],
+              "pitch": 22.834,
+              "color": "#8c80a6"
+            },
+            {
+              "pos": [
+                8.46,
+                0.7606,
+                3.55
+              ],
+              "size": [
+                0.08000000000000007,
+                0.3,
+                3.1466
+              ],
+              "pitch": 22.834,
+              "color": "#9aa0b4"
+            },
+            {
+              "pos": [
+                9.54,
+                0.7606,
+                3.55
+              ],
+              "size": [
+                0.08000000000000007,
+                0.3,
+                3.1466
+              ],
+              "pitch": 22.834,
+              "color": "#9aa0b4"
+            }
+          ],
+          "walls": [
+            {
+              "pos": [
+                8.46,
+                1.9000000000000001,
+                0.3
+              ],
+              "size": [
+                0.08,
+                0.6,
+                1.8
+              ],
+              "color": "#9aa0b4"
+            },
+            {
+              "pos": [
+                9.54,
+                1.9000000000000001,
+                0.3
+              ],
+              "size": [
+                0.08,
+                0.6,
+                1.8
+              ],
+              "color": "#9aa0b4"
+            },
+            {
+              "pos": [
+                9.0,
+                1.9000000000000001,
+                -0.62
+              ],
+              "size": [
+                1.16,
+                0.6,
+                0.08
+              ],
+              "color": "#9aa0b4"
+            },
+            {
+              "pos": [
+                9.0,
+                0.15,
+                6.65
+              ],
+              "size": [
+                1.8,
+                0.3,
+                0.1
+              ],
+              "bounce": 0.0,
+              "color": "#2fbf5a"
+            },
+            {
+              "pos": [
+                8.15,
+                0.15,
+                5.82
+              ],
+              "size": [
+                0.1,
+                0.3,
+                1.7
+              ],
+              "bounce": 0.0,
+              "color": "#2fbf5a"
+            },
+            {
+              "pos": [
+                9.85,
+                0.15,
+                5.82
+              ],
+              "size": [
+                0.1,
+                0.3,
+                1.7
+              ],
+              "bounce": 0.0,
+              "color": "#2fbf5a"
+            }
+          ],
+          "parts": [
+            {
+              "type": "hinge",
+              "pos": [
+                9.0,
+                1.3506,
+                1.65
+              ],
+              "size": [
+                1.0,
+                0.12,
+                0.9765
+              ],
+              "rot": [
+                22.831,
+                0,
+                0
+              ],
+              "hinge": [
+                9.0,
+                1.2211,
+                2.1
+              ],
+              "axis": [
+                1,
+                0,
+                0
+              ],
+              "angle": 80,
+              "invert": true,
+              "start": 1,
+              "speed": 0.8,
+              "color": "#2fb3c0"
+            },
+            {
+              "type": "slide",
+              "pos": [
+                9.0,
+                1.8900000000000001,
+                0.58
+              ],
+              "size": [
+                1.0,
+                0.5,
+                0.08
+              ],
+              "open": [
+                0,
+                0.62,
+                0
+              ],
+              "speed": 1.8,
+              "color": "#c8402e"
+            }
+          ],
+          "mechs": [
+            {
+              "pos": [
+                7.72,
+                0.75,
+                0.0
+              ],
+              "yaw": 0,
+              "type": "button",
+              "bodies": true,
+              "targets": [
+                0
+              ],
+              "label": "PUENTE"
+            },
+            {
+              "pos": [
+                9.0,
+                0.75,
+                -1.75
+              ],
+              "yaw": -90,
+              "type": "hole",
+              "targets": [
+                1
+              ],
+              "label": "BUZÓN"
+            }
+          ],
+          "prisoner": [
+            9.0,
+            1.84,
+            -0.1
+          ],
+          "zone": [
+            8.2,
+            5.0,
+            9.8,
+            6.6
+          ],
+          "pits": [
+            [
+              8.3,
+              1.22,
+              9.7,
+              2.1
+            ]
+          ],
+          "dominoes": [
+            {
+              "pos": [
+                4.4,
+                0.0,
+                0.0
+              ],
+              "n": 6,
+              "step": [
+                0.55,
+                0,
+                0
+              ],
+              "size": [
+                0.12,
+                0.9,
+                0.5
+              ]
+            }
+          ],
+          "title": "Dominó",
+          "objective": "Tirá la primera ficha: la fila cae y la última aprieta el botón del PUENTE. Después metela en el BUZÓN del costado.",
+          "hint": "Un toque a la primera ficha alcanza",
+          "shots": 5,
+          "time": 110,
+          "solution": [
+            {
+              "rot": 0,
+              "domino": 0,
+              "speed": 12
+            },
+            {
+              "rot": 2,
+              "hit": 1,
+              "speed": 16
+            }
+          ],
+          "wrong": [
+            {
+              "rot": 2,
+              "hit": 1,
+              "speed": 16
+            }
+          ],
+          "medals": [
+            170,
+            285,
+            355
+          ],
+          "pivot": [
+            9.0,
+            0.0,
+            0.0
+          ],
+          "min_time": 5.0
+        },
+        {
+          "platforms": [
+            {
+              "pos": [
+                9.0,
+                0.8,
+                0.0
+              ],
+              "size": [
+                2.4,
+                1.6,
+                2.4
+              ],
+              "color": "#4f4866"
+            }
+          ],
+          "slopes": [
+            {
+              "pos": [
+                9.0,
+                1.625,
+                0.3
+              ],
+              "size": [
+                1.0,
+                0.06,
+                1.8022
+              ],
+              "pitch": 2.862,
+              "color": "#6d6590"
+            },
+            {
+              "pos": [
+                9.0,
+                0.5506,
+                3.55
+              ],
+              "size": [
+                1.0,
+                0.12,
+                3.1466
+              ],
+              "pitch": 22.834,
+              "color": "#8c80a6"
+            },
+            {
+              "pos": [
+                8.46,
+                0.7606,
+                3.55
+              ],
+              "size": [
+                0.08000000000000007,
+                0.3,
+                3.1466
+              ],
+              "pitch": 22.834,
+              "color": "#9aa0b4"
+            },
+            {
+              "pos": [
+                9.54,
+                0.7606,
+                3.55
+              ],
+              "size": [
+                0.08000000000000007,
+                0.3,
+                3.1466
+              ],
+              "pitch": 22.834,
+              "color": "#9aa0b4"
+            }
+          ],
+          "walls": [
+            {
+              "pos": [
+                8.46,
+                1.9000000000000001,
+                0.3
+              ],
+              "size": [
+                0.08,
+                0.6,
+                1.8
+              ],
+              "color": "#9aa0b4"
+            },
+            {
+              "pos": [
+                9.54,
+                1.9000000000000001,
+                0.3
+              ],
+              "size": [
+                0.08,
+                0.6,
+                1.8
+              ],
+              "color": "#9aa0b4"
+            },
+            {
+              "pos": [
+                8.35,
+                2.1,
+                -0.1
+              ],
+              "size": [
+                0.1,
+                1.0,
+                0.1
+              ],
+              "color": "#9aa0b4"
+            },
+            {
+              "pos": [
+                9.65,
+                2.1,
+                -0.1
+              ],
+              "size": [
+                0.1,
+                1.0,
+                0.1
+              ],
+              "color": "#9aa0b4"
+            },
+            {
+              "pos": [
+                9.0,
+                0.15,
+                6.65
+              ],
+              "size": [
+                1.8,
+                0.3,
+                0.1
+              ],
+              "bounce": 0.0,
+              "color": "#2fbf5a"
+            },
+            {
+              "pos": [
+                8.15,
+                0.15,
+                5.82
+              ],
+              "size": [
+                0.1,
+                0.3,
+                1.7
+              ],
+              "bounce": 0.0,
+              "color": "#2fbf5a"
+            },
+            {
+              "pos": [
+                9.85,
+                0.15,
+                5.82
+              ],
+              "size": [
+                0.1,
+                0.3,
+                1.7
+              ],
+              "bounce": 0.0,
+              "color": "#2fbf5a"
+            }
+          ],
+          "parts": [
+            {
+              "type": "rotor",
+              "pos": [
+                9.0,
+                2.4,
+                -0.1
               ],
               "rot": [
                 0,
-                0,
-                3.814
-              ],
-              "hinge": [
-                10.9,
-                1.82,
+                90,
                 0
               ],
               "axis": [
@@ -4064,149 +5262,177 @@
                 0,
                 1
               ],
-              "angle": 88,
-              "invert": true,
-              "start": 1,
-              "speed": 0.7
+              "radius": 0.42,
+              "bars": 12,
+              "gap": 2,
+              "depth": 0.9,
+              "steps": 4,
+              "phase": 75,
+              "dir": -1,
+              "speed": 1.4
             },
             {
-              "type": "slide",
+              "type": "hinge",
               "pos": [
-                14.0,
-                1.82,
-                -1.45
+                9.0,
+                1.3506,
+                1.65
               ],
               "size": [
-                0.6,
+                1.0,
                 0.12,
-                0.6
+                0.9765
               ],
-              "open": [
+              "rot": [
+                22.831,
                 0,
-                0,
-                0.9
+                0
               ],
-              "speed": 1.5,
-              "color": "#e0a12f"
+              "hinge": [
+                9.0,
+                1.2211,
+                2.1
+              ],
+              "axis": [
+                1,
+                0,
+                0
+              ],
+              "angle": 80,
+              "invert": true,
+              "start": 1,
+              "speed": 0.8,
+              "color": "#2fb3c0"
             }
           ],
           "mechs": [
             {
-              "type": "lever",
               "pos": [
-                12.0,
-                0,
-                -2.6
+                9.0,
+                0.85,
+                -1.28
               ],
+              "yaw": -90,
+              "type": "wheel",
+              "steps": 4,
+              "open_step": 2,
               "targets": [
-                1
+                0
               ],
-              "label": "PUENTE"
+              "label": "RUEDA"
             },
             {
-              "type": "switch",
-              "group": "m",
-              "order": 2,
               "pos": [
-                8.4,
-                0,
-                -2.6
+                7.72,
+                0.8,
+                0.0
               ],
+              "yaw": 0,
+              "type": "switch",
+              "group": "g",
+              "order": 2,
               "color": "#1f9d55"
             },
             {
-              "type": "switch",
-              "group": "m",
-              "order": 1,
               "pos": [
-                9.7,
-                0,
-                -2.6
+                10.28,
+                0.8,
+                0.0
               ],
+              "yaw": 180,
+              "type": "switch",
+              "group": "g",
+              "order": 1,
               "color": "#9b3fb8"
             },
             {
               "type": "lock",
-              "group": "m",
+              "group": "g",
               "n": 2,
               "pos": [
-                10.4,
-                1.4,
-                -1.9
+                7.72,
+                2.25,
+                0.0
               ],
-              "yaw": -90,
+              "yaw": 0,
               "colors": [
                 "#9b3fb8",
                 "#1f9d55"
               ],
               "targets": [
-                2
+                1
               ]
-            },
-            {
-              "type": "weight",
-              "pos": [
-                14.0,
-                3.4,
-                -1.45
-              ],
-              "rope": 1.27,
-              "fall": 1.2,
-              "mass": 6.0,
-              "targets": [
-                0
-              ],
-              "label": "PESO"
             }
+          ],
+          "prisoner": [
+            9.0,
+            2.14,
+            -0.1
+          ],
+          "zone": [
+            8.2,
+            5.0,
+            9.8,
+            6.6
           ],
           "pits": [
             [
-              10.95,
-              -1.4,
-              13.15,
-              1.4
+              8.3,
+              1.22,
+              9.7,
+              2.1
             ]
           ],
+          "title": "Gran mecanismo",
+          "objective": "La secuencia del panel (violeta y verde) baja el PUENTE. La RUEDA del costado gira la jaula: con dos dientes se abre. Si la soltás antes del puente, cae al pozo.",
+          "hint": "Puente primero (secuencia), rueda al final",
+          "shots": 7,
+          "time": 140,
           "solution": [
             {
-              "tap": 0
+              "rot": 4,
+              "hit": 2,
+              "speed": 18
             },
             {
-              "wait": 2.2
+              "rot": 0,
+              "hit": 1,
+              "speed": 18
             },
             {
-              "tap": 2
+              "rot": 2,
+              "hit": 0,
+              "speed": 17
             },
             {
-              "tap": 1
-            },
-            {
-              "wait": 1.0
-            },
-            {
-              "tap": 4
+              "rot": 2,
+              "hit": 0,
+              "speed": 17
             }
           ],
           "wrong": [
             {
-              "tap": 2
+              "rot": 2,
+              "hit": 0,
+              "speed": 17
             },
             {
-              "tap": 1
-            },
-            {
-              "wait": 1.0
-            },
-            {
-              "tap": 4
+              "rot": 2,
+              "hit": 0,
+              "speed": 17
             }
           ],
           "medals": [
-            160,
-            200,
-            235
+            170,
+            300,
+            380
           ],
-          "min_time": 8.0
+          "pivot": [
+            9.0,
+            0.0,
+            0.0
+          ],
+          "min_time": 17.0
         }
       ]
     },

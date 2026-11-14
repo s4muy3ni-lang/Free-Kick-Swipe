@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "generated_by": "tools/docs_index.py (sync); campos curados a mano: id, system, description, keywords, files, nombres de symbols/parameters, dependencies, documentation",
-  "last_verified": "2026-11-13",
+  "last_verified": "2026-11-14",
   "entries": [
     {
       "id": "ball.physics",
@@ -309,7 +309,7 @@
         "TUNING"
       ],
       "documentation": "docs/technical-index/SYSTEMS/BALL.md",
-      "last_verified": "2026-11-13"
+      "last_verified": "2026-11-14"
     },
     {
       "id": "ball.state",
@@ -363,7 +363,7 @@
         "BALL"
       ],
       "documentation": "docs/technical-index/SYSTEMS/NETWORK.md",
-      "last_verified": "2026-11-13"
+      "last_verified": "2026-11-14"
     },
     {
       "id": "pitch.layout",
@@ -562,7 +562,7 @@
         "TUNING"
       ],
       "documentation": "docs/technical-index/SYSTEMS/PITCH.md",
-      "last_verified": "2026-11-13"
+      "last_verified": "2026-11-14"
     },
     {
       "id": "pitch.goal",
@@ -669,7 +669,7 @@
         "MATCH"
       ],
       "documentation": "docs/technical-index/SYSTEMS/PITCH.md",
-      "last_verified": "2026-11-13"
+      "last_verified": "2026-11-14"
     },
     {
       "id": "pitch.goal_net",
@@ -795,7 +795,7 @@
         "PITCH"
       ],
       "documentation": "docs/technical-index/SYSTEMS/PITCH.md",
-      "last_verified": "2026-11-13"
+      "last_verified": "2026-11-14"
     },
     {
       "id": "player.controller",
@@ -863,7 +863,7 @@
         "MATCH"
       ],
       "documentation": "docs/technical-index/SYSTEMS/PLAYER.md",
-      "last_verified": "2026-11-13"
+      "last_verified": "2026-11-14"
     },
     {
       "id": "player.locomotion",
@@ -1048,7 +1048,7 @@
         "TUNING"
       ],
       "documentation": "docs/technical-index/SYSTEMS/PLAYER.md",
-      "last_verified": "2026-11-13"
+      "last_verified": "2026-11-14"
     },
     {
       "id": "player.ball_handling",
@@ -1240,7 +1240,7 @@
         "TUNING"
       ],
       "documentation": "docs/technical-index/SYSTEMS/PLAYER.md",
-      "last_verified": "2026-11-13"
+      "last_verified": "2026-11-14"
     },
     {
       "id": "player.kick_timing",
@@ -1341,7 +1341,7 @@
         "BALL"
       ],
       "documentation": "docs/technical-index/SYSTEMS/PLAYER.md",
-      "last_verified": "2026-11-13"
+      "last_verified": "2026-11-14"
     },
     {
       "id": "assist.pass",
@@ -1448,7 +1448,7 @@
         "TUNING"
       ],
       "documentation": "docs/technical-index/SYSTEMS/ASSISTANCE.md",
-      "last_verified": "2026-11-13"
+      "last_verified": "2026-11-14"
     },
     {
       "id": "assist.shot",
@@ -1595,7 +1595,7 @@
         "TUNING"
       ],
       "documentation": "docs/technical-index/SYSTEMS/ASSISTANCE.md",
-      "last_verified": "2026-11-13"
+      "last_verified": "2026-11-14"
     },
     {
       "id": "assist.press",
@@ -1697,7 +1697,7 @@
         "TUNING"
       ],
       "documentation": "docs/technical-index/SYSTEMS/ASSISTANCE.md",
-      "last_verified": "2026-11-13"
+      "last_verified": "2026-11-14"
     },
     {
       "id": "assist.kick_model",
@@ -1791,7 +1791,7 @@
         "PROGRESSION"
       ],
       "documentation": "docs/technical-index/SYSTEMS/ASSISTANCE.md",
-      "last_verified": "2026-11-13"
+      "last_verified": "2026-11-14"
     },
     {
       "id": "anim.visual",
@@ -1925,7 +1925,7 @@
         "GODOT"
       ],
       "documentation": "docs/technical-index/SYSTEMS/ANIMATIONS.md",
-      "last_verified": "2026-11-13"
+      "last_verified": "2026-11-14"
     },
     {
       "id": "anim.procedural_kick",
@@ -2006,7 +2006,7 @@
         "PLAYER"
       ],
       "documentation": "docs/technical-index/SYSTEMS/ANIMATIONS.md",
-      "last_verified": "2026-11-13"
+      "last_verified": "2026-11-14"
     },
     {
       "id": "anim.pose_sampler",
@@ -2050,7 +2050,7 @@
         "ANIMATIONS"
       ],
       "documentation": "docs/technical-index/SYSTEMS/ANIMATIONS.md",
-      "last_verified": "2026-11-13"
+      "last_verified": "2026-11-14"
     },
     {
       "id": "anim.library",
@@ -2115,7 +2115,7 @@
         "TRIPO"
       ],
       "documentation": "docs/technical-index/SYSTEMS/TOOLS_AND_ASSETS.md",
-      "last_verified": "2026-11-13"
+      "last_verified": "2026-11-14"
     },
     {
       "id": "anim.kit",
@@ -2159,7 +2159,7 @@
         "TOOLS"
       ],
       "documentation": "docs/technical-index/SYSTEMS/ANIMATIONS.md",
-      "last_verified": "2026-11-13"
+      "last_verified": "2026-11-14"
     },
     {
       "id": "camera.match",
@@ -2325,7 +2325,7 @@
         "PITCH"
       ],
       "documentation": "docs/technical-index/SYSTEMS/CAMERA.md",
-      "last_verified": "2026-11-13"
+      "last_verified": "2026-11-14"
     },
     {
       "id": "input.frame",
@@ -2412,7 +2412,7 @@
         "NETWORK"
       ],
       "documentation": "docs/technical-index/SYSTEMS/INPUTS.md",
-      "last_verified": "2026-11-13"
+      "last_verified": "2026-11-14"
     },
     {
       "id": "input.touch",
@@ -2511,7 +2511,7 @@
         "PLAYER"
       ],
       "documentation": "docs/technical-index/SYSTEMS/UI_HUD.md",
-      "last_verified": "2026-11-13"
+      "last_verified": "2026-11-14"
     },
     {
       "id": "match.flow",
@@ -2670,7 +2670,7 @@
         "NETWORK"
       ],
       "documentation": "docs/technical-index/SYSTEMS/MATCH.md",
-      "last_verified": "2026-11-13"
+      "last_verified": "2026-11-14"
     },
     {
       "id": "match.context",
@@ -2748,7 +2748,7 @@
         "NETWORK"
       ],
       "documentation": "docs/technical-index/SYSTEMS/MATCH.md",
-      "last_verified": "2026-11-13"
+      "last_verified": "2026-11-14"
     },
     {
       "id": "network.events",
@@ -2801,7 +2801,7 @@
         "MATCH"
       ],
       "documentation": "docs/technical-index/SYSTEMS/NETWORK.md",
-      "last_verified": "2026-11-13"
+      "last_verified": "2026-11-14"
     },
     {
       "id": "ui.hud",
@@ -2913,7 +2913,7 @@
         "TUNING"
       ],
       "documentation": "docs/technical-index/SYSTEMS/UI_HUD.md",
-      "last_verified": "2026-11-13"
+      "last_verified": "2026-11-14"
     },
     {
       "id": "perf.graphics",
@@ -2997,7 +2997,7 @@
         "ANDROID"
       ],
       "documentation": "docs/technical-index/SYSTEMS/PERFORMANCE.md",
-      "last_verified": "2026-11-13"
+      "last_verified": "2026-11-14"
     },
     {
       "id": "perf.prof",
@@ -3046,7 +3046,7 @@
         "JSON_MODE"
       ],
       "documentation": "docs/technical-index/SYSTEMS/PERFORMANCE.md",
-      "last_verified": "2026-11-13"
+      "last_verified": "2026-11-14"
     },
     {
       "id": "perf.diagnostics",
@@ -3103,7 +3103,7 @@
         "UI_HUD"
       ],
       "documentation": "docs/technical-index/SYSTEMS/PERFORMANCE.md",
-      "last_verified": "2026-11-13"
+      "last_verified": "2026-11-14"
     },
     {
       "id": "tuning.registry",
@@ -3197,7 +3197,7 @@
         "GOALKEEPER"
       ],
       "documentation": "docs/technical-index/SYSTEMS/TUNING.md",
-      "last_verified": "2026-11-13"
+      "last_verified": "2026-11-14"
     },
     {
       "id": "progression.attributes",
@@ -3283,7 +3283,7 @@
         "ASSISTANCE"
       ],
       "documentation": "docs/technical-index/SYSTEMS/PROGRESSION.md",
-      "last_verified": "2026-11-13"
+      "last_verified": "2026-11-14"
     },
     {
       "id": "progression.player_progress",
@@ -3495,7 +3495,7 @@
         "PROGRESSION"
       ],
       "documentation": "docs/technical-index/SYSTEMS/PROGRESSION.md",
-      "last_verified": "2026-11-13"
+      "last_verified": "2026-11-14"
     },
     {
       "id": "android.partial",
@@ -3544,7 +3544,7 @@
         "GODOT"
       ],
       "documentation": "docs/technical-index/SYSTEMS/ANDROID.md",
-      "last_verified": "2026-11-13"
+      "last_verified": "2026-11-14"
     },
     {
       "id": "tests.framework",
@@ -3576,7 +3576,7 @@
         "GODOT"
       ],
       "documentation": "docs/technical-index/SYSTEMS/TESTING.md",
-      "last_verified": "2026-11-13"
+      "last_verified": "2026-11-14"
     },
     {
       "id": "tools.tripo",
@@ -3619,7 +3619,7 @@
         "GODOT"
       ],
       "documentation": "docs/technical-index/SYSTEMS/TOOLS_AND_ASSETS.md",
-      "last_verified": "2026-11-13"
+      "last_verified": "2026-11-14"
     },
     {
       "id": "anim.pack_integration",
@@ -3744,7 +3744,7 @@
         "TOOLS"
       ],
       "documentation": "docs/technical-index/SYSTEMS/ANIMATION_PACK.md",
-      "last_verified": "2026-11-13"
+      "last_verified": "2026-11-14"
     },
     {
       "id": "player.clip_kick",
@@ -3893,7 +3893,7 @@
         "TUNING"
       ],
       "documentation": "docs/technical-index/SYSTEMS/PLAYER.md",
-      "last_verified": "2026-11-13"
+      "last_verified": "2026-11-14"
     },
     {
       "id": "goalkeeper.entity",
@@ -3972,7 +3972,7 @@
         "MATCH"
       ],
       "documentation": "docs/technical-index/SYSTEMS/GOALKEEPER.md",
-      "last_verified": "2026-11-13"
+      "last_verified": "2026-11-14"
     },
     {
       "id": "ball.predictor",
@@ -4017,7 +4017,7 @@
         "BALL"
       ],
       "documentation": "docs/technical-index/SYSTEMS/BALL.md",
-      "last_verified": "2026-11-13"
+      "last_verified": "2026-11-14"
     },
     {
       "id": "ai.teams",
@@ -4060,7 +4060,7 @@
         "BALL"
       ],
       "documentation": "docs/technical-index/SYSTEMS/MATCH.md",
-      "last_verified": "2026-11-13"
+      "last_verified": "2026-11-14"
     },
     {
       "id": "player.actions",
@@ -4157,7 +4157,7 @@
         "BALL"
       ],
       "documentation": "docs/technical-index/SYSTEMS/PLAYER.md",
-      "last_verified": "2026-11-13"
+      "last_verified": "2026-11-14"
     },
     {
       "id": "player.action_arbiter",
@@ -4277,7 +4277,7 @@
         "BALL"
       ],
       "documentation": "docs/technical-index/SYSTEMS/PLAYER.md",
-      "last_verified": "2026-11-13"
+      "last_verified": "2026-11-14"
     },
     {
       "id": "player.json_receive",
@@ -4456,7 +4456,7 @@
         "JSON_MODE"
       ],
       "documentation": "docs/technical-index/SYSTEMS/PLAYER.md",
-      "last_verified": "2026-11-13"
+      "last_verified": "2026-11-14"
     },
     {
       "id": "match.referee",
@@ -4482,7 +4482,7 @@
         "MATCH"
       ],
       "documentation": "docs/technical-index/SYSTEMS/MATCH.md",
-      "last_verified": "2026-11-13"
+      "last_verified": "2026-11-14"
     },
     {
       "id": "practice.scene",
@@ -4556,7 +4556,7 @@
         "UI_HUD"
       ],
       "documentation": "docs/technical-index/SYSTEMS/ANIMATIONS.md",
-      "last_verified": "2026-11-13"
+      "last_verified": "2026-11-14"
     },
     {
       "id": "match.set_pieces",
@@ -4639,7 +4639,7 @@
         "PITCH"
       ],
       "documentation": "docs/technical-index/SYSTEMS/MATCH.md",
-      "last_verified": "2026-11-13"
+      "last_verified": "2026-11-14"
     },
     {
       "id": "match.replay",
@@ -4684,7 +4684,7 @@
         "CAMERA"
       ],
       "documentation": "docs/technical-index/SYSTEMS/MATCH.md",
-      "last_verified": "2026-11-13"
+      "last_verified": "2026-11-14"
     },
     {
       "id": "assistance.cross_through",
@@ -4734,7 +4734,7 @@
         "PLAYER"
       ],
       "documentation": "docs/technical-index/SYSTEMS/ASSISTANCE.md",
-      "last_verified": "2026-11-13"
+      "last_verified": "2026-11-14"
     },
     {
       "id": "ball.curl",
@@ -4800,7 +4800,7 @@
         "ASSISTANCE"
       ],
       "documentation": "docs/technical-index/SYSTEMS/BALL.md",
-      "last_verified": "2026-11-13"
+      "last_verified": "2026-11-14"
     },
     {
       "id": "ball.visual_spin",
@@ -4852,7 +4852,7 @@
         "BALL"
       ],
       "documentation": "docs/technical-index/SYSTEMS/BALL.md",
-      "last_verified": "2026-11-13"
+      "last_verified": "2026-11-14"
     },
     {
       "id": "player.foot_sync",
@@ -4901,7 +4901,7 @@
         "BALL"
       ],
       "documentation": "docs/technical-index/SYSTEMS/PLAYER.md",
-      "last_verified": "2026-11-13"
+      "last_verified": "2026-11-14"
     },
     {
       "id": "player.clip_touches",
@@ -5039,7 +5039,7 @@
         "BALL"
       ],
       "documentation": "docs/technical-index/SYSTEMS/PLAYER.md",
-      "last_verified": "2026-11-13"
+      "last_verified": "2026-11-14"
     },
     {
       "id": "player.drag_back",
@@ -5168,7 +5168,7 @@
         "ANIMATIONS"
       ],
       "documentation": "docs/technical-index/SYSTEMS/PLAYER.md",
-      "last_verified": "2026-11-13"
+      "last_verified": "2026-11-14"
     },
     {
       "id": "inputs.bindings",
@@ -5203,7 +5203,7 @@
         "UI_HUD"
       ],
       "documentation": "docs/technical-index/SYSTEMS/INPUTS.md",
-      "last_verified": "2026-11-13"
+      "last_verified": "2026-11-14"
     },
     {
       "id": "player.ball_turn",
@@ -5309,7 +5309,7 @@
         "ANIMATIONS"
       ],
       "documentation": "docs/technical-index/SYSTEMS/PLAYER.md",
-      "last_verified": "2026-11-13"
+      "last_verified": "2026-11-14"
     },
     {
       "id": "player.loose_ball_chase",
@@ -5367,7 +5367,7 @@
         "MATCH"
       ],
       "documentation": "docs/technical-index/SYSTEMS/PLAYER.md",
-      "last_verified": "2026-11-13"
+      "last_verified": "2026-11-14"
     },
     {
       "id": "audio.sfx",
@@ -5457,7 +5457,7 @@
         "UI_HUD"
       ],
       "documentation": "docs/technical-index/SYSTEMS/AUDIO.md",
-      "last_verified": "2026-11-13"
+      "last_verified": "2026-11-14"
     },
     {
       "id": "animation.json_mode",
@@ -5750,7 +5750,7 @@
         "TUNING"
       ],
       "documentation": "docs/technical-index/SYSTEMS/JSON_MODE.md",
-      "last_verified": "2026-11-13"
+      "last_verified": "2026-11-14"
     },
     {
       "id": "animation.trace",
@@ -5855,7 +5855,7 @@
         "MATCH"
       ],
       "documentation": "docs/technical-index/SYSTEMS/JSON_MODE.md",
-      "last_verified": "2026-11-13"
+      "last_verified": "2026-11-14"
     },
     {
       "id": "reforma.anim_bank_bench",
@@ -5926,7 +5926,7 @@
         "PITCH"
       ],
       "documentation": "docs/technical-index/SYSTEMS/REFORMA.md",
-      "last_verified": "2026-11-13"
+      "last_verified": "2026-11-14"
     },
     {
       "id": "setpiece.modes",
@@ -6047,7 +6047,7 @@
         "SETPIECE"
       ],
       "documentation": "docs/technical-index/SYSTEMS/SETPIECE.md",
-      "last_verified": "2026-11-13"
+      "last_verified": "2026-11-14"
     },
     {
       "id": "setpiece.shot",
@@ -6104,7 +6104,7 @@
         {
           "file": "scripts/setpiece/sp_shooter.gd",
           "name": "SpShooter.execute",
-          "line": 79,
+          "line": 80,
           "kind": "func"
         },
         {
@@ -6133,7 +6133,7 @@
         "SETPIECE"
       ],
       "documentation": "docs/technical-index/SYSTEMS/SETPIECE.md",
-      "last_verified": "2026-11-13"
+      "last_verified": "2026-11-14"
     },
     {
       "id": "setpiece.gesture",
@@ -6240,7 +6240,7 @@
         "SETPIECE"
       ],
       "documentation": "docs/technical-index/SYSTEMS/SETPIECE.md",
-      "last_verified": "2026-11-13"
+      "last_verified": "2026-11-14"
     },
     {
       "id": "setpiece.keeper_wall",
@@ -6339,7 +6339,7 @@
         "SETPIECE"
       ],
       "documentation": "docs/technical-index/SYSTEMS/SETPIECE.md",
-      "last_verified": "2026-11-13"
+      "last_verified": "2026-11-14"
     },
     {
       "id": "setpiece.challenges",
@@ -6393,7 +6393,7 @@
         "BALL"
       ],
       "documentation": "docs/technical-index/SYSTEMS/SETPIECE.md",
-      "last_verified": "2026-11-13"
+      "last_verified": "2026-11-14"
     },
     {
       "id": "setpiece.replay",
@@ -6419,7 +6419,7 @@
         "BALL"
       ],
       "documentation": "docs/technical-index/SYSTEMS/SETPIECE.md",
-      "last_verified": "2026-11-13"
+      "last_verified": "2026-11-14"
     },
     {
       "id": "setpiece.celebration",
@@ -6456,12 +6456,12 @@
         "ANIMATIONS"
       ],
       "documentation": "docs/technical-index/SYSTEMS/SETPIECE.md",
-      "last_verified": "2026-11-13"
+      "last_verified": "2026-11-14"
     },
     {
       "id": "setpiece.minigames",
       "system": "SETPIECE",
-      "description": "Minijuegos arcade (MINIJUEGOS ARCADE: categorias -> modalidades -> niveles -> dificultad Facil/Normal/Dificil/Experto). Minigame (base: estados con topes, turnos, puntaje, reinicio, IA con la misma fisica, intenciones, records y medallas por dificultad, movers compartidos, camara con valores recomendados por minijuego + ajustes del usuario guardados por minijuego: CameraPrefs), MinigameCatalog (datos, categorias, dificultad: tiros y multiplicador de puntaje) y los juegos: Boton de caida, Demolicion, Enceste, Minigolf, Dianas (blancos 3D de frente al jugador, colgantes o fijos/moviles, puntaje por zona en el punto de impacto real), Rescate y Bowling. ArcadeLook: materiales con textura procedural, cesped, carteles y decoracion compartidos (sin colision). Eliminados por pedido (2026-11-11): Arqueros por turnos, FootPool, Rebotes de ingenio, Que no caiga, Futbol-tenis. Demolicion (2026-11-11): materiales con fisica propia (madera, cajon, ladrillo, piedra, metal, vidrio que se rompe en esquirlas por impacto real), figuras jenga/casita/columnata, objetivo por altura (down_h) y escenarios obra/castillo/almacen. Duelo del guante (GuanteDuel): maquinas con 3 botones (grande/mediano/chico, carga configurable), barra persistente, piston con resorte y masa que choca con el cuerpo del rival (consulta de forma barrida) y lo empuja con impulso y rozamiento; IA por valor esperado. Royal Flush (RoyalFlush): cartas-paleta que giran sobre su eje con detente y traba; mano de poker con las primeras 5 dadas vuelta. Dardos: diana gigante (malla con colores por vertice), puntaje por el punto de impacto real, reglas puntos/sector/301/duelo. Curling: hielo (compensa la rodadura de cesped dejando ICE_DECEL), piedras que quedan y se desplazan, tabla de deslizamiento medida, IA que deja o saca. Precision: arco gigante con sectores (cruce real de la linea) y arquero de carton movil fisico. Salto en alto (varilla suelta sobre tacos, 3 intentos por altura, tope 3,2 m) y Field Goal (palos en Y fisicos, serie de patadas, viento). Aros de fuego: aros fisicos colgados, paso por el plano del aro, secuencias en un tiro, llamas emisivas sin particulas. Piedras saltarinas: agua sin colision con modelo de pique por impulso (angulo y velocidad, sustentacion), clavada con arrastre y flotacion. Salto de esqui: trampolin de nieve de segmentos fisicos con transicion curva, deslizamiento sin giro, distancia al primer apoyo, lineas K y HS, viento. Rescate rediseñado (2026-11-13): 8 niveles nuevos de mecanismos tactiles con fisica real (RescueMechs: palancas, botones de mantener y con reloj, secuencias con cerradura de colores, manivela con jaula giratoria, contrapeso con polea, puentes, rampas, compuertas, pozos), solucion verificada por nivel, tiempo, acciones, errores e intentos; Rescate online con puntaje recalculado por el servidor.",
+      "description": "Minijuegos arcade (MINIJUEGOS ARCADE: categorias -> modalidades -> niveles -> dificultad Facil/Normal/Dificil/Experto). Minigame (base: estados con topes, turnos, puntaje, reinicio, IA con la misma fisica, intenciones, records y medallas por dificultad, movers compartidos, camara con valores recomendados por minijuego + ajustes del usuario guardados por minijuego: CameraPrefs), MinigameCatalog (datos, categorias, dificultad: tiros y multiplicador de puntaje) y los juegos: Boton de caida, Demolicion, Enceste, Minigolf, Dianas (blancos 3D de frente al jugador, colgantes o fijos/moviles, puntaje por zona en el punto de impacto real), Rescate y Bowling. ArcadeLook: materiales con textura procedural, cesped, carteles y decoracion compartidos (sin colision). Eliminados por pedido (2026-11-11): Arqueros por turnos, FootPool, Rebotes de ingenio, Que no caiga, Futbol-tenis. Demolicion (2026-11-11): materiales con fisica propia (madera, cajon, ladrillo, piedra, metal, vidrio que se rompe en esquirlas por impacto real), figuras jenga/casita/columnata, objetivo por altura (down_h) y escenarios obra/castillo/almacen. Duelo del guante (GuanteDuel): maquinas con 3 botones (grande/mediano/chico, carga configurable), barra persistente, piston con resorte y masa que choca con el cuerpo del rival (consulta de forma barrida) y lo empuja con impulso y rozamiento; IA por valor esperado. Royal Flush (RoyalFlush): cartas-paleta que giran sobre su eje con detente y traba; mano de poker con las primeras 5 dadas vuelta. Dardos: diana gigante (malla con colores por vertice), puntaje por el punto de impacto real, reglas puntos/sector/301/duelo. Curling: hielo (compensa la rodadura de cesped dejando ICE_DECEL), piedras que quedan y se desplazan, tabla de deslizamiento medida, IA que deja o saca. Precision: arco gigante con sectores (cruce real de la linea) y arquero de carton movil fisico. Salto en alto (varilla suelta sobre tacos, 3 intentos por altura, tope 3,2 m) y Field Goal (palos en Y fisicos, serie de patadas, viento). Aros de fuego: aros fisicos colgados, paso por el plano del aro, secuencias en un tiro, llamas emisivas sin particulas. Piedras saltarinas: agua sin colision con modelo de pique por impulso (angulo y velocidad, sustentacion), clavada con arrastre y flotacion. Salto de esqui: trampolin de nieve de segmentos fisicos con transicion curva, deslizamiento sin giro, distancia al primer apoyo, lineas K y HS, viento. Rescate a pelotazos (2026-11-14): 10 niveles de mecanismos (5 a 14) que se activan SOLO con la pelota (RescueMechs: palanca con paleta, blanco, buzon donde hay que meterla, blancos de colores en el orden del panel, rueda dentada que gira la jaula, contrapeso que se suelta, placa que se aprieta empujando una caja, dominó que aprieta un boton), escenario que gira de a 45 grados alrededor de la torre (el jugador y su pelota quedan fijos), tobogan con barandas hasta la zona verde de arena (la dorada rueda y se queda), solucion verificada con tiros reales por nivel; Rescate online con puntaje recalculado por el servidor.",
       "keywords": [
         "minijuego",
         "minijuegos",
@@ -6587,7 +6587,14 @@
         "cerradura",
         "puente levadizo",
         "acertijo",
-        "mecanismos"
+        "mecanismos",
+        "escenario giratorio",
+        "girar",
+        "buzon",
+        "pelotazo",
+        "caja",
+        "placa",
+        "rueda dentada"
       ],
       "files": [
         "scripts/minigames/minigame.gd",
@@ -6648,7 +6655,9 @@
         "tests/test_salto_esqui.gd",
         "scripts/minigames/rescue_mechs.gd",
         "tools/minigames/build_rescate_levels.py",
-        "tools/ui/rescate_capture.gd"
+        "tools/ui/rescate_capture.gd",
+        "tests/test_rescate_mechs.gd",
+        "supabase/migrations/20261114000011_rescate_pelotazos.sql"
       ],
       "symbols": [],
       "parameters": [],
@@ -6658,7 +6667,7 @@
         "ANIMATIONS"
       ],
       "documentation": "docs/technical-index/SYSTEMS/SETPIECE.md",
-      "last_verified": "2026-11-13"
+      "last_verified": "2026-11-14"
     },
     {
       "id": "progression.customization",
@@ -6740,7 +6749,7 @@
         "PROGRESSION"
       ],
       "documentation": "docs/technical-index/SYSTEMS/PROGRESSION.md",
-      "last_verified": "2026-11-13"
+      "last_verified": "2026-11-14"
     },
     {
       "id": "progression.achievements",
@@ -6775,7 +6784,7 @@
         "PROGRESSION"
       ],
       "documentation": "docs/technical-index/SYSTEMS/PROGRESSION.md",
-      "last_verified": "2026-11-13"
+      "last_verified": "2026-11-14"
     },
     {
       "id": "online.ecosystem",
@@ -6888,7 +6897,7 @@
         "GOALKEEPER"
       ],
       "documentation": "docs/technical-index/SYSTEMS/ONLINE.md",
-      "last_verified": "2026-11-13"
+      "last_verified": "2026-11-14"
     },
     {
       "id": "animation.body_bank",
@@ -6925,7 +6934,7 @@
         "SETPIECE"
       ],
       "documentation": "docs/technical-index/SYSTEMS/ANIM_BANK.md",
-      "last_verified": "2026-11-13"
+      "last_verified": "2026-11-14"
     }
   ]
 }

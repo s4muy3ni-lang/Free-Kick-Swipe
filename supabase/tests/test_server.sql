@@ -315,7 +315,7 @@ select choose_minigame(current_setting('t.r')::uuid, 'rescate', 8);
 select t_err($$select finish_minigame(current_setting('t.r')::uuid, 'rescate', 8, 9999, 100, '{"rescued": true, "time": 1.0}')$$,
 	'tiempo invalido', 'un tiempo imposible se rechaza');
 select t_ok((finish_minigame(current_setting('t.r')::uuid, 'rescate', 8, 9999, 100,
-	'{"rescued": true, "time": 12.4, "actions": 4, "errors": 1, "falls": 0, "attempts": 1}') -> 'match' ->> 'score_a')::int = 150 + 47 * 2 - 15,
+	'{"rescued": true, "time": 12.4, "actions": 4, "errors": 1, "falls": 0, "attempts": 1}') -> 'match' ->> 'score_a')::int = 150 + 87 * 2 - 15,
 	'el servidor recalcula el puntaje (tiempo que sobra y errores)');
 select t_ok((get_match(current_setting('t.r')::uuid) -> 'match' -> 'minigame' -> 'result' ->> 'errors')::int = 1, 'queda registrado el resultado');
 reset role;

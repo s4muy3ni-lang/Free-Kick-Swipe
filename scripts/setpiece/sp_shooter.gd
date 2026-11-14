@@ -63,6 +63,7 @@ func stance(ball_pos: Vector3, aim: Vector3, back: float, side: float) -> void:
 	actor.stop_moving()
 	actor.global_position = b - a * back - SpClips.right_of(a) * side * float(foot)
 	actor.set_facing((b + a * 3.0) - actor.global_position)
+	actor.sync_collider()
 	var pool: Array[StringName] = []
 	for r in IDLE_ROLES:
 		for id in SpClips.by_role(r, false):

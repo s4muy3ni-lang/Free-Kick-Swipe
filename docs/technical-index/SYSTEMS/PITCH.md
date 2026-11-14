@@ -5,7 +5,7 @@
 - **Responsabilidad exacta:** construir por código la cancha (por defecto, desde 2026-11-05, fútbol 7 de 50 × 30 m con arcos de 5 × 2 m, círculo central de 6 m, área y penal a 8 m; `PitchConfig.futsal()` da la de futsal de 40 × 20 con arcos de 3 × 2 que usan las pruebas de mecánica): superficie, líneas reglamentarias en **una sola malla**, paredes de contención con colisión, baranda visible, iluminación, elementos ambientales; y los **arcos** (postes y travesaño con colisión física, red visible de una malla, red absorbente, detección de gol).
 - **Estado:** implementado. La opción `PitchConfig.boundary_mode` está **declarada pero ningún código la usa**: las paredes siempre se construyen (`OUT_OF_BOUNDS` no existe).
 - **Última verificación:** <!-- AUTO:verified -->
-2026-11-13
+2026-11-14
 <!-- /AUTO -->
 
 ## Archivos responsables

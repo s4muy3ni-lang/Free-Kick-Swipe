@@ -386,12 +386,12 @@
         {
             "id": "rescate",
             "name": "Rescate",
-            "description": "Mecanismos y acertijos: liberá la pelota antes que el rival.",
-            "rules": "Los dos resuelven el mismo nivel. Gana el que la rescata con más puntos (tiempo que sobra, errores y caídas restan).",
+            "description": "Liberá la pelota dorada a pelotazos antes que el rival.",
+            "rules": "Los dos resuelven el mismo nivel: palancas, botones, buzones y colores se activan pegándoles con la pelota, y el escenario gira. Gana el que la rescata con más puntos (tiros y tiempo que sobran; errores y caídas restan).",
             "kind": "minijuego",
             "online": true,
             "rounds": 1,
-            "turn_seconds": 120,
+            "turn_seconds": 150,
             "entry_fees": [
                 0,
                 50,
@@ -408,27 +408,33 @@
                     9,
                     10,
                     11,
-                    12
+                    12,
+                    13,
+                    14
                 ],
                 "time_limit": {
-                    "5": 45,
-                    "6": 60,
-                    "7": 60,
-                    "8": 60,
-                    "9": 60,
-                    "10": 60,
-                    "11": 70,
-                    "12": 90
+                    "5": 90,
+                    "6": 90,
+                    "7": 90,
+                    "8": 100,
+                    "9": 110,
+                    "10": 120,
+                    "11": 110,
+                    "12": 110,
+                    "13": 110,
+                    "14": 140
                 },
                 "min_time": {
-                    "5": 2.5,
-                    "6": 8.0,
-                    "7": 4.0,
-                    "8": 2.5,
-                    "9": 2.5,
-                    "10": 5.0,
-                    "11": 5.0,
-                    "12": 8.0
+                    "5": 3.5,
+                    "6": 3.5,
+                    "7": 3.5,
+                    "8": 7.5,
+                    "9": 13.0,
+                    "10": 11.0,
+                    "11": 7.5,
+                    "12": 7.5,
+                    "13": 5.0,
+                    "14": 17.0
                 }
             },
             "art": {

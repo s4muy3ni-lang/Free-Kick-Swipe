@@ -15,7 +15,7 @@
   local (`supabase/tests/test_server.sql`). La migración `20261113000009_progression.sql` **no está aplicada en ningún
   proyecto de Supabase**. No hay pagos reales: nada deportivo se compra.
 - **Última verificación:** <!-- AUTO:verified -->
-2026-11-13
+2026-11-14
 <!-- /AUTO -->
 
 ## Archivos responsables

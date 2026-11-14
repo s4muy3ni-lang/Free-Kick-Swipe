@@ -16,7 +16,7 @@
     dispositivos;
   - minijuegos online: contra un bot (`OnlineDuel`).
 - **Última verificación:** <!-- AUTO:verified -->
-2026-11-13
+2026-11-14
 <!-- /AUTO -->
 
 ## Archivos responsables

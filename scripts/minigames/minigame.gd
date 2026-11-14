@@ -301,8 +301,15 @@ func _place_shooter(s: int) -> void:
 	var spot: Vector3 = _ball_spot(s)
 	var aim: Vector3 = Vector3(_aim_point(s).x - spot.x, 0.0, _aim_point(s).z - spot.z).normalized()
 	sh.actor.visible = true
+	# El cuerpo es cinematico: ubicarlo de golpe le da una velocidad enorme por un cuadro y, si toca la pelota (que
+	# arranca en el origen, donde tambien esta el jugador antes de la partida), la arrastra (Rescate: a 30 m/s). Choca de
+	# nuevo con la pelota un rato despues, cuando la pelota ya esta en su lugar.
 	if sh.actor.collider != null:
-		sh.actor.collider.collision_layer = Ball.LAYER_PLAYERS
+		sh.actor.collider.collision_layer = 0
+		var col: AnimatableBody3D = sh.actor.collider
+		get_tree().create_timer(0.15, true, true).timeout.connect(func() -> void:
+			if is_instance_valid(col) and sh.actor.visible:
+				col.collision_layer = Ball.LAYER_PLAYERS)
 	sh.actor.ground_y = spot.y - ball.radius
 	sh.stance(spot, aim, STANCE.x, STANCE.y)
 	sh.actor.global_position.y = sh.actor.ground_y

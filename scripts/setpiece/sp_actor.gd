@@ -539,11 +539,17 @@ func _physics_process(delta: float) -> void:
 			_turn_towards(want, delta)
 	if _face_target != Vector3.ZERO and looping and not _moving:
 		_turn_towards(_face_target, delta)
-	if collider != null:
-		var hips: Vector3 = bone_world(HIPS)
-		var feet: float = minf(bone_world(TOE_L).y, bone_world(TOE_R).y)
-		# La capsula va de los pies a la cabeza siguiendo la cadera (si salta, sube entera).
-		collider.global_position = Vector3(hips.x, maxf(feet, 0.0) + _collider_height * 0.5 - 0.02, hips.z)
+	sync_collider()
+
+## La capsula del cuerpo va de los pies a la cabeza siguiendo la cadera (si salta, sube entera). Se llama en cada paso y
+## al ubicar al jugador de golpe (SpShooter.stance): si esperara al paso siguiente, la capsula quedaria un cuadro donde
+## estaba y podria pisar la pelota recien puesta en su lugar (Rescate: el tee en el origen la lanzaba a 30 m/s).
+func sync_collider() -> void:
+	if collider == null:
+		return
+	var hips: Vector3 = bone_world(HIPS)
+	var feet: float = minf(bone_world(TOE_L).y, bone_world(TOE_R).y)
+	collider.global_position = Vector3(hips.x, maxf(feet, 0.0) + _collider_height * 0.5 - 0.02, hips.z)
 
 func _turn_towards(want: Vector3, delta: float) -> void:
 	var cur: float = rotation.y

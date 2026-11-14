@@ -5,7 +5,7 @@
 - **Responsabilidad exacta:** el futbolista de campo, controlado únicamente a través de `InputFrame`: movimiento con aceleración progresiva y giro dependiente de la velocidad (`Locomotion`), conducción por toques físicos, control de primer toque, posesión, robo (`BallHandler`), y la patada de pase/tiro cuyo impulso se aplica en el instante de contacto de la animación. La presión defensiva y las asistencias de pase/tiro viven en [ASSISTANCE](ASSISTANCE.md); el modelo y las animaciones en [ANIMATIONS](ANIMATIONS.md).
 - **Estado:** implementado para **un** jugador humano por equipo. No hay IA ni cambio de jugador.
 - **Última verificación:** <!-- AUTO:verified -->
-2026-11-13
+2026-11-14
 <!-- /AUTO -->
 
 ## Archivos responsables

@@ -11,6 +11,64 @@ Formato de entrada: **fecha — título** · commit · qué cambió · archivos 
 
 ---
 
+## 2026-11-14 — Rescate a pelotazos: escenario giratorio, la dorada llega a la zona y más acertijos
+
+Pedido del usuario: «todo debe ser activado con el balón y la bola que liberó debe caer y desplazarse a la zona verde;
+cae y no se mueve… girar el nivel: el jugador y el balón quedan fijos y yo muevo el escenario… palancas, botones, meter
+el balón en un hoyo o impactar».
+
+- **Diagnóstico**:
+  - los niveles 5 a 12 se resolvían tocando los mandos en la pantalla;
+  - la dorada tenía mucho frenado (`linear_damp` 0,8) y, al caer, quedaba quieta lejos de la zona.
+- **Mandos a pelotazos** (`scripts/minigames/rescue_mechs.gd`, reescrito el lado de los mandos). Cada uno tiene un blanco físico y no hay toques:
+  - palanca con paleta;
+  - blanco (fijo o con reloj; con `bodies` también lo aprieta un dominó o una caja);
+  - **buzón** (hay que meter la pelota adentro);
+  - blancos de colores en el orden del panel de luces;
+  - **rueda dentada** que gira la jaula;
+  - **contrapeso** que se suelta;
+  - **placa** activa mientras haya una caja encima.
+
+  Piden un impacto real y tienen antirrebote. Las piezas (compuertas, puentes, jaulas) son las mismas.
+- **Escenario giratorio** (`Rescate.stage_pivot` y `stage`):
+  - todo el nivel cuelga de un pivote en el centro de la torre;
+  - «‹ Girar» y «Girar ›» (o Q y E) lo giran de a 45° con animación, solo con todo quieto;
+  - los cuerpos sueltos se congelan durante el giro;
+  - el jugador, su pelota y el piso no giran;
+  - la zona, los pozos y las caídas se miden en coordenadas del escenario.
+- **La dorada llega a la zona**:
+  - cada nivel tiene un tobogán con barandas desde la torre;
+  - la zona verde tiene bordes y arena (más frenado solo adentro);
+  - fuera de la zona, frenado 0,15.
+- **Niveles 5 a 14 nuevos** (`tools/minigames/build_rescate_levels.py`, 10 de fácil a experto, de 1 a 4 tiros cada solución): Primer pelotazo, Del otro lado, El buzón, Puente y compuerta, Rueda dentada, Colores, Contrapeso, Caja a la placa, Dominó y Gran mecanismo.
+  - Mandos en tres caras de la torre: algunos solo se ven girando el escenario.
+  - Los niveles con orden (puente sobre un pozo, secuencia) fallan si se hace al revés.
+  - Los niveles 1 a 4 de patear se conservan.
+- **Cámara**: el escenario se acercó (centro en x = 9) y la cámara de estos niveles mira la torre desde atrás del jugador.
+- **Arreglo general de minijuegos** (`Minigame._place_shooter`, `SpActor.sync_collider`). El cuerpo del jugador es cinemático: al ubicarlo de golpe se le calculaba una velocidad enorme por un cuadro. Si tocaba la pelota (en Rescate el tee está en el origen, donde está el jugador antes de la partida), la lanzaba a 30 m/s fuera del mapa. Ahora:
+  - el cuerpo se ubica con la cápsula sincronizada;
+  - no choca la pelota durante 0,15 s.
+
+  La prueba vieja no lo veía porque `launch` vuelve a poner la pelota en su lugar.
+- **Online**: los niveles 5 a 14, con su tiempo límite y el mínimo medido; turno de 150 s (`supabase/migrations/20261114000011_rescate_pelotazos.sql`, `seed.json`).
+- **Miniatura**: muestra el nivel Colores (`tools/ui/make_thumbs.gd`, `THUMB_LEVEL`).
+- **Pruebas cambiadas**:
+  - `tests/test_rescate_mechs.gd` reescrita: la versión táctil verificaba toques en pantalla, que el usuario pidió quitar. Ahora verifica:
+    - los 10 niveles con tiros reales (`ShotSolver`), con la dorada llegando rodando a la zona;
+    - que sin pelotazos no sale nada y los toques no activan mandos;
+    - el orden equivocado;
+    - el giro del escenario;
+    - la secuencia con error.
+  - `supabase/tests/test_server.sql`: el puntaje online del nivel 8 se recalcula con su nuevo límite (100 s).
+- **Verificación**:
+  - `tools/run_tests.sh rescate_mechs`: 6 pruebas / 113 comprobaciones / 0 fallos. Soluciones de 1 a 4 tiros, sin caídas ni errores, mayor salto 0,07 m por cuadro; los 6 órdenes equivocados fallan (5 al pozo, 1 por error de secuencia).
+  - `rescate`: 14 / 169 / 0. `minigame_camera`, `online_minigame`, `online_duel`, `guante` y `boton_caida`: sin fallos.
+  - SQL: 137 OK.
+  - Capturas con render (`tools/ui/rescate_capture.gd`, tiros con la carrera completa): Primer pelotazo, Colores, Caja a la placa y Gran mecanismo resueltos.
+- **Pendiente**:
+  - sin prueba en un teléfono;
+  - el giro es con botones (no con un gesto sobre el escenario).
+
 ## 2026-11-13 — Personalización avanzada: peinados, barbas, cuerpo, detalles de botines, nombre y desbloqueos
 
 Pedido del usuario: «EXPANSIÓN…», secciones 5 a 10.
