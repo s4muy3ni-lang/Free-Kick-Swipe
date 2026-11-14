@@ -28,5 +28,10 @@ if grep -q "SCRIPT ERROR" "$OUT"; then
   echo "FALLO: se detectaron SCRIPT ERROR en la salida (ver arriba); la suite no se considera aprobada."
   STATUS=1
 fi
+# Fugas al cerrar (objetos o recursos sin liberar): CI las rechaza, asi que aca tambien.
+if grep -q "ObjectDB instances were leaked\|resources still in use at exit" "$OUT"; then
+  echo "FALLO: fugas de objetos o recursos al cerrar (ver arriba; con --verbose se listan)."
+  STATUS=1
+fi
 rm -f "$OUT"
 exit "$STATUS"

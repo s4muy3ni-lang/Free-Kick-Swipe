@@ -105,7 +105,11 @@ func test_the_shop_screen_states_buying_and_equipping() -> void:
 	check(is_instance_valid(screens._shop_modal) and screens._shop_modal.find_children("*", "ShopPreview", true, false).size() == 1, "la ficha trae la vista previa 3D")
 	var buy: Button = screens._shop_modal.find_child("Comprar", true, false)
 	check(buy != null and not buy.disabled, "botón COMPRAR habilitado")
-	await screens._shop_buy(by_id["shorts_bajo"], Label.new())
+	# Etiqueta de mensajes de la ficha (fuera del arbol): se libera al terminar (si no, retiene el tema y la fuente por
+	# defecto y CI lo marca como fuga al cerrar).
+	var msg := Label.new()
+	await screens._shop_buy(by_id["shorts_bajo"], msg)
+	msg.free()
 	await physics_frames(2)
 	check(o.coins() == coins0 - 250, "se cobró una sola vez (%d -> %d)" % [coins0, o.coins()])
 	check(screens.shop_state(by_id["shorts_bajo"]) == "tuyo", "queda TUYO")
